@@ -1,0 +1,54 @@
+{
+  "name": "jizhi/warm",
+  "description": "Webman plugin jizhi/warm",
+  "version": "1.0.1",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "sym",
+      "email": "symok@qq.com",
+      "homepage": "https://github.com/sym134"
+    }
+  ],
+  "require": {
+    "php": ">=8.2",
+    "psr/container": "^2.0",
+    "php-di/php-di": "^7.0",
+    "doctrine/annotations": "^2.0",
+    "illuminate/database": "^11.0",
+    "illuminate/pagination": "^11.0",
+    "illuminate/events": "^11.0",
+    "illuminate/redis": "^11.0",
+    "laravel/serializable-closure": "^1.3",
+    "symfony/var-dumper": "^7.2",
+    "illuminate/hashing": "^11.0",
+    "symfony/translation": "^6.0",
+    "webman/event": "^1.0",
+    "webman/redis-queue": "^1.3",
+    "webman/console": "^1.3",
+    "workerman/crontab": "^1.0",
+    "shopwwi/webman-filesystem": "^1.1",
+    "rap2hpoutre/fast-excel": "^5.5",
+    "vlucas/phpdotenv": "^5.6",
+    "zoujingli/ip2region": "^2.0",
+    "ext-bcmath": "*",
+    "ext-json": "*",
+    "ext-mbstring": "*",
+    "ext-ctype": "*",
+    "symfony/cache": "^7.1",
+    "psr/simple-cache": "^3.0",
+    "topthink/think-validate": "^2.0"
+  },
+  "autoload": {
+    "files": [
+      "src/helpers.php"
+    ],
+    "psr-4": {
+      "warm\\": "src/warm/"
+    }
+  },
+  "require-dev": {
+    "workerman/webman-framework": "^1.6"
+  }
+}
