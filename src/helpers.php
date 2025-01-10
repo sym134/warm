@@ -2,7 +2,7 @@
 
 use support\Container;
 use think\Validate;
-use warm\service\StorageService;
+use warm\admin\service\StorageService;
 
 if (!function_exists('validate')) {
     /**
@@ -57,7 +57,7 @@ if (! function_exists('bcrypt')) {
 if (!function_exists('admin_url')) {
     function admin_url($path = null, $needPrefix = false): string
     {
-        $prefix = $needPrefix ? '/' . warm\Admin::config('app.route.prefix') : '';
+        $prefix = $needPrefix ? '/' . \warm\admin\Admin::config('app.route.prefix') : '';
 
         return $prefix . '/' . trim($path, '/');
     }
@@ -112,7 +112,7 @@ if (!function_exists('admin_resource_full_path')) {
         } else if ($server) {
             $src = rtrim($server, '/') . 'helpers.php/' . ltrim($path, '/');
         } else {
-            $disk = warm\Admin::config('app.upload.disk');
+            $disk = \warm\admin\Admin::config('app.upload.disk');
 
             if (config("filesystems.disks.{$disk}")) {
                 $src = StorageService::disk()->url($path);
@@ -121,17 +121,10 @@ if (!function_exists('admin_resource_full_path')) {
             }
         }
         $scheme = 'http:';
-        if (warm\Admin::config('app.https', false)) {
+        if (\warm\admin\Admin::config('app.https', false)) {
             $scheme = 'https:';
         }
         return preg_replace('/^http[s]{0,1}:/', $scheme, $src, 1);
-    }
-}
-
-if (!function_exists('admin_path')) {
-    function admin_path($path = ''): string
-    {
-        return helpers . phpucfirst(\warm\Admin::config('app.directory')) . ($path ? DIRECTORY_SEPARATOR . $path : $path);
     }
 }
 
@@ -221,10 +214,10 @@ if (!function_exists('is_json')) {
     }
 }
 
-if (!function_exists('settings')) {
-    function settings(): \warm\service\AdminSettingService
+if (!function_exists('warmConfig')) {
+    function warmConfig(): \warm\common\service\ConfigService
     {
-        return \warm\service\AdminSettingService::make();
+        return \warm\common\service\ConfigService::make();
     }
 }
 
@@ -236,7 +229,7 @@ if (!function_exists('admin_extension_path')) {
      */
     function admin_extension_path(?string $path = ''): string
     {
-        $dir = rtrim(\warm\Admin::config('app.extension.dir'), '/') ?: base_path('extensions');
+        $dir = rtrim(\warm\admin\Admin::config('app.extension.dir'), '/') ?: base_path('extensions');
 
         $path = ltrim($path, '/');
 
@@ -245,9 +238,9 @@ if (!function_exists('admin_extension_path')) {
 }
 
 if (!function_exists('admin_user')) {
-    function admin_user(): \warm\model\AdminUser|\Illuminate\Contracts\Auth\Authenticatable|null
+    function admin_user(): \warm\admin\model\AdminUser|\Illuminate\Contracts\Auth\Authenticatable|null
     {
-        return warm\Admin::user();
+        return \warm\admin\Admin::user();
     }
 }
 
@@ -300,14 +293,14 @@ if (!function_exists('admin_path')) {
     {
         $path = ltrim($path, '/');
 
-        return base_path('/vendor/jizhi/admin/src/' . $path);
+        return base_path('/vendor/jizhi/warm/src/warm/' . $path);
     }
 }
 
 if (!function_exists('admin_pages')) {
     function admin_pages($sign)
     {
-        return \warm\service\AdminPageService::make()->get($sign);
+        return \warm\admin\service\AdminPageService::make()->get($sign);
     }
 }
 
@@ -382,7 +375,7 @@ if (!function_exists('appw')) {
      * @param array $parameters 解析时的参数
      * @return mixed|Container
      */
-    function appw($abstract = null, array $parameters = [])
+    function appw(string $abstract = null, array $parameters = [])
     {
         if (is_null($abstract)) {
             return Container::instance('jizhi.warm');
@@ -427,6 +420,6 @@ if (!function_exists('safe_explode')) {
 if (!function_exists('admin_pipeline')) {
     function admin_pipeline($passable)
     {
-        return \warm\support\Pipeline::handle($passable);
+        return \warm\admin\support\Pipeline::handle($passable);
     }
 }

@@ -5,7 +5,7 @@ namespace warm\command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use warm\service\AdminCodeGeneratorService;
+use warm\admin\service\AdminCodeGeneratorService;
 
 /**
  * 生成路由
@@ -19,7 +19,7 @@ use warm\service\AdminCodeGeneratorService;
 class GenRouteCommand extends BaseCommand
 {
 
-    protected static string $defaultName = 'admin:gen-route';
+    protected static string $defaultName = 'warm:gen-route';
     protected static string $defaultDescription = 'admin gen-route';
 
     protected function configure(): void
@@ -28,9 +28,9 @@ class GenRouteCommand extends BaseCommand
         $this->addOption('excluded', '-excluded', InputOption::VALUE_REQUIRED, '--excluded选项的值');
     }
 
-    public function putApp($content): void
+    public function putApp($content): bool
     {
-        $route_path = config_path('plugin/jizhi/admin/route/');
+        $route_path = config_path('plugin/jizhi/warm/route/');
         // 确保目录存在，如果不存在则创建
         if (!file_exists($route_path)) {
             mkdir($route_path, 0777, true); // 第三个参数为true表示递归创建目录
@@ -39,9 +39,10 @@ class GenRouteCommand extends BaseCommand
         if (!file_exists($route_path)) { // 路由文件是否存在
             $fileWritten = file_put_contents($route_path, '');
             if ($fileWritten !== false) {
-                $this->line('创建路由文件');
+                $this->line('create routing file');
             } else {
-                $this->warn('无法创建文件');
+                $this->error('unable to create routing file');
+                return false;
             }
         }
         file_put_contents($route_path, $content);
@@ -49,17 +50,19 @@ class GenRouteCommand extends BaseCommand
         $root_route_path = base_path('config/route.php');
         // 添加到 config/route.php
         $root_route_content = file_get_contents($root_route_path);
-        if (!str_contains($root_route_content, 'require_once config_path(\'plugin/jizhi/admin/route/autoRoute.php\');')) {
+        if (!str_contains($root_route_content, 'require_once config_path(\'plugin/jizhi/warm/route/autoRoute.php\');')) {
             // 如果不包含，则在内容后追加该行 admin 替换为应用名称
-            $root_route_content .= "\n// 加载应用下的路由配置\nrequire_once config_path('plugin/jizhi/admin/route/autoRoute.php');";
+            $root_route_content .= "\n// 加载应用下的路由配置\nrequire_once config_path('plugin/jizhi/warm/route/autoRoute.php');";
             // 将修改后的内容写回文件
             if (file_put_contents($root_route_path, $root_route_content) === false) {
-                $this->line('内容追加到route.php文件失败');
+                $this->error('Failed to append content to route.php file');
+                return false;
             }
         }
+        return true;
     }
 
-    public function putPlugin($plugin_name, $content): void
+    public function putPlugin($plugin_name, $content): bool
     {
         $route_path = plugin_path($plugin_name . '/route/');
         // 确保目录存在，如果不存在则创建
@@ -70,10 +73,10 @@ class GenRouteCommand extends BaseCommand
         if (!file_exists($route_path)) { // 路由文件是否存在
             $fileWritten = file_put_contents($route_path, '');
             if ($fileWritten !== false) {
-                $this->line('创建路由文件');
-
+                $this->line('create routing file');
             } else {
-                $this->warn('无法创建文件');
+                $this->error('unable to create routing file');
+                return false;
             }
         }
         file_put_contents($route_path, $content);
@@ -83,9 +86,11 @@ class GenRouteCommand extends BaseCommand
         if (!str_contains($root_route_content, "require_once app_path($plugin_name/route/autoRoute.php');")) {
             $root_route_content .= "\n// 加载应用下的路由配置\nrequire_once plugin_path('$plugin_name/route/autoRoute.php');";
             if (file_put_contents($config_route_path, $root_route_content) === false) {
-                $this->io->error('内容追加到route.php文件失败');
+                $this->error('Failed to append content to route.php file');
+                return false;
             }
         }
+        return true;
     }
 
     public function handle(InputInterface $input, OutputInterface $output): int
@@ -98,12 +103,11 @@ class GenRouteCommand extends BaseCommand
 
 // =====================================================================
 
-use Webman\Route;
-use warm\Admin;
+use warm\admin\Admin;use Webman\Route;
 
-Route::group('/' . Admin:config('app.route.prefix'), function () {
+Route::group('/' . Admin::config('app.route.prefix'), function () {
 _content_
-})->middleware(warm\Admin::middleware());
+})->middleware(\warm\admin\Admin::middleware());
 EOF;
 
 
@@ -145,9 +149,17 @@ EOF;
             }
         }
 
-        $this->putApp(str_replace('_content_', $app_routes, $content));
+        $result = $this->putApp(str_replace('_content_', $app_routes, $content));
+        if (!$result) {
+            $this->io->error('App route file generation failed.');
+            return self::FAILURE;
+        }
         foreach ($plugin_routes as $key => $value) {
-            $this->putPlugin($key, str_replace('_content_', $value, $content));
+            $result = $this->putPlugin($key, str_replace('_content_', $value, $content));
+            if ((!$result)) {
+                $this->io->error('Plugin route file generation failed.');
+                return self::FAILURE;
+            }
         }
 
         $this->io->success('Route file generated successfully.');

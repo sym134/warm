@@ -2,10 +2,10 @@
 
 namespace warm\event;
 
-use warm\Admin;
-use warm\model\AdminMenu;
-use warm\service\monitor\AdminLoginLogService;
-use warm\service\monitor\AdminOperationLogService;
+use warm\admin\Admin;
+use warm\admin\model\AdminMenu;
+use warm\admin\service\monitor\AdminLoginLogService;
+use warm\admin\service\monitor\AdminOperationLogService;
 
 class SystemUser
 {

@@ -3,7 +3,7 @@
 namespace warm\renderer;
 
 
-use warm\trait\UploadTrait;
+use warm\admin\trait\UploadTrait;
 
 /**
  * WangEditor

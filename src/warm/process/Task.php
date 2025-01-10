@@ -2,7 +2,7 @@
 
 namespace warm\process;
 
-use warm\service\system\AdminCrontabService;
+use warm\admin\service\system\AdminCrontabService;
 use Workerman\Crontab\Crontab;
 
 class Task

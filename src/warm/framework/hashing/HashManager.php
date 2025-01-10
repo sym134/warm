@@ -8,8 +8,7 @@ use Illuminate\Hashing\ArgonHasher;
 use Illuminate\Hashing\BcryptHasher;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
-use support\Container;
-use warm\Admin;
+use warm\admin\Admin;
 
 class HashManager implements Hasher
 {

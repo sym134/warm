@@ -2,8 +2,8 @@
 
 namespace warm\bootstrap;
 
-use warm\support\Db;
-use warm\support\SqlRecord;
+use support\Db;
+use warm\admin\support\SqlRecord;
 use Webman\Bootstrap;
 use Workerman\Worker;
 

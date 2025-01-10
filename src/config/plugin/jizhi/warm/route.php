@@ -1,26 +1,27 @@
 <?php
 
-use warm\Admin;
-use warm\controller\AdminMenuController;
-use warm\controller\AdminPermissionController;
-use warm\controller\AdminRoleController;
-use warm\controller\AdminUserController;
-use warm\controller\AuthController;
-use warm\controller\dev_tools\ApiController;
-use warm\controller\dev_tools\CodeGeneratorController;
-use warm\controller\dev_tools\EditorController;
-use warm\controller\dev_tools\PagesController;
-use warm\controller\dev_tools\PluginController;
-use warm\controller\dev_tools\RelationshipController;
-use warm\controller\HomeController;
-use warm\controller\IndexController;
-use warm\controller\monitor\AdminLoginLogController;
-use warm\controller\monitor\AdminOperationLogController;
-use warm\controller\system\AdminCrontabController;
-use warm\controller\system\AdminCrontabLogController;
-use warm\controller\system\AttachmentController;
-use warm\controller\system\CacheController;
-use warm\controller\system\StorageController;
+use warm\admin\Admin;
+use warm\admin\controller\AdminMenuController;
+use warm\admin\controller\AdminPermissionController;
+use warm\admin\controller\AdminRoleController;
+use warm\admin\controller\AdminUserController;
+use warm\admin\controller\AuthController;
+use warm\admin\controller\dev_tools\ApiController;
+use warm\admin\controller\dev_tools\CodeGeneratorController;
+use warm\admin\controller\dev_tools\EditorController;
+use warm\admin\controller\dev_tools\PagesController;
+use warm\admin\controller\dev_tools\PluginController;
+use warm\admin\controller\dev_tools\RelationshipController;
+use warm\admin\controller\HomeController;
+use warm\admin\controller\IndexController;
+use warm\admin\controller\monitor\AdminLoginLogController;
+use warm\admin\controller\monitor\AdminOperationLogController;
+use warm\admin\controller\notice\SmsConfigController;
+use warm\admin\controller\system\AdminCrontabController;
+use warm\admin\controller\system\AdminCrontabLogController;
+use warm\admin\controller\system\CacheController;
+use warm\admin\controller\system\FileController;
+use warm\admin\controller\system\StorageController;
 use Webman\Route;
 
 Route::get('/admin', fn() => Admin::view());
@@ -67,11 +68,20 @@ Route::group('/' . Admin::config('app.route.prefix'), function () {
         Route::post('/_admin_permissions_auto_generate', [AdminPermissionController::class, 'autoGenerate']);
 
         Route::resource('/storage', StorageController::class);
-        Route::resource('/attachment', AttachmentController::class);
+        Route::resource('/file', FileController::class);
 
         Route::resource('/admin_crontab', AdminCrontabController::class);
         Route::get('/admin_crontab_run', [AdminCrontabController::class, 'run']);
         Route::resource('/admin_crontab_log', AdminCrontabLogController::class);
+    });
+
+    // 应用设置
+    Route::group('/app', function () {
+        //消息
+        Route::group('/notice', function () {
+            Route::resource('/sms_config', SmsConfigController::class);
+
+        });
     });
 
     Route::group('/log_monitoring', function () {
@@ -81,7 +91,7 @@ Route::group('/' . Admin::config('app.route.prefix'), function () {
     });
 
 
-    if (Admin::config('app.show_development_to')) {
+    if (Admin::config('app.show_development_tools')) {
         Route::group('/dev_tools', function () {
             Route::resource('/code_generator', CodeGeneratorController::class);
             Route::group('/code_generator', function () {

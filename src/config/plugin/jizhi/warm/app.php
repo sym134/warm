@@ -1,9 +1,9 @@
 <?php
 
-use warm\model\AdminMenu;
-use warm\model\AdminPermission;
-use warm\model\AdminRole;
-use warm\model\AdminUser;
+use warm\admin\model\AdminMenu;
+use warm\admin\model\AdminPermission;
+use warm\admin\model\AdminRole;
+use warm\admin\model\AdminUser;
 
 return [
     'enable' => true,

@@ -3,7 +3,7 @@
 namespace warm\exception;
 
 use support\Response;
-use warm\Admin;
+use warm\admin\Admin;
 
 class AdminException extends \Exception
 {

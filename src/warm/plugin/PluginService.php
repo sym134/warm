@@ -3,9 +3,9 @@
 namespace warm\plugin;
 
 use Illuminate\Database\Eloquent\Collection;
-use warm\Admin;
-use warm\model\Plugin;
-use warm\service\AdminService;
+use warm\admin\Admin;
+use warm\admin\model\Plugin;
+use warm\admin\service\AdminService;
 
 class PluginService extends AdminService
 {

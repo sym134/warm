@@ -102,7 +102,7 @@ class AppPluginCreateCommand extends Command
 
 namespace plugin\\$name\\app\\controller;
 
-use support\use support\Response;use warm\controller\AdminController;use warm\service\AdminApiService;
+use support\use;use warm\admin\controller\AdminController;use warm\admin\service\AdminApiService; support\Response;
 
 class IndexController  extends AdminController
 {
@@ -471,7 +471,7 @@ EOF;
 <?php
 
 return [
-        '' => warm\Admin::middleware(),
+        '' => \warm\admin\Admin::middleware(),
 ];
 
 EOF;

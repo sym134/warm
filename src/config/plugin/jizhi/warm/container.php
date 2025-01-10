@@ -2,12 +2,18 @@
 
 use DI\ContainerBuilder;
 use Illuminate\Filesystem\Filesystem;
+use warm\admin\support\apis\DataCreateApi;
+use warm\admin\support\apis\DataDeleteApi;
+use warm\admin\support\apis\DataListApi;
+use warm\admin\support\apis\DataUpdateApi;
+use warm\admin\support\cores\Asset;
+use warm\admin\support\cores\Context;
+use warm\common\service\ConfigService;
 use warm\framework\facade\Validate;
 use warm\framework\hashing\HashManager;
-use warm\service\AdminSettingService;
-use warm\support\apis\{DataCreateApi, DataDeleteApi, DataDetailApi, DataListApi, DataUpdateApi};
-use warm\support\cores\{Asset, Context, Menu};
-use warm\support\Pipeline;
+use warm\admin\support\apis\{DataDetailApi};
+use warm\admin\support\cores\{Menu};
+use warm\admin\support\Pipeline;
 
 $builder = new ContainerBuilder();
 
@@ -19,14 +25,14 @@ $builder->addDefinitions([
         DataDeleteApi::class,
         DataUpdateApi::class,
     ],
-    'files' => DI\create(Filesystem::class),
-    'admin.menu' => DI\create(Menu::class),
-    'admin.asset' => DI\create(Asset::class),
-    'admin.setting' => DI\factory([AdminSettingService::class, 'create']),
-    'admin.context' => DI\create(Context::class),
-    'Pipeline' => DI\create(Pipeline::class),
-    'validate' => DI\create(Validate::class),
-    'hash' => DI\create(HashManager::class),
+    'files' => fn() => new Filesystem,
+    'admin.menu' => fn() => new Menu,
+    'admin.asset' => fn() => new Asset,
+    'admin.config' => fn() => new ConfigService,
+    'admin.context' => fn() => new Context,
+    'Pipeline' => fn() => new Pipeline,
+    'validate' => fn() => new Validate,
+    'hash' => fn() => new HashManager,
 ]);
 
 $builder->useAutowiring(true);

@@ -140,7 +140,7 @@ return new class extends Migration {
             $table->timestamps();
         });
 
-        $this->schema()->create('attachments', function (Blueprint $table) {
+        $this->schema()->create('files', function (Blueprint $table) {
             $table->comment('附件管理');
             $table->increments('id');
             $table->enum('storage_mode', ['local', 'qiniu', 'aliyun', 'qcloud'])->comment('存储模式');
@@ -246,7 +246,7 @@ return new class extends Migration {
         $this->schema()->dropIfExists('admin_pages');
         $this->schema()->dropIfExists('admin_relationships');
         $this->schema()->dropIfExists('admin_apis');
-        $this->schema()->dropIfExists('attachments');
+        $this->schema()->dropIfExists('files');
         $this->schema()->dropIfExists('admin_operation_log');
         $this->schema()->dropIfExists('admin_login_log');
         $this->schema()->dropIfExists('admin_crontab');

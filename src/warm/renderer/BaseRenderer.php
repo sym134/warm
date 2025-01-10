@@ -4,7 +4,7 @@ namespace warm\renderer;
 
 use Illuminate\Support\Traits\Macroable;
 use JsonSerializable;
-use warm\support\cores\AdminPipeline;
+use warm\admin\support\cores\AdminPipeline;
 
 class BaseRenderer implements JsonSerializable
 {

@@ -32,6 +32,16 @@ abstract class BaseCommand extends Command
         $this->io->warning($string);
     }
 
+    protected function error(string $string): void
+    {
+        $this->io->error($string);
+    }
+
+    protected function success(string $string): void
+    {
+        $this->io->success($string);
+    }
+
     abstract public function handle(InputInterface $input, OutputInterface $output);
 
     protected function option($name)
