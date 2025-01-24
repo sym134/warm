@@ -133,7 +133,7 @@ class AdminCodeGeneratorService extends AdminService
         return collect(get_class_methods(amis()))
             ->filter(fn($item) => $item != 'make')
             ->map(function ($item) {
-                $renderer = new ReflectionClass('\\warm\\renderer\\' . $item);
+                $renderer = new ReflectionClass('\\warm\\admin\\renderer\\' . $item);
                 $_doc = $renderer->getDocComment();
                 $_doc = preg_replace("/[^\x{4e00}-\x{9fa5}]/u", "", $_doc);
                 $_doc = $_doc ? trim(str_replace('文档', '', $_doc)) : '';

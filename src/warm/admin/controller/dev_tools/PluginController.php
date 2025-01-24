@@ -6,9 +6,9 @@ use support\Request;
 use support\Response;
 use warm\admin\Admin;
 use warm\admin\controller\AdminController;
-use warm\plugin\PluginService;
-use warm\renderer\CRUDTable;
-use warm\renderer\DialogAction;
+use warm\admin\plugin\PluginService;
+use warm\admin\renderer\CRUDTable;
+use warm\admin\renderer\DialogAction;
 
 class PluginController extends AdminController
 {

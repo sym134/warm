@@ -10,7 +10,7 @@ trait IconifyPickerTrait
      * @param string $name
      * @param string $label
      *
-     * @return \warm\renderer\PickerControl
+     * @return \warm\admin\renderer\PickerControl
      */
     public function iconifyPicker(string $name = '', string $label = '')
     {

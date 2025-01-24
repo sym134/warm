@@ -30,7 +30,7 @@ $builder->addDefinitions([
     'admin.asset' => fn() => new Asset,
     'admin.config' => fn() => new ConfigService,
     'admin.context' => fn() => new Context,
-    'Pipeline' => fn() => new Pipeline,
+    'pipeline' => fn() => new Pipeline,
     'validate' => fn() => new Validate,
     'hash' => fn() => new HashManager,
 ]);

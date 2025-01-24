@@ -4,8 +4,8 @@ namespace warm\admin\controller;
 
 use support\Response;
 use warm\admin\Admin;
-use warm\renderer\Card;
-use warm\renderer\Panel;
+use warm\admin\renderer\Card;
+use warm\admin\renderer\Panel;
 
 class HomeController extends AdminController
 {

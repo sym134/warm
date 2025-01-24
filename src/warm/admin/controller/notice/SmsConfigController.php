@@ -5,9 +5,9 @@ namespace warm\admin\controller\notice;
 use support\Request;
 use support\Response;
 use warm\admin\controller\AdminController;
-use warm\common\service\notice\SmsConfigService;
-use warm\renderer\Form;
-use warm\renderer\Page;
+use warm\admin\renderer\Form;
+use warm\admin\renderer\Page;
+use warm\admin\service\notice\SmsConfigService;
 
 class SmsConfigController extends AdminController
 {

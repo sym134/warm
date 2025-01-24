@@ -132,26 +132,26 @@ if (!function_exists('amis')) {
     /**
      * @param $type
      *
-     * @return \warm\renderer\Amis|\warm\renderer\Component
+     * @return \warm\admin\renderer\Amis|\warm\admin\renderer\Component
      */
-    function amis($type = null): \warm\renderer\Amis|\warm\renderer\Component
+    function amis($type = null): \warm\admin\renderer\Amis|\warm\admin\renderer\Component
     {
         if (filled($type)) {
-            return \warm\renderer\Component::make()->setType($type);
+            return \warm\admin\renderer\Component::make()->setType($type);
         }
 
-        return \warm\renderer\Amis::make();
+        return \warm\admin\renderer\Amis::make();
     }
 }
 
 if (!function_exists('amisMake')) {
     /**
-     * @return \warm\renderer\Amis
+     * @return \warm\admin\renderer\Amis
      * @deprecated
      */
-    function amisMake(): \warm\renderer\Amis
+    function amisMake(): \warm\admin\renderer\Amis
     {
-        return \warm\renderer\Amis::make();
+        return \warm\admin\renderer\Amis::make();
     }
 }
 

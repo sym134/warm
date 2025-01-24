@@ -5,7 +5,7 @@ namespace warm\admin\service\system;
 /**
  * 缓存
  * CacheService
- * warm\service\system
+ * warm\admin\service\system
  *
  * Author:sym
  * Date:2024/6/29 上午7:49

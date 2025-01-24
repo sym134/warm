@@ -83,6 +83,7 @@ return [
         'create_model'                => '创建模型',
         'create_controller'           => '创建控制器',
         'create_service'              => '创建Service',
+        'create_lang'              => '创建语言文件',
         'app_title'                   => '功能名称',
         'new_app_title'               => '新功能名称',
         'column_name'                 => '字段名',

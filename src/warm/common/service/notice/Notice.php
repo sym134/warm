@@ -2,7 +2,9 @@
 
 namespace warm\common\service\notice;
 
-class Notice
+use warm\common\service\BaseService;
+
+class Notice extends BaseService
 {
     /**
      * @notes 根据场景发送短信

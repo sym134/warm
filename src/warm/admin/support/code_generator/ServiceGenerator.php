@@ -28,7 +28,7 @@ class ServiceGenerator extends BaseGenerator
         $content = '<?php' . PHP_EOL . PHP_EOL;
         $content .= 'namespace ' . $this->getNamespace($name) . ';' . PHP_EOL . PHP_EOL;
         $content .= "use {$modelClass};" . PHP_EOL;
-        $content .= 'use warm\service\AdminService;' . PHP_EOL . PHP_EOL;
+        $content .= 'use warm\admin\service\AdminService;' . PHP_EOL . PHP_EOL;
         $content .= '/**' . PHP_EOL;
         $content .= ' * ' . $this->model->title . PHP_EOL;
         $content .= ' *' . PHP_EOL;

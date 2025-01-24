@@ -33,9 +33,10 @@ class ConfigService extends AdminService
 
             $setting->values = $value;
             $this->clearCache($key);
-           return  $setting->save();
+            return $setting->save();
         } catch (Exception $e) {
             amis_abort($e->getMessage());
+            return false;
         }
     }
 

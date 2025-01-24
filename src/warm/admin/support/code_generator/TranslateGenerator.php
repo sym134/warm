@@ -29,7 +29,7 @@ class TranslateGenerator extends BaseGenerator
         $zh = [];
         foreach ($this->model->columns as $field) {
             $zh[$field['name']] = empty($field['comment']) ? $field['name'] : $field['comment'];
-            $en[$field['name']] = str_replace('_', ' ', $field['name']);
+            $en[$field['name']] = mb_convert_case(str_replace('_', ' ', $field['name']), MB_CASE_TITLE, 'UTF-8');
         }
         $result[] = $this->generateFile($this->model->table_name, 'en', $en);
         $result[] = $this->generateFile($this->model->table_name, 'zh_CN', $zh);

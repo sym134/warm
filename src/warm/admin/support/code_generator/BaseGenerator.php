@@ -4,6 +4,7 @@ namespace warm\admin\support\code_generator;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use support\Model;
 use warm\admin\model\AdminCodeGenerator;
 
 class BaseGenerator
@@ -14,7 +15,7 @@ class BaseGenerator
 
     protected string $title = '';
 
-    protected AdminCodeGenerator $model;
+    protected Model $model;
 
     public function __construct($model)
     {

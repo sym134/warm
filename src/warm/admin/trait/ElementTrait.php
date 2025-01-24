@@ -3,14 +3,14 @@
 namespace warm\admin\trait;
 
 use warm\admin\Admin;
-use warm\renderer\ConditionBuilderControl;
-use warm\renderer\DialogAction;
-use warm\renderer\Form;
-use warm\renderer\LinkAction;
-use warm\renderer\Operation;
-use warm\renderer\OtherAction;
-use warm\renderer\Page;
-use warm\renderer\Service;
+use warm\admin\renderer\ConditionBuilderControl;
+use warm\admin\renderer\DialogAction;
+use warm\admin\renderer\Form;
+use warm\admin\renderer\LinkAction;
+use warm\admin\renderer\Operation;
+use warm\admin\renderer\OtherAction;
+use warm\admin\renderer\Page;
+use warm\admin\renderer\Service;
 use warm\admin\support\cores\AdminPipeline;
 
 
@@ -339,7 +339,7 @@ trait ElementTrait
     {
         $path = str_replace(Admin::config('app.route.prefix'), '', request()->path());
 
-        $form = amis()->Form()->panelClassName('px-48 m:px-0')->title(' ')->promptPageLeave();
+        $form = amis()->Form()->panelClassName('px-10 m:px-0 no-border')->title(' ')->promptPageLeave();
 
         if ($back) {
             $form->onEvent([

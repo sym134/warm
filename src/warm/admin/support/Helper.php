@@ -6,7 +6,6 @@ use Illuminate\Support\Str;
 use Symfony\Component\Process\Process;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Support\Arrayable;
-use warm\admin\support\Composer;
 
 class Helper
 {

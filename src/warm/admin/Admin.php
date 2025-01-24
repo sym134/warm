@@ -4,15 +4,16 @@ namespace warm\admin;
 
 use support\Db;
 use warm\admin\model\{AdminPermission};
+use warm\admin\middleware;
 use warm\admin\model\AdminMenu;
 use warm\admin\model\AdminRole;
 use warm\admin\model\AdminUser;
+use warm\admin\support\cores\Permission;
 use warm\admin\trait\AssetsTrait;
 use warm\common\service\ConfigService;
 use warm\admin\support\cores\Context;
 use warm\admin\support\cores\JsonResponse;
 use warm\admin\support\cores\Menu;
-use warm\admin\support\cores\Permission;
 
 class Admin
 {
@@ -50,7 +51,7 @@ class Admin
     }
 
     /**
-     * @return \warm\admin\model\AdminUser|null
+     * @return AdminUser|null
      */
     public static function user(): ?AdminUser
     {
@@ -159,11 +160,11 @@ class Admin
     public static function middleware(): array
     {
         return [
-            \warm\admin::class,
-            \warm\admin::class,
-            \warm\admin::class,
-            \warm\admin::class,
-            \warm\admin::class,
+            middleware\ConnectionDatabase::class,
+            middleware\ForceHttps::class,
+            middleware\AutoSetLocale::class,
+            middleware\Authenticate::class,
+            middleware\Permission::class,
         ];
     }
 }

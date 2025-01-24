@@ -29,7 +29,7 @@ class ControllerGenerator extends BaseGenerator
         $content = '<?php' . PHP_EOL . PHP_EOL;
         $content .= 'namespace ' . $this->getNamespace($name) . ';' . PHP_EOL . PHP_EOL;
         $content .= "use {$serviceClass};" . PHP_EOL;
-        $content .= 'use warm\controller\AdminController;' . PHP_EOL . PHP_EOL;
+        $content .= 'use warm\admin\controller\AdminController;' . PHP_EOL . PHP_EOL;
         $content .= '/**' . PHP_EOL;
         $content .= ' * ' . $this->model->title . PHP_EOL;
         $content .= ' *' . PHP_EOL;
@@ -193,7 +193,7 @@ class ControllerGenerator extends BaseGenerator
 
     public function getColumnComponent($type, $column): string
     {
-        $label = Arr::get($column, 'comment') ?? Str::studly($column['name']);
+        $label = Arr::get($column, 'name');
 
         $component = data_get($column, $type);
         if ($componentType = data_get($component, $type . '_type')) {
@@ -204,11 +204,11 @@ class ControllerGenerator extends BaseGenerator
 
             return $item;
         }
-
+        $label = $this->model->table_name . '.' . $label;
         return match ($type) {
-            'list_component'   => "amis()->TableColumn('{$column['name']}', admin_trans('{$label}'))",
-            'form_component'   => "amis()->TextControl('{$column['name']}', admin_trans('{$label}'))",
-            'detail_component' => "amis()->TextControl('{$column['name']}', admin_trans('{$label}'))->static()",
+            'list_component'   => "amis()->TableColumn('{$column['name']}', admin_trans('$label'))",
+            'form_component'   => "amis()->TextControl('{$column['name']}', admin_trans('$label'))",
+            'detail_component' => "amis()->TextControl('{$column['name']}', admin_trans('$label'))->static()",
         };
     }
 

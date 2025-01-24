@@ -5,11 +5,11 @@ namespace warm\admin\controller;
 use Illuminate\Support\Str;
 use support\Db;
 use warm\admin\Admin;
+use warm\admin\renderer\Form;
+use warm\admin\renderer\Page;
+use warm\admin\renderer\Tag;
 use warm\admin\service\AdminMenuService;
 use warm\admin\service\AdminPermissionService;
-use warm\renderer\Form;
-use warm\renderer\Page;
-use warm\renderer\Tag;
 use Webman\Route;
 
 /**

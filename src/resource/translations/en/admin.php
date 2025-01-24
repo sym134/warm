@@ -83,6 +83,7 @@ return [
         'create_model'                => 'Create Model',
         'create_controller'           => 'Create Controller',
         'create_service'              => 'Create Service',
+        'create_lang'              => 'Create Lang',
         'app_title'                   => 'App Title',
         'new_app_title'               => 'New App Title',
         'column_name'                 => 'Column Name',

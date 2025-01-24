@@ -10,19 +10,19 @@ use ReflectionMethod;
 use support\Request;
 use support\Response;
 use warm\admin\controller\AdminController;
+use warm\admin\plugin\PluginService;
+use warm\admin\renderer\Card;
+use warm\admin\renderer\ComboControl;
+use warm\admin\renderer\CRUDTable;
+use warm\admin\renderer\DialogAction;
+use warm\admin\renderer\Flex;
+use warm\admin\renderer\Form;
 use warm\admin\service\AdminCodeGeneratorService;
 use warm\admin\service\AdminMenuService;
-use warm\admin\trait\IconifyPickerTrait;
-use warm\plugin\PluginService;
-use warm\renderer\Card;
-use warm\renderer\ComboControl;
-use warm\renderer\CRUDTable;
-use warm\renderer\DialogAction;
-use warm\renderer\Flex;
-use warm\renderer\Form;
 use warm\admin\support\code_generator\FilterGenerator;
 use warm\admin\support\code_generator\GenCodeClear;
 use warm\admin\support\code_generator\Generator;
+use warm\admin\trait\IconifyPickerTrait;
 
 /**
  * @property AdminCodeGeneratorService $service
@@ -386,7 +386,7 @@ class CodeGeneratorController extends AdminController
             return $this->response()->success([]);
         }
 
-        $className = '\\warm\\renderer\\' . $request->input('c');
+        $className = '\\warm\\admin\\renderer\\' . $request->input('c');
 
         $renderer = new ReflectionClass($className);
 

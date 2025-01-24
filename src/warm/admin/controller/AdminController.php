@@ -95,7 +95,7 @@ abstract class AdminController
         return $this->response()->fail($this->service->getError() ?? $text . admin_trans('admin.failed'));
     }
 
-    public function index():Response
+    public function index(): Response
     {
         if ($this->actionOfGetData()) {
             return $this->response()->success($this->service->list());
@@ -121,8 +121,7 @@ abstract class AdminController
 
         $form = amis()
             ->Card()
-            ->className('base-form')
-            ->header(['title' => admin_trans('admin.create')])
+            ->header(['title' => admin_trans('admin.create'), 'className' => 'border-b'])
             ->toolbar([$this->backButton()])
             ->body($this->form(false)->api($this->getStorePath()));
 
@@ -170,8 +169,7 @@ abstract class AdminController
 
         $detail = amis()
             ->Card()
-            ->className('base-form')
-            ->header(['title' => admin_trans('admin.detail')])
+            ->header(['title' => admin_trans('admin.detail'), 'className' => 'border-b'])
             ->body($this->detail())
             ->toolbar([$this->backButton()]);
 
@@ -199,11 +197,10 @@ abstract class AdminController
 
         $form = amis()
             ->Card()
-            ->className('base-form')
-            ->header(['title' => admin_trans('admin.edit')])
+            ->header(['title' => admin_trans('admin.edit'), 'className' => 'border-b'])
             ->toolbar([$this->backButton()])
-            ->body(
-                $this->form(true)->api($this->getUpdatePath())->initApi($this->getEditGetDataPath())
+            ->body($this->form(true)->api($this->getUpdatePath())->initApi($this->getEditGetDataPath())
+
             );
 
         $page = $this->basePage()->body($form);
@@ -221,7 +218,7 @@ abstract class AdminController
     public function update(Request $request): Response
     {
         $primaryKey = $this->getPrimaryValue($request) ?: data_get(func_get_args(), 1);
-        $result     = $this->service->update($primaryKey, $request->all());
+        $result = $this->service->update($primaryKey, $request->all());
 
         return $this->autoResponse($result, admin_trans('admin.save'));
     }
@@ -249,7 +246,7 @@ abstract class AdminController
      * Handle calls to missing methods on the controller.
      *
      * @param string $method
-     * @param array  $parameters
+     * @param array $parameters
      *
      * @return mixed
      *

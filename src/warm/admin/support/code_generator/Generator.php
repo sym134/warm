@@ -65,6 +65,10 @@ class Generator
                 'value' => 'need_model',
             ],
             [
+                'label' => admin_trans('admin.code_generators.create_lang'),
+                'value' => 'need_lang',
+            ],
+            [
                 'label' => admin_trans('admin.code_generators.create_controller'),
                 'value' => 'need_controller',
             ],
@@ -216,12 +220,13 @@ class Generator
         $message = '';
         try {
             // 语言
-            $path = TranslateGenerator::make($record)->generate();
-            foreach ($path as $value) {
-                $message .= $successMessage('Translate', $value);
-                $paths[] = $value;
+            if ($needs->contains('need_lang')) {
+                $path = TranslateGenerator::make($record)->generate();
+                foreach ($path as $value) {
+                    $message .= $successMessage('Translate', $value);
+                    $paths[] = $value;
+                }
             }
-
 
             // Model
             if ($needs->contains('need_model')) {

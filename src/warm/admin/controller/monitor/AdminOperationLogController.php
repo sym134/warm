@@ -3,9 +3,9 @@
 namespace warm\admin\controller\monitor;
 
 use warm\admin\controller\AdminController;
+use warm\admin\renderer\Form;
+use warm\admin\renderer\Page;
 use warm\admin\service\monitor\AdminOperationLogService;
-use warm\renderer\Form;
-use warm\renderer\Page;
 
 class AdminOperationLogController extends AdminController
 {
@@ -40,7 +40,7 @@ class AdminOperationLogController extends AdminController
                 amis()->TableColumn('created_at', admin_trans('admin.created_at'))->type('datetime')->sortable(true),
 
 
-                $this->rowActions([]),
+                // $this->rowActions([]),
             ]);
 
         return $this->baseList($crud);

@@ -55,7 +55,6 @@ class Facade
     /**
      * 获取当前Facade对应类名
      * @access protected
-     * @return string
      */
     protected static function getFacadeClass()
     {
@@ -64,7 +63,6 @@ class Facade
     /**
      * 带参数实例化当前Facade类
      * @access public
-     * @return object
      */
     public static function instance(...$args)
     {

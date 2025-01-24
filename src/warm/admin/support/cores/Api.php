@@ -3,11 +3,14 @@
 namespace warm\admin\support\cores;
 
 use warm\admin\Admin;
-use warm\support\apis\{\DataCreateApi, \GetSettingsApi, \OptionsApi, \SaveSettingsApi};
+use warm\admin\support\apis\DataCreateApi;
 use warm\admin\support\apis\DataDeleteApi;
 use warm\admin\support\apis\DataDetailApi;
 use warm\admin\support\apis\DataListApi;
 use warm\admin\support\apis\DataUpdateApi;
+use warm\admin\support\apis\GetSettingsApi;
+use warm\admin\support\apis\OptionsApi;
+use warm\admin\support\apis\SaveSettingsApi;
 
 // todo 导入api模板
 class Api

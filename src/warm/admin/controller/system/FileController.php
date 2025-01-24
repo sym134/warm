@@ -4,9 +4,9 @@ namespace warm\admin\controller\system;
 
 use warm\admin\controller\AdminController;
 use warm\admin\model\system\File;
+use warm\admin\renderer\Form;
+use warm\admin\renderer\Page;
 use warm\admin\service\system\FileService;
-use warm\renderer\Form;
-use warm\renderer\Page;
 
 class FileController extends AdminController
 {

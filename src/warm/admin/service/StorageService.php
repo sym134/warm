@@ -19,7 +19,7 @@ class StorageService extends Storage
     public static function disk(string $name = ''): StorageService
     {
         $config = warmConfig()->get('storage');
-        $name = $config['engine'];
+        $name = $name?:$config['engine'];
         $config = [
             'default'   => $config['engine'] ?? 'local',
             'max_size'  => $config['upload_size'] ?? 1024 * 1024 * 10, //单个文件大小10M
@@ -91,7 +91,7 @@ class StorageService extends Storage
         }
 
         if ($file->getSize() > $this->size) {
-            throw new \Exception("上传文件过大（当前大小 {$file->getSize()}，需小于 {$this->size})");
+            throw new \Exception("上传文件过大（当前大小 {$file->getSize()}，需小于 $this->size)");
         }
     }
 
