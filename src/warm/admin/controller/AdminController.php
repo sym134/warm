@@ -63,9 +63,8 @@ abstract class AdminController
     /**
      * @param $request
      *
-     * @return mixed
      */
-    public function getPrimaryValue($request): mixed
+    public function getPrimaryValue($request)
     {
         $primaryKey = $this->service->primaryKey();
 
@@ -95,7 +94,7 @@ abstract class AdminController
         return $this->response()->fail($this->service->getError() ?? $text . admin_trans('admin.failed'));
     }
 
-    public function index(): Response
+    public function index()
     {
         if ($this->actionOfGetData()) {
             return $this->response()->success($this->service->list());
@@ -111,11 +110,10 @@ abstract class AdminController
     /**
      * 获取新增页面
      *
-     * @return Response
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    public function create(): Response
+    public function create()
     {
         $this->isCreate = true;
 
@@ -133,11 +131,9 @@ abstract class AdminController
     /**
      * 新增保存
      *
-     * @param Request $request
-     *
      * @return Response
      */
-    public function store(Request $request): Response
+    public function store(Request $request)
     {
         $response = fn($result) => $this->autoResponse($result, admin_trans('admin.save'));
 
@@ -156,12 +152,10 @@ abstract class AdminController
      * 详情
      *
      * @param $id
-     *
-     * @return Response
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    public function show($id): Response
+    public function show($id)
     {
         if ($this->actionOfGetData()) {
             return $this->response()->success($this->service->getDetail($id));
@@ -183,11 +177,10 @@ abstract class AdminController
      *
      * @param $id
      *
-     * @return Response
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    public function edit($id): Response
+    public function edit($id)
     {
         $this->isEdit = true;
 
@@ -211,13 +204,11 @@ abstract class AdminController
     /**
      * 编辑保存
      *
-     * @param Request $request
-     *
      * @return Response
      */
-    public function update(Request $request): Response
+    public function update(Request $request, $id)
     {
-        $primaryKey = $this->getPrimaryValue($request) ?: data_get(func_get_args(), 1);
+        $primaryKey = $this->getPrimaryValue($request) ?: $id;
         $result = $this->service->update($primaryKey, $request->all());
 
         return $this->autoResponse($result, admin_trans('admin.save'));
@@ -227,10 +218,8 @@ abstract class AdminController
      * 删除
      *
      * @param $id
-     *
-     * @return Response
      */
-    public function destroy($id): Response
+    public function destroy($id)
     {
         $rows = $this->service->delete($id);
 

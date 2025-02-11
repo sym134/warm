@@ -113,11 +113,6 @@ class Database
             $table->timestamps();
         });
 
-        // 如果是模块，跳过下面的表
-        if ($this->moduleName) {
-            return;
-        }
-
         $this->create('admin_code_generators', function (Blueprint $table) {
             $table->id();
             $table->string('title')->default('')->comment('名称');
@@ -177,6 +172,95 @@ class Database
             $table->longText('args')->comment('接口参数')->nullable();
             $table->timestamps();
         });
+
+        $this->create('files', function (Blueprint $table) {
+            $table->comment('附件管理');
+            $table->increments('id');
+            $table->enum('storage_mode', ['local', 'qiniu', 'aliyun', 'qcloud'])->comment('存储模式');
+            $table->string('origin_name')->nullable()->comment('原文件名');
+            $table->string('new_name')->nullable()->comment('新文件名');
+            $table->string('hash')->nullable()->comment('文件hash');
+            $table->enum('file_type', ['image', 'video', 'audio', 'file'])->comment('资源类型');
+            $table->string('mime_type')->comment('资源类型');
+            $table->string('storage_path')->nullable()->comment('存储目录');
+            $table->bigInteger('size_byte')->comment('字节数');
+            $table->string('file_size')->nullable()->comment('文件大小');
+            $table->string('url')->nullable()->comment('url地址');
+            $table->string('remark')->nullable()->comment('备注');
+            $table->tinyInteger('created_by')->comment('创建者');
+            $table->timestamps();
+        });
+
+        $this->create('admin_operation_log', function (Blueprint $table) {
+            $table->comment('操作日志');
+            $table->increments('id');
+            $table->string('username', 20)->nullable()->comment('用户名');
+            $table->string('app', 50)->nullable()->comment('应用名称');
+            $table->string('method')->nullable()->comment('请求方式');
+            $table->string('router')->nullable()->comment('请求路由');
+            $table->string('service_name')->nullable()->comment('业务名称');
+            $table->string('ip', 45)->nullable()->comment('请求IP地址');
+            $table->string('ip_location')->nullable()->comment('IP所属地');
+            $table->text('request_data')->nullable()->comment('请求数据');
+            $table->string('remark')->nullable()->comment('备注');
+            $table->bigInteger('created_by')->index()->comment('创建者');
+            $table->dateTime('created_at')->nullable();
+            $table->softDeletes();
+        });
+
+        $this->create('admin_login_log', function (Blueprint $table) {
+            $table->comment('登录日志');
+            $table->increments('id');
+            $table->string('username')->nullable()->comment('用户名');
+            $table->string('ip')->nullable()->comment('登录IP地址');
+            $table->string('ip_location')->nullable()->comment('IP所属地');
+            $table->string('os', 50)->nullable()->comment('操作系统');
+            $table->string('browser', 50)->nullable()->comment('浏览器');
+            $table->unsignedSmallInteger('status')->default(new \Illuminate\Database\Query\Expression('1'))->comment('登录状态');
+            $table->string('message', 50)->nullable()->comment('提示消息');
+            $table->dateTime('login_time')->nullable()->comment('登录时间');
+            $table->string('remark')->nullable()->comment('备注');
+            $table->dateTime('created_at')->nullable();
+            $table->softDeletes();
+        });
+
+        $this->create('crontab', function (Blueprint $table) {
+            $table->comment('定时任务');
+            $table->increments('id');
+            $table->string('name')->nullable()->comment('任务名称');
+            $table->unsignedSmallInteger('task_type')->comment('任务类型');
+            $table->enum('execution_cycle', ['day', 'hour', 'week', 'month', 'second-n', 'day-n', 'hour-n', 'minute-n'])->comment('执行周期');
+            $table->string('target', 500)->nullable()->comment('调用目标');
+            $table->string('parameter', 1000)->nullable()->comment('任务参数');
+            $table->string('rule', 32)->nullable()->comment('表达式');
+            $table->unsignedTinyInteger('week')->default(1)->comment('周');
+            $table->unsignedTinyInteger('day')->default(1)->comment('天');
+            $table->unsignedTinyInteger('hour')->default(0)->comment('小时');
+            $table->unsignedTinyInteger('minute')->default(0)->comment('分钟');
+            $table->unsignedTinyInteger('second')->default(0)->comment('秒');
+            $table->unsignedTinyInteger('task_status')->default(0)->comment('状态');
+            $table->string('remark')->nullable()->comment('备注');
+            $table->unsignedInteger('created_by')->comment('创建者');
+            $table->timestamps();
+            $table->unique(['name', 'deleted_at']);
+        });
+
+        $this->create('crontab_log', function (Blueprint $table) {
+            $table->comment('定时任务日志');
+            $table->increments('id');
+            $table->unsignedInteger('crontab_id')->index()->comment('任务ID');
+            $table->string('target', 500)->comment('调用目标');
+            $table->string('parameter', 1000)->comment('调用参数');
+            $table->string('exception_info', 2000)->nullable()->comment('异常信息');
+            $table->unsignedTinyInteger('execution_status')->default(0)->comment('执行状态');
+            $table->dateTime('created_at')->nullable()->comment('创建时间');
+        });
+
+        $this->create('config', function (Blueprint $table) {
+            $table->string('key')->unique();
+            $table->json('values');
+            $table->timestamps();
+        });
     }
 
     public function down(): void
@@ -200,6 +284,8 @@ class Database
         $this->dropIfExists('admin_pages');
         $this->dropIfExists('admin_relationships');
         $this->dropIfExists('admin_apis');
+        $this->dropIfExists('config');
+        $this->schema()->dropIfExists('files');
     }
 
     /**
@@ -263,8 +349,8 @@ class Database
 
             $data(['name' => '操作日志', 'slug' => 'admin_operation_log', 'http_path' => ["/log_monitoring/admin_operation_log*"], "parent_id" => 5]),
             $data(['name' => '登陆日志', 'slug' => 'admin_login_log', 'http_path' => ["/log_monitoring/admin_login_log*"], "parent_id" => 5]),
-            $data(['name' => '定时任务', 'slug' => 'admin_crontab', 'http_path' => ["/system/admin_crontab*"], "parent_id" => 2]),
-            $data(['name' => '定时任务日志', 'slug' => 'admin_crontab_log', 'http_path' => ["/system/admin_crontab_log*"], "parent_id" => 2]),
+            $data(['name' => '定时任务', 'slug' => 'crontab', 'http_path' => ["/system/crontab*"], "parent_id" => 2]),
+            $data(['name' => '定时任务日志', 'slug' => 'crontab_log', 'http_path' => ["/system/crontab_log*"], "parent_id" => 2]),
 
         ]);
 
@@ -380,9 +466,9 @@ class Database
             ]),
             $data([
                 'parent_id' => 2,
-                'title'     => 'admin_crontab',
+                'title'     => 'crontab',
                 'icon'      => 'ant-design:menu-unfold-outlined',
-                'url'       => '/system/admin_crontab',
+                'url'       => '/system/crontab',
                 'is_home'   => 0,
             ]),
         ]);

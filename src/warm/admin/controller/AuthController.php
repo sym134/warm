@@ -65,7 +65,7 @@ class AuthController extends AdminController
         }
     }
 
-    public function loginPage(): Page
+    public function loginPage()
     {
         $form = amis()->Form()
             ->panelClassName('border-none')
@@ -168,7 +168,7 @@ JS,
                 $form,
             ]),
         ]);
-
+        
         return amis()->Page()->className('login-bg')->css([
             '.captcha-box .cxd-Image--thumb' => [
                 'padding' => '0',
@@ -206,7 +206,7 @@ JS,
 
     public function logout(): Response
     {
-        $this->guard()->user()->currentAccessToken()->delete();
+        $this->guard()->logout();
 
         return $this->response()->successMessage();
     }

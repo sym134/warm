@@ -624,9 +624,18 @@ class Amis
         return $instance;
     }
 
-    public function Image()
+    public function Image($name = '', $label = '')
     {
-        return Image::make();
+        $instance = Image::make();
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     public function ImageControl($name = '', $label = '')
@@ -649,9 +658,18 @@ class Amis
         return ImageToolbarAction::make();
     }
 
-    public function Images()
+    public function Images($name = '', $label = '')
     {
-        return Images::make();
+        $instance = Images::make();
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     public function InputCityControl($name = '', $label = '')
@@ -742,6 +760,20 @@ class Amis
     public function InputYearRange()
     {
         return InputYearRange::make();
+    }
+
+    public function InputPasswordControl($name = '', $label = '')
+    {
+        $instance = InputPasswordControl::make();
+
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+        return $instance;
     }
 
     public function JSONSchemaEditorControl($name = '', $label = '')
@@ -1268,9 +1300,19 @@ class Amis
         return $instance;
     }
 
-    public function Status()
+    public function Status($name = '', $label = '')
     {
-        return Status::make();
+        $instance = Status::make();
+
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     public function Step()

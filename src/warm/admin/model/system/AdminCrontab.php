@@ -29,7 +29,7 @@ class AdminCrontab extends Model
         'parameter' => 'json',
     ];
 
-    protected $table = 'admin_crontab';
+    protected $table = 'crontab';
 
     public function executionCycleText(): Attribute
     {

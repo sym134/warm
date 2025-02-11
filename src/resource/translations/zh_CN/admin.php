@@ -371,7 +371,7 @@ return [
         'created_by'   => '创建者',
     ],
 
-    'admin_crontab' => [
+    'crontab' => [
         'id'          => 'ID',
         'name'        => '任务名称',
         'type'        => '任务类型',

@@ -17,5 +17,5 @@ return [
     'admin_login_log'             => 'Admin Login Log',
     'admin_monitor'               => 'Admin Monitor',
     'admin_log_monitoring'        => 'Log Monitoring',
-    'admin_crontab'               => 'Admin Crontab',
+    'crontab'               => 'Admin Crontab',
 ];

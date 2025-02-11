@@ -33,7 +33,7 @@ class InstallCommand extends BaseCommand
     public function handle(InputInterface $input, OutputInterface $output): int
     {
         if ($this->initDatabase()) {
-            runCommand('auth:install');
+            $this->call('auth:key');
             return self::SUCCESS;
         } else {
             return self::FAILURE;

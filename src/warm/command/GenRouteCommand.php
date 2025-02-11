@@ -47,7 +47,7 @@ class GenRouteCommand extends BaseCommand
         }
         file_put_contents($route_path, $content);
 
-        $root_route_path = base_path('config/route.php');
+        $root_route_path = config_path('plugin/jizhi/warm/route.php');
         // 添加到 config/route.php
         $root_route_content = file_get_contents($root_route_path);
         if (!str_contains($root_route_content, 'require_once config_path(\'plugin/jizhi/warm/route/autoRoute.php\');')) {

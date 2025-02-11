@@ -122,9 +122,8 @@ abstract class AdminService
     /**
      * 列表 获取查询
      *
-     * @return Builder
      */
-    public function listQuery(): Builder
+    public function listQuery()
     {
         $query = $this->query();
 
@@ -244,12 +243,6 @@ abstract class AdminService
      */
     public function sortColumn(): mixed
     {
-        $updatedAtColumn = $this->getModel()->getUpdatedAtColumn();
-
-        if ($this->hasColumn($updatedAtColumn)) {
-            return $updatedAtColumn;
-        }
-
         if ($this->hasColumn($this->getModel()->getKeyName())) {
             return $this->getModel()->getKeyName();
         }

@@ -369,7 +369,7 @@ Backup important data before performing operations!!!<br>
         'remark'       => 'Remark',
         'created_by'   => 'Created By',
     ],
-    'admin_crontab'       => [
+    'crontab'       => [
         'id'          => 'ID',
         'name'        => 'Name',
         'type'        => 'Type',

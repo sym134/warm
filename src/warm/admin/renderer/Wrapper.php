@@ -15,6 +15,10 @@ class Wrapper extends BaseRenderer
         $this->set('type', 'wrapper');
     }
 
+    public function label($value)
+    {
+        return $this->set('label', $value);
+    }
     /**
      * 内容 (内容)
      */

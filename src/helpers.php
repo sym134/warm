@@ -293,7 +293,7 @@ if (!function_exists('admin_path')) {
     {
         $path = ltrim($path, '/');
 
-        return base_path('/vendor/jizhi/warm/src/warm/' . $path);
+        return base_path('/vendor/jizhi/warm/src/warm/admin/' . $path);
     }
 }
 

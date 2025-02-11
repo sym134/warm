@@ -39,12 +39,12 @@ class AdminCrontabController extends AdminController
                         ->onEvent(['click' => [
                             'actions' => [[
                                               'ignoreError' => '', 'outputVar' => 'responseResult', 'actionType' => 'ajax', 'options' => [],
-                                              'api'         => ['url' => admin_url('/system/admin_crontab_run'), 'method' => 'get', 'data' => ['id' => '${id}',],],
+                                              'api'         => ['url' => admin_url('/system/crontab_run'), 'method' => 'get', 'data' => ['id' => '${id}',],],
                                           ],],
                         ],])
                         ->confirmText('确认立即执行'),
                     amis()->DrawerAction()->drawer(
-                        amis()->Drawer()->title(admin_trans('crontab.execution_log'))->body((new AdminCrontabLogController)->list(admin_url('/system/admin_crontab_log?_action=getData&crontab_id=${id}')))->size('xl')->resizable()
+                        amis()->Drawer()->title(admin_trans('crontab.execution_log'))->body((new AdminCrontabLogController)->list(admin_url('/system/crontab_log?_action=getData&crontab_id=${id}')))->size('xl')->resizable()
                     )->label(admin_trans('crontab.execution_log'))->icon('fa-solid fa-clock-rotate-left')->level('link'),
                     $this->rowEditButton(true, 'lg'),
                     $this->rowDeleteButton(),

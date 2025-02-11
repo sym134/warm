@@ -10,7 +10,7 @@ use warm\admin\model\BaseModel as Model;
 class AdminCrontabLog extends Model
 {
 
-    protected $table = 'admin_crontab_log';
+    protected $table = 'crontab_log';
 
     protected $casts = [
         'parameter' => 'json',

@@ -70,9 +70,9 @@ Route::group('/' . Admin::config('app.route.prefix'), function () {
         Route::resource('/storage', StorageController::class);
         Route::resource('/file', FileController::class);
 
-        Route::resource('/admin_crontab', AdminCrontabController::class);
-        Route::get('/admin_crontab_run', [AdminCrontabController::class, 'run']);
-        Route::resource('/admin_crontab_log', AdminCrontabLogController::class);
+        Route::resource('/crontab', AdminCrontabController::class);
+        Route::get('/crontab_run', [AdminCrontabController::class, 'run']);
+        Route::resource('/crontab_log', AdminCrontabLogController::class);
     });
 
     // 应用设置
