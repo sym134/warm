@@ -212,9 +212,9 @@ class CodeGeneratorController extends AdminController
                                                         'componentId' => 'code_generator_form',
                                                         'args'        => [
                                                             'value' => [
-                                                                'table_name'  => '${SPLIT(event.data.value, "-")[0]}',
-                                                                'primary_key' => '${table_primary_keys[SPLIT(event.data.value, "-")[1]][SPLIT(event.data.value, "-")[0]]}',
-                                                                'columns'     => '${table_info[SPLIT(event.data.value, "-")[1]][SPLIT(event.data.value, "-")[0]]}',
+                                                                'table_name'  => '${SPLIT(event.data.value, "+")[0]}',
+                                                                'primary_key' => '${table_primary_keys[SPLIT(event.data.value, "+")[1]][SPLIT(event.data.value, "+")[0]]}',
+                                                                'columns'     => '${table_info[SPLIT(event.data.value, "+")[1]][SPLIT(event.data.value, "+")[0]]}',
                                                             ],
                                                         ],
                                                     ],
@@ -574,7 +574,7 @@ class CodeGeneratorController extends AdminController
             return [
                 'label'    => $index,
                 'children' => $item->keys()->map(function ($item) use ($index) {
-                    return ['value' => $item . '-' . $index, 'label' => $item];
+                    return ['value' => $item . '+' . $index, 'label' => $item];
                 }),
             ];
         })->values();
