@@ -242,6 +242,7 @@ class Database
             $table->string('remark')->nullable()->comment('备注');
             $table->unsignedInteger('created_by')->comment('创建者');
             $table->timestamps();
+            $table->softDeletes();
             $table->unique(['name', 'deleted_at']);
         });
 
