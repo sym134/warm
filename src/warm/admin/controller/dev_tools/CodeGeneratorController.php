@@ -221,7 +221,7 @@ class CodeGeneratorController extends AdminController
                                                     [
                                                         'actionType'  => 'setValue',
                                                         'componentId' => 'gen_menu_route',
-                                                        'args'        => ['value' => '/${SPLIT(event.data.value, "-")[0]}'],
+                                                        'args'        => ['value' => '/${SPLIT(event.data.value, "+")[0]}'],
                                                     ],
                                                     $fillPathAction,
                                                 ],

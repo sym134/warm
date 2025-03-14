@@ -6,7 +6,7 @@ use ArrayAccess;
 use Exception;
 use Illuminate\Support\Arr;
 use support\Cache;
-use support\Db;
+use support\Db as DB;
 use support\Response;
 use warm\admin\Admin;
 use warm\admin\service\AdminService;
