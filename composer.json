@@ -36,14 +36,14 @@
     "ext-json": "*",
     "ext-mbstring": "*",
     "ext-ctype": "*",
-    "symfony/cache": "^7.1",
     "psr/simple-cache": "^3.0",
     "jizhi/webman-auth": "^1.0",
     "jizhi/webman-migrations": "^1.0",
     "guzzlehttp/guzzle": "^7.9",
     "intervention/image": "^3.10",
     "overtrue/easy-sms": "^3.0",
-    "topthink/think-validate": "3.0"
+    "topthink/think-validate": "3.0",
+    "symfony/cache": "^3.3 || ^6.0"
   },
   "autoload": {
     "files": [

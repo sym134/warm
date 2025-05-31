@@ -19,6 +19,20 @@ class Cache
         return null;
     }
 
+    public static function remember($key, $ttl, Closure $callback)
+    {
+        $value = self::get($key);
+        if (! is_null($value)) {
+            return $value;
+        }
+
+        $value = $callback();
+
+        self::put($key, $value, value($ttl, $value));
+
+        return $value;
+    }
+
     public static function forget(string $key): bool
     {
         return symfonyCache::delete(self::getKey($key));

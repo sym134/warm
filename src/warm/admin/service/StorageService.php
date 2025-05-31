@@ -82,11 +82,11 @@ class StorageService extends Storage
                 throw new \Exception('不允许上传图片格式' . $file->getUploadMineType());
             }
         } else {
-            if (!empty($this->extYes) && !in_array($file->getUploadMineType(), $this->extYes)) {
-                throw new \Exception('不允许上传文件类型' . $file->getUploadMineType());
+            if (!empty($this->extYes) && !in_array($file->getUploadExtension(), $this->extYes)) {
+                throw new \Exception('不允许上传文件类型' . $file->getUploadExtension());
             }
-            if (!empty($this->extNo) && in_array($file->getUploadMineType(), $this->extNo)) {
-                throw new \Exception('文件类型不被允许' . $file->getUploadMineType());
+            if (!empty($this->extNo) && in_array($file->getUploadExtension(), $this->extNo)) {
+                throw new \Exception('文件类型不被允许' . $file->getUploadExtension());
             }
         }
 
