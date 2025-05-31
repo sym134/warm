@@ -43,7 +43,7 @@
     "intervention/image": "^3.10",
     "overtrue/easy-sms": "^3.0",
     "topthink/think-validate": "3.0",
-    "symfony/cache": "^3.3 || ^6.0"
+    "symfony/cache": "^6.0 || ^7.0"
   },
   "autoload": {
     "files": [
