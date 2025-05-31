@@ -21,7 +21,6 @@
     "illuminate/events": "^11.0",
     "illuminate/redis": "^11.0",
     "illuminate/hashing": "^11.0",
-    "laravel/serializable-closure": "^1.3",
     "symfony/var-dumper": "^7.3",
     "symfony/translation": "^6.0",
     "webman/event": "^1.0",
