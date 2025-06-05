@@ -19,9 +19,9 @@ class StorageService extends Storage
     public static function disk(string $name = ''): StorageService
     {
         $config = warmConfig()->get('filesystems');
-        $name = $name?:$config['default'];
+        $name = $name?:$config['engine'];
         $config = [
-            'default'   => $config['default'] ?? 'local',
+            'engine'   => $config['engine'] ?? 'local',
             'max_size'  => $config['upload_size'] ?? 1024 * 1024 * 10, //单个文件大小10M
             'ext_yes'   => isset($config['file_type']) ? explode(',', $config['file_type']) : [], //允许上传文件类型 为空则为允许所有
             'ext_no'    => [], // 不允许上传文件类型 为空则不限制

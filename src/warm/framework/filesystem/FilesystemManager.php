@@ -34,7 +34,7 @@ class FilesystemManager
     public function getDefaultDriver(): string
     {
         $filesystems = warmConfig()->get('filesystems');
-        return $filesystems['default'] ?? 'local';
+        return $filesystems['engine'] ?? 'local';
     }
 
     /**
