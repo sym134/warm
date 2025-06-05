@@ -1,14 +1,6 @@
 <?php
-// +----------------------------------------------------------------------
-// | ThinkPHP [ WE CAN DO IT JUST THINK ]
-// +----------------------------------------------------------------------
-// | Copyright (c) 2006~2023 http://thinkphp.cn All rights reserved.
-// +----------------------------------------------------------------------
-// | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
-// +----------------------------------------------------------------------
-// | Author: liu21st <liu21st@gmail.com>
-// +----------------------------------------------------------------------
-namespace warm\framework;
+
+namespace warm\framework\support\facade;
 
 use support\Container;
 
@@ -21,18 +13,18 @@ class Facade
      * 始终创建新的对象实例
      * @var bool
      */
-    protected static $alwaysNewInstance;
+    protected static bool $alwaysNewInstance;
 
     /**
      * 创建Facade实例
      * @static
      * @access protected
-     * @param  string $class       类名或标识
-     * @param  array  $args        变量
-     * @param  bool   $newInstance 是否每次创建新的实例
+     * @param string $class 类名或标识
+     * @param array $args 变量
+     * @param bool $newInstance 是否每次创建新的实例
      * @return object
      */
-    protected static function createFacade(string $class = '', array $args = [], bool $newInstance = false)
+    protected static function createFacade(string $class = '', array $args = [], bool $newInstance = false): object
     {
         $class = $class ?: static::class;
 
@@ -46,10 +38,10 @@ class Facade
             $newInstance = true;
         }
 
-        if ($newInstance){
-            return Container::make($class, $args);
-        }
-        return Container::instance('jizhi.warm')->get($class);
+        // if ($newInstance){
+        //     return Container::make($class, $args);
+        // }
+        return Container::instance('jizhi.warm')->get($class, $args, $newInstance);
     }
 
     /**
@@ -74,9 +66,9 @@ class Facade
     /**
      * 调用类的实例
      * @access public
-     * @param  string     $class       类名或者标识
-     * @param  array|true $args        变量
-     * @param  bool       $newInstance 是否每次创建新的实例
+     * @param string $class 类名或者标识
+     * @param array|true $args 变量
+     * @param bool $newInstance 是否每次创建新的实例
      * @return object
      */
     public static function make(string $class, $args = [], $newInstance = false)
@@ -88,7 +80,7 @@ class Facade
         if (true === $args) {
             // 总是创建新的实例化对象
             $newInstance = true;
-            $args        = [];
+            $args = [];
         }
 
         return self::createFacade($class, $args, $newInstance);

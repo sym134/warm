@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use warm\admin\Admin;
 use warm\admin\model\AdminUser;
-use warm\framework\facade\Hash;
+use warm\framework\support\facade\Hash;
 
 /**
  * @method AdminUser getModel()

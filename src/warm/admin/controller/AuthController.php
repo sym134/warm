@@ -5,10 +5,9 @@ namespace warm\admin\controller;
 use support\Request;
 use support\Response;
 use warm\admin\Admin;
-use warm\admin\renderer\Page;
 use warm\admin\service\AdminUserService;
 use warm\admin\support\Captcha;
-use warm\framework\facade\Hash;
+use warm\framework\support\facade\Hash;
 use Webman\Event\Event;
 
 class AuthController extends AdminController

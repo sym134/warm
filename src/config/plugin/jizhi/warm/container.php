@@ -2,18 +2,18 @@
 
 use DI\ContainerBuilder;
 use Illuminate\Filesystem\Filesystem;
+use warm\admin\support\apis\{DataDetailApi};
 use warm\admin\support\apis\DataCreateApi;
 use warm\admin\support\apis\DataDeleteApi;
 use warm\admin\support\apis\DataListApi;
 use warm\admin\support\apis\DataUpdateApi;
+use warm\admin\support\cores\{Menu};
 use warm\admin\support\cores\Asset;
 use warm\admin\support\cores\Context;
-use warm\common\service\ConfigService;
-use warm\framework\facade\Validate;
-use warm\framework\hashing\HashManager;
-use warm\admin\support\apis\{DataDetailApi};
-use warm\admin\support\cores\{Menu};
 use warm\admin\support\Pipeline;
+use warm\common\service\ConfigService;
+use warm\framework\hashing\HashManager;
+use warm\framework\support\facade\Validate;
 
 $builder = new ContainerBuilder();
 

@@ -23,6 +23,7 @@
     "illuminate/hashing": "^11.0",
     "symfony/var-dumper": "^6.0",
     "symfony/translation": "^6.0",
+    "league/flysystem": "^3.29",
     "shopwwi/webman-filesystem": "^1.1",
     "rap2hpoutre/fast-excel": "^5.5",
     "vlucas/phpdotenv": "^5.6",
@@ -57,6 +58,8 @@
     }
   },
   "require-dev": {
-    "workerman/webman-framework": "2.1"
+    "workerman/webman-framework": "2.1",
+    "overtrue/flysystem-qiniu": "3.0",
+    "phpunit/phpunit": "^11.5"
   }
 }

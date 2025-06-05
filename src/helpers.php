@@ -392,9 +392,9 @@ if (!function_exists('database_path')) {
 }
 
 if (!function_exists('cache')) {
-    function cache(): \warm\framework\facade\Cache
+    function cache(): \warm\framework\support\facade\Cache
     {
-        return new \warm\framework\facade\Cache();
+        return new \warm\framework\support\facade\Cache();
     }
 }
 

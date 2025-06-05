@@ -1,6 +1,6 @@
 <?php
 
-namespace warm\framework\facade;
+namespace warm\framework\support\facade;
 
 use Closure;
 use support\Cache as SymfonyCache;
@@ -10,7 +10,7 @@ class Cache
 
     private static string $prefix = 'jizhi_warm_';
 
-    public static function rememberForever(string $key, Closure $callback)
+    public static function rememberForever($key, Closure $callback)
     {
         $value = $callback($key);
         if (symfonyCache::set($key, $value)) {
@@ -22,7 +22,7 @@ class Cache
     public static function remember($key, $ttl, Closure $callback)
     {
         $value = self::get($key);
-        if (! is_null($value)) {
+        if (!is_null($value)) {
             return $value;
         }
 
@@ -33,32 +33,32 @@ class Cache
         return $value;
     }
 
-    public static function forget(string $key): bool
+    public static function forget($key): bool
     {
         return symfonyCache::delete(self::getKey($key));
     }
 
-    public static function delete(string $key): bool
+    public static function delete($key): bool
     {
         return SymfonyCache::delete(self::getKey($key));
     }
 
-    public static function put(string $key, $getCaptcha, int $int): bool
+    public static function put($key, $getCaptcha, $int = null): bool
     {
         return SymfonyCache::set(self::getKey($key), $getCaptcha, $int);
     }
 
-    public static function has(string $key): bool
+    public static function has($key): bool
     {
         return SymfonyCache::has(self::getKey($key));
     }
 
-    public static function forever(string $key, bool $true): bool
+    public static function forever($key, bool $true): bool
     {
         return SymfonyCache::set(self::getKey($key), $true);
     }
 
-    public static function pull(string $key): ?string
+    public static function pull($key): ?string
     {
         if (!self::has($key)) {
             return null;
@@ -73,7 +73,7 @@ class Cache
         return SymfonyCache::get(self::getKey($key));
     }
 
-    private static function getKey(string $key): string
+    private static function getKey($key): string
     {
         if (isset(request()->tenant)) {
             return self::$prefix . 'tenant_' . request()->tenant . '_' . $key;

@@ -10,9 +10,7 @@
 // +----------------------------------------------------------------------
 declare(strict_types=1);
 
-namespace warm\framework\facade;
-
-use warm\framework\facade;
+namespace warm\framework\support\facade;
 
 /**
  * @see \think\Validate
@@ -82,7 +80,7 @@ class Validate extends Facade
      * @access protected
      * @return string
      */
-    protected static function getFacadeClass()
+    protected static function getFacadeClass(): string
     {
         return 'validate';
     }

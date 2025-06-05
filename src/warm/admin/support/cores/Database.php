@@ -5,7 +5,7 @@ namespace warm\admin\support\cores;
 
 use Illuminate\Database\Schema\Blueprint;
 use support\Db as DB;
-use warm\framework\facade\Hash;
+use warm\framework\support\facade\Hash;
 
 class Database
 {

@@ -1,7 +1,5 @@
 <?php
-namespace warm\framework\facade;
-
-use warm\framework\Facade;
+namespace warm\framework\support\facade;
 
 /**
  * @method static array info(string $hashedValue)
@@ -13,7 +11,7 @@ use warm\framework\Facade;
  */
 class Hash extends Facade
 {
-    protected static function getFacadeClass()
+    protected static function getFacadeClass(): string
     {
         return 'hash';
     }

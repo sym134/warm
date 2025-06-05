@@ -63,19 +63,19 @@ class Install
      */
     public static function uninstallByRelation()
     {
-        foreach (static::$pathRelation as $source => $dest) {
-            $path = base_path() . "/$dest";
-            if (!is_dir($path) && !is_file($path)) {
-                continue;
-            }
-            echo "Remove $dest
-";
-            if (is_file($path) || is_link($path)) {
-                unlink($path);
-                continue;
-            }
-            remove_dir($path);
-        }
+//         foreach (static::$pathRelation as $source => $dest) {
+//             $path = base_path() . "/$dest";
+//             if (!is_dir($path) && !is_file($path)) {
+//                 continue;
+//             }
+//             echo "Remove $dest
+// ";
+//             if (is_file($path) || is_link($path)) {
+//                 unlink($path);
+//                 continue;
+//             }
+//             remove_dir($path);
+//         }
     }
 
 }
