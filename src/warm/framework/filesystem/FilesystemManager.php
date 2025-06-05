@@ -34,7 +34,7 @@ class FilesystemManager
     public function getDefaultDriver(): string
     {
         $filesystems = warmConfig()->get('filesystems');
-        return $filesystems['engine'] ?? 'local';
+        return $filesystems['default'] ?? 'local';
     }
 
     /**
@@ -64,11 +64,11 @@ class FilesystemManager
         // 从配置中获取磁盘配置
         $filesystems = warmConfig()->get('filesystems');
 
-        if (!isset($filesystems[$name])) {
+        if (!isset($filesystems['storage'][$name])) {
             throw new InvalidArgumentException("Disk [{$name}] not configured.");
         }
 
-        return $filesystems[$name];
+        return $filesystems['storage'][$name];
     }
 
     public function getUploadConfig(): array

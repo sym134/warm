@@ -19,13 +19,12 @@ class StorageService extends AdminService
 {
     public function saveConfig(array $data): bool
     {
-        warmConfig()->set('storage', $data);
-        warmConfig()->clearCache('storage');
+        warmConfig()->set('filesystems', $data);
         return true;
     }
 
     public function getEditData($id): Model|Collection|Builder|array|null
     {
-        return warmConfig()->get('storage');
+        return warmConfig()->get('filesystems');
     }
 }
