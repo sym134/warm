@@ -2,9 +2,13 @@
 
 namespace warm\framework\filesystem;
 
+use Iidestiny\Flysystem\Oss\OssAdapter;
+use League\Flysystem\AwsS3V3\AwsS3V3Adapter;
+use League\Flysystem\Filesystem;
 use League\Flysystem\Local\LocalFilesystemAdapter;
+use Overtrue\Flysystem\Cos\CosAdapter;
+use Overtrue\Flysystem\Qiniu\QiniuAdapter;
 use RuntimeException;
-use InvalidArgumentException;
 
 class FilesystemAdapter
 {
@@ -13,17 +17,18 @@ class FilesystemAdapter
      *
      * @param string $engine 存储引擎名称
      * @param array $config 配置参数
-     * @return mixed
+     * @return Filesystem
      * @throws RuntimeException
      */
-    public static function create(string $engine, array $config): mixed
+    public static function create(string $engine, array $config): Filesystem
     {
-        $method = 'create' . ucfirst($engine) . 'Adapter';
+        $method = 'create' . ucfirst($engine);
+
         if (!method_exists(__CLASS__, $method)) {
             throw new RuntimeException("Unsupported storage engine: {$engine}");
         }
 
-        return self::$method($config);
+        return new Filesystem(self::$method($config));
     }
 
     /**
@@ -32,11 +37,11 @@ class FilesystemAdapter
     public static function isAdapterAvailable(string $engine): bool
     {
         $checks = [
-            'local'  => LocalFilesystemAdapter::class,
-            'qiniu'  => '\Overtrue\Flysystem\Qiniu\QiniuAdapter',
+            'local' => LocalFilesystemAdapter::class,
+            'qiniu' => '\Overtrue\Flysystem\Qiniu\QiniuAdapter',
             'aliyun' => '\Iidestiny\Flysystem\Oss\OssAdapter',
             'qcloud' => '\Overtrue\Flysystem\Cos\CosAdapter',
-            'aws'    => '\League\Flysystem\AwsS3V3\AwsS3V3Adapter',
+            'aws' => '\League\Flysystem\AwsS3V3\AwsS3V3Adapter',
         ];
 
         return isset($checks[$engine]) && class_exists($checks[$engine]);
@@ -44,15 +49,15 @@ class FilesystemAdapter
 
     /*** 各存储引擎适配器创建方法 ***/
 
-    protected static function createLocal(array $config)
+    protected static function createLocal(array $config): LocalFilesystemAdapter
     {
         $path = $config['path'] ?? 'public';
         return new LocalFilesystemAdapter($path);
     }
 
-    protected static function createQiniu(array $config)
+    protected static function createQiniu(array $config): QiniuAdapter
     {
-        return new \Overtrue\Flysystem\Qiniu\QiniuAdapter(
+        return new QiniuAdapter(
             $config['access_key'],
             $config['secret_key'],
             $config['bucket'],
@@ -60,9 +65,9 @@ class FilesystemAdapter
         );
     }
 
-    protected static function createAliyun(array $config)
+    protected static function createAliyun(array $config): OssAdapter
     {
-        return new \Iidestiny\Flysystem\Oss\OssAdapter(
+        return new OssAdapter(
             $config['access_key'],
             $config['secret_key'],
             $config['bucket'],
@@ -70,32 +75,32 @@ class FilesystemAdapter
         );
     }
 
-    protected static function createQcloud(array $config)
+    protected static function createQcloud(array $config): CosAdapter
     {
-        return new \Overtrue\Flysystem\Cos\CosAdapter([
+        return new CosAdapter([
             'region' => $config['region'],
             'credentials' => [
-                'secretId'  => $config['access_key'],
+                'secretId' => $config['access_key'],
                 'secretKey' => $config['secret_key'],
             ],
             'bucket' => $config['bucket'],
-            'cdn'    => $config['domain'] ?? '',
+            'cdn' => $config['domain'] ?? '',
         ]);
     }
 
-    protected static function createAws(array $config)
+    protected static function createAws(array $config): AwsS3V3Adapter
     {
         $client = new \Aws\S3\S3Client([
-            'version'     => 'latest',
-            'region'      => $config['region'] ?? 'us-east-1',
-            'endpoint'    => $config['endpoint'] ?? '',
+            'version' => 'latest',
+            'region' => $config['region'] ?? 'us-east-1',
+            'endpoint' => $config['endpoint'] ?? '',
             'credentials' => [
-                'key'    => $config['access_key'],
+                'key' => $config['access_key'],
                 'secret' => $config['secret_key'],
             ],
         ]);
 
-        return new \League\Flysystem\AwsS3V3\AwsS3V3Adapter(
+        return new AwsS3V3Adapter(
             $client,
             $config['bucket'],
             $config['prefix'] ?? ''

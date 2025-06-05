@@ -3,6 +3,11 @@
 namespace warm\framework\filesystem;
 
 use InvalidArgumentException;
+use League\Flysystem\UnableToSetVisibility;
+use League\Flysystem\UnableToWriteFile;
+use Psr\Http\Message\StreamInterface;
+use Webman\File;
+use Webman\Http\UploadFile;
 
 /**
  * 文件系统管理器类，用于管理多个文件系统磁盘
@@ -12,8 +17,22 @@ class FilesystemManager
     /** @var array 已初始化的磁盘实例缓存 */
     protected array $disks = [];
 
+    protected array $config = [];
+
+    protected string $engine = 'local';
+
     /** @var array 自定义磁盘创建器 */
     protected array $customCreators = [];
+
+
+    public function getConfig(): array
+    {
+        if (!isset($this->disks[$this->engine])) {
+            throw new \RuntimeException("Disk [{$this->engine}] not initialized");
+        }
+
+        return $this->disks[$this->engine]->getConfig();
+    }
 
     /**
      * 获取指定名称的磁盘实例
@@ -23,7 +42,7 @@ class FilesystemManager
     public function disk(string $name = null)
     {
         $name = $name ?: $this->getDefaultDriver();
-
+        $this->engine = $name;
         return $this->disks[$name] ?? $this->disks[$name] = $this->resolve($name);
     }
 
@@ -33,52 +52,60 @@ class FilesystemManager
      */
     public function getDefaultDriver(): string
     {
-        $filesystems = warmConfig()->get('filesystems');
+        $filesystems = $this->getSystemsConfig();
         return $filesystems['engine'] ?? 'local';
     }
 
     /**
      * 解析并创建磁盘实例
      * @param string $name 磁盘名称
-     * @return FilesystemAdapter 文件系统适配器实例
      */
     protected function resolve(string $name)
     {
-        $config = $this->getConfig($name);
+        $config = $this->getStorageConfig($name);
 
         if (isset($this->customCreators[$name])) {
             return $this->callCustomCreator($name, $config);
         }
 
-        return FilesystemAdapter::create($config[$name], $config);
+        if (isset($this->customCreators[$name])) {
+            $filesystem = $this->callCustomCreator($name, $config);
+        } else {
+            $filesystem = FilesystemAdapter::create($name, $config);
+        }
+
+        // 封装为代理对象
+        return new FilesystemDisk($filesystem, $config);
+
     }
 
     /**
      * 获取磁盘配置
-     * @param string $name 磁盘名称
      * @return array 磁盘配置数组
-     * @throws InvalidArgumentException 当磁盘未配置时抛出
      */
-    protected function getConfig(string $name): array
+    protected function getSystemsConfig(): array
     {
+        $this->config = warmConfig()->get('filesystems');
         // 从配置中获取磁盘配置
-        $filesystems = warmConfig()->get('filesystems');
+        return $this->config;
+    }
 
+    protected function getStorageConfig(string $name): array
+    {
+        $filesystems = $this->getSystemsConfig();
         if (!isset($filesystems['storage'][$name])) {
             throw new InvalidArgumentException("Disk [{$name}] not configured.");
         }
 
-        return $filesystems['storage'][$name];
+        return $filesystems['storage'][$name] ?? [];
     }
 
     public function getUploadConfig(): array
     {
-        $config = $this->getConfig('filesystems');
-
         return [
-            'file_type' => $config['file_type'] ?? '',
-            'image_type' => $config['image_type'] ?? '',
-            'upload_size' => $config['upload_size'] ?? 0
+            'file_type' => $this->config['file_type'] ?? '',
+            'image_type' => $this->config['image_type'] ?? '',
+            'upload_size' => $this->config['upload_size'] ?? 0
         ];
     }
 
@@ -111,5 +138,81 @@ class FilesystemManager
     public function __call($method, $parameters)
     {
         return $this->disk()->$method(...$parameters);
+    }
+
+    public function put(string $path, $contents, $options = []): bool
+    {
+        $options = is_string($options)
+            ? ['visibility' => $options]
+            : (array)$options;
+
+        if ($contents instanceof File) {
+            return self::putFile($path, $contents, $options);
+        }
+
+        try {
+            if ($contents instanceof StreamInterface) {
+                $this->disk()->writeStream($path, $contents->detach(), $options);
+
+                return true;
+            }
+
+            is_resource($contents)
+                ? $this->disk()->writeStream($path, $contents, $options)
+                : $this->disk()->write($path, $contents, $options);
+        } catch (UnableToWriteFile|UnableToSetVisibility $e) {
+            throw_if(self::throwsExceptions(), $e);
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     *
+     * @param string $path
+     * @param null $file
+     * @param mixed $options
+     * @return bool|string
+     *
+     * @author heimiao
+     * @date 2025-06-05 16:37
+     */
+    public function putFile(string $path, $file = null, $options = []): bool|string
+    {
+        $file = is_string($file) ? new File($file) : $file;
+        return self::putFileAs($path, $file, self::hashName($file->getPathname()) . '.' . $file->getUploadExtension(), $options);
+    }
+
+    public function hashName($path, $algorithm = 'md5'): bool|string
+    {
+        return hash_file($algorithm, $path);
+    }
+
+    /**
+     *
+     * @param string $path
+     * @param string|UploadFile $file
+     * @param string|null $name
+     * @param  $options
+     * @return false|string
+     *
+     * @author heimiao
+     * @date 2025-06-05 16:36
+     */
+    public function putFileAs(string $path, string|UploadFile $file, string $name = null, $options = []): bool|string
+    {
+        $stream = fopen(is_string($file) ? $file : $file->getRealPath(), 'r');
+
+        $result = self::put(
+            $path = trim($path . '/' . $name, '/'), $stream, $options
+        );
+
+        if (is_resource($stream)) {
+            fclose($stream);
+        }
+
+        return $result ? $path : false;
     }
 }

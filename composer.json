@@ -47,7 +47,8 @@
     "ext-bcmath": "*",
     "ext-json": "*",
     "ext-mbstring": "*",
-    "ext-ctype": "*"
+    "ext-ctype": "*",
+    "ext-fileinfo": "*"
   },
   "autoload": {
     "files": [

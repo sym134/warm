@@ -6,7 +6,7 @@ php webman warm:install
 ```
 
 
-#### 存储适配器
+#### 存储适配器-默认不安装
 ```bash
 composer require "iidestiny/flysystem-oss:^4"
 ```
