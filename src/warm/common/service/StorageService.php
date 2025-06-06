@@ -16,8 +16,9 @@ class StorageService extends BaseService
     // 最大文件大小
     protected static int $maxSize = 0;
 
-    // 扩展名到MIME类型的映射表
+    // 扩展名到MIME类型的映射表（包含图片、视频、音频）
     protected const EXTENSION_MIME_MAP = [
+        // 文本/文档类
         'txt' => 'text/plain',
         'doc' => 'application/msword',
         'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
@@ -33,12 +34,34 @@ class StorageService extends BaseService
         'wps' => 'application/vnd.ms-works',
         'md' => 'text/markdown',
         'pem' => 'application/x-pem-file',
+
+        // 图片类
         'jpg' => 'image/jpeg',
         'jpeg' => 'image/jpeg',
         'png' => 'image/png',
         'gif' => 'image/gif',
         'svg' => 'image/svg+xml',
-        'bmp' => 'image/bmp'
+        'bmp' => 'image/bmp',
+        'webp' => 'image/webp',
+        'tiff' => 'image/tiff',
+
+        // 视频类
+        'mp4' => 'video/mp4',
+        'avi' => 'video/x-msvideo',
+        'mov' => 'video/quicktime',
+        'wmv' => 'video/x-ms-wmv',
+        'flv' => 'video/x-flv',
+        'mkv' => 'video/x-matroska',
+        'webm' => 'video/webm',
+
+        // 音频类
+        'mp3' => 'audio/mpeg',
+        'wav' => 'audio/wav',
+        'ogg' => 'audio/ogg',
+        'flac' => 'audio/flac',
+        'aac' => 'audio/aac',
+        'm4a' => 'audio/mp4',
+        'wma' => 'audio/x-ms-wma'
     ];
 
     /**
@@ -61,9 +84,8 @@ class StorageService extends BaseService
     /**
      * 验证图片文件
      * @param UploadFile $file
-     * @return bool
      */
-    public static function validateImage(UploadFile $file): bool
+    public static function validateImage(UploadFile $file): void
     {
         self::initUploadConfig();
 
@@ -73,37 +95,31 @@ class StorageService extends BaseService
 
         // 首先验证是否确实是图片类型
         if (!self::isImageMime($realMime)) {
-            self::setError('文件不是有效的图片类型');
-            return false;
+            throw new RuntimeException('文件不是有效的图片类型');
         }
 
         // 图片完整性验证
         if (!self::validateImageContent($file->getPathname(), $realMime)) {
-            self::setError('图片文件损坏或无效');
-            return false;
+            throw new RuntimeException('图片文件损坏或无效');
         }
 
         // 验证扩展名是否在允许范围内
         if (!in_array(strtolower($realExt), self::$allowedImageExtensions)) {
-            self::setError('不允许的图片类型: ' . $realExt);
-            return false;
+            throw new RuntimeException('不允许的图片类型: ' . $realExt);
         }
 
         // 验证文件大小
         if ($file->getSize() > self::$maxSize) {
-            self::setError('图片大小超过限制: ' . self::$maxSize . ' bytes');
-            return false;
+            throw new RuntimeException('图片大小超过限制: ' . self::$maxSize . ' bytes');
         }
-
-        return true;
     }
 
     /**
-     * 验证普通文件
+     * 验证普通文件（包含视频和音频）
      * @param UploadFile $file
-     * @return bool
+     * @return void
      */
-    public static function validateFile(UploadFile $file): bool
+    public static function validateFile(UploadFile $file): void
     {
         self::initUploadConfig();
 
@@ -113,23 +129,38 @@ class StorageService extends BaseService
 
         // 验证文件类型 - 不能是图片类型
         if (self::isImageMime($realMime)) {
-            self::setError('图片文件请使用validateImage方法验证');
-            return false;
+            throw new RuntimeException('图片文件请使用validateImage方法验证');
         }
 
         // 验证扩展名是否在允许范围内
         if (!in_array(strtolower($realExt), self::$allowedFileExtensions)) {
-            self::setError('不允许的文件类型: ' . $realExt);
-            return false;
+            throw new RuntimeException('不允许的文件类型: ' . $realExt);
         }
 
         // 验证文件大小
         if ($file->getSize() > self::$maxSize) {
-            self::setError('文件大小超过限制: ' . self::$maxSize . ' bytes');
-            return false;
+            throw new RuntimeException('文件大小超过限制: ' . self::$maxSize . ' bytes');
         }
+    }
 
-        return true;
+    /**
+     * 判断是否为视频MIME类型
+     * @param string $mime
+     * @return bool
+     */
+    protected static function isVideoMime(string $mime): bool
+    {
+        return str_starts_with($mime, 'video/');
+    }
+
+    /**
+     * 判断是否为音频MIME类型
+     * @param string $mime
+     * @return bool
+     */
+    protected static function isAudioMime(string $mime): bool
+    {
+        return str_starts_with($mime, 'audio/');
     }
 
     /**
@@ -182,7 +213,7 @@ class StorageService extends BaseService
         if (!$content) return false;
 
         // 基础SVG结构验证
-        if (false === strpos($content, '<svg') || false === strpos($content, '</svg>')) {
+        if (!str_contains($content, '<svg') || !str_contains($content, '</svg>')) {
             return false;
         }
 
@@ -192,7 +223,7 @@ class StorageService extends BaseService
         ];
 
         foreach ($dangerousTags as $tag) {
-            if (false !== strpos($content, $tag)) {
+            if (str_contains($content, $tag)) {
                 return false;
             }
         }
@@ -245,10 +276,19 @@ class StorageService extends BaseService
         // 如果是图片，尝试提取类型作为扩展名
         if (str_starts_with($mime, 'image/')) {
             $type = substr($mime, 6); // 提取image/后面的部分
-            if (in_array($type, ['jpeg', 'png', 'gif', 'bmp'])) {
-                return $type;
-            }
-            return 'img';
+            return in_array($type, ['jpeg', 'png', 'gif', 'bmp', 'webp']) ? $type : 'img';
+        }
+
+        // 如果是视频
+        if (str_starts_with($mime, 'video/')) {
+            $type = substr($mime, 6);
+            return in_array($type, ['mp4', 'quicktime', 'x-msvideo']) ? $type : 'vid';
+        }
+
+        // 如果是音频
+        if (str_starts_with($mime, 'audio/')) {
+            $type = substr($mime, 6);
+            return in_array($type, ['mpeg', 'wav', 'ogg', 'flac']) ? $type : 'aud';
         }
 
         // 默认处理：转换MIME类型为安全扩展名
@@ -272,42 +312,72 @@ class StorageService extends BaseService
         return substr(str_replace('/', '_', $mime), 0, 3);
     }
 
-    protected function getStream(UploadFile $file)
-    {
-        $stream = fopen($file->getRealPath(), 'r');
-
-        if (is_resource($stream)) {
-            fclose($stream);
-        }
-        return $stream;
-    }
-
     /**
-     * 上传文件
+     * 上传文件（自动判断类型）
      * @param UploadFile $file
      * @param string $path
      * @param string $fileName
-     * @param bool $isImage 是否为图片类型
-     * @return string|false
+     * @return array
      */
-    public static function upload(UploadFile $file, string $path = 'uploads', string $fileName = '', bool $isImage = false): string|false
+    public static function upload(UploadFile $file, string $path = '', string $fileName = ''): array
     {
-        // 选择对应的验证方法
-        $validationMethod = $isImage ? 'validateImage' : 'validateFile';
-        if (!self::$validationMethod($file)) {
-            return false;
+        // 获取文件真实MIME类型
+        $realMime = self::getRealMimeType($file->getPathname());
+
+        // 自动检测文件类型
+        if (self::isImageMime($realMime)) {
+            // 图片类型
+            self::validateImage($file);
+            $fileType = 'image';
+            $path = trim($path . '/images', '/'); // 为图片创建子目录
+        } elseif (self::isVideoMime($realMime)) {
+            // 视频类型
+            self::validateFile($file);
+            $fileType = 'video';
+            $path = trim($path . '/videos', '/'); // 为视频创建子目录
+        } elseif (self::isAudioMime($realMime)) {
+            // 音频类型
+            self::validateFile($file);
+            $fileType = 'audio';
+            $path = trim($path . '/audios', '/'); // 为音频创建子目录
+        } else {
+            // 其他文件类型
+            self::validateFile($file);
+            $fileType = 'file';
+            $path = trim($path . '/files', '/'); // 为普通文件创建子目录
         }
 
         $filename = empty($fileName) ? self::generateFilename($file) : $fileName;
-        $filepath = trim($path . '/' . $filename, '/');
+        $filepath = trim( $path . '/' . $filename, '/');
 
-        try {
-            Storage::write($filepath, $file);
-        } catch (\Throwable $e) {
-            self::setError('文件上传失败: ' . $e->getMessage());
-            return false;
+        // 确保存储目录存在
+        if (!Storage::directoryExists(dirname($filepath))) {
+            Storage::createDirectory(dirname($filepath));
         }
 
-        return $filepath;
+        if (Storage::fileExists($filepath)) {
+            Storage::delete($filepath);
+        }
+
+        // 保存文件
+        Storage::putFileAs($filepath, $file);
+
+        return [
+            'path' => $filepath,
+            'filename' => $filename,
+            'origin_name' => $file->getUploadName(),
+            'url' => self::url($filepath),
+            'adapter' => Storage::getDefaultDriver(),
+            'mime_type' => $realMime,
+            'size' => $file->getSize(),
+            'extension' => self::getExtensionByMime($realMime),
+            'type' => $fileType
+        ];
+    }
+
+    public static function url(string $path): string
+    {
+        $domain = rtrim(Storage::getConfig()['domain'] ?? '', '/');
+        return $domain . '/' . ltrim($path, '/');
     }
 }

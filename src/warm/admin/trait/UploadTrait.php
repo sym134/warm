@@ -6,8 +6,9 @@ use Illuminate\Support\Str;
 use support\Response;
 use Throwable;
 use warm\admin\Admin;
-use warm\admin\service\StorageService;
 use warm\admin\service\system\FileService;
+use warm\common\service\StorageService;
+use warm\framework\support\facade\Storage;
 
 trait UploadTrait
 {
@@ -70,14 +71,13 @@ trait UploadTrait
             return $this->response()->additional(['errno' => 1])->fail(admin_trans('admin.upload_file_error'));
         }
 
-        $filesystem = StorageService::disk();
         try {
-            $file_info = $filesystem->path(Admin::config('app.upload.directory.rich'))->upload($file);
+            $file_info = StorageService::upload($file, 'rich');
         } catch (Throwable $e) {
             return $this->response()->fail($e->getMessage());
         }
 
-        $link = $filesystem->url($file_info->file_name);
+        $link = $file_info['url'];
 
         if ($fromWangEditor) {
             return $this->response()->additional(['errno' => 0])->success(['url' => $link]);
@@ -86,33 +86,32 @@ trait UploadTrait
         return $this->response()->additional(compact('link'))->success(compact('link'));
     }
 
-    protected function upload($type = 'file'): Response
+    protected function upload(): Response
     {
         $file = request()->file('file');
         if (!$file) {
             return $this->response()->fail(admin_trans('admin.upload_file_error'));
         }
 
-        $filesystem = StorageService::disk();
         try {
-            $file_info = $filesystem->path(Admin::config('app.upload.directory.' . $type))->upload($file);
-            $res = FileService::make()->store([
-                'storage_mode' => $file_info->adapter,
-                'origin_name'  => $file_info->origin_name,
-                'new_name'     => $file_info->storage_key . '.' . $file_info->extension,
-                'mime_type'    => $file_info->mime_type,
-                'hash'         => md5_file($file),
-                'file_type'    => $type,
-                'storage_path' => $file_info->file_name,
-                'file_size'    => bcdiv($file_info->size, 1024),
-                'size_byte'    => $file_info->size,
-                'url'          => $file_info->file_url,
-                'created_by'   => 1,
+            $file_info = StorageService::upload($file);
+            FileService::make()->store([
+                'origin_name' => $file_info['origin_name'],
+                'storage_mode' => $file_info['adapter'],
+                'new_name' => $file_info['filename'] . '.' . $file_info['extension'],
+                'mime_type' => $file_info['mime_type'],
+                'hash' => md5_file($file),
+                'file_type' => $file_info['type'],
+                'storage_path' => $file_info['path'],
+                'file_size' => bcdiv($file_info['size'], 1024),
+                'size_byte' => $file_info['size'],
+                'url' => $file_info['url'],
+                'created_by' => 1,
             ]);
         } catch (Throwable $e) {
             return $this->response()->fail($e->getMessage());
         }
-        return $this->response()->success(['value' => $file_info->file_url]);
+        return $this->response()->success(['value' => $file_info['url']]);
     }
 
     public function chunkUploadStart(): Response
@@ -134,10 +133,9 @@ trait UploadTrait
 
         $path = 'chunk/' . $uploadId;
 
-        $filesystem = StorageService::disk();
         try {
-            $file_info = $filesystem->path($path)->reUpload($file, $partNumber);
-            $eTag = md5($file_info->file_name);
+            $file_info = StorageService::upload($file, $path, $partNumber);
+            $eTag = md5($file_info['path']);
             return $this->response()->success(compact('eTag'));
         } catch (Throwable $e) {
             return $this->response()->fail($e->getMessage());
@@ -166,13 +164,13 @@ trait UploadTrait
 
             $partPath = 'chunk/' . $uploadId . '/' . $partNumber;
 
-            $partETag = md5(StorageService::disk()->get($partPath));
+            $partETag = md5(Storage::read($partPath));
 
             if ($eTag != $partETag) {
                 return $this->response()->fail('分片上传失败');
             }
 
-            file_put_contents($fullPath, StorageService::disk()->get($partPath), FILE_APPEND);
+            file_put_contents($fullPath, Storage::read($partPath), FILE_APPEND);
         }
 
         clearstatcache();

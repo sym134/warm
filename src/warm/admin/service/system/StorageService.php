@@ -27,14 +27,13 @@ class StorageService extends AdminService
         'storage' => [
             'local' => [
                 'root' => 'public',
-                'url' => '//127.0.0.1:8787', // 静态文件访问域名
+                'domain' => '//127.0.0.1:8787', // 静态文件访问域名
             ],
             'qiniu' => [
                 'accessKey' => '',
                 'secretKey' => '',
                 'bucket' => '',
-                'domain' => '',
-                'url' => '', // 静态文件访问域名
+                'domain' => '', // 静态文件访问域名
             ],
             'qcloud' => [
                 'region' => '',
@@ -45,23 +44,14 @@ class StorageService extends AdminService
                 // 'signed_url' => false,
                 'bucket' => '',
                 'read_from_cdn' => false,
-                'url' => '', // 静态文件访问域名
-                // 'timeout' => 60,
-                // 'connect_timeout' => 60,
-                // 'cdn' => '',
-                // 'scheme' => 'https',
+                'domain' => '', // 静态文件访问域名
             ],
             'aliyun' => [
                 'accessId' => '',
                 'accessSecret' => '',
                 'bucket' => '',
                 // 'endpoint'     => 'OSS_ENDPOINT',
-                'url' => '', // 静态文件访问域名
-                // 'timeout' => 3600,
-                // 'connectTimeout' => 10,
-                // 'isCName' => false,
-                // 'token' => null,
-                // 'proxy' => null,
+                'domain' => '', // 静态文件访问域名
             ],
         ],
 
@@ -69,12 +59,11 @@ class StorageService extends AdminService
 
     public function saveConfig(array $data): bool
     {
-        warmConfig()->set('filesystems', array_merge($this->config['storage'], $data));
-        return true;
+        return warmConfig()->set('filesystems', array_merge($this->config, $data));
     }
 
     public function getEditData($id): Model|Collection|Builder|array|null
     {
-        return array_merge($this->config, warmConfig()->get('filesystems'));
+        return array_merge($this->config, warmConfig()->get('filesystems', []));
     }
 }

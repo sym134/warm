@@ -14,11 +14,6 @@ use Webman\Http\UploadFile;
  */
 class FilesystemManager
 {
-    /** @var array 已初始化的磁盘实例缓存 */
-    protected array $disks = [];
-
-    protected array $config = [];
-
     protected string $engine = 'local';
 
     /** @var array 自定义磁盘创建器 */
@@ -27,11 +22,7 @@ class FilesystemManager
 
     public function getConfig(): array
     {
-        if (!isset($this->disks[$this->engine])) {
-            throw new \RuntimeException("Disk [{$this->engine}] not initialized");
-        }
-
-        return $this->disks[$this->engine]->getConfig();
+        return $this->disk()->getConfig();
     }
 
     /**
@@ -42,8 +33,7 @@ class FilesystemManager
     public function disk(string $name = null)
     {
         $name = $name ?: $this->getDefaultDriver();
-        $this->engine = $name;
-        return $this->disks[$name] ?? $this->disks[$name] = $this->resolve($name);
+        return $this->resolve($name);
     }
 
     /**
@@ -85,9 +75,7 @@ class FilesystemManager
      */
     protected function getSystemsConfig(): array
     {
-        $this->config = warmConfig()->get('filesystems');
-        // 从配置中获取磁盘配置
-        return $this->config;
+        return warmConfig()->get('filesystems');
     }
 
     protected function getStorageConfig(string $name): array
@@ -102,10 +90,11 @@ class FilesystemManager
 
     public function getUploadConfig(): array
     {
+        $config = $this->getSystemsConfig();
         return [
-            'file_type' => $this->config['file_type'] ?? '',
-            'image_type' => $this->config['image_type'] ?? '',
-            'upload_size' => $this->config['upload_size'] ?? 0
+            'file_type' => $config['file_type'] ?? '',
+            'image_type' => $config['image_type'] ?? '',
+            'upload_size' => $config['upload_size'] ?? 0
         ];
     }
 

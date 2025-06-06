@@ -7,7 +7,7 @@ use warm\framework\filesystem\FilesystemManager;
 /**
  * @method static FilesystemManager disk(string $name = null) 获取指定磁盘实例
  * @method static string getDefaultDriver() 获取默认驱动名称
- * @method static string getConfig()
+ * @method static array getConfig()
  * @method static string getUploadConfig()
  * @method static void extend(string $driver, \Closure $callback) 注册自定义驱动
  * @method static bool fileExists(string $path) 检查文件是否存在
