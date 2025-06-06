@@ -364,7 +364,7 @@ class StorageService extends BaseService
 
         return [
             'path' => $filepath,
-            'filename' => $filename,
+            'file_name' => $filename,
             'origin_name' => $file->getUploadName(),
             'url' => self::url($filepath),
             'adapter' => Storage::getDefaultDriver(),

@@ -98,7 +98,7 @@ trait UploadTrait
             FileService::make()->store([
                 'origin_name' => $file_info['origin_name'],
                 'storage_mode' => $file_info['adapter'],
-                'new_name' => $file_info['filename'] . '.' . $file_info['extension'],
+                'new_name' => $file_info['file_name'] . '.' . $file_info['extension'],
                 'mime_type' => $file_info['mime_type'],
                 'hash' => md5_file($file),
                 'file_type' => $file_info['type'],
@@ -144,7 +144,7 @@ trait UploadTrait
 
     public function chunkUploadFinish(): Response
     {
-        $fileName = request()->file('filename');
+        $fileName = request()->file('file_name');
         $partList = request()->input('partList');
         $uploadId = request()->input('uploadId');
         $type = request()->input('t');
