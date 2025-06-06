@@ -2,15 +2,15 @@
 
 use support\Container;
 use think\Validate;
-use warm\admin\service\StorageService;
+use warm\common\service\StorageService;
 
 if (!function_exists('validate')) {
     /**
      * 生成验证对象
-     * @param string|array $validate      验证器类名或者验证规则数组
-     * @param array        $message       错误提示信息
-     * @param bool         $batch         是否批量验证
-     * @param bool         $failException 是否抛出异常
+     * @param string|array $validate 验证器类名或者验证规则数组
+     * @param array $message 错误提示信息
+     * @param bool $batch 是否批量验证
+     * @param bool $failException 是否抛出异常
      * @return Validate
      */
     function validate($validate = '', array $message = [], bool $batch = false, bool $failException = true): Validate
@@ -39,12 +39,12 @@ if (!function_exists('validate')) {
     }
 }
 
-if (! function_exists('bcrypt')) {
+if (!function_exists('bcrypt')) {
     /**
      * Hash the given value.
      *
-     * @param  string  $value
-     * @param  array   $options
+     * @param string $value
+     * @param array $options
      * @return string
      */
     function bcrypt($value, $options = [])
@@ -82,7 +82,7 @@ if (!function_exists('array2tree')) {
      * 生成树状数据
      *
      * @param array $list
-     * @param int   $parentId
+     * @param int $parentId
      *
      * @return array
      */
@@ -107,7 +107,7 @@ if (!function_exists('admin_resource_full_path')) {
         if (!$path) {
             return '';
         }
-        if (filter_var($path,FILTER_VALIDATE_URL) || mb_strpos($path, 'data:image') === 0) {
+        if (filter_var($path, FILTER_VALIDATE_URL) || mb_strpos($path, 'data:image') === 0) {
             $src = $path;
         } else if ($server) {
             $src = rtrim($server, '/') . 'helpers.php/' . ltrim($path, '/');
@@ -115,7 +115,7 @@ if (!function_exists('admin_resource_full_path')) {
             $disk = \warm\admin\Admin::config('app.upload.disk');
 
             if (config("filesystems.disks.{$disk}")) {
-                $src = StorageService::disk()->url($path);
+                $src = StorageService::url($path);
             } else {
                 $src = '';
             }
@@ -163,11 +163,9 @@ if (!function_exists('file_upload_handle')) {
      */
     function file_upload_handle(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
-        $storage = StorageService::disk();
-
         return \Illuminate\Database\Eloquent\Casts\Attribute::make(
-            get: fn($value) => $value ? $storage->url($value) : '',
-            set: fn($value) => str_replace($storage->url(''), '', $value)
+            get: fn($value) => $value ? StorageService::url($value) : '',
+            set: fn($value) => str_replace(StorageService::url(''), '', $value)
         );
     }
 }
@@ -180,18 +178,17 @@ if (!function_exists('file_upload_handle_multi')) {
      */
     function file_upload_handle_multi(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
-        $storage = StorageService::disk();
-
         return \Illuminate\Database\Eloquent\Casts\Attribute::make(
-            get: function ($value) use ($storage) {
+            get: function ($value) {
                 return array_map(fn($item) => $item ? admin_resource_full_path($item) : '', explode(',', $value));
             },
-            set: function ($value) use ($storage) {
+            set: function ($value) {
+                $url = StorageService::url();
                 if (is_string($value)) {
-                    return str_replace($storage->url(''), '', $value);
+                    return str_replace($url, '', $value);
                 }
 
-                $list = array_map(fn($item) => str_replace($storage->url(''), '', $item), \Illuminate\Support\Arr::wrap($value));
+                $list = array_map(fn($item) => str_replace($url, '', $item), \Illuminate\Support\Arr::wrap($value));
 
                 return implode(',', $list);
             }
@@ -248,9 +245,9 @@ if (!function_exists('admin_abort')) {
     /**
      * 抛出异常
      *
-     * @param string $message           异常信息
-     * @param array  $data              异常数据
-     * @param int    $doNotDisplayToast 是否显示提示 (解决在 amis 中抛出异常时，会显示两次提示的问题)
+     * @param string $message 异常信息
+     * @param array $data 异常数据
+     * @param int $doNotDisplayToast 是否显示提示 (解决在 amis 中抛出异常时，会显示两次提示的问题)
      *
      * @return mixed
      * @throws null
@@ -268,10 +265,10 @@ if (!function_exists('admin_abort')) {
     /**
      * 如果条件成立，抛出异常
      *
-     * @param boolean $flag              条件
-     * @param string  $message           异常信息
-     * @param array   $data              异常数据
-     * @param int     $doNotDisplayToast 是否显示提示 (解决在 amis 中抛出异常时，会显示两次提示的问题)
+     * @param boolean $flag 条件
+     * @param string $message 异常信息
+     * @param array $data 异常数据
+     * @param int $doNotDisplayToast 是否显示提示 (解决在 amis 中抛出异常时，会显示两次提示的问题)
      *
      * @return void
      */
@@ -370,7 +367,7 @@ if (!function_exists('runCommand')) {
 if (!function_exists('appw')) {
     /**
      * 获取容器实例或从容器中解析依赖
-     * 
+     *
      * @param string|null $abstract 要解析的依赖标识
      * @param array $parameters 解析时的参数
      * @return mixed|Container

@@ -348,7 +348,7 @@ class StorageService extends BaseService
         }
 
         $filename = empty($fileName) ? self::generateFilename($file) : $fileName;
-        $filepath = trim( $path . '/' . $filename, '/');
+        $filepath = trim($path . '/' . $filename, '/');
 
         // 确保存储目录存在
         if (!Storage::directoryExists(dirname($filepath))) {
@@ -375,7 +375,7 @@ class StorageService extends BaseService
         ];
     }
 
-    public static function url(string $path): string
+    public static function url(string $path = ''): string
     {
         $domain = rtrim(Storage::getConfig()['domain'] ?? '', '/');
         return $domain . '/' . ltrim($path, '/');

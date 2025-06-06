@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
 use warm\admin\Admin;
-use warm\admin\service\StorageService;
+use warm\common\service\StorageService;
 
 class AdminUser extends BaseModel
 {
@@ -27,11 +27,9 @@ class AdminUser extends BaseModel
 
     public function avatar(): Attribute
     {
-        $storage = StorageService::disk();
-
         return Attribute::make(
-            get: fn($value) => $value ? $storage->url($value) : url(Admin::config('app.default_avatar')),
-            set: fn($value) => str_replace($storage->url(''), '', $value)
+            get: fn($value) => $value ? StorageService::url($value) : url(Admin::config('app.default_avatar')),
+            set: fn($value) => str_replace(StorageService::url(), '', $value)
         );
     }
 

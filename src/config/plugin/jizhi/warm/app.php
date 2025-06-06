@@ -45,16 +45,6 @@ return [
         ],
     ],
 
-    'upload' => [
-        'disk'      => 'public',
-        // 文件上传目录
-        'directory' => [
-            'image' => 'images',
-            'file'  => 'files',
-            'rich'  => 'rich',
-        ],
-    ],
-
     'https'                                => env('ADMIN_HTTPS', false),
 
     // 是否显示 [开发者工具]
