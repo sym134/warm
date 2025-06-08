@@ -3,7 +3,7 @@
 namespace warm\admin\model\monitor;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
-use warm\admin\model\BaseModel;
+use warm\common\model\BaseModel;
 
 class AdminOperationLog extends BaseModel
 {

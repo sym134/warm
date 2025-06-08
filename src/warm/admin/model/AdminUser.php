@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
 use warm\admin\Admin;
+use warm\common\model\BaseModel;
 use warm\common\service\StorageService;
 
 class AdminUser extends BaseModel

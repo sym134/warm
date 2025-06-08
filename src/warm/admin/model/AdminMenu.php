@@ -4,6 +4,7 @@ namespace warm\admin\model;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use warm\common\model\BaseModel;
 
 class AdminMenu extends BaseModel
 {

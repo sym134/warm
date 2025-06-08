@@ -2,7 +2,7 @@
 
 namespace warm\admin\model\system;
 
-use warm\admin\model\BaseModel;
+use warm\common\model\BaseModel;
 
 class File extends BaseModel
 {

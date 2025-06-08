@@ -1,6 +1,6 @@
 <?php
 
-namespace warm\admin\trait;
+namespace warm\common\trait;
 
 /**
  * @mixin \Illuminate\Database\Eloquent\Model

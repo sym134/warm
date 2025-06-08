@@ -3,7 +3,7 @@
 namespace warm\admin\model\monitor;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
-use warm\admin\model\BaseModel as Model;
+use warm\common\model\BaseModel as Model;
 
 /**
  * 登录日志

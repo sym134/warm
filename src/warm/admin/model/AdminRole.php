@@ -3,6 +3,7 @@
 namespace warm\admin\model;
 
 use Illuminate\Database\Eloquent\Concerns\HasTimestamps;
+use warm\common\model\BaseModel;
 
 class AdminRole extends BaseModel
 {

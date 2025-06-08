@@ -2,7 +2,7 @@
 
 namespace warm\admin\model\system;
 
-use warm\admin\model\BaseModel as Model;
+use warm\common\model\BaseModel as Model;
 
 /**
  * 定时任务日志

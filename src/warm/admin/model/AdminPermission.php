@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Str;
 use support\Request;
 use warm\admin\Admin;
+use warm\common\model\BaseModel;
 
 class AdminPermission extends BaseModel
 {

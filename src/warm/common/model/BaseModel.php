@@ -1,10 +1,10 @@
 <?php
 
-namespace warm\admin\model;
+namespace warm\common\model;
 
 use support\Model;
 use warm\admin\Admin;
-use warm\admin\trait\DatetimeFormatterTrait;
+use warm\common\trait\DatetimeFormatterTrait;
 
 class BaseModel extends Model
 {

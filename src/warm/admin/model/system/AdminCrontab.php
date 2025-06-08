@@ -4,8 +4,8 @@ namespace warm\admin\model\system;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use warm\admin\model\BaseModel as Model;
 use warm\admin\service\system\AdminCrontabService;
+use warm\common\model\BaseModel as Model;
 
 /**
  * 定时任务

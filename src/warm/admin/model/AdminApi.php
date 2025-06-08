@@ -5,6 +5,7 @@ namespace warm\admin\model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasTimestamps;
 use warm\admin\support\apis\AdminBaseApi;
+use warm\common\model\BaseModel;
 
 class AdminApi extends BaseModel
 {

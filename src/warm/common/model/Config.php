@@ -2,11 +2,9 @@
 
 namespace warm\common\model;
 
-use warm\admin\model\BaseModel;
-
 class Config extends BaseModel
 {
-    protected $table = 'config';
+    protected $table = 'configs';
 
     protected $primaryKey = 'key';
 
