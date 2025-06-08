@@ -2,6 +2,7 @@
 
 namespace warm\common\model;
 
+use support\Db;
 use support\Model;
 use warm\admin\Admin;
 use warm\common\trait\DatetimeFormatterTrait;
@@ -28,8 +29,8 @@ class BaseModel extends Model
         return (new static)->getTable();
     }
 
-    public static function baseQuery(): Builder
+    public static function baseQuery(): \Illuminate\Database\Query\Builder
     {
-        return DB::table(static::getTableName());
+        return Db::table(static::getTableName());
     }
 }
