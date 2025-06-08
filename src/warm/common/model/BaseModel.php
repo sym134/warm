@@ -22,4 +22,14 @@ class BaseModel extends Model
 
         parent::__construct($attributes);
     }
+
+    public static function getTableName(): string
+    {
+        return (new static)->getTable();
+    }
+
+    public static function baseQuery(): Builder
+    {
+        return DB::table(static::getTableName());
+    }
 }
