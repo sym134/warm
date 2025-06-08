@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use warm\admin\service\AdminService;
 
 /**
- * 配置已保存
+ * 存储配置
  * StorageService
  *
  * @author heimiao

@@ -112,13 +112,7 @@ if (!function_exists('admin_resource_full_path')) {
         } else if ($server) {
             $src = rtrim($server, '/') . 'helpers.php/' . ltrim($path, '/');
         } else {
-            $disk = \warm\admin\Admin::config('app.upload.disk');
-
-            if (config("filesystems.disks.{$disk}")) {
-                $src = StorageService::url($path);
-            } else {
-                $src = '';
-            }
+            StorageService::url($path);
         }
         $scheme = 'http:';
         if (\warm\admin\Admin::config('app.https', false)) {

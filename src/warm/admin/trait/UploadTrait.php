@@ -6,6 +6,7 @@ use Illuminate\Support\Str;
 use support\Response;
 use Throwable;
 use warm\admin\Admin;
+use warm\admin\model\system\File;
 use warm\admin\service\system\FileService;
 use warm\common\service\StorageService;
 use warm\framework\support\facade\Storage;
@@ -95,7 +96,7 @@ trait UploadTrait
 
         try {
             $file_info = StorageService::upload($file);
-            FileService::make()->store([
+            $fileId = File::baseQuery()->insertGetId([
                 'origin_name' => $file_info['origin_name'],
                 'storage_mode' => $file_info['adapter'],
                 'new_name' => $file_info['file_name'] . '.' . $file_info['extension'],
@@ -108,10 +109,10 @@ trait UploadTrait
                 'url' => $file_info['url'],
                 'created_by' => 1,
             ]);
+            return $this->response()->success(['value' => $file_info['url'], 'id' => $fileId]);
         } catch (Throwable $e) {
             return $this->response()->fail($e->getMessage());
         }
-        return $this->response()->success(['value' => $file_info['url']]);
     }
 
     public function chunkUploadStart(): Response
