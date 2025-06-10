@@ -90,7 +90,7 @@ class StorageService extends BaseService
         self::initUploadConfig();
 
         // 获取文件真实信息
-        $realMime = self::getRealMimeType($file->getPathname());
+        $realMime = self::getRealMimeType($file->getRealPath());
         $realExt = self::getExtensionByMime($realMime);
 
         // 首先验证是否确实是图片类型
@@ -99,7 +99,7 @@ class StorageService extends BaseService
         }
 
         // 图片完整性验证
-        if (!self::validateImageContent($file->getPathname(), $realMime)) {
+        if (!self::validateImageContent($file->getRealPath(), $realMime)) {
             throw new RuntimeException('图片文件损坏或无效');
         }
 
@@ -124,7 +124,7 @@ class StorageService extends BaseService
         self::initUploadConfig();
 
         // 获取文件真实信息
-        $realMime = self::getRealMimeType($file->getPathname());
+        $realMime = self::getRealMimeType($file->getRealPath());
         $realExt = self::getExtensionByMime($realMime);
 
         // 验证文件类型 - 不能是图片类型
@@ -253,7 +253,7 @@ class StorageService extends BaseService
     public static function generateFilename(UploadFile $file, string $prefix = ''): string
     {
         // 根据真实类型确定扩展名
-        $realMime = self::getRealMimeType($file->getPathname());
+        $realMime = self::getRealMimeType($file->getRealPath());
         $extension = self::getSafeExtension($realMime);
 
         return uniqid($prefix) . '.' . $extension;
@@ -317,12 +317,13 @@ class StorageService extends BaseService
      * @param UploadFile $file
      * @param string $path
      * @param string $fileName
+     * @param string|null $realMime image/jpeg
      * @return array
      */
-    public static function upload(UploadFile $file, string $path = '', string $fileName = ''): array
+    public static function upload(UploadFile $file, string $path = '', string $fileName = '',?string $realMime = null): array
     {
         // 获取文件真实MIME类型
-        $realMime = self::getRealMimeType($file->getPathname());
+        $realMime = $realMime ?? self::getRealMimeType($file->getRealPath());
 
         // 自动检测文件类型
         if (self::isImageMime($realMime)) {
