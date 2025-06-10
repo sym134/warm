@@ -346,7 +346,7 @@ class StorageService extends BaseService
             $path = trim($path . '/files', '/'); // 为普通文件创建子目录
         }
 
-        $filename = empty($fileName) ? self::generateFilename($file) : $fileName;
+        $filename = empty($fileName) ? self::generateFilename($realMime) : $fileName;
         $filepath = trim($path . '/' . $filename, '/');
 
         // 确保存储目录存在
