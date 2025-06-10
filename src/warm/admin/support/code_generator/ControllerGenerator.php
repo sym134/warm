@@ -99,11 +99,11 @@ class ControllerGenerator extends BaseGenerator
         }
 
         if ($this->model->need_timestamps && $this->model->page_info['list_display_created_at']) {
-            $content .= "\t\t\t\t" . "amis()->TableColumn('created_at', admin_trans('admin.created_at'))->type('datetime')->sortable()" . ',' . PHP_EOL;
+            $content .= "\t\t\t\t" . "amis()->TableColumn('created_at', translator('admin.created_at'))->type('datetime')->sortable()" . ',' . PHP_EOL;
         }
 
         if ($this->model->need_timestamps && $this->model->page_info['list_display_updated_at']) {
-            $content .= "\t\t\t\t" . "amis()->TableColumn('updated_at', admin_trans('admin.updated_at'))->type('datetime')->sortable()" . ',' . PHP_EOL;
+            $content .= "\t\t\t\t" . "amis()->TableColumn('updated_at', translator('admin.updated_at'))->type('datetime')->sortable()" . ',' . PHP_EOL;
         }
 
         // 操作按钮
@@ -161,7 +161,7 @@ class ControllerGenerator extends BaseGenerator
         $primaryKey     = $this->model->primary_key ?? 'id';
         $primaryKeyName = strtoupper($primaryKey);
 
-        $content .= "\t\t\t" . "amis()->TextControl('{$primaryKey}', admin_trans('{$primaryKeyName}'))->static()," . PHP_EOL;
+        $content .= "\t\t\t" . "amis()->TextControl('{$primaryKey}', translator('{$primaryKeyName}'))->static()," . PHP_EOL;
 
         foreach ($this->model->columns as $column) {
             if (!$this->columnInTheScope($column, 'detail')) {
@@ -174,8 +174,8 @@ class ControllerGenerator extends BaseGenerator
         }
 
         if ($this->model->need_timestamps) {
-            $content .= "\t\t\tamis()->TextControl('created_at', admin_trans('admin.created_at'))->static()," . PHP_EOL;
-            $content .= "\t\t\tamis()->TextControl('updated_at', admin_trans('admin.updated_at'))->static()," . PHP_EOL;
+            $content .= "\t\t\tamis()->TextControl('created_at', translator('admin.created_at'))->static()," . PHP_EOL;
+            $content .= "\t\t\tamis()->TextControl('updated_at', translator('admin.updated_at'))->static()," . PHP_EOL;
         }
 
         $content .= "\t\t]);" . PHP_EOL;
@@ -197,7 +197,7 @@ class ControllerGenerator extends BaseGenerator
 
         $component = data_get($column, $type);
         if ($componentType = data_get($component, $type . '_type')) {
-            $item = "amis()->{$componentType}('{$column['name']}', admin_trans('{$label}'))";
+            $item = "amis()->{$componentType}('{$column['name']}', translator('{$label}'))";
             if ($property = Arr::get($component, $type . '_property')) {
                 $item .= $this->buildComponentProperty($property);
             }
@@ -206,9 +206,9 @@ class ControllerGenerator extends BaseGenerator
         }
         $label = $this->model->table_name . '.' . $label;
         return match ($type) {
-            'list_component'   => "amis()->TableColumn('{$column['name']}', admin_trans('$label'))",
-            'form_component'   => "amis()->TextControl('{$column['name']}', admin_trans('$label'))",
-            'detail_component' => "amis()->TextControl('{$column['name']}', admin_trans('$label'))->static()",
+            'list_component'   => "amis()->TableColumn('{$column['name']}', translator('$label'))",
+            'form_component'   => "amis()->TextControl('{$column['name']}', translator('$label'))",
+            'detail_component' => "amis()->TextControl('{$column['name']}', translator('$label'))->static()",
         };
     }
 

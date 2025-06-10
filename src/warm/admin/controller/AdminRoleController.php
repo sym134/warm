@@ -27,15 +27,15 @@ class AdminRoleController extends AdminController
             ->itemCheckableOn('${slug !== "administrator"}')
             ->columns([
                 amis()->TableColumn()->label('ID')->name('id')->sortable(),
-                amis()->TableColumn()->label(admin_trans('admin.admin_role.name'))->name('name'),
-                amis()->TableColumn()->label(admin_trans('admin.admin_role.slug'))->name('slug')->type('tag'),
+                amis()->TableColumn()->label(translator('admin.admin_role.name'))->name('name'),
+                amis()->TableColumn()->label(translator('admin.admin_role.slug'))->name('slug')->type('tag'),
                 amis()->TableColumn()
-                    ->label(admin_trans('admin.created_at'))
+                    ->label(translator('admin.created_at'))
                     ->name('created_at')
                     ->type('datetime')
                     ->sortable(),
                 amis()->TableColumn()
-                    ->label(admin_trans('admin.updated_at'))
+                    ->label(translator('admin.updated_at'))
                     ->name('updated_at')
                     ->type('datetime')
                     ->sortable(),
@@ -60,12 +60,12 @@ class AdminRoleController extends AdminController
     protected function setPermission(): DrawerAction
     {
         return amis()->DrawerAction()
-            ->label(admin_trans('admin.admin_role.set_permissions'))
+            ->label(translator('admin.admin_role.set_permissions'))
             ->icon('fa-solid fa-gear')
             ->level('link')
             ->drawer(
                 amis()->Drawer()
-                    ->title(admin_trans('admin.admin_role.set_permissions'))
+                    ->title(translator('admin.admin_role.set_permissions'))
                     ->resizable()
                     ->closeOnOutside()
                     ->closeOnEsc()
@@ -100,17 +100,17 @@ class AdminRoleController extends AdminController
     {
         $result = $this->service->savePermissions(request()->input('id'), request()->input('permissions'));
 
-        return $this->autoResponse($result, admin_trans('admin.save'));
+        return $this->autoResponse($result, translator('admin.save'));
     }
 
     public function form(): Form
     {
         return $this->baseForm()->body([
-            amis()->TextControl()->label(admin_trans('admin.admin_role.name'))->name('name')->required(),
+            amis()->TextControl()->label(translator('admin.admin_role.name'))->name('name')->required(),
             amis()->TextControl()
-                ->label(admin_trans('admin.admin_role.slug'))
+                ->label(translator('admin.admin_role.slug'))
                 ->name('slug')
-                ->description(admin_trans('admin.admin_role.slug_description'))
+                ->description(translator('admin.admin_role.slug_description'))
                 ->required(),
         ]);
     }

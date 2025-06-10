@@ -109,7 +109,7 @@ class Menu
             'meta'      => [
                 'hide'  => true,
                 'icon'  => Arr::get($item, 'meta.icon'),
-                'title' => Arr::get($item, 'meta.title') . ' - ' . admin_trans('admin.' . $action),
+                'title' => Arr::get($item, 'meta.title') . ' - ' . translator('admin.' . $action),
             ],
         ];
 
@@ -158,7 +158,7 @@ class Menu
                 'component' => 'amis',
                 'meta'      => [
                     'hide'         => true,
-                    'title'        => admin_trans('admin.user_setting'),
+                    'title'        => translator('admin.user_setting'),
                     'icon'         => 'material-symbols:manage-accounts',
                     'singleLayout' => 'basic',
                 ],
@@ -185,7 +185,7 @@ class Menu
                 'path'      => '/dev_tools',
                 'component' => 'amis',
                 'meta'      => [
-                    'title' => admin_trans('admin.developer'),
+                    'title' => translator('admin.developer'),
                     'icon'  => 'fluent:window-dev-tools-20-regular',
                 ],
                 'children'  => [
@@ -194,7 +194,7 @@ class Menu
                         'path'      => '/dev_tools/plugin',
                         'component' => 'amis',
                         'meta'      => [
-                            'title' => admin_trans('admin.extensions.menu'),
+                            'title' => translator('admin.extensions.menu'),
                             'icon'  => 'ion:extension-puzzle-outline',
                         ],
                     ],
@@ -203,7 +203,7 @@ class Menu
                         'path'      => '/dev_tools/pages',
                         'component' => 'amis',
                         'meta'      => [
-                            'title' => admin_trans('admin.pages.menu'),
+                            'title' => translator('admin.pages.menu'),
                             'icon'  => 'iconoir:multiple-pages',
                         ],
                     ],
@@ -212,7 +212,7 @@ class Menu
                         'path'      => '/dev_tools/relationships',
                         'component' => 'amis',
                         'meta'      => [
-                            'title' => admin_trans('admin.relationships.menu'),
+                            'title' => translator('admin.relationships.menu'),
                             'icon'  => 'ant-design:node-index-outlined',
                         ],
                     ],
@@ -221,7 +221,7 @@ class Menu
                         'path'      => '/dev_tools/apis',
                         'component' => 'amis',
                         'meta'      => [
-                            'title' => admin_trans('admin.apis.menu'),
+                            'title' => translator('admin.apis.menu'),
                             'icon'  => 'ant-design:api-outlined',
                         ],
                     ],
@@ -230,7 +230,7 @@ class Menu
                         'path'      => '/dev_tools/code_generator',
                         'component' => 'amis',
                         'meta'      => [
-                            'title' => admin_trans('admin.code_generator'),
+                            'title' => translator('admin.code_generator'),
                             'icon'  => 'ic:baseline-code',
                         ],
                     ],
@@ -239,7 +239,7 @@ class Menu
                         'path'      => '/dev_tools/editor',
                         'component' => 'editor',
                         'meta'      => [
-                            'title' => admin_trans('admin.visual_editor'),
+                            'title' => translator('admin.visual_editor'),
                             'icon'  => 'mdi:monitor-edit',
                         ],
                     ],

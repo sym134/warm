@@ -15,7 +15,7 @@ class DataDetailApi extends AdminBaseApi
 
     public function getTitle(): string
     {
-        return admin_trans('admin.api_templates.data_detail');
+        return translator('admin.api_templates.data_detail');
     }
 
     public function handle(): \support\Response
@@ -28,12 +28,12 @@ class DataDetailApi extends AdminBaseApi
     public function argsSchema(): array
     {
         return [
-            amis()->SelectControl('model', admin_trans('admin.relationships.model'))
+            amis()->SelectControl('model', translator('admin.relationships.model'))
                 ->required()
                 ->menuTpl('${label} <span class="text-gray-300 pl-2">${table}</span>')
                 ->source('/dev_tools/relation/model_options')
                 ->searchable(),
-            amis()->TextControl('primary_id', admin_trans('admin.code_generators.primary_key'))->value('id'),
+            amis()->TextControl('primary_id', translator('admin.code_generators.primary_key'))->value('id'),
         ];
     }
 

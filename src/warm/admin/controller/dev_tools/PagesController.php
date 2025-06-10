@@ -19,9 +19,9 @@ class PagesController extends AdminController
             ])
             ->columns([
                 amis()->TableColumn('id', 'ID')->sortable(),
-                amis()->TableColumn('title', admin_trans('admin.pages.title'))->searchable(),
-                amis()->TableColumn('sign', admin_trans('admin.pages.sign'))->searchable(),
-                amis()->TableColumn('updated_at', admin_trans('admin.created_at'))->type('datetime')->sortable(true),
+                amis()->TableColumn('title', translator('admin.pages.title'))->searchable(),
+                amis()->TableColumn('sign', translator('admin.pages.sign'))->searchable(),
+                amis()->TableColumn('updated_at', translator('admin.created_at'))->type('datetime')->sortable(true),
                 $this->rowActions([
                     $this->rowEditButton(true),
                     $this->rowDeleteButton(),
@@ -34,9 +34,9 @@ class PagesController extends AdminController
     public function form()
     {
         return $this->baseForm()->body([
-            amis()->TextControl('title', admin_trans('admin.pages.title'))->required(),
-            amis()->TextControl('sign', admin_trans('admin.pages.sign'))->required(),
-            amis()->SubFormControl('page', admin_trans('admin.pages.page'))->form(
+            amis()->TextControl('title', translator('admin.pages.title'))->required(),
+            amis()->TextControl('sign', translator('admin.pages.sign'))->required(),
+            amis()->SubFormControl('page', translator('admin.pages.page'))->form(
                 amis()->Form()->className('h-full')->set('size', 'full')->title('')->body(
                     amis('custom-amis-editor')
                         ->name('schema')

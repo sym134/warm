@@ -28,14 +28,14 @@ class AdminCrontabController extends AdminController
             ])
             ->columns([
                 amis()->TableColumn('id', 'ID')->sortable(),
-                amis()->TableColumn('name', admin_trans('crontab.name')),
-                amis()->TableColumn('created_by', admin_trans('crontab.created_by')),
-                amis()->TableColumn('task_type', admin_trans('crontab.task_type'))->type('mapping')->map(AdminCrontab::TASK_TYPE),
-                amis()->TableColumn('execution_cycle_text', admin_trans('crontab.execution_cycle')),
-                amis()->SwitchControl('task_status', admin_trans('crontab.task_status'))->trueValue(1)->falseValue(2)->required()->value(1),
-                amis()->TableColumn('created_at', admin_trans('admin.created_at'))->sortable(),
+                amis()->TableColumn('name', translator('crontab.name')),
+                amis()->TableColumn('created_by', translator('crontab.created_by')),
+                amis()->TableColumn('task_type', translator('crontab.task_type'))->type('mapping')->map(AdminCrontab::TASK_TYPE),
+                amis()->TableColumn('execution_cycle_text', translator('crontab.execution_cycle')),
+                amis()->SwitchControl('task_status', translator('crontab.task_status'))->trueValue(1)->falseValue(2)->required()->value(1),
+                amis()->TableColumn('created_at', translator('admin.created_at'))->sortable(),
                 $this->rowActions([
-                    amis()->VanillaAction()->id('u:a53d1837f6be')->label(admin_trans('crontab.run'))->icon('fa-solid fa-play')->level('link')
+                    amis()->VanillaAction()->id('u:a53d1837f6be')->label(translator('crontab.run'))->icon('fa-solid fa-play')->level('link')
                         ->onEvent(['click' => [
                             'actions' => [[
                                               'ignoreError' => '', 'outputVar' => 'responseResult', 'actionType' => 'ajax', 'options' => [],
@@ -44,8 +44,8 @@ class AdminCrontabController extends AdminController
                         ],])
                         ->confirmText('确认立即执行'),
                     amis()->DrawerAction()->drawer(
-                        amis()->Drawer()->title(admin_trans('crontab.execution_log'))->body((new AdminCrontabLogController)->list(admin_url('/system/crontab_log?_action=getData&crontab_id=${id}')))->size('xl')->resizable()
-                    )->label(admin_trans('crontab.execution_log'))->icon('fa-solid fa-clock-rotate-left')->level('link'),
+                        amis()->Drawer()->title(translator('crontab.execution_log'))->body((new AdminCrontabLogController)->list(admin_url('/system/crontab_log?_action=getData&crontab_id=${id}')))->size('xl')->resizable()
+                    )->label(translator('crontab.execution_log'))->icon('fa-solid fa-clock-rotate-left')->level('link'),
                     $this->rowEditButton(true, 'lg'),
                     $this->rowDeleteButton(),
                 ]),
@@ -63,7 +63,7 @@ class AdminCrontabController extends AdminController
             'minute' => 30,
             'second' => 1,
         ])->body([
-            amis()->SelectControl('task_type', admin_trans('crontab.task_type'))->options(AdminCrontab::TASK_TYPE)->value(1)
+            amis()->SelectControl('task_type', translator('crontab.task_type'))->options(AdminCrontab::TASK_TYPE)->value(1)
                 ->required()
                 ->onEvent([
                     'change' => [
@@ -76,18 +76,18 @@ class AdminCrontabController extends AdminController
                         ],
                     ],
                 ]),
-            amis()->TextControl('name', admin_trans('crontab.name'))->id('name')->required()->value(AdminCrontab::TASK_TYPE[1])
-                ->description(admin_trans('crontab.name_description')),
-            amis()->GroupControl()->label(admin_trans('crontab.execution_cycle'))->body([
+            amis()->TextControl('name', translator('crontab.name'))->id('name')->required()->value(AdminCrontab::TASK_TYPE[1])
+                ->description(translator('crontab.name_description')),
+            amis()->GroupControl()->label(translator('crontab.execution_cycle'))->body([
                 amis()->SelectControl('execution_cycle')->mode('inline')->options([
-                    'day'      => admin_trans('crontab.execution_cycle_options.day'),
-                    'day-n'    => admin_trans('crontab.execution_cycle_options.day-n'),
-                    'hour'     => admin_trans('crontab.execution_cycle_options.hour'),
-                    'hour-n'   => admin_trans('crontab.execution_cycle_options.hour-n'),
-                    'minute-n' => admin_trans('crontab.execution_cycle_options.minute-n'),
-                    'week'     => admin_trans('crontab.execution_cycle_options.week'),
-                    'month'    => admin_trans('crontab.execution_cycle_options.month'),
-                    'second-n' => admin_trans('crontab.execution_cycle_options.second-n'),
+                    'day'      => translator('crontab.execution_cycle_options.day'),
+                    'day-n'    => translator('crontab.execution_cycle_options.day-n'),
+                    'hour'     => translator('crontab.execution_cycle_options.hour'),
+                    'hour-n'   => translator('crontab.execution_cycle_options.hour-n'),
+                    'minute-n' => translator('crontab.execution_cycle_options.minute-n'),
+                    'week'     => translator('crontab.execution_cycle_options.week'),
+                    'month'    => translator('crontab.execution_cycle_options.month'),
+                    'second-n' => translator('crontab.execution_cycle_options.second-n'),
                 ])->value('day'),
 
                 amis()->SelectControl('week')->mode('inline')->options([
@@ -101,26 +101,26 @@ class AdminCrontabController extends AdminController
                 ])->value(1)->visibleOn('execution_cycle===\'week\''),
                 amis()->InputGroupControl()->mode('inline')->visibleOn('execution_cycle===\'day-n\'||execution_cycle===\'month\'')->body([
                     amis()->NumberControl('day')->mode('inline')->value(1)->min(1)->max(31),
-                    amis()->Button()->level('secondary')->label(admin_trans('crontab.day')),
+                    amis()->Button()->level('secondary')->label(translator('crontab.day')),
                 ]),
                 amis()->InputGroupControl()->mode('inline')->visibleOn('execution_cycle!==\'hour\'&&execution_cycle!==\'minute-n\'&&execution_cycle!==\'second-n\'')->body([
                     amis()->NumberControl('hour')->value(1)->min(0)->max(23),
-                    amis()->Button()->level('secondary')->label(admin_trans('crontab.hour')),
+                    amis()->Button()->level('secondary')->label(translator('crontab.hour')),
                 ]),
                 amis()->InputGroupControl()->mode('inline')->visibleOn('execution_cycle!==\'second-n\'')->body([
                     amis()->NumberControl('minute')->value(30)->min(0)->max(59),
-                    amis()->Button()->level('secondary')->label(admin_trans('crontab.minute')),
+                    amis()->Button()->level('secondary')->label(translator('crontab.minute')),
                 ]),
                 amis()->InputGroupControl()->mode('inline')->visibleOn('execution_cycle==\'second-n\'')->body([
                     amis()->NumberControl('second')->value(1)->min(1)->max(59),
-                    amis()->Button()->level('secondary')->label(admin_trans('crontab.second')),
+                    amis()->Button()->level('secondary')->label(translator('crontab.second')),
                 ]),
 
             ]),
-            amis()->TextControl('target', admin_trans('crontab.target'))->required()->description(admin_trans('crontab.target_description')),
-            amis()->BaseRenderer()->set('type', 'json-schema')->set('name', 'parameter')->set('label', admin_trans('crontab.parameter')),
-            amis()->SwitchControl('task_status', admin_trans('crontab.task_status'))->trueValue(1)->falseValue(2)->required()->value(1),
-            amis()->TextControl('remark', admin_trans('crontab.remark')),
+            amis()->TextControl('target', translator('crontab.target'))->required()->description(translator('crontab.target_description')),
+            amis()->BaseRenderer()->set('type', 'json-schema')->set('name', 'parameter')->set('label', translator('crontab.parameter')),
+            amis()->SwitchControl('task_status', translator('crontab.task_status'))->trueValue(1)->falseValue(2)->required()->value(1),
+            amis()->TextControl('remark', translator('crontab.remark')),
         ]);
     }
 
@@ -133,8 +133,8 @@ class AdminCrontabController extends AdminController
     public function run(): Response
     {
         if ($this->service->run(request()->get('id'))) {
-            return $this->response()->successMessage(admin_trans('crontab.run') . admin_trans('admin.successfully'));
+            return $this->response()->successMessage(translator('crontab.run') . translator('admin.successfully'));
         }
-        return $this->response()->fail(admin_trans('crontab.run') . admin_trans('admin.failed') . $this->service->getError());
+        return $this->response()->fail(translator('crontab.run') . translator('admin.failed') . $this->service->getError());
     }
 }

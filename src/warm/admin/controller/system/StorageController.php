@@ -77,7 +77,7 @@ class StorageController extends AdminController
 
     public function update(Request $request, $id): Response
     {
-        $response = fn($result) => $this->autoResponse($result, admin_trans('admin.save'));
+        $response = fn($result) => $this->autoResponse($result, translator('admin.save'));
         return $response($this->service->saveConfig($request->all()));
     }
 }

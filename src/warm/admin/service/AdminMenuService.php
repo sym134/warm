@@ -53,7 +53,7 @@ class AdminMenuService extends AdminService
 
         $parent_id = Arr::get($data, 'parent_id');
         if ($parent_id != 0) {
-            amis_abort_if($this->parentIsChild($primaryKey, $parent_id), admin_trans('admin.admin_menu.parent_id_not_allow'));
+            amis_abort_if($this->parentIsChild($primaryKey, $parent_id), translator('admin.admin_menu.parent_id_not_allow'));
         }
 
         $model = $this->query()->whereKey($primaryKey)->first();
@@ -94,7 +94,7 @@ class AdminMenuService extends AdminService
             ->when(data_get($data, 'id'), fn($q) => $q->where('id', '<>', data_get($data, 'id')))
             ->exists();
 
-        admin_abort_if($urlExists, admin_trans('admin.admin_menu.url_exists'));
+        admin_abort_if($urlExists, translator('admin.admin_menu.url_exists'));
 
         foreach ($data as $k => $v) {
             if (!in_array($k, $columns)) {

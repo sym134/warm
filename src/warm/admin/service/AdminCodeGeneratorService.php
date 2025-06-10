@@ -29,7 +29,7 @@ class AdminCodeGeneratorService extends AdminService
 
     public function store($data): bool
     {
-        amis_abort_if($this->query()->where('table_name', $data['table_name'])->exists(), admin_trans('admin.code_generators.exists_table'));
+        amis_abort_if($this->query()->where('table_name', $data['table_name'])->exists(), translator('admin.code_generators.exists_table'));
 
         return parent::store($this->filterData($data));
     }
@@ -41,7 +41,7 @@ class AdminCodeGeneratorService extends AdminService
             ->where($this->primaryKey(), '<>', $primaryKey)
             ->exists();
 
-        amis_abort_if($exists, admin_trans('admin.code_generators.exists_table'));
+        amis_abort_if($exists, translator('admin.code_generators.exists_table'));
 
         return parent::update($primaryKey, $this->filterData($data));
     }
@@ -50,12 +50,12 @@ class AdminCodeGeneratorService extends AdminService
     {
         admin_abort_if(
             !data_get($data, 'columns'),
-            admin_trans('admin.required', ['attribute' => admin_trans('admin.code_generators.column_info')])
+            translator('admin.required', ['attribute' => translator('admin.code_generators.column_info')])
         );
 
         admin_abort_if(
             collect($data['columns'])->pluck('name')->unique()->count() != count($data['columns']),
-            admin_trans('admin.code_generators.duplicate_column')
+            translator('admin.code_generators.duplicate_column')
         );
 
         $data['columns'] = collect($data['columns'])
@@ -118,7 +118,7 @@ class AdminCodeGeneratorService extends AdminService
     public function getDefaultPath(): array
     {
         return [
-            'label' => admin_trans('admin.code_generators.save_path_dir'),
+            'label' => translator('admin.code_generators.save_path_dir'),
             'value' => [
                 'directory'       => 'app',
                 'controller_path' => $this->getNamespace('controller'),

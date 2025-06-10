@@ -76,13 +76,13 @@ class ConfigService extends AdminService
      */
     public function adminSetMany(array $data): Response
     {
-        $prefix = admin_trans('admin.save');
+        $prefix = translator('admin.save');
 
         if ($this->setMany($data)) {
-            return Admin::response()->successMessage($prefix . admin_trans('admin.successfully'));
+            return Admin::response()->successMessage($prefix . translator('admin.successfully'));
         }
 
-        return Admin::response()->fail($prefix . admin_trans('admin.failed'), $this->getError());
+        return Admin::response()->fail($prefix . translator('admin.failed'), $this->getError());
     }
 
     /**

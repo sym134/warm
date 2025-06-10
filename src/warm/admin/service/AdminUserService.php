@@ -36,7 +36,7 @@ class AdminUserService extends AdminService
     {
         $this->checkUsernameUnique($data['username']);
 
-        admin_abort_if(!data_get($data, 'password'), admin_trans('admin.required', ['attribute' => admin_trans('admin.password')]));
+        admin_abort_if(!data_get($data, 'password'), translator('admin.required', ['attribute' => translator('admin.password')]));
 
         $this->passwordHandler($data);
 
@@ -66,7 +66,7 @@ class AdminUserService extends AdminService
             ->when($id, fn($query) => $query->where('id', '<>', $id))
             ->exists();
 
-        admin_abort_if($exists, admin_trans('admin.admin_user.username_already_exists'));
+        admin_abort_if($exists, translator('admin.admin_user.username_already_exists'));
     }
 
     public function updateUserSetting($primaryKey, $data): bool
@@ -81,14 +81,14 @@ class AdminUserService extends AdminService
         $password = Arr::get($data, 'password');
 
         if ($password) {
-            admin_abort_if($password !== Arr::get($data, 'confirm_password'), admin_trans('admin.admin_user.password_confirmation'));
+            admin_abort_if($password !== Arr::get($data, 'confirm_password'), translator('admin.admin_user.password_confirmation'));
 
             if ($id) {
-                admin_abort_if(!Arr::get($data, 'old_password'), admin_trans('admin.admin_user.old_password_required'));
+                admin_abort_if(!Arr::get($data, 'old_password'), translator('admin.admin_user.old_password_required'));
 
                 $oldPassword = $this->query()->where('id', $id)->value('password');
 
-                admin_abort_if(!Hash::check($data['old_password'], $oldPassword), admin_trans('admin.admin_user.old_password_error'));
+                admin_abort_if(!Hash::check($data['old_password'], $oldPassword), translator('admin.admin_user.old_password_error'));
             }
 
             $data['password'] = password_hash($password,PASSWORD_DEFAULT);;
@@ -153,7 +153,7 @@ class AdminUserService extends AdminService
             ->whereHas('roles', fn($q) => $q->where('slug', 'administrator'))
             ->exists();
 
-        admin_abort_if($exists, admin_trans('admin.admin_user.cannot_delete'));
+        admin_abort_if($exists, translator('admin.admin_user.cannot_delete'));
 
         return parent::delete($ids);
     }

@@ -75,7 +75,7 @@ class SmsConfigService extends AdminService
         $get[] = $data;
         foreach ($get as $val) {
             if ($val['type'] === $data['type']) {
-                $this->setError(admin_trans('notice.sms_channel_already_exists'));
+                $this->setError(translator('notice.sms_channel_already_exists'));
                 return false;
             }
         }

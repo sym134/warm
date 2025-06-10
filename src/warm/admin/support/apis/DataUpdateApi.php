@@ -16,7 +16,7 @@ class DataUpdateApi extends AdminBaseApi
 
     public function getTitle(): string
     {
-        return admin_trans('admin.api_templates.data_update');
+        return translator('admin.api_templates.data_update');
     }
 
     public function handle(): Response
@@ -25,21 +25,21 @@ class DataUpdateApi extends AdminBaseApi
 
         if ($result) {
             return Admin::response()
-                ->successMessage(admin_trans('admin.successfully_message', ['attribute' => admin_trans('admin.save')]));
+                ->successMessage(translator('admin.successfully_message', ['attribute' => translator('admin.save')]));
         }
 
-        return Admin::response()->fail(admin_trans('admin.failed_message', ['attribute' => admin_trans('admin.save')]));
+        return Admin::response()->fail(translator('admin.failed_message', ['attribute' => translator('admin.save')]));
     }
 
     public function argsSchema(): array
     {
         return [
-            amis()->SelectControl('model', admin_trans('admin.relationships.model'))
+            amis()->SelectControl('model', translator('admin.relationships.model'))
                 ->required()
                 ->menuTpl('${label} <span class="text-gray-300 pl-2">${table}</span>')
                 ->source('/dev_tools/relation/model_options')
                 ->searchable(),
-            amis()->TextControl('primary_id', admin_trans('admin.code_generators.primary_key'))->value('id'),
+            amis()->TextControl('primary_id', translator('admin.code_generators.primary_key'))->value('id'),
         ];
     }
 

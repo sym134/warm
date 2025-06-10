@@ -35,7 +35,7 @@ class AdminLoginLogController extends AdminController
                 amis()->TableColumn('message', '提示消息'),
                 amis()->TableColumn('login_time', '登录时间'),
                 // amis()->TableColumn('remark', '备注'),
-                amis()->TableColumn('created_at', admin_trans('admin.created_at'))->type('datetime')->sortable(),
+                amis()->TableColumn('created_at', translator('admin.created_at'))->type('datetime')->sortable(),
             ]);
 
         return $this->baseList($crud);
@@ -69,8 +69,8 @@ class AdminLoginLogController extends AdminController
             amis()->TextControl('message', '提示消息')->static(),
             amis()->TextControl('login_time', '登录时间')->static(),
             amis()->TextControl('remark', '备注')->static(),
-            amis()->TextControl('created_at', admin_trans('admin.created_at'))->static(),
-            amis()->TextControl('updated_at', admin_trans('admin.updated_at'))->static(),
+            amis()->TextControl('created_at', translator('admin.created_at'))->static(),
+            amis()->TextControl('updated_at', translator('admin.updated_at'))->static(),
         ]);
     }
 }

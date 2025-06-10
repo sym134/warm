@@ -23,7 +23,7 @@ trait ErrorTrait
      */
     protected function setError(string $error): bool
     {
-        $this->error = $error ?: admin_trans('admin.unknown_error');
+        $this->error = $error ?: translator('admin.unknown_error');
         return false;
     }
 

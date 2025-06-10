@@ -71,8 +71,8 @@ class PluginController extends AdminController
                 $this->baseFilter()->body([
                     amis()->TextControl()
                         ->name('keywords')
-                        ->label(admin_trans('admin.extensions.form.name'))
-                        ->placeholder(admin_trans('admin.extensions.filter_placeholder'))
+                        ->label(translator('admin.extensions.form.name'))
+                        ->placeholder(translator('admin.extensions.filter_placeholder'))
                         ->size('md'),
                 ])
             )
@@ -84,7 +84,7 @@ class PluginController extends AdminController
                 amis('filter-toggler')->align('right'),
             ])
             ->columns([
-                amis()->TableColumn('alias', admin_trans('admin.extensions.form.name'))
+                amis()->TableColumn('alias', translator('admin.extensions.form.name'))
                     ->type('tpl')
                     ->tpl('
 <div class="flex">
@@ -95,11 +95,11 @@ class PluginController extends AdminController
     </div>
 </div>
 '),
-                amis()->TableColumn('author', admin_trans('admin.extensions.card.author'))
+                amis()->TableColumn('author', translator('admin.extensions.card.author'))
                     ->type('tpl')
                     ->tpl('<div>${authors.name}</div> <span class="text-gray-400">${authors.email}</span>'),
                 $this->rowActions([
-                    amis()->DrawerAction()->label(admin_trans('admin.show'))->className('p-0')->level('link')->drawer(
+                    amis()->DrawerAction()->label(translator('admin.show'))->className('p-0')->level('link')->drawer(
                         amis()->Drawer()
                             ->size('lg')
                             ->title('README.md')
@@ -112,13 +112,13 @@ class PluginController extends AdminController
                             ]))
                     ),
                     amis()->DrawerAction()
-                        ->label(admin_trans('admin.extensions.setting'))
+                        ->label(translator('admin.extensions.setting'))
                         ->level('link')
                         ->visibleOn('${has_setting && enabled}')
                         ->drawer(
                             amis()
                                 ->Drawer()
-                                ->title(admin_trans('admin.extensions.setting'))
+                                ->title(translator('admin.extensions.setting'))
                                 ->resizable()
                                 ->closeOnOutside()
                                 ->body(
@@ -134,7 +134,7 @@ class PluginController extends AdminController
                                 ->actions([])
                         ),
                     amis()->AjaxAction()
-                        ->label('${enabled ? "' . admin_trans('admin.extensions.disable') . '" : "' . admin_trans('admin.extensions.enable') . '"}')
+                        ->label('${enabled ? "' . translator('admin.extensions.disable') . '" : "' . translator('admin.extensions.enable') . '"}')
                         ->level('link')
                         ->className(["text-success" => '${!enabled}', "text-danger" => '${enabled}'])
                         ->api([
@@ -145,9 +145,9 @@ class PluginController extends AdminController
                                 'enabled' => '${!enabled}',
                             ],
                         ])
-                        ->confirmText('${enabled ? "' . admin_trans('admin.extensions.disable_confirm') . '" : "' . admin_trans('admin.extensions.enable_confirm') . '"}'),
+                        ->confirmText('${enabled ? "' . translator('admin.extensions.disable_confirm') . '" : "' . translator('admin.extensions.enable_confirm') . '"}'),
                     amis()->AjaxAction()
-                        ->label(admin_trans('admin.extensions.uninstall'))
+                        ->label(translator('admin.extensions.uninstall'))
                         ->level('link')
                         ->className('text-danger')
                         ->api([
@@ -156,7 +156,7 @@ class PluginController extends AdminController
                             'data'   => ['id' => '${id}'],
                         ])
                         ->visibleOn('${used}')
-                        ->confirmText(admin_trans('admin.extensions.uninstall_confirm')),
+                        ->confirmText(translator('admin.extensions.uninstall_confirm')),
                 ]),
             ]);
     }
@@ -169,19 +169,19 @@ class PluginController extends AdminController
     public function createExtend(): DialogAction
     {
         return amis()->DialogAction()
-            ->label(admin_trans('admin.extensions.create_extension'))
+            ->label(translator('admin.extensions.create_extension'))
             ->icon('fa fa-add')
             ->level('success')
             ->dialog(
-                amis()->Dialog()->title(admin_trans('admin.extensions.create_extension'))->body(
+                amis()->Dialog()->title(translator('admin.extensions.create_extension'))->body(
                     amis()->Form()->mode('normal')->api($this->getStorePath())->body([
                         amis()->Alert()
                             ->level('info')
                             ->showIcon()
-                            ->body(admin_trans('admin.extensions.create_tips', ['dir' => Admin::config('app.extension.dir')])),
+                            ->body(translator('admin.extensions.create_tips', ['dir' => Admin::config('app.extension.dir')])),
                         amis()->TextControl()
                             ->name('name')
-                            ->label(admin_trans('admin.extensions.form.name'))
+                            ->label(translator('admin.extensions.form.name'))
                             ->placeholder('foo')
                             ->required(),
                     ])
@@ -191,7 +191,7 @@ class PluginController extends AdminController
 
     public function enable(Request $request)
     {
-        $response = fn($result) => $this->autoResponse($result, admin_trans('admin.save'));
+        $response = fn($result) => $this->autoResponse($result, translator('admin.save'));
         return $response($this->service->enable($request->all()) > 0);
     }
 
@@ -208,7 +208,7 @@ class PluginController extends AdminController
      */
     public function store(Request $request): Response
     {
-        $response = fn($result) => $this->autoResponse($result, admin_trans('admin.save'));
+        $response = fn($result) => $this->autoResponse($result, translator('admin.save'));
 
         if ($this->actionOfQuickEdit()) {
             return $response($this->service->quickEdit($request->all()));
@@ -219,9 +219,9 @@ class PluginController extends AdminController
         }
 
         if ($this->service->store($request->all())) {
-            return $this->response()->successMessage(admin_trans('admin.save') . admin_trans('admin.successfully'));
+            return $this->response()->successMessage(translator('admin.save') . translator('admin.successfully'));
         }
 
-        return $this->response()->fail($this->service->getError() ?? admin_trans('admin.save') . admin_trans('admin.failed'));
+        return $this->response()->fail($this->service->getError() ?? translator('admin.save') . translator('admin.failed'));
     }
 }

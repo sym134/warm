@@ -22,3 +22,7 @@ composer require "league/flysystem-memory:^3.0"
 ```bash
 composer require "overtrue/flysystem-cos:^5.0"
 ```
+
+
+#### 多语言
+translator(插件名::文件名.键……)

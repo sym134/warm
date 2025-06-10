@@ -14,7 +14,7 @@ class Authenticate implements MiddlewareInterface
     {
         [$state, $user] = Admin::permission()->authIntercept($request);
         if ($state) {
-            return Admin::response()->additional(['code' => 401])->fail(admin_trans('admin.please_login'));
+            return Admin::response()->additional(['code' => 401])->fail(translator('admin.please_login'));
         }
         $request->user = $user;
         // 记录日志

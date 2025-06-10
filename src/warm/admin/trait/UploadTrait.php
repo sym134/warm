@@ -69,7 +69,7 @@ trait UploadTrait
         }
 
         if (!$file) {
-            return $this->response()->additional(['errno' => 1])->fail(admin_trans('admin.upload_file_error'));
+            return $this->response()->additional(['errno' => 1])->fail(translator('admin.upload_file_error'));
         }
 
         try {
@@ -91,7 +91,7 @@ trait UploadTrait
     {
         $file = request()->file('file');
         if (!$file) {
-            return $this->response()->fail(admin_trans('admin.upload_file_error'));
+            return $this->response()->fail(translator('admin.upload_file_error'));
         }
 
         try {

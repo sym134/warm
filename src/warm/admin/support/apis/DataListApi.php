@@ -16,7 +16,7 @@ class DataListApi extends AdminBaseApi
 
     public function getTitle(): string
     {
-        return admin_trans('admin.api_templates.data_list');
+        return translator('admin.api_templates.data_list');
     }
 
     public function handle(): Response
@@ -27,7 +27,7 @@ class DataListApi extends AdminBaseApi
     public function argsSchema(): array
     {
         return [
-            amis()->SelectControl('model', admin_trans('admin.relationships.model'))
+            amis()->SelectControl('model', translator('admin.relationships.model'))
                 ->required()
                 ->menuTpl('${label} <span class="text-gray-300 pl-2">${table}</span>')
                 ->source('/dev_tools/relation/model_options')

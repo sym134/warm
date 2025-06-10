@@ -75,11 +75,11 @@ class AdminRoleService extends AdminService
 
         amis_abort_if($query->clone()
             ->where('name', $data['name'])
-            ->exists(), admin_trans('admin.admin_role.name_already_exists'));
+            ->exists(), translator('admin.admin_role.name_already_exists'));
 
         amis_abort_if($query->clone()
             ->where('slug', $data['slug'])
-            ->exists(), admin_trans('admin.admin_role.slug_already_exists'));
+            ->exists(), translator('admin.admin_role.slug_already_exists'));
     }
 
     public function savePermissions($primaryKey, $permissions)
@@ -99,14 +99,14 @@ class AdminRoleService extends AdminService
             ->where('slug', 'administrator')
             ->exists();
 
-        admin_abort_if($exists, admin_trans('admin.admin_role.cannot_delete'));
+        admin_abort_if($exists, translator('admin.admin_role.cannot_delete'));
 
         $used = $this->query()
             ->whereIn($this->primaryKey(), $_ids)
             ->has('users')
             ->exists();
 
-        admin_abort_if($used, admin_trans('admin.admin_role.used'));
+        admin_abort_if($used, translator('admin.admin_role.used'));
 
 
         return parent::delete($ids);

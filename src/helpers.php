@@ -309,14 +309,32 @@ if (!function_exists('map2options')) {
     }
 }
 
-if (!function_exists('admin_trans')) {
-    function admin_trans(string|null $key = null, array $replace = [], string|null $locale = null): ?string
+if (!function_exists('translator')) {
+    function translator(string|null $key = null, array $replace = [], string|null $locale = null): ?string
     {
         if (is_null($key)) {
             return $key;
         }
         $arr = explode('.', $key);
         return trans(str_replace($arr[0] . '.', '', $key), $replace, $arr[0], $locale);
+    }
+}
+
+if (!function_exists('translator')) {
+    function translator(string $key, array $replace = [], string|null $locale = null): ?string
+    {
+        if (empty($key)) {
+            return $key;
+        }
+        if (str_contains($key, '::')) {
+            [$domain, $item] = explode('::', $key, 2);
+            $itemSegments = explode('.', $item);
+            return \support\Translation::instance($domain)
+                ->trans(count($itemSegments) === 1 ? null : implode('.', array_slice($itemSegments, 1)), $replace, $itemSegments[0], $locale);
+        } else {
+            $itemSegments = explode('.', $key);
+            return \support\Translation::trans(count($itemSegments) === 1 ? null : implode('.', array_slice($itemSegments, 1)), $replace, $itemSegments[0], $locale);
+        }
     }
 }
 

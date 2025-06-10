@@ -30,12 +30,12 @@ class AdminCrontabLogController extends AdminController
             ]))
             ->columns([
                 amis()->TableColumn('id', 'ID')->sortable(),
-                amis()->TableColumn('crontab_id', admin_trans('crontab.crontab_log.crontab_id')),
-                amis()->TableColumn('target', admin_trans('crontab.crontab_log.target')),
+                amis()->TableColumn('crontab_id', translator('crontab.crontab_log.crontab_id')),
+                amis()->TableColumn('target', translator('crontab.crontab_log.target')),
                 amis()->Json()->name('parameter'),
-                amis()->TableColumn('exception_info', admin_trans('crontab.crontab_log.exception_info')),
-                amis()->TableColumn('execution_status', admin_trans('crontab.crontab_log.execution_status'))->type('status')->map([1 => 'success', 2 => 'fail'])->labelMap([1 => '成功', 2 => '失败']),
-                amis()->TableColumn('created_at', admin_trans('admin.created_at'))->sortable(),
+                amis()->TableColumn('exception_info', translator('crontab.crontab_log.exception_info')),
+                amis()->TableColumn('execution_status', translator('crontab.crontab_log.execution_status'))->type('status')->map([1 => 'success', 2 => 'fail'])->labelMap([1 => '成功', 2 => '失败']),
+                amis()->TableColumn('created_at', translator('admin.created_at'))->sortable(),
                 $this->rowActions([
                     $this->rowShowButton(true),
 
@@ -50,13 +50,13 @@ class AdminCrontabLogController extends AdminController
     {
         return $this->baseDetail()->body([
             amis()->TextControl('id', 'ID')->static(),
-            amis()->TextControl('crontab_id', admin_trans('crontab.crontab_log.crontab_id'))->static(),
-            amis()->TextControl('target', admin_trans('crontab.crontab_log.target'))->static(),
-            amis()->InputGroupControl()->label(admin_trans('crontab.crontab_log.parameter'))->body([
+            amis()->TextControl('crontab_id', translator('crontab.crontab_log.crontab_id'))->static(),
+            amis()->TextControl('target', translator('crontab.crontab_log.target'))->static(),
+            amis()->InputGroupControl()->label(translator('crontab.crontab_log.parameter'))->body([
                 amis()->Json()->name('parameter'),
             ]),
-            amis()->TextControl('exception_info', admin_trans('crontab.crontab_log.exception_info'))->static(),
-            amis()->TextControl('execution_status', admin_trans('crontab.crontab_log.execution_status'))->static(),
+            amis()->TextControl('exception_info', translator('crontab.crontab_log.exception_info'))->static(),
+            amis()->TextControl('execution_status', translator('crontab.crontab_log.execution_status'))->static(),
         ]);
     }
 }

@@ -35,8 +35,8 @@ class SmsConfigController extends AdminController
             ])
             ->columns([
                 amis()->TableColumn('type', 'type')->toggled(false),
-                amis()->TableColumn('name', admin_trans('notice.sms_channel')),
-                amis()->SwitchControl('enable', admin_trans('notice.enable')),
+                amis()->TableColumn('name', translator('notice.sms_channel')),
+                amis()->SwitchControl('enable', translator('notice.enable')),
                 $this->rowActions([
                     $this->rowEditButton(true),
                     $this->rowDeleteButton(),
@@ -53,24 +53,24 @@ class SmsConfigController extends AdminController
                 amis()->SelectControl('type', '短信渠道')->required()->disabled($bool)->options(['aliyun' => '阿里云', 'qcloud' => '腾讯云', 'smsbao' => '短信宝']),
                 amis()->Wrapper()->visibleOn("this.type==='aliyun'")->body([
                     amis()->HiddenControl('name'),
-                    amis()->TextControl('access_key_id', admin_trans('notice.access_key_id'))->required(),
-                    amis()->TextControl('access_key_secret', admin_trans('notice.access_key_secret'))->required(),
-                    amis()->TextControl('sign_name', admin_trans('notice.sign_name'))->required(),
-                    amis()->SwitchControl('enable', admin_trans('notice.enable')),
+                    amis()->TextControl('access_key_id', translator('notice.access_key_id'))->required(),
+                    amis()->TextControl('access_key_secret', translator('notice.access_key_secret'))->required(),
+                    amis()->TextControl('sign_name', translator('notice.sign_name'))->required(),
+                    amis()->SwitchControl('enable', translator('notice.enable')),
                 ]),
                 amis()->Wrapper()->visibleOn("this.type==='qcloud'")->body([
                     amis()->HiddenControl('name'),
-                    amis()->TextControl('sdk_app_id', admin_trans('notice.sdk_app_id'))->required(),
-                    amis()->TextControl('secret_id', admin_trans('notice.secret_id'))->required(),
-                    amis()->TextControl('secret_key', admin_trans('notice.secret_key'))->required(),
-                    amis()->TextControl('sign_name', admin_trans('notice.sign_name'))->required(),
-                    amis()->SwitchControl('enable', admin_trans('notice.enable')),
+                    amis()->TextControl('sdk_app_id', translator('notice.sdk_app_id'))->required(),
+                    amis()->TextControl('secret_id', translator('notice.secret_id'))->required(),
+                    amis()->TextControl('secret_key', translator('notice.secret_key'))->required(),
+                    amis()->TextControl('sign_name', translator('notice.sign_name'))->required(),
+                    amis()->SwitchControl('enable', translator('notice.enable')),
                 ]),
                 amis()->Wrapper()->visibleOn("this.type==='smsbao'")->body([
                     amis()->HiddenControl('name'),
-                    amis()->TextControl('user', admin_trans('notice.user'))->required(),
-                    amis()->TextControl('password', admin_trans('notice.password'))->required(),
-                    amis()->SwitchControl('enable', admin_trans('notice.enable')),
+                    amis()->TextControl('user', translator('notice.user'))->required(),
+                    amis()->TextControl('password', translator('notice.password'))->required(),
+                    amis()->SwitchControl('enable', translator('notice.enable')),
                 ]),
             ]);
     }
@@ -84,7 +84,7 @@ class SmsConfigController extends AdminController
      */
     public function store(Request $request): Response
     {
-        $response = fn($result) => $this->autoResponse($result, admin_trans('admin.save'));
+        $response = fn($result) => $this->autoResponse($result, translator('admin.save'));
 
         if ($this->actionOfQuickEdit()) {
             return $response($this->service->quickEdit($request->all()));

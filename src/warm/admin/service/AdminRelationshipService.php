@@ -48,11 +48,11 @@ class AdminRelationshipService extends AdminService
             ->when($primaryKey, fn($q) => $q->where('id', '<>', $primaryKey))
             ->exists();
 
-        admin_abort_if($exists, admin_trans('admin.relationships.rel_name_exists'));
+        admin_abort_if($exists, translator('admin.relationships.rel_name_exists'));
 
         $methodExists = method_exists($data['model'], $data['title']);
 
-        admin_abort_if($methodExists, admin_trans('admin.relationships.rel_name_exists'));
+        admin_abort_if($methodExists, translator('admin.relationships.rel_name_exists'));
     }
 
     public function saved($model, $isEdit = false): void
@@ -121,7 +121,7 @@ PHP;
 
         $path = app_path("model/$className.php");
 
-        admin_abort_if(file_exists($path), admin_trans('admin.relationships.model_exists'));
+        admin_abort_if(file_exists($path), translator('admin.relationships.model_exists'));
 
         appw('files')->put($path, $template);
     }

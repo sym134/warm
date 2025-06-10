@@ -20,7 +20,7 @@ class AdminPageService extends AdminService
     public function saving(&$data, $primaryKey = ''): void
     {
         $data['schema'] = data_get($data, 'page.schema');
-        admin_abort_if(blank($data['schema']), admin_trans('admin.pages.schema_cannot_be_empty'));
+        admin_abort_if(blank($data['schema']), translator('admin.pages.schema_cannot_be_empty'));
         unset($data['page']);
 
         $exists = $this->query()
@@ -28,7 +28,7 @@ class AdminPageService extends AdminService
             ->when($primaryKey, fn($q) => $q->where('id', '<>', $primaryKey))
             ->exists();
 
-        admin_abort_if($exists, admin_trans('admin.pages.sign_exists'));
+        admin_abort_if($exists, translator('admin.pages.sign_exists'));
     }
 
     public function saved($model, $isEdit = false): void
