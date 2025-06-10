@@ -84,13 +84,13 @@ class StorageService extends BaseService
     /**
      * 验证图片文件
      * @param UploadFile $file
+     * @param string $realMime
      */
-    public static function validateImage(UploadFile $file): void
+    public static function validateImage(UploadFile $file, string $realMime): void
     {
         self::initUploadConfig();
 
         // 获取文件真实信息
-        $realMime = self::getRealMimeType($file->getRealPath());
         $realExt = self::getExtensionByMime($realMime);
 
         // 首先验证是否确实是图片类型
@@ -117,14 +117,14 @@ class StorageService extends BaseService
     /**
      * 验证普通文件（包含视频和音频）
      * @param UploadFile $file
+     * @param string $realMime
      * @return void
      */
-    public static function validateFile(UploadFile $file): void
+    public static function validateFile(UploadFile $file, string $realMime): void
     {
         self::initUploadConfig();
 
         // 获取文件真实信息
-        $realMime = self::getRealMimeType($file->getRealPath());
         $realExt = self::getExtensionByMime($realMime);
 
         // 验证文件类型 - 不能是图片类型
@@ -246,17 +246,15 @@ class StorageService extends BaseService
 
     /**
      * 生成文件名
-     * @param UploadFile $file
-     * @param string $prefix
+     * @param string $realMime
+     * @param string $fileName
      * @return string
      */
-    public static function generateFilename(UploadFile $file, string $prefix = ''): string
+    public static function generateFilename(string $realMime, string $fileName = ''): string
     {
-        // 根据真实类型确定扩展名
-        $realMime = self::getRealMimeType($file->getRealPath());
         $extension = self::getSafeExtension($realMime);
 
-        return uniqid($prefix) . '.' . $extension;
+        return uniqid($fileName) . '.' . $extension;
     }
 
     /**
@@ -320,7 +318,7 @@ class StorageService extends BaseService
      * @param string|null $realMime image/jpeg
      * @return array
      */
-    public static function upload(UploadFile $file, string $path = '', string $fileName = '',?string $realMime = null): array
+    public static function upload(UploadFile $file, string $path = '', string $fileName = '', ?string $realMime = null): array
     {
         // 获取文件真实MIME类型
         $realMime = $realMime ?? self::getRealMimeType($file->getRealPath());
@@ -328,22 +326,22 @@ class StorageService extends BaseService
         // 自动检测文件类型
         if (self::isImageMime($realMime)) {
             // 图片类型
-            self::validateImage($file);
+            self::validateImage($file, $realMime);
             $fileType = 'image';
             $path = trim($path . '/images', '/'); // 为图片创建子目录
         } elseif (self::isVideoMime($realMime)) {
             // 视频类型
-            self::validateFile($file);
+            self::validateFile($file, $realMime);
             $fileType = 'video';
             $path = trim($path . '/videos', '/'); // 为视频创建子目录
         } elseif (self::isAudioMime($realMime)) {
             // 音频类型
-            self::validateFile($file);
+            self::validateFile($file, $realMime);
             $fileType = 'audio';
             $path = trim($path . '/audios', '/'); // 为音频创建子目录
         } else {
             // 其他文件类型
-            self::validateFile($file);
+            self::validateFile($file, $realMime);
             $fileType = 'file';
             $path = trim($path . '/files', '/'); // 为普通文件创建子目录
         }
