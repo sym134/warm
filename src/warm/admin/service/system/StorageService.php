@@ -30,12 +30,14 @@ class StorageService extends AdminService
                 'domain' => '//127.0.0.1:8787', // 静态文件访问域名
             ],
             'qiniu' => [
+                'root' => '',
                 'accessKey' => '',
                 'secretKey' => '',
                 'bucket' => '',
                 'domain' => '', // 静态文件访问域名
             ],
             'qcloud' => [
+                'root' => '',
                 'region' => '',
                 'app_id' => 'COS_APPID',
                 'secret_id' => '',
@@ -47,6 +49,7 @@ class StorageService extends AdminService
                 'domain' => '', // 静态文件访问域名
             ],
             'aliyun' => [
+                'root' => '',
                 'accessId' => '',
                 'accessSecret' => '',
                 'bucket' => '',
