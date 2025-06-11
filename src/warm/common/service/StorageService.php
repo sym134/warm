@@ -321,7 +321,7 @@ class StorageService extends BaseService
     public static function upload(UploadFile $file, string $path = '', string $fileName = '', ?string $realMime = null): array
     {
         $root = Storage::getConfig()['root'];
-        $path = $root ? trim('/', $root) . '/' . $path : $path;
+        $path = empty($root) ? $path : trim($root, '/') . '/' . $path;
         // 获取文件真实MIME类型
         $realMime = $realMime ?? self::getRealMimeType($file->getRealPath());
 
@@ -347,7 +347,7 @@ class StorageService extends BaseService
             $fileType = 'file';
             $path = trim($path . '/files', '/'); // 为普通文件创建子目录
         }
-
+        $path .= '/' . date('Y-m-d');
         $filename = empty($fileName) ? self::generateFilename($realMime) : $fileName;
         $filepath = trim($path . '/' . $filename, '/');
 
