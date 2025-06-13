@@ -31,11 +31,11 @@ class ModelGenerator extends BaseGenerator
             $content .= 'use Illuminate\\Database\\Eloquent\\SoftDeletes;' . PHP_EOL;
         }
 
-        $content .= 'use warm\admin\model\BaseModel as Model;' . PHP_EOL . PHP_EOL;
+        $content .= 'use warm\common\model\BaseModel;' . PHP_EOL . PHP_EOL;
         $content .= '/**' . PHP_EOL;
         $content .= ' * ' . $this->model->title . PHP_EOL;
         $content .= ' */' . PHP_EOL;
-        $content .= "class {$class} extends Model" . PHP_EOL;
+        $content .= "class {$class} extends BaseModel" . PHP_EOL;
         $content .= '{' . PHP_EOL;
 
         if ($this->model->soft_delete) {

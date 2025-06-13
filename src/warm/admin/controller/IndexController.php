@@ -24,22 +24,22 @@ class IndexController extends AdminController
     {
         $prefix = '';
         $localeOptions = Admin::config('app.layout.locale_options') ?? [
-            'en'    => 'English',
+            'en' => 'English',
             'zh_CN' => '简体中文',
         ];
         return $this->response()->success([
-            'nav'      => Admin::getNav(),
-            'assets'   => Admin::getAssets(),
+            'nav' => Admin::getNav(),
+            'assets' => Admin::getAssets(),
             'app_name' => Admin::config('app.name'),
-            'locale'   => warmConfig()->get('admin_locale', Admin::config('app.translation.local')),
-            'layout'   => Admin::config('app.layout'),
-            'logo'     => url(Admin::config('app.logo')),
+            'locale' => warmConfig()->get('admin_locale', Admin::config('app.translation.local')),
+            'layout' => Admin::config('app.layout'),
+            'logo' => url(Admin::config('app.logo')),
 
-            'login_captcha'          => Admin::config('app.auth.login_captcha'),
-            'locale_options'         => map2options($localeOptions),
+            'login_captcha' => Admin::config('app.auth.login_captcha'),
+            'locale_options' => map2options($localeOptions),
             'show_development_tools' => Admin::config('app.show_development_tools'),
-            'system_theme_setting'   => Admin::warmConfig()->get($prefix . 'system_theme_setting'),
-            'enabled_extensions'     => Plugin::query()->where('is_enabled', 1)->pluck('name')?->toArray(),
+            'system_theme_setting' => Admin::warmConfig()->get($prefix . 'system_theme_setting'),
+            'enabled_extensions' => Plugin::query()->where('is_enabled', 1)->pluck('name')?->toArray(),
         ]);
     }
 
@@ -64,9 +64,11 @@ class IndexController extends AdminController
      *
      * @return Response
      */
-    public function downloadExport(Request $request):Response
+    public function downloadExport(Request $request): Response
     {
-        return response()->download(base_path($request->input('path')));
+        $pathInfo = pathinfo($request->input('path'));
+        $downloadName = $pathInfo['basename'] ?? '';
+        return response()->download(base_path($request->input('path')), $downloadName);
     }
 
     /**

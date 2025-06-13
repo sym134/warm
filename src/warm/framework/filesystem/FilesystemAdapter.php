@@ -51,7 +51,7 @@ class FilesystemAdapter
 
     protected static function createLocal(array $config): LocalFilesystemAdapter
     {
-        $path = $config['root'] ?? 'public';
+        $path = $config['disk'] ?? 'public';
         return new LocalFilesystemAdapter($path);
     }
 

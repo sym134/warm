@@ -50,7 +50,8 @@ class StorageController extends AdminController
                     amis()->TextControl('image_type', '图片类型')->value('jpg,jpeg,png,gif,svg,bmp'),
                 ]),
                 amis()->Wrapper()->visibleOn('engine==\'local\'')->body([
-                    amis()->TextControl('storage.local.root', '存储路径')->required(),
+                    amis()->TextControl('storage.local.disk', '存储路径')->value('public')->required(),
+                    amis()->TextControl('storage.local.root', 'root')->description('根目录，例如：uploads'),
                     amis()->TextControl('storage.local.domain', '域名')->description('请补全http://或https://，例如https://zzz.xxx.com')->required(),
                 ]),
                 amis()->Wrapper()->visibleOn('engine==\'qiniu\'')->body([

@@ -257,7 +257,7 @@ class Database
             $table->dateTime('created_at')->nullable()->comment('创建时间');
         });
 
-        $this->create('config', function (Blueprint $table) {
+        $this->create('configs', function (Blueprint $table) {
             $table->string('key')->unique();
             $table->json('values');
             $table->timestamps();
@@ -285,7 +285,7 @@ class Database
         $this->dropIfExists('admin_pages');
         $this->dropIfExists('admin_relationships');
         $this->dropIfExists('admin_apis');
-        $this->dropIfExists('config');
+        $this->dropIfExists('configs');
         $this->schema()->dropIfExists('files');
     }
 
