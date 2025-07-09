@@ -230,7 +230,7 @@ abstract class AdminService
         collect(array_keys(request()->all()))
             ->intersect($this->getTableColumns())
             ->map(function ($field) use ($query) {
-                $query->when(filled(request(request()->input($field))), function ($query) use ($field) {
+                $query->when(filled(request()->input($field)), function ($query) use ($field) {
                     $query->where($field, 'like', '%' . request()->input($field) . '%');
                 });
             });
