@@ -131,7 +131,7 @@ class GenCodeClear
         $where = [
             'title'     => $menuInfo['title'],
             'parent_id' => $menuInfo['parent_id'],
-            'url'       => '/' . ltrim($menuInfo['route'], '/'),
+            'url'       => ltrim($menuInfo['route'], ''),
         ];
 
         // webman 待取消

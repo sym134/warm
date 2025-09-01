@@ -15,7 +15,7 @@ class RouteGenerator
         // 创建菜单
         $adminMenuService = AdminMenuService::make();
 
-        $_url = '/' . ltrim($menuInfo['route'], '/');
+        $_url = ltrim($menuInfo['route'], '');
         if (!$adminMenuService->getModel()->query()->where('url', $_url)->exists()) {
                $adminMenuService->store([
                 'title'        => $menuInfo['title'],

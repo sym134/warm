@@ -26,7 +26,8 @@ class StorageService extends AdminService
         'image_yes' => [],
         'storage' => [
             'local' => [
-                'root' => 'public',
+                'disk' => 'public',
+                'root' => '',
                 'domain' => '//127.0.0.1:8787', // 静态文件访问域名
             ],
             'qiniu' => [

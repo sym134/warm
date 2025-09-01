@@ -131,7 +131,7 @@ EOF;
             if (!class_exists($_controller)) {
                 continue;
             }
-            $_route = ltrim($item['menu_info']['route'], '/');
+            $_route = ltrim($item['menu_info']['route'], '');
 
             $routes = <<<EOF
     // {$item['title']}
