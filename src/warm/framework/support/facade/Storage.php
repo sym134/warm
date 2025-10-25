@@ -5,10 +5,15 @@ namespace warm\framework\support\facade;
 use warm\framework\filesystem\FilesystemManager;
 
 /**
+ * 存储门面类
+ * 
+ * 提供简化的文件存储操作接口，封装了底层的文件系统管理器
+ * 支持本地存储和各种云存储服务的操作
+ * 
  * @method static FilesystemManager disk(string $name = null) 获取指定磁盘实例
  * @method static string getDefaultDriver() 获取默认驱动名称
- * @method static array getConfig()
- * @method static string getUploadConfig()
+ * @method static array getConfig() 获取配置信息
+ * @method static string getUploadConfig() 获取上传配置
  * @method static void extend(string $driver, \Closure $callback) 注册自定义驱动
  * @method static bool fileExists(string $path) 检查文件是否存在
  * @method static bool directoryExists(string $path) 检查目录是否存在
@@ -28,6 +33,11 @@ use warm\framework\filesystem\FilesystemManager;
  */
 class Storage extends Facade
 {
+    /**
+     * 获取门面对应的类名
+     * 
+     * @return string 文件系统管理器类名
+     */
     protected static function getFacadeClass(): string
     {
         return FilesystemManager::class;

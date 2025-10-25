@@ -7,8 +7,15 @@ use InvalidArgumentException;
 use warm\admin\Admin;
 use Webman\Http\Request;
 
+/**
+ * 权限管理类
+ * 
+ * 用于处理系统权限验证，包括身份验证和权限拦截
+ * 提供路由权限检查和路径格式化等功能
+ */
 class Permission
 {
+    /** @var array 身份验证排除路径 */
     public array $authExcept = [
         'login',
         'logout',
@@ -18,6 +25,7 @@ class Permission
         '_download_export',
     ];
 
+    /** @var array 权限验证排除路径 */
     public array $permissionExcept = [
         'menus',
         'current-user',
@@ -35,10 +43,9 @@ class Permission
 
     /**
      * 身份验证拦截
-     *
-     * @param $request
-     *
-     * @return array
+     * 
+     * @param Request $request 请求对象
+     * @return array 包含是否需要拦截和用户信息的数组
      */
     public function authIntercept($request): array
     {
@@ -56,11 +63,10 @@ class Permission
 
     /**
      * 权限拦截
-     *
-     * @param Request          $request
-     * @param                  $args
-     *
-     * @return bool
+     * 
+     * @param Request $request 请求对象
+     * @param mixed $args 参数
+     * @return bool 是否需要拦截
      */
     public function permissionIntercept(Request $request, $args): bool
     {
@@ -91,6 +97,12 @@ class Permission
         return !$user?->allPermissions()->first(fn($permission) => $permission->shouldPassThrough($request));
     }
 
+    /**
+     * 检查路由权限
+     * 
+     * @param Request $request 请求对象
+     * @return bool 是否有路由权限
+     */
     protected function checkRoutePermission(Request $request): bool
     {
         $middlewarePrefix = 'admin.permission:';
@@ -115,6 +127,12 @@ class Permission
         return true;
     }
 
+    /**
+     * 路径格式化
+     * 
+     * @param string $path 路径
+     * @return string 格式化后的路径
+     */
     private function pathFormatting($path): string
     {
         $prefix = '/' . trim(Admin::config('app.route.prefix'), '/');

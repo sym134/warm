@@ -7,26 +7,53 @@ use Illuminate\Support\Str;
 use support\Model;
 use warm\admin\model\AdminCodeGenerator;
 
+/**
+ * 代码生成器基础类
+ * 
+ * 提供代码生成器的通用功能，包括文件操作、类名处理、命名空间处理等基础方法
+ * 所有具体的代码生成器都应继承此类
+ */
 class BaseGenerator
 {
+    /** @var array 存储已生成的文件路径 */
     protected static array $files = [];
 
+    /** @var string 主键字段名 */
     protected string $primaryKey = '';
 
+    /** @var string 标题 */
     protected string $title = '';
 
+    /** @var Model 模型实例 */
     protected Model $model;
 
+    /**
+     * 构造函数
+     * 
+     * @param Model $model 模型实例
+     */
     public function __construct($model)
     {
         $this->model = $model;
     }
 
+    /**
+     * 创建静态实例方法
+     * 
+     * @param Model $model 模型实例
+     * @return static 返回当前类的实例
+     */
     public static function make($model): static
     {
         return new static($model);
     }
 
+    /**
+     * 设置主键
+     * 
+     * @param string $key 主键字段名
+     * @return static 返回当前实例以支持链式调用
+     */
     public function primary($key): static
     {
         $this->primaryKey = $key;
@@ -34,6 +61,12 @@ class BaseGenerator
         return $this;
     }
 
+    /**
+     * 设置标题
+     * 
+     * @param string $title 标题
+     * @return static 返回当前实例以支持链式调用
+     */
     public function title($title): static
     {
         $this->title = $title;
@@ -41,6 +74,14 @@ class BaseGenerator
         return $this;
     }
 
+    /**
+     * 猜测类文件路径
+     * 
+     * 根据类名获取其对应的文件路径，支持PSR-4自动加载标准
+     * 
+     * @param string|object $class 类名或类实例
+     * @return bool|string 类文件路径，如果找不到则返回false
+     */
     public static function guessClassFileName($class): bool|string
     {
         if (is_object($class)) {
@@ -86,6 +127,13 @@ class BaseGenerator
         return base_path(str_replace(["/", $namespace, '\\'], ["\\", $path, '/'], $class)) . '.php';
     }
 
+    /**
+     * 将驼峰命名转换为短横线分隔命名
+     * 
+     * @param string $name 驼峰命名的字符串
+     * @param string $symbol 分隔符，默认为短横线
+     * @return array|string 转换后的字符串
+     */
     public static function slug(string $name, string $symbol = '-'): array|string
     {
         $text = preg_replace_callback('/([A-Z])/', function ($text) use ($symbol) {
@@ -95,11 +143,28 @@ class BaseGenerator
         return str_replace('_', $symbol, ltrim($text, $symbol));
     }
 
+    /**
+     * 获取命名空间
+     * 
+     * 从完整类名中提取命名空间部分
+     * 
+     * @param string $name 完整类名
+     * @return string 命名空间
+     */
     protected function getNamespace($name): string
     {
         return trim(implode('\\', array_slice(explode('\\', str_replace('/', '\\', $name)), 0, -1)), '\\');
     }
 
+    /**
+     * 写入文件
+     * 
+     * 将生成的内容写入指定文件
+     * 
+     * @param string $name 类名
+     * @param string $type 文件类型
+     * @return bool|string 文件路径，如果写入失败则返回false
+     */
     protected function writeFile($name, $type): bool|string
     {
         $name = str_replace('/', '\\', $name);
@@ -124,6 +189,12 @@ class BaseGenerator
         return $path;
     }
 
+    /**
+     * 将JSON字符串转换为PHP数组字符串
+     * 
+     * @param string $jsonString JSON字符串
+     * @return mixed 转换后的PHP数组字符串或原始字符串
+     */
     protected function jsonToStringArray($jsonString)
     {
         // 首先，检查输入是否为有效的JSON字符串
@@ -157,6 +228,12 @@ class BaseGenerator
         return str_replace(["\r\n", "\r", "\n", "\t", "  "], '', $phpArrayString);
     }
 
+    /**
+     * 构建组件属性字符串
+     * 
+     * @param array $property 属性数组
+     * @return string 构建后的属性字符串
+     */
     protected function buildComponentProperty($property): string
     {
         return collect($property)->map(function ($item) {

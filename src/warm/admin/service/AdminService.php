@@ -14,44 +14,92 @@ use warm\admin\renderer\Page;
 use warm\admin\renderer\TableColumn;
 use warm\admin\trait\ErrorTrait;
 
+/**
+ * 管理服务基类
+ * 
+ * 所有管理服务类的基类，提供通用的增删改查功能和钩子方法
+ */
 abstract class AdminService
 {
     use ErrorTrait;
 
+    /**
+     * 数据表字段列表
+     * 
+     * @var array
+     */
     protected array $tableColumn = [];
 
+    /**
+     * 模型类名
+     * 
+     * @var string
+     */
     protected string $modelName;
 
+    /**
+     * 请求对象
+     * 
+     * @var Request|null
+     */
     protected Request|null $request;
 
+    /**
+     * 构造函数
+     * 
+     * 初始化请求对象
+     */
     public function __construct()
     {
         $this->request = request();
     }
 
+    /**
+     * 创建服务实例
+     * 
+     * @return static 服务实例
+     */
     public static function make(): static
     {
         return new static;
     }
 
+    /**
+     * 设置模型类名
+     * 
+     * @param string $modelName 模型类名
+     * @return void
+     */
     public function setModelName($modelName): void
     {
         $this->modelName = $modelName;
     }
 
     /**
-     * @return Model
+     * 获取模型实例
+     * 
+     * @return Model 模型实例
      */
     public function getModel(): Model
     {
         return new $this->modelName;
     }
 
+    /**
+     * 获取主键字段名
+     * 
+     * @return string 主键字段名
+     */
     public function primaryKey(): string
     {
         return $this->getModel()->getKeyName();
     }
 
+    /**
+     * 获取数据表字段列表
+     * 
+     * @return array 字段列表
+     */
     public function getTableColumns(): array
     {
         if (!$this->tableColumn) {
@@ -67,6 +115,12 @@ abstract class AdminService
         return $this->tableColumn;
     }
 
+    /**
+     * 检查字段是否存在
+     * 
+     * @param string $column 字段名
+     * @return bool 字段是否存在
+     */
     public function hasColumn($column): bool
     {
         $columns = $this->getTableColumns();
@@ -76,6 +130,11 @@ abstract class AdminService
         return in_array($column, $columns);
     }
 
+    /**
+     * 获取查询构造器
+     * 
+     * @return mixed 查询构造器
+     */
     public function query()
     {
         return $this->modelName::query();
@@ -84,9 +143,8 @@ abstract class AdminService
     /**
      * 详情 获取数据
      *
-     * @param $id
-     *
-     * @return Builder|Builder[]|Collection|Model|null
+     * @param mixed $id 数据ID
+     * @return Builder|Builder[]|Collection|Model|null 详情数据
      */
     public function getDetail($id): Model|Collection|Builder|array|null
     {
@@ -100,9 +158,8 @@ abstract class AdminService
     /**
      * 编辑 获取数据
      *
-     * @param $id
-     *
-     * @return Model|Collection|Builder|array|null
+     * @param mixed $id 数据ID
+     * @return Model|Collection|Builder|array|null 编辑数据
      */
     public function getEditData($id): Model|Collection|Builder|array|null
     {
@@ -122,6 +179,7 @@ abstract class AdminService
     /**
      * 列表 获取查询
      *
+     * @return mixed 查询构造器
      */
     public function listQuery()
     {
@@ -147,9 +205,8 @@ abstract class AdminService
      *
      * 预留钩子, 方便处理只需要添加 [关联] 的情况
      *
-     * @param        $query
+     * @param mixed $query 查询构造器
      * @param string $scene 场景: list, detail, edit
-     *
      * @return void
      */
     public function addRelations($query, string $scene = 'list')
@@ -160,8 +217,7 @@ abstract class AdminService
     /**
      * 根据 tableColumn 定义的列, 自动加载关联关系
      *
-     * @param $query
-     *
+     * @param mixed $query 查询构造器
      * @return void
      */
     public function loadRelations($query): void
@@ -205,8 +261,7 @@ abstract class AdminService
     /**
      * 排序
      *
-     * @param $query
-     *
+     * @param mixed $query 查询构造器
      * @return void
      */
     public function sortable($query): void
@@ -221,8 +276,7 @@ abstract class AdminService
     /**
      * 搜索
      *
-     * @param $query
-     *
+     * @param mixed $query 查询构造器
      * @return void
      */
     public function searchable($query): void
@@ -239,7 +293,7 @@ abstract class AdminService
     /**
      * 列表 排序字段
      *
-     * @return mixed
+     * @return mixed 排序字段名
      */
     public function sortColumn(): mixed
     {
@@ -253,7 +307,7 @@ abstract class AdminService
     /**
      * 列表 获取数据
      *
-     * @return array
+     * @return array 列表数据
      */
     public function list(): array
     {
@@ -269,10 +323,9 @@ abstract class AdminService
     /**
      * 修改
      *
-     * @param $primaryKey
-     * @param $data
-     *
-     * @return bool
+     * @param mixed $primaryKey 主键值
+     * @param array $data 更新的数据
+     * @return bool 是否更新成功
      */
     public function update($primaryKey, $data): bool
     {
@@ -308,9 +361,8 @@ abstract class AdminService
     /**
      * 新增
      *
-     * @param $data
-     *
-     * @return bool
+     * @param array $data 存储的数据
+     * @return bool 是否存储成功
      */
     public function store($data): bool
     {
@@ -345,9 +397,8 @@ abstract class AdminService
     /**
      * 删除
      *
-     * @param string $ids
-     *
-     * @return bool
+     * @param string $ids 删除的ID列表
+     * @return bool 是否删除成功
      */
     public function delete(string $ids): bool
     {
@@ -371,9 +422,8 @@ abstract class AdminService
     /**
      * 快速编辑
      *
-     * @param $data
-     *
-     * @return true
+     * @param array $data 编辑的数据
+     * @return bool 是否编辑成功
      */
     public function quickEdit($data): bool
     {
@@ -396,9 +446,8 @@ abstract class AdminService
     /**
      * 快速编辑单条
      *
-     * @param $data
-     *
-     * @return bool
+     * @param array $data 编辑的数据
+     * @return bool 是否编辑成功
      */
     public function quickEditItem($data): bool
     {
@@ -410,9 +459,8 @@ abstract class AdminService
      *
      * 可以通过判断 $primaryKey 是否存在来判断是新增还是修改
      *
-     * @param        $data
-     * @param string $primaryKey
-     *
+     * @param array $data 保存的数据
+     * @param string $primaryKey 主键值
      * @return void
      */
     public function saving(&$data, string $primaryKey = '')
@@ -425,9 +473,8 @@ abstract class AdminService
      *
      * 可以通过 $isEdit 来判断是新增还是修改
      *
-     * @param      $model
-     * @param bool $isEdit
-     *
+     * @param mixed $model 保存的模型实例
+     * @param bool $isEdit 是否为编辑操作
      * @return void
      */
     public function saved($model, bool $isEdit = false)
@@ -438,8 +485,7 @@ abstract class AdminService
     /**
      * deleted 钩子 (执行于删除后)
      *
-     * @param $ids
-     *
+     * @param string $ids 删除的ID列表
      * @return void
      */
     public function deleted($ids)

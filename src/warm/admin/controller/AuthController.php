@@ -10,23 +10,46 @@ use warm\admin\support\Captcha;
 use warm\framework\support\facade\Hash;
 use Webman\Event\Event;
 
+/**
+ * 认证控制器类
+ * 
+ * 处理用户登录、登出、验证码等相关功能
+ * 继承自AdminController，提供完整的认证流程管理
+ */
 class AuthController extends AdminController
 {
+    /**
+     * 服务类名称
+     * 
+     * @var string
+     */
     protected string $serviceName = AdminUserService::class;
 
+    /**
+     * 用户登录处理
+     * 
+     * 验证用户提交的用户名和密码，处理验证码验证，执行登录操作
+     * 
+     * @param Request $request HTTP请求对象
+     * @return Response 响应对象
+     */
     public function login(Request $request)
     {
+        // 检查是否启用了验证码功能
         if (Admin::config('app.auth.login_captcha')) {
+            // 验证验证码是否填写
             if (!$request->post('captcha')) {
                 return $this->response()
                     ->fail(translator('admin.required', ['attribute' => translator('admin.captcha')]));
             }
+            // 验证验证码是否正确
             if (strtolower(cache()->pull($request->post('sys_captcha'))) != strtolower($request->post('captcha'))) {
                 return $this->response()->fail(translator('admin.captcha_error'));
             }
         }
 
         try {
+            // 验证用户名和密码是否填写
             $validator = validate([
                 'username' => 'require',
                 'password' => 'require',
@@ -38,25 +61,29 @@ class AuthController extends AdminController
                 abort(400, $validator->getError());
             }
 
+            // 查询用户信息
             $user = Admin::adminUserModel()::query()->where('username', $request->post('username'))->first();
 
+            // 验证用户密码
             if ($user && Hash::instance()->check($request->post('password'), $user->password)) {
+                // 检查用户是否启用
                 if (!$user->enabled) {
-                    // 登录事件
+                    // 触发登录事件
                     Event::emit('user.login', ['username' => $user->name, 'status' => 3, 'message' => '用户未启用']);
                     return $this->response()->fail(translator('admin.user_disabled'));
                 }
 
                 // $module = Admin::currentModule(true);
                 // $prefix = $module ? $module . '.' : '';
+                // 生成访问令牌
                 $token = $this->guard()->login($user)->access_token;
 
-                // 登录事件
+                // 触发登录成功事件
                 Event::emit('user.login', ['username' => $user->name, 'status' => 1, 'message' => '登陆成功']);
                 return $this->response()->success(compact('token'), translator('admin.login_successful'));
             }
 
-            // 登录事件
+            // 触发登录失败事件
             Event::emit('user.login', ['username' => $request->post('username'), 'status' => 2, 'message' => '登陆失败']);
             abort(400, translator('admin.login_failed'));
         } catch (\Exception $e) {
@@ -64,8 +91,16 @@ class AuthController extends AdminController
         }
     }
 
+    /**
+     * 登录页面展示
+     * 
+     * 构建并返回登录页面的Amis结构
+     * 
+     * @return mixed 登录页面结构
+     */
     public function loginPage()
     {
+        // 构建登录表单
         $form = amis()->Form()
             ->panelClassName('border-none')
             ->id('login-form')
@@ -156,6 +191,7 @@ JS,
                 ],
             ]);
 
+        // 构建登录卡片
         $card = amis()->Card()->className('w-96 m:w-full')->body([
             amis()->Service()->api('/_settings')->body([
                 amis()->Flex()->justify('space-between')->className('px-2.5 pb-2.5')->items([
@@ -168,6 +204,7 @@ JS,
             ]),
         ]);
         
+        // 返回登录页面
         return amis()->Page()->className('login-bg')->css([
             '.captcha-box .cxd-Image--thumb' => [
                 'padding' => '0',
@@ -189,40 +226,71 @@ JS,
     /**
      * 刷新验证码
      *
-     * @return Response
+     * 生成新的验证码图片和标识符
+     *
+     * @return Response 验证码响应
      */
     public function reloadCaptcha(): Response
     {
+        // 创建验证码实例
         $captcha = new Captcha();
 
+        // 生成验证码图片
         $captcha_img = $captcha->showImg();
+        // 生成验证码标识符
         $sys_captcha = uniqid('captcha-');
 
+        // 将验证码存储到缓存中，有效期10分钟
         cache()->put($sys_captcha, $captcha->getCaptcha(), 600);
 
+        // 返回验证码数据
         return $this->response()->success(compact('captcha_img', 'sys_captcha'));
     }
 
+    /**
+     * 用户登出
+     * 
+     * 执行用户登出操作，清除用户会话
+     * 
+     * @return Response 响应对象
+     */
     public function logout(): Response
     {
+        // 调用认证守卫执行登出
         $this->guard()->logout();
 
+        // 返回成功响应
         return $this->response()->successMessage();
     }
 
+    /**
+     * 获取认证守卫实例
+     * 
+     * @return mixed 认证守卫实例
+     */
     protected function guard()
     {
         return Admin::guard();
     }
 
+    /**
+     * 获取当前用户信息
+     * 
+     * 返回当前登录用户的基本信息和操作菜单
+     * 
+     * @return Response 用户信息响应
+     */
     public function currentUser(): Response
     {
+        // 检查认证功能是否启用
         if (!Admin::config('app.auth.enable')) {
             return $this->response()->success([]);
         }
 
+        // 获取用户信息
         $userInfo = Admin::user()->only(['name', 'avatar']);
 
+        // 构建用户菜单
         $menus = amis()->DropdownButton()
             ->hideCaret()
             ->trigger('hover')
@@ -244,11 +312,20 @@ JS,
                     ->onClick('window.$owl.logout()'),
             ]);
 
+        // 返回用户信息和菜单
         return $this->response()->success(array_merge($userInfo, compact('menus')));
     }
 
+    /**
+     * 用户设置页面
+     * 
+     * 展示用户个人设置表单
+     * 
+     * @return Response 设置页面响应
+     */
     public function userSetting(): Response
     {
+        // 构建用户设置表单
         $form = amis()->Form()
             ->title()
             ->panelClassName('px-48 m:px-0')
@@ -269,11 +346,20 @@ JS,
                     ->name('confirm_password'),
             ]);
 
+        // 返回设置页面
         return $this->response()->success(amis()->Page()->body($form));
     }
 
+    /**
+     * 保存用户设置
+     * 
+     * 更新用户的个人信息和密码
+     * 
+     * @return Response 保存结果响应
+     */
     public function saveUserSetting(): Response
     {
+        // 更新用户设置
         $result = $this->service->updateUserSetting($this->user()->id,
             request()->only([
                 'avatar',
@@ -283,6 +369,7 @@ JS,
                 'confirm_password',
             ]));
 
+        // 返回自动响应结果
         return $this->autoResponse($result);
     }
 }

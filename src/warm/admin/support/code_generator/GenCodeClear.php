@@ -9,12 +9,27 @@ use warm\admin\model\AdminCodeGenerator;
 use warm\admin\support\code_generator\BaseGenerator;
 use warm\admin\trait\MakeTrait;
 
+/**
+ * 代码清理器
+ * 
+ * 用于清理已生成的代码文件和数据库表等资源
+ * 提供对生成的控制器、模型、服务、迁移文件、菜单等的删除功能
+ */
 class GenCodeClear
 {
     use MakeTrait;
 
+    /** @var string 模块名 */
     protected string $module = '';
 
+    /**
+     * 处理清理请求
+     * 
+     * 根据传入的数据删除指定的代码文件和资源
+     * 
+     * @param array $data 包含要删除项的信息
+     * @return void
+     */
     public function handle($data): void
     {
         $records = $this->getRecord($data['id']);
@@ -55,6 +70,14 @@ class GenCodeClear
         }
     }
 
+    /**
+     * 获取记录信息
+     * 
+     * 根据ID获取代码生成记录的详细信息，包括各文件路径等
+     * 
+     * @param int $id 记录ID
+     * @return array 记录信息数组
+     */
     public function getRecord($id): array
     {
         $record = AdminCodeGenerator::find($id);
@@ -94,6 +117,15 @@ class GenCodeClear
         return $content;
     }
 
+    /**
+     * 获取迁移文件名
+     * 
+     * 根据表名和模型名获取对应的迁移文件路径
+     * 
+     * @param string $tableName 表名
+     * @param string $model_name 模型名
+     * @return array|bool|string 迁移文件路径
+     */
     protected function getMigrationFileName($tableName, $model_name): array|bool|string
     {
         $tableName = 'create_' . $tableName . '_table';
@@ -126,6 +158,14 @@ class GenCodeClear
         return realpath($migrationPath . '/' . $files[0]);
     }
 
+    /**
+     * 获取菜单信息
+     * 
+     * 根据菜单信息获取菜单记录
+     * 
+     * @param array $menuInfo 菜单信息
+     * @return mixed 菜单记录
+     */
     protected function getMenu($menuInfo)
     {
         $where = [

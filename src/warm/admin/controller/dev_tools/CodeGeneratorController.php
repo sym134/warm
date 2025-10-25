@@ -25,7 +25,16 @@ use warm\admin\support\code_generator\Generator;
 use warm\admin\trait\IconifyPickerTrait;
 
 /**
- * @property AdminCodeGeneratorService $service
+ * 代码生成器控制器
+ * 
+ * 负责处理代码生成相关的所有功能，包括：
+ * 1. 代码生成记录的增删改查
+ * 2. 代码预览和生成
+ * 3. 组件属性配置管理
+ * 4. 字段配置管理
+ * 5. 代码清理功能
+ * 
+ * @property AdminCodeGeneratorService $service 代码生成服务类实例
  */
 class CodeGeneratorController extends AdminController
 {
@@ -33,28 +42,51 @@ class CodeGeneratorController extends AdminController
 
     protected string $serviceName = AdminCodeGeneratorService::class;
 
+    /**
+     * 代码生成器首页
+     * 
+     * 根据请求类型返回不同的响应：
+     * - 如果是获取数据的请求，返回代码生成记录列表
+     * - 如果是页面请求，返回完整的页面结构
+     * 
+     * @return Response 响应对象
+     */
     public function index(): Response
     {
+        // 判断是否为获取数据的请求
         if ($this->actionOfGetData()) {
             return $this->response()->success($this->service->list());
         }
 
+        // 返回完整的页面结构，包括CSS样式和列表内容
         return $this->response()->success(
             $this->basePage()->css($this->css())->body($this->list())
         );
     }
 
+    /**
+     * 构建代码生成记录列表页面
+     * 
+     * 创建一个包含过滤器、工具栏和数据列的CRUD表格，
+     * 用于展示和管理代码生成记录。
+     * 
+     * @return CRUDTable CRUD表格对象
+     */
     public function list(): CRUDTable
     {
+        // 定义表单回调函数，用于创建和编辑操作
         $form = function ($isEdit = false) {
+            // 获取基础表单结构
             $body = $this->form($isEdit);
 
+            // 根据是否为编辑模式设置不同的API路径
             if ($isEdit) {
                 $body = $body->initApi($this->getEditGetDataPath())->api($this->getUpdatePath());
             } else {
                 $body = $body->api($this->getStorePath());
             }
 
+            // 返回抽屉式表单
             return amis()
                 ->Drawer()
                 ->size('xl')
@@ -70,6 +102,7 @@ class CodeGeneratorController extends AdminController
                 ->body($body);
         };
 
+        // 构建并返回CRUD表格
         return $this
             ->baseCRUD()
             ->filter(
@@ -131,6 +164,15 @@ class CodeGeneratorController extends AdminController
             ]);
     }
 
+    /**
+     * 构建代码生成配置表单
+     * 
+     * 创建一个多标签页的表单，包含基本信息、字段信息、
+     * 路由配置和页面配置等四个主要部分。
+     * 
+     * @param bool $isEdit 是否为编辑模式
+     * @return Form 表单对象
+     */
     public function form($isEdit = false): Form
     {
         // 下划线的表名处理成驼峰文件名
@@ -159,7 +201,7 @@ class CodeGeneratorController extends AdminController
             ->resetAfterSubmit()
             ->initApi('post:/dev_tools/code_generator/form_data')
             ->tabs([
-                // 基本信息
+                // 基本信息标签页
                 amis()->Tab()->title(translator('admin.code_generators.base_info'))->body(
                     amis()->Card()->body(
                         amis()->GroupControl()->body([
@@ -283,12 +325,12 @@ class CodeGeneratorController extends AdminController
                         ]),
                     )
                 ),
-                // 字段信息
+                // 字段信息标签页
                 amis()->Tab()->title(translator('admin.code_generators.column_info'))->body([
                     $this->cachedColumns(),
                     $this->columnForm(),
                 ]),
-                // 路由配置
+                // 路由配置标签页
                 amis()->Tab()->title(translator('admin.code_generators.route_config'))->body(
                     amis()->ComboControl('menu_info', false)->multiLine()->subFormMode('horizontal')->items([
                         amis()->SwitchControl('enabled', translator('admin.code_generators.gen_route_menu'))->value(1),
@@ -311,7 +353,7 @@ class CodeGeneratorController extends AdminController
                             ->value('ph:circle'),
                     ])
                 ),
-                // 页面配置
+                // 页面配置标签页
                 amis()->Tab()->title(translator('admin.code_generators.page_config'))->body(
                     amis()->ComboControl('page_info', false)->multiLine()->subFormMode('horizontal')->items([
                         amis()
@@ -347,53 +389,72 @@ class CodeGeneratorController extends AdminController
     /**
      * 生成代码
      *
-     * @param Request $request
+     * 调用Generator类的generate方法生成代码文件，
+     * 并返回生成结果。
      *
-     * @return Response
+     * @param Request $request HTTP请求对象
+     *
+     * @return Response 响应对象，包含生成结果
      */
     public function generate(Request $request): Response
     {
+        // 调用Generator生成代码，传入记录ID和需要生成的组件选项
         $result = Generator::make()->generate($request->input('id'), safe_explode(',', $request->input('needs')));
 
+        // 返回成功响应，包含生成结果
         return $this->response()->doNotDisplayToast()->success(compact('result'));
     }
 
     /**
      * 预览代码
      *
-     * @param Request $request
+     * 调用Generator类的preview方法预览将要生成的代码，
+     * 并返回预览内容。
      *
-     * @return Response
+     * @param Request $request HTTP请求对象
+     *
+     * @return Response 响应对象，包含预览内容
      */
     public function preview(Request $request): Response
     {
+        // 调用Generator预览代码，传入记录ID
         $data = Generator::make()->preview($request->input('id'));
 
+        // 返回成功响应，包含预览数据
         return $this->response()->doNotDisplayToast()->success($data);
     }
 
     /**
      * 获取组件属性
      *
-     * @param Request $request
+     * 通过反射机制获取指定组件类的所有公共方法，
+     * 用于在前端展示组件可用的属性配置选项。
      *
-     * @return Response
-     * @throws ReflectionException
+     * @param Request $request HTTP请求对象
+     *
+     * @return Response 响应对象，包含组件属性选项
+     * @throws ReflectionException 反射异常
      */
     public function getPropertyOptions(Request $request): Response
     {
+        // 如果没有传入组件名称，则返回空数组
         if (blank($request->input('c'))) {
             return $this->response()->success([]);
         }
 
+        // 构建完整的类名
         $className = '\\warm\\admin\\renderer\\' . $request->input('c');
 
+        // 通过反射获取类信息
         $renderer = new ReflectionClass($className);
 
+        // 需要排除的方法列表
         $exclude = ['__construct', '__call', 'set', 'jsonSerialize', 'toJson', 'toArray', 'name', 'label',];
 
+        // 获取所有公共方法并过滤处理
         $options = collect($renderer->getMethods(ReflectionMethod::IS_PUBLIC))
             ->map(function ($item) {
+                // 获取方法的注释文档
                 $_doc = $item->getDocComment();
                 $_doc = $_doc ? trim(str_replace(['/**', '*/', '*'], '', $_doc)) : false;
 
@@ -407,157 +468,218 @@ class CodeGeneratorController extends AdminController
             ->values()
             ->toArray();
 
+        // 返回成功响应，包含组件属性选项
         return $this->response()->success(['component_property_options' => $options]);
     }
 
     /**
      * 保存组件配置
      *
-     * @param Request $request
+     * 将用户配置的组件属性保存到系统配置中，
+     * 以便后续可以复用这些配置。
      *
-     * @return Response
+     * @param Request $request HTTP请求对象
+     *
+     * @return Response 响应对象
      */
     public function saveComponentProperty(Request $request): Response
     {
+        // 检查传入的值是否包含key字段
         admin_abort_if(!data_get($request->input('value'), 'key'), translator('admin.required', ['attribute' => translator('admin.admin_menu.component')]));
 
         $list = [];
 
+        // 如果配置中已存在相关数据，则先读取出来
         if ($original = warmConfig()->get($request->input('key'))) {
             foreach ($original as $item) {
                 $list[$item['key'] . '|' . $item['label']] = $item;
             }
         }
 
+        // 将新的配置项添加到列表中
         $list[$request->input('value')['key'] . '|' . $request->input('value')['label']] = $request->input('value');
 
+        // 保存配置到系统
         $res = warmConfig()->set($request->input('key'), array_values($list));
 
+        // 返回自动响应结果
         return $this->autoResponse($res, translator('admin.save'));
     }
 
     /**
      * 获取组件配置
      *
-     * @param Request $request
+     * 从系统配置中读取已保存的组件属性配置，
+     * 用于在前端展示和选择。
      *
-     * @return Response
+     * @param Request $request HTTP请求对象
+     *
+     * @return Response 响应对象，包含组件配置列表
      */
     public function getComponentProperty(Request $request): Response
     {
+        // 从系统配置中获取组件属性列表
         $component_property_list = collect(warmConfig()->get($request->input('key')))->values();
 
+        // 返回成功响应，包含组件属性列表
         return $this->response()->success(compact('component_property_list'));
     }
 
     /**
      * 删除组件配置
      *
-     * @param Request $request
+     * 从系统配置中删除指定的组件属性配置。
      *
-     * @return Response
+     * @param Request $request HTTP请求对象
+     *
+     * @return Response 响应对象
      */
     public function delComponentProperty(Request $request): Response
     {
+        // 获取当前配置列表
         $list = warmConfig()->get($request->input('name'));
 
+        // 如果配置列表为空，则直接返回
         if (blank($list)) {
             return $this->autoResponse(false);
         }
 
+        // 遍历配置列表，找到匹配的项并删除
         foreach ($list as $key => $item) {
             if ($item['label'] == $request->input('label') && $item['key'] == $request->input('key')) {
                 unset($list[$key]);
             }
         }
 
+        // 保存更新后的配置列表
         warmConfig()->set($request->input('name'), array_values($list));
 
+        // 返回成功响应
         return $this->autoResponse(true);
     }
 
     /**
      * 保存字段配置
      *
-     * @param Request $request
+     * 将用户配置的字段属性保存到系统配置中，
+     * 以便后续可以复用这些配置。
      *
-     * @return Response
+     * @param Request $request HTTP请求对象
+     *
+     * @return Response 响应对象
      */
     public function saveColumnProperty(Request $request): Response
     {
+        // 从传入的值中找到匹配的字段配置
         $value = collect($request->input('value'))->firstWhere('name', $request->input('column'));
         $list = warmConfig()->get('admin_common_field', []);
 
+        // 将配置保存到列表中，排除组件属性选项
         $list[$request->input('name')] = Arr::except($value, ['component_property_options']);
 
+        // 保存配置到系统
         $res = warmConfig()->set('admin_common_field', $list);
 
+        // 返回自动响应结果
         return $this->autoResponse($res, translator('admin.save'));
     }
 
     /**
      * 获取字段配置
      *
+     * 从系统配置中读取已保存的字段配置，
+     * 用于在前端展示和选择。
      *
-     * @return Response
+     * @return Response 响应对象，包含字段配置列表
      */
     public function getColumnProperty(): Response
     {
+        // 从系统配置中获取通用字段列表，并重新格式化
         $common_field_list = collect(warmConfig()->get('admin_common_field'))->map(fn($v, $k) => [
             'name'        => $k,
             'column_name' => $v['name'],
             'value'       => $v,
         ])->values();
 
+        // 返回成功响应，包含通用字段列表
         return $this->response()->success(compact('common_field_list'));
     }
 
     /**
      * 删除字段配置
      *
-     * @param Request $request
+     * 从系统配置中删除指定的字段配置。
      *
-     * @return Response
+     * @param Request $request HTTP请求对象
+     *
+     * @return Response 响应对象
      */
     public function delColumnProperty(Request $request): Response
     {
+        // 获取当前字段配置列表
         $list = warmConfig()->get('admin_common_field');
 
+        // 如果配置列表为空，则直接返回
         if (blank($list)) {
             return $this->autoResponse(false);
         }
 
+        // 遍历配置列表，找到匹配的项并删除
         foreach ($list as $key => $item) {
             if ($key == $request->input('name')) {
                 unset($list[$key]);
             }
         }
 
+        // 保存更新后的配置列表
         warmConfig()->set('admin_common_field', $list);
 
+        // 返回成功响应
         return $this->autoResponse(true);
     }
 
     /**
      * 获取记录
      *
-     * @return Response
+     * 获取指定ID的代码生成记录详情，
+     * 并隐藏ID、创建时间和更新时间字段。
+     *
+     * @return Response 响应对象，包含记录详情
      */
     public function getRecord(): Response
     {
+        // 获取指定ID的记录详情，并隐藏部分字段
         $record = $this->service->getDetail(request()->input('id'))->makeHidden(['id', 'created_at', 'updated_at'])->toArray();
 
+        // 返回成功响应，包含记录详情
         return $this->response()->success(compact('record'));
     }
 
+    /**
+     * 获取表单数据
+     *
+     * 为代码生成表单提供初始化数据，包括：
+     * 1. 数据库表信息
+     * 2. 默认保存路径
+     * 3. 插件信息
+     * 4. 菜单树结构
+     * 5. 组件选项
+     *
+     * @param bool $directReturn 是否直接返回数据而不是响应对象
+     * @return Response|array 响应对象或数据数组
+     */
     public function formData($directReturn = false): Response|array
     {
+        // 获取数据库列信息
         $databaseColumns = Generator::make()->getDatabaseColumns();
 
+        // 获取默认保存路径
         $defaultPath = $this->service->getDefaultPath();
 
+        // 初始化保存路径选项数组，包含默认路径
         $savePaths = [$defaultPath];
 
+        // 遍历所有插件，将插件路径添加到保存路径选项中
         foreach (PluginService::make()->getPlugins() as $plugin) {
             $savePaths[] = [
                 'label' => $plugin->name,
@@ -570,6 +692,7 @@ class CodeGeneratorController extends AdminController
             ];
         }
 
+        // 构建已存在表的选项列表
         $existsTables = $databaseColumns->map(function ($item, $index) {
             return [
                 'label'    => $index,
@@ -579,6 +702,7 @@ class CodeGeneratorController extends AdminController
             ];
         })->values();
 
+        // 构建返回数据数组
         $data = [
             'table_info'         => $databaseColumns,
             'table_primary_keys' => Generator::make()->getDatabasePrimaryKeys(),
@@ -592,6 +716,7 @@ class CodeGeneratorController extends AdminController
             'component_options'  => $this->service->getComponentOptions(),
         ];
 
+        // 根据参数决定直接返回数据还是包装成响应对象
         if ($directReturn === true) {
             return $data;
         }
@@ -599,6 +724,14 @@ class CodeGeneratorController extends AdminController
         return $this->response()->success($data);
     }
 
+    /**
+     * 构建缓存字段部分
+     *
+     * 创建用于管理通用字段配置的界面元素，
+     * 包括添加字段和加载配置的功能。
+     *
+     * @return Flex 弹性布局对象
+     */
     public function cachedColumns(): Flex
     {
         return amis()->Flex()->justify('end')->className('pb-3')->items([
@@ -665,7 +798,7 @@ class CodeGeneratorController extends AdminController
                                                 ->TableColumn('column_name', translator('admin.code_generators.field_name'))
                                                 ->searchable(),
                                             amis()->Operation()->label(translator('admin.actions'))->buttons([
-                                                // 填充
+                                                // 填充按钮
                                                 amis()
                                                     ->VanillaAction()
                                                     ->label(translator('admin.code_generators.fill'))
@@ -690,7 +823,7 @@ class CodeGeneratorController extends AdminController
                                                         ],
                                                     ]),
 
-                                                // 删除
+                                                // 删除按钮
                                                 amis()
                                                     ->AjaxAction()
                                                     ->label(translator('admin.delete'))
@@ -706,8 +839,19 @@ class CodeGeneratorController extends AdminController
         ]);
     }
 
+    /**
+     * 构建组件选择器
+     *
+     * 创建一个用于选择和配置组件的复合控件，
+     * 包括组件类型选择、属性配置和配置管理功能。
+     *
+     * @param string $key 组件键名
+     * @param string $label 组件标签
+     * @return ComboControl 组合控件对象
+     */
     public function componentSelect($key, $label = ''): ComboControl
     {
+        // 构建组件属性相关的名称和ID
         $comboName = $key . '_property';
         $comboId   = $comboName . '_id';
 
@@ -771,7 +915,7 @@ class CodeGeneratorController extends AdminController
                                                                 ->Operation()
                                                                 ->label(translator('admin.actions'))
                                                                 ->buttons([
-                                                                    // 填充
+                                                                    // 填充按钮
                                                                     amis()
                                                                         ->VanillaAction()
                                                                         ->label(translator('admin.code_generators.fill'))
@@ -797,7 +941,7 @@ class CodeGeneratorController extends AdminController
                                                                             ],
                                                                         ]),
 
-                                                                    // 删除
+                                                                    // 删除按钮
                                                                     amis()
                                                                         ->AjaxAction()
                                                                         ->label(translator('admin.delete'))
@@ -865,7 +1009,11 @@ class CodeGeneratorController extends AdminController
     /**
      * 字段表单
      *
-     * @return Card
+     * 构建用于配置数据表字段的复杂表单，
+     * 包括基本信息、列表组件、列表筛选、表单组件、
+     * 详情组件和模型配置等多个标签页。
+     *
+     * @return Card 卡片对象
      */
     public function columnForm(): Card
     {
@@ -902,7 +1050,7 @@ class CodeGeneratorController extends AdminController
                         ->size('lg')
                         ->id('column_form')
                         ->tabs([
-                            // 基本信息
+                            // 基本信息标签页
                             amis()->Tab()->title(translator('admin.code_generators.base_info'))->body([
                                 amis()->GroupControl()->body([
                                     amis()
@@ -958,13 +1106,13 @@ class CodeGeneratorController extends AdminController
                                     ->checkAll()
                                     ->defaultCheckAll(),
                             ]),
-                            // 列表组件
+                            // 列表组件标签页
                             $componentSchema(
                                 translator('admin.code_generators.list_component'),
                                 translator('admin.code_generators.list_component_desc'),
                                 'list_component'
                             ),
-                            // 列表筛选
+                            // 列表筛选标签页
                             amis()->Tab()->title(translator('admin.code_generators.list_filter'))->body([
                                 amis()->ComboControl('list_filter')->items([
                                     amis()
@@ -1000,19 +1148,19 @@ class CodeGeneratorController extends AdminController
                                         ]),
                                 ])->multiple()->multiLine()->mode('normal'),
                             ]),
-                            // 表单组件
+                            // 表单组件标签页
                             $componentSchema(
                                 translator('admin.code_generators.form_component'),
                                 translator('admin.code_generators.form_component_desc'),
                                 'form_component'
                             ),
-                            // 详情组件
+                            // 详情组件标签页
                             $componentSchema(
                                 translator('admin.code_generators.detail_component'),
                                 translator('admin.code_generators.detail_component_desc'),
                                 'detail_component'
                             ),
-                            // 模型配置
+                            // 模型配置标签页
                             amis()->Tab()->title(translator('admin.code_generators.model_config'))->body([
                                 amis()
                                     ->SwitchControl('file_column', translator('admin.code_generators.file_column'))
@@ -1031,10 +1179,14 @@ class CodeGeneratorController extends AdminController
     /**
      * 预览代码 按钮
      *
-     * @return DialogAction
+     * 创建一个用于预览生成代码的对话框按钮，
+     * 展示控制器、服务、模型和迁移文件的代码。
+     *
+     * @return DialogAction 对话框按钮对象
      */
     public function previewCodeAction(): DialogAction
     {
+        // 定义编辑器标签页回调函数
         $editorTab = function ($column) {
             return amis()->Tab()->title(Str::title($column))->body(
                 amis()->EditorControl($column)->language('php')->disabled()->size('xxl')
@@ -1062,6 +1214,10 @@ class CodeGeneratorController extends AdminController
     /**
      * 克隆记录 按钮
      *
+     * 创建一个用于克隆代码生成记录的对话框按钮，
+     * 可以指定新的表名和应用标题。
+     *
+     * @return DialogAction 对话框按钮对象
      */
     public function cloneAction(): DialogAction
     {
@@ -1085,7 +1241,10 @@ class CodeGeneratorController extends AdminController
     /**
      * 复制记录 按钮
      *
-     * @return DialogAction
+     * 创建一个用于复制代码生成记录JSON数据的对话框按钮，
+     * 方便在其他地方导入使用。
+     *
+     * @return DialogAction 对话框按钮对象
      */
     public function copyRecordAction(): DialogAction
     {
@@ -1119,7 +1278,10 @@ class CodeGeneratorController extends AdminController
     /**
      * 生成代码 按钮
      *
-     * @return DialogAction
+     * 创建一个用于生成代码的对话框按钮，
+     * 可以选择需要生成的组件。
+     *
+     * @return DialogAction 对话框按钮对象
      */
     public function generateCodeAction(): DialogAction
     {
@@ -1162,7 +1324,10 @@ class CodeGeneratorController extends AdminController
     /**
      * 清除代码 按钮
      *
-     * @return DialogAction
+     * 创建一个用于清除已生成代码的对话框按钮，
+     * 可以选择需要清除的组件。
+     *
+     * @return DialogAction 对话框按钮对象
      */
     public function clearCodeAction(): DialogAction
     {
@@ -1192,24 +1357,33 @@ class CodeGeneratorController extends AdminController
     /**
      * 清除代码
      *
-     * @return Response
+     * 调用GenCodeClear类的handle方法清除已生成的代码文件。
+     *
+     * @return Response 响应对象
      */
     public function clear(): Response
     {
+        // 调用代码清理处理方法
         GenCodeClear::make()->handle(request()->all());
 
+        // 返回成功消息
         return $this->response()->successMessage(translator('admin.action_success'));
     }
 
     /**
      * 获取生成的内容
      *
-     * @return Response
+     * 获取指定记录ID的生成内容列表，
+     * 用于在清除代码功能中展示可清除的项目。
+     *
+     * @return Response 响应对象，包含生成内容选项
      */
     public function genRecordOptions(): Response
     {
+        // 获取指定ID的记录信息
         $list = GenCodeClear::make()->getRecord(request()->input('id'));
 
+        // 格式化选项数据
         $options = collect($list)->except(['menu_id'])->map(fn($item, $index) => [
             'label'   => Str::headline($index),
             'value'   => $index,
@@ -1217,26 +1391,44 @@ class CodeGeneratorController extends AdminController
             'hidden'  => blank($item),
         ])->values();
 
+        // 返回成功响应，包含选项数据
         return $this->response()->success($options);
     }
 
+    /**
+     * 编辑记录
+     *
+     * 处理代码生成记录的编辑操作，
+     * 在获取数据时会合并表单数据。
+     *
+     * @param mixed $id 记录ID
+     * @return Response 响应对象
+     */
     public function edit($id): Response
     {
+        // 判断是否为获取数据的请求
         if ($this->actionOfGetData()) {
+            // 获取记录编辑数据
             $data = $this->service->getEditData($id)->toArray();
 
+            // 合并表单数据
             $data = array_merge($data, $this->formData(true));
 
+            // 返回成功响应，包含数据
             return $this->response()->success($data);
         }
 
+        // 调用父类的编辑方法
         return parent::edit($id);
     }
 
     /**
      * 页面样式
      *
-     * @return array[]
+     * 定义代码生成器页面的自定义CSS样式，
+     * 用于美化字段配置表单的显示效果。
+     *
+     * @return array[] CSS样式数组
      */
     private function css(): array
     {

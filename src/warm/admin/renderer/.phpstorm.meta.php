@@ -120,7 +120,7 @@ namespace PHPSTORM_META {
 		'office-viewer' => \warm\admin\renderer\Component::class,
 		'pdf-viewer' => \warm\admin\renderer\Component::class,
 		'input-signature' => \warm\admin\renderer\InputSignature::class,
-        'input-verification-code' => \warm\Renderers\Component::class,
+        'input-verification-code' => \warm\admin\renderer\Component::class,
 		'editor' => \warm\admin\renderer\EditorControl::class,
 		'bat-editor' => \warm\admin\renderer\EditorControl::class,
 		'c-editor' => \warm\admin\renderer\EditorControl::class,

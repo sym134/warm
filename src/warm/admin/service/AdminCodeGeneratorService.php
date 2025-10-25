@@ -9,13 +9,29 @@ use warm\admin\Admin;
 use warm\admin\model\AdminCodeGenerator;
 
 /**
- * @method AdminCodeGenerator getModel()
- * @method AdminCodeGenerator|Builder query()
+ * 代码生成器服务类
+ * 
+ * 提供代码生成相关功能，包括数据表验证、数据过滤、路径处理等
+ * 
+ * @method AdminCodeGenerator getModel() 获取模型实例
+ * @method AdminCodeGenerator|Builder query() 获取查询构造器
  */
 class AdminCodeGeneratorService extends AdminService
 {
+    /**
+     * 模型类名
+     * 
+     * @var string
+     */
     protected string $modelName = AdminCodeGenerator::class;
 
+    /**
+     * 列表查询处理
+     * 
+     * 添加关键词搜索功能
+     * 
+     * @return Builder 查询构造器
+     */
     public function listQuery(): Builder
     {
         $keyword = request()->input('keyword');// webman
@@ -27,6 +43,14 @@ class AdminCodeGeneratorService extends AdminService
         });
     }
 
+    /**
+     * 存储数据
+     * 
+     * 验证表名是否已存在并过滤数据后存储
+     * 
+     * @param array $data 存储的数据
+     * @return bool 是否存储成功
+     */
     public function store($data): bool
     {
         amis_abort_if($this->query()->where('table_name', $data['table_name'])->exists(), translator('admin.code_generators.exists_table'));
@@ -34,6 +58,15 @@ class AdminCodeGeneratorService extends AdminService
         return parent::store($this->filterData($data));
     }
 
+    /**
+     * 更新数据
+     * 
+     * 验证表名是否已存在并过滤数据后更新
+     * 
+     * @param mixed $primaryKey 主键值
+     * @param array $data 更新的数据
+     * @return bool 是否更新成功
+     */
     public function update($primaryKey, $data): bool
     {
         $exists = $this->query()
@@ -46,6 +79,14 @@ class AdminCodeGeneratorService extends AdminService
         return parent::update($primaryKey, $this->filterData($data));
     }
 
+    /**
+     * 过滤数据
+     * 
+     * 对传入的数据进行处理和验证，确保数据格式正确
+     * 
+     * @param array $data 原始数据
+     * @return array 过滤后的数据
+     */
     public function filterData($data): array
     {
         admin_abort_if(
@@ -97,10 +138,9 @@ class AdminCodeGeneratorService extends AdminService
     /**
      * 获取命名空间
      *
-     * @param $name
-     * @param $app
-     *
-     * @return string
+     * @param string $name 命名空间名称
+     * @param mixed $app 应用标识
+     * @return string 命名空间路径
      */
     public function getNamespace($name, $app = null): string
     {
@@ -115,6 +155,11 @@ class AdminCodeGeneratorService extends AdminService
         return $namespace->push($name)->implode('/') . '/';
     }
 
+    /**
+     * 获取默认路径配置
+     * 
+     * @return array 默认路径配置数组
+     */
     public function getDefaultPath(): array
     {
         return [
@@ -128,6 +173,11 @@ class AdminCodeGeneratorService extends AdminService
         ];
     }
 
+    /**
+     * 获取组件选项
+     * 
+     * @return array 组件选项数组
+     */
     public function getComponentOptions(): array
     {
         return collect(get_class_methods(amis()))

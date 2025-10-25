@@ -6,23 +6,34 @@ use Illuminate\Support\Str;
 use support\Response;
 use Throwable;
 use warm\admin\Admin;
-use warm\admin\model\system\File;
-use warm\admin\service\system\FileService;
+use warm\admin\model\system\SystemFile;
+use warm\admin\service\system\SystemFileService;
 use warm\common\service\StorageService;
 use warm\framework\support\facade\Storage;
 
+/**
+ * 上传Trait
+ * 
+ * 提供文件上传功能，包括图片上传、文件上传、富文本编辑器上传等
+ * 支持普通上传和分片上传两种方式
+ */
 trait UploadTrait
 {
     /**
      * 图片上传路径
      *
-     * @return string
+     * @return string 图片上传的API路径
      */
     public function uploadImagePath(): string
     {
         return admin_url('upload_image');
     }
 
+    /**
+     * 图片上传处理
+     *
+     * @return Response 响应对象
+     */
     public function uploadImage(): Response
     {
         return $this->upload('image');
@@ -31,13 +42,18 @@ trait UploadTrait
     /**
      * 文件上传路径
      *
-     * @return string
+     * @return string 文件上传的API路径
      */
     public function uploadFilePath(): string
     {
         return admin_url('upload_file');
     }
 
+    /**
+     * 文件上传处理
+     *
+     * @return Response 响应对象
+     */
     public function uploadFile(): Response
     {
         return $this->upload();
@@ -46,15 +62,20 @@ trait UploadTrait
     /**
      * 富文本编辑器上传路径
      *
-     * @param bool $needPrefix
+     * @param bool $needPrefix 是否需要添加前缀
      *
-     * @return string
+     * @return string 富文本编辑器上传的API路径
      */
     public function uploadRichPath(bool $needPrefix = false): string
     {
         return admin_url('upload_rich', $needPrefix);
     }
 
+    /**
+     * 富文本编辑器上传处理
+     *
+     * @return Response 响应对象
+     */
     public function uploadRich(): Response
     {
         $fromWangEditor = false;
@@ -87,6 +108,11 @@ trait UploadTrait
         return $this->response()->additional(compact('link'))->success(compact('link'));
     }
 
+    /**
+     * 文件上传处理
+     *
+     * @return Response 响应对象
+     */
     protected function upload(): Response
     {
         $file = request()->file('file');
@@ -96,7 +122,7 @@ trait UploadTrait
 
         try {
             $file_info = StorageService::upload($file);
-            $fileId = File::baseQuery()->insertGetId([
+            $fileId = SystemFile::baseQuery()->insertGetId([
                 'origin_name' => $file_info['origin_name'],
                 'storage_mode' => $file_info['adapter'],
                 'new_name' => $file_info['file_name'] . '.' . $file_info['extension'],
@@ -115,6 +141,11 @@ trait UploadTrait
         }
     }
 
+    /**
+     * 分片上传开始
+     *
+     * @return Response 响应对象
+     */
     public function chunkUploadStart(): Response
     {
         $uploadId = Str::uuid();
@@ -126,6 +157,11 @@ trait UploadTrait
         return $this->response()->success(compact('uploadId'));
     }
 
+    /**
+     * 分片上传处理
+     *
+     * @return Response 响应对象
+     */
     public function chunkUpload(): Response
     {
         $uploadId = request()->input('uploadId');
@@ -143,6 +179,11 @@ trait UploadTrait
         }
     }
 
+    /**
+     * 分片上传完成处理
+     *
+     * @return Response 响应对象
+     */
     public function chunkUploadFinish(): Response
     {
         $fileName = request()->file('file_name');

@@ -10,11 +10,20 @@ use warm\admin\Admin;
 use warm\admin\model\AdminRole;
 
 /**
- * @method AdminRole getModel()
- * @method AdminRole|Builder query()
+ * 管理角色服务类
+ * 
+ * 提供角色管理相关功能，包括角色验证、权限关联等
+ * 
+ * @method AdminRole getModel() 获取模型实例
+ * @method AdminRole|Builder query() 获取查询构造器
  */
 class AdminRoleService extends AdminService
 {
+    /**
+     * 构造函数
+     * 
+     * 初始化角色服务，设置模型名称
+     */
     public function __construct()
     {
         parent::__construct();
@@ -22,6 +31,12 @@ class AdminRoleService extends AdminService
         $this->modelName = Admin::adminRoleModel();
     }
 
+    /**
+     * 获取编辑数据
+     * 
+     * @param mixed $id 数据ID
+     * @return Model|Collection|Builder|array|null 角色数据
+     */
     public function getEditData($id): Model|Collection|Builder|array|null
     {
         $permission = parent::getEditData($id);
@@ -31,6 +46,12 @@ class AdminRoleService extends AdminService
         return $permission;
     }
 
+    /**
+     * 存储角色
+     * 
+     * @param array $data 存储的数据
+     * @return bool 是否存储成功
+     */
     public function store($data): bool
     {
         $this->checkRepeated($data);
@@ -50,6 +71,13 @@ class AdminRoleService extends AdminService
         return $model->save();
     }
 
+    /**
+     * 更新角色
+     * 
+     * @param mixed $primaryKey 主键值
+     * @param array $data 更新的数据
+     * @return bool 是否更新成功
+     */
     public function update($primaryKey, $data): bool
     {
         $this->checkRepeated($data, $primaryKey);
@@ -69,6 +97,13 @@ class AdminRoleService extends AdminService
         return $model->save();
     }
 
+    /**
+     * 检查角色是否重复
+     * 
+     * @param array $data 角色数据
+     * @param int $id 角色ID
+     * @return void
+     */
     public function checkRepeated($data, $id = 0): void
     {
         $query = $this->query()->when($id, fn($query) => $query->where('id', '<>', $id));
@@ -82,6 +117,13 @@ class AdminRoleService extends AdminService
             ->exists(), translator('admin.admin_role.slug_already_exists'));
     }
 
+    /**
+     * 保存角色权限
+     * 
+     * @param mixed $primaryKey 主键值
+     * @param array $permissions 权限列表
+     * @return mixed 保存结果
+     */
     public function savePermissions($primaryKey, $permissions)
     {
         $model = $this->query()->whereKey($primaryKey)->first();
@@ -91,6 +133,12 @@ class AdminRoleService extends AdminService
         );
     }
 
+    /**
+     * 删除角色
+     * 
+     * @param string $ids 删除的ID列表
+     * @return bool 是否删除成功
+     */
     public function delete(string $ids): bool
     {
         $_ids   = explode(',', $ids);

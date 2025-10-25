@@ -4,12 +4,18 @@ namespace warm\admin\trait;
 
 use Illuminate\Support\Str;
 
+/**
+ * 查询路径Trait
+ * 
+ * 提供各种操作路径的生成方法，包括列表、创建、编辑、删除等操作的API路径
+ * 用于生成Admin系统中各种操作对应的URL路径
+ */
 trait QueryPathTrait
 {
     /**
-     * 列表获取数据
+     * 列表获取数据路径
      *
-     * @return string
+     * @return string 列表获取数据的API路径
      */
     public function getListGetDataPath(): string
     {
@@ -17,9 +23,9 @@ trait QueryPathTrait
     }
 
     /**
-     * 导出
+     * 导出路径
      *
-     * @return string
+     * @return string 导出数据的API路径
      */
     public function getExportPath(): string
     {
@@ -27,9 +33,9 @@ trait QueryPathTrait
     }
 
     /**
-     * 删除
+     * 删除路径
      *
-     * @return string
+     * @return string 删除数据的API路径
      */
     public function getDeletePath(): string
     {
@@ -39,9 +45,9 @@ trait QueryPathTrait
     }
 
     /**
-     * 批量删除
+     * 批量删除路径
      *
-     * @return string
+     * @return string 批量删除数据的API路径
      */
     public function getBulkDeletePath(): string
     {
@@ -49,9 +55,9 @@ trait QueryPathTrait
     }
 
     /**
-     * 编辑页面
+     * 编辑页面路径
      *
-     * @return string
+     * @return string 编辑页面的路由路径
      */
     public function getEditPath(): string
     {
@@ -59,9 +65,9 @@ trait QueryPathTrait
     }
 
     /**
-     * 编辑 获取数据
+     * 编辑页面获取数据路径
      *
-     * @return string
+     * @return string 编辑页面获取数据的API路径
      */
     public function getEditGetDataPath(): string
     {
@@ -79,9 +85,9 @@ trait QueryPathTrait
     }
 
     /**
-     * 详情页面
+     * 详情页面路径
      *
-     * @return string
+     * @return string 详情页面的路由路径
      */
     public function getShowPath(): string
     {
@@ -89,9 +95,9 @@ trait QueryPathTrait
     }
 
     /**
-     * 编辑保存
+     * 更新数据路径
      *
-     * @return string
+     * @return string 更新数据的API路径
      */
     public function getUpdatePath(): string
     {
@@ -111,24 +117,29 @@ trait QueryPathTrait
     }
 
     /**
-     * 快速编辑
+     * 快速编辑路径
      *
-     * @return string
+     * @return string 快速编辑数据的API路径
      */
     public function getQuickEditPath(): string
     {
         return $this->getStorePath() . '?_action=quickEdit';
     }
 
+    /**
+     * 快速编辑单项路径
+     *
+     * @return string 快速编辑单项数据的API路径
+     */
     public function getQuickEditItemPath(): string
     {
         return $this->getStorePath() . '?_action=quickEditItem';
     }
 
     /**
-     * 详情 获取数据
+     * 详情页面获取数据路径
      *
-     * @return string
+     * @return string 详情页面获取数据的API路径
      */
     public function getShowGetDataPath(): string
     {
@@ -141,9 +152,9 @@ trait QueryPathTrait
     }
 
     /**
-     * 新增页面
+     * 新增页面路径
      *
-     * @return string
+     * @return string 新增页面的路由路径
      */
     public function getCreatePath(): string
     {
@@ -151,9 +162,9 @@ trait QueryPathTrait
     }
 
     /**
-     * 新增 保存
+     * 新增数据路径
      *
-     * @return string
+     * @return string 新增数据的API路径
      */
     public function getStorePath(): string
     {
@@ -161,9 +172,9 @@ trait QueryPathTrait
     }
 
     /**
-     * 列表
+     * 列表页面路径
      *
-     * @return string
+     * @return string 列表页面的路由路径
      */
     public function getListPath(): string
     {

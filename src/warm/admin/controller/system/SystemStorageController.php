@@ -8,10 +8,27 @@ use warm\admin\controller\AdminController;
 use warm\admin\renderer\Form;
 use warm\admin\service\system\StorageService;
 
-class StorageController extends AdminController
+/**
+ * 存储设置控制器
+ * 
+ * 用于管理系统文件存储配置
+ * 支持本地存储和多种云存储服务配置
+ */
+class SystemStorageController extends AdminController
 {
+    /**
+     * @var string $serviceName 服务类名称
+     * 指定当前控制器使用的服务类
+     */
     protected string $serviceName = StorageService::class;
 
+    /**
+     * 存储设置页面
+     * 
+     * 展示存储配置表单，支持多种存储引擎配置
+     * 
+     * @return Response 返回存储设置页面
+     */
     public function index(): Response
     {
         $this->isEdit = true;
@@ -37,6 +54,13 @@ class StorageController extends AdminController
         return $this->response()->success($page);
     }
 
+    /**
+     * 存储配置表单
+     * 
+     * 定义存储配置表单结构，支持多种存储引擎的参数配置
+     * 
+     * @return Form 返回存储配置表单
+     */
     public function form(): Form
     {
         return $this->baseForm(false)
@@ -79,6 +103,15 @@ class StorageController extends AdminController
             ]);
     }
 
+    /**
+     * 更新存储配置
+     * 
+     * 保存用户提交的存储配置信息
+     * 
+     * @param Request $request HTTP请求对象
+     * @param mixed $id 数据ID
+     * @return Response 返回操作结果响应
+     */
     public function update(Request $request, $id): Response
     {
         $response = fn($result) => $this->autoResponse($result, translator('admin.save'));

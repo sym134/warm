@@ -3,15 +3,32 @@
 namespace warm\admin\controller\system;
 
 use warm\admin\controller\AdminController;
-use warm\admin\model\system\File;
+use warm\admin\model\system\SystemFile;
 use warm\admin\renderer\Form;
 use warm\admin\renderer\Page;
-use warm\admin\service\system\FileService;
+use warm\admin\service\system\SystemFileService;
 
-class FileController extends AdminController
+/**
+ * 系统文件控制器
+ * 
+ * 用于管理系统附件文件的浏览和管理
+ * 提供文件列表查看和筛选功能
+ */
+class SystemFileController extends AdminController
 {
-    protected string $serviceName = FileService::class;
+    /**
+     * @var string $serviceName 服务类名称
+     * 指定当前控制器使用的服务类
+     */
+    protected string $serviceName = SystemFileService::class;
 
+    /**
+     * 文件列表页面
+     * 
+     * 展示系统附件文件列表，支持按文件类型和存储模式筛选
+     * 
+     * @return Page 返回文件列表页面
+     */
     public function list(): Page
     {
         $crud = $this->baseCRUD()
@@ -23,18 +40,18 @@ class FileController extends AdminController
             ->filter(
                 $this->baseFilter()->submitOnChange()->body([
                     amis()->SelectControl('file_type', translator('admin.admin_attachments.file_type'))
-                        ->size('md')->options(File::FILE_TYPE),
+                        ->size('md')->options(SystemFile::FILE_TYPE),
                     amis()->TextControl('origin_name', translator('admin.admin_attachments.origin_name'))
                         ->size('md'),
                     amis()->SelectControl('storage_mode', translator('admin.admin_attachments.storage_mode'))
-                        ->size('md')->options(File::STORAGE_MODE),
+                        ->size('md')->options(SystemFile::STORAGE_MODE),
                 ])->actions()
             )
             ->columns([
                 amis()->TableColumn('id', 'ID'),
                 amis()->Image()->label('预览')->name('url')->enlargeAble()->width(70),
                 amis()->TableColumn('storage_mode', translator('admin.admin_attachments.storage_mode'))
-                    ->type('mapping')->map(File::STORAGE_MODE),
+                    ->type('mapping')->map(SystemFile::STORAGE_MODE),
                 amis()->TableColumn('origin_name', translator('admin.admin_attachments.origin_name')),
                 amis()->TableColumn('new_name', translator('admin.admin_attachments.new_name')),
                 amis()->TableColumn('mime_type', translator('admin.admin_attachments.mime_type')),
@@ -50,6 +67,13 @@ class FileController extends AdminController
         return $this->baseList($crud);
     }
 
+    /**
+     * 文件表单页面
+     * 
+     * 定义文件管理表单结构
+     * 
+     * @return Form 返回文件表单
+     */
     public function form(): Form
     {
         return $this->baseForm()

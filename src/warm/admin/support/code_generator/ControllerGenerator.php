@@ -7,18 +7,39 @@ use Illuminate\Support\Str;
 use warm\admin\support\code_generator\BaseGenerator;
 use warm\admin\support\code_generator\FilterGenerator;
 
+/**
+ * 控制器代码生成器
+ * 
+ * 用于生成Admin控制器类，包括列表、表单和详情页面的代码
+ * 继承自BaseGenerator，提供控制器特定的生成逻辑
+ */
 class ControllerGenerator extends BaseGenerator
 {
+    /**
+     * 生成控制器文件
+     * 
+     * @return bool|string 生成的文件路径
+     */
     public function generate(): bool|string
     {
         return $this->writeFile($this->model->controller_name, 'Controller');
     }
 
+    /**
+     * 预览控制器代码
+     * 
+     * @return string 生成的控制器代码
+     */
     public function preview(): string
     {
         return $this->assembly();
     }
 
+    /**
+     * 组装控制器代码
+     * 
+     * @return string 完整的控制器代码
+     */
     public function assembly(): string
     {
         $name             = $this->model->controller_name;
@@ -48,6 +69,12 @@ class ControllerGenerator extends BaseGenerator
         return $content;
     }
 
+    /**
+     * 生成列表页面代码
+     * 
+     * @param string $content 控制器代码内容（引用传递）
+     * @return void
+     */
     protected function replaceListContent(&$content): void
     {
         $content .= "\tpublic function list()" . PHP_EOL;
@@ -116,6 +143,12 @@ class ControllerGenerator extends BaseGenerator
         $content .= "\t}" . PHP_EOL;
     }
 
+    /**
+     * 生成表单页面代码
+     * 
+     * @param string $content 控制器代码内容（引用传递）
+     * @return void
+     */
     protected function replaceFormContent(&$content): void
     {
         $content .= PHP_EOL;
@@ -151,6 +184,12 @@ class ControllerGenerator extends BaseGenerator
         $content .= "\t}" . PHP_EOL;
     }
 
+    /**
+     * 生成详情页面代码
+     * 
+     * @param string $content 控制器代码内容（引用传递）
+     * @return void
+     */
     protected function replaceDetailContent(&$content): void
     {
         $content .= PHP_EOL;
@@ -182,6 +221,13 @@ class ControllerGenerator extends BaseGenerator
         $content .= "\t}" . PHP_EOL;
     }
 
+    /**
+     * 判断字段是否在指定作用域内
+     * 
+     * @param array $column 字段信息
+     * @param string $scope 作用域（list, create, edit, detail等）
+     * @return bool 是否在作用域内
+     */
     public function columnInTheScope($column, $scope): bool
     {
         if (!Arr::has($column, 'action_scope')) {
@@ -191,6 +237,13 @@ class ControllerGenerator extends BaseGenerator
         return in_array($scope, Arr::get($column, 'action_scope', []));
     }
 
+    /**
+     * 获取字段对应的组件
+     * 
+     * @param string $type 组件类型（list_component, form_component, detail_component）
+     * @param array $column 字段信息
+     * @return string 组件代码
+     */
     public function getColumnComponent($type, $column): string
     {
         $label = Arr::get($column, 'name');
@@ -212,6 +265,12 @@ class ControllerGenerator extends BaseGenerator
         };
     }
 
+    /**
+     * 生成行操作按钮
+     * 
+     * @param array $pageInfo 页面信息
+     * @return string 按钮代码
+     */
     private function makeRowButton($pageInfo): string
     {
         $hasRowAction = false;
@@ -244,6 +303,11 @@ class ControllerGenerator extends BaseGenerator
         return $str;
     }
 
+    /**
+     * 获取对话框尺寸参数
+     * 
+     * @return string 尺寸参数
+     */
     private function getDialogSize(): string
     {
         $pageInfo   = $this->model->page_info;

@@ -3,12 +3,15 @@
 use Illuminate\Database\Schema\Blueprint;
 use Eloquent\Migrations\Migrations\Migration;
 
+/**
+ * 数据库迁移模板
+ * 
+ * 用于创建数据表的迁移模板文件
+ */
 return new class extends Migration
 {
      /**
       * Run the migrations.
-      *
-      * @param
       *
       * @return void
       */
@@ -21,8 +24,6 @@ return new class extends Migration
 
      /**
       * Reverse the migrations.
-      *
-      * @param
       *
       * @return void
       */

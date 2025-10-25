@@ -10,11 +10,20 @@ use warm\admin\Admin;
 use warm\admin\model\AdminPermission;
 
 /**
- * @method AdminPermission getModel()
- * @method AdminPermission|Builder query()
+ * 管理权限服务类
+ * 
+ * 提供权限管理相关功能，包括权限树形结构处理、权限验证等
+ * 
+ * @method AdminPermission getModel() 获取模型实例
+ * @method AdminPermission|Builder query() 获取查询构造器
  */
 class AdminPermissionService extends AdminService
 {
+    /**
+     * 构造函数
+     * 
+     * 初始化权限服务，设置模型名称
+     */
     public function __construct()
     {
         parent::__construct();
@@ -22,6 +31,11 @@ class AdminPermissionService extends AdminService
         $this->modelName = Admin::adminPermissionModel();
     }
 
+    /**
+     * 获取权限树形结构
+     * 
+     * @return array 权限树形结构数组
+     */
     public function getTree(): array
     {
         $list = $this->query()->orderBy('order')->get()->toArray();
@@ -29,6 +43,15 @@ class AdminPermissionService extends AdminService
         return array2tree($list);
     }
 
+    /**
+     * 检查父级权限是否为子权限
+     * 
+     * 防止出现循环嵌套的情况
+     * 
+     * @param int $id 权限ID
+     * @param int $parent_id 父级权限ID
+     * @return bool 是否为子权限
+     */
     public function parentIsChild($id, $parent_id): bool
     {
         $parent = $this->query()->find($parent_id);
@@ -44,6 +67,12 @@ class AdminPermissionService extends AdminService
         return false;
     }
 
+    /**
+     * 获取编辑数据
+     * 
+     * @param mixed $id 数据ID
+     * @return Model|Collection|Builder|array|null 权限数据
+     */
     public function getEditData($id): Model|Collection|Builder|array|null
     {
         $permission = parent::getEditData($id);
@@ -53,6 +82,12 @@ class AdminPermissionService extends AdminService
         return $permission;
     }
 
+    /**
+     * 存储权限
+     * 
+     * @param array $data 存储的数据
+     * @return bool 是否存储成功
+     */
     public function store($data): bool
     {
         $this->checkRepeated($data);
@@ -64,6 +99,13 @@ class AdminPermissionService extends AdminService
         return $this->saveData($data, $columns, $model);
     }
 
+    /**
+     * 更新权限
+     * 
+     * @param mixed $primaryKey 主键值
+     * @param array $data 更新的数据
+     * @return bool 是否更新成功
+     */
     public function update($primaryKey, $data): bool
     {
         $this->checkRepeated($data, $primaryKey);
@@ -80,6 +122,13 @@ class AdminPermissionService extends AdminService
         return $this->saveData($data, $columns, $model);
     }
 
+    /**
+     * 检查权限是否重复
+     * 
+     * @param array $data 权限数据
+     * @param int $id 权限ID
+     * @return void
+     */
     public function checkRepeated($data, $id = 0): void
     {
         $query = $this->query()->when($id, fn($query) => $query->where('id', '<>', $id));
@@ -91,17 +140,23 @@ class AdminPermissionService extends AdminService
             ->exists(), translator('admin.admin_permission.slug_already_exists'));
     }
 
+    /**
+     * 获取权限列表
+     * 
+     * @return array 权限列表数组
+     */
     public function list(): array
     {
         return ['items' => $this->getTree()];
     }
 
     /**
-     * @param                 $data
-     * @param array           $columns
-     * @param AdminPermission $model
-     *
-     * @return bool
+     * 保存权限数据
+     * 
+     * @param array $data 权限数据
+     * @param array $columns 数据表字段列表
+     * @param AdminPermission $model 权限模型实例
+     * @return bool 是否保存成功
      */
     protected function saveData($data, array $columns, AdminPermission $model): bool
     {

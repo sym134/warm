@@ -5,19 +5,33 @@ namespace warm\admin\service\system;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Database\Eloquent\Builder;
-use warm\admin\model\system\AdminCrontab;
+use warm\admin\model\system\SystemCrontab;
 use warm\admin\service\AdminService;
 
 /**
- * 定时任务
+ * 定时任务服务类
  *
- * @method AdminCrontab getModel()
- * @method AdminCrontab|\Illuminate\Database\Query\Builder query()
+ * 提供定时任务管理功能，包括任务存储、更新、执行等
+ *
+ * @method SystemCrontab getModel() 获取模型实例
+ * @method SystemCrontab|\Illuminate\Database\Query\Builder query() 获取查询构造器
  */
-class AdminCrontabService extends AdminService
+class SystemCrontabService extends AdminService
 {
-    protected string $modelName = AdminCrontab::class;
+    /**
+     * 模型类名
+     *
+     * @var string
+     */
+    protected string $modelName = SystemCrontab::class;
 
+    /**
+     * 存储任务
+     *
+     * @param array $data 存储的数据
+     * @return bool 是否存储成功
+     * @throws \Exception
+     */
     public function store($data): bool
     {
         $data['rule'] = $this->generateCrontabExpression($data['execution_cycle'], $data['second'], $data['minute'], $data['hour'], $data['day'], '*', $data['week']);
@@ -26,6 +40,13 @@ class AdminCrontabService extends AdminService
         return parent::store($data);
     }
 
+    /**
+     * 更新任务
+     *
+     * @param mixed $primaryKey 主键值
+     * @param array $data 更新的数据
+     * @return bool 是否更新成功
+     */
     public function update($primaryKey, $data): bool
     {
         $data['rule'] = $this->generateCrontabExpression($data['execution_cycle'], $data['second'], $data['minute'], $data['hour'], $data['day'], '*', $data['week']);
@@ -34,6 +55,11 @@ class AdminCrontabService extends AdminService
         return parent::update($primaryKey, $data);
     }
 
+    /**
+     * 列表查询处理
+     *
+     * @return Builder 查询构造器
+     */
     public function listQuery(): Builder
     {
         return parent::listQuery();
@@ -42,9 +68,8 @@ class AdminCrontabService extends AdminService
     /**
      * 验证任务
      *
-     * @param string $task_type
-     * @param string $target
-     *
+     * @param string $task_type 任务类型
+     * @param string $target 任务目标
      * @return void
      * @throws \Exception Author:sym
      * Date:2024/7/2 下午3:28
@@ -68,15 +93,15 @@ class AdminCrontabService extends AdminService
 
     /**
      * 生成Crontab表达式
-     * @param $executionPeriod
-     * @param $second
-     * @param $minute
-     * @param $hour
-     * @param $dayOfMonth
-     * @param $month
-     * @param $dayOfWeek
      *
-     * @return string
+     * @param string $executionPeriod 执行周期
+     * @param string $second 秒
+     * @param string $minute 分钟
+     * @param string $hour 小时
+     * @param string $dayOfMonth 日期
+     * @param string $month 月份
+     * @param string $dayOfWeek 星期
+     * @return string Crontab表达式
      *
      * Author:sym
      * Date:2024/7/4 下午6:34
@@ -167,16 +192,16 @@ class AdminCrontabService extends AdminService
 
     /**
      * crontab表达式到文本
-     * @param string $executionPeriod
-     * @param string $expression
      *
-     * @return string
+     * @param string $executionPeriod 执行周期
+     * @param string $expression 表达式
+     * @return string 文本描述
      *
      * Author:sym
      * Date:2024/7/4 下午6:34
      * Company:极智科技
      */
-    public function crontabExpressionToText(string $executionPeriod,string $expression): string
+    public function crontabExpressionToText(string $executionPeriod, string $expression): string
     {
         $parts = explode(' ', $expression);
 
@@ -261,11 +286,11 @@ class AdminCrontabService extends AdminService
 
     /**
      * 辅助函数，用于处理 'n' 周期
-     * @param $part
-     * @param $unit
-     * @param $periodType
      *
-     * @return string
+     * @param string $part 部分表达式
+     * @param string $unit 单位
+     * @param string $periodType 周期类型
+     * @return string 文本描述
      *
      * Author:sym
      * Date:2024/7/4 下午6:33
@@ -280,12 +305,11 @@ class AdminCrontabService extends AdminService
         }
     }
 
-        /**
+    /**
      * 运行任务
      *
-     * @param int $id
-     *
-     * @return bool
+     * @param int $id 任务ID
+     * @return bool 是否运行成功
      *
      * Author:sym
      * Date:2024/7/2 下午3:29
@@ -293,71 +317,148 @@ class AdminCrontabService extends AdminService
      */
     public function run(int $id): bool
     {
+        // 获取任务信息
         $info = $this->getModel()->find($id);
-        $data['crontab_id'] = $info->id;
-        $data['name'] = $info->name;
-        $data['target'] = $info->target;
-        $data['parameter'] = $info->parameter;
-        switch ($info->task_type) {
-            case 1:
-                // URL任务GET
-                $httpClient = new Client([
-                    'timeout' => 5,
-                    'verify'  => false,
-                ]);
-                try {
-                    $res = $httpClient->request('GET', $info->target, [
-                        'form_params' => $info->parameter,
-                    ]);
-                    $data['execution_status'] = $res->getStatusCode() === 200 ? 1 : 2;
-                    // $data['exception_info'] = $res->getBody()->getContents();
-                    AdminCrontabLogService::make()->store($data);
-                    return true;
-                } catch (GuzzleException $e) {
-                    $data['execution_status'] = 2;
-                    $data['exception_info'] = $e->getMessage();
-                    AdminCrontabLogService::make()->store($data);
-                    return false;
-                }
-            case 2:
-                // URL任务POST
-                $httpClient = new Client([
-                    'timeout' => 5,
-                    'verify'  => false,
-                ]);
-                try {
-                    $res = $httpClient->request('POST', $info->target, [
-                        'form_params' => $info->parameter,
-                    ]);
-                    $data['execution_status'] = $res->getStatusCode() === 200 ? 1 : 2;
-                    // $data['exception_info'] = $res->getBody()->getContents();
-                    AdminCrontabLogService::make()->store($data);
-                    return true;
-                } catch (GuzzleException $e) {
-                    $data['execution_status'] = 2;
-                    $data['exception_info'] = $e->getMessage();
-                    AdminCrontabLogService::make()->store($data);
-                    return false;
-                }
-            case 3:
-                // 类任务
-                [$class_name, $method_name] = explode(':', $info->target);
-                $class = new $class_name;
-                if (method_exists($class, $method_name)) {
-                    $return = $class->$method_name($info->parameter);
-                    $data['execution_status'] = 1;
-                    $data['exception_info'] = $return;
-                    AdminCrontabLogService::make()->store($data);
-                    return true;
-                } else {
-                    $data['execution_status'] = 2;
-                    $data['exception_info'] = '类:' . $class_name . ',方法:run,未找到';
-                    AdminCrontabLogService::make()->store($data);
-                    return false;
+        
+        // 检查任务是否存在
+        if (!$info) {
+            return false;
+        }
+        
+        // 初始化日志数据
+        $logData = [
+            'crontab_id' => $info->id,
+            'target' => $info->target,
+            'parameter' => $info->parameter,
+            'exception_info' => '',
+            'execution_status' => 2 // 默认失败状态
+        ];
 
-                }
-            default:
-                return false;
+        try {
+            switch ($info->task_type) {
+                case 1:
+                    // URL任务GET
+                    return $this->executeHttpGetTask($info, $logData);
+                    
+                case 2:
+                    // URL任务POST
+                    return $this->executeHttpPostTask($info, $logData);
+                    
+                case 3:
+                    // 类任务
+                    return $this->executeClassTask($info, $logData);
+                    
+                default:
+                    $logData['exception_info'] = '未知的任务类型: ' . $info->task_type;
+                    SystemCrontabLogService::make()->store($logData);
+                    return false;
+            }
+        } catch (\Exception $e) {
+            $logData['exception_info'] = $e->getMessage();
+            SystemCrontabLogService::make()->store($logData);
+            return false;
+        }
+    }
+    
+    /**
+     * 执行HTTP GET任务
+     *
+     * @param SystemCrontab $info 任务信息
+     * @param array $logData 日志数据
+     * @return bool 是否执行成功
+     */
+    private function executeHttpGetTask(SystemCrontab $info, array &$logData): bool
+    {
+        $httpClient = new Client([
+            'timeout' => 5,
+            'verify' => false,
+        ]);
+        
+        try {
+            $response = $httpClient->request('GET', $info->target, [
+                'form_params' => $info->parameter,
+            ]);
+            
+            $logData['execution_status'] = $response->getStatusCode() === 200 ? 1 : 2;
+            SystemCrontabLogService::make()->store($logData);
+            return $logData['execution_status'] === 1;
+        } catch (GuzzleException $e) {
+            $logData['exception_info'] = $e->getMessage();
+            SystemCrontabLogService::make()->store($logData);
+            return false;
+        }
+    }
+    
+    /**
+     * 执行HTTP POST任务
+     *
+     * @param SystemCrontab $info 任务信息
+     * @param array $logData 日志数据
+     * @return bool 是否执行成功
+     */
+    private function executeHttpPostTask(SystemCrontab $info, array &$logData): bool
+    {
+        $httpClient = new Client([
+            'timeout' => 5,
+            'verify' => false,
+        ]);
+        
+        try {
+            $response = $httpClient->request('POST', $info->target, [
+                'form_params' => $info->parameter,
+            ]);
+            
+            $logData['execution_status'] = $response->getStatusCode() === 200 ? 1 : 2;
+            SystemCrontabLogService::make()->store($logData);
+            return $logData['execution_status'] === 1;
+        } catch (GuzzleException $e) {
+            $logData['exception_info'] = $e->getMessage();
+            SystemCrontabLogService::make()->store($logData);
+            return false;
+        }
+    }
+    
+    /**
+     * 执行类任务
+     *
+     * @param SystemCrontab $info 任务信息
+     * @param array $logData 日志数据
+     * @return bool 是否执行成功
+     */
+    private function executeClassTask(SystemCrontab $info, array &$logData): bool
+    {
+        if (!str_contains($info->target, ':')) {
+            $logData['exception_info'] = '类任务格式错误';
+            SystemCrontabLogService::make()->store($logData);
+            return false;
+        }
+        
+        [$className, $methodName] = explode(':', $info->target);
+        
+        if (!class_exists($className)) {
+            $logData['exception_info'] = '类任务不存在:' . $className;
+            SystemCrontabLogService::make()->store($logData);
+            return false;
+        }
+        
+        if (!method_exists($className, $methodName)) {
+            $logData['exception_info'] = '类任务:' . $className . ',方法:' . $methodName . ',未找到';
+            SystemCrontabLogService::make()->store($logData);
+            return false;
+        }
+        
+        try {
+            $class = new $className;
+            $result = $class->$methodName($info->parameter);
+            
+            $logData['execution_status'] = 1;
+            $logData['exception_info'] = is_string($result) ? $result : json_encode($result, JSON_UNESCAPED_UNICODE);
+            SystemCrontabLogService::make()->store($logData);
+            return true;
+        } catch (\Exception $e) {
+            $logData['exception_info'] = '执行类任务时发生错误: ' . $e->getMessage();
+            SystemCrontabLogService::make()->store($logData);
+            return false;
         }
     }
 }

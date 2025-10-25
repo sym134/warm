@@ -15,22 +15,39 @@ use warm\admin\support\cores\Context;
 use warm\admin\support\cores\JsonResponse;
 use warm\admin\support\cores\Menu;
 
+/**
+ * Class Admin
+ *
+ * 管理后台核心类，提供各种管理后台相关的功能和组件访问接口
+ */
 class Admin
 {
     use AssetsTrait;
 
+    /**
+     * 创建Admin类实例
+     *
+     * @return static Admin类实例
+     */
     public static function make(): static
     {
         return new static();
     }
 
+    /**
+     * 创建响应对象
+     *
+     * @return JsonResponse JSON响应对象，用于构建API返回数据
+     */
     public static function response(): JsonResponse
     {
         return new JsonResponse();
     }
 
     /**
-     * @return Menu;
+     * 获取菜单管理对象
+     *
+     * @return Menu 菜单管理对象
      */
     public static function menu(): Menu
     {
@@ -38,20 +55,29 @@ class Admin
     }
 
     /**
-     * @return Permission
+     * 获取权限管理对象
+     *
+     * @return Permission 权限管理对象
      */
     public static function permission(): Permission
     {
         return new Permission;
     }
 
+    /**
+     * 获取认证守卫实例
+     *
+     * @return \WebmanAuth\Guard 认证守卫实例
+     */
     public static function guard()
     {
         return \WebmanAuth\facade\Auth::guard(self::config('app.auth.guard') ?: 'admin');
     }
 
     /**
-     * @return AdminUser|null
+     * 获取当前登录用户信息
+     *
+     * @return AdminUser|null 管理员用户对象，未登录时返回null
      */
     public static function user(): ?AdminUser
     {
@@ -59,9 +85,11 @@ class Admin
     }
 
     /**
-     * 上下文管理.
+     * 上下文管理
      *
-     * @return Context
+     * 获取上下文管理对象，用于存储和获取请求上下文数据
+     *
+     * @return Context 上下文管理对象
      */
     public static function context(): Context
     {
@@ -69,7 +97,9 @@ class Admin
     }
 
     /**
-     * @return ConfigService
+     * 获取配置服务对象
+     *
+     * @return ConfigService 配置服务对象
      */
     public static function warmConfig(): ConfigService
     {
@@ -77,7 +107,9 @@ class Admin
     }
 
     /**
-     * @return string
+     * 获取管理菜单模型类名
+     *
+     * @return string 管理菜单模型类名
      */
     public static function adminMenuModel(): string
     {
@@ -85,7 +117,9 @@ class Admin
     }
 
     /**
-     * @return string
+     * 获取管理权限模型类名
+     *
+     * @return string 管理权限模型类名
      */
     public static function adminPermissionModel(): string
     {
@@ -93,7 +127,9 @@ class Admin
     }
 
     /**
-     * @return string
+     * 获取管理角色模型类名
+     *
+     * @return string 管理角色模型类名
      */
     public static function adminRoleModel(): string
     {
@@ -101,26 +137,42 @@ class Admin
     }
 
     /**
-     * @return string
+     * 获取管理用户模型类名
+     *
+     * @return string 管理用户模型类名
      */
     public static function adminUserModel(): string
     {
         return self::config('app.models.admin_user', AdminUser::class);
     }
 
+    /**
+     * 获取插件配置
+     *
+     * @param string $key 配置键名
+     * @param mixed $default 默认值
+     * @return mixed 配置值
+     */
     public static function config($key, $default = '')
     {
         $key = 'plugin.jizhi.warm.' . $key;
         return config($key, $default);
     }
 
-    // 替换后台视图api
+    /**
+     * 替换后台视图API前缀
+     *
+     * 加载管理后台的HTML模板，并替换其中的API前缀配置
+     *
+     * @param string $apiPrefix API前缀
+     * @return array|string|null 处理后的视图内容
+     */
     public static function view($apiPrefix = ''): array|string|null
     {
         if (!$apiPrefix) {
             $apiPrefix = self::config('app.route.prefix');
         }
-
+        
         if (is_file(public_path('admin-assets/index.html'))) {
             $view = file_get_contents(public_path('admin-assets/index.html'));
         } else {
@@ -132,6 +184,14 @@ class Admin
         return preg_replace('/<script>window.*?<\/script>/is', $script, $view);
     }
 
+    /**
+     * 检查数据库表是否存在
+     *
+     * 使用缓存优化，避免重复查询数据库
+     *
+     * @param string $table 表名
+     * @return bool 表是否存在
+     */
     public static function hasTable($table): bool
     {
         $key = 'admin_has_table_' . $table;
@@ -151,7 +211,9 @@ class Admin
     /**
      * 中间件
      *
-     * @return array
+     * 获取管理后台需要加载的中间件列表
+     *
+     * @return array 中间件类列表
      *
      * Author:sym
      * Date:2024/6/18 上午7:43

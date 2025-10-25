@@ -1,7 +1,7 @@
 <?php
 return [
-    'name'                    => 'Task Name',
-    'task_type'               => 'Task Type',
+    'name'                    => 'CrontabTask Name',
+    'task_type'               => 'CrontabTask Type',
     'execution_cycle'         => 'Execution Cycle',
     'target'                  => 'Target',
     'parameter'               => 'Parameter',
@@ -13,7 +13,7 @@ return [
     'second'                  => 'Second',
     'remark'                  => 'Remark',
     'created_by'              => 'Created By',
-    'task_status'             => 'Task Status',
+    'task_status'             => 'CrontabTask Status',
     'name_description'        => '* The name of the mission must be unique',
     'target_description'      => 'Class assignment reference: xxx\xxx\class:method name',
     'execution_log'           => 'Execution log',
@@ -30,9 +30,9 @@ return [
     ],
 
     'crontab_log' => [
-        'crontab_id'       => 'Task ID',
-        'task_name'        => 'Task Name',
-        'task_type'        => 'Task Type',
+        'crontab_id'       => 'CrontabTask ID',
+        'task_name'        => 'CrontabTask Name',
+        'task_type'        => 'CrontabTask Type',
         'execution_cycle'  => 'Execution Cycle',
         'target'           => 'Target',
         'exception_info'   => 'Error Message',

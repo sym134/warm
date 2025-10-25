@@ -6,10 +6,22 @@ use Illuminate\Database\Migrations\MigrationCreator as BaseMigrationCreator;
 use Illuminate\Support\Arr;
 use warm\admin\model\AdminCodeGenerator;
 
+/**
+ * 数据库迁移文件生成器
+ * 
+ * 用于生成数据库迁移文件，继承自Laravel的MigrationCreator
+ * 提供创建数据表的迁移代码生成功能
+ */
 class MigrationGenerator extends BaseMigrationCreator
 {
+    /** @var AdminCodeGenerator 模型实例 */
     protected AdminCodeGenerator $model;
 
+    /**
+     * 构造函数
+     * 
+     * @param AdminCodeGenerator $model 模型实例
+     */
     public function __construct($model)
     {
         $this->model = $model;
@@ -17,11 +29,22 @@ class MigrationGenerator extends BaseMigrationCreator
         parent::__construct(appw('files'), __DIR__ . '/stubs');
     }
 
+    /**
+     * 创建静态实例
+     * 
+     * @param AdminCodeGenerator $model 模型实例
+     * @return static 静态实例
+     */
     public static function make($model): static
     {
         return new self($model);
     }
 
+    /**
+     * 生成迁移文件
+     * 
+     * @return string 生成的迁移文件路径
+     */
     public function generate(): string
     {
         $name = 'create_' . $this->model->table_name . '_table';
@@ -35,16 +58,33 @@ class MigrationGenerator extends BaseMigrationCreator
         return $this->create($name, $path, $this->model->table_name, null);
     }
 
+    /**
+     * 填充模板内容
+     * 
+     * @param string $stub 模板内容
+     * @param string $table 表名
+     * @return array|string 填充后的模板内容
+     */
     protected function populateStub($stub, $table): array|string
     {
         return str_replace(['{{ content }}', '{{ table }}'], [$this->generateContent(), $table], $stub);
     }
 
+    /**
+     * 预览迁移代码
+     * 
+     * @return array|string 迁移代码
+     */
     public function preview(): array|string
     {
         return $this->populateStub($this->getStub($this->model->table_name, false), $this->model->table_name);
     }
 
+    /**
+     * 生成迁移内容
+     * 
+     * @return string 迁移内容代码
+     */
     public function generateContent(): string
     {
         blank($this->model->columns) && abort(400, 'Table fields can\'t be empty');
@@ -102,6 +142,13 @@ class MigrationGenerator extends BaseMigrationCreator
         return trim(implode(str_repeat(' ', 12), $rows), "\n");
     }
 
+    /**
+     * 获取模板内容
+     * 
+     * @param string $table 表名
+     * @param bool $create 是否为创建表
+     * @return string 模板内容
+     */
     protected function getStub($table, $create): string
     {
         $stub = $this->files->exists($customPath = $this->customStubPath . '/migration.stub')
@@ -111,6 +158,11 @@ class MigrationGenerator extends BaseMigrationCreator
         return $this->files->get($stub);
     }
 
+    /**
+     * 获取模板路径
+     * 
+     * @return string 模板路径
+     */
     public function stubPath(): string
     {
         return __DIR__ . '/stubs';

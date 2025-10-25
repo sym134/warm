@@ -6,7 +6,7 @@ namespace warm\admin\renderer;
 use warm\admin\trait\UploadTrait;
 
 /**
- * File 文件上传控件 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/file
+ * SystemFile 文件上传控件 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/file
  *
  * @author  slowlyo
  * @version 6.8.0
@@ -42,7 +42,7 @@ class FileControl extends BaseRenderer
     }
 
     /**
-     * 如果不希望 File 组件上传，可以配置 `asBlob` 或者 `asBase64`，采用这种方式后，组件不再自己上传了，而是直接把文件数据作为表单项的值，文件内容会在 Form 表单提交的接口里面一起带上。
+     * 如果不希望 SystemFile 组件上传，可以配置 `asBlob` 或者 `asBase64`，采用这种方式后，组件不再自己上传了，而是直接把文件数据作为表单项的值，文件内容会在 Form 表单提交的接口里面一起带上。
      */
     public function asBlob($value = true)
     {

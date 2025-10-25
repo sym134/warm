@@ -13,12 +13,28 @@ use warm\admin\service\AdminPermissionService;
 use Webman\Route;
 
 /**
- * @property AdminPermissionService $service
+ * 管理权限控制器
+ * 
+ * 用于管理系统权限的增删改查操作
+ * 提供权限自动生成、HTTP方法和路径配置等功能
+ * 
+ * @property AdminPermissionService $service 管理权限服务类实例
  */
 class AdminPermissionController extends AdminController
 {
+    /**
+     * @var string $serviceName 服务类名称
+     * 指定当前控制器使用的服务类
+     */
     protected string $serviceName = AdminPermissionService::class;
 
+    /**
+     * 权限列表页面
+     * 
+     * 展示系统权限列表，支持自动生成功能
+     * 
+     * @return Page 返回权限列表页面
+     */
     public function list(): Page
     {
         $autoBtn = '';
@@ -65,6 +81,13 @@ class AdminPermissionController extends AdminController
         return $this->baseList($crud);
     }
 
+    /**
+     * 权限表单页面
+     * 
+     * 定义权限新增/编辑表单结构，包含名称、标识、HTTP方法、路径等字段
+     * 
+     * @return Form 返回权限表单
+     */
     public function form(): Form
     {
         return $this->baseForm()->body([
@@ -101,11 +124,25 @@ class AdminPermissionController extends AdminController
         ]);
     }
 
+    /**
+     * 权限详情页面
+     * 
+     * 展示权限详细信息
+     * 
+     * @return Form 返回权限详情表单
+     */
     public function detail(): Form
     {
         return $this->baseDetail()->body([]);
     }
 
+    /**
+     * 获取HTTP方法选项
+     * 
+     * 从权限模型中获取支持的HTTP方法列表
+     * 
+     * @return array HTTP方法选项数组
+     */
     private function getHttpMethods(): array
     {
         return collect(Admin::adminPermissionModel()::$httpMethods)->map(fn($method) => [
@@ -114,6 +151,13 @@ class AdminPermissionController extends AdminController
         ])->toArray();
     }
 
+    /**
+     * 获取路由路径选项
+     * 
+     * 获取系统中已注册的路由路径作为选项
+     * 
+     * @return array 路由路径选项数组
+     */
     public function getRoutes(): array
     {
         $prefix = (string)Admin::config('app.route.prefix');
@@ -144,6 +188,13 @@ class AdminPermissionController extends AdminController
         })->values()->all();
     }
 
+    /**
+     * 自动生成权限
+     * 
+     * 根据系统菜单自动生成对应的权限数据
+     * 
+     * @return mixed 返回操作结果
+     */
     public function autoGenerate()
     {
         $menus       = Admin::adminMenuModel()::query()->get()->toArray();
@@ -214,6 +265,14 @@ class AdminPermissionController extends AdminController
         );
     }
 
+    /**
+     * 获取HTTP路径
+     * 
+     * 处理并格式化URI路径，添加通配符
+     * 
+     * @param string $uri 原始URI
+     * @return string 处理后的路径
+     */
     private function getHttpPath($uri)
     {
         $excepts = ['/', '', '-'];

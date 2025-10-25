@@ -13,13 +13,18 @@ use warm\admin\renderer\Page;
 use warm\admin\renderer\Service;
 use warm\admin\support\cores\AdminPipeline;
 
-
+/**
+ * 元素Trait
+ * 
+ * 提供Admin系统中常用的界面元素和操作按钮的生成方法
+ * 包括页面基础元素、操作按钮、表单、列表等组件的创建功能
+ */
 trait ElementTrait
 {
     /**
      * 基础页面
      *
-     * @return Page
+     * @return Page 页面实例
      */
     protected function basePage()
     {
@@ -32,7 +37,7 @@ trait ElementTrait
     /**
      * 返回列表按钮
      *
-     * @return OtherAction
+     * @return OtherAction 返回按钮实例
      */
     protected function backButton()
     {
@@ -51,6 +56,8 @@ trait ElementTrait
 
     /**
      * 批量删除按钮
+     * 
+     * @return DialogAction 批量删除按钮实例
      */
     protected function bulkDeleteButton()
     {
@@ -78,11 +85,11 @@ trait ElementTrait
     /**
      * 新增按钮
      *
-     * @param bool|string $dialog     是否弹窗, 弹窗: true|dialog, 抽屉: drawer,
-     * @param string      $dialogSize 弹窗大小, 默认: md, 可选值: xs | sm | md | lg | xl | full
-     * @param string      $title      弹窗标题 & 按钮文字, 默认: 新增
+     * @param bool|string $dialog 是否弹窗, 弹窗: true|dialog, 抽屉: drawer
+     * @param string $dialogSize 弹窗大小, 默认: md, 可选值: xs | sm | md | lg | xl | full
+     * @param string $title 弹窗标题 & 按钮文字, 默认: 新增
      *
-     * @return DialogAction|LinkAction
+     * @return DialogAction|LinkAction 新增按钮实例
      */
     protected function createButton(bool|string $dialog = false, string $dialogSize = 'md', string $title = '')
     {
@@ -111,11 +118,11 @@ trait ElementTrait
     /**
      * 行编辑按钮
      *
-     * @param bool|string $dialog     是否弹窗, 弹窗: true|dialog, 抽屉: drawer,
-     * @param string      $dialogSize 弹窗大小, 默认: md, 可选值: xs | sm | md | lg | xl | full
-     * @param string      $title      弹窗标题 & 按钮文字, 默认: 编辑
+     * @param bool|string $dialog 是否弹窗, 弹窗: true|dialog, 抽屉: drawer
+     * @param string $dialogSize 弹窗大小, 默认: md, 可选值: xs | sm | md | lg | xl | full
+     * @param string $title 弹窗标题 & 按钮文字, 默认: 编辑
      *
-     * @return DialogAction|LinkAction
+     * @return DialogAction|LinkAction 行编辑按钮实例
      */
     protected function rowEditButton(bool|string $dialog = false, string $dialogSize = 'md', string $title = '')
     {
@@ -148,11 +155,11 @@ trait ElementTrait
     /**
      * 行详情按钮
      *
-     * @param bool|string $dialog     是否弹窗, 弹窗: true|dialog, 抽屉: drawer
-     * @param string      $dialogSize 弹窗大小, 默认: md, 可选值: xs | sm | md | lg | xl | full
-     * @param string      $title      弹窗标题 & 按钮文字, 默认: 详情
+     * @param bool|string $dialog 是否弹窗, 弹窗: true|dialog, 抽屉: drawer
+     * @param string $dialogSize 弹窗大小, 默认: md, 可选值: xs | sm | md | lg | xl | full
+     * @param string $title 弹窗标题 & 按钮文字, 默认: 详情
      *
-     * @return DialogAction|LinkAction
+     * @return DialogAction|LinkAction 行详情按钮实例
      */
     protected function rowShowButton(bool|string $dialog = false, string $dialogSize = 'md', string $title = '')
     {
@@ -179,9 +186,9 @@ trait ElementTrait
     /**
      * 行删除按钮
      *
-     * @param string $title
+     * @param string $title 按钮标题
      *
-     * @return DialogAction
+     * @return DialogAction 行删除按钮实例
      */
     protected function rowDeleteButton(string $title = '')
     {
@@ -210,10 +217,10 @@ trait ElementTrait
     /**
      * 操作列
      *
-     * @param bool|array|string $dialog     是否弹窗, 弹窗: true|dialog, 抽屉: drawer
-     * @param string            $dialogSize 弹窗大小, 默认: md, 可选值: xs | sm | md | lg | xl | full
+     * @param bool|array|string $dialog 是否弹窗, 弹窗: true|dialog, 抽屉: drawer
+     * @param string $dialogSize 弹窗大小, 默认: md, 可选值: xs | sm | md | lg | xl | full
      *
-     * @return Operation
+     * @return Operation 操作列实例
      */
     protected function rowActions(bool|array|string $dialog = false, string $dialogSize = 'md')
     {
@@ -233,7 +240,7 @@ trait ElementTrait
     /**
      * 基础筛选器
      *
-     * @return Form
+     * @return Form 筛选器表单实例
      */
     protected function baseFilter()
     {
@@ -251,7 +258,7 @@ trait ElementTrait
     /**
      * 基础筛选器 - 条件构造器
      *
-     * @return ConditionBuilderControl
+     * @return ConditionBuilderControl 条件构造器控件实例
      */
     protected function baseFilterConditionBuilder()
     {
@@ -259,7 +266,9 @@ trait ElementTrait
     }
 
     /**
-     * @return mixed
+     * 基础CRUD
+     * 
+     * @return mixed CRUD实例
      */
     protected function baseCRUD(): mixed
     {
@@ -315,7 +324,7 @@ trait ElementTrait
     /**
      * 基础顶部工具栏
      *
-     * @return array
+     * @return array 顶部工具栏元素数组
      */
     protected function baseHeaderToolBar()
     {
@@ -331,9 +340,9 @@ trait ElementTrait
     /**
      * 基础表单
      *
-     * @param bool $back
+     * @param bool $back 是否添加返回按钮事件
      *
-     * @return Form
+     * @return Form 表单实例
      */
     protected function baseForm(bool $back = true)
     {
@@ -359,7 +368,9 @@ trait ElementTrait
     }
 
     /**
-     * @return Form
+     * 基础详情表单
+     * 
+     * @return Form 详情表单实例
      */
     protected function baseDetail()
     {
@@ -376,9 +387,9 @@ trait ElementTrait
     /**
      * 基础列表
      *
-     * @param $crud
+     * @param mixed $crud CRUD实例
      *
-     * @return Page
+     * @return Page 页面实例
      */
     protected function baseList($crud)
     {
@@ -391,9 +402,9 @@ trait ElementTrait
     /**
      * 导出按钮
      *
-     * @param bool $disableSelectedItem
+     * @param bool $disableSelectedItem 是否禁用选中项导出
      *
-     * @return Service
+     * @return Service 服务实例
      */
     protected function exportAction($disableSelectedItem = false)
     {

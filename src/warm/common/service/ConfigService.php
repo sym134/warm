@@ -10,21 +10,38 @@ use support\Db as DB;
 use support\Response;
 use warm\admin\Admin;
 use warm\admin\service\AdminService;
-use warm\common\model\Config;
+use warm\common\model\SystemConfig;
 
+/**
+ * 配置服务类
+ * 
+ * 提供系统配置项的管理功能，包括设置、获取、删除配置项等操作
+ * 支持单个和批量配置操作，以及缓存管理
+ */
 class ConfigService extends AdminService
 {
-    protected string $modelName = Config::class;
+    /**
+     * 模型名称
+     * 
+     * @var string
+     */
+    protected string $modelName = SystemConfig::class;
 
+    /**
+     * 缓存键前缀
+     * 
+     * @var string
+     */
     protected string $cacheKeyPrefix = 'app_config_';
 
     /**
      * 保存设置
      *
-     * @param $key
-     * @param $value
+     * 保存单个配置项，如果配置项不存在则创建，存在则更新
      *
-     * @return bool
+     * @param string $key 配置项键名
+     * @param mixed $value 配置项值
+     * @return bool 保存是否成功
      */
     public function set($key, $value = null): bool
     {
@@ -43,9 +60,10 @@ class ConfigService extends AdminService
     /**
      * 批量保存设置
      *
-     * @param array $data
+     * 批量保存多个配置项，使用数据库事务确保数据一致性
      *
-     * @return bool
+     * @param array $data 配置项键值对数组
+     * @return bool 保存是否成功
      */
     public function setMany(array $data): bool
     {
@@ -70,9 +88,10 @@ class ConfigService extends AdminService
     /**
      * 批量保存设置项并返回后台响应格式数据
      *
-     * @param array $data
+     * 批量保存配置项并返回标准的后台响应格式
      *
-     * @return Response
+     * @param array $data 配置项键值对数组
+     * @return Response 响应对象
      */
     public function adminSetMany(array $data): Response
     {
@@ -88,7 +107,9 @@ class ConfigService extends AdminService
     /**
      * 以数组形式返回所有设置
      *
-     * @return array
+     * 获取所有配置项，以键值对数组形式返回
+     *
+     * @return array 所有配置项
      */
     public function all(): array
     {
@@ -98,11 +119,12 @@ class ConfigService extends AdminService
     /**
      * 获取设置项
      *
+     * 获取指定键名的配置项值，支持默认值和强制刷新选项
+     *
      * @param string $key 设置项key
      * @param mixed|null $default 默认值
      * @param bool $fresh 是否直接从数据库获取
-     *
-     * @return mixed|null
+     * @return mixed|null 配置项值
      */
     public function get(string $key, mixed $default = null, bool $fresh = false): mixed
     {
@@ -120,11 +142,12 @@ class ConfigService extends AdminService
     /**
      * 获取设置项中的某个值
      *
+     * 通过点号分隔的路径获取配置项中的嵌套值
+     *
      * @param string $key 设置项key
      * @param string $path 通过点号分隔的路径, 同Arr::get()
-     * @param $default
-     *
-     * @return array|ArrayAccess|mixed|null
+     * @param mixed $default 默认值
+     * @return array|ArrayAccess|mixed|null 配置项中的值
      */
     public function arrayGet(string $key, string $path, $default = null): mixed
     {
@@ -140,9 +163,10 @@ class ConfigService extends AdminService
     /**
      * 清除指定设置项
      *
-     * @param string $key
+     * 删除指定键名的配置项
      *
-     * @return bool
+     * @param string $key 配置项键名
+     * @return bool 删除是否成功
      */
     public function del(string $key): bool
     {
@@ -158,8 +182,9 @@ class ConfigService extends AdminService
     /**
      * 清除指定设置项的缓存
      *
-     * @param $key
+     * 删除指定配置项的缓存
      *
+     * @param string $key 配置项键名
      * @return void
      */
     public function clearCache($key): void
@@ -167,6 +192,14 @@ class ConfigService extends AdminService
         Cache::delete($this->getCacheKey($key));
     }
 
+    /**
+     * 获取缓存键名
+     *
+     * 生成配置项的缓存键名
+     *
+     * @param string $key 配置项键名
+     * @return string 缓存键名
+     */
     public function getCacheKey($key): string
     {
         return $this->cacheKeyPrefix . $key;

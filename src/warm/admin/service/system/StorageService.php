@@ -8,15 +8,21 @@ use Illuminate\Database\Eloquent\Model;
 use warm\admin\service\AdminService;
 
 /**
- * 存储配置
- * StorageService
- *
+ * 存储配置服务类
+ * 
+ * 提供存储配置管理功能
+ * 
  * @author heimiao
  * Company:极智网络科技
  * @date 2025-01-09 10:09
  */
 class StorageService extends AdminService
 {
+    /**
+     * 默认配置
+     * 
+     * @var array
+     */
     private array $config = [
 
         'engine' => 'local',
@@ -61,11 +67,23 @@ class StorageService extends AdminService
 
     ];
 
+    /**
+     * 保存配置
+     * 
+     * @param array $data 配置数据
+     * @return bool 是否保存成功
+     */
     public function saveConfig(array $data): bool
     {
         return warmConfig()->set('filesystems', array_merge($this->config, $data));
     }
 
+    /**
+     * 获取编辑数据
+     * 
+     * @param mixed $id 数据ID
+     * @return Model|Collection|Builder|array|null 编辑数据
+     */
     public function getEditData($id): Model|Collection|Builder|array|null
     {
         return array_merge($this->config, warmConfig()->get('filesystems', []));

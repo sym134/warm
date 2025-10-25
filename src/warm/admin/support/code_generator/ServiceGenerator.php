@@ -6,18 +6,39 @@ use Illuminate\Support\Str;
 use warm\admin\support\code_generator\BaseGenerator;
 use warm\admin\support\code_generator\FilterGenerator;
 
+/**
+ * 服务类代码生成器
+ * 
+ * 用于生成Admin服务类代码
+ * 继承自BaseGenerator，提供服务类特定的生成逻辑
+ */
 class ServiceGenerator extends BaseGenerator
 {
+    /**
+     * 生成服务类文件
+     * 
+     * @return bool|string 生成的文件路径
+     */
     public function generate(): bool|string
     {
         return $this->writeFile($this->model->service_name, 'Service');
     }
 
+    /**
+     * 预览服务类代码
+     * 
+     * @return string 生成的服务类代码
+     */
     public function preview(): string
     {
         return $this->assembly();
     }
 
+    /**
+     * 组装服务类代码
+     * 
+     * @return string 完整的服务类代码
+     */
     public function assembly(): string
     {
         $name           = $this->model->service_name;

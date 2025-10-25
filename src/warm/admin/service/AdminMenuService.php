@@ -9,11 +9,20 @@ use warm\admin\Admin;
 use warm\admin\model\AdminMenu;
 
 /**
- * @method AdminMenu getModel()
- * @method AdminMenu|Builder query()
+ * 管理菜单服务类
+ * 
+ * 提供菜单管理相关功能，包括菜单树形结构处理、菜单验证、排序等
+ * 
+ * @method AdminMenu getModel() 获取模型实例
+ * @method AdminMenu|Builder query() 获取查询构造器
  */
 class AdminMenuService extends AdminService
 {
+    /**
+     * 构造函数
+     * 
+     * 初始化菜单服务，设置模型名称
+     */
     public function __construct()
     {
         parent::__construct();
@@ -21,6 +30,11 @@ class AdminMenuService extends AdminService
         $this->modelName = Admin::adminMenuModel();
     }
 
+    /**
+     * 获取菜单树形结构
+     * 
+     * @return array 菜单树形结构数组
+     */
     public function getTree(): array
     {
         $list = $this->query()->orderBy('order')->get()->toArray();
@@ -28,6 +42,15 @@ class AdminMenuService extends AdminService
         return array2tree($list);
     }
 
+    /**
+     * 检查父级菜单是否为子菜单
+     * 
+     * 防止出现循环嵌套的情况
+     * 
+     * @param int $id 菜单ID
+     * @param int $parent_id 父级菜单ID
+     * @return bool 是否为子菜单
+     */
     public function parentIsChild($id, $parent_id): bool
     {
         if($id == $parent_id){
@@ -47,6 +70,13 @@ class AdminMenuService extends AdminService
         return false;
     }
 
+    /**
+     * 更新菜单
+     * 
+     * @param mixed $primaryKey 主键值
+     * @param array $data 更新的数据
+     * @return bool 是否更新成功
+     */
     public function update($primaryKey, $data): bool
     {
         $columns = $this->getTableColumns();
@@ -63,6 +93,12 @@ class AdminMenuService extends AdminService
         return $this->saveData($data, $columns, $model);
     }
 
+    /**
+     * 存储菜单
+     * 
+     * @param array $data 存储的数据
+     * @return bool 是否存储成功
+     */
     public function store($data): bool
     {
         $columns = $this->getTableColumns();
@@ -70,22 +106,34 @@ class AdminMenuService extends AdminService
         return $this->saveData($data, $columns, $model);
     }
 
+    /**
+     * 更改首页菜单
+     * 
+     * @param int $excludeId 需要排除的菜单ID
+     * @return void
+     */
     public function changeHomePage($excludeId = 0): void
     {
         $this->query()->when($excludeId, fn($query) => $query->where('id', '<>', $excludeId))->update(['is_home' => 0]);
     }
 
+    /**
+     * 获取菜单列表
+     * 
+     * @return array 菜单列表数组
+     */
     public function list(): array
     {
         return ['items' => $this->getTree()];
     }
 
     /**
-     * @param           $data
-     * @param array     $columns
-     * @param AdminMenu $model
-     *
-     * @return bool
+     * 保存菜单数据
+     * 
+     * @param array $data 菜单数据
+     * @param array $columns 数据表字段列表
+     * @param AdminMenu $model 菜单模型实例
+     * @return bool 是否保存成功
      */
     protected function saveData($data, array $columns, AdminMenu $model): bool
     {
@@ -115,9 +163,8 @@ class AdminMenuService extends AdminService
     /**
      * 重新排序菜单
      *
-     * @param $ids
-     *
-     * @return false|int
+     * @param string $ids 排序ID列表
+     * @return false|int 更新结果
      */
     public function reorder($ids): bool|int
     {
@@ -138,6 +185,12 @@ class AdminMenuService extends AdminService
         return DB::update($sql . ' else `order` end');
     }
 
+    /**
+     * 刷新菜单排序
+     * 
+     * @param array $list 排序列表
+     * @return array 刷新后的排序结果
+     */
     public function refreshOrder($list)
     {
         $result = collect($list)->filter(fn($i) => !is_array($i))->values()->flip()->toArray();

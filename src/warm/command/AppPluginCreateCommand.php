@@ -8,20 +8,36 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * 创建插件
- * AppPluginCreateCommand
- * warm\command
- *
+ * 创建插件命令类
+ * 
+ * 该类继承自Symfony Console Command，用于通过命令行创建新的插件
+ * 包括插件目录结构、配置文件、控制器、视图等
+ * 
  * Author:sym
  * Date:2024/6/18 上午10:32
  * Company:极智科技
  */
 class AppPluginCreateCommand extends Command
 {
+    /**
+     * 命令名称
+     * 
+     * @var string
+     */
     protected static string $defaultName = 'cms-plugin:create';
+    
+    /**
+     * 命令描述
+     * 
+     * @var string
+     */
     protected static string $defaultDescription = 'App Plugin Create';
 
     /**
+     * 配置命令参数
+     * 
+     * 添加一个必需的参数'name'，用于指定要创建的插件名称
+     * 
      * @return void
      */
     protected function configure(): void
@@ -30,9 +46,13 @@ class AppPluginCreateCommand extends Command
     }
 
     /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return int
+     * 执行命令逻辑
+     * 
+     * 根据提供的插件名称创建完整的插件目录结构和文件
+     * 
+     * @param InputInterface $input 输入接口对象
+     * @param OutputInterface $output 输出接口对象
+     * @return int 命令执行结果状态码
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
@@ -56,7 +76,12 @@ class AppPluginCreateCommand extends Command
     }
 
     /**
-     * @param $name
+     * 创建插件的所有文件和目录
+     * 
+     * 创建插件所需的完整目录结构和初始文件
+     * 包括控制器、模型、中间件、视图、配置等目录及文件
+     * 
+     * @param string $name 插件名称
      * @return void
      */
     protected function createAll($name): void
@@ -78,7 +103,11 @@ class AppPluginCreateCommand extends Command
     }
 
     /**
-     * @param $path
+     * 创建目录
+     * 
+     * 安全地创建目录，如果目录已存在则不执行任何操作
+     * 
+     * @param string $path 要创建的目录路径
      * @return void
      */
     protected function mkdir($path): void
@@ -91,8 +120,12 @@ class AppPluginCreateCommand extends Command
     }
 
     /**
-     * @param $path
-     * @param $name
+     * 创建控制器文件
+     * 
+     * 创建插件的默认IndexController控制器文件
+     * 
+     * @param string $path 控制器文件路径
+     * @param string $name 插件名称
      * @return void
      */
     protected function createControllerFile($path, $name): void
@@ -122,7 +155,11 @@ EOF;
     }
 
     /**
-     * @param $path
+     * 创建视图文件
+     * 
+     * 创建插件的默认首页视图文件
+     * 
+     * @param string $path 视图文件路径
      * @return void
      */
     protected function createViewFile($path): void
@@ -151,7 +188,11 @@ EOF;
 
 
     /**
-     * @param $file
+     * 创建函数文件
+     * 
+     * 创建插件的自定义函数文件
+     * 
+     * @param string $file 函数文件路径
      * @return void
      */
     protected function createFunctionsFile($file): void
@@ -169,8 +210,12 @@ EOF;
     }
 
     /**
-     * @param $base
-     * @param $name
+     * 创建API安装文件
+     * 
+     * 创建插件的API安装类文件，包含安装、卸载、更新等方法
+     * 
+     * @param string $base API目录路径
+     * @param string $name 插件名称
      * @return void
      */
     protected function createApiFiles($base, $name): void
@@ -358,6 +403,11 @@ EOF;
     }
 
     /**
+     * 创建安装SQL文件
+     * 
+     * 创建插件的空SQL安装文件
+     * 
+     * @param string $file SQL文件路径
      * @return void
      */
     protected function createInstallSqlFile($file): void
@@ -366,8 +416,15 @@ EOF;
     }
 
     /**
-     * @param $base
-     * @param $name
+     * 创建配置文件
+     * 
+     * 创建插件所需的各种配置文件，包括：
+     * app.php, menu.php, autoload.php, container.php, database.php,
+     * exception.php, log.php, middleware.php, process.php, redis.php,
+     * route.php, static.php, translation.php, view.php, thinkorm.php
+     * 
+     * @param string $base 配置目录路径
+     * @param string $name 插件名称
      * @return void
      */
     protected function createConfigFiles($base, $name): void

@@ -11,14 +11,30 @@ use warm\admin\service\AdminPageService;
 use warm\admin\trait\IconifyPickerTrait;
 
 /**
- * @property AdminMenuService $service
+ * 管理菜单控制器
+ * 
+ * 用于管理系统菜单的增删改查操作
+ * 提供菜单拖拽排序、图标选择等功能
+ * 
+ * @property AdminMenuService $service 管理菜单服务类实例
  */
 class AdminMenuController extends AdminController
 {
     use IconifyPickerTrait;
 
+    /**
+     * @var string $serviceName 服务类名称
+     * 指定当前控制器使用的服务类
+     */
     protected string $serviceName = AdminMenuService::class;
 
+    /**
+     * 菜单列表页面
+     * 
+     * 展示系统菜单列表，支持拖拽排序、快速编辑等功能
+     * 
+     * @return Page 返回菜单列表页面
+     */
     public function list(): Page
     {
         $crud = $this->baseCRUD()
@@ -68,6 +84,14 @@ class AdminMenuController extends AdminController
         return $this->baseList($crud);
     }
 
+    /**
+     * 菜单表单页面
+     * 
+     * 定义菜单新增/编辑表单结构，包含标题、图标、父级菜单、排序等字段
+     * 支持多种菜单类型（路由、页面、iframe等）
+     * 
+     * @return Form 返回菜单表单
+     */
     public function form(): Form
     {
         return $this->baseForm()->body([
@@ -158,6 +182,13 @@ class AdminMenuController extends AdminController
         ]);
     }
 
+    /**
+     * 菜单详情页面
+     * 
+     * 展示菜单详细信息
+     * 
+     * @return Form 返回菜单详情表单
+     */
     public function detail(): Form
     {
         return $this->baseDetail()->body([]);
@@ -165,8 +196,10 @@ class AdminMenuController extends AdminController
 
     /**
      * 保存排序
-     *
-     * @return Response
+     * 
+     * 处理菜单拖拽排序后的保存操作
+     * 
+     * @return Response 返回操作结果响应
      */
     public function saveOrder(): Response
     {

@@ -7,10 +7,27 @@ use warm\admin\renderer\Form;
 use warm\admin\renderer\Page;
 use warm\admin\service\monitor\AdminOperationLogService;
 
+/**
+ * 管理员操作日志控制器
+ * 
+ * 用于查看和管理后台管理员的操作日志信息
+ * 提供操作日志列表查看和筛选功能
+ */
 class AdminOperationLogController extends AdminController
 {
+    /**
+     * @var string $serviceName 服务类名称
+     * 指定当前控制器使用的服务类
+     */
     protected string $serviceName = AdminOperationLogService::class;
 
+    /**
+     * 操作日志列表页面
+     * 
+     * 展示管理员操作日志列表，支持按用户名、服务名称、IP等条件筛选
+     * 
+     * @return Page 返回操作日志列表页面
+     */
     public function list(): Page
     {
         $crud = $this->baseCRUD()
@@ -46,6 +63,13 @@ class AdminOperationLogController extends AdminController
         return $this->baseList($crud);
     }
 
+    /**
+     * 操作日志表单页面
+     * 
+     * 定义操作日志信息的表单结构
+     * 
+     * @return Form 返回操作日志表单
+     */
     public function form(): Form
     {
         return $this->baseForm()

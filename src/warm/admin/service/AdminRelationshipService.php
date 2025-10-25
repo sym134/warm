@@ -13,15 +13,34 @@ use warm\admin\model\AdminRelationship;
 use warm\admin\support\cores\Database;
 
 /**
- * @method AdminRelationship getModel()
- * @method AdminRelationship|Builder query()
+ * 管理关联关系服务类
+ * 
+ * 提供模型关联关系管理功能，包括关联关系验证、模型扫描等
+ * 
+ * @method AdminRelationship getModel() 获取模型实例
+ * @method AdminRelationship|Builder query() 获取查询构造器
  */
 class AdminRelationshipService extends AdminService
 {
+    /**
+     * 模型类名
+     * 
+     * @var string
+     */
     protected string $modelName = AdminRelationship::class;
 
+    /**
+     * 缓存键名
+     * 
+     * @var string
+     */
     public string $cacheKey = 'admin_relationships';
 
+    /**
+     * 获取列表数据
+     * 
+     * @return array 列表数据
+     */
     public function list(): array
     {
         $list = parent::list();
@@ -33,6 +52,11 @@ class AdminRelationshipService extends AdminService
         return $list;
     }
 
+    /**
+     * 获取所有关联关系
+     * 
+     * @return mixed 关联关系数据
+     */
     public function getAll()
     {
         return cache()->rememberForever($this->cacheKey, function () {
@@ -40,6 +64,15 @@ class AdminRelationshipService extends AdminService
         });
     }
 
+    /**
+     * 保存前处理
+     * 
+     * 验证关联关系是否已存在
+     * 
+     * @param array $data 保存的数据
+     * @param string $primaryKey 主键值
+     * @return void
+     */
     public function saving(&$data, $primaryKey = ''): void
     {
         $exists = self::query()
@@ -55,16 +88,41 @@ class AdminRelationshipService extends AdminService
         admin_abort_if($methodExists, translator('admin.relationships.rel_name_exists'));
     }
 
+    /**
+     * 保存后处理
+     * 
+     * 清除关联关系缓存
+     * 
+     * @param mixed $model 保存的模型实例
+     * @param bool $isEdit 是否为编辑操作
+     * @return void
+     */
     public function saved($model, $isEdit = false): void
     {
         cache()->forget($this->cacheKey);
     }
 
+    /**
+     * 删除后处理
+     * 
+     * 清除关联关系缓存
+     * 
+     * @param string $ids 删除的ID列表
+     * @return void
+     */
     public function deleted($ids): void
     {
         cache()->forget($this->cacheKey);
     }
 
+    /**
+     * 获取所有模型
+     * 
+     * 扫描项目中的所有模型类
+     * 
+     * @return array 模型列表
+     * @throws \Exception 当模型目录不存在时抛出异常
+     */
     public function allModels(): array
     {
         if (!file_exists(app_path('admin/model'))) {
@@ -104,6 +162,12 @@ class AdminRelationshipService extends AdminService
         return compact('tables', 'models');
     }
 
+    /**
+     * 生成模型文件
+     * 
+     * @param string $table 数据表名
+     * @return void
+     */
     public function generateModel($table): void
     {
         $className = Str::of($table)->studly()->singular()->value();

@@ -6,18 +6,39 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Arr;
 use warm\admin\support\code_generator\BaseGenerator;
 
+/**
+ * 模型代码生成器
+ * 
+ * 用于生成Eloquent模型类代码
+ * 继承自BaseGenerator，提供模型特定的生成逻辑
+ */
 class ModelGenerator extends BaseGenerator
 {
+    /**
+     * 生成模型文件
+     * 
+     * @return bool|string 生成的文件路径
+     */
     public function generate(): bool|string
     {
         return $this->writeFile($this->model->model_name, 'Model');
     }
 
+    /**
+     * 预览模型代码
+     * 
+     * @return string 生成的模型代码
+     */
     public function preview(): string
     {
         return $this->assembly();
     }
 
+    /**
+     * 组装模型代码
+     * 
+     * @return string 完整的模型代码
+     */
     public function assembly(): string
     {
         $name  = $this->model->model_name;

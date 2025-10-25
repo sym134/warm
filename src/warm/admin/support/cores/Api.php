@@ -12,9 +12,21 @@ use warm\admin\support\apis\GetSettingsApi;
 use warm\admin\support\apis\OptionsApi;
 use warm\admin\support\apis\SaveSettingsApi;
 
-// todo 导入api模板
+/**
+ * API管理类
+ * 
+ * 用于管理系统中的API模板，包括内置API和自定义API模板
+ * 负责加载和注册系统可用的API接口模板
+ */
 class Api
 {
+    /**
+     * 启动API管理器
+     * 
+     * 注册系统内置API模板，并尝试加载自定义API模板
+     * 
+     * @return void
+     */
     public static function boot(): void
     {
         appw('admin.context')->set('apis', [
@@ -43,6 +55,12 @@ class Api
             });
     }
 
+    /**
+     * 获取API模板路径
+     * 
+     * @param string $file 文件名
+     * @return string 完整路径
+     */
     public static function path($file = ''): string
     {
         return app_path('/ApiTemplates') . ($file ? '/' . ltrim($file, '/') : '');

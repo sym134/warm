@@ -17,24 +17,34 @@ use warm\admin\controller\IndexController;
 use warm\admin\controller\monitor\AdminLoginLogController;
 use warm\admin\controller\monitor\AdminOperationLogController;
 use warm\admin\controller\notice\SmsConfigController;
-use warm\admin\controller\system\AdminCrontabController;
-use warm\admin\controller\system\AdminCrontabLogController;
+use warm\admin\controller\system\SystemCrontabController;
+use warm\admin\controller\system\SystemCrontabLogController;
 use warm\admin\controller\system\CacheController;
-use warm\admin\controller\system\FileController;
-use warm\admin\controller\system\StorageController;
+use warm\admin\controller\system\SystemFileController;
+use warm\admin\controller\system\SystemStorageController;
 use Webman\Route;
 
+/**
+ * Warm Admin 路由配置文件
+ * 
+ * 定义系统的所有路由规则，包括认证路由、系统管理路由、
+ * 开发工具路由等。使用 Webman 的路由系统进行配置。
+ */
+
+// 首页路由
 Route::get('/admin', fn() => Admin::view());
 
-
+// 后台路由组
 Route::group('/' . Admin::config('app.route.prefix'), function () {
 
+    // 认证相关路由
     Route::get('/login', [AuthController::class, 'loginPage']);
     Route::post('/login', [AuthController::class, 'login']);
     Route::get('/logout', [AuthController::class, 'logout']);
     Route::get('/captcha', [AuthController::class, 'reloadCaptcha']);
     Route::get('/current-user', [AuthController::class, 'currentUser']);
 
+    // 基础路由
     Route::get('/menus', [IndexController::class, 'menus']);
     Route::get('/_settings', [IndexController::class, 'settings']);
     Route::post('/_settings', [IndexController::class, 'saveSettings']);
@@ -43,56 +53,74 @@ Route::group('/' . Admin::config('app.route.prefix'), function () {
     Route::get('/_iconify_search', [IndexController::class, 'iconifySearch']);
     Route::get('/page_schema', [IndexController::class, 'pageSchema']);
 
+    // 文件上传路由
     Route::any('/upload_file', [IndexController::class, 'uploadFile']);
     Route::any('/upload_chunk_start', [IndexController::class, 'chunkUploadStart']);
     Route::any('/upload_chunk', [IndexController::class, 'chunkUpload']);
     Route::any('/upload_chunk_finish', [IndexController::class, 'chunkUploadFinish']);
     Route::any('/upload_rich', [IndexController::class, 'uploadRich']);
     Route::any('/upload_image', [IndexController::class, 'uploadImage']);
+    
+    // 用户设置路由
     Route::get('/user_setting', [AuthController::class, 'userSetting']);
     Route::put('/user_setting', [AuthController::class, 'saveUserSetting']);
 
+    // 首页路由
     Route::resource('/dashboard', HomeController::class);
 
+    // 系统管理路由组
     Route::group('/system', function () {
         Route::get('/', [AdminUserController::class, 'index']);
 
+        // 管理员用户管理
         Route::resource('/admin_users', AdminUserController::class);
+        // 缓存管理
         Route::resource('/cache', CacheController::class);
+        // 菜单管理
         Route::post('/admin_menus/save_order', [AdminMenuController::class, 'saveOrder']);
         Route::resource('/admin_menus', AdminMenuController::class);
+        // 角色管理
         Route::resource('/admin_roles', AdminRoleController::class);
+        // 权限管理
         Route::resource('/admin_permissions', AdminPermissionController::class);
 
+        // 角色权限保存
         Route::post('/admin_role_save_permissions', [AdminRoleController::class, 'savePermissions']);
+        // 权限自动生成
         Route::post('/_admin_permissions_auto_generate', [AdminPermissionController::class, 'autoGenerate']);
 
-        Route::resource('/storage', StorageController::class);
-        Route::resource('/file', FileController::class);
+        // 存储管理
+        Route::resource('/storage', SystemStorageController::class);
+        // 文件管理
+        Route::resource('/file', SystemFileController::class);
 
-        Route::resource('/crontab', AdminCrontabController::class);
-        Route::get('/crontab_run', [AdminCrontabController::class, 'run']);
-        Route::resource('/crontab_log', AdminCrontabLogController::class);
+        // 定时任务管理
+        Route::resource('/crontab', SystemCrontabController::class);
+        Route::get('/crontab_run', [SystemCrontabController::class, 'run']);
+        Route::resource('/crontab_log', SystemCrontabLogController::class);
     });
 
-    // 应用设置
+    // 应用设置路由组
     Route::group('/app', function () {
-        //消息
+        // 消息通知路由组
         Route::group('/notice', function () {
+            // 短信配置
             Route::resource('/sms_config', SmsConfigController::class);
-
         });
     });
 
+    // 日志监控路由组
     Route::group('/log_monitoring', function () {
         // 登录日志
         Route::resource('/admin_login_log', AdminLoginLogController::class);
+        // 操作日志
         Route::resource('/admin_operation_log', AdminOperationLogController::class);
     });
 
-
+    // 开发者工具（仅在启用时加载）
     if (Admin::config('app.show_development_tools')) {
         Route::group('/dev_tools', function () {
+            // 代码生成器
             Route::resource('/code_generator', CodeGeneratorController::class);
             Route::group('/code_generator', function () {
                 Route::post('/preview', [CodeGeneratorController::class, 'preview']);
@@ -103,12 +131,14 @@ Route::group('/' . Admin::config('app.route.prefix'), function () {
                 Route::post('/get_record', [CodeGeneratorController::class, 'getRecord']);
                 Route::post('/get_property_options', [CodeGeneratorController::class, 'getPropertyOptions']);
 
+                // 组件属性管理
                 Route::group('/component_property', function () {
                     Route::post('/save', [CodeGeneratorController::class, 'saveComponentProperty']);
                     Route::post('/list', [CodeGeneratorController::class, 'getComponentProperty']);
                     Route::post('/del', [CodeGeneratorController::class, 'delComponentProperty']);
                 });
 
+                // 通用字段管理
                 Route::group('/common_field', function () {
                     Route::post('/save', [CodeGeneratorController::class, 'saveColumnProperty']);
                     Route::post('/list', [CodeGeneratorController::class, 'getColumnProperty']);
@@ -116,6 +146,7 @@ Route::group('/' . Admin::config('app.route.prefix'), function () {
                 });
             });
 
+            // 插件管理
             Route::resource('/plugin', PluginController::class);
             Route::group('/plugin', function () {
                 Route::post('/enable', [PluginController::class, 'enable']);
@@ -126,10 +157,13 @@ Route::group('/' . Admin::config('app.route.prefix'), function () {
                 // Route::post('/config_form', [PluginController::class, 'configForm']);
             });
 
+            // 可视化编辑器
             Route::post('/editor_parse', [EditorController::class, 'index']);
 
+            // 页面管理
             Route::resource('/pages', PagesController::class);
 
+            // 关联关系管理
             Route::resource('/relationships', RelationshipController::class);
             Route::group('/relation', function () {
                 Route::get('/model_options', [RelationshipController::class, 'modelOptions']);
@@ -138,6 +172,7 @@ Route::group('/' . Admin::config('app.route.prefix'), function () {
                 Route::post('/generate_model', [RelationshipController::class, 'generateModel']);
             });
 
+            // API管理
             Route::resource('/apis', ApiController::class);
             Route::group('/api', function () {
                 Route::get('/templates', [ApiController::class, 'template']);

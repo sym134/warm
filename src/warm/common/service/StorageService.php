@@ -7,16 +7,38 @@ use Webman\Http\UploadFile;
 use finfo;
 use RuntimeException;
 
+/**
+ * 存储服务类
+ * 
+ * 提供文件存储相关功能，包括文件上传、验证、路径管理等
+ * 支持图片、视频、音频等多种文件类型的处理
+ */
 class StorageService extends BaseService
 {
-    // 允许的文件类型扩展名
+    /**
+     * 允许的文件类型扩展名
+     * 
+     * @var array
+     */
     protected static array $allowedFileExtensions = [];
-    // 允许的图片类型扩展名
+    
+    /**
+     * 允许的图片类型扩展名
+     * 
+     * @var array
+     */
     protected static array $allowedImageExtensions = [];
-    // 最大文件大小
+    
+    /**
+     * 最大文件大小
+     * 
+     * @var int
+     */
     protected static int $maxSize = 0;
 
-    // 扩展名到MIME类型的映射表（包含图片、视频、音频）
+    /**
+     * 扩展名到MIME类型的映射表（包含图片、视频、音频）
+     */
     protected const EXTENSION_MIME_MAP = [
         // 文本/文档类
         'txt' => 'text/plain',
@@ -66,6 +88,9 @@ class StorageService extends BaseService
 
     /**
      * 初始化上传配置
+     * 
+     * 从存储配置中读取允许的文件类型和大小限制
+     * 
      * @return void
      */
     public static function initUploadConfig(): void
@@ -83,8 +108,12 @@ class StorageService extends BaseService
 
     /**
      * 验证图片文件
-     * @param UploadFile $file
-     * @param string $realMime
+     * 
+     * 验证上传的图片文件是否符合要求，包括类型、完整性、大小等
+     * 
+     * @param UploadFile $file 上传的文件对象
+     * @param string $realMime 文件的真实MIME类型
+     * @throws RuntimeException 当验证失败时抛出异常
      */
     public static function validateImage(UploadFile $file, string $realMime): void
     {
@@ -116,9 +145,13 @@ class StorageService extends BaseService
 
     /**
      * 验证普通文件（包含视频和音频）
-     * @param UploadFile $file
-     * @param string $realMime
+     * 
+     * 验证上传的普通文件是否符合要求，包括类型和大小等
+     * 
+     * @param UploadFile $file 上传的文件对象
+     * @param string $realMime 文件的真实MIME类型
      * @return void
+     * @throws RuntimeException 当验证失败时抛出异常
      */
     public static function validateFile(UploadFile $file, string $realMime): void
     {
@@ -145,8 +178,9 @@ class StorageService extends BaseService
 
     /**
      * 判断是否为视频MIME类型
-     * @param string $mime
-     * @return bool
+     * 
+     * @param string $mime MIME类型
+     * @return bool 是否为视频MIME类型
      */
     protected static function isVideoMime(string $mime): bool
     {
@@ -155,8 +189,9 @@ class StorageService extends BaseService
 
     /**
      * 判断是否为音频MIME类型
-     * @param string $mime
-     * @return bool
+     * 
+     * @param string $mime MIME类型
+     * @return bool 是否为音频MIME类型
      */
     protected static function isAudioMime(string $mime): bool
     {
@@ -165,8 +200,11 @@ class StorageService extends BaseService
 
     /**
      * 获取文件的真实MIME类型
-     * @param string $path
-     * @return string
+     * 
+     * 使用finfo扩展检测文件的真实MIME类型
+     * 
+     * @param string $path 文件路径
+     * @return string 真实的MIME类型
      */
     protected static function getRealMimeType(string $path): string
     {
@@ -177,8 +215,9 @@ class StorageService extends BaseService
 
     /**
      * 判断是否为图片MIME类型
-     * @param string $mime
-     * @return bool
+     * 
+     * @param string $mime MIME类型
+     * @return bool 是否为图片MIME类型
      */
     protected static function isImageMime(string $mime): bool
     {
@@ -187,9 +226,12 @@ class StorageService extends BaseService
 
     /**
      * 验证图片内容
-     * @param string $path
-     * @param string $mime
-     * @return bool
+     * 
+     * 验证图片文件的内容是否完整有效
+     * 
+     * @param string $path 文件路径
+     * @param string $mime MIME类型
+     * @return bool 图片是否有效
      */
     protected static function validateImageContent(string $path, string $mime): bool
     {
@@ -204,8 +246,11 @@ class StorageService extends BaseService
 
     /**
      * SVG文件安全验证
-     * @param string $path
-     * @return bool
+     * 
+     * 验证SVG文件是否包含危险内容
+     * 
+     * @param string $path 文件路径
+     * @return bool SVG文件是否安全
      */
     protected static function validateSvgFile(string $path): bool
     {
@@ -246,9 +291,12 @@ class StorageService extends BaseService
 
     /**
      * 生成文件名
-     * @param string $realMime
-     * @param string $fileName
-     * @return string
+     * 
+     * 根据MIME类型生成安全的文件名
+     * 
+     * @param string $realMime 真实的MIME类型
+     * @param string $fileName 原始文件名
+     * @return string 生成的文件名
      */
     public static function generateFilename(string $realMime, string $fileName = ''): string
     {
@@ -259,8 +307,9 @@ class StorageService extends BaseService
 
     /**
      * 根据MIME类型获取安全扩展名
-     * @param string $mime
-     * @return string
+     * 
+     * @param string $mime MIME类型
+     * @return string 安全的扩展名
      */
     protected static function getSafeExtension(string $mime): string
     {
@@ -295,8 +344,9 @@ class StorageService extends BaseService
 
     /**
      * 根据MIME类型获取扩展名
-     * @param string $mime
-     * @return string
+     * 
+     * @param string $mime MIME类型
+     * @return string 扩展名
      */
     protected static function getExtensionByMime(string $mime): string
     {
@@ -312,11 +362,14 @@ class StorageService extends BaseService
 
     /**
      * 上传文件（自动判断类型）
-     * @param UploadFile $file
-     * @param string $path
-     * @param string $fileName
-     * @param string|null $realMime image/jpeg
-     * @return array
+     * 
+     * 自动识别文件类型并进行相应的验证和上传处理
+     * 
+     * @param UploadFile $file 上传的文件对象
+     * @param string $path 上传路径
+     * @param string $fileName 文件名
+     * @param string|null $realMime 真实的MIME类型
+     * @return array 上传结果信息
      */
     public static function upload(UploadFile $file, string $path = '', string $fileName = '', ?string $realMime = null): array
     {
@@ -377,6 +430,14 @@ class StorageService extends BaseService
         ];
     }
 
+    /**
+     * 生成文件访问URL
+     * 
+     * 根据文件路径生成可访问的URL
+     * 
+     * @param string $path 文件路径
+     * @return string 文件访问URL
+     */
     public static function url(string $path = ''): string
     {
         $domain = rtrim(Storage::getConfig()['domain'] ?? '', '/');

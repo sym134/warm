@@ -13,6 +13,11 @@ declare(strict_types=1);
 namespace warm\framework\support\facade;
 
 /**
+ * 验证门面类
+ * 
+ * 提供简化的数据验证操作接口，封装了底层的验证器
+ * 支持各种验证规则和自定义验证方法
+ * 
  * @see \think\Validate
  * @package think\facade
  * @mixin \think\Validate
@@ -77,8 +82,9 @@ class Validate extends Facade
 {
     /**
      * 获取当前Facade对应类名（或者已经绑定的容器对象标识）
+     * 
      * @access protected
-     * @return string
+     * @return string 验证器类名
      */
     protected static function getFacadeClass(): string
     {

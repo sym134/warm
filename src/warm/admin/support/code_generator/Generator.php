@@ -17,10 +17,17 @@ use warm\admin\support\code_generator\ServiceGenerator;
 use warm\admin\support\code_generator\TranslateGenerator;
 use warm\admin\trait\MakeTrait;
 
+/**
+ * 代码生成器主类
+ * 
+ * 协调各个代码生成器的工作，提供统一的生成和预览接口
+ * 包含数据库字段类型映射、数据库信息获取等功能
+ */
 class Generator
 {
     use MakeTrait;
 
+    /** @var array 数据类型映射 */
     public static array $dataTypeMap = [
         'int'                => 'integer',
         'int@unsigned'       => 'unsignedInteger',
@@ -49,6 +56,11 @@ class Generator
         'longtext'           => 'longText',
     ];
 
+    /**
+     * 获取需要创建的选项
+     * 
+     * @return array 选项数组
+     */
     public function needCreateOptions(): array
     {
         return [
@@ -79,6 +91,11 @@ class Generator
         ];
     }
 
+    /**
+     * 获取可用的字段类型
+     * 
+     * @return array 字段类型数组
+     */
     public function availableFieldTypes(): array
     {
         return collect(self::$dataTypeMap)
@@ -87,6 +104,13 @@ class Generator
             ->toArray();
     }
 
+    /**
+     * 获取数据库字段信息
+     * 
+     * @param string|null $db 数据库名
+     * @param string|null $tb 表名
+     * @return \think\Collection|Collection 数据库字段信息集合
+     */
     public function getDatabaseColumns($db = null, $tb = null): \think\Collection|Collection
     {
         $databases = Arr::where(config('database.connections', []), function ($value) {
@@ -156,6 +180,13 @@ class Generator
         return collect($data);
     }
 
+    /**
+     * 获取数据库主键信息
+     * 
+     * @param string|null $db 数据库名
+     * @param string|null $tb 表名
+     * @return \think\Collection|Collection 主键信息集合
+     */
     public function getDatabasePrimaryKeys($db = null, $tb = null): \think\Collection|Collection
     {
         $databases = Arr::where(config('database.connections', []), function ($value) {
@@ -208,6 +239,16 @@ class Generator
         return collect($data);
     }
 
+    /**
+     * 生成代码
+     * 
+     * 根据记录ID和需要生成的项生成相应的代码文件
+     * 
+     * @param int $id 记录ID
+     * @param array $needs 需要生成的项
+     * @return string 生成结果信息
+     * @throws Throwable
+     */
     public function generate($id, $needs = []): string
     {
         $record = AdminCodeGenerator::find($id);
@@ -294,6 +335,15 @@ class Generator
         return $message;
     }
 
+    /**
+     * 预览代码
+     * 
+     * 根据记录ID预览将要生成的代码
+     * 
+     * @param int $id 记录ID
+     * @return array 包含各类代码的数组
+     * @throws Exception
+     */
     public function preview($id): array
     {
         $record = AdminCodeGenerator::find($id);

@@ -6,10 +6,22 @@ use Illuminate\Support\Arr;
 use warm\admin\Admin;
 use warm\admin\service\AdminMenuService;
 
+/**
+ * 菜单管理类
+ * 
+ * 用于管理系统菜单，包括用户菜单、开发者工具菜单等
+ * 提供菜单的生成、格式化和管理功能
+ */
 class Menu
 {
+    /** @var array 自定义菜单列表 */
     protected array $menus = [];
 
+    /**
+     * 获取所有菜单
+     * 
+     * @return array 所有菜单数组
+     */
     public function all(): array
     {
         $menus = $this->userMenus()
@@ -21,6 +33,11 @@ class Menu
         return array_merge($this->list2Menu($menus), $this->extra());
     }
 
+    /**
+     * 获取用户菜单
+     * 
+     * @return mixed 用户菜单集合
+     */
     public function userMenus()
     {
         if (!Admin::config('app.auth.enable')) {
@@ -44,6 +61,14 @@ class Menu
         return $list;
     }
 
+    /**
+     * 将列表转换为菜单结构
+     * 
+     * @param array $list 菜单列表
+     * @param int $parentId 父级ID
+     * @param string $parentName 父级名称
+     * @return array 菜单结构数组
+     */
     public function list2Menu($list, $parentId = 0, $parentName = ''): array
     {
         $data = [];
@@ -93,6 +118,12 @@ class Menu
         return $data;
     }
 
+    /**
+     * 生成路由
+     * 
+     * @param array $item 菜单项
+     * @return array 路由数组
+     */
     public function generateRoute($item): array
     {
         $url = $item['path'] ?? '';
@@ -120,6 +151,12 @@ class Menu
         ];
     }
 
+    /**
+     * 添加菜单
+     * 
+     * @param array $menus 菜单数组
+     * @return static 返回当前实例以支持链式调用
+     */
     public function add($menus): static
     {
         $this->menus = array_merge($this->menus, $menus);
@@ -127,6 +164,12 @@ class Menu
         return $this;
     }
 
+    /**
+     * 格式化菜单项
+     * 
+     * @param array $item 菜单项
+     * @return array 格式化后的菜单项
+     */
     public function formatItem($item): array
     {
         return array_merge([
@@ -144,8 +187,8 @@ class Menu
 
     /**
      * 额外菜单
-     *
-     * @return array|array[]
+     * 
+     * @return array 额外菜单数组
      */
     public function extra(): array
     {
@@ -174,8 +217,8 @@ class Menu
 
     /**
      * 开发者工具菜单
-     *
-     * @return array[]
+     * 
+     * @return array 开发者工具菜单数组
      */
     public function devToolMenus(): array
     {

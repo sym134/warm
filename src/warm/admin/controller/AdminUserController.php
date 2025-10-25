@@ -8,12 +8,28 @@ use warm\admin\service\AdminRoleService;
 use warm\admin\service\AdminUserService;
 
 /**
- * @property AdminUserService $service
+ * 管理员用户控制器
+ * 
+ * 用于管理后台管理员用户的增删改查操作
+ * 继承自AdminController，提供完整的用户管理功能
+ * 
+ * @property AdminUserService $service 管理员用户服务类实例
  */
 class AdminUserController extends AdminController
 {
+    /**
+     * @var string $serviceName 服务类名称
+     * 指定当前控制器使用的服务类
+     */
     protected string $serviceName = AdminUserService::class;
 
+    /**
+     * 用户列表页面
+     * 
+     * 展示管理员用户列表，支持搜索、排序、快速编辑等功能
+     * 
+     * @return Page 返回用户列表页面
+     */
     public function list(): Page
     {
         $crud = $this->baseCRUD()
@@ -49,6 +65,13 @@ class AdminUserController extends AdminController
         return $this->baseList($crud);
     }
 
+    /**
+     * 用户表单页面
+     * 
+     * 定义用户新增/编辑表单结构，包含头像、用户名、姓名、密码等字段
+     * 
+     * @return Form 返回用户表单
+     */
     public function form(): Form
     {
         return $this->baseForm()->body([
@@ -74,6 +97,13 @@ class AdminUserController extends AdminController
         ]);
     }
 
+    /**
+     * 用户详情页面
+     * 
+     * 展示用户详细信息
+     * 
+     * @return Form 返回用户详情表单
+     */
     public function detail(): Form
     {
         return $this->baseDetail()->body([]);

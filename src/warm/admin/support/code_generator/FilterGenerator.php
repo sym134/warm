@@ -4,8 +4,15 @@ namespace warm\admin\support\code_generator;
 
 use warm\admin\support\code_generator\BaseGenerator;
 
+/**
+ * 过滤器代码生成器
+ * 
+ * 用于生成列表页面的筛选条件和查询逻辑代码
+ * 继承自BaseGenerator，提供筛选相关的生成逻辑
+ */
 class FilterGenerator extends BaseGenerator
 {
+    /** @var array 过滤器类型映射 */
     public static array $filterMap = [
         'equal'           => '=',
         'not_equal'       => '!=',
@@ -27,6 +34,11 @@ class FilterGenerator extends BaseGenerator
         'is_not_null'     => 'is not null',
     ];
 
+    /**
+     * 渲染筛选组件
+     * 
+     * @return string|null 筛选组件代码，如果没有筛选条件则返回null
+     */
     public function renderComponent(): ?string
     {
         $columns = $this->model->columns;
@@ -67,6 +79,11 @@ class FilterGenerator extends BaseGenerator
         return $content;
     }
 
+    /**
+     * 渲染查询逻辑
+     * 
+     * @return string|null 查询逻辑代码，如果没有筛选条件则返回null
+     */
     public function renderQuery()
     {
         $list = [];
@@ -92,6 +109,13 @@ class FilterGenerator extends BaseGenerator
         return $content;
     }
 
+    /**
+     * 生成单个查询条件
+     * 
+     * @param array $column 字段信息
+     * @param array $filter 过滤器信息
+     * @return string 查询条件代码
+     */
     private function queryItem($column, $filter)
     {
         if ($filter['mode'] == 'fixed') {

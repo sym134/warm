@@ -7,11 +7,26 @@ use warm\admin\Admin;
 use warm\admin\renderer\Card;
 use warm\admin\renderer\Panel;
 
+/**
+ * 后台首页控制器类
+ * 
+ * 负责构建和展示后台管理系统的首页内容
+ * 包括框架信息、图表展示、时钟等组件
+ */
 class HomeController extends AdminController
 {
+    /**
+     * 首页展示
+     * 
+     * 构建并返回首页页面结构，包含各种信息展示组件
+     * 
+     * @return Response 首页响应
+     */
     public function index(): Response
     {
+        // 构建首页页面结构
         $page = $this->basePage()->css($this->css())->body([
+            // 第一行布局：框架信息和饼图
             amis()->Grid()->columns([
                 $this->frameworkInfo()->set('md', 5),
                 amis()->Flex()->items([
@@ -19,6 +34,7 @@ class HomeController extends AdminController
                     $this->cube(),
                 ]),
             ]),
+            // 第二行布局：折线图和代码视图
             amis()->Grid()->columns([
                 $this->lineChart()->set('md', 8),
                 amis()->Flex()->className('h-full')->items([
@@ -28,9 +44,17 @@ class HomeController extends AdminController
             ]),
         ]);
 
+        // 返回页面响应
         return $this->response()->success($page);
     }
 
+    /**
+     * 代码视图组件
+     * 
+     * 展示示例代码片段
+     * 
+     * @return Panel 代码视图面板
+     */
     public function codeView(): Panel
     {
         return amis()->Panel()->className('h-full clear-card-mb rounded-md')->body([
@@ -47,6 +71,13 @@ MD
         ]);
     }
 
+    /**
+     * 时钟组件
+     * 
+     * 展示实时时间的时钟组件
+     * 
+     * @return Card 时钟卡片
+     */
     public function clock(): Card
     {
         return amis()->Card()->className('h-full bg-blingbling')->header(['title' => 'Clock'])->body([
@@ -69,8 +100,16 @@ JS
         ]);
     }
 
+    /**
+     * 框架信息组件
+     * 
+     * 展示框架相关信息和链接
+     * 
+     * @return Card 框架信息卡片
+     */
     public function frameworkInfo(): Card
     {
+        // 创建链接组件的辅助函数
         $link = function ($label, $link) {
             return amis()->Action()
                 ->level('link')
@@ -81,6 +120,7 @@ JS
                 ->link($link);
         };
 
+        // 构建框架信息卡片
         return amis()->Card()->className('h-96')->body(
             amis()->Wrapper()->className('h-full')->body([
                 amis()->Flex()
@@ -99,6 +139,13 @@ JS
         );
     }
 
+    /**
+     * 饼图组件
+     * 
+     * 展示数据分布的饼图
+     * 
+     * @return Card 饼图卡片
+     */
     public function pieChart(): Card
     {
         return amis()->Card()->className('h-96')->body(
@@ -135,8 +182,16 @@ JS
         );
     }
 
+    /**
+     * 折线图组件
+     * 
+     * 展示用户行为数据的折线图
+     * 
+     * @return Card 折线图卡片
+     */
     public function lineChart(): Card
     {
+        // 生成随机数组的辅助函数
         $randArr = function () {
             $_arr = [];
             for ($i = 0; $i < 7; $i++) {
@@ -145,9 +200,11 @@ JS
             return $_arr;
         };
 
+        // 生成两组随机数据
         $random1 = $randArr();
         $random2 = $randArr();
 
+        // 构建折线图
         $chart = amis()->Chart()->height(380)->className('h-96')->config([
             'backgroundColor' => '',
             'title'           => ['text' => 'Users Behavior'],
@@ -180,9 +237,17 @@ JS
             ],
         ]);
 
+        // 返回折线图卡片
         return amis()->Card()->className('clear-card-mb')->body($chart);
     }
 
+    /**
+     * 3D立方体组件
+     * 
+     * 展示一个旋转的3D立方体动画
+     * 
+     * @return Card 立方体卡片
+     */
     public function cube(): Card
     {
         return amis()->Card()->className('h-96 ml-4 w-8/12')->body(
@@ -238,6 +303,13 @@ HTML
         );
     }
 
+    /**
+     * 自定义CSS样式
+     * 
+     * 定义页面中使用的自定义CSS样式
+     * 
+     * @return array CSS样式数组
+     */
     private function css(): array
     {
         return [

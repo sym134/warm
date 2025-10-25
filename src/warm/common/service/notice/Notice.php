@@ -4,12 +4,23 @@ namespace warm\common\service\notice;
 
 use warm\common\service\BaseService;
 
+/**
+ * 通知服务类
+ * 
+ * 提供通知发送功能，支持根据场景发送不同类型的通知
+ * 
+ * @author 段誉
+ * @date 2022/9/15 15:28
+ */
 class Notice extends BaseService
 {
     /**
-     * @notes 根据场景发送短信
-     * @param $params
-     * @return bool
+     * 根据场景发送短信
+     * 
+     * 根据指定场景发送相应的通知，支持短信等通知方式
+     * 
+     * @param array $params 通知参数
+     * @return bool 发送是否成功
      * @author 段誉
      * @date 2022/9/15 15:28
      */
@@ -37,11 +48,13 @@ class Notice extends BaseService
         }
     }
 
-
     /**
-     * @notes 整理参数
-     * @param $params
-     * @return array
+     * 整理参数
+     * 
+     * 合并和处理通知参数，包括用户信息和跳转路径等
+     * 
+     * @param array $params 原始参数
+     * @return array 处理后的参数
      * @author 段誉
      * @date 2022/9/15 15:28
      */
@@ -64,12 +77,14 @@ class Notice extends BaseService
         return $params;
     }
 
-
     /**
-     * @notes 根据场景获取跳转链接
-     * @param $sceneId
-     * @param $extraId
-     * @return string[]
+     * 根据场景获取跳转链接
+     * 
+     * 根据通知场景获取相应的跳转链接
+     * 
+     * @param string $sceneId 场景ID
+     * @param int $extraId 额外ID（如订单ID）
+     * @return string[] 跳转链接数组
      * @author 段誉
      * @date 2022/9/15 15:29
      */
@@ -85,12 +100,14 @@ class Notice extends BaseService
         ];
     }
 
-
     /**
-     * @notes 替换消息内容中的变量占位符
-     * @param $content
-     * @param $params
-     * @return array|mixed|string|string[]
+     * 替换消息内容中的变量占位符
+     * 
+     * 将消息内容中的占位符替换为实际值
+     * 
+     * @param string $content 消息内容
+     * @param array $params 参数数组
+     * @return string 替换后的消息内容
      * @author 段誉
      * @date 2022/9/15 15:29
      */
@@ -103,15 +120,17 @@ class Notice extends BaseService
         return $content;
     }
 
-
     /**
-     * @notes 添加通知记录
-     * @param $params
-     * @param $noticeSetting
-     * @param $sendType
-     * @param $content
-     * @param string $extra
-     * @return NoticeRecord|\think\Model
+     * 添加通知记录
+     * 
+     * 记录发送的通知信息
+     * 
+     * @param array $params 通知参数
+     * @param array $noticeSetting 通知设置
+     * @param string $sendType 发送类型
+     * @param string $content 通知内容
+     * @param string $extra 额外信息
+     * @return NoticeRecord|\think\Model 通知记录模型
      * @author 段誉
      * @date 2022/9/15 15:29
      */
@@ -130,12 +149,14 @@ class Notice extends BaseService
         ]);
     }
 
-
     /**
-     * @notes 通知记录标题
-     * @param $sendType
-     * @param $noticeSetting
-     * @return string
+     * 通知记录标题
+     * 
+     * 根据发送类型和通知设置获取通知标题
+     * 
+     * @param string $sendType 发送类型
+     * @param array $noticeSetting 通知设置
+     * @return string 通知标题
      * @author 段誉
      * @date 2022/9/15 15:30
      */

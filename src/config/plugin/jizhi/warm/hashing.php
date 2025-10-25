@@ -1,49 +1,54 @@
 <?php
+
+/**
+ * Warm Admin 哈希配置文件
+ * 
+ * 配置密码哈希算法及相关参数
+ * 支持 bcrypt、argon、argon2id 等哈希算法
+ */
 return [
     /*
     |--------------------------------------------------------------------------
-    | Default HashManager Driver
+    | 默认哈希驱动
     |--------------------------------------------------------------------------
     |
-    | This option controls the default hash driver that will be used to hash
-    | passwords for your application. By default, the bcrypt algorithm is
-    | used; however, you remain free to modify this option if you wish.
+    | 此选项控制用于哈希密码的默认哈希驱动。默认使用 bcrypt 算法，
+    | 但您可以根据需要修改此选项。
     |
-    | Supported: "bcrypt", "argon", "argon2id"
+    | 支持的驱动: "bcrypt", "argon", "argon2id"
     |
     */
-
     'driver' => 'bcrypt',
 
     /*
     |--------------------------------------------------------------------------
-    | Bcrypt Options
+    | Bcrypt 选项
     |--------------------------------------------------------------------------
     |
-    | Here you may specify the configuration options that should be used when
-    | passwords are hashed using the Bcrypt algorithm. This will allow you
-    | to control the amount of time it takes to hash the given password.
+    | 在此处可以指定使用 Bcrypt 算法哈希密码时的配置选项。
+    | 这些选项允许您控制哈希密码所需的时间。
     |
     */
-
     'bcrypt' => [
+        // 轮次，控制哈希计算的复杂度
         'rounds' => env('BCRYPT_ROUNDS', 10),
     ],
 
     /*
     |--------------------------------------------------------------------------
-    | Argon Options
+    | Argon 选项
     |--------------------------------------------------------------------------
     |
-    | Here you may specify the configuration options that should be used when
-    | passwords are hashed using the Argon algorithm. These will allow you
-    | to control the amount of time it takes to hash the given password.
+    | 在此处可以指定使用 Argon 算法哈希密码时的配置选项。
+    | 这些选项允许您控制哈希密码所需的时间和资源。
     |
     */
-
     'argon' => [
+        // 内存大小（KB）
         'memory'  => 65536,
+        // 线程数
         'threads' => 1,
+        // 时间成本
         'time'    => 4,
     ],
 ];

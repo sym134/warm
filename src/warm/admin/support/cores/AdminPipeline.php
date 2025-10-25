@@ -4,6 +4,12 @@ namespace warm\admin\support\cores;
 
 use warm\admin\Admin;
 
+/**
+ * 管道管理类
+ * 
+ * 用于管理系统中的各种管道操作，通过管道模式处理页面组件和逻辑
+ * 提供统一的管道处理机制，支持自定义中间件处理
+ */
 class AdminPipeline
 {
     /** @var string 基础页面 */
@@ -38,11 +44,12 @@ class AdminPipeline
     const PIPE_EXPORT_ACTION = 'pipe_schema_export_action';
 
     /**
-     * @param               $key
-     * @param               $passable
-     * @param callable|null $callback
-     *
-     * @return mixed
+     * 处理管道操作
+     * 
+     * @param string $key 管道键名
+     * @param mixed $passable 可传递的数据
+     * @param callable|null $callback 回调函数
+     * @return mixed 处理结果
      */
     public static function handle($key, $passable, callable $callback = null): mixed
     {
@@ -57,9 +64,10 @@ class AdminPipeline
     }
 
     /**
-     * @param             $key
-     * @param array|mixed $pipes
-     *
+     * 设置管道
+     * 
+     * @param string $key 管道键名
+     * @param array|mixed $pipes 管道数组
      * @return void
      */
     public static function through($key, mixed $pipes): void

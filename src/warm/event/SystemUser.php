@@ -7,12 +7,21 @@ use warm\admin\model\AdminMenu;
 use warm\admin\service\monitor\AdminLoginLogService;
 use warm\admin\service\monitor\AdminOperationLogService;
 
+/**
+ * 系统用户事件处理类
+ * 
+ * 处理系统用户的登录和操作事件，记录相关日志信息
+ * 包括登录日志、操作日志、IP地理位置解析、浏览器和操作系统识别等功能
+ */
 class SystemUser
 {
     /**
      * 登录日志
+     * 
+     * 记录用户登录信息，包括用户名、IP地址、地理位置、操作系统、浏览器等信息
      *
-     * @param $item
+     * @param array $item 登录信息数组
+     * @return void
      */
     public function login($item): void
     {
@@ -31,6 +40,12 @@ class SystemUser
 
     /**
      * 记录操作日志
+     * 
+     * 记录用户的操作日志，包括请求方法、路由、服务名称、IP地址等信息
+     * 仅记录非GET请求的操作
+     *
+     * @param bool $flag 操作标志
+     * @return bool 是否记录成功
      */
     public function operateLog($flag): bool
     {
@@ -54,6 +69,13 @@ class SystemUser
         return true;
     }
 
+    /**
+     * 获取服务名称
+     * 
+     * 根据请求路径获取对应的服务名称（菜单标题）
+     *
+     * @return string 服务名称
+     */
     protected function getServiceName(): string
     {
         $path = request()->route->getPath();
@@ -71,6 +93,11 @@ class SystemUser
 
     /**
      * 过滤字段
+     * 
+     * 过滤敏感参数，如密码等字段替换为星号
+     *
+     * @param array $params 请求参数
+     * @return string 过滤后的JSON字符串
      */
     protected function filterParams($params): string
     {
@@ -83,6 +110,14 @@ class SystemUser
         return json_encode($params, JSON_UNESCAPED_UNICODE);
     }
 
+    /**
+     * 获取IP地理位置
+     * 
+     * 通过IP地址获取对应的地理位置信息
+     *
+     * @param string $ip IP地址
+     * @return string 地理位置信息
+     */
     protected function getIpLocation($ip): string
     {
         $ip2region = new \Ip2Region();
@@ -104,6 +139,14 @@ class SystemUser
         }
     }
 
+    /**
+     * 获取浏览器信息
+     * 
+     * 从User-Agent中解析出浏览器类型
+     *
+     * @param string $user_agent User-Agent字符串
+     * @return string 浏览器名称
+     */
     protected function getBrowser($user_agent): string
     {
         $br = 'Unknown';
@@ -123,6 +166,14 @@ class SystemUser
         return $br;
     }
 
+    /**
+     * 获取操作系统信息
+     * 
+     * 从User-Agent中解析出操作系统类型
+     *
+     * @param string $user_agent User-Agent字符串
+     * @return string 操作系统名称
+     */
     protected function getOs($user_agent): string
     {
         $os = 'Unknown';

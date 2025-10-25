@@ -7,44 +7,95 @@ use Illuminate\Database\Schema\Blueprint;
 use support\Db as DB;
 use warm\framework\support\facade\Hash;
 
+/**
+ * 数据库管理类
+ * 
+ * 用于管理 warm 框架的数据库表结构和初始数据填充
+ * 包括创建数据表、删除数据表、初始化数据等操作
+ */
 class Database
 {
+    /**
+     * @var string|null 模块名称，用于构建表名前缀
+     */
     private string|null $moduleName;
 
+    /**
+     * 构造函数
+     * 
+     * @param string|null $moduleName 模块名称
+     */
     public function __construct($moduleName = null)
     {
         $this->moduleName = $moduleName;
     }
 
+    /**
+     * 创建 Database 实例的静态方法
+     * 
+     * @param string|null $moduleName 模块名称
+     * @return Database 返回 Database 实例
+     */
     public static function make($moduleName = null): Database
     {
         return new self($moduleName);
     }
 
+    /**
+     * 获取完整的表名（包含模块前缀）
+     * 
+     * @param string $name 表名
+     * @return string 完整的表名
+     */
     public function tableName($name): string
     {
         return $this->moduleName . $name;
     }
 
+    /**
+     * 创建数据表
+     * 
+     * @param string $tableName 表名
+     * @param callable $callback 创建表的回调函数
+     * @return void
+     */
     public function create($tableName, $callback): void
     {
         DB::schema()->create($this->tableName($tableName), $callback);
     }
 
+    /**
+     * 如果数据表存在则删除
+     * 
+     * @param string $tableName 表名
+     * @return void
+     */
     public function dropIfExists($tableName): void
     {
         DB::schema()->dropIfExists($this->tableName($tableName));
     }
 
+    /**
+     * 初始化数据库结构
+     * 先删除现有表，再重新创建所有表
+     * 
+     * @return void
+     */
     public function initSchema(): void
     {
         $this->down();
         $this->up();
     }
 
+    /**
+     * 创建所有数据表
+     * 定义并创建系统所需的所有数据表结构
+     * 
+     * @return void
+     */
     public function up(): void
     {
-        $this->create('admin_users', function (Blueprint $table) {
+         $this->create('admin_users', function (Blueprint $table) {
             $table->id();
             $table->string('username', 120)->unique();
             $table->string('password', 80);
@@ -173,7 +224,7 @@ class Database
             $table->timestamps();
         });
 
-        $this->create('files', function (Blueprint $table) {
+        $this->create('system_files', function (Blueprint $table) {
             $table->comment('附件管理');
             $table->increments('id');
             $table->enum('storage_mode', ['local', 'qiniu', 'aliyun', 'qcloud'])->comment('存储模式');
@@ -189,6 +240,7 @@ class Database
             $table->string('remark')->nullable()->comment('备注');
             $table->tinyInteger('created_by')->comment('创建者');
             $table->timestamps();
+            $table->softDeletes();
         });
 
         $this->create('admin_operation_log', function (Blueprint $table) {
@@ -224,7 +276,7 @@ class Database
             $table->softDeletes();
         });
 
-        $this->create('crontab', function (Blueprint $table) {
+        $this->create('system_crontab', function (Blueprint $table) {
             $table->comment('定时任务');
             $table->increments('id');
             $table->string('name')->nullable()->comment('任务名称');
@@ -246,7 +298,7 @@ class Database
             $table->unique(['name', 'deleted_at']);
         });
 
-        $this->create('crontab_log', function (Blueprint $table) {
+        $this->create('system_crontab_log', function (Blueprint $table) {
             $table->comment('定时任务日志');
             $table->increments('id');
             $table->unsignedInteger('crontab_id')->index()->comment('任务ID');
@@ -254,48 +306,61 @@ class Database
             $table->string('parameter', 1000)->comment('调用参数');
             $table->string('exception_info', 2000)->nullable()->comment('异常信息');
             $table->unsignedTinyInteger('execution_status')->default(0)->comment('执行状态');
-            $table->dateTime('created_at')->nullable()->comment('创建时间');
-        });
-
-        $this->create('configs', function (Blueprint $table) {
-            $table->string('key')->unique();
-            $table->json('values');
             $table->timestamps();
+        });
+        
+        $this->create('system_configs', function (Blueprint $table) {
+            $table->string('key', 255)->unique()->comment('配置键');
+            $table->json('values')->comment('配置值');
+            $table->timestamp('created_at')->nullable()->comment('创建时间');
+            $table->timestamp('updated_at')->nullable()->comment('更新时间');
+            
+            $table->primary('key');
         });
     }
 
+    /**
+     * 删除所有数据表
+     * 如果是模块则跳过删除操作
+     * 
+     * @return void
+     */
     public function down(): void
     {
-        $this->dropIfExists('admin_users');
-        $this->dropIfExists('admin_roles');
-        $this->dropIfExists('admin_permissions');
-        $this->dropIfExists('admin_menus');
-        $this->dropIfExists('admin_role_users');
-        $this->dropIfExists('admin_role_permissions');
-        $this->dropIfExists('admin_permission_menu');
-
         // 如果是模块，跳过下面的表
         if ($this->moduleName) {
             return;
         }
 
-        $this->dropIfExists('admin_code_generators');
-        $this->dropIfExists('admin_settings');
-        $this->dropIfExists('admin_extensions');
-        $this->dropIfExists('admin_pages');
-        $this->dropIfExists('admin_relationships');
-        $this->dropIfExists('admin_apis');
-        $this->dropIfExists('configs');
-        $this->schema()->dropIfExists('files');
+        $this->dropIfExists('admin_users');
+         $this->dropIfExists('admin_roles');
+         $this->dropIfExists('admin_permissions');
+         $this->dropIfExists('admin_menus');
+         $this->dropIfExists('admin_role_users');
+         $this->dropIfExists('admin_role_permissions');
+         $this->dropIfExists('admin_permission_menu');
+         $this->dropIfExists('admin_code_generators');
+         $this->dropIfExists('admin_settings');
+         $this->dropIfExists('admin_extensions');
+         $this->dropIfExists('admin_pages');
+         $this->dropIfExists('admin_relationships');
+         $this->dropIfExists('admin_apis');
+         $this->dropIfExists('system_files');
+         $this->dropIfExists('admin_operation_log');
+         $this->dropIfExists('admin_login_log');
+         $this->dropIfExists('system_crontab');
+         $this->dropIfExists('system_crontab_log');
     }
 
     /**
      * 填充初始数据
+     * 创建默认的管理员账户、角色、权限、菜单等初始数据
      *
      * @return void
      */
     public function fillInitialData(): void
     {
+        // 数据处理闭包，用于格式化数据并添加时间戳
         $data = function ($data) {
             foreach ($data as $k => $v) {
                 if (is_array($v)) {
@@ -504,6 +569,11 @@ class Database
         ]);
     }
 
+    /**
+     * 获取所有数据表名称
+     * 
+     * @return array 数据表名称数组
+     */
     public static function getTables(): array
     {
         try {

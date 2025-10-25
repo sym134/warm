@@ -10,23 +10,36 @@ use Illuminate\Support\Str;
 use InvalidArgumentException;
 use warm\admin\Admin;
 
+/**
+ * 哈希管理器类
+ * 
+ * 负责管理不同的哈希算法驱动，支持Bcrypt、Argon2i、Argon2id等哈希算法
+ * 提供统一的接口进行密码哈希、验证和重新哈希等操作
+ */
 class HashManager implements Hasher
 {
 
     /**
-     * The array of created "drivers".
+     * 已创建的哈希驱动实例
      *
      * @var array
      */
     protected $drivers = [];
 
     /**
-     * The registered custom driver creators.
+     * 已注册的自定义驱动创建器
      *
      * @var array
      */
     protected $customCreators = [];
 
+    /**
+     * 获取指定的哈希驱动
+     * 
+     * @param string|null $driver 驱动名称，如果为null则使用默认驱动
+     * @return mixed 哈希驱动实例
+     * @throws InvalidArgumentException 当无法解析驱动时抛出异常
+     */
     public function driver($driver = null)
     {
         $driver = $driver ?: $this->getDefaultDriver();
@@ -47,12 +60,11 @@ class HashManager implements Hasher
     }
 
     /**
-     * Create a new driver instance.
+     * 创建哈希驱动实例
      *
-     * @param string $driver
-     * @return mixed
-     *
-     * @throws \InvalidArgumentException
+     * @param string $driver 驱动名称
+     * @return mixed 驱动实例
+     * @throws InvalidArgumentException 当不支持指定驱动时抛出异常
      */
     protected function createDriver($driver)
     {
@@ -72,10 +84,10 @@ class HashManager implements Hasher
     }
 
     /**
-     * Call a custom driver creator.
+     * 调用自定义驱动创建器
      *
-     * @param string $driver
-     * @return mixed
+     * @param string $driver 驱动名称
+     * @return mixed 自定义驱动创建器返回的实例
      */
     protected function callCustomCreator($driver)
     {
@@ -83,9 +95,9 @@ class HashManager implements Hasher
     }
 
     /**
-     * Get the default driver name.
+     * 获取默认驱动名称
      *
-     * @return string
+     * @return string 默认驱动名称
      */
     public function getDefaultDriver()
     {
@@ -93,9 +105,9 @@ class HashManager implements Hasher
     }
 
     /**
-     * Create an instance of the Bcrypt hash Driver.
+     * 创建Bcrypt哈希驱动实例
      *
-     * @return \Illuminate\Hashing\BcryptHasher
+     * @return \Illuminate\Hashing\BcryptHasher Bcrypt哈希驱动实例
      */
     public function createBcryptDriver()
     {
@@ -103,9 +115,9 @@ class HashManager implements Hasher
     }
 
     /**
-     * Create an instance of the Argon2i hash Driver.
+     * 创建Argon2i哈希驱动实例
      *
-     * @return \Illuminate\Hashing\ArgonHasher
+     * @return \Illuminate\Hashing\ArgonHasher Argon2i哈希驱动实例
      */
     public function createArgonDriver()
     {
@@ -113,9 +125,9 @@ class HashManager implements Hasher
     }
 
     /**
-     * Create an instance of the Argon2id hash Driver.
+     * 创建Argon2id哈希驱动实例
      *
-     * @return \Illuminate\Hashing\Argon2IdHasher
+     * @return \Illuminate\Hashing\Argon2IdHasher Argon2id哈希驱动实例
      */
     public function createArgon2idDriver()
     {
@@ -123,10 +135,10 @@ class HashManager implements Hasher
     }
 
     /**
-     * Get information about the given hashed value.
+     * 获取给定哈希值的信息
      *
-     * @param string $hashedValue
-     * @return array
+     * @param string $hashedValue 哈希值
+     * @return array 哈希信息数组
      */
     public function info($hashedValue)
     {
@@ -134,11 +146,11 @@ class HashManager implements Hasher
     }
 
     /**
-     * HashManager the given value.
+     * 对给定值进行哈希
      *
-     * @param string $value
-     * @param array $options
-     * @return string
+     * @param string $value 需要哈希的值
+     * @param array $options 哈希选项
+     * @return string 哈希后的值
      */
     public function make($value, array $options = [])
     {
@@ -146,12 +158,12 @@ class HashManager implements Hasher
     }
 
     /**
-     * Check the given plain value against a hash.
+     * 验证给定的明文值与哈希值是否匹配
      *
-     * @param string $value
-     * @param string $hashedValue
-     * @param array $options
-     * @return bool
+     * @param string $value 明文值
+     * @param string $hashedValue 哈希值
+     * @param array $options 验证选项
+     * @return bool 是否匹配
      */
     public function check($value, $hashedValue, array $options = [])
     {
@@ -159,11 +171,11 @@ class HashManager implements Hasher
     }
 
     /**
-     * Check if the given hash has been hashed using the given options.
+     * 检查给定的哈希值是否需要根据给定选项重新哈希
      *
-     * @param string $hashedValue
-     * @param array $options
-     * @return bool
+     * @param string $hashedValue 哈希值
+     * @param array $options 选项
+     * @return bool 是否需要重新哈希
      */
     public function needsRehash($hashedValue, array $options = [])
     {
@@ -171,10 +183,10 @@ class HashManager implements Hasher
     }
 
     /**
-     * Register a custom driver creator Closure.
+     * 注册自定义驱动创建器闭包
      *
-     * @param string $driver
-     * @param \Closure $callback
+     * @param string $driver 驱动名称
+     * @param \Closure $callback 创建器闭包
      * @return $this
      */
     public function extend($driver, \Closure $callback)
@@ -185,11 +197,11 @@ class HashManager implements Hasher
     }
 
     /**
-     * Dynamically call the default driver instance.
+     * 动态调用默认驱动实例的方法
      *
-     * @param string $method
-     * @param array $parameters
-     * @return mixed
+     * @param string $method 方法名
+     * @param array $parameters 方法参数
+     * @return mixed 方法调用结果
      */
     public function __call($method, $parameters)
     {

@@ -64,7 +64,7 @@ class Chart extends BaseRenderer
     }
 
     /**
-     * 默认开启 Config 中的数据映射，如果想关闭，请开启此功能。
+     * 默认开启 SystemConfig 中的数据映射，如果想关闭，请开启此功能。
      */
     public function disableDataMapping($value = true)
     {

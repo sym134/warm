@@ -3,14 +3,25 @@
 namespace warm\admin\trait;
 
 /**
- * 条件组合查询作用域
- *
- * @property  self|\Illuminate\Database\Query\Builder withConditionBuilder()
+ * 条件组合查询作用域Trait
+ * 
+ * 提供基于条件构建器的查询功能，支持复杂的条件组合查询
+ * 可以处理各种操作符的条件判断，如等于、不等于、模糊匹配等
+ * 
+ * @property self|\Illuminate\Database\Query\Builder withConditionBuilder()
  */
 trait ConditionBuilderScopeTrait
 {
+    /** @var bool 是否隐藏表名 */
     protected bool $conditionBuilderHideTable = false;
 
+    /**
+     * 条件构建器查询作用域
+     * 
+     * @param \Illuminate\Database\Query\Builder $query 查询构建器实例
+     * @param bool $hideTable 是否隐藏表名
+     * @return \Illuminate\Database\Query\Builder 查询构建器实例
+     */
     public function scopeWithConditionBuilder($query, $hideTable = false)
     {
         $filter = request()->input('filter_condition_builder');
@@ -31,9 +42,8 @@ trait ConditionBuilderScopeTrait
     /**
      * 构建条件组合查询
      *
-     * @param $query
-     * @param $filter
-     *
+     * @param \Illuminate\Database\Query\Builder $query 查询构建器实例
+     * @param array $filter 过滤条件数组
      * @return void
      */
     protected function buildConditionBuilderQuery($query, $filter)

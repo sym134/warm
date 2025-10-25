@@ -4,12 +4,18 @@ namespace warm\admin\trait;
 
 use support\Response;
 
+/**
+ * 导出Trait
+ * 
+ * 提供数据导出功能，支持将数据导出为Excel文件
+ * 使用FastExcel库实现数据导出功能
+ */
 trait ExportTrait
 {
     /**
-     * 导出
+     * 导出数据
      *
-     * @return Response
+     * @return Response 响应对象
      */
     protected function export(): Response
     {
@@ -34,9 +40,10 @@ trait ExportTrait
     }
 
     /**
-     * @param $row
+     * 导出数据映射处理
      *
-     * @return mixed
+     * @param mixed $row 数据行
+     * @return mixed 处理后的数据行
      */
     protected function exportMap($row): mixed
     {
@@ -46,7 +53,7 @@ trait ExportTrait
     /**
      * 导出文件名
      *
-     * @return string
+     * @return string 导出文件名
      */
     protected function exportFileName(): string
     {

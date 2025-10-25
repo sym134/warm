@@ -4,47 +4,74 @@ namespace warm\admin\controller\system;
 
 use support\Response;
 use warm\admin\controller\AdminController;
-use warm\admin\model\system\AdminCrontab;
+use warm\admin\model\system\SystemCrontab;
 use warm\admin\renderer\Form;
 use warm\admin\renderer\Page;
-use warm\admin\service\system\AdminCrontabService;
+use warm\admin\service\system\SystemCrontabService;
 
 /**
- * 定时任务
- *
- * @property AdminCrontabService $service
+ * 定时任务控制器
+ * 
+ * 用于管理系统定时任务的增删改查操作
+ * 提供任务创建、编辑、执行和日志查看等功能
+ * 
+ * @property SystemCrontabService $service 定时任务服务类实例
  */
-class AdminCrontabController extends AdminController
+class SystemCrontabController extends AdminController
 {
-    protected string $serviceName = AdminCrontabService::class;
+    /**
+     * @var string $serviceName 服务类名称
+     * 指定当前控制器使用的服务类
+     */
+    protected string $serviceName = SystemCrontabService::class;
 
+    /**
+     * 定时任务列表页面
+     * 
+     * 展示系统中所有定时任务，支持筛选和立即执行功能
+     * 
+     * @return Page 返回定时任务列表页面
+     */
     public function list(): Page
     {
         $crud = $this->baseCRUD()
             ->filterTogglable(false)
-            ->headerToolbar([
-                $this->createButton(),
-                ...$this->baseHeaderToolBar(),
-            ])
+            // ->headerToolbar([
+            //     $this->createButton(),
+            //     ...$this->baseHeaderToolBar(),
+            // ])
+            ->filter(
+                amis()->Form()->api(['method' => 'get', 'url' => admin_url('/system/crontab')])->body([
+                    amis()->TextControl('name', translator('crontab.name'))->clearable(true),
+                    amis()->SelectControl('task_type', translator('crontab.task_type'))->options(SystemCrontab::TASK_TYPE)->clearable(true),
+                    amis()->SelectControl('task_status', translator('crontab.task_status'))->options([
+                        1 => '启用',
+                        2 => '禁用'
+                    ])->clearable(true),
+                ])
+            )
             ->columns([
                 amis()->TableColumn('id', 'ID')->sortable(),
                 amis()->TableColumn('name', translator('crontab.name')),
                 amis()->TableColumn('created_by', translator('crontab.created_by')),
-                amis()->TableColumn('task_type', translator('crontab.task_type'))->type('mapping')->map(AdminCrontab::TASK_TYPE),
+                amis()->TableColumn('task_type', translator('crontab.task_type'))->type('mapping')->map(SystemCrontab::TASK_TYPE),
                 amis()->TableColumn('execution_cycle_text', translator('crontab.execution_cycle')),
-                amis()->SwitchControl('task_status', translator('crontab.task_status'))->trueValue(1)->falseValue(2)->required()->value(1),
+                amis()->TableColumn('task_status', translator('crontab.task_status'))->quickEdit(['mode' => 'inline', 'type' => 'switch', 'saveImmediately' => true]),
                 amis()->TableColumn('created_at', translator('admin.created_at'))->sortable(),
                 $this->rowActions([
                     amis()->VanillaAction()->id('u:a53d1837f6be')->label(translator('crontab.run'))->icon('fa-solid fa-play')->level('link')
                         ->onEvent(['click' => [
                             'actions' => [[
-                                              'ignoreError' => '', 'outputVar' => 'responseResult', 'actionType' => 'ajax', 'options' => [],
-                                              'api'         => ['url' => admin_url('/system/crontab_run'), 'method' => 'get', 'data' => ['id' => '${id}',],],
-                                          ],],
+                                'ignoreError' => '',
+                                'outputVar' => 'responseResult',
+                                'actionType' => 'ajax',
+                                'options' => [],
+                                'api'         => ['url' => admin_url('/system/crontab_run'), 'method' => 'get', 'data' => ['id' => '${id}',],],
+                            ],],
                         ],])
                         ->confirmText('确认立即执行'),
                     amis()->DrawerAction()->drawer(
-                        amis()->Drawer()->title(translator('crontab.execution_log'))->body((new AdminCrontabLogController)->list(admin_url('/system/crontab_log?_action=getData&crontab_id=${id}')))->size('xl')->resizable()
+                        amis()->Drawer()->title(translator('crontab.execution_log'))->body((new SystemCrontabLogController)->list('${id}'))->size('xl')->resizable()
                     )->label(translator('crontab.execution_log'))->icon('fa-solid fa-clock-rotate-left')->level('link'),
                     $this->rowEditButton(true, 'lg'),
                     $this->rowDeleteButton(),
@@ -54,6 +81,14 @@ class AdminCrontabController extends AdminController
         return $this->baseList($crud);
     }
 
+    /**
+     * 定时任务表单页面
+     * 
+     * 定义定时任务新增/编辑表单结构，包含任务类型、执行周期、目标等字段
+     * 
+     * @param bool $isEdit 是否为编辑模式
+     * @return Form 返回定时任务表单
+     */
     public function form($isEdit = false): Form
     {
         return $this->baseForm()->mode('horizontal')->data([
@@ -63,7 +98,7 @@ class AdminCrontabController extends AdminController
             'minute' => 30,
             'second' => 1,
         ])->body([
-            amis()->SelectControl('task_type', translator('crontab.task_type'))->options(AdminCrontab::TASK_TYPE)->value(1)
+            amis()->SelectControl('task_type', translator('crontab.task_type'))->options(SystemCrontab::TASK_TYPE)->value(1)
                 ->required()
                 ->onEvent([
                     'change' => [
@@ -76,7 +111,7 @@ class AdminCrontabController extends AdminController
                         ],
                     ],
                 ]),
-            amis()->TextControl('name', translator('crontab.name'))->id('name')->required()->value(AdminCrontab::TASK_TYPE[1])
+            amis()->TextControl('name', translator('crontab.name'))->id('name')->required()->value(SystemCrontab::TASK_TYPE[1])
                 ->description(translator('crontab.name_description')),
             amis()->GroupControl()->label(translator('crontab.execution_cycle'))->body([
                 amis()->SelectControl('execution_cycle')->mode('inline')->options([
@@ -124,12 +159,25 @@ class AdminCrontabController extends AdminController
         ]);
     }
 
+    /**
+     * 定时任务详情页面
+     * 
+     * 展示定时任务的详细信息
+     * 
+     * @return Form 返回定时任务详情表单
+     */
     public function detail(): Form
     {
-        return $this->baseDetail()->body([
-        ]);
+        return $this->baseDetail()->body([]);
     }
 
+    /**
+     * 立即执行定时任务
+     * 
+     * 手动触发指定定时任务的执行
+     * 
+     * @return Response 返回执行结果响应
+     */
     public function run(): Response
     {
         if ($this->service->run(request()->get('id'))) {

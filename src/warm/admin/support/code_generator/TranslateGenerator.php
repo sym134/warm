@@ -3,24 +3,31 @@
 namespace warm\admin\support\code_generator;
 
 use warm\admin\support\code_generator\BaseGenerator;
-use function Termwind\parse;
 
 /**
- * 翻译生成
- * TranslateGenerator
- * warm\support\code_generator
- *
- * Author:sym
- * Date:2024/12/2 22:48
- * Company:极智科技
+ * 翻译文件生成器
+ * 
+ * 用于生成多语言翻译文件
+ * 继承自BaseGenerator，提供翻译文件特定的生成逻辑
  */
 class TranslateGenerator extends BaseGenerator
 {
+    /**
+     * 创建静态实例
+     * 
+     * @param mixed $model 模型实例
+     * @return static 静态实例
+     */
     public static function make($model): static
     {
         return new self($model);
     }
 
+    /**
+     * 生成翻译文件
+     * 
+     * @return array 生成的文件路径数组
+     */
     public function generate(): array
     {
         blank($this->model->columns) && abort(400, 'Table fields can\'t be empty');
@@ -36,6 +43,14 @@ class TranslateGenerator extends BaseGenerator
         return $result;
     }
 
+    /**
+     * 生成单个翻译文件
+     * 
+     * @param string $tableName 表名
+     * @param string $languageCode 语言代码
+     * @param array $data 翻译数据
+     * @return string 生成的文件路径
+     */
     public function generateFile(string $tableName, string $languageCode, array $data): string
     {
         $dirPath = base_path('resource/translations/' . $languageCode);
@@ -56,6 +71,12 @@ class TranslateGenerator extends BaseGenerator
         return $fileName;
     }
 
+    /**
+     * 删除翻译文件
+     * 
+     * @param string $tableName 表名
+     * @return void
+     */
     public function del(string $tableName)
     {
         $languageCodes = ['en', 'zh_CN'];

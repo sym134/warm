@@ -9,14 +9,28 @@ use warm\admin\renderer\Page;
 use warm\admin\service\monitor\AdminLoginLogService;
 
 /**
- * 登录日志
- *
- * @property AdminLoginLogService $service
+ * 管理员登录日志控制器
+ * 
+ * 用于查看和管理后台管理员的登录日志信息
+ * 提供登录日志列表查看和详情展示功能
+ * 
+ * @property AdminLoginLogService $service 管理员登录日志服务类实例
  */
 class AdminLoginLogController extends AdminController
 {
+    /**
+     * @var string $serviceName 服务类名称
+     * 指定当前控制器使用的服务类
+     */
     protected string $serviceName = AdminLoginLogService::class;
 
+    /**
+     * 登录日志列表页面
+     * 
+     * 展示管理员登录日志列表，包含用户、IP地址、操作系统、浏览器等信息
+     * 
+     * @return Page 返回登录日志列表页面
+     */
     public function list(): Page
     {
         $crud = $this->baseCRUD()
@@ -41,6 +55,14 @@ class AdminLoginLogController extends AdminController
         return $this->baseList($crud);
     }
 
+    /**
+     * 登录日志表单页面
+     * 
+     * 定义登录日志信息的表单结构
+     * 
+     * @param bool $isEdit 是否为编辑模式
+     * @return Form 返回登录日志表单
+     */
     public function form($isEdit = false): Form
     {
         return $this->baseForm()->body([
@@ -56,6 +78,13 @@ class AdminLoginLogController extends AdminController
         ]);
     }
 
+    /**
+     * 登录日志详情页面
+     * 
+     * 展示登录日志的详细信息
+     * 
+     * @return Form 返回登录日志详情表单
+     */
     public function detail(): Form
     {
         return $this->baseDetail()->body([

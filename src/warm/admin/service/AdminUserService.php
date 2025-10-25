@@ -11,11 +11,20 @@ use warm\admin\model\AdminUser;
 use warm\framework\support\facade\Hash;
 
 /**
- * @method AdminUser getModel()
- * @method AdminUser|Builder query()
+ * 管理用户服务类
+ * 
+ * 提供用户管理相关功能，包括用户验证、密码处理等
+ * 
+ * @method AdminUser getModel() 获取模型实例
+ * @method AdminUser|Builder query() 获取查询构造器
  */
 class AdminUserService extends AdminService
 {
+    /**
+     * 构造函数
+     * 
+     * 初始化用户服务，设置模型名称
+     */
     public function __construct()
     {
         parent::__construct();
@@ -23,6 +32,12 @@ class AdminUserService extends AdminService
         $this->modelName = Admin::adminUserModel();
     }
 
+    /**
+     * 获取编辑数据
+     * 
+     * @param mixed $id 数据ID
+     * @return Model|Collection|Builder|array|null 用户数据
+     */
     public function getEditData($id): Model|Collection|Builder|array|null
     {
         $adminUser = parent::getEditData($id)->makeHidden('password');
@@ -32,6 +47,12 @@ class AdminUserService extends AdminService
         return $adminUser;
     }
 
+    /**
+     * 存储用户
+     * 
+     * @param array $data 存储的数据
+     * @return bool 是否存储成功
+     */
     public function store($data): bool
     {
         $this->checkUsernameUnique($data['username']);
@@ -47,6 +68,13 @@ class AdminUserService extends AdminService
         return $this->saveData($data, $columns, $model);
     }
 
+    /**
+     * 更新用户
+     * 
+     * @param mixed $primaryKey 主键值
+     * @param array $data 更新的数据
+     * @return bool 是否更新成功
+     */
     public function update($primaryKey, $data): bool
     {
         $this->checkUsernameUnique($data['username'], $primaryKey);
@@ -59,6 +87,13 @@ class AdminUserService extends AdminService
         return $this->saveData($data, $columns, $model);
     }
 
+    /**
+     * 检查用户名是否唯一
+     * 
+     * @param string $username 用户名
+     * @param int $id 用户ID
+     * @return void
+     */
     public function checkUsernameUnique($username, $id = 0): void
     {
         $exists = $this->query()
@@ -69,6 +104,13 @@ class AdminUserService extends AdminService
         admin_abort_if($exists, translator('admin.admin_user.username_already_exists'));
     }
 
+    /**
+     * 更新用户设置
+     * 
+     * @param mixed $primaryKey 主键值
+     * @param array $data 更新的数据
+     * @return bool 是否更新成功
+     */
     public function updateUserSetting($primaryKey, $data): bool
     {
         $this->passwordHandler($data, $primaryKey);
@@ -76,6 +118,13 @@ class AdminUserService extends AdminService
         return parent::update($primaryKey, $data);
     }
 
+    /**
+     * 密码处理
+     * 
+     * @param array $data 用户数据
+     * @param int|null $id 用户ID
+     * @return void
+     */
     public function passwordHandler(&$data, $id = null): void
     {
         $password = Arr::get($data, 'password');
@@ -98,6 +147,11 @@ class AdminUserService extends AdminService
         }
     }
 
+    /**
+     * 获取用户列表
+     * 
+     * @return array 用户列表
+     */
     public function list(): array
     {
         $keyword = request()->input('keyword');
@@ -119,11 +173,12 @@ class AdminUserService extends AdminService
     }
 
     /**
-     * @param           $data
-     * @param array     $columns
-     * @param AdminUser $model
-     *
-     * @return bool
+     * 保存用户数据
+     * 
+     * @param array $data 用户数据
+     * @param array $columns 数据表字段列表
+     * @param AdminUser $model 用户模型实例
+     * @return bool 是否保存成功
      */
     protected function saveData($data, array $columns, AdminUser $model): bool
     {
@@ -146,6 +201,12 @@ class AdminUserService extends AdminService
         return false;
     }
 
+    /**
+     * 删除用户
+     * 
+     * @param string $ids 删除的ID列表
+     * @return bool 是否删除成功
+     */
     public function delete(string $ids): bool
     {
         $exists = $this->query()

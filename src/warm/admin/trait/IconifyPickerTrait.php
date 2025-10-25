@@ -2,15 +2,21 @@
 
 namespace warm\admin\trait;
 
+/**
+ * Iconify图标选择器Trait
+ * 
+ * 提供Iconify图标选择器功能，用于在表单中选择图标
+ * 支持从Iconify图标库中搜索和选择图标
+ */
 trait IconifyPickerTrait
 {
     /**
      * iconify 图标选择器
      *
-     * @param string $name
-     * @param string $label
+     * @param string $name 字段名
+     * @param string $label 标签
      *
-     * @return \warm\admin\renderer\PickerControl
+     * @return \warm\admin\renderer\PickerControl 图标选择器控件实例
      */
     public function iconifyPicker(string $name = '', string $label = '')
     {

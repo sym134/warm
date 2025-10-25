@@ -8,15 +8,38 @@ use Illuminate\Database\Eloquent\Model;
 use warm\admin\model\AdminPage;
 
 /**
- * @method AdminPage getModel()
- * @method AdminPage|Builder query()
+ * 管理页面服务类
+ * 
+ * 提供页面管理相关功能，包括页面结构存储、缓存处理等
+ * 
+ * @method AdminPage getModel() 获取模型实例
+ * @method AdminPage|Builder query() 获取查询构造器
  */
 class AdminPageService extends AdminService
 {
+    /**
+     * 模型类名
+     * 
+     * @var string
+     */
     protected string $modelName = AdminPage::class;
 
+    /**
+     * 缓存键前缀
+     * 
+     * @var string
+     */
     public string $cacheKeyPrefix = 'admin_page-';
 
+    /**
+     * 保存前处理
+     * 
+     * 验证页面结构并检查标识是否已存在
+     * 
+     * @param array $data 保存的数据
+     * @param string $primaryKey 主键值
+     * @return void
+     */
     public function saving(&$data, $primaryKey = ''): void
     {
         $data['schema'] = data_get($data, 'page.schema');
@@ -31,6 +54,15 @@ class AdminPageService extends AdminService
         admin_abort_if($exists, translator('admin.pages.sign_exists'));
     }
 
+    /**
+     * 保存后处理
+     * 
+     * 清除页面缓存
+     * 
+     * @param mixed $model 保存的模型实例
+     * @param bool $isEdit 是否为编辑操作
+     * @return void
+     */
     public function saved($model, $isEdit = false): void
     {
         if ($isEdit) {
@@ -38,6 +70,14 @@ class AdminPageService extends AdminService
         }
     }
 
+    /**
+     * 删除页面
+     * 
+     * 删除页面并清除相关缓存
+     * 
+     * @param string $ids 删除的ID列表
+     * @return bool 是否删除成功
+     */
     public function delete(string $ids): bool
     {
         $this->query()->whereIn('id', explode(',', $ids))->get()->map(function ($item) {
@@ -48,6 +88,12 @@ class AdminPageService extends AdminService
         return parent::delete($ids);
     }
 
+    /**
+     * 获取编辑数据
+     * 
+     * @param mixed $id 数据ID
+     * @return Model|Collection|Builder|array|null 页面数据
+     */
     public function getEditData($id): Model|Collection|Builder|array|null
     {
         $data = parent::getEditData($id);
@@ -61,9 +107,8 @@ class AdminPageService extends AdminService
     /**
      * 获取页面结构
      *
-     * @param $sign
-     *
-     * @return mixed
+     * @param string $sign 页面标识
+     * @return mixed 页面结构数据
      */
     public function get($sign): mixed
     {
@@ -72,6 +117,11 @@ class AdminPageService extends AdminService
         });
     }
 
+    /**
+     * 获取选项列表
+     * 
+     * @return Collection|array 选项列表
+     */
     public function options(): Collection|array
     {
         return $this->query()->get(['sign as value', 'title as label']);
