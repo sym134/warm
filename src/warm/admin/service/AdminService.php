@@ -70,14 +70,14 @@ abstract class AdminService
      * @param string $modelName 模型类名
      * @return void
      */
-    public function setModelName($modelName): void
+    public function setModelName(string $modelName): void
     {
         $this->modelName = $modelName;
     }
 
     /**
      * 获取模型实例
-     * 
+     *
      * @return Model 模型实例
      */
     public function getModel(): Model
@@ -121,7 +121,7 @@ abstract class AdminService
      * @param string $column 字段名
      * @return bool 字段是否存在
      */
-    public function hasColumn($column): bool
+    public function hasColumn(string $column): bool
     {
         $columns = $this->getTableColumns();
 
@@ -135,7 +135,7 @@ abstract class AdminService
      * 
      * @return mixed 查询构造器
      */
-    public function query()
+    public function query(): mixed
     {
         return $this->modelName::query();
     }
@@ -146,7 +146,7 @@ abstract class AdminService
      * @param mixed $id 数据ID
      * @return Builder|Builder[]|Collection|Model|null 详情数据
      */
-    public function getDetail($id): Model|Collection|Builder|array|null
+    public function getDetail(mixed $id): Model|Collection|Builder|array|null
     {
         $query = $this->query();
 
@@ -161,7 +161,7 @@ abstract class AdminService
      * @param mixed $id 数据ID
      * @return Model|Collection|Builder|array|null 编辑数据
      */
-    public function getEditData($id): Model|Collection|Builder|array|null
+    public function getEditData(mixed $id): Model|Collection|Builder|array|null
     {
         $model = $this->getModel();
 
@@ -181,7 +181,7 @@ abstract class AdminService
      *
      * @return mixed 查询构造器
      */
-    public function listQuery()
+    public function listQuery(): mixed
     {
         $query = $this->query();
 
@@ -209,7 +209,7 @@ abstract class AdminService
      * @param string $scene 场景: list, detail, edit
      * @return void
      */
-    public function addRelations($query, string $scene = 'list')
+    public function addRelations(mixed $query, string $scene = 'list')
     {
 
     }
@@ -220,7 +220,7 @@ abstract class AdminService
      * @param mixed $query 查询构造器
      * @return void
      */
-    public function loadRelations($query): void
+    public function loadRelations(mixed $query): void
     {
         $controller = Container::make(request()->route->getCallback()[0], []);
 
@@ -264,7 +264,7 @@ abstract class AdminService
      * @param mixed $query 查询构造器
      * @return void
      */
-    public function sortable($query): void
+    public function sortable(mixed $query): void
     {
         if (request()->input('orderBy') && request()->input('orderDir')) {
             $query->orderBy(request()->input('orderBy'), request()->input('orderDir') ?? 'asc');
@@ -279,7 +279,7 @@ abstract class AdminService
      * @param mixed $query 查询构造器
      * @return void
      */
-    public function searchable($query): void
+    public function searchable(mixed $query): void
     {
         collect(array_keys(request()->all()))
             ->intersect($this->getTableColumns())
@@ -327,7 +327,7 @@ abstract class AdminService
      * @param array $data 更新的数据
      * @return bool 是否更新成功
      */
-    public function update($primaryKey, $data): bool
+    public function update(mixed $primaryKey, array $data): bool
     {
         Db::beginTransaction();
         try {
@@ -364,7 +364,7 @@ abstract class AdminService
      * @param array $data 存储的数据
      * @return bool 是否存储成功
      */
-    public function store($data): bool
+    public function store(array $data): bool
     {
         Db::beginTransaction();
         try {
@@ -425,7 +425,7 @@ abstract class AdminService
      * @param array $data 编辑的数据
      * @return bool 是否编辑成功
      */
-    public function quickEdit($data): bool
+    public function quickEdit(array $data): bool
     {
         $rowsDiff = data_get($data, 'rowsDiff', []);
         Db::beginTransaction();
@@ -449,7 +449,7 @@ abstract class AdminService
      * @param array $data 编辑的数据
      * @return bool 是否编辑成功
      */
-    public function quickEditItem($data): bool
+    public function quickEditItem(array $data): bool
     {
         return $this->update(Arr::pull($data, $this->primaryKey()), $data);
     }
@@ -463,7 +463,7 @@ abstract class AdminService
      * @param string $primaryKey 主键值
      * @return void
      */
-    public function saving(&$data, string $primaryKey = '')
+    public function saving(array &$data, string $primaryKey = '')
     {
 
     }
@@ -477,7 +477,7 @@ abstract class AdminService
      * @param bool $isEdit 是否为编辑操作
      * @return void
      */
-    public function saved($model, bool $isEdit = false)
+    public function saved(mixed $model, bool $isEdit = false)
     {
 
     }
@@ -488,7 +488,7 @@ abstract class AdminService
      * @param string $ids 删除的ID列表
      * @return void
      */
-    public function deleted($ids)
+    public function deleted(string $ids)
     {
 
     }

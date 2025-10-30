@@ -36,7 +36,7 @@ class Permission implements MiddlewareInterface
         // 调用权限服务进行权限拦截检查
         if (Admin::permission()->permissionIntercept($request, '')) {
             // 如果权限检查失败，返回未授权错误响应
-            return Admin::response()->fail(translator('admin.unauthorized'));
+            return Admin::response()->fail(translator('::admin.unauthorized'));
         }
         // 权限检查通过，继续处理请求
         return $handler($request);

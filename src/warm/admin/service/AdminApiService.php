@@ -34,7 +34,7 @@ class AdminApiService extends AdminService
      * @param string $primaryKey 主键值
      * @return void
      */
-    public function saving(&$data, $primaryKey = ''): void
+    public function saving(array &$data, string $primaryKey = ''): void
     {
         $exists = $this->query()
             ->where('path', $data['path'])
@@ -57,7 +57,7 @@ class AdminApiService extends AdminService
      * @param bool $isEdit 是否为编辑操作
      * @return void
      */
-    public function saved($model, $isEdit = false): void
+    public function saved(mixed $model, bool $isEdit = false): void
     {
         RouteGenerator::refresh();
     }
@@ -70,7 +70,7 @@ class AdminApiService extends AdminService
      * @param string $ids 删除的ID列表
      * @return void
      */
-    public function deleted($ids): void
+    public function deleted(string $ids): void
     {
         RouteGenerator::refresh();
     }
@@ -81,7 +81,7 @@ class AdminApiService extends AdminService
      * @param string $path API路径
      * @return Model|static|null API模型实例或null
      */
-    public function getApiByPath($path): Model|static|null
+    public function getApiByPath(string $path): Model|static|null
     {
         $api = $this->query()->where('path', $path)->first();
 
@@ -98,7 +98,7 @@ class AdminApiService extends AdminService
      * @param string $template 模板名称
      * @return Model|Builder|AdminApi|null API模型实例或null
      */
-    public function getApiByTemplate($template): Model|Builder|AdminApi|null
+    public function getApiByTemplate(string $template): Model|Builder|AdminApi|null
     {
         return $this->query()->where('template', $template)->first();
     }

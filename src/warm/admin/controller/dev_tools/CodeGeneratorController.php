@@ -2,13 +2,17 @@
 
 namespace warm\admin\controller\dev_tools;
 
+use Exception;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionMethod;
 use support\Request;
 use support\Response;
+use Throwable;
 use warm\admin\controller\AdminController;
 use warm\admin\plugin\PluginService;
 use warm\admin\renderer\Card;
@@ -173,7 +177,7 @@ class CodeGeneratorController extends AdminController
      * @param bool $isEdit 是否为编辑模式
      * @return Form 表单对象
      */
-    public function form($isEdit = false): Form
+    public function form(bool $isEdit = false): Form
     {
         // 下划线的表名处理成驼峰文件名
         $nameHandler = 'JOIN(ARRAYMAP(SPLIT(IF(ENDSWITH(table_name, "s"), LEFT(table_name, LEN(table_name) - 1), table_name), "_"), item=>CAPITALIZE(item)))';
@@ -395,6 +399,7 @@ class CodeGeneratorController extends AdminController
      * @param Request $request HTTP请求对象
      *
      * @return Response 响应对象，包含生成结果
+     * @throws Throwable
      */
     public function generate(Request $request): Response
     {
@@ -414,6 +419,7 @@ class CodeGeneratorController extends AdminController
      * @param Request $request HTTP请求对象
      *
      * @return Response 响应对象，包含预览内容
+     * @throws Exception
      */
     public function preview(Request $request): Response
     {
@@ -490,7 +496,7 @@ class CodeGeneratorController extends AdminController
         $list = [];
 
         // 如果配置中已存在相关数据，则先读取出来
-        if ($original = warmConfig()->get($request->input('key'))) {
+        if ($original = systemConfig()->get($request->input('key'))) {
             foreach ($original as $item) {
                 $list[$item['key'] . '|' . $item['label']] = $item;
             }
@@ -500,7 +506,7 @@ class CodeGeneratorController extends AdminController
         $list[$request->input('value')['key'] . '|' . $request->input('value')['label']] = $request->input('value');
 
         // 保存配置到系统
-        $res = warmConfig()->set($request->input('key'), array_values($list));
+        $res = systemConfig()->set($request->input('key'), array_values($list));
 
         // 返回自动响应结果
         return $this->autoResponse($res, translator('admin.save'));
@@ -519,7 +525,7 @@ class CodeGeneratorController extends AdminController
     public function getComponentProperty(Request $request): Response
     {
         // 从系统配置中获取组件属性列表
-        $component_property_list = collect(warmConfig()->get($request->input('key')))->values();
+        $component_property_list = collect(systemConfig()->get($request->input('key')))->values();
 
         // 返回成功响应，包含组件属性列表
         return $this->response()->success(compact('component_property_list'));
@@ -537,7 +543,7 @@ class CodeGeneratorController extends AdminController
     public function delComponentProperty(Request $request): Response
     {
         // 获取当前配置列表
-        $list = warmConfig()->get($request->input('name'));
+        $list = systemConfig()->get($request->input('name'));
 
         // 如果配置列表为空，则直接返回
         if (blank($list)) {
@@ -552,7 +558,7 @@ class CodeGeneratorController extends AdminController
         }
 
         // 保存更新后的配置列表
-        warmConfig()->set($request->input('name'), array_values($list));
+        systemConfig()->set($request->input('name'), array_values($list));
 
         // 返回成功响应
         return $this->autoResponse(true);
@@ -572,13 +578,13 @@ class CodeGeneratorController extends AdminController
     {
         // 从传入的值中找到匹配的字段配置
         $value = collect($request->input('value'))->firstWhere('name', $request->input('column'));
-        $list = warmConfig()->get('admin_common_field', []);
+        $list = systemConfig()->get('admin_common_field', []);
 
         // 将配置保存到列表中，排除组件属性选项
-        $list[$request->input('name')] = Arr::except($value, ['component_property_options']);
+        $list[$request->input('name')] = Arr::except((array)$value, ['component_property_options']);
 
         // 保存配置到系统
-        $res = warmConfig()->set('admin_common_field', $list);
+        $res = systemConfig()->set('admin_common_field', $list);
 
         // 返回自动响应结果
         return $this->autoResponse($res, translator('admin.save'));
@@ -595,7 +601,7 @@ class CodeGeneratorController extends AdminController
     public function getColumnProperty(): Response
     {
         // 从系统配置中获取通用字段列表，并重新格式化
-        $common_field_list = collect(warmConfig()->get('admin_common_field'))->map(fn($v, $k) => [
+        $common_field_list = collect(systemConfig()->get('admin_common_field'))->map(fn($v, $k) => [
             'name'        => $k,
             'column_name' => $v['name'],
             'value'       => $v,
@@ -617,7 +623,7 @@ class CodeGeneratorController extends AdminController
     public function delColumnProperty(Request $request): Response
     {
         // 获取当前字段配置列表
-        $list = warmConfig()->get('admin_common_field');
+        $list = systemConfig()->get('admin_common_field');
 
         // 如果配置列表为空，则直接返回
         if (blank($list)) {
@@ -632,7 +638,7 @@ class CodeGeneratorController extends AdminController
         }
 
         // 保存更新后的配置列表
-        warmConfig()->set('admin_common_field', $list);
+        systemConfig()->set('admin_common_field', $list);
 
         // 返回成功响应
         return $this->autoResponse(true);
@@ -668,7 +674,7 @@ class CodeGeneratorController extends AdminController
      * @param bool $directReturn 是否直接返回数据而不是响应对象
      * @return Response|array 响应对象或数据数组
      */
-    public function formData($directReturn = false): Response|array
+    public function formData(bool $directReturn = false): Response|array
     {
         // 获取数据库列信息
         $databaseColumns = Generator::make()->getDatabaseColumns();
@@ -772,7 +778,7 @@ class CodeGeneratorController extends AdminController
                                                             amis()
                                                                 ->Form()
                                                                 ->reload('common_field_service')
-                                                                ->api('post:/dev_tools/code_generator/common_field')
+                                                                ->api('post:/dev_tools/code_generator/common_field/save')
                                                                 ->body([
                                                                     amis()
                                                                         ->TextControl('name', translator('admin.code_generators.config_name'))
@@ -849,7 +855,7 @@ class CodeGeneratorController extends AdminController
      * @param string $label 组件标签
      * @return ComboControl 组合控件对象
      */
-    public function componentSelect($key, $label = ''): ComboControl
+    public function componentSelect(string $key, string $label = ''): ComboControl
     {
         // 构建组件属性相关的名称和ID
         $comboName = $key . '_property';
@@ -1239,6 +1245,17 @@ class CodeGeneratorController extends AdminController
     }
 
     /**
+     * 克隆记录
+     *
+     */
+    public function clone()
+    {
+        $this->service->clone(request()->all());
+
+        return $this->response()->successMessage(translator('admin.action_success'));
+    }
+
+    /**
      * 复制记录 按钮
      *
      * 创建一个用于复制代码生成记录JSON数据的对话框按钮，
@@ -1403,6 +1420,8 @@ class CodeGeneratorController extends AdminController
      *
      * @param mixed $id 记录ID
      * @return Response 响应对象
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function edit($id): Response
     {
@@ -1426,7 +1445,7 @@ class CodeGeneratorController extends AdminController
      * 页面样式
      *
      * 定义代码生成器页面的自定义CSS样式，
-     * 用于美化字段配置表单的显示效果。
+     * 用于美化字段配置表单地显示效果。
      *
      * @return array[] CSS样式数组
      */

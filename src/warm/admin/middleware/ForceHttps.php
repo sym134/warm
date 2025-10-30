@@ -35,9 +35,9 @@ class ForceHttps implements MiddlewareInterface
     public function process(Request $request, callable $handler): Response
     {
         // 检查当前请求协议版本是否为HTTP/1.1且系统配置了强制HTTPS
-        if ($request->protocolVersion() === '1.1' && Admin::config('app.https')) {
+        if ($request->protocolVersion() === '1.1' && Admin::warmConfig('app.https')) {
             // 如果需要强制HTTPS但当前不是HTTPS，则返回错误提示
-            return Admin::response()->additional(['code' => 301])->fail('请使用https');
+            return Admin::response()->additional(['code' => 301])->fail(translator('::admin.https_is_not_enabled'));
         }
 
         // 继续处理请求

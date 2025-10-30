@@ -23,7 +23,7 @@ class SystemUser
      * @param array $item 登录信息数组
      * @return void
      */
-    public function login($item): void
+    public function login(array $item): void
     {
         $ip = request()->getRealIp();
         $http_user_agent = request()->header('user-agent');
@@ -47,7 +47,7 @@ class SystemUser
      * @param bool $flag 操作标志
      * @return bool 是否记录成功
      */
-    public function operateLog($flag): bool
+    public function operateLog(bool $flag): bool
     {
         if (request()->method() === 'GET') {
             return false;
@@ -82,7 +82,7 @@ class SystemUser
         if (preg_match("/\{[^}]+\}/", $path)) {
             $path = rtrim(preg_replace("/\{[^}]+\}/", '', $path), '/');
         }
-        $path = '/' . ltrim($path, '/' . Admin::config('app.route.prefix'));
+        $path = ltrim($path, Admin::warmConfig('app.route.prefix'));
         $menu = AdminMenu::where('url', $path)->first();
         if (!is_null($menu)) {
             return $menu->getAttribute('title');
@@ -99,7 +99,7 @@ class SystemUser
      * @param array $params 请求参数
      * @return string 过滤后的JSON字符串
      */
-    protected function filterParams($params): string
+    protected function filterParams(array $params): string
     {
         $blackList = ['password', 'oldPassword', 'newPassword', 'content'];
         foreach ($params as $key => $value) {
@@ -118,25 +118,15 @@ class SystemUser
      * @param string $ip IP地址
      * @return string 地理位置信息
      */
-    protected function getIpLocation($ip): string
+    protected function getIpLocation(string $ip): string
     {
         $ip2region = new \Ip2Region();
         try {
-            $region = $ip2region->memorySearch($ip);
+            $region = $ip2region->simple($ip);
         } catch (\Exception $e) {
             return '未知';
         }
-        [$country, $number, $province, $city, $network] = explode('|', $region['region']);
-        if ($network === '内网IP') {
-            return $network;
-        }
-        if ($country == '中国') {
-            return $province . '-' . $city . ':' . $network;
-        } else if ($country == '0') {
-            return '未知';
-        } else {
-            return $country;
-        }
+        return $region;
     }
 
     /**
@@ -144,21 +134,21 @@ class SystemUser
      * 
      * 从User-Agent中解析出浏览器类型
      *
-     * @param string $user_agent User-Agent字符串
+     * @param string $userAgent User-Agent字符串
      * @return string 浏览器名称
      */
-    protected function getBrowser($user_agent): string
+    protected function getBrowser(string $userAgent): string
     {
         $br = 'Unknown';
-        if (preg_match('/MSIE/i', $user_agent)) {
+        if (preg_match('/MSIE/i', $userAgent)) {
             $br = 'MSIE';
-        } elseif (preg_match('/Firefox/i', $user_agent)) {
+        } elseif (preg_match('/Firefox/i', $userAgent)) {
             $br = 'Firefox';
-        } elseif (preg_match('/Chrome/i', $user_agent)) {
+        } elseif (preg_match('/Chrome/i', $userAgent)) {
             $br = 'Chrome';
-        } elseif (preg_match('/Safari/i', $user_agent)) {
+        } elseif (preg_match('/Safari/i', $userAgent)) {
             $br = 'Safari';
-        } elseif (preg_match('/Opera/i', $user_agent)) {
+        } elseif (preg_match('/Opera/i', $userAgent)) {
             $br = 'Opera';
         } else {
             $br = 'Other';
@@ -171,17 +161,17 @@ class SystemUser
      * 
      * 从User-Agent中解析出操作系统类型
      *
-     * @param string $user_agent User-Agent字符串
+     * @param string $userAgent User-Agent字符串
      * @return string 操作系统名称
      */
-    protected function getOs($user_agent): string
+    protected function getOs(string $userAgent): string
     {
         $os = 'Unknown';
-        if (preg_match('/win/i', $user_agent)) {
+        if (preg_match('/win/i', $userAgent)) {
             $os = 'Windows';
-        } elseif (preg_match('/mac/i', $user_agent)) {
+        } elseif (preg_match('/mac/i', $userAgent)) {
             $os = 'Mac';
-        } elseif (preg_match('/linux/i', $user_agent)) {
+        } elseif (preg_match('/linux/i', $userAgent)) {
             $os = 'Linux';
         } else {
             $os = 'Other';

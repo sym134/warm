@@ -2,6 +2,7 @@
 
 use DI\ContainerBuilder;
 use Illuminate\Filesystem\Filesystem;
+use warm\admin\service\system\SystemConfigService;
 use warm\admin\support\apis\{DataDetailApi};
 use warm\admin\support\apis\DataCreateApi;
 use warm\admin\support\apis\DataDeleteApi;
@@ -11,7 +12,6 @@ use warm\admin\support\cores\{Menu};
 use warm\admin\support\cores\Asset;
 use warm\admin\support\cores\Context;
 use warm\admin\support\Pipeline;
-use warm\common\service\ConfigService;
 use warm\framework\hashing\HashManager;
 use warm\framework\support\facade\Validate;
 
@@ -39,7 +39,7 @@ $builder->addDefinitions([
     // 资源服务
     'admin.asset' => fn() => new Asset,
     // 配置服务
-    'admin.config' => fn() => new ConfigService,
+    'admin.config' => fn() => new SystemConfigService,
     // 上下文服务
     'admin.context' => fn() => new Context,
     // 管道服务

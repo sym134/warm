@@ -138,7 +138,7 @@ class Database
             $table->string('iframe_url')->nullable()->comment('iframe_url');
             $table->string('component')->nullable()->comment('菜单组件');
             $table->tinyInteger('is_full')->default(0)->comment('是否是完整页面');
-            $table->string('extension')->nullable()->comment('扩展');
+            $table->string('extension')->nullable()->comment('插件');
 
             $table->timestamps();
         });
@@ -188,8 +188,9 @@ class Database
             $table->timestamps();
         });
 
-        $this->create('admin_extensions', function (Blueprint $table) {
+        $this->create('admin_plugins', function (Blueprint $table) {
             $table->id();
+            $table->string('key', 100)->unique();
             $table->string('name', 100)->unique();
             $table->tinyInteger('is_enabled')->default(0);
             $table->timestamps();
@@ -341,7 +342,7 @@ class Database
          $this->dropIfExists('admin_permission_menu');
          $this->dropIfExists('admin_code_generators');
          $this->dropIfExists('admin_settings');
-         $this->dropIfExists('admin_extensions');
+         $this->dropIfExists('admin_plugins');
          $this->dropIfExists('admin_pages');
          $this->dropIfExists('admin_relationships');
          $this->dropIfExists('admin_apis');
@@ -554,10 +555,10 @@ class Database
         }
 
         // 默认中文
-        warmConfig()->set('admin_locale', 'zh_CN');
+        systemConfig()->set('admin_locale', 'zh_CN');
 
         // 默认存储设置
-        warmConfig()->set('storage', [
+        systemConfig()->set('storage', [
             "upload_size" => 5242880,
             "file_type"   => "txt,doc,docx,xls,xlsx,ppt,pptx,rar,zip,7z,gz,pdf,wps,md",
             "image_type"  => "jpg,jpeg,png,gif,svg,bmp",

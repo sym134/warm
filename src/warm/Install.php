@@ -30,8 +30,7 @@ class Install
         '../config/redis.php' => 'config/redis.php',
         '../admin-assets' => 'public/admin-assets',
         '../resource' => 'resource',
-        '../database' => 'database',
-        '../.example.env' => '.env',
+        '../.example.env' => '.example.env',
     );
 
     /**

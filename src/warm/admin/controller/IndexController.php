@@ -5,7 +5,7 @@ namespace warm\admin\controller;
 use support\Request;
 use support\Response;
 use warm\admin\Admin;
-use warm\admin\model\Plugin;
+use warm\admin\model\AdminPlugin;
 use warm\admin\service\AdminPageService;
 
 /**
@@ -50,7 +50,7 @@ class IndexController extends AdminController
     {
         $prefix = '';
         // 默认语言选项
-        $localeOptions = Admin::config('app.layout.locale_options') ?? [
+        $localeOptions = Admin::warmConfig('app.layout.locale_options') ?? [
             'en' => 'English',
             'zh_CN' => '简体中文',
         ];
@@ -59,16 +59,16 @@ class IndexController extends AdminController
         return $this->response()->success([
             'nav' => Admin::getNav(),
             'assets' => Admin::getAssets(),
-            'app_name' => Admin::config('app.name'),
-            'locale' => warmConfig()->get('admin_locale', Admin::config('app.translation.local')),
-            'layout' => Admin::config('app.layout'),
-            'logo' => url(Admin::config('app.logo')),
+            'app_name' => Admin::warmConfig('app.name'),
+            'locale' => systemConfig()->get('admin_locale', Admin::warmConfig('app.translation.local')),
+            'layout' => Admin::warmConfig('app.layout'),
+            'logo' => url(Admin::warmConfig('app.logo')),
 
-            'login_captcha' => Admin::config('app.auth.login_captcha'),
+            'login_captcha' => Admin::warmConfig('app.auth.login_captcha'),
             'locale_options' => map2options($localeOptions),
-            'show_development_tools' => Admin::config('app.show_development_tools'),
-            'system_theme_setting' => Admin::warmConfig()->get($prefix . 'system_theme_setting'),
-            'enabled_extensions' => Plugin::query()->where('is_enabled', 1)->pluck('name')?->toArray(),
+            'show_development_tools' => Admin::warmConfig('app.show_development_tools'),
+            'system_theme_setting' => Admin::config()->get($prefix . 'system_theme_setting'),
+            'enabled_extensions' => AdminPlugin::query()->where('is_enabled', 1)->pluck('key')?->toArray(),
         ]);
     }
 
@@ -86,7 +86,7 @@ class IndexController extends AdminController
         $data = $request->all();
         
         // 批量保存设置
-        Admin::warmConfig()->setMany($data);
+        Admin::config()->setMany($data);
         
         // 返回成功响应
         return $this->response()->successMessage();

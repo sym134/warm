@@ -89,7 +89,7 @@ class AdminPermission extends BaseModel
         $method  = $this->http_method;
         $matches = array_map(function ($path) use ($method) {
             // 添加路由前缀到路径
-            $path = trim(Admin::config('app.route.prefix'), '/') . $path;
+            $path = trim(Admin::warmConfig('app.route.prefix'), '/') . $path;
             if (Str::contains($path, ':')) {
                 // 如果路径包含方法，则分离方法和路径
                 [$method, $path] = explode(':', $path);

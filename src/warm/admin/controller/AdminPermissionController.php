@@ -38,7 +38,7 @@ class AdminPermissionController extends AdminController
     public function list(): Page
     {
         $autoBtn = '';
-        if (Admin::config('app.show_auto_generate_permission_button')) {
+        if (Admin::warmConfig('app.show_auto_generate_permission_button')) {
             $autoBtn = amis()->AjaxAction()
                 ->label(translator('admin.admin_permission.auto_generate'))
                 ->level('success')
@@ -160,7 +160,7 @@ class AdminPermissionController extends AdminController
      */
     public function getRoutes(): array
     {
-        $prefix = (string)Admin::config('app.route.prefix');
+        $prefix = (string)Admin::warmConfig('app.route.prefix');
 
         $container = collect();
         return collect(Route::getRoutes())->map(function ($route) use ($prefix, $container) {

@@ -38,7 +38,7 @@ class Authenticate implements MiddlewareInterface
         // 如果身份验证失败（状态为true表示需要登录）
         if ($state) {
             // 返回请先登录错误响应
-            return Admin::response()->additional(['code' => 401])->fail(translator('admin.please_login'));
+            return Admin::response()->additional(['code' => 401])->fail(translator('::admin.please_login'));
         }
         
         // 将用户信息附加到请求对象

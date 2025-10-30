@@ -101,7 +101,7 @@ class HashManager implements Hasher
      */
     public function getDefaultDriver()
     {
-        return Admin::config('hashing.driver', 'bcrypt');
+        return Admin::warmConfig('hashing.driver', 'bcrypt');
     }
 
     /**
@@ -111,7 +111,7 @@ class HashManager implements Hasher
      */
     public function createBcryptDriver()
     {
-        return new BcryptHasher(Admin::config('hashing.bcrypt', []));
+        return new BcryptHasher(Admin::warmConfig('hashing.bcrypt', []));
     }
 
     /**
@@ -121,7 +121,7 @@ class HashManager implements Hasher
      */
     public function createArgonDriver()
     {
-        return new ArgonHasher(Admin::config('hashing.argon', []));
+        return new ArgonHasher(Admin::warmConfig('hashing.argon', []));
     }
 
     /**
@@ -131,7 +131,7 @@ class HashManager implements Hasher
      */
     public function createArgon2idDriver()
     {
-        return new Argon2IdHasher(Admin::config('hashing.argon',[]));
+        return new Argon2IdHasher(Admin::warmConfig('hashing.argon',[]));
     }
 
     /**

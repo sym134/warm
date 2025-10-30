@@ -6,6 +6,7 @@ use InvalidArgumentException;
 use League\Flysystem\UnableToSetVisibility;
 use League\Flysystem\UnableToWriteFile;
 use Psr\Http\Message\StreamInterface;
+use Throwable;
 use Webman\File;
 use Webman\Http\UploadFile;
 
@@ -72,7 +73,7 @@ class FilesystemManager
      * @return FilesystemDisk 文件系统磁盘实例
      * @throws InvalidArgumentException 当指定磁盘未配置时抛出异常
      */
-    protected function resolve(string $name)
+    protected function resolve(string $name): FilesystemDisk
     {
         $config = $this->getStorageConfig($name);
 
@@ -98,7 +99,7 @@ class FilesystemManager
      */
     protected function getSystemsConfig(): array
     {
-        return warmConfig()->get('filesystems');
+        return systemConfig()->get('filesystems');
     }
 
     /**
@@ -112,7 +113,7 @@ class FilesystemManager
     {
         $filesystems = $this->getSystemsConfig();
         if (!isset($filesystems['storage'][$name])) {
-            throw new InvalidArgumentException("Disk [{$name}] not configured.");
+            throw new InvalidArgumentException("Disk [$name] not configured.");
         }
 
         return $filesystems['storage'][$name] ?? [];
@@ -140,7 +141,7 @@ class FilesystemManager
      * @param callable $callback 创建回调函数
      * @return void
      */
-    public function extend(string $driver, callable $callback)
+    public function extend(string $driver, callable $callback): void
     {
         $this->customCreators[$driver] = $callback;
     }
@@ -152,9 +153,59 @@ class FilesystemManager
      * @param array $config 磁盘配置
      * @return mixed 自定义创建器返回的实例
      */
-    protected function callCustomCreator(string $name, array $config)
+    protected function callCustomCreator(string $name, array $config): mixed
     {
         return $this->customCreators[$name]($config);
+    }
+
+    /**
+     * 获取文件的公开访问URL
+     * 
+     * @param string $path 文件路径
+     * @return string 文件访问URL
+     */
+    public function url(string $path): string
+    {
+        $disk = $this->disk();
+        $config = $disk->getConfig();
+        
+        // 对于本地存储
+        if ($this->getDefaultDriver() === 'local') {
+            $domain = $config['domain'] ?? '';
+            $root = $config['root'] ?? '';
+            
+            // 如果配置了域名，使用域名；否则使用相对路径
+            if ($domain) {
+                // 处理根目录
+                $rootPath = trim($root, '/');
+                $filePath = ltrim($path, '/');
+                return rtrim($domain, '/') . ($rootPath ? '/' . $rootPath : '') . '/' . $filePath;
+            } else {
+                $diskPath = $config['disk'] ?? 'public';
+                $rootPath = trim($root, '/');
+                $filePath = ltrim($path, '/');
+                return '/' . ltrim($diskPath, '/') . ($rootPath ? '/' . $rootPath : '') . '/' . $filePath;
+            }
+        }
+        
+        // 对于云存储服务
+        $domain = $config['domain'] ?? '';
+        $root = $config['root'] ?? '';
+        
+        if ($domain) {
+            // 处理根目录
+            $rootPath = trim($root, '/');
+            $filePath = ltrim($path, '/');
+            return rtrim($domain, '/') . ($rootPath ? '/' . $rootPath : '') . '/' . $filePath;
+        }
+        
+        // 如果没有配置domain，尝试调用底层Flysystem的publicUrl方法
+        try {
+            return $disk->publicUrl($path);
+        } catch (Throwable $e) {
+            // 如果无法生成URL，则返回路径本身
+            return $path;
+        }
     }
 
     /**
@@ -164,7 +215,7 @@ class FilesystemManager
      * @param array $parameters 方法参数
      * @return mixed 方法调用结果
      */
-    public function __call($method, $parameters)
+    public function __call(string $method, array $parameters)
     {
         return $this->disk()->$method(...$parameters);
     }
@@ -178,11 +229,11 @@ class FilesystemManager
      * @return bool 写入是否成功
      * @throws UnableToWriteFile|UnableToSetVisibility 当写入失败时抛出异常
      */
-    public function put(string $path, $contents, $options = []): bool
+    public function put(string $path, mixed $contents, array|string $options = []): bool
     {
         $options = is_string($options)
             ? ['visibility' => $options]
-            : (array)$options;
+            : $options;
 
         if ($contents instanceof File) {
             return self::putFile($path, $contents, $options);
@@ -199,8 +250,7 @@ class FilesystemManager
                 ? $this->disk()->writeStream($path, $contents, $options)
                 : $this->disk()->write($path, $contents, $options);
         } catch (UnableToWriteFile|UnableToSetVisibility $e) {
-            throw_if(self::throwsExceptions(), $e);
-
+            // 移除了对 throwsExceptions() 的调用，直接返回 false
             return false;
         }
 
@@ -211,14 +261,14 @@ class FilesystemManager
      * 上传文件
      * 
      * @param string $path 保存路径
-     * @param mixed $file 文件对象
-     * @param mixed $options 上传选项
+     * @param mixed|null $file 文件对象
+     * @param array $options 上传选项
      * @return bool|string 上传成功返回文件路径，失败返回false
      *
      * @author heimiao
      * @date 2025-06-05 16:37
      */
-    public function putFile(string $path, $file = null, $options = []): bool|string
+    public function putFile(string $path, mixed $file = null, array $options = []): bool|string
     {
         $file = is_string($file) ? new File($file) : $file;
         return self::putFileAs($path, $file, self::hashName($file->getPathname()) . '.' . $file->getUploadExtension(), $options);
@@ -231,7 +281,7 @@ class FilesystemManager
      * @param string $algorithm 哈希算法
      * @return bool|string 哈希值，失败返回false
      */
-    public function hashName($path, $algorithm = 'md5'): bool|string
+    public function hashName(string $path, string $algorithm = 'md5'): bool|string
     {
         return hash_file($algorithm, $path);
     }
@@ -242,13 +292,13 @@ class FilesystemManager
      * @param string $path 保存路径
      * @param string|UploadFile $file 文件路径或上传文件对象
      * @param string|null $name 文件名
-     * @param mixed $options 上传选项
+     * @param array $options 上传选项
      * @return false|string 上传成功返回文件路径，失败返回false
      *
      * @author heimiao
      * @date 2025-06-05 16:36
      */
-    public function putFileAs(string $path, string|UploadFile $file, string $name = null, $options = []): bool|string
+    public function putFileAs(string $path, string|UploadFile $file, string $name = null, array $options = []): bool|string
     {
         $stream = fopen(is_string($file) ? $file : $file->getRealPath(), 'r');
 

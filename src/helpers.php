@@ -1,60 +1,28 @@
 <?php
 
+use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Support\Arr;
 use support\Container;
+use support\Db;
+use support\Translation;
 use think\Validate;
+use warm\admin\admin;
+use warm\admin\model\AdminUser;
+use warm\admin\renderer\Amis;
+use warm\admin\renderer\Component;
+use warm\admin\service\AdminPageService;
+use warm\admin\support\Pipeline;
+use warm\common\service\ConfigService;
 use warm\common\service\StorageService;
-
-/**
- * 验证函数
- * 
- * 生成并返回验证对象，支持验证器类和验证规则数组两种方式
- * 
- * @param string|array $validate 验证器类名或者验证规则数组
- * @param array $message 错误提示信息
- * @param bool $batch 是否批量验证
- * @param bool $failException 是否抛出异常
- * @return Validate 验证对象
- */
-if (!function_exists('validate')) {
-    /**
-     * 生成验证对象
-     * @param string|array $validate 验证器类名或者验证规则数组
-     * @param array $message 错误提示信息
-     * @param bool $batch 是否批量验证
-     * @param bool $failException 是否抛出异常
-     * @return Validate
-     */
-    function validate($validate = '', array $message = [], bool $batch = false, bool $failException = true): Validate
-    {
-        if (is_array($validate) || '' === $validate) {
-            $v = new Validate();
-            if (is_array($validate)) {
-                $v->rule($validate);
-            }
-        } else {
-            if (str_contains($validate, '.')) {
-                // 支持场景
-                [$validate, $scene] = explode('.', $validate);
-            }
-
-            $class = str_contains($validate, '\\') ? $validate : app()->parseClass('validate', $validate);
-
-            $v = new $class();
-
-            if (!empty($scene)) {
-                $v->scene($scene);
-            }
-        }
-
-        return $v->message($message)->batch($batch)->failException($failException);
-    }
-}
+use warm\exception\AdminException;
+use warm\framework\support\facade\Cache;
+use warm\framework\support\facade\Storage;
 
 /**
  * Bcrypt哈希函数
- * 
+ *
  * 对给定值进行bcrypt哈希处理
- * 
+ *
  * @param string $value 需要哈希的值
  * @param array $options 哈希选项
  * @return string 哈希后的值
@@ -67,7 +35,7 @@ if (!function_exists('bcrypt')) {
      * @param array $options
      * @return string
      */
-    function bcrypt($value, $options = [])
+    function bcrypt(string $value, array $options = []): string
     {
         return appw('hash')->make($value, $options);
     }
@@ -75,9 +43,9 @@ if (!function_exists('bcrypt')) {
 
 /**
  * 生成管理后台URL
- * 
+ *
  * 根据路径生成管理后台URL，可选择是否添加前缀
- * 
+ *
  * @param string|null $path 路径
  * @param bool $needPrefix 是否需要添加前缀
  * @return string 完整的URL
@@ -85,7 +53,7 @@ if (!function_exists('bcrypt')) {
 if (!function_exists('admin_url')) {
     function admin_url($path = null, $needPrefix = false): string
     {
-        $prefix = $needPrefix ? '/' . \warm\admin\Admin::config('app.route.prefix') : '';
+        $prefix = $needPrefix ? Admin::warmConfig('app.route.prefix') : '';
 
         return $prefix . '/' . trim($path, '/');
     }
@@ -93,9 +61,9 @@ if (!function_exists('admin_url')) {
 
 /**
  * 获取数据表字段列表
- * 
+ *
  * 获取指定数据表的所有字段名称
- * 
+ *
  * @param string $tableName 数据表名
  * @return array 字段名称数组
  */
@@ -109,15 +77,15 @@ if (!function_exists('table_columns')) {
      */
     function table_columns($tableName): array
     {
-        return \support\Db::schema()->getColumnListing($tableName);
+        return Db::schema()->getColumnListing($tableName);
     }
 }
 
 /**
  * 数组转树形结构
- * 
+ *
  * 将扁平的数组结构转换为树形结构
- * 
+ *
  * @param array $list 扁平的数组列表
  * @param int $parentId 父级ID
  * @return array 树形结构数组
@@ -148,9 +116,9 @@ if (!function_exists('array2tree')) {
 
 /**
  * 获取资源完整路径
- * 
+ *
  * 根据路径和服务器信息生成资源的完整访问路径
- * 
+ *
  * @param string $path 资源路径
  * @param string|null $server 服务器地址
  * @return array|string|null 完整路径
@@ -161,6 +129,7 @@ if (!function_exists('admin_resource_full_path')) {
         if (!$path) {
             return '';
         }
+        $src = '';
         if (filter_var($path, FILTER_VALIDATE_URL) || mb_strpos($path, 'data:image') === 0) {
             $src = $path;
         } else if ($server) {
@@ -169,61 +138,61 @@ if (!function_exists('admin_resource_full_path')) {
             StorageService::url($path);
         }
         $scheme = 'http:';
-        if (\warm\admin\Admin::config('app.https', false)) {
+        if (Admin::warmConfig('app.https', false)) {
             $scheme = 'https:';
         }
-        return preg_replace('/^http[s]{0,1}:/', $scheme, $src, 1);
+        return preg_replace('/^https?:/', $scheme, $src, 1);
     }
 }
 
 /**
  * Amis组件构建函数
- * 
+ *
  * 创建Amis组件实例，用于构建Amis界面
- * 
+ *
  * @param string|null $type 组件类型
- * @return \warm\admin\renderer\Amis|\warm\admin\renderer\Component Amis组件实例
+ * @return Amis|Component Amis组件实例
  */
 if (!function_exists('amis')) {
     /**
      * @param $type
      *
-     * @return \warm\admin\renderer\Amis|\warm\admin\renderer\Component
+     * @return Amis|Component
      */
-    function amis($type = null): \warm\admin\renderer\Amis|\warm\admin\renderer\Component
+    function amis($type = null): Amis|Component
     {
         if (filled($type)) {
-            return \warm\admin\renderer\Component::make()->setType($type);
+            return Component::make()->setType($type);
         }
 
-        return \warm\admin\renderer\Amis::make();
+        return Amis::make();
     }
 }
 
 /**
  * 创建Amis实例（已弃用）
- * 
+ *
  * 创建并返回Amis实例，该方法已被弃用，建议使用amis()函数
- * 
- * @return \warm\admin\renderer\Amis Amis实例
+ *
+ * @return Amis Amis实例
  * @deprecated
  */
 if (!function_exists('amisMake')) {
     /**
-     * @return \warm\admin\renderer\Amis
+     * @return Amis
      * @deprecated
      */
-    function amisMake(): \warm\admin\renderer\Amis
+    function amisMake(): Amis
     {
-        return \warm\admin\renderer\Amis::make();
+        return Amis::make();
     }
 }
 
 /**
  * 文件上传处理
- * 
+ *
  * 处理文件上传的显示和存储问题
- * 
+ *
  * @return \Illuminate\Database\Eloquent\Casts\Attribute 文件上传属性
  */
 if (!function_exists('file_upload_handle')) {
@@ -236,16 +205,16 @@ if (!function_exists('file_upload_handle')) {
     {
         return \Illuminate\Database\Eloquent\Casts\Attribute::make(
             get: fn($value) => $value ? StorageService::url($value) : '',
-            set: fn($value) => str_replace(StorageService::url(''), '', $value)
+            set: fn($value) => str_replace(StorageService::url(), '', $value)
         );
     }
 }
 
 /**
  * 多文件上传处理
- * 
+ *
  * 处理多个文件上传的显示和存储问题
- * 
+ *
  * @return \Illuminate\Database\Eloquent\Casts\Attribute 多文件上传属性
  */
 if (!function_exists('file_upload_handle_multi')) {
@@ -266,7 +235,7 @@ if (!function_exists('file_upload_handle_multi')) {
                     return str_replace($url, '', $value);
                 }
 
-                $list = array_map(fn($item) => str_replace($url, '', $item), \Illuminate\Support\Arr::wrap($value));
+                $list = array_map(fn($item) => str_replace($url, '', $item), Arr::wrap($value));
 
                 return implode(',', $list);
             }
@@ -276,9 +245,9 @@ if (!function_exists('file_upload_handle_multi')) {
 
 /**
  * 判断是否为JSON字符串
- * 
+ *
  * 检查给定字符串是否为有效的JSON格式
- * 
+ *
  * @param string $string 待检查的字符串
  * @return bool 是否为JSON字符串
  */
@@ -299,23 +268,23 @@ if (!function_exists('is_json')) {
 
 /**
  * 获取配置服务实例
- * 
+ *
  * 创建并返回配置服务实例
- * 
- * @return \warm\common\service\ConfigService 配置服务实例
+ *
+ * @return ConfigService 配置服务实例
  */
-if (!function_exists('warmConfig')) {
-    function warmConfig(): \warm\common\service\ConfigService
+if (!function_exists('systemConfig')) {
+    function systemConfig(): ConfigService
     {
-        return \warm\common\service\ConfigService::make();
+        return new ConfigService;
     }
 }
 
 /**
  * 获取扩展路径
- * 
+ *
  * 获取管理后台扩展的路径
- * 
+ *
  * @param string|null $path 相对路径
  * @return string 完整路径
  */
@@ -327,7 +296,7 @@ if (!function_exists('admin_extension_path')) {
      */
     function admin_extension_path(?string $path = ''): string
     {
-        $dir = rtrim(\warm\admin\Admin::config('app.extension.dir'), '/') ?: base_path('extensions');
+        $dir = rtrim(Admin::warmConfig('app.plugin.dir'), '/') ?: base_path('extensions');
 
         $path = ltrim($path, '/');
 
@@ -337,21 +306,21 @@ if (!function_exists('admin_extension_path')) {
 
 /**
  * 获取当前管理员用户
- * 
+ *
  * 获取当前登录的管理员用户信息
- * 
- * @return \warm\admin\model\AdminUser|\Illuminate\Contracts\Auth\Authenticatable|null 管理员用户对象或null
+ *
+ * @return AdminUser|Authenticatable|null 管理员用户对象或null
  */
 if (!function_exists('admin_user')) {
-    function admin_user(): \warm\admin\model\AdminUser|\Illuminate\Contracts\Auth\Authenticatable|null
+    function admin_user(): AdminUser|Authenticatable|null
     {
-        return \warm\admin\Admin::user();
+        return Admin::user();
     }
 }
 
 /**
  * 管理后台异常处理函数
- * 
+ *
  * 抛出管理后台异常，支持自定义消息、数据和提示控制
  */
 if (!function_exists('admin_abort')) {
@@ -367,7 +336,7 @@ if (!function_exists('admin_abort')) {
      */
     function admin_abort(string $message = '', array $data = [], int $doNotDisplayToast = 0): mixed
     {
-        throw new \warm\exception\AdminException($message, $data, $doNotDisplayToast);
+        throw new AdminException($message, $data, $doNotDisplayToast);
     }
 
     /**
@@ -377,7 +346,7 @@ if (!function_exists('admin_abort')) {
      * @param array $data 异常数据
      * @return void
      */
-    function amis_abort($message = '', $data = []): void
+    function amis_abort(string $message = '', array $data = []): void
     {
         admin_abort($message, $data, 1);
     }
@@ -394,7 +363,7 @@ if (!function_exists('admin_abort')) {
      *
      * @return void
      */
-    function admin_abort_if($flag, $message = '', $data = [], $doNotDisplayToast = 0): void
+    function admin_abort_if(bool $flag, string $message = '', array $data = [], int $doNotDisplayToast = 0): void
     {
         if ($flag) {
             admin_abort($message, $data, $doNotDisplayToast);
@@ -411,7 +380,7 @@ if (!function_exists('admin_abort')) {
      * @param array $data 异常数据
      * @return void
      */
-    function amis_abort_if($flag, $message = '', $data = []): void
+    function amis_abort_if(bool $flag, string $message = '', array $data = []): void
     {
         admin_abort_if($flag, $message, $data, 1);
     }
@@ -419,9 +388,9 @@ if (!function_exists('admin_abort')) {
 
 /**
  * 获取管理后台路径
- * 
+ *
  * 获取管理后台相关文件的完整路径
- * 
+ *
  * @param string $path 相对路径
  * @return string 完整路径
  */
@@ -436,24 +405,24 @@ if (!function_exists('admin_path')) {
 
 /**
  * 获取页面结构数据
- * 
+ *
  * 根据标识符获取页面结构数据
- * 
+ *
  * @param string $sign 页面标识符
-     * @return mixed 页面结构数据
-     */
+ * @return mixed 页面结构数据
+ */
 if (!function_exists('admin_pages')) {
     function admin_pages($sign)
     {
-        return \warm\admin\service\AdminPageService::make()->get($sign);
+        return AdminPageService::make()->get($sign);
     }
 }
 
 /**
  * 映射转选项
- * 
+ *
  * 将键值对映射转换为选项数组格式
- * 
+ *
  * @param array $map 键值对映射
  * @return array 选项数组
  */
@@ -473,9 +442,9 @@ if (!function_exists('map2options')) {
 
 /**
  * 语言翻译函数
- * 
+ * XX应用::翻译文件.变量
  * 根据键名获取翻译后的文本
- * 
+ *
  * @param string $key 翻译键名
  * @param array $replace 替换参数
  * @param string|null $locale 语言标识
@@ -490,20 +459,20 @@ if (!function_exists('translator')) {
         if (str_contains($key, '::')) {
             [$domain, $item] = explode('::', $key, 2);
             $itemSegments = explode('.', $item);
-            return \support\Translation::instance($domain)
+            return Translation::instance($domain)
                 ->trans(count($itemSegments) === 1 ? null : implode('.', array_slice($itemSegments, 1)), $replace, $itemSegments[0], $locale);
         } else {
             $itemSegments = explode('.', $key);
-            return \support\Translation::trans(count($itemSegments) === 1 ? null : implode('.', array_slice($itemSegments, 1)), $replace, $itemSegments[0], $locale);
+            return Translation::trans(count($itemSegments) === 1 ? null : implode('.', array_slice($itemSegments, 1)), $replace, $itemSegments[0], $locale);
         }
     }
 }
 
 /**
  * 插件路径函数
- * 
+ *
  * 获取插件目录的完整路径
- * 
+ *
  * @param string $path 相对路径
  * @return string 完整路径
  */
@@ -516,9 +485,9 @@ if (!function_exists('plugin_path')) {
 
 /**
  * URL生成函数
- * 
+ *
  * 根据路由名称生成URL
- * 
+ *
  * @param string $val 路由名称
  * @return string URL地址
  */
@@ -531,9 +500,9 @@ if (!function_exists('url')) {
 
 /**
  * 中止执行函数
- * 
+ *
  * 抛出带有指定代码和消息的异常
- * 
+ *
  * @param int $code 错误代码
  * @param string $message 错误消息
  * @return void
@@ -551,9 +520,9 @@ if (!function_exists('abort')) {
 
 /**
  * 运行命令函数
- * 
+ *
  * 执行指定的控制台命令
- * 
+ *
  * @param string $commandName 命令名称
  * @param array $arguments 命令参数
  * @return array 执行结果数组，第一个元素为是否成功，第二个为输出内容
@@ -574,9 +543,9 @@ if (!function_exists('runCommand')) {
 
 /**
  * 容器实例获取函数
- * 
+ *
  * 获取容器实例或从容器中解析依赖
- * 
+ *
  * @param string|null $abstract 要解析的依赖标识
  * @param array $parameters 解析时的参数
  * @return mixed|Container 容器实例或解析结果
@@ -587,9 +556,9 @@ if (!function_exists('appw')) {
      *
      * @param string|null $abstract 要解析的依赖标识
      * @param array $parameters 解析时的参数
-     * @return mixed|Container
+     * @return mixed
      */
-    function appw(string|null $abstract = null, array $parameters = [])
+    function appw(string|null $abstract = null, array $parameters = []): mixed
     {
         if (is_null($abstract)) {
             return Container::instance('jizhi.warm');
@@ -600,9 +569,9 @@ if (!function_exists('appw')) {
 
 /**
  * 数据库路径函数
- * 
+ *
  * 获取数据库相关文件的路径
- * 
+ *
  * @param string $name 文件名
  * @return string 完整路径
  */
@@ -615,23 +584,23 @@ if (!function_exists('database_path')) {
 
 /**
  * 缓存函数
- * 
+ *
  * 获取缓存实例
- * 
- * @return \warm\framework\support\facade\Cache 缓存实例
+ *
+ * @return Cache 缓存实例
  */
 if (!function_exists('cache')) {
-    function cache(): \warm\framework\support\facade\Cache
+    function cache(): Cache
     {
-        return new \warm\framework\support\facade\Cache();
+        return new Cache();
     }
 }
 
 /**
  * 安全分割函数
- * 
+ *
  * 可安全处理数组的分割函数
- * 
+ *
  * @param string $delimiter 分隔符
  * @param string|array $string 待分割的字符串或数组
  * @return array|false 分割结果
@@ -657,15 +626,56 @@ if (!function_exists('safe_explode')) {
 
 /**
  * 管道处理函数
- * 
+ *
  * 创建并处理管道流程
- * 
+ *
  * @param mixed $passable 可传递的数据
  * @return mixed 管道处理结果
  */
 if (!function_exists('admin_pipeline')) {
-    function admin_pipeline($passable)
+    function admin_pipeline($passable): Pipeline
     {
-        return \warm\admin\support\Pipeline::handle($passable);
+        return Pipeline::handle($passable);
+    }
+}
+
+if (!function_exists('file_upload_handle')) {
+    /**
+     * 处理文件上传回显问题
+     *
+     * @return \Illuminate\Database\Eloquent\Casts\Attribute
+     */
+    function file_upload_handle(): \Illuminate\Database\Eloquent\Casts\Attribute
+    {
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(
+            get: fn($value) => $value ? Storage::url($value) : '',
+            set: fn($value) => str_replace(Storage::url(''), '', $value)
+        );
+    }
+}
+
+if (!function_exists('file_upload_handle_multi')) {
+    /**
+     * 处理文件上传回显问题 (多个)
+     *
+     * @return \Illuminate\Database\Eloquent\Casts\Attribute
+     */
+    function file_upload_handle_multi(): \Illuminate\Database\Eloquent\Casts\Attribute
+    {
+
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(
+            get: function ($value) {
+                return array_values(array_filter(array_map(fn($item) => $item ? Storage::url($item) : '', explode(',', $value))));
+            },
+            set: function ($value) {
+                if (is_string($value)) {
+                    return str_replace(Storage::url(''), '', $value);
+                }
+
+                $list = array_map(fn($item) => str_replace(Storage::url(''), '', $item), Arr::wrap($value));
+
+                return implode(',', $list);
+            }
+        );
     }
 }

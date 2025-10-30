@@ -3,6 +3,7 @@
 namespace warm\framework\support\facade;
 
 use warm\framework\filesystem\FilesystemManager;
+use Webman\Http\UploadFile;
 
 /**
  * 存储门面类
@@ -13,7 +14,7 @@ use warm\framework\filesystem\FilesystemManager;
  * @method static FilesystemManager disk(string $name = null) 获取指定磁盘实例
  * @method static string getDefaultDriver() 获取默认驱动名称
  * @method static array getConfig() 获取配置信息
- * @method static string getUploadConfig() 获取上传配置
+ * @method static array getUploadConfig() 获取上传配置
  * @method static void extend(string $driver, \Closure $callback) 注册自定义驱动
  * @method static bool fileExists(string $path) 检查文件是否存在
  * @method static bool directoryExists(string $path) 检查目录是否存在
@@ -30,6 +31,8 @@ use warm\framework\filesystem\FilesystemManager;
  * @method static int fileSize(string $path) 获取文件大小
  * @method static string mimeType(string $path) 获取MIME类型
  * @method static array listContents(string $path = '', bool $deep = false) 列出目录内容
+ * @method static string url(string $path) 获取文件访问URL
+ * @method static bool|string putFileAs(string $path, string|UploadFile $file, string $name = null, mixed $options = []) 上传文件并指定文件名
  */
 class Storage extends Facade
 {

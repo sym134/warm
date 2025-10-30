@@ -2,6 +2,7 @@
 
 namespace warm\admin\controller\dev_tools;
 
+use Exception;
 use support\Db;
 use support\Response;
 use warm\admin\controller\AdminController;
@@ -305,9 +306,10 @@ class RelationshipController extends AdminController
         try {
             // 获取所有模型
             $models = $this->service->allModels()['models'];
+
             // 返回成功响应
             return $this->response()->success($models);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             // 返回失败响应
             return $this->response()->fail($e->getMessage());
         }
@@ -343,10 +345,11 @@ class RelationshipController extends AdminController
 
     /**
      * 获取所有模型信息
-     * 
+     *
      * 获取系统中所有模型的详细信息，包括已存在的模型和表信息。
-     * 
+     *
      * @return Response 响应对象，包含所有模型信息
+     * @throws Exception
      */
     public function allModels(): Response
     {

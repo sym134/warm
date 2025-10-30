@@ -27,7 +27,7 @@ class AdminOperationLogService extends AdminService
      * @param mixed $query 查询构造器
      * @return void
      */
-    public function searchable($query): void
+    public function searchable(mixed $query): void
     {
         collect(array_keys(request()->all()))
             ->intersect($this->getTableColumns())

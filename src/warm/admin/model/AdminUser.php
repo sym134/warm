@@ -45,7 +45,7 @@ class AdminUser extends BaseModel
     public function __construct(array $attributes = [])
     {
         // 设置数据库连接
-        $this->setConnection(Admin::config('app.database.connection'));
+        $this->setConnection(Admin::warmConfig('app.database.connection'));
 
         parent::__construct($attributes);
     }
@@ -75,7 +75,7 @@ class AdminUser extends BaseModel
     public function avatar(): Attribute
     {
         return Attribute::make(
-            get: fn($value) => $value ? StorageService::url($value) : url(Admin::config('app.default_avatar')),
+            get: fn($value) => $value ? StorageService::url($value) : url(Admin::warmConfig('app.default_avatar')),
             set: fn($value) => str_replace(StorageService::url(), '', $value)
         );
     }
@@ -120,7 +120,7 @@ class AdminUser extends BaseModel
      * @param array $arguments 其他参数
      * @return bool 是否具有权限
      */
-    public function can($abilities, $arguments = []): bool
+    public function can(mixed $abilities, array $arguments = []): bool
     {
         // 如果权限为空，则允许访问
         if (empty($abilities)) {

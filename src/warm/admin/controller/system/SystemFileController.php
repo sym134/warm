@@ -33,23 +33,22 @@ class SystemFileController extends AdminController
     {
         $crud = $this->baseCRUD()
             ->headerToolbar([
-                // $this->createButton(true),
                 ...$this->baseHeaderToolBar(),
             ])
             ->filterDefaultVisible(true)
             ->filter(
                 $this->baseFilter()->submitOnChange()->body([
-                    amis()->SelectControl('file_type', translator('admin.admin_attachments.file_type'))
-                        ->size('md')->options(SystemFile::FILE_TYPE),
                     amis()->TextControl('origin_name', translator('admin.admin_attachments.origin_name'))
-                        ->size('md'),
+                        ->size('sm'),
+                    amis()->SelectControl('file_type', translator('admin.admin_attachments.file_type'))
+                        ->size('xs')->options(SystemFile::FILE_TYPE),
                     amis()->SelectControl('storage_mode', translator('admin.admin_attachments.storage_mode'))
-                        ->size('md')->options(SystemFile::STORAGE_MODE),
+                        ->size('xs')->options(SystemFile::STORAGE_MODE),
                 ])->actions()
             )
             ->columns([
                 amis()->TableColumn('id', 'ID'),
-                amis()->Image()->label('预览')->name('url')->enlargeAble()->width(70),
+                amis()->Image('url','预览')->enlargeAble()->width(70),
                 amis()->TableColumn('storage_mode', translator('admin.admin_attachments.storage_mode'))
                     ->type('mapping')->map(SystemFile::STORAGE_MODE),
                 amis()->TableColumn('origin_name', translator('admin.admin_attachments.origin_name')),
@@ -59,7 +58,6 @@ class SystemFileController extends AdminController
                 amis()->TableColumn('file_size', translator('admin.admin_attachments.file_size'))->type('tpl')->tpl('${round(file_size/1024)}' . 'MB'),
                 amis()->TableColumn('created_at', translator('admin.created_at'))->type('datetime')->sortable(true),
                 $this->rowActions([
-                    // $this->rowEditButton(true),
                     $this->rowDeleteButton(),
                 ]),
             ]);

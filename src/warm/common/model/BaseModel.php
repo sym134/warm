@@ -32,7 +32,7 @@ class BaseModel extends Model
             $this->setConnection((isset(request()->tenant) && request()->tenant['database']) ? request()->tenant['database'] : 'plugin.saas.saas');
         } else {
             // 切换当前站点信息
-            $this->setConnection(Admin::config('app.database.connection'));
+            $this->setConnection(Admin::warmConfig('app.database.connection'));
         }
 
         parent::__construct($attributes);

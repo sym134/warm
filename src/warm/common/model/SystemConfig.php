@@ -42,7 +42,7 @@ class SystemConfig extends BaseModel
      * 字段类型转换
      * 
      * 定义字段的类型转换规则
-     * 'values'字段将被转换为JSON格式
+     * 'values字段将被转换为JSON格式
      * 
      * @var array
      */

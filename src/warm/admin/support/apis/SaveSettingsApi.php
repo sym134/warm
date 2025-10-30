@@ -35,7 +35,7 @@ class SaveSettingsApi extends AdminBaseApi
      */
     public function handle(): Response
     {
-        return warmConfig()->adminSetMany(request()->all());
+        return systemConfig()->adminSetMany(request()->all());
     }
     
     /**

@@ -33,7 +33,7 @@ class SystemFileService extends AdminService
      * 
      * @return mixed 查询构造器
      */
-    public function query()
+    public function query(): mixed
     {
         return $this->modelName::query()->where('created_by', Admin::guard()->user(true)->id);
     }

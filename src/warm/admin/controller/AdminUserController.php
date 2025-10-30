@@ -51,7 +51,7 @@ class AdminUserController extends AdminController
                 amis()->TableColumn('roles', translator('admin.admin_user.roles'))->type('each')->items(
                     amis()->Tag()->label('${name}')->className('my-1')
                 ),
-                amis()->TableColumn('enabled', translator('admin.extensions.card.status'))->quickEdit(
+                amis()->TableColumn('enabled', translator('admin.plugins.card.status'))->quickEdit(
                     amis()->SwitchControl()->mode('inline')->disabledOn('${id == 1}')->saveImmediately(true)
                 ),
                 amis()->TableColumn('created_at', translator('admin.created_at'))->type('datetime')->sortable(),
@@ -89,9 +89,9 @@ class AdminUserController extends AdminController
                 ->extractValue()
                 ->disabledOn('${id == 1}')
                 ->options(AdminRoleService::make()->query()->get(['id', 'name'])),
-            amis()->SwitchControl('enabled', translator('admin.extensions.card.status'))
-                ->onText(translator('admin.extensions.enable'))
-                ->offText(translator('admin.extensions.disable'))
+            amis()->SwitchControl('enabled', translator('admin.plugins.card.status'))
+                ->onText(translator('admin.plugins.enable'))
+                ->offText(translator('admin.plugins.disable'))
                 ->disabledOn('${id == 1}')
                 ->value(1),
         ]);

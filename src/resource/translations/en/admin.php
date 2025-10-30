@@ -2,6 +2,8 @@
 
 return [
     'remember_me'      => 'Remember me',
+    'disabled_plugin'      => 'Disabled Plugin',
+    'https_is_not_enabled'      => 'Https Is Not Enabled',
     'login'            => 'Login',
     'logout'           => 'Logout',
     'username'         => 'Username',
@@ -242,35 +244,37 @@ return [
         'url_exists'             => 'menu path duplication',
     ],
 
-    'extensions'    => [
+    'plugins'    => [
         'name_invalid'       => 'Name Invalid',
-        'exists'             => 'This extension already exists: ',
-        'menu'               => 'Extensions',
-        'page_title'         => 'Extensions',
+        'exists'             => 'This plugin already exists: ',
+        'menu'               => 'Plugins',
+        'page_title'         => 'Plugins',
         'create'             => 'Create',
         'install'            => 'Install',
-        'create_extension'   => 'Create Extension',
+        'create_plugin'   => 'Create Plugin',
         'create_tips'        => 'After the directory is created, a basic extended directory structure is created under the <br><b>:dir</b><br> directory',
         'local_install'      => 'Local Install',
-        'more_extensions'    => 'More Extensions',
+        'more_plugins'    => 'More Plugins',
         'setting'            => 'Setting',
         'enable'             => 'Enable',
-        'enable_confirm'     => 'Are you sure to enable the extension?',
+        'enable_confirm'     => 'Are you sure to enable the plugin?',
         'disable'            => 'Disable',
-        'disable_confirm'    => 'Are you sure to disable the extension?',
+        'disable_confirm'    => 'Are you sure to disable the plugin?',
         'uninstall'          => 'Uninstall',
         'uninstall_confirm'  => '
 <div class="text-danger">
-Confirm to uninstall the extension?<br>
-Uninstallation will delete all files and databases published after the extension is enabled and cannot be retrieved!!!<br>
+Confirm to uninstall the plugin?<br>
+Uninstallation will delete all files and databases published after the plugin is enabled and cannot be retrieved!!!<br>
 Backup important data before performing operations!!!<br>
-<span class="text-info">Extension package files will not be deleted, please manually delete them!!!</span>
+<span class="text-info">Plugin package files will not be deleted, please manually delete them!!!</span>
 </div>
 ',
-        'filter_placeholder' => 'Search by extension name',
+        'filter_placeholder' => 'Search by plugin name',
         'form'               => [
-            'create_extension'   => 'Create Extension',
+            'create_plugin'   => 'Create Plugin',
+            'key'               => 'Unique Identifier',
             'name'               => 'Name',
+            'description'        => 'Description',
             'namespace'          => 'Namespace',
             'create_description' => 'It will be created in :dir Directory to create a basic extended directory structure',
         ],
@@ -286,7 +290,7 @@ Backup important data before performing operations!!!<br>
         ],
         'validation'         => [
             'file'            => 'Please select file',
-            'invalid_package' => 'Invalid extension package',
+            'invalid_package' => 'Invalid plugin package',
         ],
     ],
     'export'        => [

@@ -4,6 +4,7 @@ namespace warm\admin\model;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasTimestamps;
+use ReflectionClass;
 use warm\admin\support\apis\AdminBaseApi;
 use warm\common\model\BaseModel;
 
@@ -60,7 +61,7 @@ class AdminApi extends BaseModel
             if (!class_exists($this->template)) return '';
             
             // 检查模板类是否继承自AdminBaseApi
-            if (!(new \ReflectionClass($this->template))->isSubclassOf(AdminBaseApi::class)) return '';
+            if (!(new ReflectionClass($this->template))->isSubclassOf(AdminBaseApi::class)) return '';
 
             // 获取API实例
             $api = appw($this->template);
@@ -86,7 +87,7 @@ class AdminApi extends BaseModel
             if (!class_exists($this->template)) return '';
             
             // 检查模板类是否继承自AdminBaseApi
-            if (!(new \ReflectionClass($this->template))->isSubclassOf(AdminBaseApi::class)) return 'any';
+            if (!(new ReflectionClass($this->template))->isSubclassOf(AdminBaseApi::class)) return 'any';
 
             // 获取API方法
             $method = appw($this->template)->getMethod();

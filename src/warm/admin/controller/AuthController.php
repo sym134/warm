@@ -2,6 +2,7 @@
 
 namespace warm\admin\controller;
 
+use Exception;
 use support\Request;
 use support\Response;
 use warm\admin\Admin;
@@ -33,10 +34,10 @@ class AuthController extends AdminController
      * @param Request $request HTTP请求对象
      * @return Response 响应对象
      */
-    public function login(Request $request)
+    public function login(Request $request): Response
     {
         // 检查是否启用了验证码功能
-        if (Admin::config('app.auth.login_captcha')) {
+        if (Admin::warmConfig('app.auth.login_captcha')) {
             // 验证验证码是否填写
             if (!$request->post('captcha')) {
                 return $this->response()
@@ -86,7 +87,7 @@ class AuthController extends AdminController
             // 触发登录失败事件
             Event::emit('user.login', ['username' => $request->post('username'), 'status' => 2, 'message' => '登陆失败']);
             abort(400, translator('admin.login_failed'));
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $this->response()->fail($e->getMessage());
         }
     }
@@ -283,7 +284,7 @@ JS,
     public function currentUser(): Response
     {
         // 检查认证功能是否启用
-        if (!Admin::config('app.auth.enable')) {
+        if (!Admin::warmConfig('app.auth.enable')) {
             return $this->response()->success([]);
         }
 

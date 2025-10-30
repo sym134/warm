@@ -36,7 +36,7 @@ class AdminException extends \Exception
      * @param array $data 异常附带数据
      * @param int $doNotDisplayToast 是否不显示提示信息，0-显示，1-不显示
      */
-    public function __construct($message = "", $data = [], $doNotDisplayToast = 0)
+    public function __construct(string $message = "", $data = [], $doNotDisplayToast = 0)
     {
         parent::__construct($message);
 

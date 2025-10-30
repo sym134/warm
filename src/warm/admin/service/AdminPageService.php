@@ -40,7 +40,7 @@ class AdminPageService extends AdminService
      * @param string $primaryKey 主键值
      * @return void
      */
-    public function saving(&$data, $primaryKey = ''): void
+    public function saving(array &$data, $primaryKey = ''): void
     {
         $data['schema'] = data_get($data, 'page.schema');
         admin_abort_if(blank($data['schema']), translator('admin.pages.schema_cannot_be_empty'));
@@ -63,7 +63,7 @@ class AdminPageService extends AdminService
      * @param bool $isEdit 是否为编辑操作
      * @return void
      */
-    public function saved($model, $isEdit = false): void
+    public function saved(mixed $model, $isEdit = false): void
     {
         if ($isEdit) {
             cache()->delete($this->cacheKeyPrefix . $model->sign);
@@ -94,7 +94,7 @@ class AdminPageService extends AdminService
      * @param mixed $id 数据ID
      * @return Model|Collection|Builder|array|null 页面数据
      */
-    public function getEditData($id): Model|Collection|Builder|array|null
+    public function getEditData(mixed $id): Model|Collection|Builder|array|null
     {
         $data = parent::getEditData($id);
 

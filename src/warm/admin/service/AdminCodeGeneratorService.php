@@ -51,7 +51,7 @@ class AdminCodeGeneratorService extends AdminService
      * @param array $data 存储的数据
      * @return bool 是否存储成功
      */
-    public function store($data): bool
+    public function store(array $data): bool
     {
         amis_abort_if($this->query()->where('table_name', $data['table_name'])->exists(), translator('admin.code_generators.exists_table'));
 
@@ -67,7 +67,7 @@ class AdminCodeGeneratorService extends AdminService
      * @param array $data 更新的数据
      * @return bool 是否更新成功
      */
-    public function update($primaryKey, $data): bool
+    public function update(mixed $primaryKey, array $data): bool
     {
         $exists = $this->query()
             ->where('table_name', $data['table_name'])
@@ -87,7 +87,7 @@ class AdminCodeGeneratorService extends AdminService
      * @param array $data 原始数据
      * @return array 过滤后的数据
      */
-    public function filterData($data): array
+    public function filterData(array $data): array
     {
         admin_abort_if(
             !data_get($data, 'columns'),
@@ -139,12 +139,12 @@ class AdminCodeGeneratorService extends AdminService
      * 获取命名空间
      *
      * @param string $name 命名空间名称
-     * @param mixed $app 应用标识
+     * @param mixed|null $app 应用标识
      * @return string 命名空间路径
      */
-    public function getNamespace($name, $app = null): string
+    public function getNamespace(string $name, mixed $app = null): string
     {
-        $namespace = collect(explode('\\', Admin::config('app.route.namespace')));
+        $namespace = collect(explode('\\', Admin::warmConfig('app.route.namespace')));
 
         $namespace->pop();
 
@@ -196,5 +196,21 @@ class AdminCodeGeneratorService extends AdminService
             })
             ->values()
             ->toArray();
+    }
+
+    public function clone($data): void
+    {
+        $tableNameExists = $this->query()->where('table_name', $data['table_name'])->exists();
+
+        admin_abort_if($tableNameExists, translator('admin.code_generators.exists_table'));
+
+        $original = $this->query()->find($data['id']);
+
+        $new = $original->replicate();
+
+        $new->table_name = $data['table_name'];
+        $new->title      = $data['title'];
+
+        $new->save();
     }
 }

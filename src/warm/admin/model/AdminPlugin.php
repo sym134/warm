@@ -13,14 +13,14 @@ use warm\common\model\BaseModel;
  * 
  * 对应数据库表为 admin_extensions。
  */
-class Plugin extends BaseModel
+class AdminPlugin extends BaseModel
 {
     /**
      * 可以批量赋值的属性
      * 
      * @var array
      */
-    protected $fillable = ['name', 'is_enabled', 'options'];
+    protected $fillable = ['key', 'is_enabled', 'options'];
 
     /**
      * 需要进行类型转换的字段
@@ -38,5 +38,5 @@ class Plugin extends BaseModel
      * 
      * @var string
      */
-    protected $table = 'admin_extensions';
+    protected $table = 'admin_plugins';
 }

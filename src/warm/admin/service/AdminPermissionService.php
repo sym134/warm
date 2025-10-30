@@ -73,7 +73,7 @@ class AdminPermissionService extends AdminService
      * @param mixed $id 数据ID
      * @return Model|Collection|Builder|array|null 权限数据
      */
-    public function getEditData($id): Model|Collection|Builder|array|null
+    public function getEditData(mixed $id): Model|Collection|Builder|array|null
     {
         $permission = parent::getEditData($id);
 
@@ -88,7 +88,7 @@ class AdminPermissionService extends AdminService
      * @param array $data 存储的数据
      * @return bool 是否存储成功
      */
-    public function store($data): bool
+    public function store(array $data): bool
     {
         $this->checkRepeated($data);
 
@@ -106,7 +106,7 @@ class AdminPermissionService extends AdminService
      * @param array $data 更新的数据
      * @return bool 是否更新成功
      */
-    public function update($primaryKey, $data): bool
+    public function update(mixed $primaryKey, array $data): bool
     {
         $this->checkRepeated($data, $primaryKey);
 

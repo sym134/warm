@@ -33,7 +33,7 @@ class AdminApiController extends AdminController
     public function index(): Response
     {
         // 获取请求路径并去除管理前缀
-        $path = Str::of(request()->path())->replace(Admin::config('app.route.prefix'), '')->value();
+        $path = Str::of(request()->path())->replace(Admin::warmConfig('app.route.prefix'), '')->value();
         // 根据路径获取API记录
         $api  = $this->service->getApiByPath($path);
 

@@ -35,7 +35,7 @@ use Webman\Route;
 Route::get('/admin', fn() => Admin::view());
 
 // 后台路由组
-Route::group('/' . Admin::config('app.route.prefix'), function () {
+Route::group(Admin::warmConfig('app.route.prefix'), function () {
 
     // 认证相关路由
     Route::get('/login', [AuthController::class, 'loginPage']);
@@ -118,7 +118,7 @@ Route::group('/' . Admin::config('app.route.prefix'), function () {
     });
 
     // 开发者工具（仅在启用时加载）
-    if (Admin::config('app.show_development_tools')) {
+    if (Admin::warmConfig('app.show_development_tools')) {
         Route::group('/dev_tools', function () {
             // 代码生成器
             Route::resource('/code_generator', CodeGeneratorController::class);
@@ -126,6 +126,7 @@ Route::group('/' . Admin::config('app.route.prefix'), function () {
                 Route::post('/preview', [CodeGeneratorController::class, 'preview']);
                 Route::post('/generate', [CodeGeneratorController::class, 'generate']);
                 Route::post('/clear', [CodeGeneratorController::class, 'clear']);
+                Route::post('/clone', [CodeGeneratorController::class, 'clone']);
                 Route::post('/gen_record_options', [CodeGeneratorController::class, 'genRecordOptions']);
                 Route::post('/form_data', [CodeGeneratorController::class, 'formData']);
                 Route::post('/get_record', [CodeGeneratorController::class, 'getRecord']);
@@ -150,11 +151,11 @@ Route::group('/' . Admin::config('app.route.prefix'), function () {
             Route::resource('/plugin', PluginController::class);
             Route::group('/plugin', function () {
                 Route::post('/enable', [PluginController::class, 'enable']);
-                // Route::post('/install', [PluginController::class, 'install']);
-                // Route::post('/uninstall', [PluginController::class, 'uninstall']);
-                // Route::post('/get_config', [PluginController::class, 'getConfig']);
-                // Route::post('/save_config', [PluginController::class, 'saveConfig']);
-                // Route::post('/config_form', [PluginController::class, 'configForm']);
+                Route::post('/install', [PluginController::class, 'install']);
+                Route::post('/uninstall', [PluginController::class, 'uninstall']);
+                Route::post('/get_config', [PluginController::class, 'getConfig']);
+                Route::post('/save_config', [PluginController::class, 'saveConfig']);
+                Route::post('/config_form', [PluginController::class, 'configForm']);
             });
 
             // 可视化编辑器

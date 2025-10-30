@@ -24,14 +24,14 @@ class AppPluginCreateCommand extends Command
      * 
      * @var string
      */
-    protected static string $defaultName = 'cms-plugin:create';
+    protected static string $defaultName = 'warm-plugin:create';
     
     /**
      * 命令描述
      * 
      * @var string
      */
-    protected static string $defaultDescription = 'App Plugin Create';
+    protected static string $defaultDescription = 'warm Plugin Create';
 
     /**
      * 配置命令参数
@@ -43,6 +43,8 @@ class AppPluginCreateCommand extends Command
     protected function configure(): void
     {
         $this->addArgument('name', InputArgument::REQUIRED, 'App plugin name');
+        $this->addArgument('alias', InputArgument::OPTIONAL, 'Alias for the plugin', '');
+        $this->addArgument('authorName', InputArgument::OPTIONAL, 'Author name for the plugin', '');
     }
 
     /**
@@ -57,7 +59,9 @@ class AppPluginCreateCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $name = $input->getArgument('name');
-        $output->writeln("Create App Plugin $name");
+        $authorName = $input->getArgument('authorName');
+        $alias = $input->getArgument('alias');
+        $output->writeln("Create App AdminPlugin $name");
 
         if (str_contains($name, '/')) {
             $output->writeln('<error>Bad name, name must not contain character \'/\'</error>');
@@ -70,7 +74,7 @@ class AppPluginCreateCommand extends Command
             return self::FAILURE;
         }
 
-        $this->createAll($name);
+        $this->createAll($name, $authorName, $alias);
 
         return self::SUCCESS;
     }
@@ -82,22 +86,30 @@ class AppPluginCreateCommand extends Command
      * 包括控制器、模型、中间件、视图、配置等目录及文件
      * 
      * @param string $name 插件名称
+     * @param string $authorName 作者名称
+     * @param string $alias 插件别名
      * @return void
      */
-    protected function createAll($name): void
+    protected function createAll(string $name, string $authorName = '', string $alias = ''): void
     {
         $base_path = base_path();
         $this->mkdir("$base_path/plugin/$name/app/controller", 0777, true);
         $this->mkdir("$base_path/plugin/$name/app/model", 0777, true);
         $this->mkdir("$base_path/plugin/$name/app/middleware", 0777, true);
         $this->mkdir("$base_path/plugin/$name/app/view/index", 0777, true);
+        // 新增功能：创建服务类目录
+        $this->mkdir("$base_path/plugin/$name/app/service", 0777, true);
         $this->mkdir("$base_path/plugin/$name/config", 0777, true);
         $this->mkdir("$base_path/plugin/$name/public", 0777, true);
         $this->mkdir("$base_path/plugin/$name/api", 0777, true);
+        // 新增功能：创建资源语言包目录
+        $this->mkdir("$base_path/plugin/$name/resource/translations", 0777, true);
         $this->createFunctionsFile("$base_path/plugin/$name/app/functions.php");
         $this->createControllerFile("$base_path/plugin/$name/app/controller/IndexController.php", $name);
         $this->createViewFile("$base_path/plugin/$name/app/view/index/index.html");
-        $this->createConfigFiles("$base_path/plugin/$name/config", $name);
+        // 新增功能：创建插件服务类文件
+        $this->createServiceFile("$base_path/plugin/$name/app/service/" . ucfirst($name) . "Service.php", $name);
+        $this->createConfigFiles("$base_path/plugin/$name/config", $name, $authorName, $alias);
         $this->createApiFiles("$base_path/plugin/$name/api", $name);
         $this->createInstallSqlFile("$base_path/plugin/$name/install.sql");
     }
@@ -135,7 +147,10 @@ class AppPluginCreateCommand extends Command
 
 namespace plugin\\$name\\app\\controller;
 
-use support\use;use warm\admin\controller\AdminController;use warm\admin\service\AdminApiService; support\Response;
+use support\Request;
+use warm\admin\controller\AdminController;
+use warm\admin\service\AdminApiService;
+use support\Response;
 
 class IndexController  extends AdminController
 {
@@ -152,6 +167,34 @@ class IndexController  extends AdminController
 EOF;
         file_put_contents($path, $content);
 
+    }
+
+    /**
+     * 创建服务类文件 新增功能
+     * 
+     * 创建插件的服务类文件，继承PluginService
+     * 
+     * @param string $path 服务类文件路径
+     * @param string $name 插件名称
+     * @return void
+     */
+    protected function createServiceFile(string $path, string $name): void
+    {
+        $className = ucfirst($name) . 'Service';
+        $content = <<<EOF
+<?php
+
+namespace plugin\\$name\\app\\service;
+
+use warm\admin\plugin\PluginService;
+
+class $className extends PluginService
+{
+    // 在这里添加插件特有的服务方法
+}
+
+EOF;
+        file_put_contents($path, $content);
     }
 
     /**
@@ -425,9 +468,11 @@ EOF;
      * 
      * @param string $base 配置目录路径
      * @param string $name 插件名称
+     * @param string $authorName 作者名称
+     * @param string $alias 插件别名
      * @return void
      */
-    protected function createConfigFiles($base, $name): void
+    protected function createConfigFiles($base, $name, $authorName = '', $alias = ''): void
     {
         // app.php
         $content = <<<EOF
@@ -436,12 +481,32 @@ EOF;
 use support\\Request;
 
 return [
+    'enable' => false,
+    // 是否开启调试模式
     'debug' => true,
+    // 控制器后缀
     'controller_suffix' => 'Controller',
+    // 控制器是否复用:false=每次重新创建控制器实例,true=复用控制器实例
     'controller_reuse' => false,
+    // 插件版本号
     'version' => '1.0.0',
+    // 插件描述信息
+    'description'=>'插件描述信息',
+    // 插件主页地址
+    'homepage'=>'',
+    // 插件唯一标识符
+    'key' => '$name',
+     // 插件名称
+    'name' => '$alias',
+    // 插件Logo图标
+    'logo' => '',
+    // 文档
+    'doc' => '这是一个插件',
+    // 插件作者信息
     'authors'           => [
-        'name'  => '',
+        // 作者姓名
+        'name'  => '$authorName',
+        // 作者邮箱
         'email' => '',
     ],
 ];
@@ -528,7 +593,10 @@ EOF;
 <?php
 
 return [
-        '' => \warm\admin\Admin::middleware(),
+    // 为管理后台路由配置系统中间件
+    warm\admin\Admin::warmConfig('app.route.prefix') => \warm\admin\Admin::middleware(),
+    // 为所有路由配置插件启用状态检查中间件
+    '' => [warm\admin\middleware\CheckPluginEnabled::class]
 ];
 
 EOF;
@@ -621,5 +689,4 @@ EOF;
         file_put_contents("$base/thinkorm.php", $content);
 
     }
-
 }

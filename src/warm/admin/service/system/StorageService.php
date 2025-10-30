@@ -75,7 +75,7 @@ class StorageService extends AdminService
      */
     public function saveConfig(array $data): bool
     {
-        return warmConfig()->set('filesystems', array_merge($this->config, $data));
+        return systemConfig()->set('filesystems', array_merge($this->config, $data));
     }
 
     /**
@@ -84,8 +84,8 @@ class StorageService extends AdminService
      * @param mixed $id 数据ID
      * @return Model|Collection|Builder|array|null 编辑数据
      */
-    public function getEditData($id): Model|Collection|Builder|array|null
+    public function getEditData(mixed $id): Model|Collection|Builder|array|null
     {
-        return array_merge($this->config, warmConfig()->get('filesystems', []));
+        return array_merge($this->config, systemConfig()->get('filesystems', []));
     }
 }

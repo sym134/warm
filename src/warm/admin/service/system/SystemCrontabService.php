@@ -32,7 +32,7 @@ class SystemCrontabService extends AdminService
      * @return bool 是否存储成功
      * @throws \Exception
      */
-    public function store($data): bool
+    public function store(array $data): bool
     {
         $data['rule'] = $this->generateCrontabExpression($data['execution_cycle'], $data['second'], $data['minute'], $data['hour'], $data['day'], '*', $data['week']);
         $data['created_by'] = $this->request->user->id;
@@ -47,7 +47,7 @@ class SystemCrontabService extends AdminService
      * @param array $data 更新的数据
      * @return bool 是否更新成功
      */
-    public function update($primaryKey, $data): bool
+    public function update(mixed $primaryKey, array $data): bool
     {
         $data['rule'] = $this->generateCrontabExpression($data['execution_cycle'], $data['second'], $data['minute'], $data['hour'], $data['day'], '*', $data['week']);
         $data['created_by'] = $this->request->user->id;

@@ -440,7 +440,6 @@ class StorageService extends BaseService
      */
     public static function url(string $path = ''): string
     {
-        $domain = rtrim(Storage::getConfig()['domain'] ?? '', '/');
-        return $domain . '/' . ltrim($path, '/');
+        return Storage::url($path);
     }
 }

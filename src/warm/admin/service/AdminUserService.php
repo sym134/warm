@@ -38,7 +38,7 @@ class AdminUserService extends AdminService
      * @param mixed $id 数据ID
      * @return Model|Collection|Builder|array|null 用户数据
      */
-    public function getEditData($id): Model|Collection|Builder|array|null
+    public function getEditData(mixed $id): Model|Collection|Builder|array|null
     {
         $adminUser = parent::getEditData($id)->makeHidden('password');
 
@@ -53,7 +53,7 @@ class AdminUserService extends AdminService
      * @param array $data 存储的数据
      * @return bool 是否存储成功
      */
-    public function store($data): bool
+    public function store(array $data): bool
     {
         $this->checkUsernameUnique($data['username']);
 
@@ -75,7 +75,7 @@ class AdminUserService extends AdminService
      * @param array $data 更新的数据
      * @return bool 是否更新成功
      */
-    public function update($primaryKey, $data): bool
+    public function update(mixed $primaryKey, array $data): bool
     {
         $this->checkUsernameUnique($data['username'], $primaryKey);
         $this->passwordHandler($data);

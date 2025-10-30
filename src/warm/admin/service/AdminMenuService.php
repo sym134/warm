@@ -77,7 +77,7 @@ class AdminMenuService extends AdminService
      * @param array $data 更新的数据
      * @return bool 是否更新成功
      */
-    public function update($primaryKey, $data): bool
+    public function update(mixed $primaryKey, array $data): bool
     {
         $columns = $this->getTableColumns();
 
@@ -99,7 +99,7 @@ class AdminMenuService extends AdminService
      * @param array $data 存储的数据
      * @return bool 是否存储成功
      */
-    public function store($data): bool
+    public function store(array $data): bool
     {
         $columns = $this->getTableColumns();
         $model = $this->getModel();

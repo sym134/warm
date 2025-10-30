@@ -2,6 +2,8 @@
 
 return [
     'remember_me'      => '记住我',
+    'https_is_not_enabled'      => '未启用HTTPS',
+    'disabled_plugin'      => '已禁用插件',
     'login'            => '登 录',
     'logout'           => '退出登录',
     'username'         => '用户名',
@@ -242,37 +244,39 @@ return [
         'url_exists'             => '菜单路径重复',
     ],
 
-    'extensions'    => [
-        'name_invalid'       => '无效的扩展名称',
-        'exists'             => '该扩展已存在：',
-        'menu'               => '扩展',
-        'page_title'         => '扩展',
+    'plugins'    => [
+        'name_invalid'       => '无效的插件名称',
+        'exists'             => '该插件已存在：',
+        'menu'               => '插件',
+        'page_title'         => '插件',
         'create'             => '创建',
         'install'            => '安装',
-        'create_extension'   => '创建扩展',
-        'create_tips'        => '创建成功后会在<br><b>:dir</b><br>目录下创建基础的扩展目录结构',
+        'create_plugin'   => '创建插件',
+        'create_tips'        => '创建成功后会在<br><b>:dir</b><br>目录下创建基础的插件目录结构',
         'local_install'      => '本地安装',
-        'more_extensions'    => '更多扩展',
+        'more_plugins'    => '更多插件',
         'setting'            => '设置',
         'enable'             => '启用',
-        'enable_confirm'     => '确定要启用该扩展吗？',
+        'enable_confirm'     => '确定要启用该插件吗？',
         'disable'            => '禁用',
-        'disable_confirm'    => '确定要禁用该扩展吗？',
+        'disable_confirm'    => '确定要禁用该插件吗？',
         'uninstall'          => '卸载',
         'uninstall_confirm'  => '
 <div class="text-danger">
-确认卸载该扩展?<br>
-卸载将会删除启用扩展后发布的所有文件及数据库, 且不可找回!!!<br>
+确认卸载该插件?<br>
+卸载将会删除启用插件后发布的所有文件及数据库, 且不可找回!!!<br>
 如有重要数据请备份后再操作!!!<br>
-<span class="text-info">扩展包文件将不会被删除, 请手动删除!!!</span>
+<span class="text-info">插件包文件将不会被删除, 请手动删除!!!</span>
 </div>
 ',
-        'filter_placeholder' => '输入扩展名称',
+        'filter_placeholder' => '输入插件名称',
         'form'               => [
-            'create_extension'   => '创建扩展',
+            'create_plugin'   => '创建插件',
+            'key'               => '唯一标识',
             'name'               => '名称',
+            'description'        => '描述',
             'namespace'          => '命名空间',
-            'create_description' => '创建成功后会在 :dir 目录下创建基础的扩展目录结构',
+            'create_description' => '创建成功后会在 :dir 目录下创建基础的插件目录结构',
         ],
         'card'               => [
             'author'   => '作者',
@@ -286,7 +290,7 @@ return [
         ],
         'validation'         => [
             'file'            => '请选择文件',
-            'invalid_package' => '无效的扩展包',
+            'invalid_package' => '无效的插件包',
         ],
     ],
     'export'        => [
@@ -296,7 +300,7 @@ return [
         'selected_rows'                => '选中行',
         'page_no_data'                 => '本页无数据',
         'selected_rows_no_data'        => '请选择要导出的数据',
-        'please_install_laravel_excel' => '请先安装 rap2hpoutre/fast-excel 扩展',
+        'please_install_laravel_excel' => '请先安装 rap2hpoutre/fast-excel 插件',
     ],
     'pages'         => [
         'menu'                   => '页面管理',

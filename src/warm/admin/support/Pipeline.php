@@ -24,7 +24,7 @@ class Pipeline extends \Illuminate\Pipeline\Pipeline
      * @param mixed $passable 需要通过管道处理的初始值
      * @return Pipeline 管道实例
      */
-    public static function handle($passable): Pipeline
+    public static function handle(mixed $passable): Pipeline
     {
         return appw(self::class)->send($passable);
     }

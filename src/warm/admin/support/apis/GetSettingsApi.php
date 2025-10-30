@@ -37,9 +37,9 @@ class GetSettingsApi extends AdminBaseApi
     public function handle(): Response
     {
         $data = match ($this->getArgs('mode')) {
-            'all'  => warmConfig()->all(),
-            'part' => collect(warmConfig()->all())->filter(fn($_, $k) => in_array($k, $this->getArgs('keys')))->toArray(),
-            'one'  => warmConfig()->get($this->getArgs('key')),
+            'all'  => systemConfig()->all(),
+            'part' => collect(systemConfig()->all())->filter(fn($_, $k) => in_array($k, $this->getArgs('keys')))->toArray(),
+            'one'  => systemConfig()->get($this->getArgs('key')),
         };
         return Admin::response()->success($data);
     }
@@ -51,7 +51,7 @@ class GetSettingsApi extends AdminBaseApi
      */
     public function argsSchema(): array
     {
-        $allKeys = collect(warmConfig()->all())->keys()->map(fn($i) => [
+        $allKeys = collect(systemConfig()->all())->keys()->map(fn($i) => [
             'value' => $i,
             'label' => $i,
         ])->toArray();

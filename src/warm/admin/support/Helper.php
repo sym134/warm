@@ -2,10 +2,14 @@
 
 namespace warm\admin\support;
 
-use Illuminate\Support\Str;
+use app\process\Monitor;
+use Closure;
 use Symfony\Component\Process\Process;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Support\Arrayable;
+use Throwable;
+use Workerman\Timer;
+use Workerman\Worker;
 
 /**
  * 助手工具类
@@ -36,7 +40,7 @@ class Helper
      * @param bool $filter 是否过滤空值，默认为true
      * @return array 转换后的数组
      */
-    public static function array($value, bool $filter = true): array
+    public static function array(mixed $value, bool $filter = true): array
     {
         // 处理空值情况
         if ($value === null || $value === '' || $value === []) {
@@ -44,7 +48,7 @@ class Helper
         }
 
         // 如果是闭包，则执行获取结果
-        if ($value instanceof \Closure) {
+        if ($value instanceof Closure) {
             $value = $value();
         }
 
@@ -64,7 +68,7 @@ class Helper
             try {
                 // 尝试JSON解析
                 $array = json_decode($value, true);
-            } catch (\Throwable $e) {
+            } catch (Throwable $e) {
                 // 解析失败则忽略异常
             }
 
@@ -113,7 +117,7 @@ class Helper
      * @param null $cwd 工作目录
      * @return Process 进程对象
      */
-    public static function process($command, $timeout = 100, $input = null, $cwd = null): Process
+    public static function process(mixed $command, int $timeout = 100, $input = null, $cwd = null): Process
     {
         // 构造参数数组
         $parameters = [
@@ -142,7 +146,7 @@ class Helper
      * @param mixed $value2 第二个值
      * @return bool 是否相等
      */
-    public static function equal($value1, $value2): bool
+    public static function equal(mixed $value1, mixed $value2): bool
     {
         // 如果任一值为null，则不相等
         if ($value1 === null || $value2 === null) {
@@ -166,7 +170,7 @@ class Helper
      * @param string $name 完整路径
      * @return mixed 文件名
      */
-    public static function basename($name): mixed
+    public static function basename(string $name): mixed
     {
         // 如果名称为空，直接返回
         if (!$name) {
@@ -178,68 +182,53 @@ class Helper
     }
 
     /**
-     * 获取类名或对象的文件路径
+     * 重新加载webman服务
      * 
-     * 根据类名或对象推断其对应的文件路径
+     * 通过发送信号或定时器方式重新加载webman服务，
+     * 使新的配置或代码生效而无需完全重启服务
      * 
-     * @param string|object $class 类名或对象
-     * @return string 文件路径
+     * @return bool 是否成功发送重新加载信号
      */
-    public static function guessClassFileName($class): string
+    public static function reloadWebman(): bool
     {
-        // 如果是对象，则获取类名
-        if (is_object($class)) {
-            $class = get_class($class);
-        }
-
-        try {
-            // 如果类存在，则通过反射获取文件路径
-            if (class_exists($class)) {
-                return (new \ReflectionClass($class))->getFileName();
-            }
-        } catch (\Throwable $e) {
-            // 忽略反射异常
-        }
-
-        // 清理类名
-        $class = trim($class, '\\');
-
-        // 解析composer.json获取PSR-4自动加载配置
-        $composer = Composer::parse(base_path('composer.json'));
-
-        // 构建命名空间到路径的映射
-        $map = collect($composer->autoload['psr-4'] ?? [])->mapWithKeys(function ($path, $namespace) {
-            $namespace = trim($namespace, '\\') . '\\';
-
-            return [$namespace => [$namespace, $path]];
-        })->sortBy(function ($_, $namespace) {
-            return strlen($namespace);
-        }, SORT_REGULAR, true);
-
-        // 获取第一个命名空间部分
-        $prefix = explode($class, '\\')[0];
-
-        // 如果映射为空且类名以App\开头，则使用默认映射
-        if ($map->isEmpty()) {
-            if (Str::startsWith($class, 'App\\')) {
-                $values = ['App\\', 'app/'];
-            }
+        if (function_exists('posix_kill')) {
+            try {
+                posix_kill(posix_getppid(), SIGUSR1);
+                return true;
+            } catch (Throwable $e) {}
         } else {
-            // 从映射中查找匹配的命名空间
-            $values = $map->filter(function ($_, $k) use ($class) {
-                return Str::startsWith($class, $k);
-            })->first();
+            Timer::add(1, function () {
+                Worker::stopAll();
+            });
         }
+        return false;
+    }
 
-        // 如果未找到匹配的映射，则使用默认值
-        if (empty($values)) {
-            $values = [$prefix . '\\', self::slug($prefix) . '/'];
+    /**
+     * 暂停文件监控
+     * 
+     * 暂停对文件变化的监控，通常在执行某些操作时避免不必要的文件监听触发
+     * 
+     * @return void
+     */
+    public static function pauseFileMonitor(): void
+    {
+        if (method_exists(Monitor::class, 'pause')) {
+            Monitor::pause();
         }
+    }
 
-        // 提取命名空间和路径
-        [$namespace, $path] = $values;
-
-        // 构造并返回文件路径
-        return base_path(str_replace([$namespace, '\\'], [$path, '/'], $class)) . '.php';
+    /**
+     * 恢复文件监控
+     * 
+     * 恢复对文件变化的监控，在暂停操作完成后重新启用文件监听功能
+     * 
+     * @return void
+     */
+    public static function resumeFileMonitor(): void
+    {
+        if (method_exists(Monitor::class, 'resume')) {
+            Monitor::resume();
+        }
     }
 }

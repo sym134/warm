@@ -24,7 +24,7 @@ class Cache
     private static string $prefix = 'jizhi_warm_';
 
     /**
-     * 获取缓存值，如果不存在则执行回调并存储
+     * 获取缓存值，如果不存在则执行回调并永久存储
      * 
      * @param string $key 缓存键
      * @param Closure $callback 回调函数，用于生成缓存值
@@ -32,11 +32,16 @@ class Cache
      */
     public static function rememberForever($key, Closure $callback)
     {
-        $value = $callback($key);
-        if (symfonyCache::set($key, $value)) {
+        $value = self::get($key);
+        if (!is_null($value)) {
             return $value;
         }
-        return null;
+
+        $value = $callback();
+
+        self::forever($key, $value);
+
+        return $value;
     }
 
     /**
@@ -111,10 +116,10 @@ class Cache
      * 永久存储缓存值
      * 
      * @param string $key 缓存键
-     * @param bool $value 缓存值
+     * @param mixed $value 缓存值
      * @return bool 存储是否成功
      */
-    public static function forever($key, bool $value): bool
+    public static function forever($key, $value): mixed
     {
         return SymfonyCache::set(self::getKey($key), $value);
     }
@@ -137,13 +142,19 @@ class Cache
 
     /**
      * 获取缓存值
-     * 
-     * @param string $key 缓存键
-     * @return mixed 缓存值
+     * @param $key
+     * @param $default
+     * @return mixed
      */
-    public static function get($key)
+    public static function get($key, $default = null): mixed
     {
-        return SymfonyCache::get(self::getKey($key));
+        return SymfonyCache::get(self::getKey($key),$default);
+    }
+
+
+    public static function clear(): bool
+    {
+        return SymfonyCache::clear();
     }
 
     /**

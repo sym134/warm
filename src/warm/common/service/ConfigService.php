@@ -4,35 +4,43 @@ namespace warm\common\service;
 
 use ArrayAccess;
 use Exception;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
-use support\Cache;
 use support\Db as DB;
-use support\Response;
-use warm\admin\Admin;
-use warm\admin\service\AdminService;
 use warm\common\model\SystemConfig;
+use warm\framework\support\facade\Cache;
 
 /**
- * 配置服务类
+ * 通用配置服务类
  * 
- * 提供系统配置项的管理功能，包括设置、获取、删除配置项等操作
+ * 提供配置项管理的通用功能，包括设置、获取、删除配置项等操作
  * 支持单个和批量配置操作，以及缓存管理
  */
-class ConfigService extends AdminService
+class ConfigService
 {
     /**
      * 模型名称
      * 
      * @var string
      */
-    protected string $modelName = SystemConfig::class;
+    protected static string $modelName = SystemConfig::class;
 
     /**
      * 缓存键前缀
      * 
      * @var string
      */
-    protected string $cacheKeyPrefix = 'app_config_';
+    protected static string $cacheKeyPrefix = 'system_config_';
+
+    /**
+     * 获取模型查询构造器
+     *
+     * @return Builder 模型查询构造器
+     */
+    protected static function query(): Builder
+    {
+        return static::$modelName::query();
+    }
 
     /**
      * 保存设置
@@ -40,19 +48,18 @@ class ConfigService extends AdminService
      * 保存单个配置项，如果配置项不存在则创建，存在则更新
      *
      * @param string $key 配置项键名
-     * @param mixed $value 配置项值
+     * @param mixed|null $value 配置项值
      * @return bool 保存是否成功
      */
-    public function set($key, $value = null): bool
+    public static function set(string $key, mixed $value = null): bool
     {
         try {
-            $setting = $this->query()->firstOrNew(['key' => $key]);
+            $setting = static::query()->firstOrNew(['key' => $key]);
 
             $setting->values = $value;
-            $this->clearCache($key);
+            static::clearCache($key);
             return $setting->save();
         } catch (Exception $e) {
-            amis_abort($e->getMessage());
             return false;
         }
     }
@@ -65,43 +72,22 @@ class ConfigService extends AdminService
      * @param array $data 配置项键值对数组
      * @return bool 保存是否成功
      */
-    public function setMany(array $data): bool
+    public static function setMany(array $data): bool
     {
         DB::beginTransaction();
         try {
             foreach ($data as $key => $value) {
-                if (!$this->set($key, $value)) {
-                    throw new Exception($this->getError());
+                if (!static::set($key, $value)) {
+                    throw new Exception('保存配置项失败: ' . $key);
                 }
             }
 
             DB::commit();
+            return true;
         } catch (Exception $e) {
             DB::rollBack();
-
-            amis_abort($e->getMessage());
+            return false;
         }
-
-        return true;
-    }
-
-    /**
-     * 批量保存设置项并返回后台响应格式数据
-     *
-     * 批量保存配置项并返回标准的后台响应格式
-     *
-     * @param array $data 配置项键值对数组
-     * @return Response 响应对象
-     */
-    public function adminSetMany(array $data): Response
-    {
-        $prefix = translator('admin.save');
-
-        if ($this->setMany($data)) {
-            return Admin::response()->successMessage($prefix . translator('admin.successfully'));
-        }
-
-        return Admin::response()->fail($prefix . translator('admin.failed'), $this->getError());
     }
 
     /**
@@ -111,9 +97,9 @@ class ConfigService extends AdminService
      *
      * @return array 所有配置项
      */
-    public function all(): array
+    public static function all(): array
     {
-        return $this->query()->pluck('values', 'key')->toArray();
+        return static::query()->pluck('values', 'key')->toArray();
     }
 
     /**
@@ -126,14 +112,14 @@ class ConfigService extends AdminService
      * @param bool $fresh 是否直接从数据库获取
      * @return mixed|null 配置项值
      */
-    public function get(string $key, mixed $default = null, bool $fresh = false): mixed
+    public static function get(string $key, mixed $default = null, bool $fresh = false): mixed
     {
         if ($fresh) {
-            return $this->query()->where('key', $key)->value('values') ?? $default;
+            return static::query()->where('key', $key)->value('values') ?? $default;
         }
 
-        $value = cache()->rememberForever($this->getCacheKey($key), function () use ($key) {
-            return $this->query()->where('key', $key)->value('values');
+        $value = Cache::rememberForever(static::getCacheKey($key), function () use ($key) {
+            return static::query()->where('key', $key)->value('values');
         });
 
         return $value ?? $default;
@@ -146,12 +132,12 @@ class ConfigService extends AdminService
      *
      * @param string $key 设置项key
      * @param string $path 通过点号分隔的路径, 同Arr::get()
-     * @param mixed $default 默认值
+     * @param mixed|null $default 默认值
      * @return array|ArrayAccess|mixed|null 配置项中的值
      */
-    public function arrayGet(string $key, string $path, $default = null): mixed
+    public static function arrayGet(string $key, string $path, mixed $default = null): mixed
     {
-        $value = $this->get($key);
+        $value = static::get($key);
 
         if (is_array($value)) {
             return Arr::get($value, $path, $default);
@@ -168,11 +154,10 @@ class ConfigService extends AdminService
      * @param string $key 配置项键名
      * @return bool 删除是否成功
      */
-    public function del(string $key): bool
+    public static function del(string $key): bool
     {
-        if ($this->query()->where('key', $key)->delete()) {
-            $this->clearCache($key);
-
+        if (static::query()->where('key', $key)->delete()) {
+            static::clearCache($key);
             return true;
         }
 
@@ -187,9 +172,9 @@ class ConfigService extends AdminService
      * @param string $key 配置项键名
      * @return void
      */
-    public function clearCache($key): void
+    public static function clearCache(string $key): void
     {
-        Cache::delete($this->getCacheKey($key));
+        Cache::delete(static::getCacheKey($key));
     }
 
     /**
@@ -200,8 +185,8 @@ class ConfigService extends AdminService
      * @param string $key 配置项键名
      * @return string 缓存键名
      */
-    public function getCacheKey($key): string
+    public static function getCacheKey(string $key): string
     {
-        return $this->cacheKeyPrefix . $key;
+        return static::$cacheKeyPrefix . $key;
     }
 }

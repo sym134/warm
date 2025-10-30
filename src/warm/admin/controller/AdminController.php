@@ -30,11 +30,22 @@ abstract class AdminController
     use QueryPathTrait;
     use CheckActionTrait;
 
+    /**
+     * 定义不需要登录的方法
+     */
+    protected array $noNeedLogin = [];
+
+    /**
+     * 定义不需要权限验证的方法（但仍需要登录）
+     */
+    protected array $noNeedAuth = [];
+
+
     /** 
      * @var object 服务类实例
      * 用于处理业务逻辑的对象，通过serviceName指定的服务类创建
      */
-    protected $service;
+    protected object $service;
 
     /** 
      * @var string $serviceName 服务类名称 
@@ -78,7 +89,7 @@ abstract class AdminController
         }
 
         // 获取管理后台路由前缀配置
-        $this->adminPrefix = Admin::config('app.route.prefix');
+        $this->adminPrefix = Admin::warmConfig('app.route.prefix');
 
         // 计算当前查询路径（去除前缀部分）
         $this->queryPath = str_replace($this->adminPrefix . '/', '', request()->path());

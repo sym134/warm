@@ -40,12 +40,12 @@ class Menu
      */
     public function userMenus()
     {
-        if (!Admin::config('app.auth.enable')) {
+        if (!Admin::warmConfig('app.auth.enable')) {
             return collect([]);
         }
 
         $user = Admin::user();
-        if ($user->isAdministrator() || Admin::config('app.auth.permission') === false) {
+        if ($user->isAdministrator() || Admin::warmConfig('app.auth.permission') === false) {
             $list = AdminMenuService::make()->query()->orderBy('order')->get();
         } else {
             $user->load('roles.permissions.menus');
@@ -109,7 +109,7 @@ class Menu
                 }
 
                 $data[] = $_temp;
-                if (!in_array($_temp['path'], Admin::config('app.route.without_extra_routes')) && $item['url_type'] != Admin::adminMenuModel()::TYPE_PAGE) {
+                if (!in_array($_temp['path'], Admin::warmConfig('app.route.without_extra_routes')) && $item['url_type'] != Admin::adminMenuModel()::TYPE_PAGE) {
                     array_push($data, ...$this->generateRoute($_temp));
                 }
                 unset($list[$key]);
@@ -194,7 +194,7 @@ class Menu
     {
         $extraMenus = [];
 
-        if (Admin::config('app.auth.enable')) {
+        if (Admin::warmConfig('app.auth.enable')) {
             $extraMenus[] = [
                 'name'      => 'user_setting',
                 'path'      => '/user_setting',
@@ -208,7 +208,7 @@ class Menu
             ];
         }
 
-        if (Admin::config('app.show_development_tools')) {
+        if (Admin::warmConfig('app.show_development_tools')) {
             $extraMenus = array_merge($extraMenus, $this->devToolMenus());
         }
 
@@ -237,7 +237,7 @@ class Menu
                         'path'      => '/dev_tools/plugin',
                         'component' => 'amis',
                         'meta'      => [
-                            'title' => translator('admin.extensions.menu'),
+                            'title' => translator('admin.plugins.menu'),
                             'icon'  => 'ion:extension-puzzle-outline',
                         ],
                     ],

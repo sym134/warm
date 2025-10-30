@@ -38,7 +38,7 @@ class SmsConfigService extends AdminService
      */
     public function get(): array
     {
-        $data = warmConfig()->get(self::$key, [
+        $data = systemConfig()->get(self::$key, [
             ['type' => 'aliyun', 'name' => '阿里云', 'access_key_id' => '', 'access_key_secret' => '', 'sign_name' => '', 'enable' => 0],
             [
                 'type' => 'qcloud',
@@ -63,7 +63,7 @@ class SmsConfigService extends AdminService
      * @param mixed $id 数据ID
      * @return array 编辑数据
      */
-    public function getEditData($id): array
+    public function getEditData(mixed $id): array
     {
         $data = array_column($this->get(), null, 'type');
         return $data[$id] ?? [];
@@ -76,9 +76,9 @@ class SmsConfigService extends AdminService
      * @param array $data 更新的数据
      * @return bool 是否更新成功
      */
-    public function update($primaryKey, $data): bool
+    public function update(mixed $primaryKey, array $data): bool
     {
-        return warmConfig()->set(self::$key, array_map(function ($val) use ($primaryKey, $data) {
+        return systemConfig()->set(self::$key, array_map(function ($val) use ($primaryKey, $data) {
             ;
             if ($val['type'] == $primaryKey) {
                 return $data;
@@ -101,7 +101,7 @@ class SmsConfigService extends AdminService
                 unset($data[$key]);
             }
         }
-        return warmConfig()->set(self::$key, array_values($data));
+        return systemConfig()->set(self::$key, array_values($data));
     }
 
     /**
@@ -110,7 +110,7 @@ class SmsConfigService extends AdminService
      * @param array $data 存储的数据
      * @return bool 是否存储成功
      */
-    public function store($data): bool
+    public function store(array $data): bool
     {
         $get = $this->get();
         $get[] = $data;
@@ -120,7 +120,7 @@ class SmsConfigService extends AdminService
                 return false;
             }
         }
-        return warmConfig()->set(self::$key, $get);
+        return systemConfig()->set(self::$key, $get);
     }
 
     /**

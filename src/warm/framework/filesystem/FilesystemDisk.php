@@ -3,6 +3,7 @@
 namespace warm\framework\filesystem;
 
 use League\Flysystem\FilesystemOperator;
+use RuntimeException;
 
 /**
  * 文件系统磁盘类
@@ -51,6 +52,23 @@ class FilesystemDisk
     }
 
     /**
+     * 获取文件的公开URL
+     * 
+     * @param string $path 文件路径
+     * @return string 文件的公开访问URL
+     */
+    public function publicUrl(string $path): string
+    {
+        // 检查文件系统是否支持publicUrl方法
+        if (method_exists($this->filesystem, 'publicUrl')) {
+            return $this->filesystem->publicUrl($path, $this->config);
+        }
+        
+        // 如果不支持，则抛出异常
+        throw new RuntimeException("Current filesystem driver does not support publicUrl method.");
+    }
+
+    /**
      * 魔术方法：方法调用转发
      * 
      * 将对当前对象的方法调用转发给内部的文件系统实例处理
@@ -59,7 +77,7 @@ class FilesystemDisk
      * @param array $parameters 方法参数
      * @return mixed 方法调用结果
      */
-    public function __call($method, $parameters)
+    public function __call(string $method, array $parameters)
     {
         return $this->filesystem->$method(...$parameters);
     }

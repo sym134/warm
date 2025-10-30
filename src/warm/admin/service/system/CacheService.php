@@ -24,7 +24,7 @@ class CacheService
     {
         foreach ($data as $key => $val) {
             if ($key === 'storage' && $val === 1) {
-                warmConfig()->clearCache('storage');
+                systemConfig()->clearCache('storage');
             }
         }
     }

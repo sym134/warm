@@ -217,7 +217,7 @@ class ApiController extends AdminController
      * @param mixed $id API记录ID
      * @return Form 表单对象
      */
-    public function detail($id): Form
+    public function detail(mixed $id): Form
     {
         return $this->baseDetail()->body([]);
     }
