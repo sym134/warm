@@ -10,7 +10,6 @@
 - [核心概念](#核心概念)
   - [插件系统](#插件系统)
   - [权限系统](#权限系统)
-  - [路由系统](#路由系统)
 - [配置管理](#配置管理)
 - [数据库](#数据库)
 - [前端资源](#前端资源)
@@ -57,17 +56,22 @@ Warm 是一个基于 Webman 框架的后台管理系统，它基于 [Owl Admin](
 
 ### 安装步骤
 
-1. 使用 Composer 创建项目：
+1. 使用 Composer 创建 Webman 项目：
 ```bash
-composer create-project jizhi/warm your-project-name
+composer create-project workerman/webman
 ```
 
 2. 进入项目目录：
 ```bash
-cd your-project-name
+cd webman
 ```
 
-3. 安装 Warm：
+3. 安装 Warm 扩展包：
+```bash
+composer require jizhi/warm
+```
+
+4. 安装 Warm：
 ```bash
 php webman warm:install
 ```
