@@ -8,7 +8,7 @@ use Illuminate\Support\Arr;
 use support\Response;
 use warm\admin\Admin;
 use warm\admin\service\AdminService;
-use warm\common\service\ConfigService;
+use warm\common\service\SystemConfigService as ConfigService;
 
 /**
  * 配置服务类
@@ -20,8 +20,7 @@ class SystemConfigService extends AdminService
 {
     /**
      * 配置服务实例
-     * 
-     * @var ConfigService
+     *
      */
     protected ConfigService $configService;
 

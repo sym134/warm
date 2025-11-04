@@ -1423,7 +1423,7 @@ class CodeGeneratorController extends AdminController
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    public function edit($id): Response
+    public function edit(mixed $id): Response
     {
         // 判断是否为获取数据的请求
         if ($this->actionOfGetData()) {

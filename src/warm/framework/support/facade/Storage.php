@@ -31,7 +31,7 @@ use Webman\Http\UploadFile;
  * @method static int fileSize(string $path) 获取文件大小
  * @method static string mimeType(string $path) 获取MIME类型
  * @method static array listContents(string $path = '', bool $deep = false) 列出目录内容
- * @method static string url(string $path) 获取文件访问URL
+ * @method static string url(string $path='') 获取文件访问URL
  * @method static bool|string putFileAs(string $path, string|UploadFile $file, string $name = null, mixed $options = []) 上传文件并指定文件名
  */
 class Storage extends Facade

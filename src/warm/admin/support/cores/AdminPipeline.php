@@ -51,7 +51,7 @@ class AdminPipeline
      * @param callable|null $callback 回调函数
      * @return mixed 处理结果
      */
-    public static function handle($key, $passable, callable $callback = null): mixed
+    public static function handle(string $key, mixed $passable, callable $callback = null): mixed
     {
         $do    = fn($i) => $callback ? $callback($i) : $i;
         $pipes = Admin::context()->get($key, []);

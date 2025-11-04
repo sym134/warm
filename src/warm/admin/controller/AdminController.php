@@ -41,37 +41,37 @@ abstract class AdminController
     protected array $noNeedAuth = [];
 
 
-    /** 
+    /**
      * @var object 服务类实例
      * 用于处理业务逻辑的对象，通过serviceName指定的服务类创建
      */
     protected object $service;
 
-    /** 
-     * @var string $serviceName 服务类名称 
+    /**
+     * @var string $serviceName 服务类名称
      * 指定当前控制器使用的服务类，用于处理具体业务逻辑
      */
     protected string $serviceName = '';
 
-    /** 
+    /**
      * @var string $queryPath 当前请求路径（不包含管理前缀）
      * 例如：如果访问 /admin/users，则$queryPath为users
      */
     protected string $queryPath;
 
-    /** 
-     * @var string|mixed $adminPrefix 管理后台路由前缀 
+    /**
+     * @var string|mixed $adminPrefix 管理后台路由前缀
      * 从配置中获取，通常为/admin
      */
     protected string $adminPrefix;
 
-    /** 
+    /**
      * @var bool $isCreate 是否是新增页面, 页面模式时生效
      * 在create方法中设置为true，用于区分当前是否在创建页面
      */
     protected bool $isCreate = false;
 
-    /** 
+    /**
      * @var bool $isEdit 是否是编辑页面, 页面模式时生效
      * 在edit方法中设置为true，用于区分当前是否在编辑页面
      */
@@ -111,7 +111,7 @@ abstract class AdminController
      * @param Request $request HTTP请求对象
      * @return mixed 返回主键值
      */
-    public function getPrimaryValue($request)
+    public function getPrimaryValue(Request $request): mixed
     {
         // 获取服务类定义的主键字段名
         $primaryKey = $this->service->primaryKey();
@@ -137,7 +137,7 @@ abstract class AdminController
      * @param string $text 操作描述文本
      * @return Response 返回HTTP响应对象
      */
-    protected function autoResponse($flag, $text = ''): Response
+    protected function autoResponse(bool $flag, string $text = ''): Response
     {
         // 如果未提供文本描述，默认使用"操作"
         if (!$text) {
@@ -159,7 +159,7 @@ abstract class AdminController
      *
      * @return Response 返回HTTP响应
      */
-    public function index()
+    public function index(): Response
     {
         // 如果是获取数据的操作，返回列表数据
         if ($this->actionOfGetData()) {
@@ -182,7 +182,7 @@ abstract class AdminController
      * @throws NotFoundExceptionInterface 未找到异常接口
      * @return Response 返回新增页面响应
      */
-    public function create()
+    public function create(): Response
     {
         // 设置当前为创建页面状态
         $this->isCreate = true;
@@ -206,7 +206,7 @@ abstract class AdminController
      * @param Request $request HTTP请求对象
      * @return Response 返回操作结果响应
      */
-    public function store(Request $request)
+    public function store(Request $request): Response
     {
         // 定义响应处理闭包
         $response = fn($result) => $this->autoResponse($result, translator('admin.save'));
@@ -233,7 +233,7 @@ abstract class AdminController
      * @throws NotFoundExceptionInterface 未找到异常接口
      * @return Response 返回详情页面响应
      */
-    public function show($id)
+    public function show(mixed $id): Response
     {
         // 如果是获取数据操作，返回详情数据
         if ($this->actionOfGetData()) {
@@ -261,7 +261,7 @@ abstract class AdminController
      * @throws NotFoundExceptionInterface 未找到异常接口
      * @return Response 返回编辑页面响应
      */
-    public function edit($id)
+    public function edit(mixed $id): Response
     {
         // 设置当前为编辑页面状态
         $this->isEdit = true;
@@ -293,11 +293,11 @@ abstract class AdminController
      * @param mixed $id 数据主键ID
      * @return Response 返回操作结果响应
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, mixed $id): Response
     {
         // 获取主键值（优先从请求参数获取，其次使用路由参数）
         $primaryKey = $this->getPrimaryValue($request) ?: $id;
-        
+
         // 执行更新操作
         $result = $this->service->update($primaryKey, $request->all());
 
@@ -311,7 +311,7 @@ abstract class AdminController
      * @param mixed $id 数据主键ID或ID数组
      * @return Response 返回操作结果响应
      */
-    public function destroy($id)
+    public function destroy(mixed $id): Response
     {
         // 执行删除操作
         $rows = $this->service->delete($id);
@@ -327,7 +327,7 @@ abstract class AdminController
      * @param array $parameters 参数数组
      * @return mixed 返回方法调用结果
      */
-    public function callAction($method, $parameters)
+    public function callAction(string $method, array $parameters): mixed
     {
         return $this->{$method}(...array_values($parameters));
     }

@@ -16,7 +16,7 @@ use warm\framework\support\facade\Cache;
  * 提供配置项管理的通用功能，包括设置、获取、删除配置项等操作
  * 支持单个和批量配置操作，以及缓存管理
  */
-class ConfigService
+class SystemConfigService
 {
     /**
      * 模型名称

@@ -407,7 +407,13 @@ class Database
             $data(['name' => '系统', 'slug' => 'system', 'http_path' => '', "parent_id" => 0]),
             $data(['name' => '权限管理', 'slug' => 'admin_permission_management', 'http_path' => '', "parent_id" => 0]),
             $data(['name' => '监控', 'slug' => 'admin_monitor', 'http_path' => '', "parent_id" => 0]),
+            $data(['name' => '应用', 'slug' => 'system', 'http_path' => '', "parent_id" => 0]),
+
             $data(['name' => '监控日志', 'slug' => 'admin_log_monitoring', 'http_path' => '', "parent_id" => 4]),
+
+            $data(['name' => '接口设置', 'slug' => 'system', 'http_path' => '', "parent_id" => 2]),
+            $data(['name' => '短信设置', 'slug' => '', 'http_path' => '/setting/other_config/sms/index', "parent_id" => 7]),
+
 
             $data(['name' => '管理员', 'slug' => 'admin_users', 'http_path' => ["/admin_users*"], "parent_id" => 3]),
             $data(['name' => '角色', 'slug' => 'roles', 'http_path' => ["/roles*"], "parent_id" => 3]),
@@ -416,8 +422,8 @@ class Database
 
             $data(['name' => '操作日志', 'slug' => 'admin_operation_log', 'http_path' => ["/log_monitoring/admin_operation_log*"], "parent_id" => 5]),
             $data(['name' => '登陆日志', 'slug' => 'admin_login_log', 'http_path' => ["/log_monitoring/admin_login_log*"], "parent_id" => 5]),
+
             $data(['name' => '定时任务', 'slug' => 'crontab', 'http_path' => ["/system/crontab*"], "parent_id" => 2]),
-            $data(['name' => '定时任务日志', 'slug' => 'crontab_log', 'http_path' => ["/system/crontab_log*"], "parent_id" => 2]),
 
         ]);
 

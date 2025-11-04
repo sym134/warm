@@ -33,7 +33,7 @@ class StorageService extends AdminService
         'storage' => [
             'local' => [
                 'disk' => 'public',
-                'root' => '',
+                'root' => 'uploads',
                 'domain' => '//127.0.0.1:8787', // 静态文件访问域名
             ],
             'qiniu' => [
@@ -79,12 +79,10 @@ class StorageService extends AdminService
     }
 
     /**
-     * 获取编辑数据
-     * 
-     * @param mixed $id 数据ID
-     * @return Model|Collection|Builder|array|null 编辑数据
+     * 获取配置
+     * @return array
      */
-    public function getEditData(mixed $id): Model|Collection|Builder|array|null
+    public function list(): array
     {
         return array_merge($this->config, systemConfig()->get('filesystems', []));
     }

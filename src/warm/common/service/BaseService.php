@@ -115,4 +115,14 @@ class BaseService
     {
         return self::$returnData;
     }
+
+    /**
+     * 创建服务实例
+     *
+     * @return static 服务实例
+     */
+    public static function make(): static
+    {
+        return new static;
+    }
 }

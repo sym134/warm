@@ -208,8 +208,8 @@ class StorageService extends BaseService
      */
     protected static function getRealMimeType(string $path): string
     {
-        $finfo = new finfo(FILEINFO_MIME_TYPE);
-        $mime = $finfo->file($path);
+        $info = new finfo(FILEINFO_MIME_TYPE);
+        $mime = $info->file($path);
         return strtolower(trim($mime));
     }
 
@@ -421,25 +421,12 @@ class StorageService extends BaseService
             'path' => $filepath,
             'file_name' => $filename,
             'origin_name' => $file->getUploadName(),
-            'url' => self::url($filepath),
+            'url' => Storage::url($filepath),
             'adapter' => Storage::getDefaultDriver(),
             'mime_type' => $realMime,
             'size' => $file->getSize(),
             'extension' => self::getExtensionByMime($realMime),
             'type' => $fileType
         ];
-    }
-
-    /**
-     * 生成文件访问URL
-     * 
-     * 根据文件路径生成可访问的URL
-     * 
-     * @param string $path 文件路径
-     * @return string 文件访问URL
-     */
-    public static function url(string $path = ''): string
-    {
-        return Storage::url($path);
     }
 }

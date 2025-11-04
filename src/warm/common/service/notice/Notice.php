@@ -3,178 +3,258 @@
 namespace warm\common\service\notice;
 
 use warm\common\service\BaseService;
+use warm\common\service\NoticeConfigDefaults;
 
 /**
  * 通知服务类
  * 
- * 提供通知发送功能，支持根据场景发送不同类型的通知
- * 
- * @author 段誉
- * @date 2022/9/15 15:28
+ * 作为所有推送请求的统一入口，采用策略模式处理不同渠道的通知
  */
 class Notice extends BaseService
 {
     /**
-     * 根据场景发送短信
+     * 支持的通知渠道
      * 
-     * 根据指定场景发送相应的通知，支持短信等通知方式
-     * 
-     * @param array $params 通知参数
-     * @return bool 发送是否成功
-     * @author 段誉
-     * @date 2022/9/15 15:28
+     * @var array
      */
-    public static function noticeByScene($params)
-    {
-        try {
-            $noticeSetting = NoticeSetting::where('scene_id', $params['scene_id'])->findOrEmpty()->toArray();
-            if (empty($noticeSetting)) {
-                throw new \Exception('找不到对应场景的配置');
-            }
-            // 合并额外参数
-            $params = self::mergeParams($params);
-            $res = false;
-            self::setError('发送通知失败');
-
-            // 短信通知
-            if (isset($noticeSetting['sms_notice']['status']) && $noticeSetting['sms_notice']['status'] == YesNoEnum::YES) {
-                $res = (new SmsMessageService())->send($params);
-            }
-
-            return $res;
-        } catch (\Exception $e) {
-            self::setError($e->getMessage());
-            return false;
-        }
-    }
-
+    private array $channels = [];
+    
     /**
-     * 整理参数
+     * 通知配置
      * 
-     * 合并和处理通知参数，包括用户信息和跳转路径等
-     * 
-     * @param array $params 原始参数
-     * @return array 处理后的参数
-     * @author 段誉
-     * @date 2022/9/15 15:28
+     * @var array
      */
-    public static function mergeParams($params)
-    {
-        // 用户相关
-        if (!empty($params['params']['user_id'])) {
-            $user = User::findOrEmpty($params['params']['user_id'])->toArray();
-            $params['params']['nickname'] = $user['nickname'];
-            $params['params']['user_name'] = $user['nickname'];
-            $params['params']['user_sn'] = $user['sn'];
-            $params['params']['mobile'] = $params['params']['mobile'] ?? $user['mobile'];
-        }
-
-        // 跳转路径
-        $jumpPath = self::getPathByScene($params['scene_id'], $params['params']['order_id'] ?? 0);
-        $params['url'] = $jumpPath['url'];
-        $params['page'] = $jumpPath['page'];
-
-        return $params;
-    }
-
+    private array $config = [];
+    
     /**
-     * 根据场景获取跳转链接
-     * 
-     * 根据通知场景获取相应的跳转链接
-     * 
-     * @param string $sceneId 场景ID
-     * @param int $extraId 额外ID（如订单ID）
-     * @return string[] 跳转链接数组
-     * @author 段誉
-     * @date 2022/9/15 15:29
+     * 构造函数
      */
-    public static function getPathByScene($sceneId, $extraId)
+    public function __construct()
     {
-        // 小程序主页路径
-        $page = '/pages/index/index';
-        // 公众号主页路径
-        $url = '/mobile/pages/index/index';
-        return [
-            'url' => $url,
-            'page' => $page,
+        // 初始化支持的通知渠道
+        $this->registerChannel(new SmsChannel());
+        $this->registerChannel(new WechatOfficialAccountChannel());
+        $this->registerChannel(new WechatMiniProgramChannel());
+        $this->registerChannel(new EmailChannel());
+        
+        // 加载配置
+        $this->loadConfig();
+    }
+    
+    /**
+     * 注册通知渠道
+     * 
+     * @param NoticeChannelInterface $channel 渠道实例
+     * @return void
+     */
+    public function registerChannel(NoticeChannelInterface $channel): void
+    {
+        $this->channels[$channel->getName()] = $channel;
+    }
+    
+    /**
+     * 加载配置
+     * 
+     * @return void
+     */
+    private function loadConfig(): void
+    {
+        // 从系统配置中加载各渠道配置
+        $this->config = [
+            'sms' => $this->getConfig(NoticeConfigDefaults::KEY_SMS_CONFIG, []),
+            'wechat_official_account' => $this->getConfig(NoticeConfigDefaults::KEY_WECHAT_OFFICIAL_ACCOUNT_CONFIG, []),
+            'wechat_mini_program' => $this->getConfig(NoticeConfigDefaults::KEY_WECHAT_MINI_PROGRAM_CONFIG, []),
+            'email' => $this->getConfig(NoticeConfigDefaults::KEY_EMAIL_CONFIG, []),
         ];
     }
-
+    
     /**
-     * 替换消息内容中的变量占位符
+     * 获取配置项
      * 
-     * 将消息内容中的占位符替换为实际值
-     * 
-     * @param string $content 消息内容
-     * @param array $params 参数数组
-     * @return string 替换后的消息内容
-     * @author 段誉
-     * @date 2022/9/15 15:29
+     * @param string $key 配置项键名
+     * @param mixed $default 默认值
+     * @return mixed
      */
-    public static function contentFormat($content, $params)
+    private function getConfig(string $key, mixed $default = null): mixed
     {
-        foreach ($params['params'] as $k => $v) {
-            $search = '{' . $k . '}';
-            $content = str_replace($search, $v, $content);
-        }
-        return $content;
+        return systemConfig()->get($key, $default);
     }
-
+    
     /**
-     * 添加通知记录
+     * 发送通知
      * 
-     * 记录发送的通知信息
-     * 
+     * @param string $scene 场景ID
      * @param array $params 通知参数
-     * @param array $noticeSetting 通知设置
-     * @param string $sendType 发送类型
-     * @param string $content 通知内容
-     * @param string $extra 额外信息
-     * @return NoticeRecord|\think\Model 通知记录模型
-     * @author 段誉
-     * @date 2022/9/15 15:29
+     * @param array $channels 指定渠道，为空则使用场景默认渠道
+     * @return bool 是否发送成功
      */
-    public static function addNotice($params, $noticeSetting, $sendType, $content, $extra = '')
+    public function send(string $scene, array $params, array $channels = []): bool
     {
-        return NoticeRecord::create([
-            'user_id' => $params['params']['user_id'] ?? 0,
-            'title' => self::getTitleByScene($sendType, $noticeSetting),
-            'content' => $content,
-            'scene_id' => $noticeSetting['scene_id'],
-            'read' => YesNoEnum::NO,
-            'recipient' => $noticeSetting['recipient'],
-            'send_type' => $sendType,
-            'notice_type' => $noticeSetting['type'],
-            'extra' => $extra,
-        ]);
+        // 验证场景是否有效
+        $noticeEnumClass = \warm\common\enum\NoticeEnum::class;
+        if (class_exists($noticeEnumClass)) {
+            $reflection = new \ReflectionClass($noticeEnumClass);
+            if (!in_array($scene, $reflection->getConstants())) {
+                $this->setError('无效的通知场景');
+                return false;
+            }
+        }
+        
+        // 如果未指定渠道，则根据场景配置获取默认渠道
+        if (empty($channels)) {
+            $channels = $this->getDefaultChannelsByScene($scene);
+        }
+        
+        $success = true;
+        $results = [];
+        
+        // 遍历所有指定的渠道发送通知
+        foreach ($channels as $channelName) {
+            if (!isset($this->channels[$channelName])) {
+                $results[$channelName] = ['success' => false, 'error' => '不支持的通知渠道'];
+                $success = false;
+                continue;
+            }
+            
+            // 获取渠道配置
+            $channelConfig = $this->getChannelConfig($channelName);
+            if (empty($channelConfig)) {
+                $results[$channelName] = ['success' => false, 'error' => '渠道配置为空'];
+                $success = false;
+                continue;
+            }
+            
+            // 发送通知
+            $channel = $this->channels[$channelName];
+            $result = $channel->send($scene, $params, $channelConfig);
+            
+            $results[$channelName] = [
+                'success' => $result,
+                'error' => $result ? '' : '发送失败'
+            ];
+            
+            if (!$result) {
+                $success = false;
+            }
+            
+            // 记录发送日志
+            $this->logNotification($scene, $channelName, $params, $result);
+        }
+        
+        // 如果所有渠道都发送失败，则设置错误信息
+        if (!$success) {
+            $failedChannels = array_filter($results, function($result) {
+                return !$result['success'];
+            });
+            $this->setError('以下渠道发送失败: ' . implode(', ', array_keys($failedChannels)));
+        }
+        
+        return $success;
+    }
+    
+    /**
+     * 根据场景获取默认渠道
+     * 
+     * @param string $scene 场景ID
+     * @return array
+     */
+    private function getDefaultChannelsByScene(string $scene): array
+    {
+        // 实际项目中应该从数据库或配置文件中获取场景与渠道的映射关系
+        $sceneChannels = [
+            'USER_REGISTER' => ['sms', 'email'],
+            'USER_LOGIN' => ['sms'],
+            'USER_PASSWORD_RESET' => ['sms', 'email'],
+            'ORDER_CREATED' => ['sms', 'wechat_official_account'],
+            'ORDER_PAID' => ['sms', 'wechat_official_account', 'wechat_mini_program'],
+            'ORDER_SHIPPED' => ['sms', 'wechat_official_account'],
+            'ORDER_COMPLETED' => ['sms', 'wechat_official_account'],
+            'ORDER_CANCELLED' => ['sms', 'wechat_official_account'],
+            'SYSTEM_ALERT' => ['email'],
+            'SYSTEM_MAINTENANCE' => ['email', 'wechat_official_account'],
+        ];
+        
+        return $sceneChannels[$scene] ?? ['sms'];
+    }
+    
+    /**
+     * 获取渠道配置
+     * 
+     * @param string $channelName 渠道名称
+     * @return array
+     */
+    private function getChannelConfig(string $channelName): array
+    {
+        switch ($channelName) {
+            case 'sms':
+                // 短信渠道需要特殊处理，因为支持多个服务商
+                $configs = $this->config['sms'];
+                foreach ($configs as $config) {
+                    if (isset($config['enable']) && $config['enable']) {
+                        return $config;
+                    }
+                }
+                return [];
+            default:
+                return $this->config[$channelName] ?? [];
+        }
     }
 
     /**
-     * 通知记录标题
+     * 记录通知发送日志
      * 
-     * 根据发送类型和通知设置获取通知标题
-     * 
-     * @param string $sendType 发送类型
-     * @param array $noticeSetting 通知设置
-     * @return string 通知标题
-     * @author 段誉
-     * @date 2022/9/15 15:30
+     * @param string $scene 场景ID
+     * @param string $channel 渠道名称
+     * @param array $params 参数
+     * @param bool $success 是否成功
+     * @return void
      */
-    public static function getTitleByScene($sendType, $noticeSetting)
+    private function logNotification(string $scene, string $channel, array $params, bool $success): void
     {
-        switch ($sendType) {
-            case NoticeEnum::SMS:
-                $title = '';
-                break;
-            case NoticeEnum::OA:
-                $title = $noticeSetting['oa_notice']['name'] ?? '';
-                break;
-            case NoticeEnum::MNP:
-                $title = $noticeSetting['mnp_notice']['name'] ?? '';
-                break;
-            default:
-                $title = '';
+        // 记录日志
+        if (class_exists(\think\facade\Log::class)) {
+            \think\facade\Log::info('Notification sent', [
+                'scene' => $scene,
+                'channel' => $channel,
+                'params' => $params,
+                'success' => $success,
+                'created_at' => date('Y-m-d H:i:s')
+            ]);
         }
-        return $title;
+        
+        // TODO: 在实际项目中，这里应该将通知记录存储到数据库中
+        // 以便后续查询和分析
+    }
+    
+    /**
+     * 获取所有支持的渠道
+     * 
+     * @return array
+     */
+    public function getChannels(): array
+    {
+        return array_map(function ($channel) {
+            return $channel->getDescription();
+        }, $this->channels);
+    }
+    
+    /**
+     * 获取场景列表
+     * 
+     * @return array
+     */
+    public function getScenes(): array
+    {
+        // 使用反射获取通知场景枚举的描述
+        if (class_exists(\warm\common\enum\NoticeEnum::class)) {
+            $class = new \ReflectionClass(\warm\common\enum\NoticeEnum::class);
+            $scenes = [];
+            foreach ($class->getConstants() as $name => $value) {
+                $scenes[$value] = $name;
+            }
+            return $scenes;
+        }
+        
+        return [];
     }
 }

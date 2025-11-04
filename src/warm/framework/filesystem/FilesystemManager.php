@@ -12,7 +12,7 @@ use Webman\Http\UploadFile;
 
 /**
  * 文件系统管理器类，用于管理多个文件系统磁盘
- * 
+ *
  * 提供统一的文件系统操作接口，支持多种存储引擎
  * 包括本地存储、云存储等，并支持文件上传、读写等操作
  */
@@ -20,22 +20,22 @@ class FilesystemManager
 {
     /**
      * 默认存储引擎
-     * 
+     *
      * @var string
      */
     protected string $engine = 'local';
 
-    /** 
+    /**
      * 自定义磁盘创建器
-     * 
-     * @var array 
+     *
+     * @var array
      */
     protected array $customCreators = [];
 
 
     /**
      * 获取配置信息
-     * 
+     *
      * @return array 配置信息数组
      */
     public function getConfig(): array
@@ -45,7 +45,7 @@ class FilesystemManager
 
     /**
      * 获取指定名称的磁盘实例
-     * 
+     *
      * @param string|null $name 磁盘名称，如果为null则使用默认磁盘
      * @return FilesystemAdapter 文件系统适配器实例
      */
@@ -57,7 +57,7 @@ class FilesystemManager
 
     /**
      * 获取默认磁盘驱动名称
-     * 
+     *
      * @return string 默认驱动名称
      */
     public function getDefaultDriver(): string
@@ -68,7 +68,7 @@ class FilesystemManager
 
     /**
      * 解析并创建磁盘实例
-     * 
+     *
      * @param string $name 磁盘名称
      * @return FilesystemDisk 文件系统磁盘实例
      * @throws InvalidArgumentException 当指定磁盘未配置时抛出异常
@@ -94,7 +94,7 @@ class FilesystemManager
 
     /**
      * 获取磁盘配置
-     * 
+     *
      * @return array 磁盘配置数组
      */
     protected function getSystemsConfig(): array
@@ -104,7 +104,7 @@ class FilesystemManager
 
     /**
      * 获取存储配置
-     * 
+     *
      * @param string $name 存储名称
      * @return array 存储配置数组
      * @throws InvalidArgumentException 当指定存储未配置时抛出异常
@@ -121,7 +121,7 @@ class FilesystemManager
 
     /**
      * 获取上传配置
-     * 
+     *
      * @return array 上传配置数组，包括文件类型、图片类型和上传大小限制
      */
     public function getUploadConfig(): array
@@ -135,8 +135,8 @@ class FilesystemManager
     }
 
     /**
-     * 注册自定义磁盘创建器
-     * 
+     * 注册自定义驱动创建器
+     *
      * @param string $driver 驱动名称
      * @param callable $callback 创建回调函数
      * @return void
@@ -148,7 +148,7 @@ class FilesystemManager
 
     /**
      * 调用自定义创建器创建磁盘实例
-     * 
+     *
      * @param string $name 磁盘名称
      * @param array $config 磁盘配置
      * @return mixed 自定义创建器返回的实例
@@ -160,45 +160,38 @@ class FilesystemManager
 
     /**
      * 获取文件的公开访问URL
-     * 
+     *
      * @param string $path 文件路径
      * @return string 文件访问URL
      */
-    public function url(string $path): string
+    public function url(string $path = ''): string
     {
         $disk = $this->disk();
         $config = $disk->getConfig();
-        
+
         // 对于本地存储
         if ($this->getDefaultDriver() === 'local') {
             $domain = $config['domain'] ?? '';
-            $root = $config['root'] ?? '';
-            
+
             // 如果配置了域名，使用域名；否则使用相对路径
             if ($domain) {
-                // 处理根目录
-                $rootPath = trim($root, '/');
                 $filePath = ltrim($path, '/');
-                return rtrim($domain, '/') . ($rootPath ? '/' . $rootPath : '') . '/' . $filePath;
+                return rtrim($domain, '/') . '/' . $filePath;
             } else {
                 $diskPath = $config['disk'] ?? 'public';
-                $rootPath = trim($root, '/');
                 $filePath = ltrim($path, '/');
-                return '/' . ltrim($diskPath, '/') . ($rootPath ? '/' . $rootPath : '') . '/' . $filePath;
+                return '/' . ltrim($diskPath, '/') . '/' . $filePath;
             }
         }
-        
+
         // 对于云存储服务
         $domain = $config['domain'] ?? '';
-        $root = $config['root'] ?? '';
-        
+
         if ($domain) {
-            // 处理根目录
-            $rootPath = trim($root, '/');
             $filePath = ltrim($path, '/');
-            return rtrim($domain, '/') . ($rootPath ? '/' . $rootPath : '') . '/' . $filePath;
+            return rtrim($domain, '/') . '/' . $filePath;
         }
-        
+
         // 如果没有配置domain，尝试调用底层Flysystem的publicUrl方法
         try {
             return $disk->publicUrl($path);
@@ -210,7 +203,7 @@ class FilesystemManager
 
     /**
      * 魔术方法，将方法调用转发到默认磁盘
-     * 
+     *
      * @param string $method 方法名
      * @param array $parameters 方法参数
      * @return mixed 方法调用结果
@@ -222,7 +215,7 @@ class FilesystemManager
 
     /**
      * 将内容写入文件
-     * 
+     *
      * @param string $path 文件路径
      * @param mixed $contents 文件内容
      * @param array|string $options 写入选项
@@ -259,7 +252,7 @@ class FilesystemManager
 
     /**
      * 上传文件
-     * 
+     *
      * @param string $path 保存路径
      * @param mixed|null $file 文件对象
      * @param array $options 上传选项
@@ -276,7 +269,7 @@ class FilesystemManager
 
     /**
      * 生成文件的哈希名称
-     * 
+     *
      * @param string $path 文件路径
      * @param string $algorithm 哈希算法
      * @return bool|string 哈希值，失败返回false
@@ -288,7 +281,7 @@ class FilesystemManager
 
     /**
      * 上传文件并指定文件名
-     * 
+     *
      * @param string $path 保存路径
      * @param string|UploadFile $file 文件路径或上传文件对象
      * @param string|null $name 文件名

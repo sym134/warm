@@ -26,7 +26,7 @@ trait ElementTrait
      *
      * @return Page 页面实例
      */
-    protected function basePage()
+    protected function basePage(): Page
     {
         return AdminPipeline::handle(
             AdminPipeline::PIPE_BASE_PAGE,
@@ -39,7 +39,7 @@ trait ElementTrait
      *
      * @return OtherAction 返回按钮实例
      */
-    protected function backButton()
+    protected function backButton(): OtherAction
     {
         $path   = str_replace(Admin::warmConfig('app.route.prefix'), '', request()->path());
         $script = sprintf('window.$owl.hasOwnProperty(\'closeTabByPath\') && window.$owl.closeTabByPath(\'%s\')', $path);
@@ -59,7 +59,7 @@ trait ElementTrait
      * 
      * @return DialogAction 批量删除按钮实例
      */
-    protected function bulkDeleteButton()
+    protected function bulkDeleteButton(): DialogAction
     {
         $action = amis()->DialogAction()
             ->label(translator('admin.delete'))
@@ -91,7 +91,7 @@ trait ElementTrait
      *
      * @return DialogAction|LinkAction 新增按钮实例
      */
-    protected function createButton(bool|string $dialog = false, string $dialogSize = 'md', string $title = '')
+    protected function createButton(bool|string $dialog = false, string $dialogSize = 'md', string $title = ''): LinkAction|DialogAction
     {
         $title  = $title ?: translator('admin.create');
         $action = amis()->LinkAction()->link($this->getCreatePath());
@@ -124,7 +124,7 @@ trait ElementTrait
      *
      * @return DialogAction|LinkAction 行编辑按钮实例
      */
-    protected function rowEditButton(bool|string $dialog = false, string $dialogSize = 'md', string $title = '')
+    protected function rowEditButton(bool|string $dialog = false, string $dialogSize = 'md', string $title = ''): LinkAction|DialogAction
     {
         $title  = $title ?: translator('admin.edit');
         $action = amis()->LinkAction()->link($this->getEditPath());
@@ -161,7 +161,7 @@ trait ElementTrait
      *
      * @return DialogAction|LinkAction 行详情按钮实例
      */
-    protected function rowShowButton(bool|string $dialog = false, string $dialogSize = 'md', string $title = '')
+    protected function rowShowButton(bool|string $dialog = false, string $dialogSize = 'md', string $title = ''): LinkAction|DialogAction
     {
         $title  = $title ?: translator('admin.show');
         $action = amis()->LinkAction()->link($this->getShowPath());
@@ -190,7 +190,7 @@ trait ElementTrait
      *
      * @return DialogAction 行删除按钮实例
      */
-    protected function rowDeleteButton(string $title = '')
+    protected function rowDeleteButton(string $title = ''): DialogAction
     {
         $action = amis()->DialogAction()
             ->label($title ?: translator('admin.delete'))
@@ -222,7 +222,7 @@ trait ElementTrait
      *
      * @return Operation 操作列实例
      */
-    protected function rowActions(bool|array|string $dialog = false, string $dialogSize = 'md')
+    protected function rowActions(bool|array|string $dialog = false, string $dialogSize = 'md'): Operation
     {
         if (is_array($dialog)) {
             return amis()->Operation()->label(translator('admin.actions'))->buttons($dialog);
@@ -242,7 +242,7 @@ trait ElementTrait
      *
      * @return Form 筛选器表单实例
      */
-    protected function baseFilter()
+    protected function baseFilter(): Form
     {
         $schema = amis()->Form()
             ->panelClassName('base-filter')
@@ -260,7 +260,7 @@ trait ElementTrait
      *
      * @return ConditionBuilderControl 条件构造器控件实例
      */
-    protected function baseFilterConditionBuilder()
+    protected function baseFilterConditionBuilder(): ConditionBuilderControl
     {
         return amis()->ConditionBuilderControl('filter_condition_builder');
     }
@@ -344,7 +344,7 @@ trait ElementTrait
      *
      * @return Form 表单实例
      */
-    protected function baseForm(bool $back = true)
+    protected function baseForm(bool $back = true): Form
     {
         $path = str_replace(Admin::warmConfig('app.route.prefix'), '', request()->path());
 
@@ -372,7 +372,7 @@ trait ElementTrait
      * 
      * @return Form 详情表单实例
      */
-    protected function baseDetail()
+    protected function baseDetail(): Form
     {
         $schema = amis()->Form()
             ->panelClassName('px-48 m:px-0')
@@ -391,7 +391,7 @@ trait ElementTrait
      *
      * @return Page 页面实例
      */
-    protected function baseList($crud)
+    protected function baseList(mixed $crud): Page
     {
         return AdminPipeline::handle(
             AdminPipeline::PIPE_BASE_LIST,
@@ -406,7 +406,7 @@ trait ElementTrait
      *
      * @return Service 服务实例
      */
-    protected function exportAction($disableSelectedItem = false)
+    protected function exportAction(bool $disableSelectedItem = false): Service
     {
         // 获取主键名称
         $primaryKey = $this->service->primaryKey();

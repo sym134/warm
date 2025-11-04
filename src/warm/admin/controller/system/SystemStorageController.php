@@ -6,11 +6,12 @@ use support\Request;
 use support\Response;
 use warm\admin\controller\AdminController;
 use warm\admin\renderer\Form;
+use warm\admin\renderer\Page;
 use warm\admin\service\system\StorageService;
 
 /**
  * 存储设置控制器
- * 
+ *
  * 用于管理系统文件存储配置
  * 支持本地存储和多种云存储服务配置
  */
@@ -24,41 +25,23 @@ class SystemStorageController extends AdminController
 
     /**
      * 存储设置页面
-     * 
-     * 展示存储配置表单，支持多种存储引擎配置
-     * 
-     * @return Response 返回存储设置页面
+     * @return Page
      */
-    public function index(): Response
+    public function list(): Page
     {
-        $this->isEdit = true;
-        if ($this->actionOfGetData()) {
-            return $this->response()->success($this->service->getEditData(0));
-        }
-        $form = amis()->Wrapper()->className('')->body([
+        return amis()->Page()->body(amis()->Wrapper()->className('')->body([
             amis()->Card()->body('<div class="bg-yellow-100 text-yellow-600 p-2">⚠ 温馨提示：1.切换存储方式后，需要将资源文件传输至新的存储端；2.请勿随意切换存储方式，可能导致图片无法查看</div>'),
-            amis()
-                ->Card()
-                ->className('base-form')
-                ->header(['title' => '存储设置'])
-                // ->toolbar([$this->backButton()])
-                ->body(
-                    [
-                        $this->form(true)->api('put:' . admin_url($this->queryPath . '/update'))->initApi(admin_url($this->queryPath . '?_action=getData')),
-                    ]
-                ),
-        ]);
+            $this->form()->api('put:' . admin_url($this->queryPath . '/update'))
+                ->initApi(admin_url($this->queryPath . '?_action=getData')),
 
-        $page = $this->basePage()->body($form);
-
-        return $this->response()->success($page);
+        ]));
     }
 
     /**
      * 存储配置表单
-     * 
+     *
      * 定义存储配置表单结构，支持多种存储引擎的参数配置
-     * 
+     *
      * @return Form 返回存储配置表单
      */
     public function form(): Form
@@ -105,14 +88,13 @@ class SystemStorageController extends AdminController
 
     /**
      * 更新存储配置
-     * 
+     *
      * 保存用户提交的存储配置信息
-     * 
+     *
      * @param Request $request HTTP请求对象
-     * @param mixed $id 数据ID
      * @return Response 返回操作结果响应
      */
-    public function update(Request $request, $id): Response
+    public function updateConfig(Request $request): Response
     {
         $response = fn($result) => $this->autoResponse($result, translator('admin.save'));
         return $response($this->service->saveConfig($request->all()));

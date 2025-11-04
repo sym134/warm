@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
 use warm\admin\Admin;
 use warm\common\model\BaseModel;
-use warm\common\service\StorageService;
+use warm\framework\support\facade\Storage;
 
 /**
  * 管理用户模型类
@@ -75,8 +75,8 @@ class AdminUser extends BaseModel
     public function avatar(): Attribute
     {
         return Attribute::make(
-            get: fn($value) => $value ? StorageService::url($value) : url(Admin::warmConfig('app.default_avatar')),
-            set: fn($value) => str_replace(StorageService::url(), '', $value)
+            get: fn($value) => $value ? Storage::url($value) : url(Admin::warmConfig('app.default_avatar')),
+            set: fn($value) => str_replace(Storage::url(), '', $value)
         );
     }
 

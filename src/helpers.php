@@ -5,15 +5,15 @@ use Illuminate\Support\Arr;
 use support\Container;
 use support\Db;
 use support\Translation;
-use think\Validate;
 use warm\admin\admin;
 use warm\admin\model\AdminUser;
 use warm\admin\renderer\Amis;
 use warm\admin\renderer\Component;
 use warm\admin\service\AdminPageService;
 use warm\admin\support\Pipeline;
-use warm\common\service\ConfigService;
-use warm\common\service\StorageService;
+use warm\bootstrap\LaravelBootstrap;
+use warm\common\service\ConfigRepository;
+use warm\common\service\SystemConfigService;
 use warm\exception\AdminException;
 use warm\framework\support\facade\Cache;
 use warm\framework\support\facade\Storage;
@@ -135,7 +135,7 @@ if (!function_exists('admin_resource_full_path')) {
         } else if ($server) {
             $src = rtrim($server, '/') . 'helpers.php/' . ltrim($path, '/');
         } else {
-            StorageService::url($path);
+            Storage::url($path);
         }
         $scheme = 'http:';
         if (Admin::warmConfig('app.https', false)) {
@@ -204,8 +204,8 @@ if (!function_exists('file_upload_handle')) {
     function file_upload_handle(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
         return \Illuminate\Database\Eloquent\Casts\Attribute::make(
-            get: fn($value) => $value ? StorageService::url($value) : '',
-            set: fn($value) => str_replace(StorageService::url(), '', $value)
+            get: fn($value) => $value ? Storage::url($value) : '',
+            set: fn($value) => str_replace(Storage::url(), '', $value)
         );
     }
 }
@@ -230,7 +230,7 @@ if (!function_exists('file_upload_handle_multi')) {
                 return array_map(fn($item) => $item ? admin_resource_full_path($item) : '', explode(',', $value));
             },
             set: function ($value) {
-                $url = StorageService::url();
+                $url = Storage::url();
                 if (is_string($value)) {
                     return str_replace($url, '', $value);
                 }
@@ -271,12 +271,12 @@ if (!function_exists('is_json')) {
  *
  * 创建并返回配置服务实例
  *
- * @return ConfigService 配置服务实例
+ * @return SystemConfigService 配置服务实例
  */
 if (!function_exists('systemConfig')) {
-    function systemConfig(): ConfigService
+    function systemConfig(): SystemConfigService
     {
-        return new ConfigService;
+        return new SystemConfigService;
     }
 }
 
@@ -677,5 +677,33 @@ if (!function_exists('file_upload_handle_multi')) {
                 return implode(',', $list);
             }
         );
+    }
+}
+
+if (!function_exists('app')) {
+    function app($abstract = null, $parameters = [])
+    {
+        $container = LaravelBootstrap::app();
+        if ($abstract === null) return $container;
+        return $container->make($abstract, $parameters);
+    }
+}
+
+if (!function_exists('config')) {
+    function config($key = null, $default = null)
+    {
+        // 优先使用 Webman 配置
+        $value = \Webman\Config::get($key);
+        if ($value !== null) return $value;
+
+        // 否则使用数据库配置
+        return ConfigRepository::get($key, $default);
+    }
+}
+
+if (!function_exists('storage')) {
+    function storage($disk = null)
+    {
+        return \warm\common\service\app('filesystem')->disk($disk);
     }
 }

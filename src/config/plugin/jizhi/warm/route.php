@@ -17,6 +17,8 @@ use warm\admin\controller\IndexController;
 use warm\admin\controller\monitor\AdminLoginLogController;
 use warm\admin\controller\monitor\AdminOperationLogController;
 use warm\admin\controller\notice\SmsConfigController;
+use warm\admin\controller\notice\WechatOfficialAccountConfigController;
+use warm\admin\controller\notice\WechatMiniProgramConfigController;
 use warm\admin\controller\system\SystemCrontabController;
 use warm\admin\controller\system\SystemCrontabLogController;
 use warm\admin\controller\system\CacheController;
@@ -26,7 +28,7 @@ use Webman\Route;
 
 /**
  * Warm Admin 路由配置文件
- * 
+ *
  * 定义系统的所有路由规则，包括认证路由、系统管理路由、
  * 开发工具路由等。使用 Webman 的路由系统进行配置。
  */
@@ -60,7 +62,7 @@ Route::group(Admin::warmConfig('app.route.prefix'), function () {
     Route::any('/upload_chunk_finish', [IndexController::class, 'chunkUploadFinish']);
     Route::any('/upload_rich', [IndexController::class, 'uploadRich']);
     Route::any('/upload_image', [IndexController::class, 'uploadImage']);
-    
+
     // 用户设置路由
     Route::get('/user_setting', [AuthController::class, 'userSetting']);
     Route::put('/user_setting', [AuthController::class, 'saveUserSetting']);
@@ -89,24 +91,42 @@ Route::group(Admin::warmConfig('app.route.prefix'), function () {
         // 权限自动生成
         Route::post('/_admin_permissions_auto_generate', [AdminPermissionController::class, 'autoGenerate']);
 
-        // 存储管理
-        Route::resource('/storage', SystemStorageController::class);
-        // 文件管理
-        Route::resource('/file', SystemFileController::class);
-
         // 定时任务管理
         Route::resource('/crontab', SystemCrontabController::class);
         Route::get('/crontab_run', [SystemCrontabController::class, 'run']);
         Route::resource('/crontab_log', SystemCrontabLogController::class);
+
+    });
+
+    Route::group('/setting', function () {
+        Route::group('/other_config', function () {
+            // 短信配置
+            Route::group('/sms', function () {
+                // 短信配置
+                Route::get('/index', [SmsConfigController::class, 'gatewayForm']);
+                // 网关表单
+                Route::get('/gateway_form', [SmsConfigController::class, 'gatewayForm']);
+                // 网关保存
+                Route::post('/save_gateway', [SmsConfigController::class, 'saveGateway']);
+                // 短信配置保存
+                Route::put('/save', [SmsConfigController::class, 'save']);
+            });
+        });
+        // 存储管理
+        Route::get('/storage', [SystemStorageController::class,'index']);
+        Route::put('/storage/update', [SystemStorageController::class,'updateConfig']);
+        // 文件管理
+        Route::resource('/file', SystemFileController::class);
     });
 
     // 应用设置路由组
     Route::group('/app', function () {
-        // 消息通知路由组
-        Route::group('/notice', function () {
-            // 短信配置
-            Route::resource('/sms_config', SmsConfigController::class);
-        });
+        // 微信公众号配置
+        Route::get('/wechat_official_account_config', [WechatOfficialAccountConfigController::class, 'index']);
+        Route::post('/wechat_official_account_config/save', [WechatOfficialAccountConfigController::class, 'save']);
+        // 微信小程序配置
+        Route::get('/wechat_mini_program_config', [WechatMiniProgramConfigController::class, 'index']);
+        Route::post('/wechat_mini_program_config/save', [WechatMiniProgramConfigController::class, 'save']);
     });
 
     // 日志监控路由组

@@ -24,7 +24,7 @@ class EditorController extends AdminController
      * 
      * @return Response 响应对象，包含转换后的PHP代码
      */
-    public function index()
+    public function index(): Response
     {
         // 获取请求中的schema参数并解析为PHP代码
         $schema = $this->parse(request()->input('schema'));
@@ -44,7 +44,7 @@ class EditorController extends AdminController
      * @param int $level 当前缩进级别，用于格式化输出代码
      * @return string 解析后的PHP代码字符串
      */
-    public function parse($json, $level = 1)
+    public function parse(array $json, int $level = 1): string
     {
         $code    = '';
         $map     = RendererMap::$map;
@@ -118,7 +118,7 @@ class EditorController extends AdminController
      * @param string $string 需要转义的字符串
      * @return string 转义后的字符串
      */
-    public function escape($string)
+    public function escape(string $string): string
     {
         return str_replace("'", "\'", $string);
     }

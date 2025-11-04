@@ -5,9 +5,7 @@ namespace warm\admin\trait;
 use Illuminate\Support\Str;
 use support\Response;
 use Throwable;
-use warm\admin\Admin;
 use warm\admin\model\system\SystemFile;
-use warm\admin\service\system\SystemFileService;
 use warm\common\service\StorageService;
 use warm\framework\support\facade\Storage;
 
@@ -125,7 +123,7 @@ trait UploadTrait
             $fileId = SystemFile::baseQuery()->insertGetId([
                 'origin_name' => $file_info['origin_name'],
                 'storage_mode' => $file_info['adapter'],
-                'new_name' => $file_info['file_name'] . '.' . $file_info['extension'],
+                'new_name' => $file_info['file_name'],
                 'mime_type' => $file_info['mime_type'],
                 'hash' => md5_file($file),
                 'file_type' => $file_info['type'],
@@ -135,7 +133,7 @@ trait UploadTrait
                 'url' => $file_info['url'],
                 'created_by' => 1,
             ]);
-            return $this->response()->success(['value' => $file_info['url'], 'id' => $fileId]);
+            return $this->response()->success(['value' => $file_info['path'], 'id' => $fileId]);
         } catch (Throwable $e) {
             return $this->response()->fail($e->getMessage());
         }

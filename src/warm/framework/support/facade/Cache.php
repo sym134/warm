@@ -30,7 +30,7 @@ class Cache
      * @param Closure $callback 回调函数，用于生成缓存值
      * @return mixed 缓存值
      */
-    public static function rememberForever($key, Closure $callback)
+    public static function rememberForever($key, Closure $callback): mixed
     {
         $value = self::get($key);
         if (!is_null($value)) {
@@ -52,7 +52,7 @@ class Cache
      * @param Closure $callback 回调函数，用于生成缓存值
      * @return mixed 缓存值
      */
-    public static function remember($key, $ttl, Closure $callback)
+    public static function remember($key, $ttl, Closure $callback): mixed
     {
         $value = self::get($key);
         if (!is_null($value)) {
