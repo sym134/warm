@@ -3,17 +3,17 @@
 namespace warm\admin\controller;
 
 use Exception;
+use Illuminate\Support\Facades\Hash;
 use support\Request;
 use support\Response;
 use warm\admin\Admin;
 use warm\admin\service\AdminUserService;
 use warm\admin\support\Captcha;
-use warm\framework\support\facade\Hash;
 use Webman\Event\Event;
 
 /**
  * 认证控制器类
- * 
+ *
  * 处理用户登录、登出、验证码等相关功能
  * 继承自AdminController，提供完整的认证流程管理
  */
@@ -21,16 +21,16 @@ class AuthController extends AdminController
 {
     /**
      * 服务类名称
-     * 
+     *
      * @var string
      */
     protected string $serviceName = AdminUserService::class;
 
     /**
      * 用户登录处理
-     * 
+     *
      * 验证用户提交的用户名和密码，处理验证码验证，执行登录操作
-     * 
+     *
      * @param Request $request HTTP请求对象
      * @return Response 响应对象
      */
@@ -51,22 +51,24 @@ class AuthController extends AdminController
 
         try {
             // 验证用户名和密码是否填写
-            $validator = validate([
-                'username' => 'require',
-                'password' => 'require',
-            ], [
-                'username.require' => translator('admin.required', ['attribute' => translator('admin.username')]),
-                'password.require' => translator('admin.required', ['attribute' => translator('admin.password')]),
-            ]);
-            if (!$validator->check($request->all())) {
-                abort(400, $validator->getError());
+            $validator = validator($request->all(),
+                [
+                    'username' => 'required',
+                    'password' => 'required',
+                ],
+                [
+                    'username.required' => translator('admin.required', ['attribute' => translator('admin.username')]),
+                    'password.required' => translator('admin.required', ['attribute' => translator('admin.password')]),
+                ]);
+            if ($validator->fails()) {
+                abort(400, $validator->errors());
             }
 
             // 查询用户信息
             $user = Admin::adminUserModel()::query()->where('username', $request->post('username'))->first();
 
             // 验证用户密码
-            if ($user && Hash::instance()->check($request->post('password'), $user->password)) {
+            if ($user && Hash::check($request->post('password'), $user->password)) {
                 // 检查用户是否启用
                 if (!$user->enabled) {
                     // 触发登录事件
@@ -94,9 +96,9 @@ class AuthController extends AdminController
 
     /**
      * 登录页面展示
-     * 
+     *
      * 构建并返回登录页面的Amis结构
-     * 
+     *
      * @return mixed 登录页面结构
      */
     public function loginPage()
@@ -144,12 +146,12 @@ class AuthController extends AdminController
             ->actions([])
             ->onEvent([
                 // 页面初始化事件
-                'inited'     => [
+                'inited' => [
                     'actions' => [
                         // 读取本地存储的登录参数
                         [
                             'actionType' => 'custom',
-                            'script'     => <<<JS
+                            'script' => <<<JS
 let loginParams = localStorage.getItem(window.\$owl.getCacheKey('loginParams'))
 if(loginParams){
     loginParams = JSON.parse(decodeURIComponent(window.atob(loginParams)))
@@ -171,7 +173,7 @@ JS
                         // 保存登录参数到本地, 并跳转到首页
                         [
                             'actionType' => 'custom',
-                            'script'     => <<<JS
+                            'script' => <<<JS
 let _data = {}
 if(event.data.remember_me){
     _data = { username: event.data.username, password: event.data.password }
@@ -204,19 +206,19 @@ JS,
                 $form,
             ]),
         ]);
-        
+
         // 返回登录页面
         return amis()->Page()->className('login-bg')->css([
             '.captcha-box .cxd-Image--thumb' => [
                 'padding' => '0',
-                'cursor'  => 'pointer',
-                'border'  => 'var(--Form-input-borderWidth) solid var(--Form-input-borderColor)',
+                'cursor' => 'pointer',
+                'border' => 'var(--Form-input-borderWidth) solid var(--Form-input-borderColor)',
 
-                'border-top-right-radius'    => '4px',
+                'border-top-right-radius' => '4px',
                 'border-bottom-right-radius' => '4px',
             ],
-            '.cxd-Image-thumb'               => ['width' => 'auto'],
-            '.login-bg'                      => [
+            '.cxd-Image-thumb' => ['width' => 'auto'],
+            '.login-bg' => [
                 'background' => 'var(--owl-body-bg)',
             ],
         ])->body(
@@ -250,9 +252,9 @@ JS,
 
     /**
      * 用户登出
-     * 
+     *
      * 执行用户登出操作，清除用户会话
-     * 
+     *
      * @return Response 响应对象
      */
     public function logout(): Response
@@ -266,7 +268,7 @@ JS,
 
     /**
      * 获取认证守卫实例
-     * 
+     *
      * @return mixed 认证守卫实例
      */
     protected function guard()
@@ -276,9 +278,9 @@ JS,
 
     /**
      * 获取当前用户信息
-     * 
+     *
      * 返回当前登录用户的基本信息和操作菜单
-     * 
+     *
      * @return Response 用户信息响应
      */
     public function currentUser(): Response
@@ -319,9 +321,9 @@ JS,
 
     /**
      * 用户设置页面
-     * 
+     *
      * 展示用户个人设置表单
-     * 
+     *
      * @return Response 设置页面响应
      */
     public function userSetting(): Response
@@ -353,9 +355,9 @@ JS,
 
     /**
      * 保存用户设置
-     * 
+     *
      * 更新用户的个人信息和密码
-     * 
+     *
      * @return Response 保存结果响应
      */
     public function saveUserSetting(): Response

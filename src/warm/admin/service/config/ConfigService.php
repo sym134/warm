@@ -1,16 +1,16 @@
 <?php
 
-namespace warm\admin\service\notice;
+namespace warm\admin\service\config;
 
 use warm\admin\service\AdminService;
-use warm\common\service\NoticeConfigDefaults;
+use warm\common\config\ConfigDefaults;
 
 /**
  * 通知配置服务类
  *
  * 提供通知配置管理功能
  */
-class NoticeConfigService extends AdminService
+class ConfigService extends AdminService
 {
     protected string $modelName = '';
 
@@ -66,6 +66,7 @@ class NoticeConfigService extends AdminService
             'wechat_official_account' => $this->getWechatOfficialAccountConfig(),
             'wechat_mini_program' => $this->getWechatMiniProgramConfig(),
             'email' => $this->getEmailConfig(),
+            'payment' => $this->getPaymentConfig(),
         ];
     }
 
@@ -109,6 +110,7 @@ class NoticeConfigService extends AdminService
             'wechat_official_account' => '微信公众号',
             'wechat_mini_program' => '微信小程序',
             'email' => '邮件通知',
+            'payment' => '支付配置',
         ];
     }
 
@@ -120,7 +122,7 @@ class NoticeConfigService extends AdminService
     public function getSmsConfig(): array
     {
         // 返回符合 overtrue/easy-sms 格式的配置
-        return systemConfig()->get(NoticeConfigDefaults::KEY_SMS_CONFIG, NoticeConfigDefaults::getSmsConfigDefault());
+        return systemConfig()->get(ConfigDefaults::KEY_SMS_CONFIG, ConfigDefaults::getSmsConfigDefault());
     }
 
     /**
@@ -130,7 +132,7 @@ class NoticeConfigService extends AdminService
      */
     public function getWechatOfficialAccountConfig(): array
     {
-        return systemConfig()->get(NoticeConfigDefaults::KEY_WECHAT_OFFICIAL_ACCOUNT_CONFIG, NoticeConfigDefaults::getWechatOfficialAccountConfigDefault());
+        return systemConfig()->get(ConfigDefaults::KEY_WECHAT_OFFICIAL_ACCOUNT_CONFIG, ConfigDefaults::getWechatOfficialAccountConfigDefault());
     }
 
     /**
@@ -140,7 +142,7 @@ class NoticeConfigService extends AdminService
      */
     public function getWechatMiniProgramConfig(): array
     {
-        return systemConfig()->get(NoticeConfigDefaults::KEY_WECHAT_MINI_PROGRAM_CONFIG, NoticeConfigDefaults::getWechatMiniProgramConfigDefault());
+        return systemConfig()->get(ConfigDefaults::KEY_WECHAT_MINI_PROGRAM_CONFIG, ConfigDefaults::getWechatMiniProgramConfigDefault());
     }
 
     /**
@@ -150,7 +152,17 @@ class NoticeConfigService extends AdminService
      */
     private function getEmailConfig(): array
     {
-        return systemConfig()->get(NoticeConfigDefaults::KEY_EMAIL_CONFIG, NoticeConfigDefaults::getEmailConfigDefault());
+        return systemConfig()->get(ConfigDefaults::KEY_EMAIL_CONFIG, ConfigDefaults::getEmailConfigDefault());
+    }
+
+    /**
+     * 获取支付配置
+     *
+     * @return array
+     */
+    public function getPaymentConfig(): array
+    {
+        return systemConfig()->get(ConfigDefaults::KEY_PAYMENT_CONFIG, ConfigDefaults::getPaymentConfigDefault());
     }
 
     /**
@@ -164,17 +176,26 @@ class NoticeConfigService extends AdminService
     {
         switch ($channel) {
             case 'sms':
-                $key = NoticeConfigDefaults::KEY_SMS_CONFIG;
-                $config = systemConfig()->get($key, NoticeConfigDefaults::getSmsConfigDefault());
+                $key = ConfigDefaults::KEY_SMS_CONFIG;
+                $config = systemConfig()->get($key, ConfigDefaults::getSmsConfigDefault());
                 return systemConfig()->set($key, array_merge($config, $data));
             case 'wechat_mini_program':
-                $key = NoticeConfigDefaults::KEY_WECHAT_MINI_PROGRAM_CONFIG;
-                return systemConfig()->set($key, $data);
+                $key = ConfigDefaults::KEY_WECHAT_MINI_PROGRAM_CONFIG;
+                $res = systemConfig()->set($key, $data);
+                // 热重载配置（动态更新数据库配置后）
+                \warm\bootstrap\WechatBootstrap::reload();
+                return $res;
             case 'email':
-                $key = NoticeConfigDefaults::KEY_EMAIL_CONFIG;
+                $key = ConfigDefaults::KEY_EMAIL_CONFIG;
                 return systemConfig()->set($key, $data);
             case 'wechat_official_account':
-                $key = NoticeConfigDefaults::KEY_WECHAT_OFFICIAL_ACCOUNT_CONFIG;
+                $key = ConfigDefaults::KEY_WECHAT_OFFICIAL_ACCOUNT_CONFIG;
+                $res = systemConfig()->set($key, $data);
+                // 热重载配置（动态更新数据库配置后）
+                \warm\bootstrap\WechatBootstrap::reload();
+                return $res;
+            case 'payment':
+                $key = ConfigDefaults::KEY_PAYMENT_CONFIG;
                 return systemConfig()->set($key, $data);
             default:
                 return false;
@@ -228,7 +249,7 @@ class NoticeConfigService extends AdminService
      */
     private function getSceneChannelMapping(): array
     {
-        return systemConfig()->get(NoticeConfigDefaults::KEY_NOTICE_SCENE_CHANNELS, NoticeConfigDefaults::getSceneChannelMappingDefault());
+        return systemConfig()->get(ConfigDefaults::KEY_NOTICE_SCENE_CHANNELS, ConfigDefaults::getSceneChannelMappingDefault());
     }
 
     /**
@@ -239,6 +260,6 @@ class NoticeConfigService extends AdminService
      */
     public function saveSceneChannelMapping(array $data): bool
     {
-        return systemConfig()->set(NoticeConfigDefaults::KEY_NOTICE_SCENE_CHANNELS, $data);
+        return systemConfig()->set(ConfigDefaults::KEY_NOTICE_SCENE_CHANNELS, $data);
     }
 }

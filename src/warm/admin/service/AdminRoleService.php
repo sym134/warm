@@ -135,11 +135,11 @@ class AdminRoleService extends AdminService
 
     /**
      * 删除角色
-     * 
-     * @param string $ids 删除的ID列表
+     *
+     * @param string|int $ids 删除的ID列表
      * @return bool 是否删除成功
      */
-    public function delete(string $ids): bool
+    public function delete(string|int $ids): bool
     {
         $_ids   = explode(',', $ids);
         $exists = $this->query()

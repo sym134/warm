@@ -2,11 +2,11 @@
 
 namespace warm\admin\service\system;
 
+use Illuminate\Support\Facades\Storage;
 use support\Db;
 use warm\admin\Admin;
 use warm\admin\model\system\SystemFile;
 use warm\admin\service\AdminService;
-use warm\framework\support\facade\Storage;
 
 /**
  * 系统文件服务类
@@ -40,11 +40,11 @@ class SystemFileService extends AdminService
 
     /**
      * 删除文件
-     * 
-     * @param string $ids 删除的ID列表
+     *
+     * @param string|int $ids 删除的ID列表
      * @return bool 是否删除成功
      */
-    public function delete(string $ids): bool
+    public function delete(string|int $ids): bool
     {
         Db::beginTransaction();
         try {

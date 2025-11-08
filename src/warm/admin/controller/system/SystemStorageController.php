@@ -50,38 +50,36 @@ class SystemStorageController extends AdminController
             ->panelClassName('px-10 m:px-0')->mode('horizontal')
             ->body([
                 amis()->Wrapper()->body([
-                    amis()->SelectControl('engine', '存储状态')
+                    amis()->SelectControl('default', '存储状态')
                         ->options(['local' => '本地存储', 'qiniu' => '七牛云存储', 'aliyun' => '阿里云存储', 'qcloud' => '腾讯云存储']),
                     amis()->TextControl('upload_size', '上传大小')->value('5242880')->description('单位Byte,1MB=1024*1024Byte'),
                     amis()->TextControl('file_type', '文件类型')->value('txt,doc,docx,xls,xlsx,ppt,pptx,rar,zip,7z,gz,pdf,wps,md'),
                     amis()->TextControl('image_type', '图片类型')->value('jpg,jpeg,png,gif,svg,bmp'),
                 ]),
-                amis()->Wrapper()->visibleOn('engine==\'local\'')->body([
-                    amis()->TextControl('storage.local.disk', '存储路径')->value('public')->required(),
-                    amis()->TextControl('storage.local.root', 'root')->description('根目录，例如：uploads'),
-                    amis()->TextControl('storage.local.domain', '域名')->description('请补全http://或https://，例如https://zzz.xxx.com')->required(),
+                amis()->Wrapper()->visibleOn('${default == "local"}')->body([
+                    amis()->TextControl('disks.local.url', '域名')->description('请补全http://或https://，例如https://zzz.xxx.com')->required(),
                 ]),
-                amis()->Wrapper()->visibleOn('engine==\'qiniu\'')->body([
-                    amis()->TextControl('storage.qiniu.bucket', '存储空间')->required(),
-                    amis()->TextControl('storage.qiniu.access_key', 'AccessKey')->required(),
-                    amis()->TextControl('storage.qiniu.secret_key', 'SecretKey')->required(),
-                    amis()->TextControl('storage.qiniu.root', 'root')->description('根目录，例如：uploads'),
-                    amis()->TextControl('storage.qiniu.domain', '域名')->required()->description('请补全http://或https://，例如https://zzz.xxx.com'),
+                amis()->Wrapper()->visibleOn('${default == "qiniu"}')->body([
+                    amis()->TextControl('disks.qiniu.bucket', '存储空间')->required(),
+                    amis()->TextControl('disks.qiniu.access_key', 'AccessKey')->required(),
+                    amis()->TextControl('disks.qiniu.secret_key', 'SecretKey')->required(),
+                    amis()->TextControl('disks.qiniu.root', 'root')->description('根目录，例如：uploads'),
+                    amis()->TextControl('disks.qiniu.url', '域名')->required()->description('请补全http://或https://，例如https://zzz.xxx.com'),
                 ]),
-                amis()->Wrapper()->visibleOn('engine==\'aliyun\'')->body([
-                    amis()->TextControl('storage.aliyun.bucket', '存储空间')->required(),
-                    amis()->TextControl('storage.aliyun.access_key', 'AccessKey')->required(),
-                    amis()->TextControl('storage.aliyun.secret_key', 'SecretKey')->required(),
-                    amis()->TextControl('storage.aliyun.root', 'root')->description('根目录，例如：uploads'),
-                    amis()->TextControl('storage.aliyun.domain', '域名')->required()->description('请补全http://或https://，例如https://zzz.xxx.com'),
+                amis()->Wrapper()->visibleOn('${default == "aliyun"}')->body([
+                    amis()->TextControl('disks.aliyun.bucket', '存储空间')->required(),
+                    amis()->TextControl('disks.aliyun.access_key', 'AccessKey')->required(),
+                    amis()->TextControl('disks.aliyun.secret_key', 'SecretKey')->required(),
+                    amis()->TextControl('disks.aliyun.root', 'root')->description('根目录，例如：uploads'),
+                    amis()->TextControl('disks.aliyun.url', '域名')->required()->description('请补全http://或https://，例如https://zzz.xxx.com'),
                 ]),
-                amis()->Wrapper()->visibleOn('engine==\'qcloud\'')->body([
-                    amis()->TextControl('storage.qcloud.bucket', '存储空间')->required(),
-                    amis()->TextControl('storage.qcloud.access_key', 'AccessKey')->required(),
-                    amis()->TextControl('storage.qcloud.secret_key', 'SecretKey')->required(),
-                    amis()->TextControl('storage.qcloud.domain', '域名')->required()->description('请补全http://或https://，例如https://zzz.xxx.com'),
-                    amis()->TextControl('storage.qcloud.root', 'root')->description('根目录，例如：uploads'),
-                    amis()->TextControl('storage.qcloud.region', 'REGION')->required(),
+                amis()->Wrapper()->visibleOn('${default == "qcloud"}')->body([
+                    amis()->TextControl('disks.qcloud.bucket', '存储空间')->required(),
+                    amis()->TextControl('disks.qcloud.access_key', 'AccessKey')->required(),
+                    amis()->TextControl('disks.qcloud.secret_key', 'SecretKey')->required(),
+                    amis()->TextControl('disks.qcloud.url', '域名')->required()->description('请补全http://或https://，例如https://zzz.xxx.com'),
+                    amis()->TextControl('disks.qcloud.root', 'root')->description('根目录，例如：uploads'),
+                    amis()->TextControl('disks.qcloud.region', 'REGION')->required(),
                 ]),
             ]);
     }

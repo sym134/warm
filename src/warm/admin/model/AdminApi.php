@@ -64,7 +64,7 @@ class AdminApi extends BaseModel
             if (!(new ReflectionClass($this->template))->isSubclassOf(AdminBaseApi::class)) return '';
 
             // 获取API实例
-            $api = appw($this->template);
+            $api = app($this->template);
 
             // 返回方法和标题的组合
             return $api->getMethod() . ' - ' . $api->getTitle();
@@ -90,7 +90,7 @@ class AdminApi extends BaseModel
             if (!(new ReflectionClass($this->template))->isSubclassOf(AdminBaseApi::class)) return 'any';
 
             // 获取API方法
-            $method = appw($this->template)->getMethod();
+            $method = app($this->template)->getMethod();
 
             // 检查方法是否在支持的方法列表中
             return in_array($method, self::METHODS) ? $method : 'any';

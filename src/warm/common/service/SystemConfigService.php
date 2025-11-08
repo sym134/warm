@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 use support\Db as DB;
 use warm\common\model\SystemConfig;
-use warm\framework\support\facade\Cache;
+use Illuminate\Support\Facades\Cache;
 
 /**
  * 通用配置服务类
@@ -188,5 +188,10 @@ class SystemConfigService
     public static function getCacheKey(string $key): string
     {
         return static::$cacheKeyPrefix . $key;
+    }
+
+    public static function filesystems()
+    {
+
     }
 }

@@ -13,4 +13,6 @@ return [
     \warm\command\GenRouteCommand::class,
     // 应用插件创建命令
     \warm\command\AppPluginCreateCommand::class,
+    // 添加微信菜单命令
+    \warm\command\AddWechatMenuCommand::class,
 ];

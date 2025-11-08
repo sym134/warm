@@ -30,16 +30,4 @@ class SqlMonitor implements Bootstrap
             SqlRecord::listen();
         }
     }
-
-    /**
-     * 应用启动时执行的引导方法
-     *
-     * 创建数据库迁移表，确保系统可以正常执行数据库迁移操作
-     *
-     * @return void
-     */
-    public function boot()
-    {
-        Db::createMigrationsTable();
-    }
 }

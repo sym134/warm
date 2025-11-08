@@ -8,7 +8,7 @@ use warm\admin\controller\AdminController;
 use warm\admin\renderer\Form;
 use warm\admin\renderer\Page;
 use warm\admin\renderer\TableColumn;
-use warm\admin\service\notice\NoticeConfigService;
+use warm\admin\service\config\ConfigService;
 use warm\common\service\notice\Notice;
 
 /**
@@ -18,7 +18,7 @@ use warm\common\service\notice\Notice;
  */
 class NoticeConfigController extends AdminController
 {
-    protected string $serviceName = NoticeConfigService::class;
+    protected string $serviceName = ConfigService::class;
     
     /**
      * 首页

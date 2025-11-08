@@ -210,6 +210,6 @@ PHP;
 
         admin_abort_if(file_exists($path), translator('admin.relationships.model_exists'));
 
-        appw('files')->put($path, $template);
+        app('files')->put($path, $template);
     }
 }

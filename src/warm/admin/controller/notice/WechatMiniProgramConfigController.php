@@ -6,7 +6,7 @@ use support\Request;
 use support\Response;
 use warm\admin\controller\AdminController;
 use warm\admin\renderer\Page;
-use warm\admin\service\notice\NoticeConfigService;
+use warm\admin\service\config\ConfigService;
 
 /**
  * 微信小程序配置控制器
@@ -18,7 +18,7 @@ class WechatMiniProgramConfigController extends AdminController
     /**
      * @var string $serviceName 服务类名称
      */
-    protected string $serviceName = NoticeConfigService::class;
+    protected string $serviceName = ConfigService::class;
 
     /**
      * 列表页面

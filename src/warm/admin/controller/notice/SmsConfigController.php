@@ -6,7 +6,7 @@ use support\Request;
 use support\Response;
 use warm\admin\controller\AdminController;
 use warm\admin\renderer\Page;
-use warm\admin\service\notice\NoticeConfigService;
+use warm\admin\service\config\ConfigService;
 
 /**
  * 短信配置控制器
@@ -15,7 +15,7 @@ use warm\admin\service\notice\NoticeConfigService;
  */
 class SmsConfigController extends AdminController
 {
-    protected string $serviceName = NoticeConfigService::class;
+    protected string $serviceName = ConfigService::class;
 
     /**
      * 短信配置页面

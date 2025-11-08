@@ -26,6 +26,6 @@ class Pipeline extends \Illuminate\Pipeline\Pipeline
      */
     public static function handle(mixed $passable): Pipeline
     {
-        return appw(self::class)->send($passable);
+        return app(self::class)->send($passable);
     }
 }

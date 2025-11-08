@@ -26,7 +26,7 @@ class MigrationGenerator extends BaseMigrationCreator
     {
         $this->model = $model;
 
-        parent::__construct(appw('files'), __DIR__ . '/stubs');
+        parent::__construct(app('files'), __DIR__ . '/stubs');
     }
 
     /**

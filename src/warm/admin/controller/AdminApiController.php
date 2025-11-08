@@ -43,6 +43,6 @@ class AdminApiController extends AdminController
         }
 
         // 执行API模板处理
-        return appw($api->template)->setApiRecord($api)->handle();
+        return app($api->template)->setApiRecord($api)->handle();
     }
 }

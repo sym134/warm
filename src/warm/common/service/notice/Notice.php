@@ -2,8 +2,8 @@
 
 namespace warm\common\service\notice;
 
+use warm\common\config\ConfigDefaults;
 use warm\common\service\BaseService;
-use warm\common\service\NoticeConfigDefaults;
 
 /**
  * 通知服务类
@@ -61,10 +61,10 @@ class Notice extends BaseService
     {
         // 从系统配置中加载各渠道配置
         $this->config = [
-            'sms' => $this->getConfig(NoticeConfigDefaults::KEY_SMS_CONFIG, []),
-            'wechat_official_account' => $this->getConfig(NoticeConfigDefaults::KEY_WECHAT_OFFICIAL_ACCOUNT_CONFIG, []),
-            'wechat_mini_program' => $this->getConfig(NoticeConfigDefaults::KEY_WECHAT_MINI_PROGRAM_CONFIG, []),
-            'email' => $this->getConfig(NoticeConfigDefaults::KEY_EMAIL_CONFIG, []),
+            'sms' => $this->getConfig(ConfigDefaults::KEY_SMS_CONFIG, []),
+            'wechat_official_account' => $this->getConfig(ConfigDefaults::KEY_WECHAT_OFFICIAL_ACCOUNT_CONFIG, []),
+            'wechat_mini_program' => $this->getConfig(ConfigDefaults::KEY_WECHAT_MINI_PROGRAM_CONFIG, []),
+            'email' => $this->getConfig(ConfigDefaults::KEY_EMAIL_CONFIG, []),
         ];
     }
     

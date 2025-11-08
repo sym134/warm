@@ -29,7 +29,7 @@ class Api
      */
     public static function boot(): void
     {
-        appw('admin.context')->set('apis', [
+        app('admin.context')->set('apis', [
             DataListApi::class,
             DataCreateApi::class,
             DataDetailApi::class,

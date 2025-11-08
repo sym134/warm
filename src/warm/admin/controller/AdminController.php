@@ -19,8 +19,13 @@ use warm\admin\support\cores\JsonResponse;
 
 /**
  * 管理后台控制器基类
- * 提供后台管理系统的通用操作方法，如增删改查、导入导出等
- * 所有管理后台控制器应继承此类
+ *
+ *  负责：
+ *  - 根据子类定义的 $serviceName 自动实例化对应 Service
+ *  - 初始化后台前缀与查询路径
+ *  - 提供页面状态标识（新增/编辑）
+ *
+ * @template TService of object
  */
 abstract class AdminController
 {
@@ -42,14 +47,15 @@ abstract class AdminController
 
 
     /**
-     * @var object 服务类实例
-     * 用于处理业务逻辑的对象，通过serviceName指定的服务类创建
+     * 用于处理业务逻辑的对象，由子类的 $serviceName 指定的服务类实例化
+     *
+     * @var TService|null
      */
-    protected object $service;
+    protected ?object $service = null;
 
     /**
-     * @var string $serviceName 服务类名称
-     * 指定当前控制器使用的服务类，用于处理具体业务逻辑
+     * @var class-string<TService> $serviceName 服务类名称
+     * 子类应指定具体的 Service 类名，例如：UserService::class
      */
     protected string $serviceName = '';
 
@@ -83,8 +89,8 @@ abstract class AdminController
      */
     public function __construct()
     {
-        // 如果子类定义了serviceName属性且不为空，则初始化对应的服务类实例
-        if (property_exists($this, 'serviceName') && $this->serviceName) {
+        // 初始化服务类实例
+        if ($this->serviceName) {
             $this->service = $this->serviceName::make();
         }
 

@@ -13,7 +13,7 @@ use warm\admin\renderer\Form;
 use warm\admin\service\AdminService;
 use warm\admin\support\Helper;
 use warm\exception\AdminException;
-use warm\framework\support\facade\Cache;
+use \Illuminate\Support\Facades\Cache;
 use Webman\Http\Request;
 use ZipArchive;
 

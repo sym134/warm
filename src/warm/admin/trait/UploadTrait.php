@@ -150,7 +150,7 @@ trait UploadTrait
 
         cache()->put($uploadId, [], 600);
 
-        appw('filesystem')->makeDirectory(base_path('public/chunk/' . $uploadId));
+        app('filesystem')->makeDirectory(base_path('public/chunk/' . $uploadId));
 
         return $this->response()->success(compact('uploadId'));
     }
@@ -195,7 +195,7 @@ trait UploadTrait
 
         $dir = dirname($fullPath);
         if (!is_dir($dir)) {
-            appw('filesystem')->makeDirectory($dir);
+            app('filesystem')->makeDirectory($dir);
         }
 
         for ($i = 0; $i < count($partList); $i++) {
@@ -217,7 +217,7 @@ trait UploadTrait
 
         $value = admin_resource_full_path($path);
 
-        appw('files')->deleteDirectory(base_path('public/chunk/' . $uploadId));
+        app('files')->deleteDirectory(base_path('public/chunk/' . $uploadId));
 
         return $this->response()->success(['value' => $value], '上传成功');
     }

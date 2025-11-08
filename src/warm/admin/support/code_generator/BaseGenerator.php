@@ -171,7 +171,7 @@ class BaseGenerator
         $path = static::guessClassFileName($name);
         $dir  = dirname($path);
 
-        $files = appw('files');
+        $files = app('files');
 
         if (!is_dir($dir)) {
             $files->makeDirectory($dir, 0755, true);

@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Hash;
 use warm\admin\Admin;
 use warm\admin\model\AdminUser;
-use warm\framework\support\facade\Hash;
 
 /**
  * 管理用户服务类
@@ -94,7 +94,7 @@ class AdminUserService extends AdminService
      * @param int $id 用户ID
      * @return void
      */
-    public function checkUsernameUnique($username, $id = 0): void
+    public function checkUsernameUnique(string $username, int $id = 0): void
     {
         $exists = $this->query()
             ->where('username', $username)
@@ -111,7 +111,7 @@ class AdminUserService extends AdminService
      * @param array $data 更新的数据
      * @return bool 是否更新成功
      */
-    public function updateUserSetting($primaryKey, $data): bool
+    public function updateUserSetting(mixed $primaryKey, array $data): bool
     {
         $this->passwordHandler($data, $primaryKey);
 
@@ -125,7 +125,7 @@ class AdminUserService extends AdminService
      * @param int|null $id 用户ID
      * @return void
      */
-    public function passwordHandler(&$data, $id = null): void
+    public function passwordHandler(array &$data, int $id = null): void
     {
         $password = Arr::get($data, 'password');
 
@@ -140,7 +140,7 @@ class AdminUserService extends AdminService
                 admin_abort_if(!Hash::check($data['old_password'], $oldPassword), translator('admin.admin_user.old_password_error'));
             }
 
-            $data['password'] = password_hash($password,PASSWORD_DEFAULT);;
+            $data['password'] = password_hash($password,PASSWORD_DEFAULT);
 
             unset($data['confirm_password']);
             unset($data['old_password']);
@@ -160,7 +160,7 @@ class AdminUserService extends AdminService
             ->with('roles')
             ->select(['id', 'name', 'username', 'avatar', 'enabled', 'created_at'])
             ->when($keyword, function ($query) use ($keyword) {
-                $query->where('username', 'like', "%{$keyword}%")->orWhere('name', 'like', "%{$keyword}%");
+                $query->where('username', 'like', "%$keyword%")->orWhere('name', 'like', "%$keyword%");
             });
 
         $this->sortable($query);
@@ -180,7 +180,7 @@ class AdminUserService extends AdminService
      * @param AdminUser $model 用户模型实例
      * @return bool 是否保存成功
      */
-    protected function saveData($data, array $columns, AdminUser $model): bool
+    protected function saveData(array $data, array $columns, AdminUser $model): bool
     {
         $roles = Arr::pull($data, 'roles');
 
@@ -203,11 +203,11 @@ class AdminUserService extends AdminService
 
     /**
      * 删除用户
-     * 
-     * @param string $ids 删除的ID列表
+     *
+     * @param string|int $ids 删除的ID列表
      * @return bool 是否删除成功
      */
-    public function delete(string $ids): bool
+    public function delete(string|int $ids): bool
     {
         $exists = $this->query()
             ->whereIn($this->primaryKey(), explode(',', $ids))

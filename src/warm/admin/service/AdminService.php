@@ -245,7 +245,7 @@ abstract class AdminService
                 try {
                     $_class = $this->modelName;
                     foreach ($list as $item) {
-                        $_class = appw($_class)->{$item}()->getModel()::class;
+                        $_class = app($_class)->{$item}()->getModel()::class;
                     }
                 } catch (Throwable $e) {
                     continue;
@@ -397,10 +397,10 @@ abstract class AdminService
     /**
      * 删除
      *
-     * @param string $ids 删除的ID列表
+     * @param string|int $ids 删除的ID列表
      * @return bool 是否删除成功
      */
-    public function delete(string $ids): bool
+    public function delete(string|int $ids): bool
     {
         Db::beginTransaction();
         try {

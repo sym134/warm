@@ -2,7 +2,7 @@
 
 namespace warm\common\service;
 
-use warm\framework\support\facade\Storage;
+use Illuminate\Support\Facades\Storage;
 use Webman\Http\UploadFile;
 use finfo;
 use RuntimeException;
@@ -95,7 +95,7 @@ class StorageService extends BaseService
      */
     public static function initUploadConfig(): void
     {
-        $config = Storage::getUploadConfig();
+        $config = systemConfig()->get('filesystems');
 
         self::$allowedFileExtensions = array_map('trim',
             explode(',', $config['file_type'] ?? '')
@@ -375,7 +375,7 @@ class StorageService extends BaseService
     {
         $root = Storage::getConfig()['root'];
         $root = trim($root, '/');
-        $path = $path ? $root . '/' . $path : $root;
+        $path = '';
         // 获取文件真实MIME类型
         $realMime = $realMime ?? self::getRealMimeType($file->getRealPath());
 
@@ -384,38 +384,29 @@ class StorageService extends BaseService
             // 图片类型
             self::validateImage($file, $realMime);
             $fileType = 'image';
-            $path = trim($path . '/images', '/'); // 为图片创建子目录
+            $path .= '/images'; // 为图片创建子目录
         } elseif (self::isVideoMime($realMime)) {
             // 视频类型
             self::validateFile($file, $realMime);
             $fileType = 'video';
-            $path = trim($path . '/videos', '/'); // 为视频创建子目录
+            $path .='/videos'; // 为视频创建子目录
         } elseif (self::isAudioMime($realMime)) {
             // 音频类型
             self::validateFile($file, $realMime);
             $fileType = 'audio';
-            $path = trim($path . '/audios', '/'); // 为音频创建子目录
+            $path  .= '/audios'; // 为音频创建子目录
         } else {
             // 其他文件类型
             self::validateFile($file, $realMime);
             $fileType = 'file';
-            $path = trim($path . '/files', '/'); // 为普通文件创建子目录
+            $path  .='/files'; // 为普通文件创建子目录
         }
         $path .= '/' . date('Y-m-d');
         $filename = empty($fileName) ? self::generateFilename($realMime) : $fileName;
         $filepath = trim($path . '/' . $filename, '/');
 
-        // 确保存储目录存在
-        if (!Storage::directoryExists(dirname($filepath))) {
-            Storage::createDirectory(dirname($filepath));
-        }
-
-        if (Storage::fileExists($filepath)) {
-            Storage::delete($filepath);
-        }
-
         // 保存文件
-        Storage::putFileAs($filepath, $file);
+        Storage::put($filepath, file_get_contents($file->getPathname()));
 
         return [
             'path' => $filepath,

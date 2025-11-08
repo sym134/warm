@@ -2,9 +2,8 @@
 
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Arr;
-use support\Container;
+use Illuminate\Support\Facades\Storage;
 use support\Db;
-use support\Translation;
 use warm\admin\admin;
 use warm\admin\model\AdminUser;
 use warm\admin\renderer\Amis;
@@ -12,11 +11,82 @@ use warm\admin\renderer\Component;
 use warm\admin\service\AdminPageService;
 use warm\admin\support\Pipeline;
 use warm\bootstrap\LaravelBootstrap;
-use warm\common\service\ConfigRepository;
 use warm\common\service\SystemConfigService;
 use warm\exception\AdminException;
-use warm\framework\support\facade\Cache;
-use warm\framework\support\facade\Storage;
+use Illuminate\Contracts\Validation\Factory as ValidationFactory;
+use Illuminate\Contracts\Validation\Validator as ValidatorContract;
+
+if (!function_exists('app')) {
+    /**
+     * Get the available container instance.
+     *
+     * @template TClass of object
+     *
+     * @param null $abstract
+     * @param array $parameters
+     * @return ($abstract is class-string<TClass> ? TClass : ($abstract is null ? \Illuminate\Foundation\Application : mixed))
+     */
+    function app($abstract = null, array $parameters = [])
+    {
+        $container = LaravelBootstrap::app();
+        if (is_null($abstract)) return $container;
+        return $container->make($abstract, $parameters);
+    }
+}
+
+if (!function_exists('cache')) {
+    /**
+     * Get / set the specified cache value.
+     * *
+     * * If an array is passed, we'll assume you want to put to the cache.
+     * *
+     * * @param string|array<string, mixed>|null $key key|data
+     * * @param mixed|null $default default|expiration|null
+     * * @return ($key is null ? \Illuminate\Cache\CacheManager : ($key is string ? mixed : bool))
+     * *
+     */
+    function cache(array|string $key = null, mixed $default = null)
+    {
+        if (is_null($key)) {
+            return app('cache');
+        }
+
+        if (is_string($key)) {
+            return app('cache')->get($key, $default);
+        }
+
+        if (! is_array($key)) {
+            throw new InvalidArgumentException(
+                'When setting a value in the cache, you must pass an array of key / value pairs.'
+            );
+        }
+
+        return app('cache')->put(key($key), array_first($key), ttl: $default);
+    }
+}
+
+if (! function_exists('validator')) {
+    /**
+     * Create a new Validator instance.
+     *
+     * @param array|null $data
+     * @param array $rules
+     * @param array $messages
+     * @param array $attributes
+     * @return ValidatorContract|ValidationFactory
+     */
+    function validator(?array $data = null, array $rules = [], array $messages = [], array $attributes = []): ValidatorContract|ValidationFactory
+    {
+        var_dump(ValidationFactory::class);
+        $factory = app('validator');
+
+        if (func_num_args() === 0) {
+            return $factory;
+        }
+
+        return $factory->make($data ?? [], $rules, $messages, $attributes);
+    }
+}
 
 /**
  * Bcrypt哈希函数
@@ -37,7 +107,7 @@ if (!function_exists('bcrypt')) {
      */
     function bcrypt(string $value, array $options = []): string
     {
-        return appw('hash')->make($value, $options);
+        return app('hash')->make($value, $options);
     }
 }
 
@@ -453,18 +523,33 @@ if (!function_exists('map2options')) {
 if (!function_exists('translator')) {
     function translator(string $key, array $replace = [], string|null $locale = null): ?string
     {
-        if (empty($key)) {
-            return $key;
-        }
+        $loader = app('translator')->getLoader();
+
         if (str_contains($key, '::')) {
-            [$domain, $item] = explode('::', $key, 2);
-            $itemSegments = explode('.', $item);
-            return Translation::instance($domain)
-                ->trans(count($itemSegments) === 1 ? null : implode('.', array_slice($itemSegments, 1)), $replace, $itemSegments[0], $locale);
-        } else {
-            $itemSegments = explode('.', $key);
-            return Translation::trans(count($itemSegments) === 1 ? null : implode('.', array_slice($itemSegments, 1)), $replace, $itemSegments[0], $locale);
+            [$plugin, $item] = explode('::', $key, 2);
+
+            if (method_exists($loader, 'addNamespace')) {
+                $langDir = base_path("plugin/{$plugin}/lang");
+                if (is_dir($langDir)) {
+                    $loader->addNamespace($plugin, $langDir);
+                }
+            }
         }
+        return app('translator')->get($key, $replace, $locale);
+
+
+//        if (empty($key)) {
+//            return $key;
+//        }
+//        if (str_contains($key, '::')) {
+//            [$domain, $item] = explode('::', $key, 2);
+//            $itemSegments = explode('.', $item);
+//            return Translation::instance($domain)
+//                ->trans(count($itemSegments) === 1 ? null : implode('.', array_slice($itemSegments, 1)), $replace, $itemSegments[0], $locale);
+//        } else {
+//            $itemSegments = explode('.', $key);
+//            return Translation::trans(count($itemSegments) === 1 ? null : implode('.', array_slice($itemSegments, 1)), $replace, $itemSegments[0], $locale);
+//        }
     }
 }
 
@@ -542,32 +627,6 @@ if (!function_exists('runCommand')) {
 }
 
 /**
- * 容器实例获取函数
- *
- * 获取容器实例或从容器中解析依赖
- *
- * @param string|null $abstract 要解析的依赖标识
- * @param array $parameters 解析时的参数
- * @return mixed|Container 容器实例或解析结果
- */
-if (!function_exists('appw')) {
-    /**
-     * 获取容器实例或从容器中解析依赖
-     *
-     * @param string|null $abstract 要解析的依赖标识
-     * @param array $parameters 解析时的参数
-     * @return mixed
-     */
-    function appw(string|null $abstract = null, array $parameters = []): mixed
-    {
-        if (is_null($abstract)) {
-            return Container::instance('jizhi.warm');
-        }
-        return Container::instance('jizhi.warm')->get($abstract);
-    }
-}
-
-/**
  * 数据库路径函数
  *
  * 获取数据库相关文件的路径
@@ -579,20 +638,6 @@ if (!function_exists('database_path')) {
     function database_path($name): string
     {
         return 'database/' . $name;
-    }
-}
-
-/**
- * 缓存函数
- *
- * 获取缓存实例
- *
- * @return Cache 缓存实例
- */
-if (!function_exists('cache')) {
-    function cache(): Cache
-    {
-        return new Cache();
     }
 }
 
@@ -677,33 +722,5 @@ if (!function_exists('file_upload_handle_multi')) {
                 return implode(',', $list);
             }
         );
-    }
-}
-
-if (!function_exists('app')) {
-    function app($abstract = null, $parameters = [])
-    {
-        $container = LaravelBootstrap::app();
-        if ($abstract === null) return $container;
-        return $container->make($abstract, $parameters);
-    }
-}
-
-if (!function_exists('config')) {
-    function config($key = null, $default = null)
-    {
-        // 优先使用 Webman 配置
-        $value = \Webman\Config::get($key);
-        if ($value !== null) return $value;
-
-        // 否则使用数据库配置
-        return ConfigRepository::get($key, $default);
-    }
-}
-
-if (!function_exists('storage')) {
-    function storage($disk = null)
-    {
-        return \warm\common\service\app('filesystem')->disk($disk);
     }
 }

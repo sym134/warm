@@ -325,7 +325,7 @@ class Generator
             }
         } catch (Throwable $e) {
             if (count($paths) > 0) {
-                appw('files')->delete($paths);
+                app('files')->delete($paths);
             }
 
             RouteGenerator::refresh();

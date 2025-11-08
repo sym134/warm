@@ -159,10 +159,10 @@ class ApiController extends AdminController
 
             // 如果目录不存在，则创建目录
             if (!is_dir($dir)) {
-                appw('files')->makeDirectory($dir, 0755, true);
+                app('files')->makeDirectory($dir, 0755, true);
             }
             // 保存模板文件
-            appw('files')->put($file, $template);
+            app('files')->put($file, $template);
         } catch (\Throwable $e) {
             // 如果出现异常，则返回保存失败信息
             return $this->response()->fail(translator('admin.save_failed'));
@@ -235,7 +235,7 @@ class ApiController extends AdminController
         $apis = collect(\support\Container::instance('jizhi.warm')->get('apis'))
             ->filter(fn($item) => (new \ReflectionClass($item))->isSubclassOf(AdminBaseApi::class))
             ->map(fn($item) => [
-                'label' => appw($item)->getMethod() . ' - ' . appw($item)->getTitle(),
+                'label' => app($item)->getMethod() . ' - ' . app($item)->getTitle(),
                 'value' => $item,
             ]);
 
@@ -253,7 +253,7 @@ class ApiController extends AdminController
     public function argsSchema(): Response
     {
         // 获取模板对应的参数结构
-        $schema = appw(request()->input('template'))->argsSchema();
+        $schema = app(request()->input('template'))->argsSchema();
 
         // 如果结构为空，则设置为null
         if (blank($schema)) {

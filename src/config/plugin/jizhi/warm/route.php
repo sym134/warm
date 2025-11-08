@@ -24,6 +24,8 @@ use warm\admin\controller\system\SystemCrontabLogController;
 use warm\admin\controller\system\CacheController;
 use warm\admin\controller\system\SystemFileController;
 use warm\admin\controller\system\SystemStorageController;
+use warm\admin\controller\system\WechatReplyController;
+use warm\admin\controller\system\PaymentConfigController;
 use Webman\Route;
 
 /**
@@ -96,6 +98,11 @@ Route::group(Admin::warmConfig('app.route.prefix'), function () {
         Route::get('/crontab_run', [SystemCrontabController::class, 'run']);
         Route::resource('/crontab_log', SystemCrontabLogController::class);
 
+        // 支付配置
+        Route::get('/payment_config', [PaymentConfigController::class, 'list']);
+        Route::get('/payment_config/getData', [PaymentConfigController::class, 'getData']);
+        Route::put('/payment_config/update', [PaymentConfigController::class, 'update']);
+
     });
 
     Route::group('/setting', function () {
@@ -121,12 +128,23 @@ Route::group(Admin::warmConfig('app.route.prefix'), function () {
 
     // 应用设置路由组
     Route::group('/app', function () {
-        // 微信公众号配置
-        Route::get('/wechat_official_account_config', [WechatOfficialAccountConfigController::class, 'index']);
-        Route::post('/wechat_official_account_config/save', [WechatOfficialAccountConfigController::class, 'save']);
-        // 微信小程序配置
-        Route::get('/wechat_mini_program_config', [WechatMiniProgramConfigController::class, 'index']);
-        Route::post('/wechat_mini_program_config/save', [WechatMiniProgramConfigController::class, 'save']);
+        Route::group('/wechat',function (){
+            // 微信回复管理
+            Route::get('/reply/{key}', [WechatReplyController::class, 'reply']);
+            Route::get('/get_reply', [WechatReplyController::class, 'getReply']);
+            Route::get('/save_reply', [WechatReplyController::class, 'saveReply']);
+            Route::resource('/keyword', WechatReplyController::class);
+
+            // 微信小程序配置
+            Route::get('/mini_program_config', [WechatMiniProgramConfigController::class, 'index']);
+            Route::post('/mini_program_config/save', [WechatMiniProgramConfigController::class, 'save']);
+            // 微信公众号配置
+            Route::get('/official_account_config', [WechatOfficialAccountConfigController::class, 'index']);
+            Route::post('/official_account_config/save', [WechatOfficialAccountConfigController::class, 'save']);
+        });
+
+
+
     });
 
     // 日志监控路由组

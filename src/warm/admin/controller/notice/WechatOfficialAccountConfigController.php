@@ -2,14 +2,12 @@
 
 namespace warm\admin\controller\notice;
 
+use Illuminate\Support\Facades\Storage;
 use support\Request;
 use support\Response;
 use warm\admin\controller\AdminController;
-use warm\admin\renderer\Form;
 use warm\admin\renderer\Page;
-use warm\admin\service\notice\NoticeConfigService;
-use warm\common\service\NoticeConfigDefaults;
-use warm\framework\support\facade\Storage;
+use warm\admin\service\config\ConfigService;
 
 /**
  * 微信公众号配置控制器
@@ -21,7 +19,7 @@ class WechatOfficialAccountConfigController extends AdminController
     /**
      * @var string $serviceName 服务类名称
      */
-    protected string $serviceName = NoticeConfigService::class;
+    protected string $serviceName = ConfigService::class;
 
     public function index(): Response
     {
@@ -79,7 +77,7 @@ class WechatOfficialAccountConfigController extends AdminController
                             ->accept('.txt')
                             ->autoUpload(true)
                             ->uploadType('file')
-                            ->api('post:' . admin_url('upload_file'))
+                            ->receiver(admin_url('/app/wechat_official_account_config/upload'))
                             ->btnLabel('上传文件')
                             ->btnClassName('btn-secondary')
                             ->drag(true)
@@ -110,26 +108,12 @@ class WechatOfficialAccountConfigController extends AdminController
     {
         $postData = $request->post();
 
-        // 处理微信校验文件上传
-        if (!empty($postData['verify_file_path'])) {
-            if (!Storage::has($postData['verify_file_path'])) {
-                return $this->response()->fail('无法读取文件: ' . $postData['verify_file_path']);
+        // 路径为空删除旧的文件
+        if (empty($postData['verify_file_path'])) {
+            $config = $this->service->getWechatOfficialAccountConfig();
+            if (!empty($config['verify_file_path'])) {
+                Storage::delete($config['verify_file_path']);
             }
-
-            // 使用Storage类获取文件内容
-            $fileContent = Storage::read($postData['verify_file_path']);
-            $fileName = basename($postData['verify_file_path']);
-            // 确保public目录存在
-            $publicPath = base_path('public');
-            if (!is_dir($publicPath)) {
-                mkdir($publicPath, 0755, true);
-            }
-
-            // 保存文件到public目录，保持文件名一致
-            $targetPath = $publicPath . '/' . $fileName;
-            file_put_contents($targetPath, $fileContent);
-
-            $postData['verify_file_path'] = '/' . $fileName;
         }
 
         $result = $this->service->saveConfig('wechat_official_account', $postData);
@@ -139,5 +123,13 @@ class WechatOfficialAccountConfigController extends AdminController
         }
 
         return $this->response()->fail('保存失败: ' . $this->service->getError());
+    }
+
+    public function upload(): Response
+    {
+        $file = \request()->file('file');
+        var_dump($file->getUploadName());
+        Storage::disk('local')->put($file->getUploadName(), $file->getPathname());
+        return $this->response()->success(['value' => $file->getUploadName(), 'id' => 0]);
     }
 }

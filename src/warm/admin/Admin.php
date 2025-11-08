@@ -53,7 +53,7 @@ class Admin
      */
     public static function menu(): Menu
     {
-        return appw('admin.menu');
+        return app('admin.menu');
     }
 
     /**
@@ -91,11 +91,10 @@ class Admin
      *
      * 获取上下文管理对象，用于存储和获取请求上下文数据
      *
-     * @return Context 上下文管理对象
      */
-    public static function context(): Context
+    public static function context()
     {
-        return appw('admin.context');
+        return app('admin.context');
     }
 
     /**
@@ -105,7 +104,7 @@ class Admin
      */
     public static function config(): SystemConfigService
     {
-        return appw('admin.config');
+        return app('admin.config');
     }
 
     /**
