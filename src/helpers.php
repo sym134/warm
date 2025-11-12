@@ -1,6 +1,9 @@
 <?php
 
+use Illuminate\Container\Container;
 use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Contracts\Validation\Factory as ValidationFactory;
+use Illuminate\Contracts\Validation\Validator as ValidatorContract;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 use support\Db;
@@ -10,11 +13,9 @@ use warm\admin\renderer\Amis;
 use warm\admin\renderer\Component;
 use warm\admin\service\AdminPageService;
 use warm\admin\support\Pipeline;
-use warm\bootstrap\LaravelBootstrap;
 use warm\common\service\SystemConfigService;
 use warm\exception\AdminException;
-use Illuminate\Contracts\Validation\Factory as ValidationFactory;
-use Illuminate\Contracts\Validation\Validator as ValidatorContract;
+use warm\support\Cache;
 
 if (!function_exists('app')) {
     /**
@@ -24,11 +25,11 @@ if (!function_exists('app')) {
      *
      * @param null $abstract
      * @param array $parameters
-     * @return ($abstract is class-string<TClass> ? TClass : ($abstract is null ? \Illuminate\Foundation\Application : mixed))
+     * @return ($abstract is class-string<TClass> ? TClass : ($abstract is null ? Container : mixed))
      */
     function app($abstract = null, array $parameters = [])
     {
-        $container = LaravelBootstrap::app();
+        $container = \warm\bootstrap\LaravelBridge::app();
         if (is_null($abstract)) return $container;
         return $container->make($abstract, $parameters);
     }
@@ -36,32 +37,27 @@ if (!function_exists('app')) {
 
 if (!function_exists('cache')) {
     /**
-     * Get / set the specified cache value.
-     * *
-     * * If an array is passed, we'll assume you want to put to the cache.
-     * *
-     * * @param string|array<string, mixed>|null $key key|data
-     * * @param mixed|null $default default|expiration|null
-     * * @return ($key is null ? \Illuminate\Cache\CacheManager : ($key is string ? mixed : bool))
-     * *
+     * @param array|string|null $key
+     * @param mixed|null $default
+     * @return mixed
      */
-    function cache(array|string $key = null, mixed $default = null)
+    function cache(array|string $key = null, mixed $default = null): mixed
     {
         if (is_null($key)) {
-            return app('cache');
+            return new Cache();
         }
 
         if (is_string($key)) {
-            return app('cache')->get($key, $default);
+            return Cache::get($key, $default);
         }
 
-        if (! is_array($key)) {
+        if (!is_array($key)) {
             throw new InvalidArgumentException(
                 'When setting a value in the cache, you must pass an array of key / value pairs.'
             );
         }
 
-        return app('cache')->put(key($key), array_first($key), ttl: $default);
+        return Cache::put(key($key), array_first($key),  $default);
     }
 }
 
@@ -77,7 +73,6 @@ if (! function_exists('validator')) {
      */
     function validator(?array $data = null, array $rules = [], array $messages = [], array $attributes = []): ValidatorContract|ValidationFactory
     {
-        var_dump(ValidationFactory::class);
         $factory = app('validator');
 
         if (func_num_args() === 0) {
@@ -275,7 +270,7 @@ if (!function_exists('file_upload_handle')) {
     {
         return \Illuminate\Database\Eloquent\Casts\Attribute::make(
             get: fn($value) => $value ? Storage::url($value) : '',
-            set: fn($value) => str_replace(Storage::url(), '', $value)
+            set: fn($value) => str_replace(Storage::url(''), '', $value)
         );
     }
 }
@@ -300,7 +295,7 @@ if (!function_exists('file_upload_handle_multi')) {
                 return array_map(fn($item) => $item ? admin_resource_full_path($item) : '', explode(',', $value));
             },
             set: function ($value) {
-                $url = Storage::url();
+                $url = Storage::url('');
                 if (is_string($value)) {
                     return str_replace($url, '', $value);
                 }
@@ -526,7 +521,7 @@ if (!function_exists('translator')) {
         $loader = app('translator')->getLoader();
 
         if (str_contains($key, '::')) {
-            [$plugin, $item] = explode('::', $key, 2);
+            [$plugin,] = explode('::', $key, 2);
 
             if (method_exists($loader, 'addNamespace')) {
                 $langDir = base_path("plugin/{$plugin}/lang");

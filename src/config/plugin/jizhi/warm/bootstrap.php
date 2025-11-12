@@ -9,5 +9,5 @@
 return [
     // SQL监控启动类
     \warm\bootstrap\SqlMonitor::class,
-    \warm\bootstrap\LaravelBootstrap::class
+    \warm\bootstrap\LaravelBridge::class
 ];

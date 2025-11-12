@@ -190,8 +190,9 @@ Warm 的配置文件主要位于 `config/plugin/jizhi/warm/` 目录下：
 - [route.php](file:///D:/develop/project/composer-packge/jizhi/warm/src/config/plugin/jizhi/warm/route.php)：路由配置
 
 获取配置值：
+
 ```php
-$value = warm\admin\Admin::warmConfig('key', 'default');
+$value = \warm\admin\Admin::warmConfig('key', 'default');
 ```
 
 ## 数据库

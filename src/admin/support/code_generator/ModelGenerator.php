@@ -1,0 +1,100 @@
+<?php
+
+namespace warm\admin\support\code_generator;
+
+use Illuminate\Support\Str;
+use Illuminate\Support\Arr;
+
+/**
+ * 模型代码生成器
+ * 
+ * 用于生成Eloquent模型类代码
+ * 继承自BaseGenerator，提供模型特定的生成逻辑
+ */
+class ModelGenerator extends BaseGenerator
+{
+    /**
+     * 生成模型文件
+     * 
+     * @return bool|string 生成的文件路径
+     */
+    public function generate(): bool|string
+    {
+        return $this->writeFile($this->model->model_name, 'Model');
+    }
+
+    /**
+     * 预览模型代码
+     * 
+     * @return string 生成的模型代码
+     */
+    public function preview(): string
+    {
+        return $this->assembly();
+    }
+
+    /**
+     * 组装模型代码
+     * 
+     * @return string 完整的模型代码
+     */
+    public function assembly(): string
+    {
+        $name  = $this->model->model_name;
+        $class = Str::of($name)->explode('/')->last();
+
+        $content = '<?php' . PHP_EOL . PHP_EOL;
+        $content .= 'namespace ' . $this->getNamespace($name) . ';' . PHP_EOL . PHP_EOL;
+
+        // 软删
+        if ($this->model->soft_delete) {
+            $content .= 'use Illuminate\\Database\\Eloquent\\SoftDeletes;' . PHP_EOL;
+        }
+
+        $content .= 'use warm\common\model\BaseModel;' . PHP_EOL . PHP_EOL;
+        $content .= '/**' . PHP_EOL;
+        $content .= ' * ' . $this->model->title . PHP_EOL;
+        $content .= ' */' . PHP_EOL;
+        $content .= "class {$class} extends BaseModel" . PHP_EOL;
+        $content .= '{' . PHP_EOL;
+
+        if ($this->model->soft_delete) {
+            $content .= "\tuse SoftDeletes;" . PHP_EOL;
+        }
+
+        // 表名
+        if (Str::plural(strtolower($class)) !== $this->model->table_name) {
+            $content .= PHP_EOL . "\tprotected \$table = '{$this->model->table_name}';" . PHP_EOL;
+        }
+        // 主键
+        if ($this->model->primary_key != 'id') {
+            $content .= PHP_EOL . "protected \$primaryKey = '{$this->model->primary_key}';" . PHP_EOL;
+        }
+        // 时间戳
+        if (!$this->model->need_timestamps) {
+            $content .= PHP_EOL . "\tpublic \$timestamps = false;" . PHP_EOL;
+        }
+        // 处理文件上传
+        foreach ($this->model->columns as $column) {
+            if (Arr::get($column, 'file_column', false)) {
+                $_name = Str::camel($column['name']);
+                $fun   = 'file_upload_handle';
+                if (Arr::get($column, 'file_column_multi', false)) {
+                    $fun = 'file_upload_handle_multi';
+                }
+                $content .= <<<EOF
+
+    public function {$_name}():\Illuminate\Database\Eloquent\Casts\Attribute
+    {
+        return {$fun}();
+    }
+
+EOF;
+            }
+        }
+
+        $content .= '}';
+
+        return $content;
+    }
+}
