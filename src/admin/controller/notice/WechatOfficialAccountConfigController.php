@@ -128,7 +128,6 @@ class WechatOfficialAccountConfigController extends AdminController
     public function upload(): Response
     {
         $file = \request()->file('file');
-        var_dump($file->getUploadName());
         Storage::disk('local')->put($file->getUploadName(), $file->getPathname());
         return $this->response()->success(['value' => $file->getUploadName(), 'id' => 0]);
     }
