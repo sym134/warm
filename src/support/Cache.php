@@ -4,6 +4,7 @@ namespace warm\support;
 
 use Closure;
 use support\Cache as WebmanCache;
+use support\Container;
 
 /**
  * 缓存操作工具类
@@ -18,7 +19,30 @@ class Cache
      */
     protected static function getPrefixedKey(string $key): string
     {
-        return config('cache.prefix', 'warm') . '-' . $key;
+        $cfg = config('plugin.saas.app');
+        $prefix = config('cache.prefix', 'warm');
+
+        $defaultPrefix = $cfg['cache']['default_prefix'] ?? '';
+        $tenantPrefix = $cfg['cache']['tenant_prefix'] ?? 'tenant';
+
+        // ❌ 未安装插件 / pluginContainer 不存在 / 插件未启用
+        if (
+            empty($cfg['enable']) || is_null(pluginContainer('saas')) ||
+            !pluginContainer('saas')->has(\plugin\saas\app\support\RequestTenantContextInterface::class)
+        ) {
+            return "{$prefix}-{$defaultPrefix}-{$key}";
+        }
+
+        // 安全调用 TenantContext
+        $tenantId = \plugin\saas\app\support\tenant\TenantContext::getTenantId();
+
+        // 🔁 启用 SaaS 但无租户 → 默认前缀
+        if (!$tenantId) {
+            return "{$prefix}-{$defaultPrefix}-{$key}";
+        }
+
+        // 🔁 有租户 → 租户前缀
+        return "{$prefix}-{$tenantPrefix}-{$tenantId}-{$key}";
     }
 
     /**

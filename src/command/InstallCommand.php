@@ -2,6 +2,7 @@
 
 namespace warm\command;
 
+use Symfony\Component\Console\Exception\ExceptionInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use warm\admin\Admin;
@@ -27,10 +28,11 @@ class InstallCommand extends BaseCommand
 
     /**
      * 执行安装命令的主方法
-     * 
+     *
      * @param InputInterface $input 输入接口对象
      * @param OutputInterface $output 输出接口对象
      * @return int 返回执行状态码 (self::SUCCESS 或 self::FAILURE)
+     * @throws ExceptionInterface
      */
     public function handle(InputInterface $input, OutputInterface $output): int
     {

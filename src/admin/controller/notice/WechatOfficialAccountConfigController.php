@@ -125,9 +125,9 @@ class WechatOfficialAccountConfigController extends AdminController
         return $this->response()->fail('保存失败: ' . $this->service->getError());
     }
 
-    public function upload(): Response
+    public function upload(Request $request): Response
     {
-        $file = \request()->file('file');
+        $file = $request->file('file');
         Storage::disk('local')->put($file->getUploadName(), $file->getPathname());
         return $this->response()->success(['value' => $file->getUploadName(), 'id' => 0]);
     }

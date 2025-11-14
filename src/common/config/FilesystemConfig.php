@@ -10,7 +10,7 @@ class FilesystemConfig
         'ext_no' => [], // 不允许上传文件类型 为空则不限制
         'image_yes' => [],
 
-        'default' => 'local',
+        'default' => 'public',
         'disks' => [
             'local' => [
                 'driver' => 'local',

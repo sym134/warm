@@ -57,11 +57,11 @@ if (!function_exists('cache')) {
             );
         }
 
-        return Cache::put(key($key), array_first($key),  $default);
+        return Cache::put(key($key), Arr::first($key), $default);
     }
 }
 
-if (! function_exists('validator')) {
+if (!function_exists('validator')) {
     /**
      * Create a new Validator instance.
      *
@@ -717,5 +717,16 @@ if (!function_exists('file_upload_handle_multi')) {
                 return implode(',', $list);
             }
         );
+    }
+}
+
+if (!function_exists('pluginContainer')) {
+    /**
+     * @param string|null $pluginName
+     * @return array|mixed|void|null
+     */
+    function pluginContainer(string $pluginName = null)
+    {
+        return \support\Container::instance($pluginName);
     }
 }

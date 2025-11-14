@@ -4,6 +4,7 @@ namespace warm\admin;
 
 use support\Db;
 use warm\admin\model\{AdminPermission};
+use support\Model;
 use warm\admin\model\AdminMenu;
 use warm\admin\model\AdminRole;
 use warm\admin\model\AdminUser;
@@ -109,41 +110,51 @@ class Admin
     /**
      * 获取管理菜单模型类名
      *
-     * @return string 管理菜单模型类名
+     * @return class-string<Model> 管理菜单模型类名
      */
     public static function adminMenuModel(): string
     {
-        return self::warmConfig('app.models.admin_menu', AdminMenu::class);
+        return self::modelClass('app.models.admin_menu', AdminMenu::class);
     }
 
     /**
      * 获取管理权限模型类名
      *
-     * @return string 管理权限模型类名
+     * @return class-string<Model> 管理权限模型类名
      */
     public static function adminPermissionModel(): string
     {
-        return self::warmConfig('app.models.admin_permission', AdminPermission::class);
+        return self::modelClass('app.models.admin_permission', AdminPermission::class);
     }
 
     /**
      * 获取管理角色模型类名
      *
-     * @return string 管理角色模型类名
+     * @return class-string<Model> 管理角色模型类名
      */
     public static function adminRoleModel(): string
     {
-        return self::warmConfig('app.models.admin_role', AdminRole::class);
+        return self::modelClass('app.models.admin_role', AdminRole::class);
     }
 
     /**
      * 获取管理用户模型类名
      *
-     * @return string 管理用户模型
+     * @return class-string<Model>
      */
     public static function adminUserModel(): string
     {
-        return self::warmConfig('app.models.admin_user', AdminUser::class);
+        return self::modelClass('app.models.admin_user', AdminUser::class);
+    }
+
+    /**
+     * @template T of Model
+     * @param class-string<T> $default
+     * @return class-string<T>
+     */
+    public static function modelClass(string $key, string $default): string
+    {
+        return self::warmConfig($key, $default);
     }
 
     /**

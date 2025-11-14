@@ -3,7 +3,6 @@
 namespace warm\admin\service\system;
 
 use warm\admin\service\AdminService;
-use warm\common\config\FilesystemConfig;
 
 /**
  * 存储配置服务类
@@ -24,29 +23,11 @@ class StorageService extends AdminService
      */
     public function saveConfig(array $data): bool
     {
-        $config = array_merge(FilesystemConfig::CONFIG, $data);
-//        \Illuminate\Support\Facades\Config::set('filesystems', $data);
-//        app()->forgetInstance('filesystem');
-//        app()->forgetInstance('filesystem.disk');
-//        app()->forgetInstance('filesystem.cloud');
-
-//        app()->singleton('files', fn() => new Filesystem());
-//        app()->singleton('filesystem', fn($app) => new FilesystemManager($app));
-
-//        $app=app();
-        // 移除已实例化的文件系统组件，让下次重新创建
-//        foreach (['filesystem', 'filesystem.disk', 'filesystem.cloud'] as $key) {
-//            if ($app->bound($key)) {
-//                $app->forgetInstance($key);
-//            }
-//        }
-        // 清空 Storage facade 内部缓存
-//        \Illuminate\Support\Facades\Storage::clearResolvedInstances();
-//        \Illuminate\Support\Facades\Storage::setFacadeApplication($app);
-$res = systemConfig()->set('filesystems', $config);
-if ($res){
-//    LaravelBridge::reloadConfig();
-}
+        $config = array_merge(config('filesystems'), $data);
+        $res = systemConfig()->set('filesystems', $config);
+        if ($res) {
+            //    LaravelBridge::reloadConfig();
+        }
         return $res;
     }
 
@@ -56,6 +37,6 @@ if ($res){
      */
     public function list(): array
     {
-        return array_merge(FilesystemConfig::CONFIG, systemConfig()->get('filesystems', []));
+        return array_merge(config('filesystems'), systemConfig()->get('filesystems', []));
     }
 }

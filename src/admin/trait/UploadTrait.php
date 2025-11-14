@@ -4,6 +4,7 @@ namespace warm\admin\trait;
 
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use support\Request;
 use support\Response;
 use Throwable;
 use warm\admin\model\system\SystemFile;
@@ -11,7 +12,7 @@ use warm\common\service\StorageService;
 
 /**
  * 上传Trait
- * 
+ *
  * 提供文件上传功能，包括图片上传、文件上传、富文本编辑器上传等
  * 支持普通上传和分片上传两种方式
  */
@@ -32,9 +33,13 @@ trait UploadTrait
      *
      * @return Response 响应对象
      */
-    public function uploadImage(): Response
+    public function uploadImage(Request $request): Response
     {
-        return $this->upload('image');
+        try {
+            return $this->response()->success($this->systemFileUpload($request->file('file')));
+        }catch (Throwable $e){
+            return $this->response()->fail($e->getMessage());
+        }
     }
 
     /**
@@ -52,9 +57,13 @@ trait UploadTrait
      *
      * @return Response 响应对象
      */
-    public function uploadFile(): Response
+    public function uploadFile(Request $request): Response
     {
-        return $this->upload();
+        try {
+            return $this->response()->success($this->systemFileUpload($request->file('file')));
+        }catch (Throwable $e){
+            return $this->response()->fail($e->getMessage());
+        }
     }
 
     /**
@@ -84,11 +93,10 @@ trait UploadTrait
             $file = request()->file('wangeditor-uploaded-image');
             if (!$file) {
                 $file = request()->file('wangeditor-uploaded-video');
+                if (!$file) {
+                    return $this->response()->additional(['errno' => 1])->fail(translator('admin.upload_file_error'));
+                }
             }
-        }
-
-        if (!$file) {
-            return $this->response()->additional(['errno' => 1])->fail(translator('admin.upload_file_error'));
         }
 
         try {
@@ -108,35 +116,40 @@ trait UploadTrait
 
     /**
      * 文件上传处理
-     *
-     * @return Response 响应对象
+     * @param Request $request
+     * @return Response
      */
-    protected function upload(): Response
+    protected function upload(Request $request): Response
     {
-        $file = request()->file('file');
+        $file = $request->file('file');
         if (!$file) {
             return $this->response()->fail(translator('admin.upload_file_error'));
         }
 
         try {
-            $file_info = StorageService::upload($file);
-            $fileId = SystemFile::baseQuery()->insertGetId([
-                'origin_name' => $file_info['origin_name'],
-                'storage_mode' => $file_info['adapter'],
-                'new_name' => $file_info['file_name'],
-                'mime_type' => $file_info['mime_type'],
-                'hash' => md5_file($file),
-                'file_type' => $file_info['type'],
-                'storage_path' => $file_info['path'],
-                'file_size' => bcdiv($file_info['size'], 1024),
-                'size_byte' => $file_info['size'],
-                'url' => $file_info['url'],
-                'created_by' => 1,
-            ]);
-            return $this->response()->success(['value' => $file_info['path'], 'id' => $fileId]);
+            return $this->response()->success($this->systemFileUpload($file));
         } catch (Throwable $e) {
             return $this->response()->fail($e->getMessage());
         }
+    }
+
+    public function systemFileUpload($file): array
+    {
+        $file_info = StorageService::upload($file);
+        $fileId = SystemFile::baseQuery()->insertGetId([
+            'origin_name' => $file_info['origin_name'],
+            'storage_mode' => $file_info['adapter'],
+            'new_name' => $file_info['file_name'],
+            'mime_type' => $file_info['mime_type'],
+            'hash' => md5_file($file),
+            'file_type' => $file_info['type'],
+            'storage_path' => $file_info['path'],
+            'file_size' => bcdiv($file_info['size'], 1024),
+            'size_byte' => $file_info['size'],
+            'url' => $file_info['url'],
+            'created_by' => 1,
+        ]);
+        return ['value' => $file_info['path'], 'id' => $fileId];
     }
 
     /**

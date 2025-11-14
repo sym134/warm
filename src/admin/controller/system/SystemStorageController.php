@@ -51,13 +51,13 @@ class SystemStorageController extends AdminController
             ->body([
                 amis()->Wrapper()->body([
                     amis()->SelectControl('default', '存储状态')
-                        ->options(['local' => '本地存储', 'qiniu' => '七牛云存储', 'aliyun' => '阿里云存储', 'qcloud' => '腾讯云存储']),
+                        ->options(['public' => '本地存储', 'qiniu' => '七牛云存储', 'aliyun' => '阿里云存储', 'qcloud' => '腾讯云存储']),
                     amis()->TextControl('upload_size', '上传大小')->value('5242880')->description('单位Byte,1MB=1024*1024Byte'),
                     amis()->TextControl('file_type', '文件类型')->value('txt,doc,docx,xls,xlsx,ppt,pptx,rar,zip,7z,gz,pdf,wps,md'),
                     amis()->TextControl('image_type', '图片类型')->value('jpg,jpeg,png,gif,svg,bmp'),
                 ]),
-                amis()->Wrapper()->visibleOn('${default == "local"}')->body([
-                    amis()->TextControl('disks.local.url', '域名')->description('请补全http://或https://，例如https://zzz.xxx.com')->required(),
+                amis()->Wrapper()->visibleOn('${default == "public"}')->body([
+                    amis()->TextControl('disks.public.url', '域名')->description('请补全http://或https://，例如https://zzz.xxx.com')->required(),
                 ]),
                 amis()->Wrapper()->visibleOn('${default == "qiniu"}')->body([
                     amis()->TextControl('disks.qiniu.bucket', '存储空间')->required(),
