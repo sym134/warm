@@ -40,8 +40,7 @@ class AutoSetLocale implements MiddlewareInterface
 
         // 切换系统语言环境
         Lang::setLocale($locale);
-        
-        // 继续处理请求
+
         return $handler($request);
     }
 }

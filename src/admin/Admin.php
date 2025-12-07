@@ -243,6 +243,7 @@ class Admin
             middleware\ForceHttps::class,
             middleware\Authenticate::class,
             middleware\Permission::class,
+            middleware\Config::class,
         ];
     }
 }
