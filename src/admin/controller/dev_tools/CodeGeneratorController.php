@@ -16,8 +16,8 @@ use Throwable;
 use warm\admin\controller\AdminController;
 use warm\admin\plugin\PluginService;
 use warm\admin\renderer\Card;
-use warm\admin\renderer\ComboControl;
-use warm\admin\renderer\CRUDTable;
+use warm\admin\renderer\Combo;
+use warm\admin\renderer\CRUD;
 use warm\admin\renderer\DialogAction;
 use warm\admin\renderer\Flex;
 use warm\admin\renderer\Form;
@@ -74,9 +74,9 @@ class CodeGeneratorController extends AdminController
      * 创建一个包含过滤器、工具栏和数据列的CRUD表格，
      * 用于展示和管理代码生成记录。
      * 
-     * @return CRUDTable CRUD表格对象
+     * @return CRUD CRUD表格对象
      */
-    public function list(): CRUDTable
+    public function list(): CRUD
     {
         // 定义表单回调函数，用于创建和编辑操作
         $form = function ($isEdit = false) {
@@ -853,9 +853,9 @@ class CodeGeneratorController extends AdminController
      *
      * @param string $key 组件键名
      * @param string $label 组件标签
-     * @return ComboControl 组合控件对象
+     * @return Combo 组合控件对象
      */
-    public function componentSelect(string $key, string $label = ''): ComboControl
+    public function componentSelect(string $key, string $label = ''): Combo
     {
         // 构建组件属性相关的名称和ID
         $comboName = $key . '_property';

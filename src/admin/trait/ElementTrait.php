@@ -3,7 +3,7 @@
 namespace warm\admin\trait;
 
 use warm\admin\Admin;
-use warm\admin\renderer\ConditionBuilderControl;
+use warm\admin\renderer\ConditionBuilder;
 use warm\admin\renderer\DialogAction;
 use warm\admin\renderer\Form;
 use warm\admin\renderer\LinkAction;
@@ -258,9 +258,9 @@ trait ElementTrait
     /**
      * 基础筛选器 - 条件构造器
      *
-     * @return ConditionBuilderControl 条件构造器控件实例
+     * @return ConditionBuilder 条件构造器控件实例
      */
-    protected function baseFilterConditionBuilder(): ConditionBuilderControl
+    protected function baseFilterConditionBuilder(): ConditionBuilder
     {
         return amis()->ConditionBuilderControl('filter_condition_builder');
     }

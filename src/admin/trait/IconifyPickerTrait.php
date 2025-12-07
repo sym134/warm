@@ -2,7 +2,7 @@
 
 namespace warm\admin\trait;
 
-use warm\admin\renderer\PickerControl;
+use warm\admin\renderer\Picker;
 
 /**
  * Iconify图标选择器Trait
@@ -18,9 +18,9 @@ trait IconifyPickerTrait
      * @param string $name 字段名
      * @param string $label 标签
      *
-     * @return PickerControl 图标选择器控件实例
+     * @return Picker 图标选择器控件实例
      */
-    public function iconifyPicker(string $name = '', string $label = ''): PickerControl
+    public function iconifyPicker(string $name = '', string $label = ''): Picker
     {
         $schema = amis()->CRUDCards()
             ->perPage(40)

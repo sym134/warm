@@ -8,7 +8,7 @@ use Throwable;
 use warm\admin\Admin;
 use warm\admin\controller\AdminController;
 use warm\admin\plugin\PluginService;
-use warm\admin\renderer\CRUDTable;
+use warm\admin\renderer\CRUD;
 use warm\admin\renderer\DialogAction;
 use warm\admin\renderer\UrlAction;
 
@@ -95,9 +95,9 @@ class PluginController extends AdminController
      * 创建一个包含过滤器、工具栏和数据列的CRUD表格，
      * 用于展示和管理插件。
      *
-     * @return CRUDTable CRUD表格对象
+     * @return CRUD CRUD表格对象
      */
-    public function list(): CRUDTable
+    public function list(): CRUD
     {
         return amis()->CRUDTable()
             ->perPage(20)

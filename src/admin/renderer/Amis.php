@@ -36,7 +36,7 @@ class Amis
 
     public function ArrayControl($name = '', $label = '')
     {
-        $instance = ArrayControl::make();
+        $instance = InputArray::make();
 
         if ($name !== '') {
             $instance->name($name);
@@ -106,7 +106,7 @@ class Amis
 
     public function ButtonGroupControl($name = '', $label = '')
     {
-        $instance = ButtonGroupControl::make();
+        $instance = ButtonGroupSelect::make();
 
         if ($name !== '') {
             $instance->name($name);
@@ -136,7 +136,7 @@ class Amis
 
     public function CRUD2Table()
     {
-        return CRUD2Table::make();
+        return CRUD2::make();
     }
 
     public function CRUDCards()
@@ -151,7 +151,7 @@ class Amis
 
     public function CRUDTable()
     {
-        return CRUDTable::make();
+        return CRUD::make();
     }
 
     public function Calendar()
@@ -181,7 +181,7 @@ class Amis
 
     public function ChainedSelectControl($name = '', $label = '')
     {
-        $instance = ChainedSelectControl::make();
+        $instance = ChainedSelect::make();
 
         if ($name !== '') {
             $instance->name($name);
@@ -206,7 +206,7 @@ class Amis
 
     public function CheckboxControl($name = '', $label = '')
     {
-        $instance = CheckboxControl::make();
+        $instance = Checkbox::make();
 
         if ($name !== '') {
             $instance->name($name);
@@ -221,7 +221,7 @@ class Amis
 
     public function CheckboxesControl($name = '', $label = '')
     {
-        $instance = CheckboxesControl::make();
+        $instance = Checkboxes::make();
 
         if ($name !== '') {
             $instance->name($name);
@@ -266,7 +266,7 @@ class Amis
 
     public function ComboControl($name = '', $label = '')
     {
-        $instance = ComboControl::make();
+        $instance = Combo::make();
 
         if ($name !== '') {
             $instance->name($name);
@@ -286,7 +286,7 @@ class Amis
 
     public function ConditionBuilderControl($name = '', $label = '')
     {
-        $instance = ConditionBuilderControl::make();
+        $instance = ConditionBuilder::make();
 
         if ($name !== '') {
             $instance->name($name);
@@ -326,7 +326,7 @@ class Amis
 
     public function DateControl($name = '', $label = '')
     {
-        $instance = DateControl::make();
+        $instance = InputDate::make();
 
         if ($name !== '') {
             $instance->name($name);
@@ -346,7 +346,7 @@ class Amis
 
     public function DateRangeControl($name = '', $label = '')
     {
-        $instance = DateRangeControl::make();
+        $instance = InputDateRange::make();
 
         if ($name !== '') {
             $instance->name($name);
@@ -361,7 +361,7 @@ class Amis
 
     public function DateTimeControl($name = '', $label = '')
     {
-        $instance = DateTimeControl::make();
+        $instance = InputDateTime::make();
 
         if ($name !== '') {
             $instance->name($name);
@@ -386,7 +386,7 @@ class Amis
 
     public function DiffControl($name = '', $label = '')
     {
-        $instance = DiffControl::make();
+        $instance = DiffEditor::make();
 
         if ($name !== '') {
             $instance->name($name);
@@ -426,7 +426,7 @@ class Amis
 
     public function EditorControl($name = '', $label = '')
     {
-        $instance = EditorControl::make();
+        $instance = Editor::make();
 
         if ($name !== '') {
             $instance->name($name);
@@ -456,7 +456,7 @@ class Amis
 
     public function FieldSetControl($name = '', $label = '')
     {
-        $instance = FieldSetControl::make();
+        $instance = FieldSet::make();
 
         if ($name !== '') {
             $instance->name($name);
@@ -471,7 +471,7 @@ class Amis
 
     public function FileControl($name = '', $label = '')
     {
-        $instance = FileControl::make();
+        $instance = InputFile::make();
 
         if ($name !== '') {
             $instance->name($name);
@@ -496,7 +496,7 @@ class Amis
 
     public function FormControl($name = '', $label = '')
     {
-        $instance = FormControl::make();
+        $instance = Form::make();
 
         if ($name !== '') {
             $instance->name($name);
@@ -511,7 +511,7 @@ class Amis
 
     public function FormulaControl($name = '', $label = '')
     {
-        $instance = FormulaControl::make();
+        $instance = Formula::make();
 
         if ($name !== '') {
             $instance->name($name);
@@ -546,7 +546,7 @@ class Amis
 
     public function GroupControl($name = '', $label = '')
     {
-        $instance = GroupControl::make();
+        $instance = Group::make();
 
         if ($name !== '') {
             $instance->name($name);
@@ -571,7 +571,7 @@ class Amis
 
     public function HiddenControl($name = '', $label = '')
     {
-        $instance = HiddenControl::make();
+        $instance = Hidden::make();
 
         if ($name !== '') {
             $instance->name($name);
@@ -611,7 +611,7 @@ class Amis
 
     public function IconPickerControl($name = '', $label = '')
     {
-        $instance = IconPickerControl::make();
+        $instance = IconPicker::make();
 
         if ($name !== '') {
             $instance->name($name);
@@ -640,7 +640,7 @@ class Amis
 
     public function ImageControl($name = '', $label = '')
     {
-        $instance = ImageControl::make();
+        $instance = InputImage::make();
 
         if ($name !== '') {
             $instance->name($name);
@@ -674,7 +674,7 @@ class Amis
 
     public function InputCityControl($name = '', $label = '')
     {
-        $instance = InputCityControl::make();
+        $instance = InputCity::make();
 
         if ($name !== '') {
             $instance->name($name);
@@ -689,7 +689,7 @@ class Amis
 
     public function InputColorControl($name = '', $label = '')
     {
-        $instance = InputColorControl::make();
+        $instance = InputColor::make();
 
         if ($name !== '') {
             $instance->name($name);
@@ -714,7 +714,7 @@ class Amis
 
     public function InputGroupControl($name = '', $label = '')
     {
-        $instance = InputGroupControl::make();
+        $instance = InputGroup::make();
 
         if ($name !== '') {
             $instance->name($name);
@@ -764,7 +764,7 @@ class Amis
 
     public function InputPasswordControl($name = '', $label = '')
     {
-        $instance = InputPasswordControl::make();
+        $instance = InputPassword::make();
 
         if ($name !== '') {
             $instance->name($name);
@@ -778,7 +778,7 @@ class Amis
 
     public function JSONSchemaEditorControl($name = '', $label = '')
     {
-        $instance = JSONSchemaEditorControl::make();
+        $instance = JSONSchemaEditor::make();
 
         if ($name !== '') {
             $instance->name($name);
@@ -823,7 +823,7 @@ class Amis
 
     public function ListControl($name = '', $label = '')
     {
-        $instance = ListControl::make();
+        $instance = ListSelect::make();
 
         if ($name !== '') {
             $instance->name($name);
@@ -853,7 +853,7 @@ class Amis
 
     public function LocationControl($name = '', $label = '')
     {
-        $instance = LocationControl::make();
+        $instance = LocationPicker::make();
 
         if ($name !== '') {
             $instance->name($name);
@@ -892,7 +892,7 @@ class Amis
 
     public function MatrixControl($name = '', $label = '')
     {
-        $instance = MatrixControl::make();
+        $instance = MatrixCheckboxes::make();
 
         if ($name !== '') {
             $instance->name($name);
@@ -907,7 +907,7 @@ class Amis
 
     public function MonthControl($name = '', $label = '')
     {
-        $instance = MonthControl::make();
+        $instance = InputMonth::make();
 
         if ($name !== '') {
             $instance->name($name);
@@ -922,7 +922,7 @@ class Amis
 
     public function MonthRangeControl($name = '', $label = '')
     {
-        $instance = MonthRangeControl::make();
+        $instance = InputMonthRange::make();
 
         if ($name !== '') {
             $instance->name($name);
@@ -957,7 +957,7 @@ class Amis
 
     public function NestedSelectControl($name = '', $label = '')
     {
-        $instance = NestedSelectControl::make();
+        $instance = NestedSelect::make();
 
         if ($name !== '') {
             $instance->name($name);
@@ -972,7 +972,7 @@ class Amis
 
     public function NumberControl($name = '', $label = '')
     {
-        $instance = NumberControl::make();
+        $instance = InputNumber::make();
 
         if ($name !== '') {
             $instance->name($name);
@@ -1032,7 +1032,7 @@ class Amis
 
     public function PickerControl($name = '', $label = '')
     {
-        $instance = PickerControl::make();
+        $instance = Picker::make();
 
         if ($name !== '') {
             $instance->name($name);
@@ -1082,7 +1082,7 @@ class Amis
 
     public function QuarterControl($name = '', $label = '')
     {
-        $instance = QuarterControl::make();
+        $instance = InputQuarter::make();
 
         if ($name !== '') {
             $instance->name($name);
@@ -1097,7 +1097,7 @@ class Amis
 
     public function QuarterRangeControl($name = '', $label = '')
     {
-        $instance = QuarterRangeControl::make();
+        $instance = InputQuarterRange::make();
 
         if ($name !== '') {
             $instance->name($name);
@@ -1112,7 +1112,7 @@ class Amis
 
     public function RadioControl($name = '', $label = '')
     {
-        $instance = RadioControl::make();
+        $instance = Radio::make();
 
         if ($name !== '') {
             $instance->name($name);
@@ -1127,7 +1127,7 @@ class Amis
 
     public function RadiosControl($name = '', $label = '')
     {
-        $instance = RadiosControl::make();
+        $instance = Radios::make();
 
         if ($name !== '') {
             $instance->name($name);
@@ -1142,7 +1142,7 @@ class Amis
 
     public function RangeControl($name = '', $label = '')
     {
-        $instance = RangeControl::make();
+        $instance = InputRange::make();
 
         if ($name !== '') {
             $instance->name($name);
@@ -1157,7 +1157,7 @@ class Amis
 
     public function RatingControl($name = '', $label = '')
     {
-        $instance = RatingControl::make();
+        $instance = InputRating::make();
 
         if ($name !== '') {
             $instance->name($name);
@@ -1182,7 +1182,7 @@ class Amis
 
     public function RepeatControl($name = '', $label = '')
     {
-        $instance = RepeatControl::make();
+        $instance = InputRepeat::make();
 
         if ($name !== '') {
             $instance->name($name);
@@ -1197,7 +1197,7 @@ class Amis
 
     public function RichTextControl($name = '', $label = '')
     {
-        $instance = RichTextControl::make();
+        $instance = InputRichText::make();
 
         if ($name !== '') {
             $instance->name($name);
@@ -1252,7 +1252,7 @@ class Amis
 
     public function SelectControl($name = '', $label = '')
     {
-        $instance = SelectControl::make();
+        $instance = Select::make();
 
         if ($name !== '') {
             $instance->name($name);
@@ -1327,7 +1327,7 @@ class Amis
 
     public function SubFormControl($name = '', $label = '')
     {
-        $instance = SubFormControl::make();
+        $instance = InputSubForm::make();
 
         if ($name !== '') {
             $instance->name($name);
@@ -1342,7 +1342,7 @@ class Amis
 
     public function SvgIcon()
     {
-        return SvgIcon::make();
+        return CustomSvgIcon::make();
     }
 
     public function SwitchContainer()
@@ -1392,7 +1392,7 @@ class Amis
 
     public function TableControl($name = '', $label = '')
     {
-        $instance = TableControl::make();
+        $instance = inputTable::make();
 
         if ($name !== '') {
             $instance->name($name);
@@ -1407,7 +1407,7 @@ class Amis
 
     public function TableSchema2()
     {
-        return TableSchema2::make();
+        return Table2::make();
     }
 
     public function TableView()
@@ -1422,7 +1422,7 @@ class Amis
 
     public function TabsTransferControl($name = '', $label = '')
     {
-        $instance = TabsTransferControl::make();
+        $instance = TabsTransfer::make();
 
         if ($name !== '') {
             $instance->name($name);
@@ -1437,7 +1437,7 @@ class Amis
 
     public function TabsTransferPickerControl($name = '', $label = '')
     {
-        $instance = TabsTransferPickerControl::make();
+        $instance = TabsTransferPicker::make();
 
         if ($name !== '') {
             $instance->name($name);
@@ -1457,7 +1457,7 @@ class Amis
 
     public function TagControl($name = '', $label = '')
     {
-        $instance = TagControl::make();
+        $instance = InputTag::make();
 
         if ($name !== '') {
             $instance->name($name);
@@ -1477,7 +1477,7 @@ class Amis
 
     public function TextControl($name = '', $label = '')
     {
-        $instance = TextControl::make();
+        $instance = InputText::make();
 
         if ($name !== '') {
             $instance->name($name);
@@ -1492,7 +1492,7 @@ class Amis
 
     public function TextareaControl($name = '', $label = '')
     {
-        $instance = TextareaControl::make();
+        $instance = Textarea::make();
 
         if ($name !== '') {
             $instance->name($name);
@@ -1507,7 +1507,7 @@ class Amis
 
     public function TimeControl($name = '', $label = '')
     {
-        $instance = TimeControl::make();
+        $instance = InputTime::make();
 
         if ($name !== '') {
             $instance->name($name);
@@ -1552,7 +1552,7 @@ class Amis
 
     public function TransferControl($name = '', $label = '')
     {
-        $instance = TransferControl::make();
+        $instance = Transfer::make();
 
         if ($name !== '') {
             $instance->name($name);
@@ -1567,7 +1567,7 @@ class Amis
 
     public function TransferPickerControl($name = '', $label = '')
     {
-        $instance = TransferPickerControl::make();
+        $instance = TransferPicker::make();
 
         if ($name !== '') {
             $instance->name($name);
@@ -1582,7 +1582,7 @@ class Amis
 
     public function TreeControl($name = '', $label = '')
     {
-        $instance = TreeControl::make();
+        $instance = InputTree::make();
 
         if ($name !== '') {
             $instance->name($name);
@@ -1597,7 +1597,7 @@ class Amis
 
     public function TreeSelectControl($name = '', $label = '')
     {
-        $instance = TreeSelectControl::make();
+        $instance = TreeSelect::make();
 
         if ($name !== '') {
             $instance->name($name);
@@ -1612,7 +1612,7 @@ class Amis
 
     public function UUIDControl($name = '', $label = '')
     {
-        $instance = UUIDControl::make();
+        $instance = UUID::make();
 
         if ($name !== '') {
             $instance->name($name);
@@ -1632,7 +1632,7 @@ class Amis
 
     public function UserSelectControl($name = '', $label = '')
     {
-        $instance = UserSelectControl::make();
+        $instance = UserSelect::make();
 
         if ($name !== '') {
             $instance->name($name);
@@ -1652,7 +1652,7 @@ class Amis
 
     public function VanillaAction()
     {
-        return VanillaAction::make();
+        return Button::make();
     }
 
     public function Video()
@@ -1662,7 +1662,7 @@ class Amis
 
     public function WangEditor($name = '', $label = '')
     {
-        $instance = WangEditor::make();
+        $instance = CustomWangEditor::make();
 
         if ($name !== '') {
             $instance->name($name);
@@ -1677,7 +1677,7 @@ class Amis
 
     public function Watermark()
     {
-        return Watermark::make();
+        return CustomWatermark::make();
     }
 
     public function WebComponent()
@@ -1717,7 +1717,7 @@ class Amis
 
     public function YearControl($name = '', $label = '')
     {
-        $instance = YearControl::make();
+        $instance = InputYear::make();
 
         if ($name !== '') {
             $instance->name($name);

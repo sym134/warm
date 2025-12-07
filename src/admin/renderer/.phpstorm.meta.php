@@ -19,8 +19,8 @@ namespace PHPSTORM_META {
 		'collapse' => \warm\admin\renderer\Collapse::class,
 		'collapse-group' => \warm\admin\renderer\CollapseGroup::class,
 		'color' => \warm\admin\renderer\Color::class,
-		'crud' => \warm\admin\renderer\CRUDTable::class,
-		'crud2' => \warm\admin\renderer\CRUD2Table::class,
+		'crud' => \warm\admin\renderer\CRUD::class,
+		'crud2' => \warm\admin\renderer\CRUD2::class,
 		'custom' => \warm\admin\renderer\Custom::class,
 		'date' => \warm\admin\renderer\Date::class,
 		'static-date' => \warm\admin\renderer\StaticExactControl::class,
@@ -47,7 +47,7 @@ namespace PHPSTORM_META {
 		'images' => \warm\admin\renderer\Images::class,
 		'static-images' => \warm\admin\renderer\Component::class,
 		'json-schema' => \warm\admin\renderer\Json::class,
-		'json-schema-editor' => \warm\admin\renderer\JSONSchemaEditorControl::class,
+		'json-schema-editor' => \warm\admin\renderer\JSONSchemaEditor::class,
 		'json' => \warm\admin\renderer\Json::class,
 		'static-json' => \warm\admin\renderer\Component::class,
 		'link' => \warm\admin\renderer\Link::class,
@@ -76,7 +76,7 @@ namespace PHPSTORM_META {
 		'status' => \warm\admin\renderer\Status::class,
 		'table' => \warm\admin\renderer\Table::class,
 		'static-table' => \warm\admin\renderer\StaticExactControl::class,
-		'table2' => \warm\admin\renderer\TableSchema2::class,
+		'table2' => \warm\admin\renderer\Table2::class,
 		'html' => \warm\admin\renderer\Html::class,
 		'tpl' => \warm\admin\renderer\Tpl::class,
 		'tasks' => \warm\admin\renderer\Tasks::class,
@@ -88,139 +88,139 @@ namespace PHPSTORM_META {
 		'anchor-nav' => \warm\admin\renderer\AnchorNav::class,
 		'steps' => \warm\admin\renderer\Steps::class,
 		'timeline' => \warm\admin\renderer\Timeline::class,
-		'control' => \warm\admin\renderer\FormControl::class,
-		'input-array' => \warm\admin\renderer\ArrayControl::class,
-		'button' => \warm\admin\renderer\VanillaAction::class,
-		'submit' => \warm\admin\renderer\VanillaAction::class,
-		'reset' => \warm\admin\renderer\VanillaAction::class,
-		'button-group-select' => \warm\admin\renderer\ButtonGroupControl::class,
+		'control' => \warm\admin\renderer\Form::class,
+		'input-array' => \warm\admin\renderer\InputArray::class,
+		'button' => \warm\admin\renderer\Button::class,
+		'submit' => \warm\admin\renderer\Button::class,
+		'reset' => \warm\admin\renderer\Button::class,
+		'button-group-select' => \warm\admin\renderer\ButtonGroupSelect::class,
 		'button-toolbar' => \warm\admin\renderer\ButtonToolbar::class,
-		'chained-select' => \warm\admin\renderer\ChainedSelectControl::class,
+		'chained-select' => \warm\admin\renderer\ChainedSelect::class,
 		'chart-radios' => \warm\admin\renderer\ChartRadios::class,
-		'checkbox' => \warm\admin\renderer\CheckboxControl::class,
-		'checkboxes' => \warm\admin\renderer\CheckboxesControl::class,
-		'input-city' => \warm\admin\renderer\InputCityControl::class,
-		'input-color' => \warm\admin\renderer\InputColorControl::class,
-		'combo' => \warm\admin\renderer\ComboControl::class,
-		'condition-builder' => \warm\admin\renderer\ConditionBuilderControl::class,
+		'checkbox' => \warm\admin\renderer\Checkbox::class,
+		'checkboxes' => \warm\admin\renderer\Checkboxes::class,
+		'input-city' => \warm\admin\renderer\InputCity::class,
+		'input-color' => \warm\admin\renderer\InputColor::class,
+		'combo' => \warm\admin\renderer\Combo::class,
+		'condition-builder' => \warm\admin\renderer\ConditionBuilder::class,
 		'container' => \warm\admin\renderer\Container::class,
 		'switch-container' => \warm\admin\renderer\SwitchContainer::class,
-		'input-date' => \warm\admin\renderer\DateControl::class,
-		'input-datetime' => \warm\admin\renderer\DateTimeControl::class,
-		'input-time' => \warm\admin\renderer\TimeControl::class,
-		'input-quarter' => \warm\admin\renderer\QuarterControl::class,
-		'input-year' => \warm\admin\renderer\YearControl::class,
-		'input-month' => \warm\admin\renderer\MonthControl::class,
-		'input-date-range' => \warm\admin\renderer\DateRangeControl::class,
-		'input-time-range' => \warm\admin\renderer\DateRangeControl::class,
-		'input-datetime-range' => \warm\admin\renderer\DateRangeControl::class,
+		'input-date' => \warm\admin\renderer\InputDate::class,
+		'input-datetime' => \warm\admin\renderer\InputDateTime::class,
+		'input-time' => \warm\admin\renderer\InputTime::class,
+		'input-quarter' => \warm\admin\renderer\InputQuarter::class,
+		'input-year' => \warm\admin\renderer\InputYear::class,
+		'input-month' => \warm\admin\renderer\InputMonth::class,
+		'input-date-range' => \warm\admin\renderer\InputDateRange::class,
+		'input-time-range' => \warm\admin\renderer\InputDateRange::class,
+		'input-datetime-range' => \warm\admin\renderer\InputDateRange::class,
 		'input-excel' => \warm\admin\renderer\InputExcel::class,
 		'input-formula' => \warm\admin\renderer\Component::class,
-		'diff-editor' => \warm\admin\renderer\DiffControl::class,
+		'diff-editor' => \warm\admin\renderer\DiffEditor::class,
 		'office-viewer' => \warm\admin\renderer\Component::class,
 		'pdf-viewer' => \warm\admin\renderer\Component::class,
 		'input-signature' => \warm\admin\renderer\InputSignature::class,
         'input-verification-code' => \warm\admin\renderer\Component::class,
-		'editor' => \warm\admin\renderer\EditorControl::class,
-		'bat-editor' => \warm\admin\renderer\EditorControl::class,
-		'c-editor' => \warm\admin\renderer\EditorControl::class,
-		'coffeescript-editor' => \warm\admin\renderer\EditorControl::class,
-		'cpp-editor' => \warm\admin\renderer\EditorControl::class,
-		'csharp-editor' => \warm\admin\renderer\EditorControl::class,
-		'css-editor' => \warm\admin\renderer\EditorControl::class,
-		'dockerfile-editor' => \warm\admin\renderer\EditorControl::class,
-		'fsharp-editor' => \warm\admin\renderer\EditorControl::class,
-		'go-editor' => \warm\admin\renderer\EditorControl::class,
-		'handlebars-editor' => \warm\admin\renderer\EditorControl::class,
-		'html-editor' => \warm\admin\renderer\EditorControl::class,
-		'ini-editor' => \warm\admin\renderer\EditorControl::class,
-		'java-editor' => \warm\admin\renderer\EditorControl::class,
-		'javascript-editor' => \warm\admin\renderer\EditorControl::class,
-		'json-editor' => \warm\admin\renderer\EditorControl::class,
-		'less-editor' => \warm\admin\renderer\EditorControl::class,
-		'lua-editor' => \warm\admin\renderer\EditorControl::class,
-		'markdown-editor' => \warm\admin\renderer\EditorControl::class,
-		'msdax-editor' => \warm\admin\renderer\EditorControl::class,
-		'objective-c-editor' => \warm\admin\renderer\EditorControl::class,
-		'php-editor' => \warm\admin\renderer\EditorControl::class,
-		'plaintext-editor' => \warm\admin\renderer\EditorControl::class,
-		'postiats-editor' => \warm\admin\renderer\EditorControl::class,
-		'powershell-editor' => \warm\admin\renderer\EditorControl::class,
-		'pug-editor' => \warm\admin\renderer\EditorControl::class,
-		'python-editor' => \warm\admin\renderer\EditorControl::class,
-		'r-editor' => \warm\admin\renderer\EditorControl::class,
-		'razor-editor' => \warm\admin\renderer\EditorControl::class,
-		'ruby-editor' => \warm\admin\renderer\EditorControl::class,
-		'sb-editor' => \warm\admin\renderer\EditorControl::class,
-		'scss-editor' => \warm\admin\renderer\EditorControl::class,
-		'sol-editor' => \warm\admin\renderer\EditorControl::class,
-		'sql-editor' => \warm\admin\renderer\EditorControl::class,
-		'swift-editor' => \warm\admin\renderer\EditorControl::class,
-		'typescript-editor' => \warm\admin\renderer\EditorControl::class,
-		'vb-editor' => \warm\admin\renderer\EditorControl::class,
-		'xml-editor' => \warm\admin\renderer\EditorControl::class,
-		'yaml-editor' => \warm\admin\renderer\EditorControl::class,
-		'fieldset' => \warm\admin\renderer\FieldSetControl::class,
-		'fieldSet' => \warm\admin\renderer\FieldSetControl::class,
-		'input-file' => \warm\admin\renderer\FileControl::class,
-		'formula' => \warm\admin\renderer\FormulaControl::class,
+		'editor' => \warm\admin\renderer\Editor::class,
+		'bat-editor' => \warm\admin\renderer\Editor::class,
+		'c-editor' => \warm\admin\renderer\Editor::class,
+		'coffeescript-editor' => \warm\admin\renderer\Editor::class,
+		'cpp-editor' => \warm\admin\renderer\Editor::class,
+		'csharp-editor' => \warm\admin\renderer\Editor::class,
+		'css-editor' => \warm\admin\renderer\Editor::class,
+		'dockerfile-editor' => \warm\admin\renderer\Editor::class,
+		'fsharp-editor' => \warm\admin\renderer\Editor::class,
+		'go-editor' => \warm\admin\renderer\Editor::class,
+		'handlebars-editor' => \warm\admin\renderer\Editor::class,
+		'html-editor' => \warm\admin\renderer\Editor::class,
+		'ini-editor' => \warm\admin\renderer\Editor::class,
+		'java-editor' => \warm\admin\renderer\Editor::class,
+		'javascript-editor' => \warm\admin\renderer\Editor::class,
+		'json-editor' => \warm\admin\renderer\Editor::class,
+		'less-editor' => \warm\admin\renderer\Editor::class,
+		'lua-editor' => \warm\admin\renderer\Editor::class,
+		'markdown-editor' => \warm\admin\renderer\Editor::class,
+		'msdax-editor' => \warm\admin\renderer\Editor::class,
+		'objective-c-editor' => \warm\admin\renderer\Editor::class,
+		'php-editor' => \warm\admin\renderer\Editor::class,
+		'plaintext-editor' => \warm\admin\renderer\Editor::class,
+		'postiats-editor' => \warm\admin\renderer\Editor::class,
+		'powershell-editor' => \warm\admin\renderer\Editor::class,
+		'pug-editor' => \warm\admin\renderer\Editor::class,
+		'python-editor' => \warm\admin\renderer\Editor::class,
+		'r-editor' => \warm\admin\renderer\Editor::class,
+		'razor-editor' => \warm\admin\renderer\Editor::class,
+		'ruby-editor' => \warm\admin\renderer\Editor::class,
+		'sb-editor' => \warm\admin\renderer\Editor::class,
+		'scss-editor' => \warm\admin\renderer\Editor::class,
+		'sol-editor' => \warm\admin\renderer\Editor::class,
+		'sql-editor' => \warm\admin\renderer\Editor::class,
+		'swift-editor' => \warm\admin\renderer\Editor::class,
+		'typescript-editor' => \warm\admin\renderer\Editor::class,
+		'vb-editor' => \warm\admin\renderer\Editor::class,
+		'xml-editor' => \warm\admin\renderer\Editor::class,
+		'yaml-editor' => \warm\admin\renderer\Editor::class,
+		'fieldset' => \warm\admin\renderer\FieldSet::class,
+		'fieldSet' => \warm\admin\renderer\FieldSet::class,
+		'input-file' => \warm\admin\renderer\InputFile::class,
+		'formula' => \warm\admin\renderer\Formula::class,
 		'grid' => \warm\admin\renderer\Grid::class,
-		'group' => \warm\admin\renderer\GroupControl::class,
+		'group' => \warm\admin\renderer\Group::class,
 		'hbox' => \warm\admin\renderer\HBox::class,
-		'hidden' => \warm\admin\renderer\HiddenControl::class,
-		'icon-picker' => \warm\admin\renderer\IconPickerControl::class,
+		'hidden' => \warm\admin\renderer\Hidden::class,
+		'icon-picker' => \warm\admin\renderer\IconPicker::class,
 		'icon-select' => \warm\admin\renderer\Component::class,
-		'input-image' => \warm\admin\renderer\ImageControl::class,
-		'input-group' => \warm\admin\renderer\InputGroupControl::class,
-		'list-select' => \warm\admin\renderer\ListControl::class,
-		'location-picker' => \warm\admin\renderer\LocationControl::class,
-		'matrix-checkboxes' => \warm\admin\renderer\MatrixControl::class,
-		'input-month-range' => \warm\admin\renderer\MonthRangeControl::class,
-		'input-quarter-range' => \warm\admin\renderer\QuarterRangeControl::class,
-		'nested-select' => \warm\admin\renderer\NestedSelectControl::class,
-		'input-number' => \warm\admin\renderer\NumberControl::class,
+		'input-image' => \warm\admin\renderer\InputImage::class,
+		'input-group' => \warm\admin\renderer\InputGroup::class,
+		'list-select' => \warm\admin\renderer\ListSelect::class,
+		'location-picker' => \warm\admin\renderer\LocationPicker::class,
+		'matrix-checkboxes' => \warm\admin\renderer\MatrixCheckboxes::class,
+		'input-month-range' => \warm\admin\renderer\InputMonthRange::class,
+		'input-quarter-range' => \warm\admin\renderer\InputQuarterRange::class,
+		'nested-select' => \warm\admin\renderer\NestedSelect::class,
+		'input-number' => \warm\admin\renderer\InputNumber::class,
 		'panel' => \warm\admin\renderer\Panel::class,
-		'picker' => \warm\admin\renderer\PickerControl::class,
-		'radio' => \warm\admin\renderer\RadioControl::class,
-		'radios' => \warm\admin\renderer\RadiosControl::class,
-		'input-range' => \warm\admin\renderer\RangeControl::class,
-		'input-rating' => \warm\admin\renderer\RatingControl::class,
-		'input-repeat' => \warm\admin\renderer\RepeatControl::class,
-		'input-rich-text' => \warm\admin\renderer\RichTextControl::class,
-		'select' => \warm\admin\renderer\SelectControl::class,
+		'picker' => \warm\admin\renderer\Picker::class,
+		'radio' => \warm\admin\renderer\Radio::class,
+		'radios' => \warm\admin\renderer\Radios::class,
+		'input-range' => \warm\admin\renderer\InputRange::class,
+		'input-rating' => \warm\admin\renderer\InputRating::class,
+		'input-repeat' => \warm\admin\renderer\InputRepeat::class,
+		'input-rich-text' => \warm\admin\renderer\InputRichText::class,
+		'select' => \warm\admin\renderer\Select::class,
 		'service' => \warm\admin\renderer\Service::class,
 		'static' => \warm\admin\renderer\StaticExactControl::class,
-		'input-sub-form' => \warm\admin\renderer\SubFormControl::class,
+		'input-sub-form' => \warm\admin\renderer\InputSubForm::class,
 		'switch' => \warm\admin\renderer\SwitchControl::class,
-		'input-table' => \warm\admin\renderer\TableControl::class,
+		'input-table' => \warm\admin\renderer\inputTable::class,
 		'tabs' => \warm\admin\renderer\Tabs::class,
-		'tabs-transfer' => \warm\admin\renderer\TabsTransferControl::class,
-		'input-tag' => \warm\admin\renderer\TagControl::class,
-		'input-text' => \warm\admin\renderer\TextControl::class,
-		'input-password' => \warm\admin\renderer\TextControl::class,
-		'input-email' => \warm\admin\renderer\TextControl::class,
-		'input-url' => \warm\admin\renderer\TextControl::class,
-		'uuid' => \warm\admin\renderer\UUIDControl::class,
-		'multi-select' => \warm\admin\renderer\SelectControl::class,
-		'textarea' => \warm\admin\renderer\TextareaControl::class,
-		'transfer' => \warm\admin\renderer\TransferControl::class,
-		'transfer-picker' => \warm\admin\renderer\TransferPickerControl::class,
-		'tabs-transfer-picker' => \warm\admin\renderer\TabsTransferPickerControl::class,
-		'input-tree' => \warm\admin\renderer\TreeControl::class,
-		'tree-select' => \warm\admin\renderer\TreeSelectControl::class,
+		'tabs-transfer' => \warm\admin\renderer\TabsTransfer::class,
+		'input-tag' => \warm\admin\renderer\InputTag::class,
+		'input-text' => \warm\admin\renderer\InputText::class,
+		'input-password' => \warm\admin\renderer\InputText::class,
+		'input-email' => \warm\admin\renderer\InputText::class,
+		'input-url' => \warm\admin\renderer\InputText::class,
+		'uuid' => \warm\admin\renderer\UUID::class,
+		'multi-select' => \warm\admin\renderer\Select::class,
+		'textarea' => \warm\admin\renderer\Textarea::class,
+		'transfer' => \warm\admin\renderer\Transfer::class,
+		'transfer-picker' => \warm\admin\renderer\TransferPicker::class,
+		'tabs-transfer-picker' => \warm\admin\renderer\TabsTransferPicker::class,
+		'input-tree' => \warm\admin\renderer\InputTree::class,
+		'tree-select' => \warm\admin\renderer\TreeSelect::class,
 		'table-view' => \warm\admin\renderer\TableView::class,
 		'portlet' => \warm\admin\renderer\Portlet::class,
 		'grid-nav' => \warm\admin\renderer\GridNav::class,
-		'users-select' => \warm\admin\renderer\UserSelectControl::class,
+		'users-select' => \warm\admin\renderer\UserSelect::class,
 		'tag' => \warm\admin\renderer\Tag::class,
 		'tags' => \warm\admin\renderer\Component::class,
 		'words' => \warm\admin\renderer\Words::class,
 		'password' => \warm\admin\renderer\Password::class,
 		'multiline-text' => \warm\admin\renderer\MultilineText::class,
 		'amis' => \warm\admin\renderer\Component::class,
-		'native-date' => \warm\admin\renderer\TextControl::class,
-		'native-time' => \warm\admin\renderer\TextControl::class,
-		'native-number' => \warm\admin\renderer\TextControl::class,
+		'native-date' => \warm\admin\renderer\InputText::class,
+		'native-time' => \warm\admin\renderer\InputText::class,
+		'native-number' => \warm\admin\renderer\InputText::class,
 		'code' => \warm\admin\renderer\Code::class,
 		'tooltip-wrapper' => \warm\admin\renderer\TooltipWrapper::class,
 	]));
@@ -241,8 +241,8 @@ namespace PHPSTORM_META {
 		'collapse' => \warm\admin\renderer\Collapse::class,
 		'collapse-group' => \warm\admin\renderer\CollapseGroup::class,
 		'color' => \warm\admin\renderer\Color::class,
-		'crud' => \warm\admin\renderer\CRUDTable::class,
-		'crud2' => \warm\admin\renderer\CRUD2Table::class,
+		'crud' => \warm\admin\renderer\CRUD::class,
+		'crud2' => \warm\admin\renderer\CRUD2::class,
 		'custom' => \warm\admin\renderer\Custom::class,
 		'date' => \warm\admin\renderer\Date::class,
 		'static-date' => \warm\admin\renderer\StaticExactControl::class,
@@ -269,7 +269,7 @@ namespace PHPSTORM_META {
 		'images' => \warm\admin\renderer\Images::class,
 		'static-images' => \warm\admin\renderer\Component::class,
 		'json-schema' => \warm\admin\renderer\Json::class,
-		'json-schema-editor' => \warm\admin\renderer\JSONSchemaEditorControl::class,
+		'json-schema-editor' => \warm\admin\renderer\JSONSchemaEditor::class,
 		'json' => \warm\admin\renderer\Json::class,
 		'static-json' => \warm\admin\renderer\Component::class,
 		'link' => \warm\admin\renderer\Link::class,
@@ -298,7 +298,7 @@ namespace PHPSTORM_META {
 		'status' => \warm\admin\renderer\Status::class,
 		'table' => \warm\admin\renderer\Table::class,
 		'static-table' => \warm\admin\renderer\StaticExactControl::class,
-		'table2' => \warm\admin\renderer\TableSchema2::class,
+		'table2' => \warm\admin\renderer\Table2::class,
 		'html' => \warm\admin\renderer\Html::class,
 		'tpl' => \warm\admin\renderer\Tpl::class,
 		'tasks' => \warm\admin\renderer\Tasks::class,
@@ -310,138 +310,138 @@ namespace PHPSTORM_META {
 		'anchor-nav' => \warm\admin\renderer\AnchorNav::class,
 		'steps' => \warm\admin\renderer\Steps::class,
 		'timeline' => \warm\admin\renderer\Timeline::class,
-		'control' => \warm\admin\renderer\FormControl::class,
-		'input-array' => \warm\admin\renderer\ArrayControl::class,
-		'button' => \warm\admin\renderer\VanillaAction::class,
-		'submit' => \warm\admin\renderer\VanillaAction::class,
-		'reset' => \warm\admin\renderer\VanillaAction::class,
-		'button-group-select' => \warm\admin\renderer\ButtonGroupControl::class,
+		'control' => \warm\admin\renderer\Form::class,
+		'input-array' => \warm\admin\renderer\InputArray::class,
+		'button' => \warm\admin\renderer\Button::class,
+		'submit' => \warm\admin\renderer\Button::class,
+		'reset' => \warm\admin\renderer\Button::class,
+		'button-group-select' => \warm\admin\renderer\ButtonGroupSelect::class,
 		'button-toolbar' => \warm\admin\renderer\ButtonToolbar::class,
-		'chained-select' => \warm\admin\renderer\ChainedSelectControl::class,
+		'chained-select' => \warm\admin\renderer\ChainedSelect::class,
 		'chart-radios' => \warm\admin\renderer\ChartRadios::class,
-		'checkbox' => \warm\admin\renderer\CheckboxControl::class,
-		'checkboxes' => \warm\admin\renderer\CheckboxesControl::class,
-		'input-city' => \warm\admin\renderer\InputCityControl::class,
-		'input-color' => \warm\admin\renderer\InputColorControl::class,
-		'combo' => \warm\admin\renderer\ComboControl::class,
-		'condition-builder' => \warm\admin\renderer\ConditionBuilderControl::class,
+		'checkbox' => \warm\admin\renderer\Checkbox::class,
+		'checkboxes' => \warm\admin\renderer\Checkboxes::class,
+		'input-city' => \warm\admin\renderer\InputCity::class,
+		'input-color' => \warm\admin\renderer\InputColor::class,
+		'combo' => \warm\admin\renderer\Combo::class,
+		'condition-builder' => \warm\admin\renderer\ConditionBuilder::class,
 		'container' => \warm\admin\renderer\Container::class,
 		'switch-container' => \warm\admin\renderer\SwitchContainer::class,
-		'input-date' => \warm\admin\renderer\DateControl::class,
-		'input-datetime' => \warm\admin\renderer\DateTimeControl::class,
-		'input-time' => \warm\admin\renderer\TimeControl::class,
-		'input-quarter' => \warm\admin\renderer\QuarterControl::class,
-		'input-year' => \warm\admin\renderer\YearControl::class,
-		'input-month' => \warm\admin\renderer\MonthControl::class,
-		'input-date-range' => \warm\admin\renderer\DateRangeControl::class,
-		'input-time-range' => \warm\admin\renderer\DateRangeControl::class,
-		'input-datetime-range' => \warm\admin\renderer\DateRangeControl::class,
+		'input-date' => \warm\admin\renderer\InputDate::class,
+		'input-datetime' => \warm\admin\renderer\InputDateTime::class,
+		'input-time' => \warm\admin\renderer\InputTime::class,
+		'input-quarter' => \warm\admin\renderer\InputQuarter::class,
+		'input-year' => \warm\admin\renderer\InputYear::class,
+		'input-month' => \warm\admin\renderer\InputMonth::class,
+		'input-date-range' => \warm\admin\renderer\InputDateRange::class,
+		'input-time-range' => \warm\admin\renderer\InputDateRange::class,
+		'input-datetime-range' => \warm\admin\renderer\InputDateRange::class,
 		'input-excel' => \warm\admin\renderer\InputExcel::class,
 		'input-formula' => \warm\admin\renderer\Component::class,
-		'diff-editor' => \warm\admin\renderer\DiffControl::class,
+		'diff-editor' => \warm\admin\renderer\DiffEditor::class,
 		'office-viewer' => \warm\admin\renderer\Component::class,
 		'pdf-viewer' => \warm\admin\renderer\Component::class,
 		'input-signature' => \warm\admin\renderer\InputSignature::class,
-		'editor' => \warm\admin\renderer\EditorControl::class,
-		'bat-editor' => \warm\admin\renderer\EditorControl::class,
-		'c-editor' => \warm\admin\renderer\EditorControl::class,
-		'coffeescript-editor' => \warm\admin\renderer\EditorControl::class,
-		'cpp-editor' => \warm\admin\renderer\EditorControl::class,
-		'csharp-editor' => \warm\admin\renderer\EditorControl::class,
-		'css-editor' => \warm\admin\renderer\EditorControl::class,
-		'dockerfile-editor' => \warm\admin\renderer\EditorControl::class,
-		'fsharp-editor' => \warm\admin\renderer\EditorControl::class,
-		'go-editor' => \warm\admin\renderer\EditorControl::class,
-		'handlebars-editor' => \warm\admin\renderer\EditorControl::class,
-		'html-editor' => \warm\admin\renderer\EditorControl::class,
-		'ini-editor' => \warm\admin\renderer\EditorControl::class,
-		'java-editor' => \warm\admin\renderer\EditorControl::class,
-		'javascript-editor' => \warm\admin\renderer\EditorControl::class,
-		'json-editor' => \warm\admin\renderer\EditorControl::class,
-		'less-editor' => \warm\admin\renderer\EditorControl::class,
-		'lua-editor' => \warm\admin\renderer\EditorControl::class,
-		'markdown-editor' => \warm\admin\renderer\EditorControl::class,
-		'msdax-editor' => \warm\admin\renderer\EditorControl::class,
-		'objective-c-editor' => \warm\admin\renderer\EditorControl::class,
-		'php-editor' => \warm\admin\renderer\EditorControl::class,
-		'plaintext-editor' => \warm\admin\renderer\EditorControl::class,
-		'postiats-editor' => \warm\admin\renderer\EditorControl::class,
-		'powershell-editor' => \warm\admin\renderer\EditorControl::class,
-		'pug-editor' => \warm\admin\renderer\EditorControl::class,
-		'python-editor' => \warm\admin\renderer\EditorControl::class,
-		'r-editor' => \warm\admin\renderer\EditorControl::class,
-		'razor-editor' => \warm\admin\renderer\EditorControl::class,
-		'ruby-editor' => \warm\admin\renderer\EditorControl::class,
-		'sb-editor' => \warm\admin\renderer\EditorControl::class,
-		'scss-editor' => \warm\admin\renderer\EditorControl::class,
-		'sol-editor' => \warm\admin\renderer\EditorControl::class,
-		'sql-editor' => \warm\admin\renderer\EditorControl::class,
-		'swift-editor' => \warm\admin\renderer\EditorControl::class,
-		'typescript-editor' => \warm\admin\renderer\EditorControl::class,
-		'vb-editor' => \warm\admin\renderer\EditorControl::class,
-		'xml-editor' => \warm\admin\renderer\EditorControl::class,
-		'yaml-editor' => \warm\admin\renderer\EditorControl::class,
-		'fieldset' => \warm\admin\renderer\FieldSetControl::class,
-		'fieldSet' => \warm\admin\renderer\FieldSetControl::class,
-		'input-file' => \warm\admin\renderer\FileControl::class,
-		'formula' => \warm\admin\renderer\FormulaControl::class,
+		'editor' => \warm\admin\renderer\Editor::class,
+		'bat-editor' => \warm\admin\renderer\Editor::class,
+		'c-editor' => \warm\admin\renderer\Editor::class,
+		'coffeescript-editor' => \warm\admin\renderer\Editor::class,
+		'cpp-editor' => \warm\admin\renderer\Editor::class,
+		'csharp-editor' => \warm\admin\renderer\Editor::class,
+		'css-editor' => \warm\admin\renderer\Editor::class,
+		'dockerfile-editor' => \warm\admin\renderer\Editor::class,
+		'fsharp-editor' => \warm\admin\renderer\Editor::class,
+		'go-editor' => \warm\admin\renderer\Editor::class,
+		'handlebars-editor' => \warm\admin\renderer\Editor::class,
+		'html-editor' => \warm\admin\renderer\Editor::class,
+		'ini-editor' => \warm\admin\renderer\Editor::class,
+		'java-editor' => \warm\admin\renderer\Editor::class,
+		'javascript-editor' => \warm\admin\renderer\Editor::class,
+		'json-editor' => \warm\admin\renderer\Editor::class,
+		'less-editor' => \warm\admin\renderer\Editor::class,
+		'lua-editor' => \warm\admin\renderer\Editor::class,
+		'markdown-editor' => \warm\admin\renderer\Editor::class,
+		'msdax-editor' => \warm\admin\renderer\Editor::class,
+		'objective-c-editor' => \warm\admin\renderer\Editor::class,
+		'php-editor' => \warm\admin\renderer\Editor::class,
+		'plaintext-editor' => \warm\admin\renderer\Editor::class,
+		'postiats-editor' => \warm\admin\renderer\Editor::class,
+		'powershell-editor' => \warm\admin\renderer\Editor::class,
+		'pug-editor' => \warm\admin\renderer\Editor::class,
+		'python-editor' => \warm\admin\renderer\Editor::class,
+		'r-editor' => \warm\admin\renderer\Editor::class,
+		'razor-editor' => \warm\admin\renderer\Editor::class,
+		'ruby-editor' => \warm\admin\renderer\Editor::class,
+		'sb-editor' => \warm\admin\renderer\Editor::class,
+		'scss-editor' => \warm\admin\renderer\Editor::class,
+		'sol-editor' => \warm\admin\renderer\Editor::class,
+		'sql-editor' => \warm\admin\renderer\Editor::class,
+		'swift-editor' => \warm\admin\renderer\Editor::class,
+		'typescript-editor' => \warm\admin\renderer\Editor::class,
+		'vb-editor' => \warm\admin\renderer\Editor::class,
+		'xml-editor' => \warm\admin\renderer\Editor::class,
+		'yaml-editor' => \warm\admin\renderer\Editor::class,
+		'fieldset' => \warm\admin\renderer\FieldSet::class,
+		'fieldSet' => \warm\admin\renderer\FieldSet::class,
+		'input-file' => \warm\admin\renderer\InputFile::class,
+		'formula' => \warm\admin\renderer\Formula::class,
 		'grid' => \warm\admin\renderer\Grid::class,
-		'group' => \warm\admin\renderer\GroupControl::class,
+		'group' => \warm\admin\renderer\Group::class,
 		'hbox' => \warm\admin\renderer\HBox::class,
-		'hidden' => \warm\admin\renderer\HiddenControl::class,
-		'icon-picker' => \warm\admin\renderer\IconPickerControl::class,
+		'hidden' => \warm\admin\renderer\Hidden::class,
+		'icon-picker' => \warm\admin\renderer\IconPicker::class,
 		'icon-select' => \warm\admin\renderer\Component::class,
-		'input-image' => \warm\admin\renderer\ImageControl::class,
-		'input-group' => \warm\admin\renderer\InputGroupControl::class,
-		'list-select' => \warm\admin\renderer\ListControl::class,
-		'location-picker' => \warm\admin\renderer\LocationControl::class,
-		'matrix-checkboxes' => \warm\admin\renderer\MatrixControl::class,
-		'input-month-range' => \warm\admin\renderer\MonthRangeControl::class,
-		'input-quarter-range' => \warm\admin\renderer\QuarterRangeControl::class,
-		'nested-select' => \warm\admin\renderer\NestedSelectControl::class,
-		'input-number' => \warm\admin\renderer\NumberControl::class,
+		'input-image' => \warm\admin\renderer\InputImage::class,
+		'input-group' => \warm\admin\renderer\InputGroup::class,
+		'list-select' => \warm\admin\renderer\ListSelect::class,
+		'location-picker' => \warm\admin\renderer\LocationPicker::class,
+		'matrix-checkboxes' => \warm\admin\renderer\MatrixCheckboxes::class,
+		'input-month-range' => \warm\admin\renderer\InputMonthRange::class,
+		'input-quarter-range' => \warm\admin\renderer\InputQuarterRange::class,
+		'nested-select' => \warm\admin\renderer\NestedSelect::class,
+		'input-number' => \warm\admin\renderer\InputNumber::class,
 		'panel' => \warm\admin\renderer\Panel::class,
-		'picker' => \warm\admin\renderer\PickerControl::class,
-		'radio' => \warm\admin\renderer\RadioControl::class,
-		'radios' => \warm\admin\renderer\RadiosControl::class,
-		'input-range' => \warm\admin\renderer\RangeControl::class,
-		'input-rating' => \warm\admin\renderer\RatingControl::class,
-		'input-repeat' => \warm\admin\renderer\RepeatControl::class,
-		'input-rich-text' => \warm\admin\renderer\RichTextControl::class,
-		'select' => \warm\admin\renderer\SelectControl::class,
+		'picker' => \warm\admin\renderer\Picker::class,
+		'radio' => \warm\admin\renderer\Radio::class,
+		'radios' => \warm\admin\renderer\Radios::class,
+		'input-range' => \warm\admin\renderer\InputRange::class,
+		'input-rating' => \warm\admin\renderer\InputRating::class,
+		'input-repeat' => \warm\admin\renderer\InputRepeat::class,
+		'input-rich-text' => \warm\admin\renderer\InputRichText::class,
+		'select' => \warm\admin\renderer\Select::class,
 		'service' => \warm\admin\renderer\Service::class,
 		'static' => \warm\admin\renderer\StaticExactControl::class,
-		'input-sub-form' => \warm\admin\renderer\SubFormControl::class,
+		'input-sub-form' => \warm\admin\renderer\InputSubForm::class,
 		'switch' => \warm\admin\renderer\SwitchControl::class,
-		'input-table' => \warm\admin\renderer\TableControl::class,
+		'input-table' => \warm\admin\renderer\inputTable::class,
 		'tabs' => \warm\admin\renderer\Tabs::class,
-		'tabs-transfer' => \warm\admin\renderer\TabsTransferControl::class,
-		'input-tag' => \warm\admin\renderer\TagControl::class,
-		'input-text' => \warm\admin\renderer\TextControl::class,
-		'input-password' => \warm\admin\renderer\TextControl::class,
-		'input-email' => \warm\admin\renderer\TextControl::class,
-		'input-url' => \warm\admin\renderer\TextControl::class,
-		'uuid' => \warm\admin\renderer\UUIDControl::class,
-		'multi-select' => \warm\admin\renderer\SelectControl::class,
-		'textarea' => \warm\admin\renderer\TextareaControl::class,
-		'transfer' => \warm\admin\renderer\TransferControl::class,
-		'transfer-picker' => \warm\admin\renderer\TransferPickerControl::class,
-		'tabs-transfer-picker' => \warm\admin\renderer\TabsTransferPickerControl::class,
-		'input-tree' => \warm\admin\renderer\TreeControl::class,
-		'tree-select' => \warm\admin\renderer\TreeSelectControl::class,
+		'tabs-transfer' => \warm\admin\renderer\TabsTransfer::class,
+		'input-tag' => \warm\admin\renderer\InputTag::class,
+		'input-text' => \warm\admin\renderer\InputText::class,
+		'input-password' => \warm\admin\renderer\InputText::class,
+		'input-email' => \warm\admin\renderer\InputText::class,
+		'input-url' => \warm\admin\renderer\InputText::class,
+		'uuid' => \warm\admin\renderer\UUID::class,
+		'multi-select' => \warm\admin\renderer\Select::class,
+		'textarea' => \warm\admin\renderer\Textarea::class,
+		'transfer' => \warm\admin\renderer\Transfer::class,
+		'transfer-picker' => \warm\admin\renderer\TransferPicker::class,
+		'tabs-transfer-picker' => \warm\admin\renderer\TabsTransferPicker::class,
+		'input-tree' => \warm\admin\renderer\InputTree::class,
+		'tree-select' => \warm\admin\renderer\TreeSelect::class,
 		'table-view' => \warm\admin\renderer\TableView::class,
 		'portlet' => \warm\admin\renderer\Portlet::class,
 		'grid-nav' => \warm\admin\renderer\GridNav::class,
-		'users-select' => \warm\admin\renderer\UserSelectControl::class,
+		'users-select' => \warm\admin\renderer\UserSelect::class,
 		'tag' => \warm\admin\renderer\Tag::class,
 		'tags' => \warm\admin\renderer\Component::class,
 		'words' => \warm\admin\renderer\Words::class,
 		'password' => \warm\admin\renderer\Password::class,
 		'multiline-text' => \warm\admin\renderer\MultilineText::class,
 		'amis' => \warm\admin\renderer\Component::class,
-		'native-date' => \warm\admin\renderer\TextControl::class,
-		'native-time' => \warm\admin\renderer\TextControl::class,
-		'native-number' => \warm\admin\renderer\TextControl::class,
+		'native-date' => \warm\admin\renderer\InputText::class,
+		'native-time' => \warm\admin\renderer\InputText::class,
+		'native-number' => \warm\admin\renderer\InputText::class,
 		'code' => \warm\admin\renderer\Code::class,
 		'tooltip-wrapper' => \warm\admin\renderer\TooltipWrapper::class,
 	]));
@@ -462,8 +462,8 @@ namespace PHPSTORM_META {
 		'collapse' => \warm\admin\renderer\Collapse::class,
 		'collapse-group' => \warm\admin\renderer\CollapseGroup::class,
 		'color' => \warm\admin\renderer\Color::class,
-		'crud' => \warm\admin\renderer\CRUDTable::class,
-		'crud2' => \warm\admin\renderer\CRUD2Table::class,
+		'crud' => \warm\admin\renderer\CRUD::class,
+		'crud2' => \warm\admin\renderer\CRUD2::class,
 		'custom' => \warm\admin\renderer\Custom::class,
 		'date' => \warm\admin\renderer\Date::class,
 		'static-date' => \warm\admin\renderer\StaticExactControl::class,
@@ -490,7 +490,7 @@ namespace PHPSTORM_META {
 		'images' => \warm\admin\renderer\Images::class,
 		'static-images' => \warm\admin\renderer\Component::class,
 		'json-schema' => \warm\admin\renderer\Json::class,
-		'json-schema-editor' => \warm\admin\renderer\JSONSchemaEditorControl::class,
+		'json-schema-editor' => \warm\admin\renderer\JSONSchemaEditor::class,
 		'json' => \warm\admin\renderer\Json::class,
 		'static-json' => \warm\admin\renderer\Component::class,
 		'link' => \warm\admin\renderer\Link::class,
@@ -519,7 +519,7 @@ namespace PHPSTORM_META {
 		'status' => \warm\admin\renderer\Status::class,
 		'table' => \warm\admin\renderer\Table::class,
 		'static-table' => \warm\admin\renderer\StaticExactControl::class,
-		'table2' => \warm\admin\renderer\TableSchema2::class,
+		'table2' => \warm\admin\renderer\Table2::class,
 		'html' => \warm\admin\renderer\Html::class,
 		'tpl' => \warm\admin\renderer\Tpl::class,
 		'tasks' => \warm\admin\renderer\Tasks::class,
@@ -531,138 +531,138 @@ namespace PHPSTORM_META {
 		'anchor-nav' => \warm\admin\renderer\AnchorNav::class,
 		'steps' => \warm\admin\renderer\Steps::class,
 		'timeline' => \warm\admin\renderer\Timeline::class,
-		'control' => \warm\admin\renderer\FormControl::class,
-		'input-array' => \warm\admin\renderer\ArrayControl::class,
-		'button' => \warm\admin\renderer\VanillaAction::class,
-		'submit' => \warm\admin\renderer\VanillaAction::class,
-		'reset' => \warm\admin\renderer\VanillaAction::class,
-		'button-group-select' => \warm\admin\renderer\ButtonGroupControl::class,
+		'control' => \warm\admin\renderer\Form::class,
+		'input-array' => \warm\admin\renderer\InputArray::class,
+		'button' => \warm\admin\renderer\Button::class,
+		'submit' => \warm\admin\renderer\Button::class,
+		'reset' => \warm\admin\renderer\Button::class,
+		'button-group-select' => \warm\admin\renderer\ButtonGroupSelect::class,
 		'button-toolbar' => \warm\admin\renderer\ButtonToolbar::class,
-		'chained-select' => \warm\admin\renderer\ChainedSelectControl::class,
+		'chained-select' => \warm\admin\renderer\ChainedSelect::class,
 		'chart-radios' => \warm\admin\renderer\ChartRadios::class,
-		'checkbox' => \warm\admin\renderer\CheckboxControl::class,
-		'checkboxes' => \warm\admin\renderer\CheckboxesControl::class,
-		'input-city' => \warm\admin\renderer\InputCityControl::class,
-		'input-color' => \warm\admin\renderer\InputColorControl::class,
-		'combo' => \warm\admin\renderer\ComboControl::class,
-		'condition-builder' => \warm\admin\renderer\ConditionBuilderControl::class,
+		'checkbox' => \warm\admin\renderer\Checkbox::class,
+		'checkboxes' => \warm\admin\renderer\Checkboxes::class,
+		'input-city' => \warm\admin\renderer\InputCity::class,
+		'input-color' => \warm\admin\renderer\InputColor::class,
+		'combo' => \warm\admin\renderer\Combo::class,
+		'condition-builder' => \warm\admin\renderer\ConditionBuilder::class,
 		'container' => \warm\admin\renderer\Container::class,
 		'switch-container' => \warm\admin\renderer\SwitchContainer::class,
-		'input-date' => \warm\admin\renderer\DateControl::class,
-		'input-datetime' => \warm\admin\renderer\DateTimeControl::class,
-		'input-time' => \warm\admin\renderer\TimeControl::class,
-		'input-quarter' => \warm\admin\renderer\QuarterControl::class,
-		'input-year' => \warm\admin\renderer\YearControl::class,
-		'input-month' => \warm\admin\renderer\MonthControl::class,
-		'input-date-range' => \warm\admin\renderer\DateRangeControl::class,
-		'input-time-range' => \warm\admin\renderer\DateRangeControl::class,
-		'input-datetime-range' => \warm\admin\renderer\DateRangeControl::class,
+		'input-date' => \warm\admin\renderer\InputDate::class,
+		'input-datetime' => \warm\admin\renderer\InputDateTime::class,
+		'input-time' => \warm\admin\renderer\InputTime::class,
+		'input-quarter' => \warm\admin\renderer\InputQuarter::class,
+		'input-year' => \warm\admin\renderer\InputYear::class,
+		'input-month' => \warm\admin\renderer\InputMonth::class,
+		'input-date-range' => \warm\admin\renderer\InputDateRange::class,
+		'input-time-range' => \warm\admin\renderer\InputDateRange::class,
+		'input-datetime-range' => \warm\admin\renderer\InputDateRange::class,
 		'input-excel' => \warm\admin\renderer\InputExcel::class,
 		'input-formula' => \warm\admin\renderer\Component::class,
-		'diff-editor' => \warm\admin\renderer\DiffControl::class,
+		'diff-editor' => \warm\admin\renderer\DiffEditor::class,
 		'office-viewer' => \warm\admin\renderer\Component::class,
 		'pdf-viewer' => \warm\admin\renderer\Component::class,
 		'input-signature' => \warm\admin\renderer\InputSignature::class,
-		'editor' => \warm\admin\renderer\EditorControl::class,
-		'bat-editor' => \warm\admin\renderer\EditorControl::class,
-		'c-editor' => \warm\admin\renderer\EditorControl::class,
-		'coffeescript-editor' => \warm\admin\renderer\EditorControl::class,
-		'cpp-editor' => \warm\admin\renderer\EditorControl::class,
-		'csharp-editor' => \warm\admin\renderer\EditorControl::class,
-		'css-editor' => \warm\admin\renderer\EditorControl::class,
-		'dockerfile-editor' => \warm\admin\renderer\EditorControl::class,
-		'fsharp-editor' => \warm\admin\renderer\EditorControl::class,
-		'go-editor' => \warm\admin\renderer\EditorControl::class,
-		'handlebars-editor' => \warm\admin\renderer\EditorControl::class,
-		'html-editor' => \warm\admin\renderer\EditorControl::class,
-		'ini-editor' => \warm\admin\renderer\EditorControl::class,
-		'java-editor' => \warm\admin\renderer\EditorControl::class,
-		'javascript-editor' => \warm\admin\renderer\EditorControl::class,
-		'json-editor' => \warm\admin\renderer\EditorControl::class,
-		'less-editor' => \warm\admin\renderer\EditorControl::class,
-		'lua-editor' => \warm\admin\renderer\EditorControl::class,
-		'markdown-editor' => \warm\admin\renderer\EditorControl::class,
-		'msdax-editor' => \warm\admin\renderer\EditorControl::class,
-		'objective-c-editor' => \warm\admin\renderer\EditorControl::class,
-		'php-editor' => \warm\admin\renderer\EditorControl::class,
-		'plaintext-editor' => \warm\admin\renderer\EditorControl::class,
-		'postiats-editor' => \warm\admin\renderer\EditorControl::class,
-		'powershell-editor' => \warm\admin\renderer\EditorControl::class,
-		'pug-editor' => \warm\admin\renderer\EditorControl::class,
-		'python-editor' => \warm\admin\renderer\EditorControl::class,
-		'r-editor' => \warm\admin\renderer\EditorControl::class,
-		'razor-editor' => \warm\admin\renderer\EditorControl::class,
-		'ruby-editor' => \warm\admin\renderer\EditorControl::class,
-		'sb-editor' => \warm\admin\renderer\EditorControl::class,
-		'scss-editor' => \warm\admin\renderer\EditorControl::class,
-		'sol-editor' => \warm\admin\renderer\EditorControl::class,
-		'sql-editor' => \warm\admin\renderer\EditorControl::class,
-		'swift-editor' => \warm\admin\renderer\EditorControl::class,
-		'typescript-editor' => \warm\admin\renderer\EditorControl::class,
-		'vb-editor' => \warm\admin\renderer\EditorControl::class,
-		'xml-editor' => \warm\admin\renderer\EditorControl::class,
-		'yaml-editor' => \warm\admin\renderer\EditorControl::class,
-		'fieldset' => \warm\admin\renderer\FieldSetControl::class,
-		'fieldSet' => \warm\admin\renderer\FieldSetControl::class,
-		'input-file' => \warm\admin\renderer\FileControl::class,
-		'formula' => \warm\admin\renderer\FormulaControl::class,
+		'editor' => \warm\admin\renderer\Editor::class,
+		'bat-editor' => \warm\admin\renderer\Editor::class,
+		'c-editor' => \warm\admin\renderer\Editor::class,
+		'coffeescript-editor' => \warm\admin\renderer\Editor::class,
+		'cpp-editor' => \warm\admin\renderer\Editor::class,
+		'csharp-editor' => \warm\admin\renderer\Editor::class,
+		'css-editor' => \warm\admin\renderer\Editor::class,
+		'dockerfile-editor' => \warm\admin\renderer\Editor::class,
+		'fsharp-editor' => \warm\admin\renderer\Editor::class,
+		'go-editor' => \warm\admin\renderer\Editor::class,
+		'handlebars-editor' => \warm\admin\renderer\Editor::class,
+		'html-editor' => \warm\admin\renderer\Editor::class,
+		'ini-editor' => \warm\admin\renderer\Editor::class,
+		'java-editor' => \warm\admin\renderer\Editor::class,
+		'javascript-editor' => \warm\admin\renderer\Editor::class,
+		'json-editor' => \warm\admin\renderer\Editor::class,
+		'less-editor' => \warm\admin\renderer\Editor::class,
+		'lua-editor' => \warm\admin\renderer\Editor::class,
+		'markdown-editor' => \warm\admin\renderer\Editor::class,
+		'msdax-editor' => \warm\admin\renderer\Editor::class,
+		'objective-c-editor' => \warm\admin\renderer\Editor::class,
+		'php-editor' => \warm\admin\renderer\Editor::class,
+		'plaintext-editor' => \warm\admin\renderer\Editor::class,
+		'postiats-editor' => \warm\admin\renderer\Editor::class,
+		'powershell-editor' => \warm\admin\renderer\Editor::class,
+		'pug-editor' => \warm\admin\renderer\Editor::class,
+		'python-editor' => \warm\admin\renderer\Editor::class,
+		'r-editor' => \warm\admin\renderer\Editor::class,
+		'razor-editor' => \warm\admin\renderer\Editor::class,
+		'ruby-editor' => \warm\admin\renderer\Editor::class,
+		'sb-editor' => \warm\admin\renderer\Editor::class,
+		'scss-editor' => \warm\admin\renderer\Editor::class,
+		'sol-editor' => \warm\admin\renderer\Editor::class,
+		'sql-editor' => \warm\admin\renderer\Editor::class,
+		'swift-editor' => \warm\admin\renderer\Editor::class,
+		'typescript-editor' => \warm\admin\renderer\Editor::class,
+		'vb-editor' => \warm\admin\renderer\Editor::class,
+		'xml-editor' => \warm\admin\renderer\Editor::class,
+		'yaml-editor' => \warm\admin\renderer\Editor::class,
+		'fieldset' => \warm\admin\renderer\FieldSet::class,
+		'fieldSet' => \warm\admin\renderer\FieldSet::class,
+		'input-file' => \warm\admin\renderer\InputFile::class,
+		'formula' => \warm\admin\renderer\Formula::class,
 		'grid' => \warm\admin\renderer\Grid::class,
-		'group' => \warm\admin\renderer\GroupControl::class,
+		'group' => \warm\admin\renderer\Group::class,
 		'hbox' => \warm\admin\renderer\HBox::class,
-		'hidden' => \warm\admin\renderer\HiddenControl::class,
-		'icon-picker' => \warm\admin\renderer\IconPickerControl::class,
+		'hidden' => \warm\admin\renderer\Hidden::class,
+		'icon-picker' => \warm\admin\renderer\IconPicker::class,
 		'icon-select' => \warm\admin\renderer\Component::class,
-		'input-image' => \warm\admin\renderer\ImageControl::class,
-		'input-group' => \warm\admin\renderer\InputGroupControl::class,
-		'list-select' => \warm\admin\renderer\ListControl::class,
-		'location-picker' => \warm\admin\renderer\LocationControl::class,
-		'matrix-checkboxes' => \warm\admin\renderer\MatrixControl::class,
-		'input-month-range' => \warm\admin\renderer\MonthRangeControl::class,
-		'input-quarter-range' => \warm\admin\renderer\QuarterRangeControl::class,
-		'nested-select' => \warm\admin\renderer\NestedSelectControl::class,
-		'input-number' => \warm\admin\renderer\NumberControl::class,
+		'input-image' => \warm\admin\renderer\InputImage::class,
+		'input-group' => \warm\admin\renderer\InputGroup::class,
+		'list-select' => \warm\admin\renderer\ListSelect::class,
+		'location-picker' => \warm\admin\renderer\LocationPicker::class,
+		'matrix-checkboxes' => \warm\admin\renderer\MatrixCheckboxes::class,
+		'input-month-range' => \warm\admin\renderer\InputMonthRange::class,
+		'input-quarter-range' => \warm\admin\renderer\InputQuarterRange::class,
+		'nested-select' => \warm\admin\renderer\NestedSelect::class,
+		'input-number' => \warm\admin\renderer\InputNumber::class,
 		'panel' => \warm\admin\renderer\Panel::class,
-		'picker' => \warm\admin\renderer\PickerControl::class,
-		'radio' => \warm\admin\renderer\RadioControl::class,
-		'radios' => \warm\admin\renderer\RadiosControl::class,
-		'input-range' => \warm\admin\renderer\RangeControl::class,
-		'input-rating' => \warm\admin\renderer\RatingControl::class,
-		'input-repeat' => \warm\admin\renderer\RepeatControl::class,
-		'input-rich-text' => \warm\admin\renderer\RichTextControl::class,
-		'select' => \warm\admin\renderer\SelectControl::class,
+		'picker' => \warm\admin\renderer\Picker::class,
+		'radio' => \warm\admin\renderer\Radio::class,
+		'radios' => \warm\admin\renderer\Radios::class,
+		'input-range' => \warm\admin\renderer\InputRange::class,
+		'input-rating' => \warm\admin\renderer\InputRating::class,
+		'input-repeat' => \warm\admin\renderer\InputRepeat::class,
+		'input-rich-text' => \warm\admin\renderer\InputRichText::class,
+		'select' => \warm\admin\renderer\Select::class,
 		'service' => \warm\admin\renderer\Service::class,
 		'static' => \warm\admin\renderer\StaticExactControl::class,
-		'input-sub-form' => \warm\admin\renderer\SubFormControl::class,
+		'input-sub-form' => \warm\admin\renderer\InputSubForm::class,
 		'switch' => \warm\admin\renderer\SwitchControl::class,
-		'input-table' => \warm\admin\renderer\TableControl::class,
+		'input-table' => \warm\admin\renderer\inputTable::class,
 		'tabs' => \warm\admin\renderer\Tabs::class,
-		'tabs-transfer' => \warm\admin\renderer\TabsTransferControl::class,
-		'input-tag' => \warm\admin\renderer\TagControl::class,
-		'input-text' => \warm\admin\renderer\TextControl::class,
-		'input-password' => \warm\admin\renderer\TextControl::class,
-		'input-email' => \warm\admin\renderer\TextControl::class,
-		'input-url' => \warm\admin\renderer\TextControl::class,
-		'uuid' => \warm\admin\renderer\UUIDControl::class,
-		'multi-select' => \warm\admin\renderer\SelectControl::class,
-		'textarea' => \warm\admin\renderer\TextareaControl::class,
-		'transfer' => \warm\admin\renderer\TransferControl::class,
-		'transfer-picker' => \warm\admin\renderer\TransferPickerControl::class,
-		'tabs-transfer-picker' => \warm\admin\renderer\TabsTransferPickerControl::class,
-		'input-tree' => \warm\admin\renderer\TreeControl::class,
-		'tree-select' => \warm\admin\renderer\TreeSelectControl::class,
+		'tabs-transfer' => \warm\admin\renderer\TabsTransfer::class,
+		'input-tag' => \warm\admin\renderer\InputTag::class,
+		'input-text' => \warm\admin\renderer\InputText::class,
+		'input-password' => \warm\admin\renderer\InputText::class,
+		'input-email' => \warm\admin\renderer\InputText::class,
+		'input-url' => \warm\admin\renderer\InputText::class,
+		'uuid' => \warm\admin\renderer\UUID::class,
+		'multi-select' => \warm\admin\renderer\Select::class,
+		'textarea' => \warm\admin\renderer\Textarea::class,
+		'transfer' => \warm\admin\renderer\Transfer::class,
+		'transfer-picker' => \warm\admin\renderer\TransferPicker::class,
+		'tabs-transfer-picker' => \warm\admin\renderer\TabsTransferPicker::class,
+		'input-tree' => \warm\admin\renderer\InputTree::class,
+		'tree-select' => \warm\admin\renderer\TreeSelect::class,
 		'table-view' => \warm\admin\renderer\TableView::class,
 		'portlet' => \warm\admin\renderer\Portlet::class,
 		'grid-nav' => \warm\admin\renderer\GridNav::class,
-		'users-select' => \warm\admin\renderer\UserSelectControl::class,
+		'users-select' => \warm\admin\renderer\UserSelect::class,
 		'tag' => \warm\admin\renderer\Tag::class,
 		'tags' => \warm\admin\renderer\Component::class,
 		'words' => \warm\admin\renderer\Words::class,
 		'password' => \warm\admin\renderer\Password::class,
 		'multiline-text' => \warm\admin\renderer\MultilineText::class,
 		'amis' => \warm\admin\renderer\Component::class,
-		'native-date' => \warm\admin\renderer\TextControl::class,
-		'native-time' => \warm\admin\renderer\TextControl::class,
-		'native-number' => \warm\admin\renderer\TextControl::class,
+		'native-date' => \warm\admin\renderer\InputText::class,
+		'native-time' => \warm\admin\renderer\InputText::class,
+		'native-number' => \warm\admin\renderer\InputText::class,
 		'code' => \warm\admin\renderer\Code::class,
 		'tooltip-wrapper' => \warm\admin\renderer\TooltipWrapper::class,
 	]));
@@ -683,8 +683,8 @@ namespace PHPSTORM_META {
 		'collapse' => \warm\admin\renderer\Collapse::class,
 		'collapse-group' => \warm\admin\renderer\CollapseGroup::class,
 		'color' => \warm\admin\renderer\Color::class,
-		'crud' => \warm\admin\renderer\CRUDTable::class,
-		'crud2' => \warm\admin\renderer\CRUD2Table::class,
+		'crud' => \warm\admin\renderer\CRUD::class,
+		'crud2' => \warm\admin\renderer\CRUD2::class,
 		'custom' => \warm\admin\renderer\Custom::class,
 		'date' => \warm\admin\renderer\Date::class,
 		'static-date' => \warm\admin\renderer\StaticExactControl::class,
@@ -711,7 +711,7 @@ namespace PHPSTORM_META {
 		'images' => \warm\admin\renderer\Images::class,
 		'static-images' => \warm\admin\renderer\Component::class,
 		'json-schema' => \warm\admin\renderer\Json::class,
-		'json-schema-editor' => \warm\admin\renderer\JSONSchemaEditorControl::class,
+		'json-schema-editor' => \warm\admin\renderer\JSONSchemaEditor::class,
 		'json' => \warm\admin\renderer\Json::class,
 		'static-json' => \warm\admin\renderer\Component::class,
 		'link' => \warm\admin\renderer\Link::class,
@@ -740,7 +740,7 @@ namespace PHPSTORM_META {
 		'status' => \warm\admin\renderer\Status::class,
 		'table' => \warm\admin\renderer\Table::class,
 		'static-table' => \warm\admin\renderer\StaticExactControl::class,
-		'table2' => \warm\admin\renderer\TableSchema2::class,
+		'table2' => \warm\admin\renderer\Table2::class,
 		'html' => \warm\admin\renderer\Html::class,
 		'tpl' => \warm\admin\renderer\Tpl::class,
 		'tasks' => \warm\admin\renderer\Tasks::class,
@@ -752,138 +752,138 @@ namespace PHPSTORM_META {
 		'anchor-nav' => \warm\admin\renderer\AnchorNav::class,
 		'steps' => \warm\admin\renderer\Steps::class,
 		'timeline' => \warm\admin\renderer\Timeline::class,
-		'control' => \warm\admin\renderer\FormControl::class,
-		'input-array' => \warm\admin\renderer\ArrayControl::class,
-		'button' => \warm\admin\renderer\VanillaAction::class,
-		'submit' => \warm\admin\renderer\VanillaAction::class,
-		'reset' => \warm\admin\renderer\VanillaAction::class,
-		'button-group-select' => \warm\admin\renderer\ButtonGroupControl::class,
+		'control' => \warm\admin\renderer\Form::class,
+		'input-array' => \warm\admin\renderer\InputArray::class,
+		'button' => \warm\admin\renderer\Button::class,
+		'submit' => \warm\admin\renderer\Button::class,
+		'reset' => \warm\admin\renderer\Button::class,
+		'button-group-select' => \warm\admin\renderer\ButtonGroupSelect::class,
 		'button-toolbar' => \warm\admin\renderer\ButtonToolbar::class,
-		'chained-select' => \warm\admin\renderer\ChainedSelectControl::class,
+		'chained-select' => \warm\admin\renderer\ChainedSelect::class,
 		'chart-radios' => \warm\admin\renderer\ChartRadios::class,
-		'checkbox' => \warm\admin\renderer\CheckboxControl::class,
-		'checkboxes' => \warm\admin\renderer\CheckboxesControl::class,
-		'input-city' => \warm\admin\renderer\InputCityControl::class,
-		'input-color' => \warm\admin\renderer\InputColorControl::class,
-		'combo' => \warm\admin\renderer\ComboControl::class,
-		'condition-builder' => \warm\admin\renderer\ConditionBuilderControl::class,
+		'checkbox' => \warm\admin\renderer\Checkbox::class,
+		'checkboxes' => \warm\admin\renderer\Checkboxes::class,
+		'input-city' => \warm\admin\renderer\InputCity::class,
+		'input-color' => \warm\admin\renderer\InputColor::class,
+		'combo' => \warm\admin\renderer\Combo::class,
+		'condition-builder' => \warm\admin\renderer\ConditionBuilder::class,
 		'container' => \warm\admin\renderer\Container::class,
 		'switch-container' => \warm\admin\renderer\SwitchContainer::class,
-		'input-date' => \warm\admin\renderer\DateControl::class,
-		'input-datetime' => \warm\admin\renderer\DateTimeControl::class,
-		'input-time' => \warm\admin\renderer\TimeControl::class,
-		'input-quarter' => \warm\admin\renderer\QuarterControl::class,
-		'input-year' => \warm\admin\renderer\YearControl::class,
-		'input-month' => \warm\admin\renderer\MonthControl::class,
-		'input-date-range' => \warm\admin\renderer\DateRangeControl::class,
-		'input-time-range' => \warm\admin\renderer\DateRangeControl::class,
-		'input-datetime-range' => \warm\admin\renderer\DateRangeControl::class,
+		'input-date' => \warm\admin\renderer\InputDate::class,
+		'input-datetime' => \warm\admin\renderer\InputDateTime::class,
+		'input-time' => \warm\admin\renderer\InputTime::class,
+		'input-quarter' => \warm\admin\renderer\InputQuarter::class,
+		'input-year' => \warm\admin\renderer\InputYear::class,
+		'input-month' => \warm\admin\renderer\InputMonth::class,
+		'input-date-range' => \warm\admin\renderer\InputDateRange::class,
+		'input-time-range' => \warm\admin\renderer\InputDateRange::class,
+		'input-datetime-range' => \warm\admin\renderer\InputDateRange::class,
 		'input-excel' => \warm\admin\renderer\InputExcel::class,
 		'input-formula' => \warm\admin\renderer\Component::class,
-		'diff-editor' => \warm\admin\renderer\DiffControl::class,
+		'diff-editor' => \warm\admin\renderer\DiffEditor::class,
 		'office-viewer' => \warm\admin\renderer\Component::class,
 		'pdf-viewer' => \warm\admin\renderer\Component::class,
 		'input-signature' => \warm\admin\renderer\InputSignature::class,
-		'editor' => \warm\admin\renderer\EditorControl::class,
-		'bat-editor' => \warm\admin\renderer\EditorControl::class,
-		'c-editor' => \warm\admin\renderer\EditorControl::class,
-		'coffeescript-editor' => \warm\admin\renderer\EditorControl::class,
-		'cpp-editor' => \warm\admin\renderer\EditorControl::class,
-		'csharp-editor' => \warm\admin\renderer\EditorControl::class,
-		'css-editor' => \warm\admin\renderer\EditorControl::class,
-		'dockerfile-editor' => \warm\admin\renderer\EditorControl::class,
-		'fsharp-editor' => \warm\admin\renderer\EditorControl::class,
-		'go-editor' => \warm\admin\renderer\EditorControl::class,
-		'handlebars-editor' => \warm\admin\renderer\EditorControl::class,
-		'html-editor' => \warm\admin\renderer\EditorControl::class,
-		'ini-editor' => \warm\admin\renderer\EditorControl::class,
-		'java-editor' => \warm\admin\renderer\EditorControl::class,
-		'javascript-editor' => \warm\admin\renderer\EditorControl::class,
-		'json-editor' => \warm\admin\renderer\EditorControl::class,
-		'less-editor' => \warm\admin\renderer\EditorControl::class,
-		'lua-editor' => \warm\admin\renderer\EditorControl::class,
-		'markdown-editor' => \warm\admin\renderer\EditorControl::class,
-		'msdax-editor' => \warm\admin\renderer\EditorControl::class,
-		'objective-c-editor' => \warm\admin\renderer\EditorControl::class,
-		'php-editor' => \warm\admin\renderer\EditorControl::class,
-		'plaintext-editor' => \warm\admin\renderer\EditorControl::class,
-		'postiats-editor' => \warm\admin\renderer\EditorControl::class,
-		'powershell-editor' => \warm\admin\renderer\EditorControl::class,
-		'pug-editor' => \warm\admin\renderer\EditorControl::class,
-		'python-editor' => \warm\admin\renderer\EditorControl::class,
-		'r-editor' => \warm\admin\renderer\EditorControl::class,
-		'razor-editor' => \warm\admin\renderer\EditorControl::class,
-		'ruby-editor' => \warm\admin\renderer\EditorControl::class,
-		'sb-editor' => \warm\admin\renderer\EditorControl::class,
-		'scss-editor' => \warm\admin\renderer\EditorControl::class,
-		'sol-editor' => \warm\admin\renderer\EditorControl::class,
-		'sql-editor' => \warm\admin\renderer\EditorControl::class,
-		'swift-editor' => \warm\admin\renderer\EditorControl::class,
-		'typescript-editor' => \warm\admin\renderer\EditorControl::class,
-		'vb-editor' => \warm\admin\renderer\EditorControl::class,
-		'xml-editor' => \warm\admin\renderer\EditorControl::class,
-		'yaml-editor' => \warm\admin\renderer\EditorControl::class,
-		'fieldset' => \warm\admin\renderer\FieldSetControl::class,
-		'fieldSet' => \warm\admin\renderer\FieldSetControl::class,
-		'input-file' => \warm\admin\renderer\FileControl::class,
-		'formula' => \warm\admin\renderer\FormulaControl::class,
+		'editor' => \warm\admin\renderer\Editor::class,
+		'bat-editor' => \warm\admin\renderer\Editor::class,
+		'c-editor' => \warm\admin\renderer\Editor::class,
+		'coffeescript-editor' => \warm\admin\renderer\Editor::class,
+		'cpp-editor' => \warm\admin\renderer\Editor::class,
+		'csharp-editor' => \warm\admin\renderer\Editor::class,
+		'css-editor' => \warm\admin\renderer\Editor::class,
+		'dockerfile-editor' => \warm\admin\renderer\Editor::class,
+		'fsharp-editor' => \warm\admin\renderer\Editor::class,
+		'go-editor' => \warm\admin\renderer\Editor::class,
+		'handlebars-editor' => \warm\admin\renderer\Editor::class,
+		'html-editor' => \warm\admin\renderer\Editor::class,
+		'ini-editor' => \warm\admin\renderer\Editor::class,
+		'java-editor' => \warm\admin\renderer\Editor::class,
+		'javascript-editor' => \warm\admin\renderer\Editor::class,
+		'json-editor' => \warm\admin\renderer\Editor::class,
+		'less-editor' => \warm\admin\renderer\Editor::class,
+		'lua-editor' => \warm\admin\renderer\Editor::class,
+		'markdown-editor' => \warm\admin\renderer\Editor::class,
+		'msdax-editor' => \warm\admin\renderer\Editor::class,
+		'objective-c-editor' => \warm\admin\renderer\Editor::class,
+		'php-editor' => \warm\admin\renderer\Editor::class,
+		'plaintext-editor' => \warm\admin\renderer\Editor::class,
+		'postiats-editor' => \warm\admin\renderer\Editor::class,
+		'powershell-editor' => \warm\admin\renderer\Editor::class,
+		'pug-editor' => \warm\admin\renderer\Editor::class,
+		'python-editor' => \warm\admin\renderer\Editor::class,
+		'r-editor' => \warm\admin\renderer\Editor::class,
+		'razor-editor' => \warm\admin\renderer\Editor::class,
+		'ruby-editor' => \warm\admin\renderer\Editor::class,
+		'sb-editor' => \warm\admin\renderer\Editor::class,
+		'scss-editor' => \warm\admin\renderer\Editor::class,
+		'sol-editor' => \warm\admin\renderer\Editor::class,
+		'sql-editor' => \warm\admin\renderer\Editor::class,
+		'swift-editor' => \warm\admin\renderer\Editor::class,
+		'typescript-editor' => \warm\admin\renderer\Editor::class,
+		'vb-editor' => \warm\admin\renderer\Editor::class,
+		'xml-editor' => \warm\admin\renderer\Editor::class,
+		'yaml-editor' => \warm\admin\renderer\Editor::class,
+		'fieldset' => \warm\admin\renderer\FieldSet::class,
+		'fieldSet' => \warm\admin\renderer\FieldSet::class,
+		'input-file' => \warm\admin\renderer\InputFile::class,
+		'formula' => \warm\admin\renderer\Formula::class,
 		'grid' => \warm\admin\renderer\Grid::class,
-		'group' => \warm\admin\renderer\GroupControl::class,
+		'group' => \warm\admin\renderer\Group::class,
 		'hbox' => \warm\admin\renderer\HBox::class,
-		'hidden' => \warm\admin\renderer\HiddenControl::class,
-		'icon-picker' => \warm\admin\renderer\IconPickerControl::class,
+		'hidden' => \warm\admin\renderer\Hidden::class,
+		'icon-picker' => \warm\admin\renderer\IconPicker::class,
 		'icon-select' => \warm\admin\renderer\Component::class,
-		'input-image' => \warm\admin\renderer\ImageControl::class,
-		'input-group' => \warm\admin\renderer\InputGroupControl::class,
-		'list-select' => \warm\admin\renderer\ListControl::class,
-		'location-picker' => \warm\admin\renderer\LocationControl::class,
-		'matrix-checkboxes' => \warm\admin\renderer\MatrixControl::class,
-		'input-month-range' => \warm\admin\renderer\MonthRangeControl::class,
-		'input-quarter-range' => \warm\admin\renderer\QuarterRangeControl::class,
-		'nested-select' => \warm\admin\renderer\NestedSelectControl::class,
-		'input-number' => \warm\admin\renderer\NumberControl::class,
+		'input-image' => \warm\admin\renderer\InputImage::class,
+		'input-group' => \warm\admin\renderer\InputGroup::class,
+		'list-select' => \warm\admin\renderer\ListSelect::class,
+		'location-picker' => \warm\admin\renderer\LocationPicker::class,
+		'matrix-checkboxes' => \warm\admin\renderer\MatrixCheckboxes::class,
+		'input-month-range' => \warm\admin\renderer\InputMonthRange::class,
+		'input-quarter-range' => \warm\admin\renderer\InputQuarterRange::class,
+		'nested-select' => \warm\admin\renderer\NestedSelect::class,
+		'input-number' => \warm\admin\renderer\InputNumber::class,
 		'panel' => \warm\admin\renderer\Panel::class,
-		'picker' => \warm\admin\renderer\PickerControl::class,
-		'radio' => \warm\admin\renderer\RadioControl::class,
-		'radios' => \warm\admin\renderer\RadiosControl::class,
-		'input-range' => \warm\admin\renderer\RangeControl::class,
-		'input-rating' => \warm\admin\renderer\RatingControl::class,
-		'input-repeat' => \warm\admin\renderer\RepeatControl::class,
-		'input-rich-text' => \warm\admin\renderer\RichTextControl::class,
-		'select' => \warm\admin\renderer\SelectControl::class,
+		'picker' => \warm\admin\renderer\Picker::class,
+		'radio' => \warm\admin\renderer\Radio::class,
+		'radios' => \warm\admin\renderer\Radios::class,
+		'input-range' => \warm\admin\renderer\InputRange::class,
+		'input-rating' => \warm\admin\renderer\InputRating::class,
+		'input-repeat' => \warm\admin\renderer\InputRepeat::class,
+		'input-rich-text' => \warm\admin\renderer\InputRichText::class,
+		'select' => \warm\admin\renderer\Select::class,
 		'service' => \warm\admin\renderer\Service::class,
 		'static' => \warm\admin\renderer\StaticExactControl::class,
-		'input-sub-form' => \warm\admin\renderer\SubFormControl::class,
+		'input-sub-form' => \warm\admin\renderer\InputSubForm::class,
 		'switch' => \warm\admin\renderer\SwitchControl::class,
-		'input-table' => \warm\admin\renderer\TableControl::class,
+		'input-table' => \warm\admin\renderer\inputTable::class,
 		'tabs' => \warm\admin\renderer\Tabs::class,
-		'tabs-transfer' => \warm\admin\renderer\TabsTransferControl::class,
-		'input-tag' => \warm\admin\renderer\TagControl::class,
-		'input-text' => \warm\admin\renderer\TextControl::class,
-		'input-password' => \warm\admin\renderer\TextControl::class,
-		'input-email' => \warm\admin\renderer\TextControl::class,
-		'input-url' => \warm\admin\renderer\TextControl::class,
-		'uuid' => \warm\admin\renderer\UUIDControl::class,
-		'multi-select' => \warm\admin\renderer\SelectControl::class,
-		'textarea' => \warm\admin\renderer\TextareaControl::class,
-		'transfer' => \warm\admin\renderer\TransferControl::class,
-		'transfer-picker' => \warm\admin\renderer\TransferPickerControl::class,
-		'tabs-transfer-picker' => \warm\admin\renderer\TabsTransferPickerControl::class,
-		'input-tree' => \warm\admin\renderer\TreeControl::class,
-		'tree-select' => \warm\admin\renderer\TreeSelectControl::class,
+		'tabs-transfer' => \warm\admin\renderer\TabsTransfer::class,
+		'input-tag' => \warm\admin\renderer\InputTag::class,
+		'input-text' => \warm\admin\renderer\InputText::class,
+		'input-password' => \warm\admin\renderer\InputText::class,
+		'input-email' => \warm\admin\renderer\InputText::class,
+		'input-url' => \warm\admin\renderer\InputText::class,
+		'uuid' => \warm\admin\renderer\UUID::class,
+		'multi-select' => \warm\admin\renderer\Select::class,
+		'textarea' => \warm\admin\renderer\Textarea::class,
+		'transfer' => \warm\admin\renderer\Transfer::class,
+		'transfer-picker' => \warm\admin\renderer\TransferPicker::class,
+		'tabs-transfer-picker' => \warm\admin\renderer\TabsTransferPicker::class,
+		'input-tree' => \warm\admin\renderer\InputTree::class,
+		'tree-select' => \warm\admin\renderer\TreeSelect::class,
 		'table-view' => \warm\admin\renderer\TableView::class,
 		'portlet' => \warm\admin\renderer\Portlet::class,
 		'grid-nav' => \warm\admin\renderer\GridNav::class,
-		'users-select' => \warm\admin\renderer\UserSelectControl::class,
+		'users-select' => \warm\admin\renderer\UserSelect::class,
 		'tag' => \warm\admin\renderer\Tag::class,
 		'tags' => \warm\admin\renderer\Component::class,
 		'words' => \warm\admin\renderer\Words::class,
 		'password' => \warm\admin\renderer\Password::class,
 		'multiline-text' => \warm\admin\renderer\MultilineText::class,
 		'amis' => \warm\admin\renderer\Component::class,
-		'native-date' => \warm\admin\renderer\TextControl::class,
-		'native-time' => \warm\admin\renderer\TextControl::class,
-		'native-number' => \warm\admin\renderer\TextControl::class,
+		'native-date' => \warm\admin\renderer\InputText::class,
+		'native-time' => \warm\admin\renderer\InputText::class,
+		'native-number' => \warm\admin\renderer\InputText::class,
 		'code' => \warm\admin\renderer\Code::class,
 		'tooltip-wrapper' => \warm\admin\renderer\TooltipWrapper::class,
 	]));
@@ -904,8 +904,8 @@ namespace PHPSTORM_META {
 		'collapse' => \warm\admin\renderer\Collapse::class,
 		'collapse-group' => \warm\admin\renderer\CollapseGroup::class,
 		'color' => \warm\admin\renderer\Color::class,
-		'crud' => \warm\admin\renderer\CRUDTable::class,
-		'crud2' => \warm\admin\renderer\CRUD2Table::class,
+		'crud' => \warm\admin\renderer\CRUD::class,
+		'crud2' => \warm\admin\renderer\CRUD2::class,
 		'custom' => \warm\admin\renderer\Custom::class,
 		'date' => \warm\admin\renderer\Date::class,
 		'static-date' => \warm\admin\renderer\StaticExactControl::class,
@@ -932,7 +932,7 @@ namespace PHPSTORM_META {
 		'images' => \warm\admin\renderer\Images::class,
 		'static-images' => \warm\admin\renderer\Component::class,
 		'json-schema' => \warm\admin\renderer\Json::class,
-		'json-schema-editor' => \warm\admin\renderer\JSONSchemaEditorControl::class,
+		'json-schema-editor' => \warm\admin\renderer\JSONSchemaEditor::class,
 		'json' => \warm\admin\renderer\Json::class,
 		'static-json' => \warm\admin\renderer\Component::class,
 		'link' => \warm\admin\renderer\Link::class,
@@ -961,7 +961,7 @@ namespace PHPSTORM_META {
 		'status' => \warm\admin\renderer\Status::class,
 		'table' => \warm\admin\renderer\Table::class,
 		'static-table' => \warm\admin\renderer\StaticExactControl::class,
-		'table2' => \warm\admin\renderer\TableSchema2::class,
+		'table2' => \warm\admin\renderer\Table2::class,
 		'html' => \warm\admin\renderer\Html::class,
 		'tpl' => \warm\admin\renderer\Tpl::class,
 		'tasks' => \warm\admin\renderer\Tasks::class,
@@ -973,138 +973,138 @@ namespace PHPSTORM_META {
 		'anchor-nav' => \warm\admin\renderer\AnchorNav::class,
 		'steps' => \warm\admin\renderer\Steps::class,
 		'timeline' => \warm\admin\renderer\Timeline::class,
-		'control' => \warm\admin\renderer\FormControl::class,
-		'input-array' => \warm\admin\renderer\ArrayControl::class,
-		'button' => \warm\admin\renderer\VanillaAction::class,
-		'submit' => \warm\admin\renderer\VanillaAction::class,
-		'reset' => \warm\admin\renderer\VanillaAction::class,
-		'button-group-select' => \warm\admin\renderer\ButtonGroupControl::class,
+		'control' => \warm\admin\renderer\Form::class,
+		'input-array' => \warm\admin\renderer\InputArray::class,
+		'button' => \warm\admin\renderer\Button::class,
+		'submit' => \warm\admin\renderer\Button::class,
+		'reset' => \warm\admin\renderer\Button::class,
+		'button-group-select' => \warm\admin\renderer\ButtonGroupSelect::class,
 		'button-toolbar' => \warm\admin\renderer\ButtonToolbar::class,
-		'chained-select' => \warm\admin\renderer\ChainedSelectControl::class,
+		'chained-select' => \warm\admin\renderer\ChainedSelect::class,
 		'chart-radios' => \warm\admin\renderer\ChartRadios::class,
-		'checkbox' => \warm\admin\renderer\CheckboxControl::class,
-		'checkboxes' => \warm\admin\renderer\CheckboxesControl::class,
-		'input-city' => \warm\admin\renderer\InputCityControl::class,
-		'input-color' => \warm\admin\renderer\InputColorControl::class,
-		'combo' => \warm\admin\renderer\ComboControl::class,
-		'condition-builder' => \warm\admin\renderer\ConditionBuilderControl::class,
+		'checkbox' => \warm\admin\renderer\Checkbox::class,
+		'checkboxes' => \warm\admin\renderer\Checkboxes::class,
+		'input-city' => \warm\admin\renderer\InputCity::class,
+		'input-color' => \warm\admin\renderer\InputColor::class,
+		'combo' => \warm\admin\renderer\Combo::class,
+		'condition-builder' => \warm\admin\renderer\ConditionBuilder::class,
 		'container' => \warm\admin\renderer\Container::class,
 		'switch-container' => \warm\admin\renderer\SwitchContainer::class,
-		'input-date' => \warm\admin\renderer\DateControl::class,
-		'input-datetime' => \warm\admin\renderer\DateTimeControl::class,
-		'input-time' => \warm\admin\renderer\TimeControl::class,
-		'input-quarter' => \warm\admin\renderer\QuarterControl::class,
-		'input-year' => \warm\admin\renderer\YearControl::class,
-		'input-month' => \warm\admin\renderer\MonthControl::class,
-		'input-date-range' => \warm\admin\renderer\DateRangeControl::class,
-		'input-time-range' => \warm\admin\renderer\DateRangeControl::class,
-		'input-datetime-range' => \warm\admin\renderer\DateRangeControl::class,
+		'input-date' => \warm\admin\renderer\InputDate::class,
+		'input-datetime' => \warm\admin\renderer\InputDateTime::class,
+		'input-time' => \warm\admin\renderer\InputTime::class,
+		'input-quarter' => \warm\admin\renderer\InputQuarter::class,
+		'input-year' => \warm\admin\renderer\InputYear::class,
+		'input-month' => \warm\admin\renderer\InputMonth::class,
+		'input-date-range' => \warm\admin\renderer\InputDateRange::class,
+		'input-time-range' => \warm\admin\renderer\InputDateRange::class,
+		'input-datetime-range' => \warm\admin\renderer\InputDateRange::class,
 		'input-excel' => \warm\admin\renderer\InputExcel::class,
 		'input-formula' => \warm\admin\renderer\Component::class,
-		'diff-editor' => \warm\admin\renderer\DiffControl::class,
+		'diff-editor' => \warm\admin\renderer\DiffEditor::class,
 		'office-viewer' => \warm\admin\renderer\Component::class,
 		'pdf-viewer' => \warm\admin\renderer\Component::class,
 		'input-signature' => \warm\admin\renderer\InputSignature::class,
-		'editor' => \warm\admin\renderer\EditorControl::class,
-		'bat-editor' => \warm\admin\renderer\EditorControl::class,
-		'c-editor' => \warm\admin\renderer\EditorControl::class,
-		'coffeescript-editor' => \warm\admin\renderer\EditorControl::class,
-		'cpp-editor' => \warm\admin\renderer\EditorControl::class,
-		'csharp-editor' => \warm\admin\renderer\EditorControl::class,
-		'css-editor' => \warm\admin\renderer\EditorControl::class,
-		'dockerfile-editor' => \warm\admin\renderer\EditorControl::class,
-		'fsharp-editor' => \warm\admin\renderer\EditorControl::class,
-		'go-editor' => \warm\admin\renderer\EditorControl::class,
-		'handlebars-editor' => \warm\admin\renderer\EditorControl::class,
-		'html-editor' => \warm\admin\renderer\EditorControl::class,
-		'ini-editor' => \warm\admin\renderer\EditorControl::class,
-		'java-editor' => \warm\admin\renderer\EditorControl::class,
-		'javascript-editor' => \warm\admin\renderer\EditorControl::class,
-		'json-editor' => \warm\admin\renderer\EditorControl::class,
-		'less-editor' => \warm\admin\renderer\EditorControl::class,
-		'lua-editor' => \warm\admin\renderer\EditorControl::class,
-		'markdown-editor' => \warm\admin\renderer\EditorControl::class,
-		'msdax-editor' => \warm\admin\renderer\EditorControl::class,
-		'objective-c-editor' => \warm\admin\renderer\EditorControl::class,
-		'php-editor' => \warm\admin\renderer\EditorControl::class,
-		'plaintext-editor' => \warm\admin\renderer\EditorControl::class,
-		'postiats-editor' => \warm\admin\renderer\EditorControl::class,
-		'powershell-editor' => \warm\admin\renderer\EditorControl::class,
-		'pug-editor' => \warm\admin\renderer\EditorControl::class,
-		'python-editor' => \warm\admin\renderer\EditorControl::class,
-		'r-editor' => \warm\admin\renderer\EditorControl::class,
-		'razor-editor' => \warm\admin\renderer\EditorControl::class,
-		'ruby-editor' => \warm\admin\renderer\EditorControl::class,
-		'sb-editor' => \warm\admin\renderer\EditorControl::class,
-		'scss-editor' => \warm\admin\renderer\EditorControl::class,
-		'sol-editor' => \warm\admin\renderer\EditorControl::class,
-		'sql-editor' => \warm\admin\renderer\EditorControl::class,
-		'swift-editor' => \warm\admin\renderer\EditorControl::class,
-		'typescript-editor' => \warm\admin\renderer\EditorControl::class,
-		'vb-editor' => \warm\admin\renderer\EditorControl::class,
-		'xml-editor' => \warm\admin\renderer\EditorControl::class,
-		'yaml-editor' => \warm\admin\renderer\EditorControl::class,
-		'fieldset' => \warm\admin\renderer\FieldSetControl::class,
-		'fieldSet' => \warm\admin\renderer\FieldSetControl::class,
-		'input-file' => \warm\admin\renderer\FileControl::class,
-		'formula' => \warm\admin\renderer\FormulaControl::class,
+		'editor' => \warm\admin\renderer\Editor::class,
+		'bat-editor' => \warm\admin\renderer\Editor::class,
+		'c-editor' => \warm\admin\renderer\Editor::class,
+		'coffeescript-editor' => \warm\admin\renderer\Editor::class,
+		'cpp-editor' => \warm\admin\renderer\Editor::class,
+		'csharp-editor' => \warm\admin\renderer\Editor::class,
+		'css-editor' => \warm\admin\renderer\Editor::class,
+		'dockerfile-editor' => \warm\admin\renderer\Editor::class,
+		'fsharp-editor' => \warm\admin\renderer\Editor::class,
+		'go-editor' => \warm\admin\renderer\Editor::class,
+		'handlebars-editor' => \warm\admin\renderer\Editor::class,
+		'html-editor' => \warm\admin\renderer\Editor::class,
+		'ini-editor' => \warm\admin\renderer\Editor::class,
+		'java-editor' => \warm\admin\renderer\Editor::class,
+		'javascript-editor' => \warm\admin\renderer\Editor::class,
+		'json-editor' => \warm\admin\renderer\Editor::class,
+		'less-editor' => \warm\admin\renderer\Editor::class,
+		'lua-editor' => \warm\admin\renderer\Editor::class,
+		'markdown-editor' => \warm\admin\renderer\Editor::class,
+		'msdax-editor' => \warm\admin\renderer\Editor::class,
+		'objective-c-editor' => \warm\admin\renderer\Editor::class,
+		'php-editor' => \warm\admin\renderer\Editor::class,
+		'plaintext-editor' => \warm\admin\renderer\Editor::class,
+		'postiats-editor' => \warm\admin\renderer\Editor::class,
+		'powershell-editor' => \warm\admin\renderer\Editor::class,
+		'pug-editor' => \warm\admin\renderer\Editor::class,
+		'python-editor' => \warm\admin\renderer\Editor::class,
+		'r-editor' => \warm\admin\renderer\Editor::class,
+		'razor-editor' => \warm\admin\renderer\Editor::class,
+		'ruby-editor' => \warm\admin\renderer\Editor::class,
+		'sb-editor' => \warm\admin\renderer\Editor::class,
+		'scss-editor' => \warm\admin\renderer\Editor::class,
+		'sol-editor' => \warm\admin\renderer\Editor::class,
+		'sql-editor' => \warm\admin\renderer\Editor::class,
+		'swift-editor' => \warm\admin\renderer\Editor::class,
+		'typescript-editor' => \warm\admin\renderer\Editor::class,
+		'vb-editor' => \warm\admin\renderer\Editor::class,
+		'xml-editor' => \warm\admin\renderer\Editor::class,
+		'yaml-editor' => \warm\admin\renderer\Editor::class,
+		'fieldset' => \warm\admin\renderer\FieldSet::class,
+		'fieldSet' => \warm\admin\renderer\FieldSet::class,
+		'input-file' => \warm\admin\renderer\InputFile::class,
+		'formula' => \warm\admin\renderer\Formula::class,
 		'grid' => \warm\admin\renderer\Grid::class,
-		'group' => \warm\admin\renderer\GroupControl::class,
+		'group' => \warm\admin\renderer\Group::class,
 		'hbox' => \warm\admin\renderer\HBox::class,
-		'hidden' => \warm\admin\renderer\HiddenControl::class,
-		'icon-picker' => \warm\admin\renderer\IconPickerControl::class,
+		'hidden' => \warm\admin\renderer\Hidden::class,
+		'icon-picker' => \warm\admin\renderer\IconPicker::class,
 		'icon-select' => \warm\admin\renderer\Component::class,
-		'input-image' => \warm\admin\renderer\ImageControl::class,
-		'input-group' => \warm\admin\renderer\InputGroupControl::class,
-		'list-select' => \warm\admin\renderer\ListControl::class,
-		'location-picker' => \warm\admin\renderer\LocationControl::class,
-		'matrix-checkboxes' => \warm\admin\renderer\MatrixControl::class,
-		'input-month-range' => \warm\admin\renderer\MonthRangeControl::class,
-		'input-quarter-range' => \warm\admin\renderer\QuarterRangeControl::class,
-		'nested-select' => \warm\admin\renderer\NestedSelectControl::class,
-		'input-number' => \warm\admin\renderer\NumberControl::class,
+		'input-image' => \warm\admin\renderer\InputImage::class,
+		'input-group' => \warm\admin\renderer\InputGroup::class,
+		'list-select' => \warm\admin\renderer\ListSelect::class,
+		'location-picker' => \warm\admin\renderer\LocationPicker::class,
+		'matrix-checkboxes' => \warm\admin\renderer\MatrixCheckboxes::class,
+		'input-month-range' => \warm\admin\renderer\InputMonthRange::class,
+		'input-quarter-range' => \warm\admin\renderer\InputQuarterRange::class,
+		'nested-select' => \warm\admin\renderer\NestedSelect::class,
+		'input-number' => \warm\admin\renderer\InputNumber::class,
 		'panel' => \warm\admin\renderer\Panel::class,
-		'picker' => \warm\admin\renderer\PickerControl::class,
-		'radio' => \warm\admin\renderer\RadioControl::class,
-		'radios' => \warm\admin\renderer\RadiosControl::class,
-		'input-range' => \warm\admin\renderer\RangeControl::class,
-		'input-rating' => \warm\admin\renderer\RatingControl::class,
-		'input-repeat' => \warm\admin\renderer\RepeatControl::class,
-		'input-rich-text' => \warm\admin\renderer\RichTextControl::class,
-		'select' => \warm\admin\renderer\SelectControl::class,
+		'picker' => \warm\admin\renderer\Picker::class,
+		'radio' => \warm\admin\renderer\Radio::class,
+		'radios' => \warm\admin\renderer\Radios::class,
+		'input-range' => \warm\admin\renderer\InputRange::class,
+		'input-rating' => \warm\admin\renderer\InputRating::class,
+		'input-repeat' => \warm\admin\renderer\InputRepeat::class,
+		'input-rich-text' => \warm\admin\renderer\InputRichText::class,
+		'select' => \warm\admin\renderer\Select::class,
 		'service' => \warm\admin\renderer\Service::class,
 		'static' => \warm\admin\renderer\StaticExactControl::class,
-		'input-sub-form' => \warm\admin\renderer\SubFormControl::class,
+		'input-sub-form' => \warm\admin\renderer\InputSubForm::class,
 		'switch' => \warm\admin\renderer\SwitchControl::class,
-		'input-table' => \warm\admin\renderer\TableControl::class,
+		'input-table' => \warm\admin\renderer\inputTable::class,
 		'tabs' => \warm\admin\renderer\Tabs::class,
-		'tabs-transfer' => \warm\admin\renderer\TabsTransferControl::class,
-		'input-tag' => \warm\admin\renderer\TagControl::class,
-		'input-text' => \warm\admin\renderer\TextControl::class,
-		'input-password' => \warm\admin\renderer\TextControl::class,
-		'input-email' => \warm\admin\renderer\TextControl::class,
-		'input-url' => \warm\admin\renderer\TextControl::class,
-		'uuid' => \warm\admin\renderer\UUIDControl::class,
-		'multi-select' => \warm\admin\renderer\SelectControl::class,
-		'textarea' => \warm\admin\renderer\TextareaControl::class,
-		'transfer' => \warm\admin\renderer\TransferControl::class,
-		'transfer-picker' => \warm\admin\renderer\TransferPickerControl::class,
-		'tabs-transfer-picker' => \warm\admin\renderer\TabsTransferPickerControl::class,
-		'input-tree' => \warm\admin\renderer\TreeControl::class,
-		'tree-select' => \warm\admin\renderer\TreeSelectControl::class,
+		'tabs-transfer' => \warm\admin\renderer\TabsTransfer::class,
+		'input-tag' => \warm\admin\renderer\InputTag::class,
+		'input-text' => \warm\admin\renderer\InputText::class,
+		'input-password' => \warm\admin\renderer\InputText::class,
+		'input-email' => \warm\admin\renderer\InputText::class,
+		'input-url' => \warm\admin\renderer\InputText::class,
+		'uuid' => \warm\admin\renderer\UUID::class,
+		'multi-select' => \warm\admin\renderer\Select::class,
+		'textarea' => \warm\admin\renderer\Textarea::class,
+		'transfer' => \warm\admin\renderer\Transfer::class,
+		'transfer-picker' => \warm\admin\renderer\TransferPicker::class,
+		'tabs-transfer-picker' => \warm\admin\renderer\TabsTransferPicker::class,
+		'input-tree' => \warm\admin\renderer\InputTree::class,
+		'tree-select' => \warm\admin\renderer\TreeSelect::class,
 		'table-view' => \warm\admin\renderer\TableView::class,
 		'portlet' => \warm\admin\renderer\Portlet::class,
 		'grid-nav' => \warm\admin\renderer\GridNav::class,
-		'users-select' => \warm\admin\renderer\UserSelectControl::class,
+		'users-select' => \warm\admin\renderer\UserSelect::class,
 		'tag' => \warm\admin\renderer\Tag::class,
 		'tags' => \warm\admin\renderer\Component::class,
 		'words' => \warm\admin\renderer\Words::class,
 		'password' => \warm\admin\renderer\Password::class,
 		'multiline-text' => \warm\admin\renderer\MultilineText::class,
 		'amis' => \warm\admin\renderer\Component::class,
-		'native-date' => \warm\admin\renderer\TextControl::class,
-		'native-time' => \warm\admin\renderer\TextControl::class,
-		'native-number' => \warm\admin\renderer\TextControl::class,
+		'native-date' => \warm\admin\renderer\InputText::class,
+		'native-time' => \warm\admin\renderer\InputText::class,
+		'native-number' => \warm\admin\renderer\InputText::class,
 		'code' => \warm\admin\renderer\Code::class,
 		'tooltip-wrapper' => \warm\admin\renderer\TooltipWrapper::class,
 	]));
@@ -1116,11 +1116,11 @@ namespace PHPSTORM_META {
 	expectedArguments(\warm\admin\renderer\AjaxAction::type(), 0, 'button','submit','reset');
 	expectedArguments(\warm\admin\renderer\Alert::level(), 0, 'info','warning','success','danger');
 	expectedArguments(\warm\admin\renderer\AnchorNav::direction(), 0, 'vertical','horizontal');
-	expectedArguments(\warm\admin\renderer\ArrayControl::labelAlign(), 0, 'right','left','top','inherit');
-	expectedArguments(\warm\admin\renderer\ArrayControl::mode(), 0, 'normal','inline','horizontal');
-	expectedArguments(\warm\admin\renderer\ArrayControl::size(), 0, 'xs','sm','md','lg','full');
-	expectedArguments(\warm\admin\renderer\ArrayControl::subFormMode(), 0, 'normal','horizontal','inline');
-	expectedArguments(\warm\admin\renderer\ArrayControl::tabsStyle(), 0, '','line','card','radio');
+	expectedArguments(\warm\admin\renderer\InputArray::labelAlign(), 0, 'right','left','top','inherit');
+	expectedArguments(\warm\admin\renderer\InputArray::mode(), 0, 'normal','inline','horizontal');
+	expectedArguments(\warm\admin\renderer\InputArray::size(), 0, 'xs','sm','md','lg','full');
+	expectedArguments(\warm\admin\renderer\InputArray::subFormMode(), 0, 'normal','horizontal','inline');
+	expectedArguments(\warm\admin\renderer\InputArray::tabsStyle(), 0, '','line','card','radio');
 	expectedArguments(\warm\admin\renderer\Avatar::crossOrigin(), 0, 'anonymous','use-credentials','');
 	expectedArguments(\warm\admin\renderer\Avatar::fit(), 0, 'fill','contain','cover','none','scale-down');
 	expectedArguments(\warm\admin\renderer\Avatar::shape(), 0, 'circle','square','rounded');
@@ -1133,72 +1133,72 @@ namespace PHPSTORM_META {
 	expectedArguments(\warm\admin\renderer\Button::tooltipPlacement(), 0, 'top','right','bottom','left');
 	expectedArguments(\warm\admin\renderer\Button::type(), 0, 'button','submit','reset');
 	expectedArguments(\warm\admin\renderer\ButtonGroup::size(), 0, 'xs','sm','md','lg');
-	expectedArguments(\warm\admin\renderer\ButtonGroupControl::labelAlign(), 0, 'right','left','top','inherit');
-	expectedArguments(\warm\admin\renderer\ButtonGroupControl::mode(), 0, 'normal','inline','horizontal');
-	expectedArguments(\warm\admin\renderer\ButtonGroupControl::size(), 0, 'xs','sm','md','lg');
+	expectedArguments(\warm\admin\renderer\ButtonGroupSelect::labelAlign(), 0, 'right','left','top','inherit');
+	expectedArguments(\warm\admin\renderer\ButtonGroupSelect::mode(), 0, 'normal','inline','horizontal');
+	expectedArguments(\warm\admin\renderer\ButtonGroupSelect::size(), 0, 'xs','sm','md','lg');
 	expectedArguments(\warm\admin\renderer\CRUD2Cards::loadType(), 0, 'more','pagination');
 	expectedArguments(\warm\admin\renderer\CRUD2List::loadType(), 0, 'more','pagination');
 	expectedArguments(\warm\admin\renderer\CRUD2List::size(), 0, 'sm','base');
-	expectedArguments(\warm\admin\renderer\CRUD2Table::loadType(), 0, 'more','pagination');
-	expectedArguments(\warm\admin\renderer\CRUD2Table::tableLayout(), 0, 'fixed','auto');
+	expectedArguments(\warm\admin\renderer\CRUD2::loadType(), 0, 'more','pagination');
+	expectedArguments(\warm\admin\renderer\CRUD2::tableLayout(), 0, 'fixed','auto');
 	expectedArguments(\warm\admin\renderer\CRUDCards::orderDir(), 0, 'asc','desc');
 	expectedArguments(\warm\admin\renderer\CRUDList::orderDir(), 0, 'asc','desc');
 	expectedArguments(\warm\admin\renderer\CRUDList::size(), 0, 'sm','base');
-	expectedArguments(\warm\admin\renderer\CRUDTable::orderDir(), 0, 'asc','desc');
-	expectedArguments(\warm\admin\renderer\CRUDTable::tableLayout(), 0, 'fixed','auto');
+	expectedArguments(\warm\admin\renderer\CRUD::orderDir(), 0, 'asc','desc');
+	expectedArguments(\warm\admin\renderer\CRUD::tableLayout(), 0, 'fixed','auto');
 	expectedArguments(\warm\admin\renderer\Carousel::animation(), 0, 'fade','slide');
 	expectedArguments(\warm\admin\renderer\Carousel::controlsTheme(), 0, 'light','dark');
 	expectedArguments(\warm\admin\renderer\Carousel::thumbMode(), 0, 'contain','cover');
-	expectedArguments(\warm\admin\renderer\ChainedSelectControl::labelAlign(), 0, 'right','left','top','inherit');
-	expectedArguments(\warm\admin\renderer\ChainedSelectControl::mode(), 0, 'normal','inline','horizontal');
-	expectedArguments(\warm\admin\renderer\ChainedSelectControl::size(), 0, 'xs','sm','md','lg','full');
-	expectedArguments(\warm\admin\renderer\CheckboxControl::labelAlign(), 0, 'right','left','top','inherit');
-	expectedArguments(\warm\admin\renderer\CheckboxControl::mode(), 0, 'normal','inline','horizontal');
-	expectedArguments(\warm\admin\renderer\CheckboxControl::optionType(), 0, 'default','button');
-	expectedArguments(\warm\admin\renderer\CheckboxControl::size(), 0, 'xs','sm','md','lg','full');
-	expectedArguments(\warm\admin\renderer\CheckboxesControl::labelAlign(), 0, 'right','left','top','inherit');
-	expectedArguments(\warm\admin\renderer\CheckboxesControl::mode(), 0, 'normal','inline','horizontal');
-	expectedArguments(\warm\admin\renderer\CheckboxesControl::size(), 0, 'xs','sm','md','lg','full');
+	expectedArguments(\warm\admin\renderer\ChainedSelect::labelAlign(), 0, 'right','left','top','inherit');
+	expectedArguments(\warm\admin\renderer\ChainedSelect::mode(), 0, 'normal','inline','horizontal');
+	expectedArguments(\warm\admin\renderer\ChainedSelect::size(), 0, 'xs','sm','md','lg','full');
+	expectedArguments(\warm\admin\renderer\Checkbox::labelAlign(), 0, 'right','left','top','inherit');
+	expectedArguments(\warm\admin\renderer\Checkbox::mode(), 0, 'normal','inline','horizontal');
+	expectedArguments(\warm\admin\renderer\Checkbox::optionType(), 0, 'default','button');
+	expectedArguments(\warm\admin\renderer\Checkbox::size(), 0, 'xs','sm','md','lg','full');
+	expectedArguments(\warm\admin\renderer\Checkboxes::labelAlign(), 0, 'right','left','top','inherit');
+	expectedArguments(\warm\admin\renderer\Checkboxes::mode(), 0, 'normal','inline','horizontal');
+	expectedArguments(\warm\admin\renderer\Checkboxes::size(), 0, 'xs','sm','md','lg','full');
 	expectedArguments(\warm\admin\renderer\Code::language(), 0, 'bat','c','coffeescript','cpp','csharp','css','dockerfile','fsharp','go','handlebars','html','ini','java','javascript','json','less','lua','markdown','msdax','objective-c','php','plaintext','postiats','powershell','pug','python','r','razor','ruby','sb','scss','shell','sol','sql','swift','typescript','vb','xml','yaml');
 	expectedArguments(\warm\admin\renderer\Collapse::headerPosition(), 0, 'top','bottom');
 	expectedArguments(\warm\admin\renderer\Collapse::size(), 0, 'xs','sm','md','lg','base');
 	expectedArguments(\warm\admin\renderer\CollapseGroup::expandIconPosition(), 0, 'left','right');
-	expectedArguments(\warm\admin\renderer\ComboControl::labelAlign(), 0, 'right','left','top','inherit');
-	expectedArguments(\warm\admin\renderer\ComboControl::mode(), 0, 'normal','inline','horizontal');
-	expectedArguments(\warm\admin\renderer\ComboControl::size(), 0, 'xs','sm','md','lg','full');
-	expectedArguments(\warm\admin\renderer\ComboControl::subFormMode(), 0, 'normal','horizontal','inline');
-	expectedArguments(\warm\admin\renderer\ComboControl::tabsStyle(), 0, '','line','card','radio');
-	expectedArguments(\warm\admin\renderer\ConditionBuilderControl::builderMode(), 0, 'simple','full');
-	expectedArguments(\warm\admin\renderer\ConditionBuilderControl::labelAlign(), 0, 'right','left','top','inherit');
-	expectedArguments(\warm\admin\renderer\ConditionBuilderControl::mode(), 0, 'normal','inline','horizontal');
-	expectedArguments(\warm\admin\renderer\ConditionBuilderControl::size(), 0, 'xs','sm','md','lg','full');
+	expectedArguments(\warm\admin\renderer\Combo::labelAlign(), 0, 'right','left','top','inherit');
+	expectedArguments(\warm\admin\renderer\Combo::mode(), 0, 'normal','inline','horizontal');
+	expectedArguments(\warm\admin\renderer\Combo::size(), 0, 'xs','sm','md','lg','full');
+	expectedArguments(\warm\admin\renderer\Combo::subFormMode(), 0, 'normal','horizontal','inline');
+	expectedArguments(\warm\admin\renderer\Combo::tabsStyle(), 0, '','line','card','radio');
+	expectedArguments(\warm\admin\renderer\ConditionBuilder::builderMode(), 0, 'simple','full');
+	expectedArguments(\warm\admin\renderer\ConditionBuilder::labelAlign(), 0, 'right','left','top','inherit');
+	expectedArguments(\warm\admin\renderer\ConditionBuilder::mode(), 0, 'normal','inline','horizontal');
+	expectedArguments(\warm\admin\renderer\ConditionBuilder::size(), 0, 'xs','sm','md','lg','full');
 	expectedArguments(\warm\admin\renderer\ConditionGroupValue::conjunction(), 0, 'and','or');
 	expectedArguments(\warm\admin\renderer\CopyAction::level(), 0, 'info','success','warning','danger','link','primary','dark','light','secondary');
 	expectedArguments(\warm\admin\renderer\CopyAction::size(), 0, 'xs','sm','md','lg');
 	expectedArguments(\warm\admin\renderer\CopyAction::tooltipPlacement(), 0, 'top','right','bottom','left');
 	expectedArguments(\warm\admin\renderer\CopyAction::type(), 0, 'button','submit','reset');
 	expectedArguments(\warm\admin\renderer\Date::type(), 0, 'date','datetime','time','static-date','static-datetime','static-time');
-	expectedArguments(\warm\admin\renderer\DateControl::borderMode(), 0, 'full','half','none');
-	expectedArguments(\warm\admin\renderer\DateControl::labelAlign(), 0, 'right','left','top','inherit');
-	expectedArguments(\warm\admin\renderer\DateControl::mode(), 0, 'normal','inline','horizontal');
-	expectedArguments(\warm\admin\renderer\DateControl::size(), 0, 'xs','sm','md','lg','full');
-	expectedArguments(\warm\admin\renderer\DateRangeControl::borderMode(), 0, 'full','half','none');
-	expectedArguments(\warm\admin\renderer\DateRangeControl::labelAlign(), 0, 'right','left','top','inherit');
-	expectedArguments(\warm\admin\renderer\DateRangeControl::mode(), 0, 'normal','inline','horizontal');
-	expectedArguments(\warm\admin\renderer\DateRangeControl::size(), 0, 'xs','sm','md','lg','full');
-	expectedArguments(\warm\admin\renderer\DateRangeControl::type(), 0, 'input-date-range','input-datetime-range','input-time-range');
-	expectedArguments(\warm\admin\renderer\DateTimeControl::borderMode(), 0, 'full','half','none');
-	expectedArguments(\warm\admin\renderer\DateTimeControl::labelAlign(), 0, 'right','left','top','inherit');
-	expectedArguments(\warm\admin\renderer\DateTimeControl::mode(), 0, 'normal','inline','horizontal');
-	expectedArguments(\warm\admin\renderer\DateTimeControl::size(), 0, 'xs','sm','md','lg','full');
+	expectedArguments(\warm\admin\renderer\InputDate::borderMode(), 0, 'full','half','none');
+	expectedArguments(\warm\admin\renderer\InputDate::labelAlign(), 0, 'right','left','top','inherit');
+	expectedArguments(\warm\admin\renderer\InputDate::mode(), 0, 'normal','inline','horizontal');
+	expectedArguments(\warm\admin\renderer\InputDate::size(), 0, 'xs','sm','md','lg','full');
+	expectedArguments(\warm\admin\renderer\InputDateRange::borderMode(), 0, 'full','half','none');
+	expectedArguments(\warm\admin\renderer\InputDateRange::labelAlign(), 0, 'right','left','top','inherit');
+	expectedArguments(\warm\admin\renderer\InputDateRange::mode(), 0, 'normal','inline','horizontal');
+	expectedArguments(\warm\admin\renderer\InputDateRange::size(), 0, 'xs','sm','md','lg','full');
+	expectedArguments(\warm\admin\renderer\InputDateRange::type(), 0, 'input-date-range','input-datetime-range','input-time-range');
+	expectedArguments(\warm\admin\renderer\InputDateTime::borderMode(), 0, 'full','half','none');
+	expectedArguments(\warm\admin\renderer\InputDateTime::labelAlign(), 0, 'right','left','top','inherit');
+	expectedArguments(\warm\admin\renderer\InputDateTime::mode(), 0, 'normal','inline','horizontal');
+	expectedArguments(\warm\admin\renderer\InputDateTime::size(), 0, 'xs','sm','md','lg','full');
 	expectedArguments(\warm\admin\renderer\Dialog::size(), 0, 'xs','sm','md','lg','xl','full');
 	expectedArguments(\warm\admin\renderer\DialogAction::level(), 0, 'info','success','warning','danger','link','primary','dark','light','secondary');
 	expectedArguments(\warm\admin\renderer\DialogAction::size(), 0, 'xs','sm','md','lg');
 	expectedArguments(\warm\admin\renderer\DialogAction::tooltipPlacement(), 0, 'top','right','bottom','left');
 	expectedArguments(\warm\admin\renderer\DialogAction::type(), 0, 'button','submit','reset');
-	expectedArguments(\warm\admin\renderer\DiffControl::labelAlign(), 0, 'right','left','top','inherit');
-	expectedArguments(\warm\admin\renderer\DiffControl::mode(), 0, 'normal','inline','horizontal');
-	expectedArguments(\warm\admin\renderer\DiffControl::size(), 0, 'xs','sm','md','lg','full');
+	expectedArguments(\warm\admin\renderer\DiffEditor::labelAlign(), 0, 'right','left','top','inherit');
+	expectedArguments(\warm\admin\renderer\DiffEditor::mode(), 0, 'normal','inline','horizontal');
+	expectedArguments(\warm\admin\renderer\DiffEditor::size(), 0, 'xs','sm','md','lg','full');
 	expectedArguments(\warm\admin\renderer\Divider::direction(), 0, 'horizontal','vertical');
 	expectedArguments(\warm\admin\renderer\Divider::lineStyle(), 0, 'dashed','solid');
 	expectedArguments(\warm\admin\renderer\Divider::titlePosition(), 0, 'left','center','right');
@@ -1212,136 +1212,136 @@ namespace PHPSTORM_META {
 	expectedArguments(\warm\admin\renderer\DropdownButton::level(), 0, 'info','success','danger','warning','primary','link');
 	expectedArguments(\warm\admin\renderer\DropdownButton::size(), 0, 'xs','sm','md','lg');
 	expectedArguments(\warm\admin\renderer\DropdownButton::trigger(), 0, 'click','hover');
-	expectedArguments(\warm\admin\renderer\EditorControl::labelAlign(), 0, 'right','left','top','inherit');
-	expectedArguments(\warm\admin\renderer\EditorControl::language(), 0, 'bat','c','coffeescript','cpp','csharp','css','dockerfile','fsharp','go','handlebars','html','ini','java','javascript','json','less','lua','markdown','msdax','objective-c','php','plaintext','postiats','powershell','pug','python','r','razor','ruby','sb','scss','shell','sol','sql','swift','typescript','vb','xml','yaml');
-	expectedArguments(\warm\admin\renderer\EditorControl::mode(), 0, 'normal','inline','horizontal');
-	expectedArguments(\warm\admin\renderer\EditorControl::size(), 0, 'sm','md','lg','xl','xxl');
-	expectedArguments(\warm\admin\renderer\EditorControl::type(), 0, 'editor','bat-editor','c-editor','coffeescript-editor','cpp-editor','csharp-editor','css-editor','dockerfile-editor','fsharp-editor','go-editor','handlebars-editor','html-editor','ini-editor','java-editor','javascript-editor','json-editor','less-editor','lua-editor','markdown-editor','msdax-editor','objective-c-editor','php-editor','plaintext-editor','postiats-editor','powershell-editor','pug-editor','python-editor','r-editor','razor-editor','ruby-editor','sb-editor','scss-editor','sol-editor','sql-editor','swift-editor','typescript-editor','vb-editor','xml-editor','yaml-editor');
+	expectedArguments(\warm\admin\renderer\Editor::labelAlign(), 0, 'right','left','top','inherit');
+	expectedArguments(\warm\admin\renderer\Editor::language(), 0, 'bat','c','coffeescript','cpp','csharp','css','dockerfile','fsharp','go','handlebars','html','ini','java','javascript','json','less','lua','markdown','msdax','objective-c','php','plaintext','postiats','powershell','pug','python','r','razor','ruby','sb','scss','shell','sol','sql','swift','typescript','vb','xml','yaml');
+	expectedArguments(\warm\admin\renderer\Editor::mode(), 0, 'normal','inline','horizontal');
+	expectedArguments(\warm\admin\renderer\Editor::size(), 0, 'sm','md','lg','xl','xxl');
+	expectedArguments(\warm\admin\renderer\Editor::type(), 0, 'editor','bat-editor','c-editor','coffeescript-editor','cpp-editor','csharp-editor','css-editor','dockerfile-editor','fsharp-editor','go-editor','handlebars-editor','html-editor','ini-editor','java-editor','javascript-editor','json-editor','less-editor','lua-editor','markdown-editor','msdax-editor','objective-c-editor','php-editor','plaintext-editor','postiats-editor','powershell-editor','pug-editor','python-editor','r-editor','razor-editor','ruby-editor','sb-editor','scss-editor','sol-editor','sql-editor','swift-editor','typescript-editor','vb-editor','xml-editor','yaml-editor');
 	expectedArguments(\warm\admin\renderer\EmailAction::level(), 0, 'info','success','warning','danger','link','primary','dark','light','secondary');
 	expectedArguments(\warm\admin\renderer\EmailAction::size(), 0, 'xs','sm','md','lg');
 	expectedArguments(\warm\admin\renderer\EmailAction::tooltipPlacement(), 0, 'top','right','bottom','left');
 	expectedArguments(\warm\admin\renderer\EmailAction::type(), 0, 'button','submit','reset');
 	expectedArguments(\warm\admin\renderer\FeedbackDialog::size(), 0, 'xs','sm','md','lg','xl','full');
-	expectedArguments(\warm\admin\renderer\FieldSetControl::headerPosition(), 0, 'top','bottom');
-	expectedArguments(\warm\admin\renderer\FieldSetControl::labelAlign(), 0, 'right','left','top','inherit');
-	expectedArguments(\warm\admin\renderer\FieldSetControl::mode(), 0, 'normal','inline','horizontal');
-	expectedArguments(\warm\admin\renderer\FieldSetControl::size(), 0, 'xs','sm','md','lg','base');
-	expectedArguments(\warm\admin\renderer\FieldSetControl::subFormMode(), 0, 'normal','inline','horizontal');
-	expectedArguments(\warm\admin\renderer\FieldSetControl::titlePosition(), 0, 'top','bottom');
-	expectedArguments(\warm\admin\renderer\FieldSetControl::type(), 0, 'fieldset','fieldSet');
-	expectedArguments(\warm\admin\renderer\FileControl::labelAlign(), 0, 'right','left','top','inherit');
-	expectedArguments(\warm\admin\renderer\FileControl::mode(), 0, 'normal','inline','horizontal');
-	expectedArguments(\warm\admin\renderer\FileControl::size(), 0, 'xs','sm','md','lg','full');
+	expectedArguments(\warm\admin\renderer\FieldSet::headerPosition(), 0, 'top','bottom');
+	expectedArguments(\warm\admin\renderer\FieldSet::labelAlign(), 0, 'right','left','top','inherit');
+	expectedArguments(\warm\admin\renderer\FieldSet::mode(), 0, 'normal','inline','horizontal');
+	expectedArguments(\warm\admin\renderer\FieldSet::size(), 0, 'xs','sm','md','lg','base');
+	expectedArguments(\warm\admin\renderer\FieldSet::subFormMode(), 0, 'normal','inline','horizontal');
+	expectedArguments(\warm\admin\renderer\FieldSet::titlePosition(), 0, 'top','bottom');
+	expectedArguments(\warm\admin\renderer\FieldSet::type(), 0, 'fieldset','fieldSet');
+	expectedArguments(\warm\admin\renderer\InputFile::labelAlign(), 0, 'right','left','top','inherit');
+	expectedArguments(\warm\admin\renderer\InputFile::mode(), 0, 'normal','inline','horizontal');
+	expectedArguments(\warm\admin\renderer\InputFile::size(), 0, 'xs','sm','md','lg','full');
 	expectedArguments(\warm\admin\renderer\Flex::alignContent(), 0, 'normal','flex-start','flex-end','center','space-between','space-around','space-evenly','stretch');
 	expectedArguments(\warm\admin\renderer\Flex::alignItems(), 0, 'stretch','start','flex-start','flex-end','end','center','baseline');
 	expectedArguments(\warm\admin\renderer\Flex::direction(), 0, 'row','column','row-reverse','column-reverse');
 	expectedArguments(\warm\admin\renderer\Flex::justify(), 0, 'start','flex-start','center','end','flex-end','space-around','space-between','space-evenly');
 	expectedArguments(\warm\admin\renderer\Form::labelAlign(), 0, 'right','left','top','inherit');
 	expectedArguments(\warm\admin\renderer\Form::mode(), 0, 'normal','inline','horizontal','flex');
-	expectedArguments(\warm\admin\renderer\FormControl::labelAlign(), 0, 'right','left','top','inherit');
-	expectedArguments(\warm\admin\renderer\FormControl::mode(), 0, 'normal','inline','horizontal');
-	expectedArguments(\warm\admin\renderer\FormControl::size(), 0, 'xs','sm','md','lg','full');
-	expectedArguments(\warm\admin\renderer\FormulaControl::labelAlign(), 0, 'right','left','top','inherit');
-	expectedArguments(\warm\admin\renderer\FormulaControl::mode(), 0, 'normal','inline','horizontal');
-	expectedArguments(\warm\admin\renderer\FormulaControl::size(), 0, 'xs','sm','md','lg','full');
+	expectedArguments(\warm\admin\renderer\Form::labelAlign(), 0, 'right','left','top','inherit');
+	expectedArguments(\warm\admin\renderer\Form::mode(), 0, 'normal','inline','horizontal');
+	expectedArguments(\warm\admin\renderer\Form::size(), 0, 'xs','sm','md','lg','full');
+	expectedArguments(\warm\admin\renderer\Formula::labelAlign(), 0, 'right','left','top','inherit');
+	expectedArguments(\warm\admin\renderer\Formula::mode(), 0, 'normal','inline','horizontal');
+	expectedArguments(\warm\admin\renderer\Formula::size(), 0, 'xs','sm','md','lg','full');
 	expectedArguments(\warm\admin\renderer\Grid::align(), 0, 'left','right','between','center');
 	expectedArguments(\warm\admin\renderer\Grid::gap(), 0, 'xs','sm','base','none','md','lg');
 	expectedArguments(\warm\admin\renderer\Grid::valign(), 0, 'top','middle','bottom','between');
 	expectedArguments(\warm\admin\renderer\GridColumn::mode(), 0, 'normal','inline','horizontal');
 	expectedArguments(\warm\admin\renderer\GridColumn::valign(), 0, 'top','middle','bottom','between');
 	expectedArguments(\warm\admin\renderer\GridNav::direction(), 0, 'horizontal','vertical');
-	expectedArguments(\warm\admin\renderer\GroupControl::direction(), 0, 'horizontal','vertical');
-	expectedArguments(\warm\admin\renderer\GroupControl::gap(), 0, 'xs','sm','normal');
-	expectedArguments(\warm\admin\renderer\GroupControl::labelAlign(), 0, 'right','left','top','inherit');
-	expectedArguments(\warm\admin\renderer\GroupControl::mode(), 0, 'normal','inline','horizontal');
-	expectedArguments(\warm\admin\renderer\GroupControl::size(), 0, 'xs','sm','md','lg','full');
-	expectedArguments(\warm\admin\renderer\GroupControl::subFormMode(), 0, 'normal','inline','horizontal');
+	expectedArguments(\warm\admin\renderer\Group::direction(), 0, 'horizontal','vertical');
+	expectedArguments(\warm\admin\renderer\Group::gap(), 0, 'xs','sm','normal');
+	expectedArguments(\warm\admin\renderer\Group::labelAlign(), 0, 'right','left','top','inherit');
+	expectedArguments(\warm\admin\renderer\Group::mode(), 0, 'normal','inline','horizontal');
+	expectedArguments(\warm\admin\renderer\Group::size(), 0, 'xs','sm','md','lg','full');
+	expectedArguments(\warm\admin\renderer\Group::subFormMode(), 0, 'normal','inline','horizontal');
 	expectedArguments(\warm\admin\renderer\HBox::align(), 0, 'left','right','between','center');
 	expectedArguments(\warm\admin\renderer\HBox::gap(), 0, 'xs','sm','base','none','md','lg');
 	expectedArguments(\warm\admin\renderer\HBox::subFormMode(), 0, 'normal','inline','horizontal');
 	expectedArguments(\warm\admin\renderer\HBox::valign(), 0, 'top','middle','bottom','between');
 	expectedArguments(\warm\admin\renderer\HBoxColumn::mode(), 0, 'normal','inline','horizontal');
 	expectedArguments(\warm\admin\renderer\HBoxColumn::valign(), 0, 'top','middle','bottom','between');
-	expectedArguments(\warm\admin\renderer\HiddenControl::labelAlign(), 0, 'right','left','top','inherit');
-	expectedArguments(\warm\admin\renderer\HiddenControl::mode(), 0, 'normal','inline','horizontal');
-	expectedArguments(\warm\admin\renderer\HiddenControl::size(), 0, 'xs','sm','md','lg','full');
+	expectedArguments(\warm\admin\renderer\Hidden::labelAlign(), 0, 'right','left','top','inherit');
+	expectedArguments(\warm\admin\renderer\Hidden::mode(), 0, 'normal','inline','horizontal');
+	expectedArguments(\warm\admin\renderer\Hidden::size(), 0, 'xs','sm','md','lg','full');
 	expectedArguments(\warm\admin\renderer\Html::type(), 0, 'tpl','html');
 	expectedArguments(\warm\admin\renderer\IFrame::referrerpolicy(), 0, 'no-referrer','no-referrer-when-downgrade','origin','origin-when-cross-origin','same-origin','strict-origin','strict-origin-when-cross-origin','unsafe-url');
 	expectedArguments(\warm\admin\renderer\Icon::vendor(), 0, 'iconfont','fa','');
-	expectedArguments(\warm\admin\renderer\IconPickerControl::labelAlign(), 0, 'right','left','top','inherit');
-	expectedArguments(\warm\admin\renderer\IconPickerControl::mode(), 0, 'normal','inline','horizontal');
-	expectedArguments(\warm\admin\renderer\IconPickerControl::size(), 0, 'xs','sm','md','lg','full');
+	expectedArguments(\warm\admin\renderer\IconPicker::labelAlign(), 0, 'right','left','top','inherit');
+	expectedArguments(\warm\admin\renderer\IconPicker::mode(), 0, 'normal','inline','horizontal');
+	expectedArguments(\warm\admin\renderer\IconPicker::size(), 0, 'xs','sm','md','lg','full');
 	expectedArguments(\warm\admin\renderer\Image::imageMode(), 0, 'thumb','original');
 	expectedArguments(\warm\admin\renderer\Image::thumbMode(), 0, 'w-full','h-full','contain','cover');
 	expectedArguments(\warm\admin\renderer\Image::thumbRatio(), 0, '1:1','4:3','16:9');
 	expectedArguments(\warm\admin\renderer\Image::type(), 0, 'image','static-image');
-	expectedArguments(\warm\admin\renderer\ImageControl::labelAlign(), 0, 'right','left','top','inherit');
-	expectedArguments(\warm\admin\renderer\ImageControl::mode(), 0, 'normal','inline','horizontal');
-	expectedArguments(\warm\admin\renderer\ImageControl::size(), 0, 'xs','sm','md','lg','full');
-	expectedArguments(\warm\admin\renderer\ImageControl::thumbMode(), 0, 'w-full','h-full','contain','cover');
-	expectedArguments(\warm\admin\renderer\ImageControl::thumbRatio(), 0, '1:1','4:3','16:9');
+	expectedArguments(\warm\admin\renderer\InputImage::labelAlign(), 0, 'right','left','top','inherit');
+	expectedArguments(\warm\admin\renderer\InputImage::mode(), 0, 'normal','inline','horizontal');
+	expectedArguments(\warm\admin\renderer\InputImage::size(), 0, 'xs','sm','md','lg','full');
+	expectedArguments(\warm\admin\renderer\InputImage::thumbMode(), 0, 'w-full','h-full','contain','cover');
+	expectedArguments(\warm\admin\renderer\InputImage::thumbRatio(), 0, '1:1','4:3','16:9');
 	expectedArguments(\warm\admin\renderer\ImageToolbarAction::key(), 0, 'ROTATE_RIGHT','ROTATE_LEFT','ZOOM_IN','ZOOM_OUT','SCALE_ORIGIN');
 	expectedArguments(\warm\admin\renderer\Images::thumbMode(), 0, 'w-full','h-full','contain','cover');
 	expectedArguments(\warm\admin\renderer\Images::thumbRatio(), 0, '1:1','4:3','16:9');
 	expectedArguments(\warm\admin\renderer\Images::type(), 0, 'images','static-images');
-	expectedArguments(\warm\admin\renderer\InputCityControl::labelAlign(), 0, 'right','left','top','inherit');
-	expectedArguments(\warm\admin\renderer\InputCityControl::mode(), 0, 'normal','inline','horizontal');
-	expectedArguments(\warm\admin\renderer\InputCityControl::size(), 0, 'xs','sm','md','lg','full');
-	expectedArguments(\warm\admin\renderer\InputColorControl::format(), 0, 'hex','rgb','rgba','hsl');
-	expectedArguments(\warm\admin\renderer\InputColorControl::labelAlign(), 0, 'right','left','top','inherit');
-	expectedArguments(\warm\admin\renderer\InputColorControl::mode(), 0, 'normal','inline','horizontal');
-	expectedArguments(\warm\admin\renderer\InputColorControl::size(), 0, 'xs','sm','md','lg','full');
-	expectedArguments(\warm\admin\renderer\InputGroupControl::labelAlign(), 0, 'right','left','top','inherit');
-	expectedArguments(\warm\admin\renderer\InputGroupControl::mode(), 0, 'normal','inline','horizontal');
-	expectedArguments(\warm\admin\renderer\InputGroupControl::size(), 0, 'xs','sm','md','lg','full');
+	expectedArguments(\warm\admin\renderer\InputCity::labelAlign(), 0, 'right','left','top','inherit');
+	expectedArguments(\warm\admin\renderer\InputCity::mode(), 0, 'normal','inline','horizontal');
+	expectedArguments(\warm\admin\renderer\InputCity::size(), 0, 'xs','sm','md','lg','full');
+	expectedArguments(\warm\admin\renderer\InputColor::format(), 0, 'hex','rgb','rgba','hsl');
+	expectedArguments(\warm\admin\renderer\InputColor::labelAlign(), 0, 'right','left','top','inherit');
+	expectedArguments(\warm\admin\renderer\InputColor::mode(), 0, 'normal','inline','horizontal');
+	expectedArguments(\warm\admin\renderer\InputColor::size(), 0, 'xs','sm','md','lg','full');
+	expectedArguments(\warm\admin\renderer\InputGroup::labelAlign(), 0, 'right','left','top','inherit');
+	expectedArguments(\warm\admin\renderer\InputGroup::mode(), 0, 'normal','inline','horizontal');
+	expectedArguments(\warm\admin\renderer\InputGroup::size(), 0, 'xs','sm','md','lg','full');
 	expectedArguments(\warm\admin\renderer\InputSignature::labelAlign(), 0, 'right','left','top','inherit');
 	expectedArguments(\warm\admin\renderer\InputSignature::mode(), 0, 'normal','inline','horizontal');
 	expectedArguments(\warm\admin\renderer\InputSignature::size(), 0, 'xs','sm','md','lg','full');
-	expectedArguments(\warm\admin\renderer\JSONSchemaEditorControl::labelAlign(), 0, 'right','left','top','inherit');
-	expectedArguments(\warm\admin\renderer\JSONSchemaEditorControl::mode(), 0, 'normal','inline','horizontal');
-	expectedArguments(\warm\admin\renderer\JSONSchemaEditorControl::size(), 0, 'xs','sm','md','lg','full');
+	expectedArguments(\warm\admin\renderer\JSONSchemaEditor::labelAlign(), 0, 'right','left','top','inherit');
+	expectedArguments(\warm\admin\renderer\JSONSchemaEditor::mode(), 0, 'normal','inline','horizontal');
+	expectedArguments(\warm\admin\renderer\JSONSchemaEditor::size(), 0, 'xs','sm','md','lg','full');
 	expectedArguments(\warm\admin\renderer\Json::iconStyle(), 0, 'square','circle','triangle');
 	expectedArguments(\warm\admin\renderer\Json::type(), 0, 'json','static-json');
 	expectedArguments(\warm\admin\renderer\LinkAction::level(), 0, 'info','success','warning','danger','link','primary','dark','light','secondary');
 	expectedArguments(\warm\admin\renderer\LinkAction::size(), 0, 'xs','sm','md','lg');
 	expectedArguments(\warm\admin\renderer\LinkAction::tooltipPlacement(), 0, 'top','right','bottom','left');
 	expectedArguments(\warm\admin\renderer\LinkAction::type(), 0, 'button','submit','reset');
-	expectedArguments(\warm\admin\renderer\ListControl::labelAlign(), 0, 'right','left','top','inherit');
-	expectedArguments(\warm\admin\renderer\ListControl::mode(), 0, 'normal','inline','horizontal');
-	expectedArguments(\warm\admin\renderer\ListControl::size(), 0, 'xs','sm','md','lg','full');
+	expectedArguments(\warm\admin\renderer\ListSelect::labelAlign(), 0, 'right','left','top','inherit');
+	expectedArguments(\warm\admin\renderer\ListSelect::mode(), 0, 'normal','inline','horizontal');
+	expectedArguments(\warm\admin\renderer\ListSelect::size(), 0, 'xs','sm','md','lg','full');
 	expectedArguments(\warm\admin\renderer\ListItem::actionsPosition(), 0, 'left','right');
 	expectedArguments(\warm\admin\renderer\ListRenderer::size(), 0, 'sm','base');
 	expectedArguments(\warm\admin\renderer\ListRenderer::type(), 0, 'list','static-list');
 	expectedArguments(\warm\admin\renderer\ListenerAction::dataMergeMode(), 0, 'merge','override');
-	expectedArguments(\warm\admin\renderer\LocationControl::labelAlign(), 0, 'right','left','top','inherit');
-	expectedArguments(\warm\admin\renderer\LocationControl::mode(), 0, 'normal','inline','horizontal');
-	expectedArguments(\warm\admin\renderer\LocationControl::size(), 0, 'xs','sm','md','lg','full');
-	expectedArguments(\warm\admin\renderer\LocationControl::vendor(), 0, 'baidu','gaode','tenxun');
+	expectedArguments(\warm\admin\renderer\LocationPicker::labelAlign(), 0, 'right','left','top','inherit');
+	expectedArguments(\warm\admin\renderer\LocationPicker::mode(), 0, 'normal','inline','horizontal');
+	expectedArguments(\warm\admin\renderer\LocationPicker::size(), 0, 'xs','sm','md','lg','full');
+	expectedArguments(\warm\admin\renderer\LocationPicker::vendor(), 0, 'baidu','gaode','tenxun');
 	expectedArguments(\warm\admin\renderer\Log::operation(), 0, 'stop','clear','showLineNumber','filter');
 	expectedArguments(\warm\admin\renderer\Mapping::type(), 0, 'map','mapping');
-	expectedArguments(\warm\admin\renderer\MatrixControl::labelAlign(), 0, 'right','left','top','inherit');
-	expectedArguments(\warm\admin\renderer\MatrixControl::mode(), 0, 'normal','inline','horizontal');
-	expectedArguments(\warm\admin\renderer\MatrixControl::size(), 0, 'xs','sm','md','lg','full');
-	expectedArguments(\warm\admin\renderer\MonthControl::borderMode(), 0, 'full','half','none');
-	expectedArguments(\warm\admin\renderer\MonthControl::labelAlign(), 0, 'right','left','top','inherit');
-	expectedArguments(\warm\admin\renderer\MonthControl::mode(), 0, 'normal','inline','horizontal');
-	expectedArguments(\warm\admin\renderer\MonthControl::size(), 0, 'xs','sm','md','lg','full');
-	expectedArguments(\warm\admin\renderer\MonthRangeControl::borderMode(), 0, 'full','half','none');
-	expectedArguments(\warm\admin\renderer\MonthRangeControl::labelAlign(), 0, 'right','left','top','inherit');
-	expectedArguments(\warm\admin\renderer\MonthRangeControl::mode(), 0, 'normal','inline','horizontal');
-	expectedArguments(\warm\admin\renderer\MonthRangeControl::size(), 0, 'xs','sm','md','lg','full');
+	expectedArguments(\warm\admin\renderer\MatrixCheckboxes::labelAlign(), 0, 'right','left','top','inherit');
+	expectedArguments(\warm\admin\renderer\MatrixCheckboxes::mode(), 0, 'normal','inline','horizontal');
+	expectedArguments(\warm\admin\renderer\MatrixCheckboxes::size(), 0, 'xs','sm','md','lg','full');
+	expectedArguments(\warm\admin\renderer\InputMonth::borderMode(), 0, 'full','half','none');
+	expectedArguments(\warm\admin\renderer\InputMonth::labelAlign(), 0, 'right','left','top','inherit');
+	expectedArguments(\warm\admin\renderer\InputMonth::mode(), 0, 'normal','inline','horizontal');
+	expectedArguments(\warm\admin\renderer\InputMonth::size(), 0, 'xs','sm','md','lg','full');
+	expectedArguments(\warm\admin\renderer\InputMonthRange::borderMode(), 0, 'full','half','none');
+	expectedArguments(\warm\admin\renderer\InputMonthRange::labelAlign(), 0, 'right','left','top','inherit');
+	expectedArguments(\warm\admin\renderer\InputMonthRange::mode(), 0, 'normal','inline','horizontal');
+	expectedArguments(\warm\admin\renderer\InputMonthRange::size(), 0, 'xs','sm','md','lg','full');
 	expectedArguments(\warm\admin\renderer\Nav::mode(), 0, 'float','inline');
 	expectedArguments(\warm\admin\renderer\Nav::stacked(), 0, '1','');
 	expectedArguments(\warm\admin\renderer\Nav::themeColor(), 0, 'light','dark');
-	expectedArguments(\warm\admin\renderer\NestedSelectControl::borderMode(), 0, 'full','half','none');
-	expectedArguments(\warm\admin\renderer\NestedSelectControl::labelAlign(), 0, 'right','left','top','inherit');
-	expectedArguments(\warm\admin\renderer\NestedSelectControl::mode(), 0, 'normal','inline','horizontal');
-	expectedArguments(\warm\admin\renderer\NestedSelectControl::size(), 0, 'xs','sm','md','lg','full');
-	expectedArguments(\warm\admin\renderer\NumberControl::borderMode(), 0, 'full','half','none');
-	expectedArguments(\warm\admin\renderer\NumberControl::displayMode(), 0, 'base','enhance');
-	expectedArguments(\warm\admin\renderer\NumberControl::labelAlign(), 0, 'right','left','top','inherit');
-	expectedArguments(\warm\admin\renderer\NumberControl::mode(), 0, 'normal','inline','horizontal');
-	expectedArguments(\warm\admin\renderer\NumberControl::size(), 0, 'xs','sm','md','lg','full');
+	expectedArguments(\warm\admin\renderer\NestedSelect::borderMode(), 0, 'full','half','none');
+	expectedArguments(\warm\admin\renderer\NestedSelect::labelAlign(), 0, 'right','left','top','inherit');
+	expectedArguments(\warm\admin\renderer\NestedSelect::mode(), 0, 'normal','inline','horizontal');
+	expectedArguments(\warm\admin\renderer\NestedSelect::size(), 0, 'xs','sm','md','lg','full');
+	expectedArguments(\warm\admin\renderer\InputNumber::borderMode(), 0, 'full','half','none');
+	expectedArguments(\warm\admin\renderer\InputNumber::displayMode(), 0, 'base','enhance');
+	expectedArguments(\warm\admin\renderer\InputNumber::labelAlign(), 0, 'right','left','top','inherit');
+	expectedArguments(\warm\admin\renderer\InputNumber::mode(), 0, 'normal','inline','horizontal');
+	expectedArguments(\warm\admin\renderer\InputNumber::size(), 0, 'xs','sm','md','lg','full');
 	expectedArguments(\warm\admin\renderer\OtherAction::actionType(), 0, 'prev','next','cancel','close','submit','confirm','add','reset','reset-and-submit');
 	expectedArguments(\warm\admin\renderer\OtherAction::level(), 0, 'info','success','warning','danger','link','primary','dark','light','secondary');
 	expectedArguments(\warm\admin\renderer\OtherAction::size(), 0, 'xs','sm','md','lg');
@@ -1350,10 +1350,10 @@ namespace PHPSTORM_META {
 	expectedArguments(\warm\admin\renderer\Pagination::mode(), 0, 'simple','normal');
 	expectedArguments(\warm\admin\renderer\PaginationWrapper::position(), 0, 'top','bottom','none');
 	expectedArguments(\warm\admin\renderer\Panel::subFormMode(), 0, 'normal','inline','horizontal');
-	expectedArguments(\warm\admin\renderer\PickerControl::labelAlign(), 0, 'right','left','top','inherit');
-	expectedArguments(\warm\admin\renderer\PickerControl::modalMode(), 0, 'dialog','drawer');
-	expectedArguments(\warm\admin\renderer\PickerControl::mode(), 0, 'normal','inline','horizontal');
-	expectedArguments(\warm\admin\renderer\PickerControl::size(), 0, 'xs','sm','md','lg','full');
+	expectedArguments(\warm\admin\renderer\Picker::labelAlign(), 0, 'right','left','top','inherit');
+	expectedArguments(\warm\admin\renderer\Picker::modalMode(), 0, 'dialog','drawer');
+	expectedArguments(\warm\admin\renderer\Picker::mode(), 0, 'normal','inline','horizontal');
+	expectedArguments(\warm\admin\renderer\Picker::size(), 0, 'xs','sm','md','lg','full');
 	expectedArguments(\warm\admin\renderer\Plain::type(), 0, 'plain','text');
 	expectedArguments(\warm\admin\renderer\Portlet::tabsMode(), 0, '','line','card','radio','vertical','tiled');
 	expectedArguments(\warm\admin\renderer\PortletTab::iconPosition(), 0, 'left','right');
@@ -1363,58 +1363,58 @@ namespace PHPSTORM_META {
 	expectedArguments(\warm\admin\renderer\QRCode::level(), 0, 'L','M','Q','H');
     expectedArguments(\warm\admin\renderer\QRCode::mode(), 0, 'canvas','svg');
 	expectedArguments(\warm\admin\renderer\QRCode::type(), 0, 'qrcode','qr-code');
-	expectedArguments(\warm\admin\renderer\QuarterControl::borderMode(), 0, 'full','half','none');
-	expectedArguments(\warm\admin\renderer\QuarterControl::labelAlign(), 0, 'right','left','top','inherit');
-	expectedArguments(\warm\admin\renderer\QuarterControl::mode(), 0, 'normal','inline','horizontal');
-	expectedArguments(\warm\admin\renderer\QuarterControl::size(), 0, 'xs','sm','md','lg','full');
-	expectedArguments(\warm\admin\renderer\QuarterRangeControl::borderMode(), 0, 'full','half','none');
-	expectedArguments(\warm\admin\renderer\QuarterRangeControl::labelAlign(), 0, 'right','left','top','inherit');
-	expectedArguments(\warm\admin\renderer\QuarterRangeControl::mode(), 0, 'normal','inline','horizontal');
-	expectedArguments(\warm\admin\renderer\QuarterRangeControl::size(), 0, 'xs','sm','md','lg','full');
-	expectedArguments(\warm\admin\renderer\RadioControl::labelAlign(), 0, 'right','left','top','inherit');
-	expectedArguments(\warm\admin\renderer\RadioControl::mode(), 0, 'normal','inline','horizontal');
-	expectedArguments(\warm\admin\renderer\RadioControl::optionType(), 0, 'default','button');
-	expectedArguments(\warm\admin\renderer\RadioControl::size(), 0, 'xs','sm','md','lg','full');
-	expectedArguments(\warm\admin\renderer\RadiosControl::labelAlign(), 0, 'right','left','top','inherit');
-	expectedArguments(\warm\admin\renderer\RadiosControl::mode(), 0, 'normal','inline','horizontal');
-	expectedArguments(\warm\admin\renderer\RadiosControl::size(), 0, 'xs','sm','md','lg','full');
-	expectedArguments(\warm\admin\renderer\RangeControl::labelAlign(), 0, 'right','left','top','inherit');
-	expectedArguments(\warm\admin\renderer\RangeControl::mode(), 0, 'normal','inline','horizontal');
-	expectedArguments(\warm\admin\renderer\RangeControl::size(), 0, 'xs','sm','md','lg','full');
-	expectedArguments(\warm\admin\renderer\RangeControl::tooltipPlacement(), 0, 'auto','top','right','bottom','left');
-	expectedArguments(\warm\admin\renderer\RatingControl::labelAlign(), 0, 'right','left','top','inherit');
-	expectedArguments(\warm\admin\renderer\RatingControl::mode(), 0, 'normal','inline','horizontal');
-	expectedArguments(\warm\admin\renderer\RatingControl::size(), 0, 'xs','sm','md','lg','full');
-	expectedArguments(\warm\admin\renderer\RatingControl::textPosition(), 0, 'left','right');
+	expectedArguments(\warm\admin\renderer\InputQuarter::borderMode(), 0, 'full','half','none');
+	expectedArguments(\warm\admin\renderer\InputQuarter::labelAlign(), 0, 'right','left','top','inherit');
+	expectedArguments(\warm\admin\renderer\InputQuarter::mode(), 0, 'normal','inline','horizontal');
+	expectedArguments(\warm\admin\renderer\InputQuarter::size(), 0, 'xs','sm','md','lg','full');
+	expectedArguments(\warm\admin\renderer\InputQuarterRange::borderMode(), 0, 'full','half','none');
+	expectedArguments(\warm\admin\renderer\InputQuarterRange::labelAlign(), 0, 'right','left','top','inherit');
+	expectedArguments(\warm\admin\renderer\InputQuarterRange::mode(), 0, 'normal','inline','horizontal');
+	expectedArguments(\warm\admin\renderer\InputQuarterRange::size(), 0, 'xs','sm','md','lg','full');
+	expectedArguments(\warm\admin\renderer\Radio::labelAlign(), 0, 'right','left','top','inherit');
+	expectedArguments(\warm\admin\renderer\Radio::mode(), 0, 'normal','inline','horizontal');
+	expectedArguments(\warm\admin\renderer\Radio::optionType(), 0, 'default','button');
+	expectedArguments(\warm\admin\renderer\Radio::size(), 0, 'xs','sm','md','lg','full');
+	expectedArguments(\warm\admin\renderer\Radios::labelAlign(), 0, 'right','left','top','inherit');
+	expectedArguments(\warm\admin\renderer\Radios::mode(), 0, 'normal','inline','horizontal');
+	expectedArguments(\warm\admin\renderer\Radios::size(), 0, 'xs','sm','md','lg','full');
+	expectedArguments(\warm\admin\renderer\InputRange::labelAlign(), 0, 'right','left','top','inherit');
+	expectedArguments(\warm\admin\renderer\InputRange::mode(), 0, 'normal','inline','horizontal');
+	expectedArguments(\warm\admin\renderer\InputRange::size(), 0, 'xs','sm','md','lg','full');
+	expectedArguments(\warm\admin\renderer\InputRange::tooltipPlacement(), 0, 'auto','top','right','bottom','left');
+	expectedArguments(\warm\admin\renderer\InputRating::labelAlign(), 0, 'right','left','top','inherit');
+	expectedArguments(\warm\admin\renderer\InputRating::mode(), 0, 'normal','inline','horizontal');
+	expectedArguments(\warm\admin\renderer\InputRating::size(), 0, 'xs','sm','md','lg','full');
+	expectedArguments(\warm\admin\renderer\InputRating::textPosition(), 0, 'left','right');
 	expectedArguments(\warm\admin\renderer\ReloadAction::level(), 0, 'info','success','warning','danger','link','primary','dark','light','secondary');
 	expectedArguments(\warm\admin\renderer\ReloadAction::size(), 0, 'xs','sm','md','lg');
 	expectedArguments(\warm\admin\renderer\ReloadAction::tooltipPlacement(), 0, 'top','right','bottom','left');
 	expectedArguments(\warm\admin\renderer\ReloadAction::type(), 0, 'button','submit','reset');
 	expectedArguments(\warm\admin\renderer\Remark::placement(), 0, 'top','right','bottom','left');
 	expectedArguments(\warm\admin\renderer\Remark::shape(), 0, 'circle','square');
-	expectedArguments(\warm\admin\renderer\RepeatControl::labelAlign(), 0, 'right','left','top','inherit');
-	expectedArguments(\warm\admin\renderer\RepeatControl::mode(), 0, 'normal','inline','horizontal');
-	expectedArguments(\warm\admin\renderer\RepeatControl::size(), 0, 'xs','sm','md','lg','full');
-	expectedArguments(\warm\admin\renderer\RichTextControl::borderMode(), 0, 'full','half','none');
-	expectedArguments(\warm\admin\renderer\RichTextControl::labelAlign(), 0, 'right','left','top','inherit');
-	expectedArguments(\warm\admin\renderer\RichTextControl::mode(), 0, 'normal','inline','horizontal');
-	expectedArguments(\warm\admin\renderer\RichTextControl::size(), 0, 'xs','sm','md','lg','full');
-	expectedArguments(\warm\admin\renderer\RichTextControl::vendor(), 0, 'froala','tinymce');
+	expectedArguments(\warm\admin\renderer\InputRepeat::labelAlign(), 0, 'right','left','top','inherit');
+	expectedArguments(\warm\admin\renderer\InputRepeat::mode(), 0, 'normal','inline','horizontal');
+	expectedArguments(\warm\admin\renderer\InputRepeat::size(), 0, 'xs','sm','md','lg','full');
+	expectedArguments(\warm\admin\renderer\InputRichText::borderMode(), 0, 'full','half','none');
+	expectedArguments(\warm\admin\renderer\InputRichText::labelAlign(), 0, 'right','left','top','inherit');
+	expectedArguments(\warm\admin\renderer\InputRichText::mode(), 0, 'normal','inline','horizontal');
+	expectedArguments(\warm\admin\renderer\InputRichText::size(), 0, 'xs','sm','md','lg','full');
+	expectedArguments(\warm\admin\renderer\InputRichText::vendor(), 0, 'froala','tinymce');
 	expectedArguments(\warm\admin\renderer\SchemaApi::dataType(), 0, 'json','form-data','form');
 	expectedArguments(\warm\admin\renderer\SchemaApi::method(), 0, 'get','post','put','delete','patch','jsonp','js');
 	expectedArguments(\warm\admin\renderer\SchemaPopOver::mode(), 0, 'dialog','drawer','popOver');
 	expectedArguments(\warm\admin\renderer\SchemaPopOver::position(), 0, 'center','left-top','left-top-left-top','left-top-left-center','left-top-left-bottom','left-top-center-top','left-top-center-center','left-top-center-bottom','left-top-right-top','left-top-right-center','left-top-right-bottom','right-top','right-top-left-top','right-top-left-center','right-top-left-bottom','right-top-center-top','right-top-center-center','right-top-center-bottom','right-top-right-top','right-top-right-center','right-top-right-bottom','left-bottom','left-bottom-left-top','left-bottom-left-center','left-bottom-left-bottom','left-bottom-center-top','left-bottom-center-center','left-bottom-center-bottom','left-bottom-right-top','left-bottom-right-center','left-bottom-right-bottom','right-bottom','right-bottom-left-top','right-bottom-left-center','right-bottom-left-bottom','right-bottom-center-top','right-bottom-center-center','right-bottom-center-bottom','right-bottom-right-top','right-bottom-right-center','right-bottom-right-bottom','fixed-center','fixed-left-top','fixed-right-top','fixed-left-bottom','fixed-right-bottom');
 	expectedArguments(\warm\admin\renderer\SchemaPopOver::size(), 0, 'sm','md','lg','xl');
 	expectedArguments(\warm\admin\renderer\SchemaPopOver::trigger(), 0, 'click','hover');
-	expectedArguments(\warm\admin\renderer\SelectControl::borderMode(), 0, 'full','half','none');
-	expectedArguments(\warm\admin\renderer\SelectControl::labelAlign(), 0, 'right','left','top','inherit');
-	expectedArguments(\warm\admin\renderer\SelectControl::leftMode(), 0, 'tree','list');
-	expectedArguments(\warm\admin\renderer\SelectControl::mode(), 0, 'normal','inline','horizontal');
-	expectedArguments(\warm\admin\renderer\SelectControl::rightMode(), 0, 'table','list','tree','chained');
-	expectedArguments(\warm\admin\renderer\SelectControl::searchResultMode(), 0, 'table','list','tree','chained');
-	expectedArguments(\warm\admin\renderer\SelectControl::selectMode(), 0, 'table','group','tree','chained','associated');
-	expectedArguments(\warm\admin\renderer\SelectControl::size(), 0, 'xs','sm','md','lg','full');
-	expectedArguments(\warm\admin\renderer\SelectControl::type(), 0, 'select','multi-select');
+	expectedArguments(\warm\admin\renderer\Select::borderMode(), 0, 'full','half','none');
+	expectedArguments(\warm\admin\renderer\Select::labelAlign(), 0, 'right','left','top','inherit');
+	expectedArguments(\warm\admin\renderer\Select::leftMode(), 0, 'tree','list');
+	expectedArguments(\warm\admin\renderer\Select::mode(), 0, 'normal','inline','horizontal');
+	expectedArguments(\warm\admin\renderer\Select::rightMode(), 0, 'table','list','tree','chained');
+	expectedArguments(\warm\admin\renderer\Select::searchResultMode(), 0, 'table','list','tree','chained');
+	expectedArguments(\warm\admin\renderer\Select::selectMode(), 0, 'table','group','tree','chained','associated');
+	expectedArguments(\warm\admin\renderer\Select::size(), 0, 'xs','sm','md','lg','full');
+	expectedArguments(\warm\admin\renderer\Select::type(), 0, 'select','multi-select');
 	expectedArguments(\warm\admin\renderer\Spinner::size(), 0, 'sm','lg','');
 	expectedArguments(\warm\admin\renderer\Spinner::tipPlacement(), 0, 'top','right','bottom','left');
 	expectedArguments(\warm\admin\renderer\StaticExactControl::borderMode(), 0, 'full','half','none');
@@ -1423,9 +1423,9 @@ namespace PHPSTORM_META {
 	expectedArguments(\warm\admin\renderer\StaticExactControl::size(), 0, 'xs','sm','md','lg','full');
 	expectedArguments(\warm\admin\renderer\Steps::labelPlacement(), 0, 'horizontal','vertical');
 	expectedArguments(\warm\admin\renderer\Steps::mode(), 0, 'horizontal','vertical');
-	expectedArguments(\warm\admin\renderer\SubFormControl::labelAlign(), 0, 'right','left','top','inherit');
-	expectedArguments(\warm\admin\renderer\SubFormControl::mode(), 0, 'normal','inline','horizontal');
-	expectedArguments(\warm\admin\renderer\SubFormControl::size(), 0, 'xs','sm','md','lg','full');
+	expectedArguments(\warm\admin\renderer\InputSubForm::labelAlign(), 0, 'right','left','top','inherit');
+	expectedArguments(\warm\admin\renderer\InputSubForm::mode(), 0, 'normal','inline','horizontal');
+	expectedArguments(\warm\admin\renderer\InputSubForm::size(), 0, 'xs','sm','md','lg','full');
 	expectedArguments(\warm\admin\renderer\SwitchControl::labelAlign(), 0, 'right','left','top','inherit');
 	expectedArguments(\warm\admin\renderer\SwitchControl::mode(), 0, 'normal','inline','horizontal');
 	expectedArguments(\warm\admin\renderer\SwitchControl::size(), 0, 'sm','md');
@@ -1436,45 +1436,45 @@ namespace PHPSTORM_META {
 	expectedArguments(\warm\admin\renderer\TableColumn::align(), 0, 'left','right','center','justify');
 	expectedArguments(\warm\admin\renderer\TableColumn::breakpoint(), 0, '*','xs','sm','md','lg');
 	expectedArguments(\warm\admin\renderer\TableColumn::fixed(), 0, 'left','right','none');
-	expectedArguments(\warm\admin\renderer\TableControl::labelAlign(), 0, 'right','left','top','inherit');
-	expectedArguments(\warm\admin\renderer\TableControl::mode(), 0, 'normal','inline','horizontal');
-	expectedArguments(\warm\admin\renderer\TableControl::size(), 0, 'xs','sm','md','lg','full');
-	expectedArguments(\warm\admin\renderer\TableControl::tableLayout(), 0, 'fixed','auto');
-	expectedArguments(\warm\admin\renderer\TableSchema2::tableLayout(), 0, 'fixed','auto');
+	expectedArguments(\warm\admin\renderer\inputTable::labelAlign(), 0, 'right','left','top','inherit');
+	expectedArguments(\warm\admin\renderer\inputTable::mode(), 0, 'normal','inline','horizontal');
+	expectedArguments(\warm\admin\renderer\inputTable::size(), 0, 'xs','sm','md','lg','full');
+	expectedArguments(\warm\admin\renderer\inputTable::tableLayout(), 0, 'fixed','auto');
+	expectedArguments(\warm\admin\renderer\Table2::tableLayout(), 0, 'fixed','auto');
 	expectedArguments(\warm\admin\renderer\Tabs::sidePosition(), 0, 'left','right');
 	expectedArguments(\warm\admin\renderer\Tabs::subFormMode(), 0, 'normal','inline','horizontal');
 	expectedArguments(\warm\admin\renderer\Tabs::tabsMode(), 0, '','line','card','radio','vertical','chrome','simple','strong','tiled','sidebar');
-	expectedArguments(\warm\admin\renderer\TabsTransferControl::labelAlign(), 0, 'right','left','top','inherit');
-	expectedArguments(\warm\admin\renderer\TabsTransferControl::leftMode(), 0, 'tree','list');
-	expectedArguments(\warm\admin\renderer\TabsTransferControl::mode(), 0, 'normal','inline','horizontal');
-	expectedArguments(\warm\admin\renderer\TabsTransferControl::rightMode(), 0, 'table','list','tree','chained');
-	expectedArguments(\warm\admin\renderer\TabsTransferControl::searchResultMode(), 0, 'table','list','tree','chained');
-	expectedArguments(\warm\admin\renderer\TabsTransferControl::selectMode(), 0, 'table','list','tree','chained','associated');
-	expectedArguments(\warm\admin\renderer\TabsTransferControl::size(), 0, 'xs','sm','md','lg','full');
-	expectedArguments(\warm\admin\renderer\TabsTransferPickerControl::labelAlign(), 0, 'right','left','top','inherit');
-	expectedArguments(\warm\admin\renderer\TabsTransferPickerControl::leftMode(), 0, 'tree','list');
-	expectedArguments(\warm\admin\renderer\TabsTransferPickerControl::mode(), 0, 'normal','inline','horizontal');
-	expectedArguments(\warm\admin\renderer\TabsTransferPickerControl::rightMode(), 0, 'table','list','tree','chained');
-	expectedArguments(\warm\admin\renderer\TabsTransferPickerControl::searchResultMode(), 0, 'table','list','tree','chained');
-	expectedArguments(\warm\admin\renderer\TabsTransferPickerControl::selectMode(), 0, 'table','list','tree','chained','associated');
-	expectedArguments(\warm\admin\renderer\TabsTransferPickerControl::size(), 0, 'xs','sm','md','lg','full');
+	expectedArguments(\warm\admin\renderer\TabsTransfer::labelAlign(), 0, 'right','left','top','inherit');
+	expectedArguments(\warm\admin\renderer\TabsTransfer::leftMode(), 0, 'tree','list');
+	expectedArguments(\warm\admin\renderer\TabsTransfer::mode(), 0, 'normal','inline','horizontal');
+	expectedArguments(\warm\admin\renderer\TabsTransfer::rightMode(), 0, 'table','list','tree','chained');
+	expectedArguments(\warm\admin\renderer\TabsTransfer::searchResultMode(), 0, 'table','list','tree','chained');
+	expectedArguments(\warm\admin\renderer\TabsTransfer::selectMode(), 0, 'table','list','tree','chained','associated');
+	expectedArguments(\warm\admin\renderer\TabsTransfer::size(), 0, 'xs','sm','md','lg','full');
+	expectedArguments(\warm\admin\renderer\TabsTransferPicker::labelAlign(), 0, 'right','left','top','inherit');
+	expectedArguments(\warm\admin\renderer\TabsTransferPicker::leftMode(), 0, 'tree','list');
+	expectedArguments(\warm\admin\renderer\TabsTransferPicker::mode(), 0, 'normal','inline','horizontal');
+	expectedArguments(\warm\admin\renderer\TabsTransferPicker::rightMode(), 0, 'table','list','tree','chained');
+	expectedArguments(\warm\admin\renderer\TabsTransferPicker::searchResultMode(), 0, 'table','list','tree','chained');
+	expectedArguments(\warm\admin\renderer\TabsTransferPicker::selectMode(), 0, 'table','list','tree','chained','associated');
+	expectedArguments(\warm\admin\renderer\TabsTransferPicker::size(), 0, 'xs','sm','md','lg','full');
 	expectedArguments(\warm\admin\renderer\Tag::displayMode(), 0, 'normal','rounded','status');
-	expectedArguments(\warm\admin\renderer\TagControl::labelAlign(), 0, 'right','left','top','inherit');
-	expectedArguments(\warm\admin\renderer\TagControl::mode(), 0, 'normal','inline','horizontal');
-	expectedArguments(\warm\admin\renderer\TagControl::size(), 0, 'xs','sm','md','lg','full');
-	expectedArguments(\warm\admin\renderer\TextControl::borderMode(), 0, 'full','half','none');
-	expectedArguments(\warm\admin\renderer\TextControl::labelAlign(), 0, 'right','left','top','inherit');
-	expectedArguments(\warm\admin\renderer\TextControl::mode(), 0, 'normal','inline','horizontal');
-	expectedArguments(\warm\admin\renderer\TextControl::size(), 0, 'xs','sm','md','lg','full');
-	expectedArguments(\warm\admin\renderer\TextControl::type(), 0, 'input-text','input-email','input-url','input-password','native-date','native-time','native-number');
-	expectedArguments(\warm\admin\renderer\TextareaControl::borderMode(), 0, 'full','half','none');
-	expectedArguments(\warm\admin\renderer\TextareaControl::labelAlign(), 0, 'right','left','top','inherit');
-	expectedArguments(\warm\admin\renderer\TextareaControl::mode(), 0, 'normal','inline','horizontal');
-	expectedArguments(\warm\admin\renderer\TextareaControl::size(), 0, 'xs','sm','md','lg','full');
-	expectedArguments(\warm\admin\renderer\TimeControl::borderMode(), 0, 'full','half','none');
-	expectedArguments(\warm\admin\renderer\TimeControl::labelAlign(), 0, 'right','left','top','inherit');
-	expectedArguments(\warm\admin\renderer\TimeControl::mode(), 0, 'normal','inline','horizontal');
-	expectedArguments(\warm\admin\renderer\TimeControl::size(), 0, 'xs','sm','md','lg','full');
+	expectedArguments(\warm\admin\renderer\InputTag::labelAlign(), 0, 'right','left','top','inherit');
+	expectedArguments(\warm\admin\renderer\InputTag::mode(), 0, 'normal','inline','horizontal');
+	expectedArguments(\warm\admin\renderer\InputTag::size(), 0, 'xs','sm','md','lg','full');
+	expectedArguments(\warm\admin\renderer\InputText::borderMode(), 0, 'full','half','none');
+	expectedArguments(\warm\admin\renderer\InputText::labelAlign(), 0, 'right','left','top','inherit');
+	expectedArguments(\warm\admin\renderer\InputText::mode(), 0, 'normal','inline','horizontal');
+	expectedArguments(\warm\admin\renderer\InputText::size(), 0, 'xs','sm','md','lg','full');
+	expectedArguments(\warm\admin\renderer\InputText::type(), 0, 'input-text','input-email','input-url','input-password','native-date','native-time','native-number');
+	expectedArguments(\warm\admin\renderer\Textarea::borderMode(), 0, 'full','half','none');
+	expectedArguments(\warm\admin\renderer\Textarea::labelAlign(), 0, 'right','left','top','inherit');
+	expectedArguments(\warm\admin\renderer\Textarea::mode(), 0, 'normal','inline','horizontal');
+	expectedArguments(\warm\admin\renderer\Textarea::size(), 0, 'xs','sm','md','lg','full');
+	expectedArguments(\warm\admin\renderer\InputTime::borderMode(), 0, 'full','half','none');
+	expectedArguments(\warm\admin\renderer\InputTime::labelAlign(), 0, 'right','left','top','inherit');
+	expectedArguments(\warm\admin\renderer\InputTime::mode(), 0, 'normal','inline','horizontal');
+	expectedArguments(\warm\admin\renderer\InputTime::size(), 0, 'xs','sm','md','lg','full');
 	expectedArguments(\warm\admin\renderer\Timeline::direction(), 0, 'horizontal','vertical');
 	expectedArguments(\warm\admin\renderer\Timeline::mode(), 0, 'left','right','alternate');
 	expectedArguments(\warm\admin\renderer\Toast::position(), 0, 'top-right','top-center','top-left','bottom-center','bottom-left','bottom-right','center 可选值: top-right','top-center','top-left','bottom-center','bottom-left','bottom-right','center');
@@ -1485,49 +1485,49 @@ namespace PHPSTORM_META {
 	expectedArguments(\warm\admin\renderer\TooltipWrapper::placement(), 0, 'top','right','bottom','left');
 	expectedArguments(\warm\admin\renderer\TooltipWrapper::tooltipTheme(), 0, 'light','dark');
 	expectedArguments(\warm\admin\renderer\Tpl::type(), 0, 'tpl','html');
-	expectedArguments(\warm\admin\renderer\TransferControl::labelAlign(), 0, 'right','left','top','inherit');
-	expectedArguments(\warm\admin\renderer\TransferControl::leftMode(), 0, 'tree','list');
-	expectedArguments(\warm\admin\renderer\TransferControl::mode(), 0, 'normal','inline','horizontal');
-	expectedArguments(\warm\admin\renderer\TransferControl::rightMode(), 0, 'table','list','tree','chained');
-	expectedArguments(\warm\admin\renderer\TransferControl::searchResultMode(), 0, 'table','list','tree','chained');
-	expectedArguments(\warm\admin\renderer\TransferControl::selectMode(), 0, 'table','list','tree','chained','associated');
-	expectedArguments(\warm\admin\renderer\TransferControl::size(), 0, 'xs','sm','md','lg','full');
-	expectedArguments(\warm\admin\renderer\TransferPickerControl::borderMode(), 0, 'full','half','none');
-	expectedArguments(\warm\admin\renderer\TransferPickerControl::labelAlign(), 0, 'right','left','top','inherit');
-	expectedArguments(\warm\admin\renderer\TransferPickerControl::leftMode(), 0, 'tree','list');
-	expectedArguments(\warm\admin\renderer\TransferPickerControl::mode(), 0, 'normal','inline','horizontal');
-	expectedArguments(\warm\admin\renderer\TransferPickerControl::pickerSize(), 0, 'xs','sm','md','lg','xl','full');
-	expectedArguments(\warm\admin\renderer\TransferPickerControl::rightMode(), 0, 'table','list','tree','chained');
-	expectedArguments(\warm\admin\renderer\TransferPickerControl::searchResultMode(), 0, 'table','list','tree','chained');
-	expectedArguments(\warm\admin\renderer\TransferPickerControl::selectMode(), 0, 'table','list','tree','chained','associated');
-	expectedArguments(\warm\admin\renderer\TransferPickerControl::size(), 0, 'xs','sm','md','lg','full');
-	expectedArguments(\warm\admin\renderer\TreeControl::labelAlign(), 0, 'right','left','top','inherit');
-	expectedArguments(\warm\admin\renderer\TreeControl::mode(), 0, 'normal','inline','horizontal');
-	expectedArguments(\warm\admin\renderer\TreeControl::size(), 0, 'xs','sm','md','lg','full');
-	expectedArguments(\warm\admin\renderer\TreeSelectControl::labelAlign(), 0, 'right','left','top','inherit');
-	expectedArguments(\warm\admin\renderer\TreeSelectControl::mode(), 0, 'normal','inline','horizontal');
-	expectedArguments(\warm\admin\renderer\TreeSelectControl::size(), 0, 'xs','sm','md','lg','full');
-	expectedArguments(\warm\admin\renderer\UUIDControl::labelAlign(), 0, 'right','left','top','inherit');
-	expectedArguments(\warm\admin\renderer\UUIDControl::mode(), 0, 'normal','inline','horizontal');
-	expectedArguments(\warm\admin\renderer\UUIDControl::size(), 0, 'xs','sm','md','lg','full');
+	expectedArguments(\warm\admin\renderer\Transfer::labelAlign(), 0, 'right','left','top','inherit');
+	expectedArguments(\warm\admin\renderer\Transfer::leftMode(), 0, 'tree','list');
+	expectedArguments(\warm\admin\renderer\Transfer::mode(), 0, 'normal','inline','horizontal');
+	expectedArguments(\warm\admin\renderer\Transfer::rightMode(), 0, 'table','list','tree','chained');
+	expectedArguments(\warm\admin\renderer\Transfer::searchResultMode(), 0, 'table','list','tree','chained');
+	expectedArguments(\warm\admin\renderer\Transfer::selectMode(), 0, 'table','list','tree','chained','associated');
+	expectedArguments(\warm\admin\renderer\Transfer::size(), 0, 'xs','sm','md','lg','full');
+	expectedArguments(\warm\admin\renderer\TransferPicker::borderMode(), 0, 'full','half','none');
+	expectedArguments(\warm\admin\renderer\TransferPicker::labelAlign(), 0, 'right','left','top','inherit');
+	expectedArguments(\warm\admin\renderer\TransferPicker::leftMode(), 0, 'tree','list');
+	expectedArguments(\warm\admin\renderer\TransferPicker::mode(), 0, 'normal','inline','horizontal');
+	expectedArguments(\warm\admin\renderer\TransferPicker::pickerSize(), 0, 'xs','sm','md','lg','xl','full');
+	expectedArguments(\warm\admin\renderer\TransferPicker::rightMode(), 0, 'table','list','tree','chained');
+	expectedArguments(\warm\admin\renderer\TransferPicker::searchResultMode(), 0, 'table','list','tree','chained');
+	expectedArguments(\warm\admin\renderer\TransferPicker::selectMode(), 0, 'table','list','tree','chained','associated');
+	expectedArguments(\warm\admin\renderer\TransferPicker::size(), 0, 'xs','sm','md','lg','full');
+	expectedArguments(\warm\admin\renderer\InputTree::labelAlign(), 0, 'right','left','top','inherit');
+	expectedArguments(\warm\admin\renderer\InputTree::mode(), 0, 'normal','inline','horizontal');
+	expectedArguments(\warm\admin\renderer\InputTree::size(), 0, 'xs','sm','md','lg','full');
+	expectedArguments(\warm\admin\renderer\TreeSelect::labelAlign(), 0, 'right','left','top','inherit');
+	expectedArguments(\warm\admin\renderer\TreeSelect::mode(), 0, 'normal','inline','horizontal');
+	expectedArguments(\warm\admin\renderer\TreeSelect::size(), 0, 'xs','sm','md','lg','full');
+	expectedArguments(\warm\admin\renderer\UUID::labelAlign(), 0, 'right','left','top','inherit');
+	expectedArguments(\warm\admin\renderer\UUID::mode(), 0, 'normal','inline','horizontal');
+	expectedArguments(\warm\admin\renderer\UUID::size(), 0, 'xs','sm','md','lg','full');
 	expectedArguments(\warm\admin\renderer\UrlAction::level(), 0, 'info','success','warning','danger','link','primary','dark','light','secondary');
 	expectedArguments(\warm\admin\renderer\UrlAction::size(), 0, 'xs','sm','md','lg');
 	expectedArguments(\warm\admin\renderer\UrlAction::tooltipPlacement(), 0, 'top','right','bottom','left');
 	expectedArguments(\warm\admin\renderer\UrlAction::type(), 0, 'button','submit','reset');
-	expectedArguments(\warm\admin\renderer\UserSelectControl::labelAlign(), 0, 'right','left','top','inherit');
-	expectedArguments(\warm\admin\renderer\UserSelectControl::mode(), 0, 'normal','inline','horizontal');
-	expectedArguments(\warm\admin\renderer\UserSelectControl::size(), 0, 'xs','sm','md','lg','full');
-	expectedArguments(\warm\admin\renderer\VanillaAction::level(), 0, 'info','success','warning','danger','link','primary','dark','light','secondary');
-	expectedArguments(\warm\admin\renderer\VanillaAction::size(), 0, 'xs','sm','md','lg');
-	expectedArguments(\warm\admin\renderer\VanillaAction::tooltipPlacement(), 0, 'top','right','bottom','left');
-	expectedArguments(\warm\admin\renderer\VanillaAction::type(), 0, 'button','submit','reset');
+	expectedArguments(\warm\admin\renderer\UserSelect::labelAlign(), 0, 'right','left','top','inherit');
+	expectedArguments(\warm\admin\renderer\UserSelect::mode(), 0, 'normal','inline','horizontal');
+	expectedArguments(\warm\admin\renderer\UserSelect::size(), 0, 'xs','sm','md','lg','full');
+	expectedArguments(\warm\admin\renderer\Button::level(), 0, 'info','success','warning','danger','link','primary','dark','light','secondary');
+	expectedArguments(\warm\admin\renderer\Button::size(), 0, 'xs','sm','md','lg');
+	expectedArguments(\warm\admin\renderer\Button::tooltipPlacement(), 0, 'top','right','bottom','left');
+	expectedArguments(\warm\admin\renderer\Button::type(), 0, 'button','submit','reset');
 	expectedArguments(\warm\admin\renderer\Video::aspectRatio(), 0, 'auto','4:3','16:9');
 	expectedArguments(\warm\admin\renderer\Wizard::mode(), 0, 'vertical','horizontal');
 	expectedArguments(\warm\admin\renderer\WizardStep::labelAlign(), 0, 'right','left','top','inherit');
 	expectedArguments(\warm\admin\renderer\WizardStep::mode(), 0, 'normal','inline','horizontal','flex');
 	expectedArguments(\warm\admin\renderer\Wrapper::size(), 0, 'xs','sm','md','lg','none');
-	expectedArguments(\warm\admin\renderer\YearControl::borderMode(), 0, 'full','half','none');
-	expectedArguments(\warm\admin\renderer\YearControl::labelAlign(), 0, 'right','left','top','inherit');
-	expectedArguments(\warm\admin\renderer\YearControl::mode(), 0, 'normal','inline','horizontal');
-	expectedArguments(\warm\admin\renderer\YearControl::size(), 0, 'xs','sm','md','lg','full');
+	expectedArguments(\warm\admin\renderer\InputYear::borderMode(), 0, 'full','half','none');
+	expectedArguments(\warm\admin\renderer\InputYear::labelAlign(), 0, 'right','left','top','inherit');
+	expectedArguments(\warm\admin\renderer\InputYear::mode(), 0, 'normal','inline','horizontal');
+	expectedArguments(\warm\admin\renderer\InputYear::size(), 0, 'xs','sm','md','lg','full');
 }
