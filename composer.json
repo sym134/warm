@@ -20,8 +20,7 @@
     "illuminate/container": "^11.46",
     "illuminate/filesystem": "^11.46",
     "illuminate/support": "^11.46",
-    "illuminate/translation": "^11.46",
-    "illuminate/validation": "^11.46",
+    "league/flysystem-local": "^3.30",
     "rap2hpoutre/fast-excel": "^5.5",
     "vlucas/phpdotenv": "^5.6",
     "zoujingli/ip2region": "^3.0",
@@ -36,18 +35,18 @@
     "webman/event": "^1.0",
     "workerman/crontab": "^1.0",
     "symfony/var-dumper": "^7.3",
-    "league/flysystem-local": "^3.30",
     "w7corp/easywechat": "6.17",
     "overtrue/easy-sms": "^3.0",
     "jizhi/webman-auth": "^1.0",
-    "jizhi/webman-migrations": "^1.0",
     "ext-bcmath": "*",
     "ext-json": "*",
     "ext-mbstring": "*",
     "ext-ctype": "*",
     "ext-fileinfo": "*",
     "ext-zip": "*",
-    "ext-curl": "*"
+    "ext-curl": "*",
+    "topthink/think-validate": "^3.0",
+    "symfony/translation": "^7.4"
   },
   "autoload": {
     "files": [

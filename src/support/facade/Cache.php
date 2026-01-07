@@ -1,10 +1,9 @@
 <?php
 
-namespace warm\support;
+namespace warm\framework\support\facade;
 
 use Closure;
 use support\Cache as WebmanCache;
-use support\Container;
 
 /**
  * 缓存操作工具类
