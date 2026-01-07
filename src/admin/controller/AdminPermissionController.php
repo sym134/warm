@@ -91,27 +91,27 @@ class AdminPermissionController extends AdminController
     public function form(): Form
     {
         return $this->baseForm()->body([
-            amis()->TextControl('name', translator('admin.admin_permission.name'))->required(),
-            amis()->TextControl('slug', translator('admin.admin_permission.slug'))->required(),
-            amis()->TreeSelectControl('parent_id', translator('admin.parent'))
+            amis()->InputText('name', translator('admin.admin_permission.name'))->required(),
+            amis()->InputText('slug', translator('admin.admin_permission.slug'))->required(),
+            amis()->TreeSelect('parent_id', translator('admin.parent'))
                 ->labelField('name')
                 ->valueField('id')
                 ->value(0)
                 ->options($this->service->getTree()),
-            amis()->CheckboxesControl('http_method', translator('admin.admin_permission.http_method'))
+            amis()->Checkboxes('http_method', translator('admin.admin_permission.http_method'))
                 ->options($this->getHttpMethods())
                 ->description(translator('admin.admin_permission.http_method_description'))
                 ->joinValues(false)
                 ->extractValue(),
-            amis()->NumberControl('order', translator('admin.order'))
+            amis()->InputNumber('order', translator('admin.order'))
                 ->required()
                 ->labelRemark(translator('admin.order_asc'))
                 ->displayMode('enhance')
                 ->min(0)
                 ->value(0),
-            amis()->ArrayControl('http_path', translator('admin.admin_permission.http_path'))
-                ->items(amis()->TextControl()->options($this->getRoutes())->required()),
-            amis()->TreeSelectControl('menus', translator('admin.menus'))
+            amis()->InputArray('http_path', translator('admin.admin_permission.http_path'))
+                ->items(amis()->InputText()->options($this->getRoutes())->required()),
+            amis()->TreeSelect('menus', translator('admin.menus'))
                 ->searchable()
                 ->multiple()
                 ->showIcon(false)

@@ -61,7 +61,7 @@ class FilterGenerator extends BaseGenerator
 
         $components = [];
         foreach ($filters as $filter) {
-            $filterType = data_get($filter, 'filter.filter_type', 'TextControl');
+            $filterType = data_get($filter, 'filter.filter_type', 'InputText');
             $item       = "amis()->{$filterType}('{$filter['input_name']}', '{$filter['input_label']}')";
             if ($property = data_get($filter, 'filter.filter_property')) {
                 $item .= $this->buildComponentProperty($property);

@@ -7,6 +7,7 @@ use support\Response;
 use warm\admin\controller\AdminController;
 use warm\admin\renderer\Form;
 use warm\admin\renderer\Page;
+use warm\admin\renderer\StaticExactControl;
 use warm\admin\renderer\TableColumn;
 use warm\admin\service\config\ConfigService;
 use warm\common\service\notice\Notice;
@@ -74,8 +75,8 @@ class NoticeConfigController extends AdminController
         }
         
         return $form->body([
-            amis()->HiddenControl('id')->required(),
-            amis()->StaticExactControl('description')->label('渠道描述'),
+            amis()->Hidden('id')->required(),
+            amis()->Static('description')->label('渠道描述'),
             amis()->Wrapper()->visibleOn("this.id === 'sms'")->body([
                 $this->smsConfigForm(),
             ]),
@@ -100,18 +101,18 @@ class NoticeConfigController extends AdminController
     {
         return [
             amis()->Alert()->body('短信配置已迁移到独立页面，请前往<a href="' . admin_url('notice/sms-config') . '">短信配置</a>进行详细配置')->level('info'),
-            amis()->GroupControl()->body([
-                amis()->NumberControl('timeout', '请求超时时间(秒)')->value(5.0),
-                amis()->NumberControl('connect_timeout', '连接超时时间(秒)')->value(5.0),
+            amis()->Group()->body([
+                amis()->InputNumber('timeout', '请求超时时间(秒)')->value(5.0),
+                amis()->InputNumber('connect_timeout', '连接超时时间(秒)')->value(5.0),
             ]),
             
-            amis()->GroupControl()->body([
-                amis()->SelectControl('default.strategy', '网关调用策略')
+            amis()->Group()->body([
+                amis()->Select('default.strategy', '网关调用策略')
                     ->options([
                         ['label' => '顺序调用', 'value' => \Overtrue\EasySms\Strategies\OrderStrategy::class],
                         ['label' => '随机调用', 'value' => \Overtrue\EasySms\Strategies\RandomStrategy::class],
                     ]),
-                amis()->SelectControl('default.gateways', '默认网关')
+                amis()->Select('default.gateways', '默认网关')
                     ->type('select')
                     ->multiple(true)
                     ->options([
@@ -126,34 +127,34 @@ class NoticeConfigController extends AdminController
             ]),
             
             // 阿里云配置
-            amis()->GroupControl()->label('阿里云配置')->body([
-                amis()->TextControl('gateways.aliyun.access_key_id', 'AccessKeyId'),
-                amis()->TextControl('gateways.aliyun.access_key_secret', 'AccessKeySecret'),
-                amis()->TextControl('gateways.aliyun.sign_name', '签名'),
+            amis()->Group()->label('阿里云配置')->body([
+                amis()->InputText('gateways.aliyun.access_key_id', 'AccessKeyId'),
+                amis()->InputText('gateways.aliyun.access_key_secret', 'AccessKeySecret'),
+                amis()->InputText('gateways.aliyun.sign_name', '签名'),
             ])->visibleOn("data.default.gateways && data.default.gateways.includes('aliyun')"),
             
             // 腾讯云配置
-            amis()->GroupControl()->label('腾讯云配置')->body([
-                amis()->TextControl('gateways.qcloud.sdk_app_id', 'SDK AppID'),
-                amis()->TextControl('gateways.qcloud.secret_id', 'SecretId'),
-                amis()->TextControl('gateways.qcloud.secret_key', 'SecretKey'),
-                amis()->TextControl('gateways.qcloud.sign_name', '签名'),
+            amis()->Group()->label('腾讯云配置')->body([
+                amis()->InputText('gateways.qcloud.sdk_app_id', 'SDK AppID'),
+                amis()->InputText('gateways.qcloud.secret_id', 'SecretId'),
+                amis()->InputText('gateways.qcloud.secret_key', 'SecretKey'),
+                amis()->InputText('gateways.qcloud.sign_name', '签名'),
             ])->visibleOn("data.default.gateways && data.default.gateways.includes('qcloud')"),
             
             // 短信宝配置
-            amis()->GroupControl()->label('短信宝配置')->body([
-                amis()->TextControl('gateways.smsbao.user', '用户名'),
-                amis()->TextControl('gateways.smsbao.password', '密码'),
+            amis()->Group()->label('短信宝配置')->body([
+                amis()->InputText('gateways.smsbao.user', '用户名'),
+                amis()->InputText('gateways.smsbao.password', '密码'),
             ])->visibleOn("data.default.gateways && data.default.gateways.includes('smsbao')"),
             
             // 云片配置
-            amis()->GroupControl()->label('云片配置')->body([
-                amis()->TextControl('gateways.yunpian.api_key', 'API Key'),
+            amis()->Group()->label('云片配置')->body([
+                amis()->InputText('gateways.yunpian.api_key', 'API Key'),
             ])->visibleOn("data.default.gateways && data.default.gateways.includes('yunpian')"),
             
             // 错误日志配置
-            amis()->GroupControl()->label('错误日志配置')->body([
-                amis()->TextControl('gateways.errorlog.file', '日志文件路径')->value('/tmp/easy-sms.log'),
+            amis()->Group()->label('错误日志配置')->body([
+                amis()->InputText('gateways.errorlog.file', '日志文件路径')->value('/tmp/easy-sms.log'),
             ])->visibleOn("data.default.gateways && data.default.gateways.includes('errorlog')"),
         ];
     }
@@ -166,11 +167,11 @@ class NoticeConfigController extends AdminController
     private function wechatOfficialAccountConfigForm(): array
     {
         return [
-            amis()->TextControl('app_id', 'AppID')->required(),
-            amis()->TextControl('app_secret', 'AppSecret')->required(),
-            amis()->TextControl('token', 'Token'),
-            amis()->TextControl('aes_key', 'AES Key'),
-            amis()->SwitchControl('enable', '启用'),
+            amis()->InputText('app_id', 'AppID')->required(),
+            amis()->InputText('app_secret', 'AppSecret')->required(),
+            amis()->InputText('token', 'Token'),
+            amis()->InputText('aes_key', 'AES Key'),
+            amis()->Switch('enable', '启用'),
         ];
     }
     
@@ -182,9 +183,9 @@ class NoticeConfigController extends AdminController
     private function wechatMiniProgramConfigForm(): array
     {
         return [
-            amis()->TextControl('app_id', 'AppID')->required(),
-            amis()->TextControl('app_secret', 'AppSecret')->required(),
-            amis()->SwitchControl('enable', '启用'),
+            amis()->InputText('app_id', 'AppID')->required(),
+            amis()->InputText('app_secret', 'AppSecret')->required(),
+            amis()->Switch('enable', '启用'),
         ];
     }
     
@@ -196,19 +197,19 @@ class NoticeConfigController extends AdminController
     private function emailConfigForm(): array
     {
         return [
-            amis()->TextControl('smtp_host', 'SMTP服务器')->required(),
-            amis()->TextControl('smtp_username', 'SMTP用户名')->required(),
-            amis()->TextControl('smtp_password', 'SMTP密码')->required(),
-            amis()->NumberControl('smtp_port', 'SMTP端口')->value(465)->required(),
-            amis()->SelectControl('smtp_secure', '加密方式')
+            amis()->InputText('smtp_host', 'SMTP服务器')->required(),
+            amis()->InputText('smtp_username', 'SMTP用户名')->required(),
+            amis()->InputText('smtp_password', 'SMTP密码')->required(),
+            amis()->InputNumber('smtp_port', 'SMTP端口')->value(465)->required(),
+            amis()->Select('smtp_secure', '加密方式')
                 ->options([
                     ['label' => 'SSL', 'value' => 'ssl'],
                     ['label' => 'TLS', 'value' => 'tls'],
                 ])
                 ->value('ssl'),
-            amis()->TextControl('from_email', '发件人邮箱'),
-            amis()->TextControl('from_name', '发件人名称'),
-            amis()->SwitchControl('enable', '启用'),
+            amis()->InputText('from_email', '发件人邮箱'),
+            amis()->InputText('from_name', '发件人名称'),
+            amis()->Switch('enable', '启用'),
         ];
     }
     
@@ -276,7 +277,7 @@ class NoticeConfigController extends AdminController
         
         $formItems = [];
         foreach ($scenes as $scene => $description) {
-            $formItems[] = amis()->CheckboxesControl($scene, $description)
+            $formItems[] = amis()->Checkboxes($scene, $description)
                 ->options($channelOptions);
         }
         

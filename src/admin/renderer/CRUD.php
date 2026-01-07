@@ -3,7 +3,7 @@
 namespace warm\admin\renderer;
 
 /**
- * CRUDTable
+ * CRUD
  *
  * @author  slowlyo
  * @version 6.8.0

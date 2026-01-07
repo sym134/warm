@@ -13,7 +13,7 @@ use warm\admin\renderer\Form;
 use warm\admin\service\AdminService;
 use warm\admin\support\Helper;
 use warm\exception\AdminException;
-use warm\support\Cache;
+use warm\support\facade\Cache;
 use ZipArchive;
 
 /**
@@ -94,14 +94,15 @@ class PluginService extends AdminService
             return false;
         }
         Helper::pauseFileMonitor();
-        [$state, $msg] = runCommand('warm-plugin:create ' . $data['key'] . ' ' . $data['name']);
-        if ($state) {
+        $result = runCommand('warm-plugin:create', ['name' => $data['key'], 'alias' => $data['name']]);
+        var_dump($result);
+        if ($result['status']) {
             Helper::resumeFileMonitor();
             Helper::reloadWebman();
             $this->configApp($data['key']);
             return parent::store($data);
         }
-        $this->setError($msg);
+        $this->setError($result['output']);
         return false;
     }
 
@@ -259,10 +260,10 @@ class PluginService extends AdminService
         if ($configUpdated) {
             // 配置文件更新成功后，再更新数据库
             $result = $this->modelName::query()->where('id', $data['id'])->update(['is_enabled' => $isEnabled]);
-            
+
             // 清除插件缓存以确保状态一致性
             $this->clearPluginCache($plugin->key);
-            
+
             return $result;
         } else {
             // 如果配置文件更新失败，保持数据库状态不变
@@ -314,9 +315,9 @@ class PluginService extends AdminService
             $this->setError('插件不存在');
             return false;
         }
-        
+
         $pluginName = $data['key'];
-        
+
         // 获得插件路径
         clearstatcache();
         $path = get_realpath(base_path() . "/plugin/$data->key");
@@ -354,7 +355,7 @@ class PluginService extends AdminService
 
         // 从数据库中删除插件记录
         $this->modelName::query()->where('key', $data['key'])->delete();
-        
+
         // 清除插件缓存
         $this->clearPluginCache($pluginName);
 
@@ -518,7 +519,7 @@ class PluginService extends AdminService
                 $this->removeDir($targetPluginDir);
                 return false;
             }
-        }finally {
+        } finally {
             Helper::resumeFileMonitor();
         }
 
@@ -750,9 +751,9 @@ class PluginService extends AdminService
 
     /**
      * 检查插件是否已启用
-     * 
+     *
      * 使用共享缓存机制减少数据库查询次数，提高性能和一致性。
-     * 
+     *
      * @param string $pluginName 插件名称
      * @return bool 插件是否已启用
      */
@@ -760,22 +761,22 @@ class PluginService extends AdminService
     {
         // 构造缓存键（避免使用非法字符）
         $cacheKey = "plugin_enabled_status_" . md5($pluginName);
-        
+
         // 尝试从缓存中获取
         $isEnabled = Cache::get($cacheKey, null);
-        
+
         // 缓存未命中
         if ($isEnabled === null) {
             // 查询数据库
             $plugin = $this->modelName::query()->where('key', $pluginName)->first();
-            
+
             // 检查插件是否存在且已启用
             $isEnabled = $plugin && $plugin->is_enabled;
-            
+
             // 将结果存入缓存
             Cache::put($cacheKey, $isEnabled, 60);
         }
-        
+
         return $isEnabled;
     }
 }

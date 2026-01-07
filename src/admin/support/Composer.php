@@ -114,7 +114,7 @@ class Composer
 
         try {
             // 读取并解析JSON文件内容
-            return static::$files[$path] = (array) json_decode(app('files')->get($path), true);
+            return static::$files[$path] = (array) json_decode((new \Illuminate\Filesystem\Filesystem)->get($path), true);
         } catch (\Throwable $e) {
             // 如果解析失败，则返回空数组
         }

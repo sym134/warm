@@ -9,6 +9,7 @@ use warm\admin\controller\AdminController;
 use warm\admin\model\AdminRelationship;
 use warm\admin\renderer\DrawerAction;
 use warm\admin\renderer\Form;
+use warm\admin\renderer\InputTree;
 use warm\admin\renderer\Page;
 use warm\admin\service\AdminRelationshipService;
 use warm\admin\support\cores\Database;
@@ -80,7 +81,7 @@ class RelationshipController extends AdminController
                 ->closeOnOutside()
                 ->closeOnEsc()
                 ->actions([
-                    amis()->VanillaAction()
+                    amis()->Button()
                         ->label(translator('admin.relationships.generate'))
                         ->actionType('submit')
                         ->level('primary'),
@@ -91,7 +92,7 @@ class RelationshipController extends AdminController
                         ->initApi('/dev_tools/relation/all_models')
                         ->mode('normal')
                         ->body([
-                            amis()->TreeControl()
+                            amis()->InputTree()
                                 ->name('check_tables')
                                 ->label()
                                 ->multiple()
@@ -155,7 +156,7 @@ class RelationshipController extends AdminController
         // 模型选择器组件
         $modelSelect = function ($name, $label) {
             return amis()
-                ->SelectControl($name, $label)
+                ->Select($name, $label)
                 ->required()
                 ->menuTpl('${label} <span class="text-gray-300 pl-2">${table}</span>')
                 ->source('/dev_tools/relation/model_options')
@@ -165,14 +166,14 @@ class RelationshipController extends AdminController
         // 字段选择器组件
         $columnSelect = function ($name, $label, $modelField = "_blank_model", $tableField = '_blank_table') {
             return amis()
-                ->TextControl($name, $label)
+                ->InputText($name, $label)
                 ->source('/dev_tools/relation/column_options?model=${' . $modelField . '}&table=${' . $tableField . '}');
         };
 
         // 关系参数配置组件
         $args = function ($type, $items) {
             return amis()
-                ->ComboControl('args', translator('admin.relationships.args'))
+                ->Combo('args', translator('admin.relationships.args'))
                 ->multiLine()
                 ->strictMode(false)
                 ->items($items)
@@ -183,12 +184,12 @@ class RelationshipController extends AdminController
         return $this->baseForm()->data([
             'tables' => Database::getTables(),
         ])->body([
-            amis()->GroupControl()->body([
-                amis()->GroupControl()->direction('vertical')->body([
+            amis()->Group()->body([
+                amis()->Group()->direction('vertical')->body([
                     $modelSelect('model', translator('admin.relationships.model')),
-                    amis()->TextControl('title', translator('admin.relationships.title'))->required()->placeholder('comments'),
-                    amis()->TextControl('remark', translator('admin.relationships.remark')),
-                    amis()->SelectControl('type', translator('admin.relationships.type'))
+                    amis()->InputText('title', translator('admin.relationships.title'))->required()->placeholder('comments'),
+                    amis()->InputText('remark', translator('admin.relationships.remark')),
+                    amis()->Select('type', translator('admin.relationships.type'))
                         ->required()
                         ->value(AdminRelationship::TYPE_BELONGS_TO)
                         ->menuTpl('${label} <span class="text-gray-300 pl-2">${method}</span>')
@@ -214,18 +215,18 @@ class RelationshipController extends AdminController
                     $modelSelect('related', translator('admin.relationships.related_model')),
                     $columnSelect('foreignKey', 'foreignKey', 'model'),
                     $columnSelect('ownerKey', 'ownerKey', 'related'),
-                    amis()->TextControl('relation', 'relation'),
+                    amis()->InputText('relation', 'relation'),
                 ]),
                 // 多对多关系配置
                 $args(AdminRelationship::TYPE_BELONGS_TO_MANY, [
                     // $related, $table = null, $foreignPivotKey = null, $relatedPivotKey = null, $parentKey = null, $relatedKey = null, $relation = null
                     $modelSelect('related', translator('admin.relationships.related_model')),
-                    amis()->SelectControl('table', 'table')->source('${tables}')->searchable(),
+                    amis()->Select('table', 'table')->source('${tables}')->searchable(),
                     $columnSelect('foreignPivotKey', 'foreignPivotKey', '_blank_model', 'table'),
                     $columnSelect('relatedPivotKey', 'relatedPivotKey', '_blank_model', 'table'),
                     $columnSelect('parentKey', 'parentKey', 'model'),
                     $columnSelect('relatedKey', 'relatedKey', 'related'),
-                    amis()->TextControl('relation', 'relation'),
+                    amis()->InputText('relation', 'relation'),
                 ]),
                 // 远程一对一关系配置
                 $args(AdminRelationship::TYPE_HAS_ONE_THROUGH, [
@@ -251,31 +252,31 @@ class RelationshipController extends AdminController
                 $args(AdminRelationship::TYPE_MORPH_ONE, [
                     // $related, $name, $type = null, $id = null, $localKey = null
                     $modelSelect('related', translator('admin.relationships.related_model')),
-                    amis()->TextControl('name', 'name')->required(),
-                    amis()->TextControl('type', 'type'),
-                    amis()->TextControl('id', 'id'),
+                    amis()->InputText('name', 'name')->required(),
+                    amis()->InputText('type', 'type'),
+                    amis()->InputText('id', 'id'),
                     $columnSelect('localKey', 'localKey', 'model'),
                 ]),
                 // 一对多(多态)关系配置
                 $args(AdminRelationship::TYPE_MORPH_MANY, [
                     // $related, $name, $type = null, $id = null, $localKey = null
                     $modelSelect('related', translator('admin.relationships.related_model')),
-                    amis()->TextControl('name', 'name')->required(),
-                    amis()->TextControl('type', 'type'),
-                    amis()->TextControl('id', 'id'),
+                    amis()->InputText('name', 'name')->required(),
+                    amis()->InputText('type', 'type'),
+                    amis()->InputText('id', 'id'),
                     $columnSelect('localKey', 'localKey', 'model'),
                 ]),
                 // 多对多(多态)关系配置
                 $args(AdminRelationship::TYPE_MORPH_TO_MANY, [
                     // $related, $name, $table = null, $foreignPivotKey = null, $relatedPivotKey = null, $parentKey = null, $relatedKey = null, $inverse = false
                     $modelSelect('related', translator('admin.relationships.related_model')),
-                    amis()->TextControl('name', 'name')->required(),
-                    amis()->SelectControl('table', 'table')->source('${tables}')->searchable(),
+                    amis()->InputText('name', 'name')->required(),
+                    amis()->Select('table', 'table')->source('${tables}')->searchable(),
                     $columnSelect('foreignPivotKey', 'foreignPivotKey', '_blank_model', 'table'),
                     $columnSelect('relatedPivotKey', 'relatedPivotKey', '_blank_model', 'table'),
                     $columnSelect('parentKey', 'parentKey', 'model'),
                     $columnSelect('relatedKey', 'relatedKey', 'related'),
-                    amis()->TextControl('inverse', 'inverse'),
+                    amis()->InputText('inverse', 'inverse'),
                 ]),
             ]),
         ]);

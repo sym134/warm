@@ -66,15 +66,15 @@ class AdminLoginLogController extends AdminController
     public function form($isEdit = false): Form
     {
         return $this->baseForm()->body([
-            amis()->TextControl('username', '用户名'),
-            amis()->TextControl('ip', '登录IP地址'),
-            amis()->TextControl('ip_location', 'IP所属地'),
-            amis()->TextControl('os', '操作系统'),
-            amis()->TextControl('browser', '浏览器'),
-            amis()->TextControl('status', '登录状态'),
-            amis()->TextControl('message', '提示消息'),
-            amis()->TextControl('login_time', '登录时间'),
-            amis()->TextControl('remark', '备注'),
+            amis()->InputText('username', '用户名'),
+            amis()->InputText('ip', '登录IP地址'),
+            amis()->InputText('ip_location', 'IP所属地'),
+            amis()->InputText('os', '操作系统'),
+            amis()->InputText('browser', '浏览器'),
+            amis()->InputText('status', '登录状态'),
+            amis()->InputText('message', '提示消息'),
+            amis()->InputText('login_time', '登录时间'),
+            amis()->InputText('remark', '备注'),
         ]);
     }
 
@@ -88,18 +88,18 @@ class AdminLoginLogController extends AdminController
     public function detail(): Form
     {
         return $this->baseDetail()->body([
-            amis()->TextControl('id', 'ID')->static(),
-            amis()->TextControl('username', '用户名')->static(),
-            amis()->TextControl('ip', '登录IP地址')->static(),
-            amis()->TextControl('ip_location', 'IP所属地')->static(),
-            amis()->TextControl('os', '操作系统')->static(),
-            amis()->TextControl('browser', '浏览器')->static(),
-            amis()->TextControl('status', '登录状态')->static(),
-            amis()->TextControl('message', '提示消息')->static(),
-            amis()->TextControl('login_time', '登录时间')->static(),
-            amis()->TextControl('remark', '备注')->static(),
-            amis()->TextControl('created_at', translator('admin.created_at'))->static(),
-            amis()->TextControl('updated_at', translator('admin.updated_at'))->static(),
+            amis()->InputText('id', 'ID')->static(),
+            amis()->InputText('username', '用户名')->static(),
+            amis()->InputText('ip', '登录IP地址')->static(),
+            amis()->InputText('ip_location', 'IP所属地')->static(),
+            amis()->InputText('os', '操作系统')->static(),
+            amis()->InputText('browser', '浏览器')->static(),
+            amis()->InputText('status', '登录状态')->static(),
+            amis()->InputText('message', '提示消息')->static(),
+            amis()->InputText('login_time', '登录时间')->static(),
+            amis()->InputText('remark', '备注')->static(),
+            amis()->InputText('created_at', translator('admin.created_at'))->static(),
+            amis()->InputText('updated_at', translator('admin.updated_at'))->static(),
         ]);
     }
 }

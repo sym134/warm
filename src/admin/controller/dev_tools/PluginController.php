@@ -99,7 +99,7 @@ class PluginController extends AdminController
      */
     public function list(): CRUD
     {
-        return amis()->CRUDTable()
+        return amis()->CRUD()
             ->perPage(20)
             ->affixHeader(false)
             ->filterTogglable()
@@ -111,7 +111,7 @@ class PluginController extends AdminController
             ->source('${rows | filter:alias:match:keywords}')
             ->filter(
                 $this->baseFilter()->body([
-                    amis()->TextControl()
+                    amis()->InputText()
                         ->name('name')
                         ->label(translator('admin.plugins.form.name'))
                         ->placeholder(translator('admin.plugins.filter_placeholder'))
@@ -234,10 +234,10 @@ class PluginController extends AdminController
                             ->showIcon()
                             ->body(translator('admin.plugins.create_tips', ['dir' => Admin::warmConfig('app.plugin.dir')])),
                         // 插件名称输入框
-                        amis()->TextControl()->name('key')->label(translator('admin.plugins.form.key'))
+                        amis()->InputText()->name('key')->label(translator('admin.plugins.form.key'))
                             ->placeholder('foo')
                             ->required(),
-                        amis()->TextControl()->name('name')->label(translator('admin.plugins.form.name'))
+                        amis()->InputText()->name('name')->label(translator('admin.plugins.form.name'))
                             ->placeholder('foo')
                             ->required(),
                     ])
@@ -328,7 +328,7 @@ class PluginController extends AdminController
             ->dialog(
                 amis()->Dialog()->title(translator('admin.plugins.local_install'))->showErrorMsg(false)->body(
                     amis()->Form()->mode('normal')->api('post:' . admin_url('dev_tools/plugins/install'))->body([
-                        amis()->FileControl()->name('file')->label()->required()->drag()->accept('.zip'),
+                        amis()->InputFile()->name('file')->label()->required()->drag()->accept('.zip'),
                     ])
                 )
             );

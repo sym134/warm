@@ -4,8 +4,8 @@ namespace warm\admin\support\cores;
 
 
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Hash;
 use support\Db as DB;
+use warm\support\facade\Hash;
 
 /**
  * 数据库管理类
@@ -407,11 +407,11 @@ class Database
             $data(['name' => '系统', 'slug' => 'system', 'http_path' => '', "parent_id" => 0]),
             $data(['name' => '权限管理', 'slug' => 'admin_permission_management', 'http_path' => '', "parent_id" => 0]),
             $data(['name' => '监控', 'slug' => 'admin_monitor', 'http_path' => '', "parent_id" => 0]),
-            $data(['name' => '应用', 'slug' => 'system', 'http_path' => '', "parent_id" => 0]),
+            $data(['name' => '应用', 'slug' => 'app', 'http_path' => '', "parent_id" => 0]),
 
             $data(['name' => '监控日志', 'slug' => 'admin_log_monitoring', 'http_path' => '', "parent_id" => 4]),
 
-            $data(['name' => '接口设置', 'slug' => 'system', 'http_path' => '', "parent_id" => 2]),
+            $data(['name' => '接口设置', 'slug' => 'api', 'http_path' => '', "parent_id" => 2]),
             $data(['name' => '短信设置', 'slug' => '', 'http_path' => '/setting/other_config/sms/index', "parent_id" => 7]),
 
 

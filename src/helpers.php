@@ -1,12 +1,13 @@
 <?php
 
-use Illuminate\Container\Container;
 use Illuminate\Contracts\Auth\Authenticatable;
-use Illuminate\Contracts\Validation\Factory as ValidationFactory;
-use Illuminate\Contracts\Validation\Validator as ValidatorContract;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Storage;
+use support\Container;
 use support\Db;
+use support\Translation;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\BufferedOutput;
+use think\Validate;
 use warm\admin\admin;
 use warm\admin\model\AdminUser;
 use warm\admin\renderer\Amis;
@@ -15,7 +16,11 @@ use warm\admin\service\AdminPageService;
 use warm\admin\support\Pipeline;
 use warm\common\service\SystemConfigService;
 use warm\exception\AdminException;
-use warm\support\Cache;
+use warm\framework\filesystem\facade\Storage;
+use warm\support\facade\Cache;
+use warm\support\facade\Hash;
+use Webman\Console\Command;
+use Webman\Console\Util;
 
 if (!function_exists('app')) {
     /**
@@ -25,13 +30,83 @@ if (!function_exists('app')) {
      *
      * @param null $abstract
      * @param array $parameters
-     * @return ($abstract is class-string<TClass> ? TClass : ($abstract is null ? Container : mixed))
+     * @return ($abstract is class-string<TClass> ? TClass : ($abstract is null ? mixed : mixed))
      */
-    function app($abstract = null, array $parameters = [])
+    function app($abstract = null, array $parameters = []): mixed
     {
-        $container = \warm\bootstrap\LaravelBridge::app();
-        if (is_null($abstract)) return $container;
-        return $container->make($abstract, $parameters);
+        // 使用 webman Container
+        if (is_null($abstract)) {
+            return \support\Container::instance();
+        }
+
+        // 尝试从容器获取
+        // 注意：webman Container 的 has() 可能不会识别所有 instance() 注册的服务
+        // 所以我们直接尝试 get()，如果失败再尝试其他方式
+        try {
+            $instance = \support\Container::get($abstract);
+            // 如果是闭包，执行它
+            if ($instance instanceof \Closure) {
+                return $instance();
+            }
+            // 如果是字符串类名，实例化它
+            if (is_string($instance) && class_exists($instance)) {
+                return \support\Container::make($instance, $parameters);
+            }
+            return $instance;
+        } catch (\Throwable $e) {
+            // get() 失败，尝试直接实例化类
+            if (class_exists($abstract)) {
+                return \support\Container::make($abstract, $parameters);
+            }
+            // 如果都不是，抛出原始异常或新的异常
+            throw new \RuntimeException("Service [{$abstract}] not found.", 0, $e);
+        }
+    }
+}
+
+/**
+ * 验证函数
+ *
+ * 生成并返回验证对象，支持验证器类和验证规则数组两种方式
+ *
+ * @param string|array $validate 验证器类名或者验证规则数组
+ * @param array $message 错误提示信息
+ * @param bool $batch 是否批量验证
+ * @param bool $failException 是否抛出异常
+ * @return Validate 验证对象
+ */
+if (!function_exists('validate')) {
+    /**
+     * 生成验证对象
+     * @param array|string $validate 验证器类名或者验证规则数组
+     * @param array $message 错误提示信息
+     * @param bool $batch 是否批量验证
+     * @param bool $failException 是否抛出异常
+     * @return Validate
+     */
+    function validate(array|string $validate = '', array $message = [], bool $batch = false, bool $failException = true): Validate
+    {
+        if (is_array($validate) || '' === $validate) {
+            $v = new Validate();
+            if (is_array($validate)) {
+                $v->rule($validate);
+            }
+        } else {
+            if (str_contains($validate, '.')) {
+                // 支持场景
+                [$validate, $scene] = explode('.', $validate);
+            }
+
+            $class = str_contains($validate, '\\') ? $validate : app()->parseClass('validate', $validate);
+
+            $v = new $class();
+
+            if (!empty($scene)) {
+                $v->scene($scene);
+            }
+        }
+
+        return $v->message($message)->batch($batch)->failException($failException);
     }
 }
 
@@ -61,28 +136,6 @@ if (!function_exists('cache')) {
     }
 }
 
-if (!function_exists('validator')) {
-    /**
-     * Create a new Validator instance.
-     *
-     * @param array|null $data
-     * @param array $rules
-     * @param array $messages
-     * @param array $attributes
-     * @return ValidatorContract|ValidationFactory
-     */
-    function validator(?array $data = null, array $rules = [], array $messages = [], array $attributes = []): ValidatorContract|ValidationFactory
-    {
-        $factory = app('validator');
-
-        if (func_num_args() === 0) {
-            return $factory;
-        }
-
-        return $factory->make($data ?? [], $rules, $messages, $attributes);
-    }
-}
-
 /**
  * Bcrypt哈希函数
  *
@@ -102,7 +155,7 @@ if (!function_exists('bcrypt')) {
      */
     function bcrypt(string $value, array $options = []): string
     {
-        return app('hash')->make($value, $options);
+        return Hash::make($value, $options);
     }
 }
 
@@ -518,33 +571,22 @@ if (!function_exists('map2options')) {
 if (!function_exists('translator')) {
     function translator(string $key, array $replace = [], string|null $locale = null): ?string
     {
-        $loader = app('translator')->getLoader();
-
-        if (str_contains($key, '::')) {
-            [$plugin,] = explode('::', $key, 2);
-
-            if (method_exists($loader, 'addNamespace')) {
-                $langDir = base_path("plugin/{$plugin}/lang");
-                if (is_dir($langDir)) {
-                    $loader->addNamespace($plugin, $langDir);
-                }
-            }
+        if (empty($key)) {
+            return $key;
         }
-        return app('translator')->get($key, $replace, $locale);
-
-
-//        if (empty($key)) {
-//            return $key;
-//        }
-//        if (str_contains($key, '::')) {
-//            [$domain, $item] = explode('::', $key, 2);
-//            $itemSegments = explode('.', $item);
-//            return Translation::instance($domain)
-//                ->trans(count($itemSegments) === 1 ? null : implode('.', array_slice($itemSegments, 1)), $replace, $itemSegments[0], $locale);
-//        } else {
-//            $itemSegments = explode('.', $key);
-//            return Translation::trans(count($itemSegments) === 1 ? null : implode('.', array_slice($itemSegments, 1)), $replace, $itemSegments[0], $locale);
-//        }
+        if (str_contains($key, '::')) {
+            [$domain, $item] = explode('::', $key, 2);
+            $itemSegments = explode('.', $item);
+            try {
+                return Translation::instance($domain)
+                    ->trans(count($itemSegments) === 1 ? null : implode('.', array_slice($itemSegments, 1)), $replace, $itemSegments[0], $locale);
+            } catch (\Webman\Exception\NotFoundException $e) {
+                return $key;
+            }
+        } else {
+            $itemSegments = explode('.', $key);
+            return Translation::trans(count($itemSegments) === 1 ? null : implode('.', array_slice($itemSegments, 1)), $replace, $itemSegments[0], $locale);
+        }
     }
 }
 
@@ -608,16 +650,64 @@ if (!function_exists('abort')) {
  * @return array 执行结果数组，第一个元素为是否成功，第二个为输出内容
  */
 if (!function_exists('runCommand')) {
-    // 执行命令
-    function runCommand(string $commandName, array $arguments = []): array
+    function runCommand(string $commandName, array $args = []): array
     {
-        $array = explode(' ', 'php webman ' . $commandName);
-        $array = array_merge($array, $arguments);
-        // 创建进程对象
-        $process = new Symfony\Component\Process\Process($array);
-        // 执行命令
-        $process->run();
-        return [$process->isSuccessful(), $process->getOutput()];
+        try {
+            // 创建命令实例
+            $cli = new Command();
+            $cli->setName('webman cli');
+            $cli->setAutoExit(false);
+            $cli->installInternalCommands();
+
+            // 安装应用命令
+            if (is_dir($command_path = Util::guessPath(app_path(), '/command', true))) {
+                $cli->installCommands($command_path);
+            }
+
+            foreach (config('plugin', []) as $firm => $projects) {
+                if (isset($projects['app'])) {
+                    foreach (['', '/app'] as $app) {
+                        if ($command_str = Util::guessPath(base_path() . "/plugin/$firm{$app}", 'command')) {
+                            $command_path = base_path() . "/plugin/$firm{$app}/$command_str";
+                            $cli->installCommands($command_path, "plugin\\$firm" . str_replace('/', '\\', $app) . "\\$command_str");
+                        }
+                    }
+                }
+                foreach ($projects as $name => $project) {
+                    if (!is_array($project)) {
+                        continue;
+                    }
+                    foreach ($project['command'] ?? [] as $class_name) {
+                        $reflection = new \ReflectionClass($class_name);
+                        if ($reflection->isAbstract()) {
+                            continue;
+                        }
+                        $properties = $reflection->getStaticProperties();
+                        $name = $properties['defaultName'];
+                        if (!$name) {
+                            throw new RuntimeException("Command {$class_name} has no defaultName");
+                        }
+                        $description = $properties['defaultDescription'] ?? '';
+                        $command = Container::get($class_name);
+                        $command->setName($name)->setDescription($description);
+                        $cli->add($command);
+                    }
+                }
+            }
+
+            // 构建输入：命令名 + 参数
+            $inputArray = array_merge([$commandName], $args);
+
+            // 执行命令
+            $input = new ArrayInput($inputArray);
+            $output = new BufferedOutput();
+            $exitCode = $cli->run($input, $output);
+            return ['status' => $exitCode === 0, 'output' => $output->fetch()];
+
+//            return [$exitCode === 0, $output->fetch()];
+        } catch (\Throwable $e) {
+            return [false, $e->getMessage()];
+        }
     }
 }
 
@@ -630,9 +720,10 @@ if (!function_exists('runCommand')) {
  * @return string 完整路径
  */
 if (!function_exists('database_path')) {
-    function database_path($name): string
+    function database_path($name = ''): string
     {
-        return 'database/' . $name;
+        $path = base_path('database');
+        return $name ? $path . '/' . ltrim($name, '/') : $path;
     }
 }
 

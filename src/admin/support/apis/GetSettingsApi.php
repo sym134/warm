@@ -55,14 +55,14 @@ class GetSettingsApi extends AdminBaseApi
             'label' => $i,
         ])->toArray();
         return [
-            amis()->RadiosControl('mode', '获取模式')->options([
+            amis()->Radios('mode', '获取模式')->options([
                 ['value' => 'all', 'label' => '所有'],
                 ['value' => 'part', 'label' => '部分'],
                 ['value' => 'one', 'label' => '单个'],
             ])->selectFirst(),
-            amis()->TextControl('key', '设置项')->required()->visibleOn('${mode == "one"}')->options($allKeys),
-            amis()->ArrayControl('keys', '设置项')->required()->visibleOn('${mode == "part"}')->items([
-                amis()->TextControl('value')->required()->options($allKeys),
+            amis()->InputText('key', '设置项')->required()->visibleOn('${mode == "one"}')->options($allKeys),
+            amis()->InputArray('keys', '设置项')->required()->visibleOn('${mode == "part"}')->items([
+                amis()->InputText('value')->required()->options($allKeys),
             ]),
         ];
     }

@@ -188,9 +188,4 @@ class SystemConfigService
     {
         return static::$cacheKeyPrefix . $key;
     }
-
-    public static function filesystems()
-    {
-
-    }
 }

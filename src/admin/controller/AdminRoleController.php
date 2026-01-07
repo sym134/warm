@@ -5,6 +5,7 @@ namespace warm\admin\controller;
 use support\Response;
 use warm\admin\renderer\DrawerAction;
 use warm\admin\renderer\Form;
+use warm\admin\renderer\InputTree;
 use warm\admin\renderer\Page;
 use warm\admin\service\AdminPermissionService;
 use warm\admin\service\AdminRoleService;
@@ -99,7 +100,7 @@ class AdminRoleController extends AdminController
                             ->mode('normal')
                             ->data(['id' => '${id}'])
                             ->body([
-                                amis()->TreeControl()
+                                amis()->InputTree()
                                     ->name('permissions')
                                     ->label()
                                     ->multiple()
@@ -143,8 +144,8 @@ class AdminRoleController extends AdminController
     public function form(): Form
     {
         return $this->baseForm()->body([
-            amis()->TextControl()->label(translator('admin.admin_role.name'))->name('name')->required(),
-            amis()->TextControl()
+            amis()->InputText()->label(translator('admin.admin_role.name'))->name('name')->required(),
+            amis()->InputText()
                 ->label(translator('admin.admin_role.slug'))
                 ->name('slug')
                 ->description(translator('admin.admin_role.slug_description'))

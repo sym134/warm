@@ -15,4 +15,12 @@ return [
     \warm\command\AppPluginCreateCommand::class,
     // 添加微信菜单命令
     \warm\command\AddWechatMenuCommand::class,
+    // Laravel 迁移命令
+    \warm\command\MigrateCommand::class,
+    \warm\command\MigrateInstallCommand::class,
+    \warm\command\MigrateRollbackCommand::class,
+    \warm\command\MigrateRefreshCommand::class,
+    \warm\command\MigrateResetCommand::class,
+    \warm\command\MigrateStatusCommand::class,
+    \warm\command\MigrateMakeCommand::class,
 ];

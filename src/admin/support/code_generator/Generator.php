@@ -243,7 +243,7 @@ class Generator
      * @return string 生成结果信息
      * @throws Throwable
      */
-    public function generate($id, $needs = []): string
+    public function generate(int $id, array $needs = []): string
     {
         $record = AdminCodeGenerator::find($id);
         $model = AdminCodeGenerator::find($id);
@@ -287,11 +287,6 @@ class Generator
                 $paths[] = $path;
             }
 
-            // Route
-            $path = RouteGenerator::handle($record->menu_info);
-            $message .= $successMessage('Route', $path);
-
-
             // Migration
             $migratePath = '';
             if ($needs->contains('need_database_migration')) {
@@ -304,20 +299,26 @@ class Generator
 
             // 创建数据库表
             if ($needs->contains('need_create_table')) {
-                if (DB::schema()->hasTable($record->table_name)) {
-                    abort(400, "Table [{$record->table_name}] already exists!");
+                if (DB::schema()->hasTable($record->getAttribute('table_name'))) {
+                    abort(400, "Table [{$record->getAttribute('table_name')}] already exists!");
                 }
 
                 if (!$migratePath) {
-                    $migratePath = $record->save_path['directory'];
-                    $migratePath = $migratePath === 'app' ? base_path('/database/migrations') : plugin_path($migratePath . '/database/migrations');
+                    $migratePath = $record->getAttribute('save_path')['directory'];
+                    $migratePath = $migratePath === 'app' ? 'database/migrations' : $migratePath . '/database/migrations';
                 }
-                $output = runCommand('migrate:run --path=' . $migratePath)[0];
+                var_dump($migratePath);
+                $output = runCommand('migrate',['--path' => $migratePath])['output'];
                 $message .= $successMessage('Table', $output);
             }
+
+            // Route
+            $path = RouteGenerator::handle($record->getAttribute('menu_info'));
+            $message .= $successMessage('Route', $path);
+
         } catch (Throwable $e) {
             if (count($paths) > 0) {
-                app('files')->delete($paths);
+                (new \Illuminate\Filesystem\Filesystem)->delete($paths);
             }
 
             RouteGenerator::refresh();

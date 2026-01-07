@@ -193,7 +193,7 @@ class RendererMap
         'steps'                   => Steps::class,
         'submit'                  => Button::class,
         'swift-editor'            => Editor::class,
-        'switch'                  => SwitchControl::class,
+        'switch'                  => SwitchClass::class,
         'switch-container'        => SwitchContainer::class,
         'table'                   => Table::class,
         'table-view'              => TableView::class,

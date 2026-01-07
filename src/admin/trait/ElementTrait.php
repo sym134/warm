@@ -262,7 +262,7 @@ trait ElementTrait
      */
     protected function baseFilterConditionBuilder(): ConditionBuilder
     {
-        return amis()->ConditionBuilderControl('filter_condition_builder');
+        return amis()->ConditionBuilder('filter_condition_builder');
     }
 
     /**
@@ -274,7 +274,7 @@ trait ElementTrait
     {
         $crudId = str_replace('/', '.', request()->path()) . '.crud';
 
-        $crud = amis()->CRUDTable()
+        $crud = amis()->CRUD()
             ->id($crudId)
             ->perPage(20)
             ->alwaysShowPagination()
@@ -289,7 +289,7 @@ trait ElementTrait
                 'statistics',
                 // 重写实现 CRUD 自带的页码切换组件, 解决下拉被遮挡的问题
                 amis()->Form()->wrapWithPanel(false)->body([
-                    amis()->SelectControl('perPage')
+                    amis()->Select('perPage')
                         ->options(array_map(
                             fn($i) => ['label' => $i . ' ' . translator('admin.per_page_suffix'), 'value' => $i],
                             [10, 20, 30, 50, 100, 200]
@@ -425,17 +425,17 @@ trait ElementTrait
         // 按钮
         $buttons = [
             // 导出全部
-            amis()->VanillaAction()->label(translator('admin.export.all'))->onEvent(
+            amis()->Button()->label(translator('admin.export.all'))->onEvent(
                 $event("let data=event.data;let params=Object.keys(data).filter(key=>key!=='page' && key!=='__super').reduce((obj,key)=>{obj[key]=data[key];return obj;},{});let url=new URL('{$exportPath}',window.location.origin);Object.keys(params).forEach(key=>url.searchParams.append(key,(typeof params[key] == 'string' ? params[key] : JSON.stringify(params[key]))));{$doAction}")
             ),
             // 导出本页
-            amis()->VanillaAction()->label(translator('admin.export.page'))->onEvent(
+            amis()->Button()->label(translator('admin.export.page'))->onEvent(
                 $event("let ids=event.data.items.map(item=>item.{$primaryKey});if(ids.length===0){return doAction({actionType:'toast',args:{msgType:'warning',msg:'{$pageNoData}'}})};let url=new URL('{$exportPath}',window.location.origin);url.searchParams.append('_ids',ids.join(','));{$doAction}")
             ),
         ];
         // 导出选中项
         if (!$disableSelectedItem) {
-            $buttons[] = amis()->VanillaAction()->label(translator('admin.export.selected_rows'))->onEvent(
+            $buttons[] = amis()->Button()->label(translator('admin.export.selected_rows'))->onEvent(
                 $event("let ids=event.data.selectedItems.map(item=>item.{$primaryKey});if(ids.length===0){return doAction({actionType:'toast',args:{msgType:'warning',msg:'{$selectedNoData}'}})};let url=new URL('{$exportPath}',window.location.origin);url.searchParams.append('_ids',ids.join(','));{$doAction}")
             );
         }

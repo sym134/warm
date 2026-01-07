@@ -42,9 +42,9 @@ class SystemCrontabController extends AdminController
             // ])
             ->filter(
                 amis()->Form()->api(['method' => 'get', 'url' => admin_url('/system/crontab')])->body([
-                    amis()->TextControl('name', translator('crontab.name'))->clearable(true),
-                    amis()->SelectControl('task_type', translator('crontab.task_type'))->options(SystemCrontab::TASK_TYPE)->clearable(true),
-                    amis()->SelectControl('task_status', translator('crontab.task_status'))->options([
+                    amis()->InputText('name', translator('crontab.name'))->clearable(true),
+                    amis()->Select('task_type', translator('crontab.task_type'))->options(SystemCrontab::TASK_TYPE)->clearable(true),
+                    amis()->Select('task_status', translator('crontab.task_status'))->options([
                         1 => '启用',
                         2 => '禁用'
                     ])->clearable(true),
@@ -59,7 +59,7 @@ class SystemCrontabController extends AdminController
                 amis()->TableColumn('task_status', translator('crontab.task_status'))->quickEdit(['mode' => 'inline', 'type' => 'switch', 'saveImmediately' => true]),
                 amis()->TableColumn('created_at', translator('admin.created_at'))->sortable(),
                 $this->rowActions([
-                    amis()->VanillaAction()->id('u:a53d1837f6be')->label(translator('crontab.run'))->icon('fa-solid fa-play')->level('link')
+                    amis()->Button()->id('u:a53d1837f6be')->label(translator('crontab.run'))->icon('fa-solid fa-play')->level('link')
                         ->onEvent(['click' => [
                             'actions' => [[
                                 'ignoreError' => '',
@@ -98,7 +98,7 @@ class SystemCrontabController extends AdminController
             'minute' => 30,
             'second' => 1,
         ])->body([
-            amis()->SelectControl('task_type', translator('crontab.task_type'))->options(SystemCrontab::TASK_TYPE)->value(1)
+            amis()->Select('task_type', translator('crontab.task_type'))->options(SystemCrontab::TASK_TYPE)->value(1)
                 ->required()
                 ->onEvent([
                     'change' => [
@@ -111,10 +111,10 @@ class SystemCrontabController extends AdminController
                         ],
                     ],
                 ]),
-            amis()->TextControl('name', translator('crontab.name'))->id('name')->required()->value(SystemCrontab::TASK_TYPE[1])
+            amis()->InputText('name', translator('crontab.name'))->id('name')->required()->value(SystemCrontab::TASK_TYPE[1])
                 ->description(translator('crontab.name_description')),
-            amis()->GroupControl()->label(translator('crontab.execution_cycle'))->body([
-                amis()->SelectControl('execution_cycle')->mode('inline')->options([
+            amis()->Group()->label(translator('crontab.execution_cycle'))->body([
+                amis()->Select('execution_cycle')->mode('inline')->options([
                     'day'      => translator('crontab.execution_cycle_options.day'),
                     'day-n'    => translator('crontab.execution_cycle_options.day-n'),
                     'hour'     => translator('crontab.execution_cycle_options.hour'),
@@ -125,7 +125,7 @@ class SystemCrontabController extends AdminController
                     'second-n' => translator('crontab.execution_cycle_options.second-n'),
                 ])->value('day'),
 
-                amis()->SelectControl('week')->mode('inline')->options([
+                amis()->Select('week')->mode('inline')->options([
                     0 => '星期日',
                     1 => '星期一',
                     2 => '星期二',
@@ -134,28 +134,28 @@ class SystemCrontabController extends AdminController
                     5 => '星期五',
                     6 => '星期六',
                 ])->value(1)->visibleOn('execution_cycle===\'week\''),
-                amis()->InputGroupControl()->mode('inline')->visibleOn('execution_cycle===\'day-n\'||execution_cycle===\'month\'')->body([
-                    amis()->NumberControl('day')->mode('inline')->value(1)->min(1)->max(31),
+                amis()->InputGroup()->mode('inline')->visibleOn('execution_cycle===\'day-n\'||execution_cycle===\'month\'')->body([
+                    amis()->InputNumber('day')->mode('inline')->value(1)->min(1)->max(31),
                     amis()->Button()->level('secondary')->label(translator('crontab.day')),
                 ]),
-                amis()->InputGroupControl()->mode('inline')->visibleOn('execution_cycle!==\'hour\'&&execution_cycle!==\'minute-n\'&&execution_cycle!==\'second-n\'')->body([
-                    amis()->NumberControl('hour')->value(1)->min(0)->max(23),
+                amis()->InputGroup()->mode('inline')->visibleOn('execution_cycle!==\'hour\'&&execution_cycle!==\'minute-n\'&&execution_cycle!==\'second-n\'')->body([
+                    amis()->InputNumber('hour')->value(1)->min(0)->max(23),
                     amis()->Button()->level('secondary')->label(translator('crontab.hour')),
                 ]),
-                amis()->InputGroupControl()->mode('inline')->visibleOn('execution_cycle!==\'second-n\'')->body([
-                    amis()->NumberControl('minute')->value(30)->min(0)->max(59),
+                amis()->InputGroup()->mode('inline')->visibleOn('execution_cycle!==\'second-n\'')->body([
+                    amis()->InputNumber('minute')->value(30)->min(0)->max(59),
                     amis()->Button()->level('secondary')->label(translator('crontab.minute')),
                 ]),
-                amis()->InputGroupControl()->mode('inline')->visibleOn('execution_cycle==\'second-n\'')->body([
-                    amis()->NumberControl('second')->value(1)->min(1)->max(59),
+                amis()->InputGroup()->mode('inline')->visibleOn('execution_cycle==\'second-n\'')->body([
+                    amis()->InputNumber('second')->value(1)->min(1)->max(59),
                     amis()->Button()->level('secondary')->label(translator('crontab.second')),
                 ]),
 
             ]),
-            amis()->TextControl('target', translator('crontab.target'))->required()->description(translator('crontab.target_description')),
+            amis()->InputText('target', translator('crontab.target'))->required()->description(translator('crontab.target_description')),
             amis()->BaseRenderer()->set('type', 'json-schema')->set('name', 'parameter')->set('label', translator('crontab.parameter')),
-            amis()->SwitchControl('task_status', translator('crontab.task_status'))->trueValue(1)->falseValue(2)->required()->value(1),
-            amis()->TextControl('remark', translator('crontab.remark')),
+            amis()->Switch('task_status', translator('crontab.task_status'))->trueValue(1)->falseValue(2)->required()->value(1),
+            amis()->InputText('remark', translator('crontab.remark')),
         ]);
     }
 

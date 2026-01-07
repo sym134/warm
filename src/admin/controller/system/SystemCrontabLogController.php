@@ -46,7 +46,7 @@ class SystemCrontabLogController extends AdminController
             ->filterTogglable(false)
             ->filter(
                 amis()->Form()->submitOnChange(true)->body([
-                    amis()->SelectControl('execution_status', translator('crontab.crontab_log.execution_status'))
+                    amis()->Select('execution_status', translator('crontab.crontab_log.execution_status'))
                     ->options(map2options(SystemCrontabLog::EXECUTION_STATUS))->clearable(true),
                 ])
             )
@@ -80,14 +80,14 @@ class SystemCrontabLogController extends AdminController
     public function detail()
     {
         return $this->baseDetail()->body([
-            amis()->TextControl('id', 'ID')->static(),
-            amis()->TextControl('crontab_id', translator('crontab.crontab_log.crontab_id'))->static(),
-            amis()->TextControl('target', translator('crontab.crontab_log.target'))->static(),
-            amis()->InputGroupControl()->label(translator('crontab.crontab_log.parameter'))->body([
+            amis()->InputText('id', 'ID')->static(),
+            amis()->InputText('crontab_id', translator('crontab.crontab_log.crontab_id'))->static(),
+            amis()->InputText('target', translator('crontab.crontab_log.target'))->static(),
+            amis()->InputGroup()->label(translator('crontab.crontab_log.parameter'))->body([
                 amis()->Json()->name('parameter'),
             ]),
-            amis()->TextControl('exception_info', translator('crontab.crontab_log.exception_info'))->static(),
-            amis()->SelectControl('execution_status', translator('crontab.crontab_log.execution_status'))->options(map2options(SystemCrontabLog::EXECUTION_STATUS))->static(),
+            amis()->InputText('exception_info', translator('crontab.crontab_log.exception_info'))->static(),
+            amis()->Select('execution_status', translator('crontab.crontab_log.execution_status'))->options(map2options(SystemCrontabLog::EXECUTION_STATUS))->static(),
         ]);
     }
 }

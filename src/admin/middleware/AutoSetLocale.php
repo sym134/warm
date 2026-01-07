@@ -2,7 +2,6 @@
 
 namespace warm\admin\middleware;
 
-use Illuminate\Support\Facades\Lang;
 use warm\common\service\SystemConfigService;
 use Webman\Http\Request;
 use Webman\Http\Response;
@@ -39,7 +38,7 @@ class AutoSetLocale implements MiddlewareInterface
         $locale = request()->header('locale', SystemConfigService::get('admin_locale'));
 
         // 切换系统语言环境
-        Lang::setLocale($locale);
+        locale($locale);
 
         return $handler($request);
     }

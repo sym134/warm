@@ -3,7 +3,7 @@
 namespace warm\admin\renderer;
 
 /**
- * TableSchema2
+ * Table2
  *
  * @author  slowlyo
  * @version 6.8.0

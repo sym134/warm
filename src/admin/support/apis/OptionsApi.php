@@ -51,16 +51,16 @@ class OptionsApi extends AdminBaseApi
     {
         return [
             amis()
-                ->SelectControl('model', translator('admin.relationships.model'))
+                ->Select('model', translator('admin.relationships.model'))
                 ->required()
                 ->menuTpl('${label} <span class="text-gray-300 pl-2">${table}</span>')
                 ->source('/dev_tools/relation/model_options')
                 ->searchable(),
             amis()
-                ->TextControl('value_field', 'Value 字段')
+                ->InputText('value_field', 'Value 字段')
                 ->source('/dev_tools/relation/column_options?model=${model}'),
             amis()
-                ->TextControl('label_field', 'Label 字段')
+                ->InputText('label_field', 'Label 字段')
                 ->source('/dev_tools/relation/column_options?model=${model}'),
         ];
     }

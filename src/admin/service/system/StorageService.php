@@ -23,7 +23,7 @@ class StorageService extends AdminService
      */
     public function saveConfig(array $data): bool
     {
-        $config = array_merge(config('filesystems'), $data);
+        $config = array_merge(config('filesystems',[]), $data);
         $res = systemConfig()->set('filesystems', $config);
         if ($res) {
             //    LaravelBridge::reloadConfig();

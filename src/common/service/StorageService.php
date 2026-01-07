@@ -3,9 +3,10 @@
 namespace warm\common\service;
 
 use finfo;
-use Illuminate\Support\Facades\Storage;
+use warm\framework\filesystem\facade\Storage;
 use RuntimeException;
 use Webman\Http\UploadFile;
+use Workerman\Coroutine\Context;
 
 /**
  * 存储服务类
@@ -16,25 +17,27 @@ use Webman\Http\UploadFile;
 class StorageService extends BaseService
 {
     /**
-     * 允许的文件类型扩展名
-     * 
-     * @var array
+     * SVG文件验证时的最大读取字节数
      */
-    protected static array $allowedFileExtensions = [];
-    
+    private const SVG_VALIDATION_MAX_BYTES = 2048;
+
     /**
-     * 允许的图片类型扩展名
-     * 
-     * @var array
+     * MIME类型前缀长度（用于提取类型部分）
      */
-    protected static array $allowedImageExtensions = [];
-    
+    private const MIME_PREFIX_LENGTH = 6;
+
     /**
-     * 最大文件大小
-     * 
-     * @var int
+     * 协程上下文中的配置键名
      */
-    protected static int $maxSize = 0;
+    private const CONTEXT_KEY_CONFIG = 'storage_service.config';
+    private const CONTEXT_KEY_FINFO = 'storage_service.finfo';
+
+    /**
+     * MIME类型到扩展名的反向映射缓存（进程级别，所有协程共享）
+     * 
+     * @var array|null
+     */
+    private static ?array $mimeToExtensionMap = null;
 
     /**
      * 扩展名到MIME类型的映射表（包含图片、视频、音频）
@@ -90,20 +93,96 @@ class StorageService extends BaseService
      * 初始化上传配置
      * 
      * 从存储配置中读取允许的文件类型和大小限制
+     * 配置存储在协程上下文中，每个协程独立
+     * 
+     * @param bool $force 强制重新初始化配置
+     * @return void
+     */
+    public static function initUploadConfig(bool $force = false): void
+    {
+        // 从协程上下文获取配置
+        $config = Context::get(self::CONTEXT_KEY_CONFIG);
+        
+        if ($config !== null && !$force) {
+            return;
+        }
+
+        $systemConfig = systemConfig()->get('filesystems');
+
+        $fileType = $systemConfig['file_type'] ?? '';
+        $imageType = $systemConfig['image_type'] ?? '';
+        $uploadSize = $systemConfig['upload_size'] ?? 0;
+
+        $config = [
+            'allowedFileExtensions' => $fileType 
+                ? array_map('trim', explode(',', $fileType))
+                : [],
+            'allowedImageExtensions' => $imageType 
+                ? array_map('trim', explode(',', $imageType))
+                : [],
+            'maxSize' => (int)$uploadSize,
+            'initialized' => true,
+        ];
+
+        // 存储到协程上下文
+        Context::set(self::CONTEXT_KEY_CONFIG, $config);
+    }
+
+    /**
+     * 获取协程上下文中的配置
+     * 
+     * @return array|null
+     */
+    private static function getConfig(): ?array
+    {
+        return Context::get(self::CONTEXT_KEY_CONFIG);
+    }
+
+    /**
+     * 获取允许的文件扩展名
+     * 
+     * @return array
+     */
+    private static function getAllowedFileExtensions(): array
+    {
+        $config = self::getConfig();
+        return $config['allowedFileExtensions'] ?? [];
+    }
+
+    /**
+     * 获取允许的图片扩展名
+     * 
+     * @return array
+     */
+    private static function getAllowedImageExtensions(): array
+    {
+        $config = self::getConfig();
+        return $config['allowedImageExtensions'] ?? [];
+    }
+
+    /**
+     * 获取最大文件大小
+     * 
+     * @return int
+     */
+    private static function getMaxSize(): int
+    {
+        $config = self::getConfig();
+        return $config['maxSize'] ?? 0;
+    }
+
+    /**
+     * 重置配置缓存
+     * 
+     * 用于在配置更新后强制重新加载当前协程的配置
      * 
      * @return void
      */
-    public static function initUploadConfig(): void
+    public static function resetConfig(): void
     {
-        $config = systemConfig()->get('filesystems');
-
-        self::$allowedFileExtensions = array_map('trim',
-            explode(',', $config['file_type'] ?? '')
-        );
-        self::$allowedImageExtensions = array_map('trim',
-            explode(',', $config['image_type'] ?? '')
-        );
-        self::$maxSize = (int)($config['upload_size'] ?? 0);
+        // 清除当前协程的配置
+        Context::set(self::CONTEXT_KEY_CONFIG, null);
+        self::initUploadConfig(true);
     }
 
     /**
@@ -133,13 +212,18 @@ class StorageService extends BaseService
         }
 
         // 验证扩展名是否在允许范围内
-        if (!in_array(strtolower($realExt), self::$allowedImageExtensions)) {
-            throw new RuntimeException('不允许的图片类型: ' . $realExt);
+        $allowedImageExtensions = self::getAllowedImageExtensions();
+        $realExtLower = strtolower($realExt);
+        if (!empty($allowedImageExtensions) && !in_array($realExtLower, $allowedImageExtensions, true)) {
+            throw new RuntimeException("不允许的图片类型: {$realExt}");
         }
 
         // 验证文件大小
-        if ($file->getSize() > self::$maxSize) {
-            throw new RuntimeException('图片大小超过限制: ' . self::$maxSize . ' bytes');
+        $maxSize = self::getMaxSize();
+        if ($maxSize > 0 && $file->getSize() > $maxSize) {
+            $maxSizeMB = round($maxSize / 1048576, 2);
+            $fileSizeMB = round($file->getSize() / 1048576, 2);
+            throw new RuntimeException("图片大小超过限制: {$fileSizeMB}MB (最大: {$maxSizeMB}MB)");
         }
     }
 
@@ -166,13 +250,18 @@ class StorageService extends BaseService
         }
 
         // 验证扩展名是否在允许范围内
-        if (!in_array(strtolower($realExt), self::$allowedFileExtensions)) {
-            throw new RuntimeException('不允许的文件类型: ' . $realExt);
+        $allowedFileExtensions = self::getAllowedFileExtensions();
+        $realExtLower = strtolower($realExt);
+        if (!empty($allowedFileExtensions) && !in_array($realExtLower, $allowedFileExtensions, true)) {
+            throw new RuntimeException("不允许的文件类型: {$realExt}");
         }
 
         // 验证文件大小
-        if ($file->getSize() > self::$maxSize) {
-            throw new RuntimeException('文件大小超过限制: ' . self::$maxSize . ' bytes');
+        $maxSize = self::getMaxSize();
+        if ($maxSize > 0 && $file->getSize() > $maxSize) {
+            $maxSizeMB = round($maxSize / 1048576, 2);
+            $fileSizeMB = round($file->getSize() / 1048576, 2);
+            throw new RuntimeException("文件大小超过限制: {$fileSizeMB}MB (最大: {$maxSizeMB}MB)");
         }
     }
 
@@ -202,14 +291,36 @@ class StorageService extends BaseService
      * 获取文件的真实MIME类型
      * 
      * 使用finfo扩展检测文件的真实MIME类型
+     * finfo实例会被复用以提高性能
      * 
      * @param string $path 文件路径
      * @return string 真实的MIME类型
+     * @throws RuntimeException 当无法检测MIME类型时抛出异常
      */
     protected static function getRealMimeType(string $path): string
     {
-        $info = new finfo(FILEINFO_MIME_TYPE);
-        $mime = $info->file($path);
+        if (!file_exists($path)) {
+            throw new RuntimeException("文件不存在: {$path}");
+        }
+
+        // 从协程上下文获取 finfo 实例
+        $finfoInstance = Context::get(self::CONTEXT_KEY_FINFO);
+        
+        if ($finfoInstance === null) {
+            if (!extension_loaded('fileinfo')) {
+                throw new RuntimeException('fileinfo扩展未安装');
+            }
+            $finfoInstance = new finfo(FILEINFO_MIME_TYPE);
+            // 存储到协程上下文
+            Context::set(self::CONTEXT_KEY_FINFO, $finfoInstance);
+        }
+
+        $mime = $finfoInstance->file($path);
+        
+        if ($mime === false) {
+            throw new RuntimeException("无法检测文件的MIME类型: {$path}");
+        }
+
         return strtolower(trim($mime));
     }
 
@@ -235,13 +346,18 @@ class StorageService extends BaseService
      */
     protected static function validateImageContent(string $path, string $mime): bool
     {
+        if (!file_exists($path) || !is_readable($path)) {
+            return false;
+        }
+
         // SVG需要特殊处理
         if ($mime === 'image/svg+xml') {
             return self::validateSvgFile($path);
         }
 
         // 通用图片验证
-        return (bool)@getimagesize($path);
+        $imageInfo = getimagesize($path);
+        return $imageInfo !== false;
     }
 
     /**
@@ -254,30 +370,44 @@ class StorageService extends BaseService
      */
     protected static function validateSvgFile(string $path): bool
     {
-        $content = @file_get_contents($path, false, null, 0, 2048);
-        if (!$content) return false;
-
-        // 基础SVG结构验证
-        if (!str_contains($content, '<svg') || !str_contains($content, '</svg>')) {
+        if (!is_readable($path)) {
             return false;
         }
 
-        // 禁止脚本标签
+        $content = file_get_contents($path, false, null, 0, self::SVG_VALIDATION_MAX_BYTES);
+        if ($content === false || $content === '') {
+            return false;
+        }
+
+        // 基础SVG结构验证
+        if (!str_contains($content, '<svg')) {
+            return false;
+        }
+
+        // 禁止脚本标签和危险元素
         $dangerousTags = [
-            '<script', '<iframe', '<foreignobject', '<handler', '<script'
+            '<script',
+            '<iframe',
+            '<foreignobject',
+            '<handler',
+            '<embed',
+            '<object',
+            '<link'
         ];
 
         foreach ($dangerousTags as $tag) {
-            if (str_contains($content, $tag)) {
+            if (stripos($content, $tag) !== false) {
                 return false;
             }
         }
 
-        // 禁止危险属性和事件
+        // 禁止危险属性和事件处理器
         $dangerousPatterns = [
-            '/on\w+\s*=/i',
-            '/href\s*=\s*["\']\s*javascript:/i',
-            '/style\s*=\s*["\'][^"\']*expression\s*\(/i'
+            '/on\w+\s*=/i',                                      // 事件处理器 (onclick, onload等)
+            '/href\s*=\s*["\']\s*javascript:/i',                // javascript: URL
+            '/style\s*=\s*["\'][^"\']*expression\s*\(/i',       // CSS expression
+            '/url\s*\(\s*["\']?\s*javascript:/i',               // CSS url中的javascript
+            '/@import/i',                                        // CSS @import
         ];
 
         foreach ($dangerousPatterns as $pattern) {
@@ -295,14 +425,15 @@ class StorageService extends BaseService
      * 根据MIME类型生成安全的文件名
      * 
      * @param string $realMime 真实的MIME类型
-     * @param string $fileName 原始文件名
+     * @param string $prefix 文件名前缀
      * @return string 生成的文件名
      */
-    public static function generateFilename(string $realMime, string $fileName = ''): string
+    public static function generateFilename(string $realMime, string $prefix = ''): string
     {
         $extension = self::getSafeExtension($realMime);
-
-        return uniqid($fileName) . '.' . $extension;
+        $prefix = $prefix ?: 'file';
+        
+        return uniqid($prefix, true) . '.' . $extension;
     }
 
     /**
@@ -313,33 +444,75 @@ class StorageService extends BaseService
      */
     protected static function getSafeExtension(string $mime): string
     {
+        self::initMimeToExtensionMap();
+
         // 在映射表中查找匹配的扩展名
-        foreach (self::EXTENSION_MIME_MAP as $ext => $mimeType) {
-            if ($mimeType === $mime) {
-                return $ext;
-            }
+        if (isset(self::$mimeToExtensionMap[$mime])) {
+            return self::$mimeToExtensionMap[$mime];
         }
 
         // 如果是图片，尝试提取类型作为扩展名
         if (str_starts_with($mime, 'image/')) {
-            $type = substr($mime, 6); // 提取image/后面的部分
-            return in_array($type, ['jpeg', 'png', 'gif', 'bmp', 'webp']) ? $type : 'img';
+            $type = substr($mime, self::MIME_PREFIX_LENGTH);
+            $allowedTypes = ['jpeg', 'png', 'gif', 'bmp', 'webp', 'svg+xml'];
+            // 处理特殊类型
+            if ($type === 'svg+xml') {
+                return 'svg';
+            }
+            return in_array($type, $allowedTypes, true) ? $type : 'img';
         }
 
         // 如果是视频
         if (str_starts_with($mime, 'video/')) {
-            $type = substr($mime, 6);
-            return in_array($type, ['mp4', 'quicktime', 'x-msvideo']) ? $type : 'vid';
+            $type = substr($mime, self::MIME_PREFIX_LENGTH);
+            $typeMap = [
+                'quicktime' => 'mov',
+                'x-msvideo' => 'avi',
+                'x-ms-wmv' => 'wmv',
+                'x-flv' => 'flv',
+                'x-matroska' => 'mkv',
+            ];
+            return $typeMap[$type] ?? ($type === 'mp4' ? 'mp4' : 'vid');
         }
 
         // 如果是音频
         if (str_starts_with($mime, 'audio/')) {
-            $type = substr($mime, 6);
-            return in_array($type, ['mpeg', 'wav', 'ogg', 'flac']) ? $type : 'aud';
+            $type = substr($mime, self::MIME_PREFIX_LENGTH);
+            $typeMap = [
+                'mpeg' => 'mp3',
+                'x-ms-wma' => 'wma',
+            ];
+            return $typeMap[$type] ?? (in_array($type, ['wav', 'ogg', 'flac', 'aac'], true) ? $type : 'aud');
         }
 
         // 默认处理：转换MIME类型为安全扩展名
-        return preg_replace('/[^a-z0-9]/', '', substr($mime, strpos($mime, '/') + 1)) ?: 'bin';
+        $parts = explode('/', $mime, 2);
+        if (count($parts) === 2) {
+            $subtype = preg_replace('/[^a-z0-9]/', '', $parts[1]);
+            return $subtype ?: 'bin';
+        }
+
+        return 'bin';
+    }
+
+    /**
+     * 初始化MIME到扩展名的反向映射
+     * 
+     * @return void
+     */
+    private static function initMimeToExtensionMap(): void
+    {
+        if (self::$mimeToExtensionMap !== null) {
+            return;
+        }
+
+        self::$mimeToExtensionMap = [];
+        foreach (self::EXTENSION_MIME_MAP as $ext => $mimeType) {
+            // 如果同一个MIME类型对应多个扩展名，保留第一个
+            if (!isset(self::$mimeToExtensionMap[$mimeType])) {
+                self::$mimeToExtensionMap[$mimeType] = $ext;
+            }
+        }
     }
 
     /**
@@ -350,14 +523,20 @@ class StorageService extends BaseService
      */
     protected static function getExtensionByMime(string $mime): string
     {
-        foreach (self::EXTENSION_MIME_MAP as $ext => $mimeType) {
-            if ($mimeType === $mime) {
-                return $ext;
-            }
+        self::initMimeToExtensionMap();
+
+        if (isset(self::$mimeToExtensionMap[$mime])) {
+            return self::$mimeToExtensionMap[$mime];
         }
 
-        // 默认返回前两个字符作为扩展名
-        return substr(str_replace('/', '_', $mime), 0, 3);
+        // 默认处理：从MIME类型提取扩展名
+        $parts = explode('/', $mime, 2);
+        if (count($parts) === 2) {
+            $subtype = preg_replace('/[^a-z0-9]/', '', $parts[1]);
+            return substr($subtype, 0, 3) ?: 'bin';
+        }
+
+        return 'bin';
     }
 
     /**
@@ -376,41 +555,48 @@ class StorageService extends BaseService
         // 获取文件真实MIME类型
         $realMime = $realMime ?? self::getRealMimeType($file->getRealPath());
 
-        // 自动检测文件类型
+        // 自动检测文件类型并执行验证
         if (self::isImageMime($realMime)) {
-            // 图片类型
             self::validateImage($file, $realMime);
             $fileType = 'image';
-            $path .= '/images'; // 为图片创建子目录
+            $subdir = 'images';
         } elseif (self::isVideoMime($realMime)) {
-            // 视频类型
             self::validateFile($file, $realMime);
             $fileType = 'video';
-            $path .='/videos'; // 为视频创建子目录
+            $subdir = 'videos';
         } elseif (self::isAudioMime($realMime)) {
-            // 音频类型
             self::validateFile($file, $realMime);
             $fileType = 'audio';
-            $path  .= '/audios'; // 为音频创建子目录
+            $subdir = 'audios';
         } else {
-            // 其他文件类型
             self::validateFile($file, $realMime);
             $fileType = 'file';
-            $path  .='/files'; // 为普通文件创建子目录
+            $subdir = 'files';
         }
+
+        // 构建存储路径
+        $path = rtrim($path, '/');
+        $path .= '/' . $subdir;
         $path .= '/' . date('Y-m-d');
+
+        // 生成文件名
         $filename = empty($fileName) ? self::generateFilename($realMime) : $fileName;
         $filepath = trim($path . '/' . $filename, '/');
 
-        // 保存文件
-        Storage::put($filepath, file_get_contents($file->getPathname()));
+        // 获取文件内容并保存
+        $fileContent = file_get_contents($file->getPathname());
+        if ($fileContent === false) {
+            throw new RuntimeException('无法读取上传的文件内容');
+        }
+
+        Storage::put($filepath, $fileContent);
 
         return [
             'path' => $filepath,
             'file_name' => $filename,
             'origin_name' => $file->getUploadName(),
             'url' => Storage::url($filepath),
-            'adapter' => Storage::getDefaultDriver(),
+            'adapter' => Storage::getConfig()['driver'],
             'mime_type' => $realMime,
             'size' => $file->getSize(),
             'extension' => self::getExtensionByMime($realMime),

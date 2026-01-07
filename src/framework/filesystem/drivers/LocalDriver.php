@@ -1,6 +1,6 @@
 <?php
 
-namespace warm\framework\filesystem\Drivers;
+namespace warm\framework\filesystem\drivers;
 
 use League\Flysystem\Local\LocalFilesystemAdapter;
 use League\Flysystem\Filesystem;

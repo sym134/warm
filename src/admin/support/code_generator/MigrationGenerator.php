@@ -26,7 +26,7 @@ class MigrationGenerator extends BaseMigrationCreator
     {
         $this->model = $model;
 
-        parent::__construct(app('files'), __DIR__ . '/stubs');
+        parent::__construct((new \Illuminate\Filesystem\Filesystem), __DIR__ . '/stubs');
     }
 
     /**
@@ -42,8 +42,9 @@ class MigrationGenerator extends BaseMigrationCreator
 
     /**
      * 生成迁移文件
-     * 
+     *
      * @return string 生成的迁移文件路径
+     * @throws \Exception
      */
     public function generate(): string
     {

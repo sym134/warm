@@ -57,18 +57,18 @@ class WechatMiniProgramConfigController extends AdminController
                     ->level('info')
                     ->showIcon(),
 
-                amis()->GroupControl()->body([
-                    amis()->GroupControl()->direction('vertical')->body([
-                        amis()->TextControl('app_id', 'App ID')
+                amis()->Group()->body([
+                    amis()->Group()->direction('vertical')->body([
+                        amis()->InputText('app_id', 'App ID')
                             ->required()
                             ->placeholder('请输入微信小程序App ID'),
 
-                        amis()->TextControl('app_secret', 'App Secret')
+                        amis()->InputText('app_secret', 'App Secret')
                             ->required()
                             ->placeholder('请输入微信小程序App Secret')
                             ->type('input-password'),
 
-                        amis()->SwitchControl('enable', '启用')
+                        amis()->Switch('enable', '启用')
                             ->trueValue(1)
                             ->falseValue(0)
                             ->option('启用')

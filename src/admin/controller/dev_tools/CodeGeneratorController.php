@@ -96,9 +96,9 @@ class CodeGeneratorController extends AdminController
                 ->size('xl')
                 ->title($isEdit ? translator('admin.edit') : translator('admin.create'))
                 ->actions([
-                    amis()->VanillaAction()->actionType('cancel')->label(translator('admin.cancel')),
+                    amis()->Button()->actionType('cancel')->label(translator('admin.cancel')),
                     amis()
-                        ->VanillaAction()
+                        ->Button()
                         ->type('submit')
                         ->label(translator('admin.save'))
                         ->level('primary'),
@@ -111,7 +111,7 @@ class CodeGeneratorController extends AdminController
             ->baseCRUD()
             ->filter(
                 $this->baseFilter()->body([
-                    amis()->TextControl('keyword', translator('admin.keyword'))->size('md'),
+                    amis()->InputText('keyword', translator('admin.keyword'))->size('md'),
                 ])
             )
             ->headerToolbar([
@@ -130,7 +130,7 @@ class CodeGeneratorController extends AdminController
                         amis()->Dialog()->title(false)->body(
                             amis()->Form()->mode('normal')->body([
                                 amis()
-                                    ->TextareaControl('data')
+                                    ->Textarea('data')
                                     ->required()
                                     ->minRows(10)
                                     ->description(translator('admin.code_generators.import_record_desc'))
@@ -208,11 +208,11 @@ class CodeGeneratorController extends AdminController
                 // 基本信息标签页
                 amis()->Tab()->title(translator('admin.code_generators.base_info'))->body(
                     amis()->Card()->body(
-                        amis()->GroupControl()->body([
-                            amis()->GroupControl()->direction('vertical')->body([
-                                amis()->GroupControl()->body([
+                        amis()->Group()->body([
+                            amis()->Group()->direction('vertical')->body([
+                                amis()->Group()->body([
                                     amis()
-                                        ->TextControl('title', translator('admin.code_generators.app_title'))
+                                        ->InputText('title', translator('admin.code_generators.app_title'))
                                         ->required()
                                         ->onEvent([
                                             'change' => [
@@ -226,9 +226,9 @@ class CodeGeneratorController extends AdminController
                                             ],
                                         ]),
                                 ]),
-                                amis()->GroupControl()->body([
+                                amis()->Group()->body([
                                     amis()
-                                        ->TextControl('table_name', translator('admin.code_generators.table_name'))
+                                        ->InputText('table_name', translator('admin.code_generators.table_name'))
                                         ->value()
                                         ->required()
                                         ->onEvent([
@@ -244,7 +244,7 @@ class CodeGeneratorController extends AdminController
                                             ],
                                         ]),
                                     amis()
-                                        ->SelectControl('exists_table', translator('admin.code_generators.exists_table'))
+                                        ->Select('exists_table', translator('admin.code_generators.exists_table'))
                                         ->searchable()
                                         ->clearable()
                                         ->selectMode('group')
@@ -275,19 +275,19 @@ class CodeGeneratorController extends AdminController
                                         ]),
                                 ]),
                                 amis()
-                                    ->CheckboxesControl('needs', translator('admin.code_generators.options'))
+                                    ->Checkboxes('needs', translator('admin.code_generators.options'))
                                     ->joinValues(false)
                                     ->extractValue()
                                     ->checkAll()
                                     ->defaultCheckAll()
                                     ->options(Generator::make()->needCreateOptions()),
                                 amis()
-                                    ->TextControl('primary_key', translator('admin.code_generators.primary_key'))
+                                    ->InputText('primary_key', translator('admin.code_generators.primary_key'))
                                     ->value('id')
                                     ->description(translator('admin.code_generators.primary_key_description'))
                                     ->required(),
                                 amis()
-                                    ->SelectControl('save_path', translator('admin.code_generators.save_path_select'))->required()
+                                    ->Select('save_path', translator('admin.code_generators.save_path_select'))->required()
                                     ->clearable()
                                     ->searchable()
                                     ->description(translator('admin.code_generators.save_path_select_tips'))
@@ -312,19 +312,19 @@ class CodeGeneratorController extends AdminController
                                             ],
                                         ],
                                     ]),
-                                amis()->TextControl('model_name', translator('admin.code_generators.model_name')),
-                                amis()->TextControl('controller_name', translator('admin.code_generators.controller_name')),
-                                amis()->TextControl('service_name', translator('admin.code_generators.service_name')),
-                                amis()->SwitchControl('need_timestamps', 'CreatedAt & UpdatedAt')->value(1),
+                                amis()->InputText('model_name', translator('admin.code_generators.model_name')),
+                                amis()->InputText('controller_name', translator('admin.code_generators.controller_name')),
+                                amis()->InputText('service_name', translator('admin.code_generators.service_name')),
+                                amis()->Switch('need_timestamps', 'CreatedAt & UpdatedAt')->value(1),
                                 amis()
-                                    ->SwitchControl('list_display_created_at', translator('admin.code_generators.list_display', ['content' => 'CreatedAt']))
+                                    ->Switch('list_display_created_at', translator('admin.code_generators.list_display', ['content' => 'CreatedAt']))
                                     ->visibleOn('${need_timestamps}')
                                     ->value($isEdit ? '${page_info.list_display_created_at}' : '${need_timestamps}'),
                                 amis()
-                                    ->SwitchControl('list_display_updated_at', translator('admin.code_generators.list_display', ['content' => 'UpdatedAt']))
+                                    ->Switch('list_display_updated_at', translator('admin.code_generators.list_display', ['content' => 'UpdatedAt']))
                                     ->visibleOn('${need_timestamps}')
                                     ->value($isEdit ? '${page_info.list_display_updated_at}' : '${need_timestamps}'),
-                                amis()->SwitchControl('soft_delete', translator('admin.soft_delete'))->value(1),
+                                amis()->Switch('soft_delete', translator('admin.soft_delete'))->value(1),
                             ]),
                         ]),
                     )
@@ -336,18 +336,18 @@ class CodeGeneratorController extends AdminController
                 ]),
                 // 路由配置标签页
                 amis()->Tab()->title(translator('admin.code_generators.route_config'))->body(
-                    amis()->ComboControl('menu_info', false)->multiLine()->subFormMode('horizontal')->items([
-                        amis()->SwitchControl('enabled', translator('admin.code_generators.gen_route_menu'))->value(1),
+                    amis()->Combo('menu_info', false)->multiLine()->subFormMode('horizontal')->items([
+                        amis()->Switch('enabled', translator('admin.code_generators.gen_route_menu'))->value(1),
                         amis()
-                            ->TextControl('route', translator('admin.code_generators.route'))
+                            ->InputText('route', translator('admin.code_generators.route'))
                             ->id('gen_menu_route')
                             ->required(),
                         amis()
-                            ->TextControl('title', translator('admin.code_generators.menu_name'))
+                            ->InputText('title', translator('admin.code_generators.menu_name'))
                             ->id('gen_menu_title')
                             ->required(),
                         amis()
-                            ->TreeSelectControl('parent_id', translator('admin.code_generators.parent_menu'))
+                            ->TreeSelect('parent_id', translator('admin.code_generators.parent_menu'))
                             ->labelField('title')
                             ->valueField('id')
                             ->value(0)
@@ -359,9 +359,9 @@ class CodeGeneratorController extends AdminController
                 ),
                 // 页面配置标签页
                 amis()->Tab()->title(translator('admin.code_generators.page_config'))->body(
-                    amis()->ComboControl('page_info', false)->multiLine()->subFormMode('horizontal')->items([
+                    amis()->Combo('page_info', false)->multiLine()->subFormMode('horizontal')->items([
                         amis()
-                            ->RadiosControl('dialog_form', translator('admin.code_generators.dialog_form'))
+                            ->Radios('dialog_form', translator('admin.code_generators.dialog_form'))
                             ->options([
                                 ['label' => translator('admin.code_generators.dialog'), 'value' => 'dialog'],
                                 ['label' => translator('admin.code_generators.drawer'), 'value' => 'drawer'],
@@ -369,16 +369,16 @@ class CodeGeneratorController extends AdminController
                             ])
                             ->selectFirst(),
                         amis()
-                            ->SelectControl('dialog_size', translator('admin.code_generators.dialog_size'))
+                            ->Select('dialog_size', translator('admin.code_generators.dialog_size'))
                             ->options(['xs', 'sm', 'md', 'lg', 'xl', 'full'])
                             ->value('md')
                             ->visibleOn('${dialog_form == "dialog"}'),
                         amis()
-                            ->SelectControl('dialog_size', translator('admin.code_generators.drawer_size'))
+                            ->Select('dialog_size', translator('admin.code_generators.drawer_size'))
                             ->options(['xs', 'sm', 'md', 'lg', 'full'])
                             ->value('md')
                             ->visibleOn('${dialog_form == "drawer"}'),
-                        amis()->CheckboxesControl('row_actions', translator('admin.actions'))->options([
+                        amis()->Checkboxes('row_actions', translator('admin.actions'))->options([
                             'create'       => translator('admin.create'),
                             'show'         => translator('admin.show'),
                             'edit'         => translator('admin.edit'),
@@ -761,7 +761,7 @@ class CodeGeneratorController extends AdminController
                                 ->api('post:/dev_tools/code_generator/common_field/list')
                                 ->body(
                                     amis()
-                                        ->CRUDTable()
+                                        ->CRUD()
                                         ->className('border-none')
                                         ->loadDataOnce()
                                         ->source('${common_field_list}')
@@ -781,17 +781,17 @@ class CodeGeneratorController extends AdminController
                                                                 ->api('post:/dev_tools/code_generator/common_field/save')
                                                                 ->body([
                                                                     amis()
-                                                                        ->TextControl('name', translator('admin.code_generators.config_name'))
+                                                                        ->InputText('name', translator('admin.code_generators.config_name'))
                                                                         ->description(translator('admin.code_generators.same_name_tips'))
                                                                         ->required(),
                                                                     amis()
-                                                                        ->SelectControl('column', translator('admin.code_generators.field_config'))
+                                                                        ->Select('column', translator('admin.code_generators.field_config'))
                                                                         ->valueField('name')
                                                                         ->labelField('name')
                                                                         ->source('${columns}')
                                                                         ->menuTpl('<div>${name} (${comment})</div>')
                                                                         ->required(),
-                                                                    amis()->HiddenControl('value')->value('${columns}'),
+                                                                    amis()->Hidden('value')->value('${columns}'),
                                                                 ])
                                                         )
                                                 ),
@@ -806,7 +806,7 @@ class CodeGeneratorController extends AdminController
                                             amis()->Operation()->label(translator('admin.actions'))->buttons([
                                                 // 填充按钮
                                                 amis()
-                                                    ->VanillaAction()
+                                                    ->Button()
                                                     ->label(translator('admin.code_generators.fill'))
                                                     ->level('primary')
                                                     ->onEvent([
@@ -861,7 +861,7 @@ class CodeGeneratorController extends AdminController
         $comboName = $key . '_property';
         $comboId   = $comboName . '_id';
 
-        return amis()->ComboControl($key, $label)->items([
+        return amis()->Combo($key, $label)->items([
             amis()
                 ->Service()
                 ->initFetchOn('${!!' . $key . '_type}')
@@ -869,7 +869,7 @@ class CodeGeneratorController extends AdminController
                 ->body([
                     amis('group')->body([
                         amis()
-                            ->SelectControl($key . '_type', translator('admin.admin_menu.type'))
+                            ->Select($key . '_type', translator('admin.admin_menu.type'))
                             ->searchable()
                             ->id($key)
                             ->clearable()
@@ -908,7 +908,7 @@ class CodeGeneratorController extends AdminController
                                                 ->api('post:/dev_tools/code_generator/component_property/list?key=' . $comboName . '&c=${' . $key . '_type}')
                                                 ->body(
                                                     amis()
-                                                        ->CRUDTable()
+                                                        ->CRUD()
                                                         ->className('border-none')
                                                         ->loadDataOnce()
                                                         ->source('${component_property_list}')
@@ -923,7 +923,7 @@ class CodeGeneratorController extends AdminController
                                                                 ->buttons([
                                                                     // 填充按钮
                                                                     amis()
-                                                                        ->VanillaAction()
+                                                                        ->Button()
                                                                         ->label(translator('admin.code_generators.fill'))
                                                                         ->level('primary')
                                                                         ->onEvent([
@@ -976,16 +976,16 @@ class CodeGeneratorController extends AdminController
                                                 ->mode('normal')
                                                 ->api('post:/dev_tools/code_generator/component_property/save')
                                                 ->body([
-                                                    amis()->HiddenControl('key')->value($comboName),
-                                                    amis()->ComboControl('value')->items([
+                                                    amis()->Hidden('key')->value($comboName),
+                                                    amis()->Combo('value')->items([
                                                         amis()
-                                                            ->TextControl('label')
+                                                            ->InputText('label')
                                                             ->inline(false)
                                                             ->required()
                                                             ->placeholder(translator('admin.code_generators.input_config_name'))
                                                             ->description(translator('admin.code_generators.same_name_tips')),
-                                                        amis()->HiddenControl('key')->value('${' . $key . '_type}'),
-                                                        amis()->HiddenControl('value')->value('${' . $comboName . '}'),
+                                                        amis()->Hidden('key')->value('${' . $key . '_type}'),
+                                                        amis()->Hidden('value')->value('${' . $comboName . '}'),
                                                     ]),
                                                 ])
                                         )
@@ -994,19 +994,19 @@ class CodeGeneratorController extends AdminController
                     ]),
 
                     amis()
-                        ->ComboControl($comboName, translator('admin.code_generators.property'))
+                        ->Combo($comboName, translator('admin.code_generators.property'))
                         ->id($comboId)
                         ->multiple()
                         ->strictMode(false)
                         ->items([
                             amis()
-                                ->TextControl('name', translator('admin.code_generators.property_name'))
+                                ->InputText('name', translator('admin.code_generators.property_name'))
                                 ->required()
                                 ->set('unique', true)
                                 ->size('md')
                                 ->clearable()
                                 ->source('${component_property_options}'),
-                            amis()->TextControl('value', translator('admin.code_generators.value'))->size('md'),
+                            amis()->InputText('value', translator('admin.code_generators.value'))->size('md'),
                         ]),
                 ]),
         ]);
@@ -1040,7 +1040,7 @@ class CodeGeneratorController extends AdminController
                 ->showCloseButton()
                 ->showIcon(),
             amis()
-                ->SubFormControl('columns', false)
+                ->InputSubForm('columns', false)
                 ->multiple()
                 ->btnLabel('${"<div class=\'column-name\'>"+ name + "</div><div class=\'text-success\'>" + type +"</div><div class=\'item-comment\'>"+ comment +"</div>"}')
                 ->minLength(1)
@@ -1051,35 +1051,35 @@ class CodeGeneratorController extends AdminController
                 ->addButtonText(translator('admin.code_generators.add_column'))
                 ->form(
                     amis()
-                        ->FormControl()
+                        ->Form()
                         ->set('title', translator('admin.code_generators.add_column'))
                         ->size('lg')
                         ->id('column_form')
                         ->tabs([
                             // 基本信息标签页
                             amis()->Tab()->title(translator('admin.code_generators.base_info'))->body([
-                                amis()->GroupControl()->body([
+                                amis()->Group()->body([
                                     amis()
-                                        ->TextControl('name', translator('admin.code_generators.column_name'))
+                                        ->InputText('name', translator('admin.code_generators.column_name'))
                                         ->required(),
                                     amis()
-                                        ->SelectControl('type', translator('admin.code_generators.type'))
+                                        ->Select('type', translator('admin.code_generators.type'))
                                         ->options(Generator::make()->availableFieldTypes())
                                         ->searchable()
                                         ->value('string')
                                         ->required(),
                                 ]),
 
-                                amis()->GroupControl()->body([
+                                amis()->Group()->body([
                                     amis()
-                                        ->TextControl('comment', translator('admin.code_generators.comment'))
+                                        ->InputText('comment', translator('admin.code_generators.comment'))
                                         ->value(),
-                                    amis()->TextControl('default', translator('admin.code_generators.default_value')),
+                                    amis()->InputText('default', translator('admin.code_generators.default_value')),
                                 ]),
 
-                                amis()->GroupControl()->body([
+                                amis()->Group()->body([
                                     amis()
-                                        ->TextControl('additional', translator('admin.code_generators.extra_params'))
+                                        ->InputText('additional', translator('admin.code_generators.extra_params'))
                                         ->labelRemark(
                                             translator('admin.code_generators.remark1') .
                                             "<a href='https://learnku.com/docs/laravel/9.x/migrations/12248#b419dd' target='_blank'>" .
@@ -1087,7 +1087,7 @@ class CodeGeneratorController extends AdminController
                                             "</a>, " . translator('admin.code_generators.remark3')
                                         ),
                                     amis()
-                                        ->SelectControl('column_index', translator('admin.code_generators.index'))
+                                        ->Select('column_index', translator('admin.code_generators.index'))
                                         ->options(
                                             collect(['index', 'unique'])->map(fn($value) => [
                                                 'label' => $value,
@@ -1097,10 +1097,10 @@ class CodeGeneratorController extends AdminController
                                 ]),
 
                                 amis()
-                                    ->SwitchControl('nullable', translator('admin.code_generators.nullable'))
+                                    ->Switch('nullable', translator('admin.code_generators.nullable'))
                                     ->width(60),
                                 amis()
-                                    ->CheckboxesControl('action_scope', translator('admin.code_generators.scope'))
+                                    ->Checkboxes('action_scope', translator('admin.code_generators.scope'))
                                     ->options([
                                         ['label' => translator('admin.list'), 'value' => 'list'],
                                         ['label' => translator('admin.detail'), 'value' => 'detail'],
@@ -1120,33 +1120,33 @@ class CodeGeneratorController extends AdminController
                             ),
                             // 列表筛选标签页
                             amis()->Tab()->title(translator('admin.code_generators.list_filter'))->body([
-                                amis()->ComboControl('list_filter')->items([
+                                amis()->Combo('list_filter')->items([
                                     amis()
-                                        ->SelectControl('type', translator('admin.code_generators.filter_type'))
+                                        ->Select('type', translator('admin.code_generators.filter_type'))
                                         ->options(map2options(FilterGenerator::$filterMap))
                                         ->required(),
                                     amis()
-                                        ->RadiosControl('mode', translator('admin.code_generators.filter_mode'))
+                                        ->Radios('mode', translator('admin.code_generators.filter_mode'))
                                         ->selectFirst()
                                         ->options([
                                             'fixed' => translator('admin.code_generators.filter_mode_fixed'),
                                             'input' => translator('admin.code_generators.filter_mode_input'),
                                         ]),
                                     amis()
-                                        ->TextControl('value', translator('admin.code_generators.filter_mode_fixed_value'))
+                                        ->InputText('value', translator('admin.code_generators.filter_mode_fixed_value'))
                                         ->visibleOn('${mode == "fixed"}'),
                                     amis()
-                                        ->TextControl('input_name', translator('admin.code_generators.filter_input_name'))
+                                        ->InputText('input_name', translator('admin.code_generators.filter_input_name'))
                                         ->visibleOn('${mode == "input"}')
                                         ->required(),
                                     amis()
-                                        ->TextControl('input_label', translator('admin.code_generators.filter_input_label'))
+                                        ->InputText('input_label', translator('admin.code_generators.filter_input_label'))
                                         ->visibleOn('${mode == "input"}'),
                                     $this
                                         ->componentSelect('filter', translator('admin.code_generators.filter_component'))
                                         ->visibleOn('${mode == "input"}')
                                         ->value([
-                                            'filter_type'     => 'TextControl',
+                                            'filter_type'     => 'InputText',
                                             'filter_property' => [
                                                 ['name' => 'size', 'value' => 'md'],
                                                 ['name' => 'clearable', 'value' => 1],
@@ -1169,11 +1169,11 @@ class CodeGeneratorController extends AdminController
                             // 模型配置标签页
                             amis()->Tab()->title(translator('admin.code_generators.model_config'))->body([
                                 amis()
-                                    ->SwitchControl('file_column', translator('admin.code_generators.file_column'))
+                                    ->Switch('file_column', translator('admin.code_generators.file_column'))
                                     ->value(0)
                                     ->description(translator('admin.code_generators.file_column_desc')),
                                 amis()
-                                    ->SwitchControl('file_column_multi', translator('admin.code_generators.file_column_multi'))
+                                    ->Switch('file_column_multi', translator('admin.code_generators.file_column_multi'))
                                     ->value(0)
                                     ->visibleOn('${file_column}'),
                             ]),
@@ -1195,7 +1195,7 @@ class CodeGeneratorController extends AdminController
         // 定义编辑器标签页回调函数
         $editorTab = function ($column) {
             return amis()->Tab()->title(Str::title($column))->body(
-                amis()->EditorControl($column)->language('php')->disabled()->size('xxl')
+                amis()->Editor($column)->language('php')->disabled()->size('xxl')
             );
         };
 
@@ -1234,11 +1234,11 @@ class CodeGeneratorController extends AdminController
             ->dialog(
                 amis()->Dialog()->title(translator('admin.code_generators.clone_record'))->body([
                     amis()->Form()->wrapWithPanel(false)->api('post:/dev_tools/code_generator/clone')->body([
-                        amis()->HiddenControl('id'),
+                        amis()->Hidden('id'),
                         amis()
-                            ->TextControl('table_name', translator('admin.code_generators.new_table_name'))
+                            ->InputText('table_name', translator('admin.code_generators.new_table_name'))
                             ->required(),
-                        amis()->TextControl('title', translator('admin.code_generators.new_app_title'))->required(),
+                        amis()->InputText('title', translator('admin.code_generators.new_app_title'))->required(),
                     ]),
                 ])
             );
@@ -1277,12 +1277,12 @@ class CodeGeneratorController extends AdminController
                         ->mode('normal')
                         ->body(
                             amis()
-                                ->TextareaControl('record')
+                                ->Textarea('record')
                                 ->disabled()
                                 ->description(translator('admin.code_generators.copy_record_description'))
                         ),
                 )->actions([
-                    amis()->VanillaAction()->actionType('cancel')->label(translator('admin.cancel')),
+                    amis()->Button()->actionType('cancel')->label(translator('admin.cancel')),
                     amis()
                         ->CopyAction()
                         ->label(translator('admin.copy'))
@@ -1311,7 +1311,7 @@ class CodeGeneratorController extends AdminController
                 amis()->Dialog()->title(translator('admin.code_generators.select_generate_record'))->body([
                     amis()->Form()->api('post:/dev_tools/code_generator/generate?id=${id}')->mode('normal')->body([
                         amis()
-                            ->CheckboxesControl('needs')
+                            ->Checkboxes('needs')
                             ->checkAll()
                             ->inline(false)
                             ->required()
@@ -1356,7 +1356,7 @@ class CodeGeneratorController extends AdminController
                 amis()->Dialog()->title(translator('admin.code_generators.select_clear_record'))->body([
                     amis()->Form()->api('post:/dev_tools/code_generator/clear?id=${id}')->mode('normal')->body([
                         amis()
-                            ->CheckboxesControl('selected')
+                            ->Checkboxes('selected')
                             ->checkAll()
                             ->inline(false)
                             ->required()

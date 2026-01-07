@@ -2,7 +2,6 @@
 
 namespace warm\framework\filesystem;
 
-use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemOperator;
 use League\Flysystem\UnableToReadFile;
 use League\Flysystem\UnableToWriteFile;
@@ -56,6 +55,17 @@ class FilesystemAdapter
     }
 
     /**
+     * 检查文件是否不存在
+     * 
+     * @param string $path
+     * @return bool
+     */
+    public function missing(string $path): bool
+    {
+        return !$this->exists($path);
+    }
+
+    /**
      * 读取文件内容
      * 
      * @param string $path
@@ -91,6 +101,62 @@ class FilesystemAdapter
             return true;
         } catch (UnableToWriteFile $e) {
             throw new FilesystemException("Unable to write file [{$path}].", 0, $e);
+        }
+    }
+
+    /**
+     * 存储上传的文件
+     * 
+     * @param string $path 存储路径（目录）
+     * @param string|\SplFileInfo $file 文件路径或文件对象
+     * @param array $config
+     * @return string|false 返回存储的文件路径，失败返回 false
+     */
+    public function putFile(string $path, $file, array $config = [])
+    {
+        $filePath = is_string($file) ? $file : $file->getPathname();
+        
+        if (!file_exists($filePath)) {
+            return false;
+        }
+
+        $name = basename($filePath);
+        return $this->putFileAs($path, $file, $name, $config);
+    }
+
+    /**
+     * 以指定名称存储上传的文件
+     * 
+     * @param string $path 存储路径（目录）
+     * @param string|\SplFileInfo $file 文件路径或文件对象
+     * @param string $name 存储的文件名
+     * @param array $config
+     * @return string|false 返回存储的文件路径，失败返回 false
+     */
+    public function putFileAs(string $path, $file, string $name, array $config = [])
+    {
+        $filePath = is_string($file) ? $file : $file->getPathname();
+        
+        if (!file_exists($filePath)) {
+            return false;
+        }
+
+        $path = rtrim($path, '/') . '/' . $name;
+        
+        $resource = fopen($filePath, 'r');
+        if ($resource === false) {
+            return false;
+        }
+
+        try {
+            $this->filesystem->writeStream($path, $resource, $config);
+            return $path;
+        } catch (UnableToWriteFile $e) {
+            return false;
+        } finally {
+            if (is_resource($resource)) {
+                fclose($resource);
+            }
         }
     }
 
@@ -233,6 +299,17 @@ class FilesystemAdapter
     }
 
     /**
+     * 递归获取所有文件
+     * 
+     * @param string $directory
+     * @return array
+     */
+    public function allFiles(string $directory = ''): array
+    {
+        return $this->files($directory, true);
+    }
+
+    /**
      * 列出目录
      * 
      * @param string $directory
@@ -246,6 +323,17 @@ class FilesystemAdapter
         return array_filter($contents, function ($item) {
             return $item['type'] === 'dir';
         });
+    }
+
+    /**
+     * 递归获取所有目录
+     * 
+     * @param string $directory
+     * @return array
+     */
+    public function allDirectories(string $directory = ''): array
+    {
+        return $this->directories($directory, true);
     }
 
     /**
@@ -378,6 +466,27 @@ class FilesystemAdapter
     }
 
     /**
+     * 获取文件的完整路径（仅本地存储）
+     * 
+     * @param string $path
+     * @return string
+     * @throws FilesystemException
+     */
+    public function path(string $path): string
+    {
+        $root = $this->config['root'] ?? '';
+        
+        if (empty($root)) {
+            throw new FilesystemException("Path method is only supported for local filesystem.");
+        }
+
+        $path = str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $path);
+        $root = rtrim($root, DIRECTORY_SEPARATOR);
+        
+        return $root . DIRECTORY_SEPARATOR . ltrim($path, DIRECTORY_SEPARATOR);
+    }
+
+    /**
      * 生成临时 URL（用于云存储）
      * 
      * @param string $path
@@ -404,6 +513,81 @@ class FilesystemAdapter
     public function getDriver(): FilesystemOperator
     {
         return $this->filesystem;
+    }
+
+    /**
+     * 获取底层适配器实例
+     * 
+     * @return mixed
+     */
+    public function getAdapter()
+    {
+        // 如果 filesystem 是 Filesystem 实例，尝试获取底层适配器
+        if ($this->filesystem instanceof \League\Flysystem\Filesystem) {
+            // Filesystem 类有一个 adapter() 方法可以获取底层适配器
+            if (method_exists($this->filesystem, 'adapter')) {
+                return $this->filesystem->adapter();
+            }
+        }
+
+        // 否则返回 filesystem 本身
+        return $this->filesystem;
+    }
+
+    /**
+     * 获取磁盘配置
+     * 
+     * @return array
+     */
+    public function getConfig(): array
+    {
+        return $this->config;
+    }
+
+    /**
+     * 获取文件的哈希值（MD5）
+     * 
+     * @param string $path
+     * @return string
+     * @throws FilesystemException
+     */
+    public function hash(string $path): string
+    {
+        try {
+            $contents = $this->filesystem->read($path);
+            return md5($contents);
+        } catch (UnableToReadFile $e) {
+            throw new FilesystemException("File [{$path}] not found.", 0, $e);
+        }
+    }
+
+    /**
+     * 获取文件的校验和
+     * 
+     * @param string $path
+     * @param string $algorithm 算法，默认为 'md5'
+     * @return string
+     * @throws FilesystemException
+     */
+    public function checksum(string $path, string $algorithm = 'md5'): string
+    {
+        try {
+            $contents = $this->filesystem->read($path);
+            
+            if ($algorithm === 'md5') {
+                return md5($contents);
+            } elseif ($algorithm === 'sha1') {
+                return sha1($contents);
+            } elseif ($algorithm === 'sha256') {
+                return hash('sha256', $contents);
+            } elseif (in_array($algorithm, hash_algos())) {
+                return hash($algorithm, $contents);
+            } else {
+                throw new FilesystemException("Unsupported hash algorithm [{$algorithm}].");
+            }
+        } catch (UnableToReadFile $e) {
+            throw new FilesystemException("File [{$path}] not found.", 0, $e);
+        }
     }
 }
 

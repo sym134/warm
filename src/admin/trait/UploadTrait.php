@@ -2,7 +2,7 @@
 
 namespace warm\admin\trait;
 
-use Illuminate\Support\Facades\Storage;
+use warm\framework\filesystem\facade\Storage;
 use Illuminate\Support\Str;
 use support\Request;
 use support\Response;
@@ -136,6 +136,7 @@ trait UploadTrait
     public function systemFileUpload($file): array
     {
         $file_info = StorageService::upload($file);
+        var_dump($file_info);
         $fileId = SystemFile::baseQuery()->insertGetId([
             'origin_name' => $file_info['origin_name'],
             'storage_mode' => $file_info['adapter'],
@@ -163,7 +164,7 @@ trait UploadTrait
 
         cache()->put($uploadId, [], 600);
 
-        app('filesystem')->makeDirectory(base_path('public/chunk/' . $uploadId));
+        (new \Illuminate\Filesystem\Filesystem)::makeDirectory(base_path('public/chunk/' . $uploadId));
 
         return $this->response()->success(compact('uploadId'));
     }
@@ -208,7 +209,7 @@ trait UploadTrait
 
         $dir = dirname($fullPath);
         if (!is_dir($dir)) {
-            app('filesystem')->makeDirectory($dir);
+            (new \Illuminate\Filesystem\Filesystem)::makeDirectory($dir);
         }
 
         for ($i = 0; $i < count($partList); $i++) {
@@ -230,7 +231,7 @@ trait UploadTrait
 
         $value = admin_resource_full_path($path);
 
-        app('files')->deleteDirectory(base_path('public/chunk/' . $uploadId));
+        (new \Illuminate\Filesystem\Filesystem)->deleteDirectory(base_path('public/chunk/' . $uploadId));
 
         return $this->response()->success(['value' => $value], '上传成功');
     }

@@ -2,6 +2,8 @@
 
 namespace warm\admin\support\code_generator;
 
+use support\Model;
+
 /**
  * 翻译文件生成器
  * 
@@ -13,10 +15,10 @@ class TranslateGenerator extends BaseGenerator
     /**
      * 创建静态实例
      * 
-     * @param mixed $model 模型实例
+     * @param Model $model 模型实例
      * @return static 静态实例
      */
-    public static function make($model): static
+    public static function make(Model $model): static
     {
         return new self($model);
     }

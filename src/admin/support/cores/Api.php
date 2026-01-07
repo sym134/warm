@@ -29,7 +29,7 @@ class Api
      */
     public static function boot(): void
     {
-        app('admin.context')->set('apis', [
+        Admin::context()->set('apis', [
             DataListApi::class,
             DataCreateApi::class,
             DataDetailApi::class,
@@ -61,7 +61,7 @@ class Api
      * @param string $file 文件名
      * @return string 完整路径
      */
-    public static function path($file = ''): string
+    public static function path(string $file = ''): string
     {
         return app_path('/ApiTemplates') . ($file ? '/' . ltrim($file, '/') : '');
     }

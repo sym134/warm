@@ -38,7 +38,7 @@ class AdminUserController extends AdminController
                 ...$this->baseHeaderToolBar(),
             ])
             ->filter($this->baseFilter()->body(
-                amis()->TextControl('keyword', translator('admin.keyword'))
+                amis()->InputText('keyword', translator('admin.keyword'))
                     ->size('md')
                     ->placeholder(translator('admin.admin_user.search_username'))
             ))
@@ -52,7 +52,7 @@ class AdminUserController extends AdminController
                     amis()->Tag()->label('${name}')->className('my-1')
                 ),
                 amis()->TableColumn('enabled', translator('admin.plugins.card.status'))->quickEdit(
-                    amis()->SwitchControl()->mode('inline')->disabledOn('${id == 1}')->saveImmediately(true)
+                    amis()->Switch()->mode('inline')->disabledOn('${id == 1}')->saveImmediately(true)
                 ),
                 amis()->TableColumn('created_at', translator('admin.created_at'))->type('datetime')->sortable(),
                 $this->rowActions([
@@ -75,12 +75,12 @@ class AdminUserController extends AdminController
     public function form(): Form
     {
         return $this->baseForm()->body([
-            amis()->ImageControl('avatar', translator('admin.admin_user.avatar'))->receiver($this->uploadImagePath()),
-            amis()->TextControl('username', translator('admin.username'))->required(),
-            amis()->TextControl('name', translator('admin.admin_user.name'))->required(),
-            amis()->TextControl('password', translator('admin.password'))->type('input-password'),
-            amis()->TextControl('confirm_password', translator('admin.confirm_password'))->type('input-password'),
-            amis()->SelectControl('roles', translator('admin.admin_user.roles'))
+            amis()->InputImage('avatar', translator('admin.admin_user.avatar'))->receiver($this->uploadImagePath()),
+            amis()->InputText('username', translator('admin.username'))->required(),
+            amis()->InputText('name', translator('admin.admin_user.name'))->required(),
+            amis()->InputText('password', translator('admin.password'))->type('input-password'),
+            amis()->InputText('confirm_password', translator('admin.confirm_password'))->type('input-password'),
+            amis()->Select('roles', translator('admin.admin_user.roles'))
                 ->searchable()
                 ->multiple()
                 ->labelField('name')
@@ -89,7 +89,7 @@ class AdminUserController extends AdminController
                 ->extractValue()
                 ->disabledOn('${id == 1}')
                 ->options(AdminRoleService::make()->query()->get(['id', 'name'])),
-            amis()->SwitchControl('enabled', translator('admin.plugins.card.status'))
+            amis()->Switch('enabled', translator('admin.plugins.card.status'))
                 ->onText(translator('admin.plugins.enable'))
                 ->offText(translator('admin.plugins.disable'))
                 ->disabledOn('${id == 1}')

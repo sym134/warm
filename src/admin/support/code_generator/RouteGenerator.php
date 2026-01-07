@@ -13,13 +13,14 @@ class RouteGenerator
 {
     /**
      * 处理路由生成
-     * 
+     *
      * 根据菜单信息创建菜单项并生成路由
-     * 
+     *
      * @param array $menuInfo 菜单信息
      * @return string 路由文件路径
+     * @throws \Exception
      */
-    public static function handle($menuInfo): string
+    public static function handle(array $menuInfo): string
     {
         if (!$menuInfo['enabled']) {
             return '';
@@ -42,7 +43,7 @@ class RouteGenerator
         if ($adminMenuService->hasError()) {
             abort(500, $adminMenuService->getError());
         }
-        return runCommand('warm:gen-route')[1];
+        return runCommand('warm:gen-route')['output'];
     }
 
     /**

@@ -3,12 +3,12 @@
 namespace warm\admin\controller;
 
 use Exception;
-use Illuminate\Support\Facades\Hash;
 use support\Request;
 use support\Response;
 use warm\admin\Admin;
 use warm\admin\service\AdminUserService;
 use warm\admin\support\Captcha;
+use warm\support\facade\Hash;
 use Webman\Event\Event;
 
 /**
@@ -51,17 +51,15 @@ class AuthController extends AdminController
 
         try {
             // 验证用户名和密码是否填写
-            $validator = validator($request->all(),
-                [
-                    'username' => 'required',
-                    'password' => 'required',
-                ],
-                [
-                    'username.required' => translator('admin.required', ['attribute' => translator('admin.username')]),
-                    'password.required' => translator('admin.required', ['attribute' => translator('admin.password')]),
-                ]);
-            if ($validator->fails()) {
-                abort(400, $validator->errors());
+            $validator = validate([
+                'username' => 'require',
+                'password' => 'require',
+            ], [
+                'username.require' => translator('admin.required', ['attribute' => translator('admin.username')]),
+                'password.require' => translator('admin.required', ['attribute' => translator('admin.password')]),
+            ]);
+            if (!$validator->check($request->all())) {
+                abort(400, $validator->getError());
             }
 
             // 查询用户信息
@@ -111,16 +109,16 @@ class AuthController extends AdminController
             ->api(admin_url('/login'))
             ->initApi('/no-content')
             ->body([
-                amis()->TextControl()->name('username')->placeholder(translator('admin.username'))->required(),
+                amis()->InputText()->name('username')->placeholder(translator('admin.username'))->required(),
                 amis()
-                    ->TextControl()
+                    ->InputText()
                     ->type('input-password')
                     ->name('password')
                     ->placeholder(translator('admin.password'))
                     ->required(),
-                amis()->InputGroupControl('captcha_group')->body([
-                    amis()->TextControl('captcha', translator('admin.captcha'))->placeholder(translator('admin.captcha'))->required(),
-                    amis()->HiddenControl()->name('sys_captcha'),
+                amis()->InputGroup('captcha_group')->body([
+                    amis()->InputText('captcha', translator('admin.captcha'))->placeholder(translator('admin.captcha'))->required(),
+                    amis()->Hidden()->name('sys_captcha'),
                     amis()->Service()->id('captcha-service')->api('get:' . admin_url('/captcha'))->body(
                         amis()->Image()
                             ->src('${captcha_img}')
@@ -133,10 +131,10 @@ class AuthController extends AdminController
                             )
                     ),
                 ])->visibleOn('${!!login_captcha}'),
-                amis()->CheckboxControl()->name('remember_me')->option(translator('admin.remember_me'))->value(true),
+                amis()->Checkbox()->name('remember_me')->option(translator('admin.remember_me'))->value(true),
 
                 // 登录按钮
-                amis()->VanillaAction()
+                amis()->Button()
                     ->actionType('submit')
                     ->label(translator('admin.login'))
                     ->level('primary')
@@ -303,12 +301,12 @@ JS,
             ->menuClassName('min-w-0')
             ->set('icon', $userInfo['avatar'])
             ->buttons([
-                amis()->VanillaAction()
+                amis()->Button()
                     ->iconClassName('pr-2')
                     ->icon('fa fa-user-gear')
                     ->label(translator('admin.user_setting'))
                     ->onClick('window.location.hash = "#/user_setting"'),
-                amis()->VanillaAction()
+                amis()->Button()
                     ->iconClassName('pr-2')
                     ->label(translator('admin.logout'))
                     ->icon('fa-solid fa-right-from-bracket')
@@ -336,14 +334,14 @@ JS,
             ->initApi('/current-user')
             ->api('put:' . admin_url('/user_setting'))
             ->body([
-                amis()->ImageControl()
+                amis()->InputImage()
                     ->label(translator('admin.admin_user.avatar'))
                     ->name('avatar')
                     ->receiver($this->uploadImagePath()),
-                amis()->TextControl()->label(translator('admin.admin_user.name'))->name('name')->required(),
-                amis()->TextControl()->type('input-password')->label(translator('admin.old_password'))->name('old_password'),
-                amis()->TextControl()->type('input-password')->label(translator('admin.password'))->name('password'),
-                amis()->TextControl()
+                amis()->InputText()->label(translator('admin.admin_user.name'))->name('name')->required(),
+                amis()->InputText()->type('input-password')->label(translator('admin.old_password'))->name('old_password'),
+                amis()->InputText()->type('input-password')->label(translator('admin.password'))->name('password'),
+                amis()->InputText()
                     ->type('input-password')
                     ->label(translator('admin.confirm_password'))
                     ->name('confirm_password'),

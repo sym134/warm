@@ -42,7 +42,7 @@ class BaseGenerator
      * @param Model $model 模型实例
      * @return static 返回当前类的实例
      */
-    public static function make($model): static
+    public static function make(Model $model): static
     {
         return new static($model);
     }
@@ -170,7 +170,7 @@ class BaseGenerator
         $path = static::guessClassFileName($name);
         $dir  = dirname($path);
 
-        $files = app('files');
+        $files = (new \Illuminate\Filesystem\Filesystem);
 
         if (!is_dir($dir)) {
             $files->makeDirectory($dir, 0755, true);

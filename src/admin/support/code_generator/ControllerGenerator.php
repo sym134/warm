@@ -197,7 +197,7 @@ class ControllerGenerator extends BaseGenerator
         $primaryKey     = $this->model->primary_key ?? 'id';
         $primaryKeyName = strtoupper($primaryKey);
 
-        $content .= "\t\t\t" . "amis()->TextControl('{$primaryKey}', translator('{$primaryKeyName}'))->static()," . PHP_EOL;
+        $content .= "\t\t\t" . "amis()->InputText('{$primaryKey}', translator('{$primaryKeyName}'))->static()," . PHP_EOL;
 
         foreach ($this->model->columns as $column) {
             if (!$this->columnInTheScope($column, 'detail')) {
@@ -210,8 +210,8 @@ class ControllerGenerator extends BaseGenerator
         }
 
         if ($this->model->need_timestamps) {
-            $content .= "\t\t\tamis()->TextControl('created_at', translator('admin.created_at'))->static()," . PHP_EOL;
-            $content .= "\t\t\tamis()->TextControl('updated_at', translator('admin.updated_at'))->static()," . PHP_EOL;
+            $content .= "\t\t\tamis()->InputText('created_at', translator('admin.created_at'))->static()," . PHP_EOL;
+            $content .= "\t\t\tamis()->InputText('updated_at', translator('admin.updated_at'))->static()," . PHP_EOL;
         }
 
         $content .= "\t\t]);" . PHP_EOL;
@@ -257,8 +257,8 @@ class ControllerGenerator extends BaseGenerator
         $label = $this->model->table_name . '.' . $label;
         return match ($type) {
             'list_component'   => "amis()->TableColumn('{$column['name']}', translator('$label'))",
-            'form_component'   => "amis()->TextControl('{$column['name']}', translator('$label'))",
-            'detail_component' => "amis()->TextControl('{$column['name']}', translator('$label'))->static()",
+            'form_component'   => "amis()->InputText('{$column['name']}', translator('$label'))",
+            'detail_component' => "amis()->InputText('{$column['name']}', translator('$label'))->static()",
         };
     }
 

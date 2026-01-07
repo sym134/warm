@@ -37,11 +37,11 @@ class AdminOperationLogController extends AdminController
             ->filterDefaultVisible(true)
             ->filter(
                 $this->baseFilter()->body([
-                    amis()->TextControl('username', translator('admin.admin_operation_log.username'))
+                    amis()->InputText('username', translator('admin.admin_operation_log.username'))
                         ->size('md'),
-                    amis()->TextControl('service_name', translator('admin.admin_operation_log.service_name'))
+                    amis()->InputText('service_name', translator('admin.admin_operation_log.service_name'))
                         ->size('md'),
-                    amis()->TextControl('ip', translator('admin.admin_operation_log.ip')),
+                    amis()->InputText('ip', translator('admin.admin_operation_log.ip')),
                     amis()->InputDatetimeRange()->name('created_at')->label(translator('admin.created_at'))
                         ->valueFormat('YYYY-MM-DD HH:mm:ss'),
                 ])

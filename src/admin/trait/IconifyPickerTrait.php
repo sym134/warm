@@ -30,8 +30,8 @@ trait IconifyPickerTrait
             ->api('/_iconify_search')
             ->filter(
                 amis()->Form()->wrapWithPanel(false)->body([
-                    amis()->GroupControl()->className('pt-3 pb-3')->body([
-                        amis()->TextControl('query')
+                    amis()->Group()->className('pt-3 pb-3')->body([
+                        amis()->InputText('query')
                             ->size('md')
                             ->value('${' . $name . ' || "home"}')
                             ->clearable()
@@ -52,11 +52,11 @@ trait IconifyPickerTrait
             )
             ->card(
                 amis()->Card()->body([
-                    amis()->SvgIcon()->icon('${icon}')->className('text-2xl'),
+                    amis()->CustomSvgIcon()->icon('${icon}')->className('text-2xl'),
                 ])
             );
 
-        return amis()->PickerControl($name, $label)
+        return amis()->Picker($name, $label)
             ->pickerSchema($schema)
             ->source('/_iconify_search')
             ->size('lg')

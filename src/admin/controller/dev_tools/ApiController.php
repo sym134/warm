@@ -4,6 +4,7 @@ namespace warm\admin\controller\dev_tools;
 
 use Illuminate\Support\Str;
 use support\Response;
+use warm\admin\Admin;
 use warm\admin\controller\AdminController;
 use warm\admin\renderer\DialogAction;
 use warm\admin\renderer\Form;
@@ -53,7 +54,7 @@ class ApiController extends AdminController
                 amis()->TableColumn('path', translator('admin.apis.path'))->searchable(),
                 amis()->TableColumn('template_title', translator('admin.apis.template')),
                 amis()->TableColumn('enabled', translator('admin.apis.enabled'))->quickEdit(
-                    amis()->SwitchControl()->mode('inline')->saveImmediately(true)
+                    amis()->Switch()->mode('inline')->saveImmediately(true)
                 ),
                 amis()->TableColumn('updated_at', translator('admin.updated_at'))->type('datetime')->sortable(true),
                 $this->rowActions([
@@ -116,12 +117,12 @@ class ApiController extends AdminController
                 amis()->Dialog()->title(translator('admin.apis.add_template'))->body([
                     amis()->Form()->mode('normal')->api('/dev_tools/api/add_template')->body([
                         amis()
-                            ->TextareaControl('template')
+                            ->Textarea('template')
                             ->required()
                             ->minRows(10)
                             ->description(translator('admin.apis.add_template_tips'))
                             ->placeholder(translator('admin.apis.paste_template')),
-                        amis()->SwitchControl('overlay', translator('admin.apis.overlay'))->value(1),
+                        amis()->Switch('overlay', translator('admin.apis.overlay'))->value(1),
                     ]),
                 ])
             );
@@ -159,10 +160,10 @@ class ApiController extends AdminController
 
             // 如果目录不存在，则创建目录
             if (!is_dir($dir)) {
-                app('files')->makeDirectory($dir, 0755, true);
+                (new \Illuminate\Filesystem\Filesystem)->makeDirectory($dir, 0755, true);
             }
             // 保存模板文件
-            app('files')->put($file, $template);
+            (new \Illuminate\Filesystem\Filesystem)->put($file, $template);
         } catch (\Throwable $e) {
             // 如果出现异常，则返回保存失败信息
             return $this->response()->fail(translator('admin.save_failed'));
@@ -188,18 +189,18 @@ class ApiController extends AdminController
     {
         return $this->baseForm()->body([
             // API标题输入框
-            amis()->TextControl('title', translator('admin.apis.title'))->required(),
+            amis()->InputText('title', translator('admin.apis.title'))->required(),
             // API路径输入框
-            amis()->TextControl('path', translator('admin.apis.path'))->required(),
+            amis()->InputText('path', translator('admin.apis.path'))->required(),
             // 启用状态开关
-            amis()->SwitchControl('enabled', translator('admin.apis.enabled'))->value(1),
+            amis()->Switch('enabled', translator('admin.apis.enabled'))->value(1),
             // 模板选择下拉框
-            amis()->SelectControl('template', translator('admin.apis.template'))
+            amis()->Select('template', translator('admin.apis.template'))
                 ->required()
                 ->searchable()
                 ->source('/dev_tools/api/templates'),
             // 参数配置组合框
-            amis()->ComboControl('args', translator('admin.apis.args'))
+            amis()->Combo('args', translator('admin.apis.args'))
                 ->visibleOn('${template}')
                 ->multiLine()
                 ->strictMode(false)
@@ -232,7 +233,7 @@ class ApiController extends AdminController
     public function template(): Response
     {
         // 获取所有API模板
-        $apis = collect(\support\Container::instance('jizhi.warm')->get('apis'))
+        $apis = collect(Admin::context()->get('apis'))
             ->filter(fn($item) => (new \ReflectionClass($item))->isSubclassOf(AdminBaseApi::class))
             ->map(fn($item) => [
                 'label' => app($item)->getMethod() . ' - ' . app($item)->getTitle(),

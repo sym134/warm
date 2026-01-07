@@ -2,7 +2,7 @@
 
 // @formatter:off
 namespace PHPSTORM_META {
-	override(\amis(0), map([
+	use warm\admin\renderer\SwitchClass;override(\amis(0), map([
 		'form' => \warm\admin\renderer\Form::class,
 		'alert' => \warm\admin\renderer\Alert::class,
 		'app' => \warm\admin\renderer\Component::class,
@@ -191,7 +191,7 @@ namespace PHPSTORM_META {
 		'service' => \warm\admin\renderer\Service::class,
 		'static' => \warm\admin\renderer\StaticExactControl::class,
 		'input-sub-form' => \warm\admin\renderer\InputSubForm::class,
-		'switch' => \warm\admin\renderer\SwitchControl::class,
+		'switch' => \warm\admin\renderer\SwitchClass::class,
 		'input-table' => \warm\admin\renderer\inputTable::class,
 		'tabs' => \warm\admin\renderer\Tabs::class,
 		'tabs-transfer' => \warm\admin\renderer\TabsTransfer::class,
@@ -412,7 +412,7 @@ namespace PHPSTORM_META {
 		'service' => \warm\admin\renderer\Service::class,
 		'static' => \warm\admin\renderer\StaticExactControl::class,
 		'input-sub-form' => \warm\admin\renderer\InputSubForm::class,
-		'switch' => \warm\admin\renderer\SwitchControl::class,
+		'switch' => \warm\admin\renderer\SwitchClass::class,
 		'input-table' => \warm\admin\renderer\inputTable::class,
 		'tabs' => \warm\admin\renderer\Tabs::class,
 		'tabs-transfer' => \warm\admin\renderer\TabsTransfer::class,
@@ -633,7 +633,7 @@ namespace PHPSTORM_META {
 		'service' => \warm\admin\renderer\Service::class,
 		'static' => \warm\admin\renderer\StaticExactControl::class,
 		'input-sub-form' => \warm\admin\renderer\InputSubForm::class,
-		'switch' => \warm\admin\renderer\SwitchControl::class,
+		'switch' => \warm\admin\renderer\SwitchClass::class,
 		'input-table' => \warm\admin\renderer\inputTable::class,
 		'tabs' => \warm\admin\renderer\Tabs::class,
 		'tabs-transfer' => \warm\admin\renderer\TabsTransfer::class,
@@ -854,7 +854,7 @@ namespace PHPSTORM_META {
 		'service' => \warm\admin\renderer\Service::class,
 		'static' => \warm\admin\renderer\StaticExactControl::class,
 		'input-sub-form' => \warm\admin\renderer\InputSubForm::class,
-		'switch' => \warm\admin\renderer\SwitchControl::class,
+		'switch' => \warm\admin\renderer\SwitchClass::class,
 		'input-table' => \warm\admin\renderer\inputTable::class,
 		'tabs' => \warm\admin\renderer\Tabs::class,
 		'tabs-transfer' => \warm\admin\renderer\TabsTransfer::class,
@@ -1075,7 +1075,7 @@ namespace PHPSTORM_META {
 		'service' => \warm\admin\renderer\Service::class,
 		'static' => \warm\admin\renderer\StaticExactControl::class,
 		'input-sub-form' => \warm\admin\renderer\InputSubForm::class,
-		'switch' => \warm\admin\renderer\SwitchControl::class,
+		'switch' => \warm\admin\renderer\SwitchClass::class,
 		'input-table' => \warm\admin\renderer\inputTable::class,
 		'tabs' => \warm\admin\renderer\Tabs::class,
 		'tabs-transfer' => \warm\admin\renderer\TabsTransfer::class,
@@ -1426,9 +1426,9 @@ namespace PHPSTORM_META {
 	expectedArguments(\warm\admin\renderer\InputSubForm::labelAlign(), 0, 'right','left','top','inherit');
 	expectedArguments(\warm\admin\renderer\InputSubForm::mode(), 0, 'normal','inline','horizontal');
 	expectedArguments(\warm\admin\renderer\InputSubForm::size(), 0, 'xs','sm','md','lg','full');
-	expectedArguments(\warm\admin\renderer\SwitchControl::labelAlign(), 0, 'right','left','top','inherit');
-	expectedArguments(\warm\admin\renderer\SwitchControl::mode(), 0, 'normal','inline','horizontal');
-	expectedArguments(\warm\admin\renderer\SwitchControl::size(), 0, 'sm','md');
+	expectedArguments(\warm\admin\renderer\SwitchClass::labelAlign(), 0, 'right','left','top','inherit');
+	expectedArguments(\warm\admin\renderer\SwitchClass::mode(), 0, 'normal','inline','horizontal');
+	expectedArguments(\warm\admin\renderer\SwitchClass::size(), 0, 'sm','md');
 	expectedArguments(\warm\admin\renderer\Tab::iconPosition(), 0, 'left','right');
 	expectedArguments(\warm\admin\renderer\Tab::mode(), 0, 'normal','inline','horizontal');
 	expectedArguments(\warm\admin\renderer\Table::tableLayout(), 0, 'fixed','auto');

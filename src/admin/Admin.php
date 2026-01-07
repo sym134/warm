@@ -10,12 +10,12 @@ use warm\admin\model\AdminRole;
 use warm\admin\model\AdminUser;
 use warm\admin\plugin\PluginService;
 use warm\admin\service\system\SystemConfigService;
+use warm\admin\support\cores\Context;
 use warm\admin\support\cores\JsonResponse;
 use warm\admin\support\cores\Menu;
 use warm\admin\support\cores\Permission;
 use warm\admin\trait\AssetsTrait;
 use WebmanAuth\facade\Auth;
-use WebmanAuth\Guard;
 
 /**
  * Class Admin
@@ -53,7 +53,7 @@ class Admin
      */
     public static function menu(): Menu
     {
-        return app('admin.menu');
+        return new Menu();
     }
 
     /**
@@ -63,13 +63,12 @@ class Admin
      */
     public static function permission(): Permission
     {
-        return new Permission;
+        return new Permission();
     }
 
     /**
      * 获取认证守卫实例
      *
-     * @return Guard 认证守卫实例
      */
     public static function guard()
     {
@@ -87,14 +86,25 @@ class Admin
     }
 
     /**
+     * 上下文管理实例
+     * 
+     * @var Context|null
+     */
+    protected static ?Context $contextInstance = null;
+
+    /**
      * 上下文管理
      *
      * 获取上下文管理对象，用于存储和获取请求上下文数据
      *
+     * @return Context
      */
-    public static function context()
+    public static function context(): Context
     {
-        return app('admin.context');
+        if (self::$contextInstance === null) {
+            self::$contextInstance = new Context();
+        }
+        return self::$contextInstance;
     }
 
     /**
@@ -104,7 +114,7 @@ class Admin
      */
     public static function config(): SystemConfigService
     {
-        return app('admin.config');
+        return new SystemConfigService;
     }
 
     /**
@@ -238,12 +248,11 @@ class Admin
     public static function middleware(): array
     {
         return [
-            middleware\ConnectionDatabase::class,
+//            middleware\ConnectionDatabase::class,
             middleware\AutoSetLocale::class,
             middleware\ForceHttps::class,
             middleware\Authenticate::class,
             middleware\Permission::class,
-            middleware\Config::class,
         ];
     }
 }

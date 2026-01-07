@@ -209,6 +209,6 @@ PHP;
 
         admin_abort_if(file_exists($path), translator('admin.relationships.model_exists'));
 
-        app('files')->put($path, $template);
+        (new \Illuminate\Filesystem\Filesystem)->put($path, $template);
     }
 }

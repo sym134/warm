@@ -66,11 +66,11 @@ class PagesController extends AdminController
     {
         return $this->baseForm()->body([
             // 页面标题输入框
-            amis()->TextControl('title', translator('admin.pages.title'))->required(),
+            amis()->InputText('title', translator('admin.pages.title'))->required(),
             // 页面标识输入框
-            amis()->TextControl('sign', translator('admin.pages.sign'))->required(),
+            amis()->InputText('sign', translator('admin.pages.sign'))->required(),
             // 页面内容配置，使用自定义AMIS编辑器
-            amis()->SubFormControl('page', translator('admin.pages.page'))->form(
+            amis()->InputSubForm('page', translator('admin.pages.page'))->form(
                 amis()->Form()->className('h-full')->set('size', 'full')->title('')->body(
                     amis('custom-amis-editor')
                         ->name('schema')

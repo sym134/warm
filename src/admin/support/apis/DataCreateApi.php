@@ -54,7 +54,7 @@ class DataCreateApi extends AdminBaseApi
     public function argsSchema(): array
     {
         return [
-            amis()->SelectControl('model', translator('admin.relationships.model'))
+            amis()->Select('model', translator('admin.relationships.model'))
                 ->required()
                 ->menuTpl('${label} <span class="text-gray-300 pl-2">${table}</span>')
                 ->source('/dev_tools/relation/model_options')

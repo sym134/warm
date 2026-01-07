@@ -2,11 +2,11 @@
 
 namespace warm\admin\service\system;
 
-use Illuminate\Support\Facades\Storage;
 use support\Db;
 use warm\admin\Admin;
 use warm\admin\model\system\SystemFile;
 use warm\admin\service\AdminService;
+use warm\framework\filesystem\facade\Storage;
 
 /**
  * 系统文件服务类

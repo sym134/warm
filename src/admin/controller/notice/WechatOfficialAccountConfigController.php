@@ -2,7 +2,7 @@
 
 namespace warm\admin\controller\notice;
 
-use Illuminate\Support\Facades\Storage;
+use warm\framework\filesystem\facade\Storage;
 use support\Request;
 use support\Response;
 use warm\admin\controller\AdminController;
@@ -55,24 +55,24 @@ class WechatOfficialAccountConfigController extends AdminController
                     ->level('info')
                     ->showIcon(),
 
-                amis()->GroupControl()->body([
-                    amis()->GroupControl()->direction('vertical')->body([
-                        amis()->TextControl('app_id', 'App ID')
+                amis()->Group()->body([
+                    amis()->Group()->direction('vertical')->body([
+                        amis()->InputText('app_id', 'App ID')
                             ->required()
                             ->placeholder('请输入微信公众号App ID'),
 
-                        amis()->TextControl('app_secret', 'App Secret')
+                        amis()->InputText('app_secret', 'App Secret')
                             ->required()
                             ->placeholder('请输入微信公众号App Secret')
                             ->type('input-password'),
 
-                        amis()->TextControl('token', 'Token')
+                        amis()->InputText('token', 'Token')
                             ->placeholder('请输入微信公众号Token'),
 
-                        amis()->TextControl('aes_key', 'AES Key')
+                        amis()->InputText('aes_key', 'AES Key')
                             ->placeholder('请输入微信公众号AES Key'),
 
-                        amis()->FileControl('verify_file_path', '微信校验文件')
+                        amis()->InputFile('verify_file_path', '微信校验文件')
                             ->maxLength(1)
                             ->accept('.txt')
                             ->autoUpload(true)
@@ -85,7 +85,7 @@ class WechatOfficialAccountConfigController extends AdminController
                             ->placeholder('请选择微信校验文件，文件将自动上传至public目录')
                             ->description('上传的文件将保存在 /public 目录下，并在此保存文件路径'),
 
-                        amis()->SwitchControl('enable', '启用')
+                        amis()->Switch('enable', '启用')
                             ->trueValue(1)
                             ->falseValue(0)
                             ->option('启用')

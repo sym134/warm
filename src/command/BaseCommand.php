@@ -108,6 +108,19 @@ abstract class BaseCommand extends Command
     }
 
     /**
+     * 输出信息
+     * 
+     * 以信息样式向控制台输出信息（通常用于提示或说明）
+     * 
+     * @param string $string 信息内容
+     * @return void
+     */
+    protected function info(string $string): void
+    {
+        $this->io->info($string);
+    }
+
+    /**
      * 抽象的命令处理方法
      * 
      * 子类必须实现此方法来定义具体的命令逻辑
@@ -149,5 +162,94 @@ abstract class BaseCommand extends Command
         $otherCommandInput = new \Symfony\Component\Console\Input\ArrayInput([]);
         // 调用其他命令的 run 方法执行它
         $otherCommand->run($otherCommandInput, $this->output);
+    }
+
+    /**
+     * 获取数据库管理器实例
+     * 复用当前的数据库连接
+     * 
+     * @return \Illuminate\Database\DatabaseManager
+     */
+    protected function getDatabaseManager(): \Illuminate\Database\DatabaseManager
+    {
+        // 尝试通过反射获取 Capsule Manager 的全局实例
+        try {
+            $reflection = new \ReflectionClass(\Illuminate\Database\Capsule\Manager::class);
+            $instance = $reflection->getStaticPropertyValue('instance');
+            
+            if ($instance && method_exists($instance, 'getDatabaseManager')) {
+                return $instance->getDatabaseManager();
+            }
+        } catch (\ReflectionException $e) {
+            // 反射失败，继续尝试其他方法
+        }
+        
+        // 如果反射失败，尝试从 Laravel 容器获取
+        try {
+            $container = \Illuminate\Container\Container::getInstance();
+            if ($container->bound('db')) {
+                return $container->make('db');
+            }
+        } catch (\Exception $e) {
+            // 容器获取失败
+        }
+        
+        throw new \RuntimeException(
+            'Database Capsule Manager not initialized. ' .
+            'Make sure database is configured in config/database.php and webman/database is installed.'
+        );
+    }
+
+    /**
+     * 获取文件系统实例
+     * 
+     * @return \Illuminate\Filesystem\Filesystem
+     */
+    protected function getFilesystem(): \Illuminate\Filesystem\Filesystem
+    {
+        return new \Illuminate\Filesystem\Filesystem();
+    }
+
+    /**
+     * 创建迁移仓库实例
+     * 
+     * @param string $connection 数据库连接名称
+     * @return \Illuminate\Database\Migrations\DatabaseMigrationRepository
+     */
+    protected function createMigrationRepository(string $connection): \Illuminate\Database\Migrations\DatabaseMigrationRepository
+    {
+        $dbManager = $this->getDatabaseManager();
+        return new \Illuminate\Database\Migrations\DatabaseMigrationRepository($dbManager, 'migrations');
+    }
+
+    /**
+     * 创建迁移器实例
+     * 
+     * @param string $connection 数据库连接名称
+     * @return \Illuminate\Database\Migrations\Migrator
+     */
+    protected function createMigrator(string $connection): \Illuminate\Database\Migrations\Migrator
+    {
+        $dbManager = $this->getDatabaseManager();
+        $repository = $this->createMigrationRepository($connection);
+        $filesystem = $this->getFilesystem();
+        
+        $migrator = new \Illuminate\Database\Migrations\Migrator($repository, $dbManager, $filesystem);
+        $migrator->setConnection($connection);
+        
+        return $migrator;
+    }
+
+    /**
+     * 创建迁移创建器实例
+     * 
+     * @param string|null $path 迁移文件路径，null 使用默认路径
+     * @return \Illuminate\Database\Migrations\MigrationCreator
+     */
+    protected function createMigrationCreator(?string $path = null): \Illuminate\Database\Migrations\MigrationCreator
+    {
+        $filesystem = $this->getFilesystem();
+        $path = $path ?? database_path('migrations');
+        return new \Illuminate\Database\Migrations\MigrationCreator($filesystem, $path);
     }
 }

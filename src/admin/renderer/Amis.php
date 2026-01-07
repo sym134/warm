@@ -4,37 +4,74 @@ namespace warm\admin\renderer;
 
 class Amis
 {
-    public static function make()
+    /**
+     * 创建 Amis 构建器实例.
+     *
+     * @return self
+     */
+    public static function make(): self
     {
         return new self();
     }
 
-    public function Action()
+    /**
+     * 创建 Action 渲染器实例.
+     *
+     * @return Action
+     */
+    public function Action(): Action
     {
         return Action::make();
     }
 
-    public function AjaxAction()
+    /**
+     * 创建 AjaxAction 渲染器实例.
+     *
+     * @return AjaxAction
+     */
+    public function AjaxAction(): AjaxAction
     {
         return AjaxAction::make();
     }
 
-    public function Alert()
+    /**
+     * 创建 Alert 渲染器实例.
+     *
+     * @return Alert
+     */
+    public function Alert(): Alert
     {
         return Alert::make();
     }
 
-    public function AnchorNav()
+    /**
+     * 创建 AnchorNav 渲染器实例.
+     *
+     * @return AnchorNav
+     */
+    public function AnchorNav(): AnchorNav
     {
         return AnchorNav::make();
     }
 
-    public function AnchorNavSection()
+    /**
+     * 创建 AnchorNavSection 渲染器实例.
+     *
+     * @return AnchorNavSection
+     */
+    public function AnchorNavSection(): AnchorNavSection
     {
         return AnchorNavSection::make();
     }
 
-    public function ArrayControl($name = '', $label = '')
+    /**
+     * 创建 InputArray 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return InputArray
+     */
+    public function InputArray($name = '', $label = ''): InputArray
     {
         $instance = InputArray::make();
 
@@ -49,62 +86,124 @@ class Amis
         return $instance;
     }
 
-    public function Audio()
+    /**
+     * 创建 Audio 渲染器实例.
+     *
+     * @return Audio
+     */
+    public function Audio(): Audio
     {
         return Audio::make();
     }
 
-    public function AutoFillHeight()
+    /**
+     * 创建 AutoFillHeight 渲染器实例.
+     *
+     * @return AutoFillHeight
+     */
+    public function AutoFillHeight(): AutoFillHeight
     {
         return AutoFillHeight::make();
     }
 
-    public function AutoGenerateFilter()
+    /**
+     * 创建 AutoGenerateFilter 渲染器实例.
+     *
+     * @return AutoGenerateFilter
+     */
+    public function AutoGenerateFilter(): AutoGenerateFilter
     {
         return AutoGenerateFilter::make();
     }
 
-    public function Avatar()
+    /**
+     * 创建 Avatar 渲染器实例.
+     *
+     * @return Avatar
+     */
+    public function Avatar(): Avatar
     {
         return Avatar::make();
     }
 
-    public function Badge()
+    /**
+     * 创建 Badge 渲染器实例.
+     *
+     * @return Badge
+     */
+    public function Badge(): Badge
     {
         return Badge::make();
     }
 
-    public function Barcode()
+    /**
+     * 创建 Barcode 渲染器实例.
+     *
+     * @return Barcode
+     */
+    public function Barcode(): Barcode
     {
         return Barcode::make();
     }
 
-    public function BaseApi()
+    /**
+     * 创建 BaseApi 渲染器实例.
+     *
+     * @return BaseApi
+     */
+    public function BaseApi(): BaseApi
     {
         return BaseApi::make();
     }
 
-    public function BaseRenderer()
+    /**
+     * 创建 BaseRenderer 渲染器实例.
+     *
+     * @return BaseRenderer
+     */
+    public function BaseRenderer(): BaseRenderer
     {
         return BaseRenderer::make();
     }
 
-    public function Breadcrumb()
+    /**
+     * 创建 Breadcrumb 渲染器实例.
+     *
+     * @return Breadcrumb
+     */
+    public function Breadcrumb(): Breadcrumb
     {
         return Breadcrumb::make();
     }
 
-    public function Button()
+    /**
+     * 创建 Button 渲染器实例.
+     *
+     * @return Button
+     */
+    public function Button(): Button
     {
         return Button::make();
     }
 
-    public function ButtonGroup()
+    /**
+     * 创建 ButtonGroup 渲染器实例.
+     *
+     * @return ButtonGroup
+     */
+    public function ButtonGroup(): ButtonGroup
     {
         return ButtonGroup::make();
     }
 
-    public function ButtonGroupControl($name = '', $label = '')
+    /**
+     * 创建 ButtonGroupSelect 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return ButtonGroupSelect
+     */
+    public function ButtonGroupSelect($name = '', $label = ''): ButtonGroupSelect
     {
         $instance = ButtonGroupSelect::make();
 
@@ -119,67 +218,134 @@ class Amis
         return $instance;
     }
 
-    public function ButtonToolbar()
+    /**
+     * 创建 ButtonToolbar 渲染器实例.
+     *
+     * @return ButtonToolbar
+     */
+    public function ButtonToolbar(): ButtonToolbar
     {
         return ButtonToolbar::make();
     }
 
-    public function CRUD2Cards()
+    /**
+     * 创建 CRUD2Cards 渲染器实例.
+     *
+     * @return CRUD2Cards
+     */
+    public function CRUD2Cards(): CRUD2Cards
     {
         return CRUD2Cards::make();
     }
 
-    public function CRUD2List()
+    /**
+     * 创建 CRUD2List 渲染器实例.
+     *
+     * @return CRUD2List
+     */
+    public function CRUD2List(): CRUD2List
     {
         return CRUD2List::make();
     }
 
-    public function CRUD2Table()
+    /**
+     * 创建 CRUD2 渲染器实例.
+     *
+     * @return CRUD2
+     */
+    public function CRUD2(): CRUD2
     {
         return CRUD2::make();
     }
 
-    public function CRUDCards()
+    /**
+     * 创建 CRUDCards 渲染器实例.
+     *
+     * @return CRUDCards
+     */
+    public function CRUDCards(): CRUDCards
     {
         return CRUDCards::make();
     }
 
-    public function CRUDList()
+    /**
+     * 创建 CRUDList 渲染器实例.
+     *
+     * @return CRUDList
+     */
+    public function CRUDList(): CRUDList
     {
         return CRUDList::make();
     }
 
-    public function CRUDTable()
+    /**
+     * 创建 CRUD 渲染器实例.
+     *
+     * @return CRUD
+     */
+    public function CRUD(): CRUD
     {
         return CRUD::make();
     }
 
-    public function Calendar()
+    /**
+     * 创建 Calendar 渲染器实例.
+     *
+     * @return Calendar
+     */
+    public function Calendar(): Calendar
     {
         return Calendar::make();
     }
 
-    public function Card()
+    /**
+     * 创建 Card 渲染器实例.
+     *
+     * @return Card
+     */
+    public function Card(): Card
     {
         return Card::make();
     }
 
-    public function Card2()
+    /**
+     * 创建 Card2 渲染器实例.
+     *
+     * @return Card2
+     */
+    public function Card2(): Card2
     {
         return Card2::make();
     }
 
-    public function Cards()
+    /**
+     * 创建 Cards 渲染器实例.
+     *
+     * @return Cards
+     */
+    public function Cards(): Cards
     {
         return Cards::make();
     }
 
-    public function Carousel()
+    /**
+     * 创建 Carousel 渲染器实例.
+     *
+     * @return Carousel
+     */
+    public function Carousel(): Carousel
     {
         return Carousel::make();
     }
 
-    public function ChainedSelectControl($name = '', $label = '')
+    /**
+     * 创建 ChainedSelect 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return ChainedSelect
+     */
+    public function ChainedSelect($name = '', $label = ''): ChainedSelect
     {
         $instance = ChainedSelect::make();
 
@@ -194,17 +360,34 @@ class Amis
         return $instance;
     }
 
-    public function Chart()
+    /**
+     * 创建 Chart 渲染器实例.
+     *
+     * @return Chart
+     */
+    public function Chart(): Chart
     {
         return Chart::make();
     }
 
-    public function ChartRadios()
+    /**
+     * 创建 ChartRadios 渲染器实例.
+     *
+     * @return ChartRadios
+     */
+    public function ChartRadios(): ChartRadios
     {
         return ChartRadios::make();
     }
 
-    public function CheckboxControl($name = '', $label = '')
+    /**
+     * 创建 Checkbox 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return Checkbox
+     */
+    public function Checkbox($name = '', $label = ''): Checkbox
     {
         $instance = Checkbox::make();
 
@@ -219,7 +402,14 @@ class Amis
         return $instance;
     }
 
-    public function CheckboxesControl($name = '', $label = '')
+    /**
+     * 创建 Checkboxes 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return Checkboxes
+     */
+    public function Checkboxes($name = '', $label = ''): Checkboxes
     {
         $instance = Checkboxes::make();
 
@@ -234,37 +424,74 @@ class Amis
         return $instance;
     }
 
-    public function Code()
+    /**
+     * 创建 Code 渲染器实例.
+     *
+     * @return Code
+     */
+    public function Code(): Code
     {
         return Code::make();
     }
 
-    public function Collapse()
+    /**
+     * 创建 Collapse 渲染器实例.
+     *
+     * @return Collapse
+     */
+    public function Collapse(): Collapse
     {
         return Collapse::make();
     }
 
-    public function CollapseGroup()
+    /**
+     * 创建 CollapseGroup 渲染器实例.
+     *
+     * @return CollapseGroup
+     */
+    public function CollapseGroup(): CollapseGroup
     {
         return CollapseGroup::make();
     }
 
-    public function Color()
+    /**
+     * 创建 Color 渲染器实例.
+     *
+     * @return Color
+     */
+    public function Color(): Color
     {
         return Color::make();
     }
 
-    public function Column()
+    /**
+     * 创建 Column 渲染器实例.
+     *
+     * @return Column
+     */
+    public function Column(): Column
     {
         return Column::make();
     }
 
-    public function ComboCondition()
+    /**
+     * 创建 ComboCondition 渲染器实例.
+     *
+     * @return ComboCondition
+     */
+    public function ComboCondition(): ComboCondition
     {
         return ComboCondition::make();
     }
 
-    public function ComboControl($name = '', $label = '')
+    /**
+     * 创建 Combo 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return Combo
+     */
+    public function Combo($name = '', $label = ''): Combo
     {
         $instance = Combo::make();
 
@@ -279,12 +506,24 @@ class Amis
         return $instance;
     }
 
-    public function Component()
+    /**
+     * 创建 Component 渲染器实例.
+     *
+     * @return Component
+     */
+    public function Component(): Component
     {
         return Component::make();
     }
 
-    public function ConditionBuilderControl($name = '', $label = '')
+    /**
+     * 创建 ConditionBuilder 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return ConditionBuilder
+     */
+    public function ConditionBuilder($name = '', $label = ''): ConditionBuilder
     {
         $instance = ConditionBuilder::make();
 
@@ -299,32 +538,64 @@ class Amis
         return $instance;
     }
 
-    public function ConditionGroupValue()
+    /**
+     * 创建 ConditionGroupValue 渲染器实例.
+     *
+     * @return ConditionGroupValue
+     */
+    public function ConditionGroupValue(): ConditionGroupValue
     {
         return ConditionGroupValue::make();
     }
 
-    public function Container()
+    /**
+     * 创建 Container 渲染器实例.
+     *
+     * @return Container
+     */
+    public function Container(): Container
     {
         return Container::make();
     }
 
-    public function CopyAction()
+    /**
+     * 创建 CopyAction 渲染器实例.
+     *
+     * @return CopyAction
+     */
+    public function CopyAction(): CopyAction
     {
         return CopyAction::make();
     }
 
-    public function Custom()
+    /**
+     * 创建 Custom 渲染器实例.
+     *
+     * @return Custom
+     */
+    public function Custom(): Custom
     {
         return Custom::make();
     }
 
-    public function Date()
+    /**
+     * 创建 Date 渲染器实例.
+     *
+     * @return Date
+     */
+    public function Date(): Date
     {
         return Date::make();
     }
 
-    public function DateControl($name = '', $label = '')
+    /**
+     * 创建 InputDate 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return InputDate
+     */
+    public function InputDate($name = '', $label = ''): InputDate
     {
         $instance = InputDate::make();
 
@@ -339,12 +610,24 @@ class Amis
         return $instance;
     }
 
-    public function DateRange()
+    /**
+     * 创建 DateRange 渲染器实例.
+     *
+     * @return DateRange
+     */
+    public function DateRange(): DateRange
     {
         return DateRange::make();
     }
 
-    public function DateRangeControl($name = '', $label = '')
+    /**
+     * 创建 InputDateRange 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return InputDateRange
+     */
+    public function InputDateRange($name = '', $label = ''): InputDateRange
     {
         $instance = InputDateRange::make();
 
@@ -359,7 +642,14 @@ class Amis
         return $instance;
     }
 
-    public function DateTimeControl($name = '', $label = '')
+    /**
+     * 创建 InputDateTime 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return InputDateTime
+     */
+    public function InputDateTime($name = '', $label = ''): InputDateTime
     {
         $instance = InputDateTime::make();
 
@@ -374,17 +664,34 @@ class Amis
         return $instance;
     }
 
-    public function Dialog()
+    /**
+     * 创建 Dialog 渲染器实例.
+     *
+     * @return Dialog
+     */
+    public function Dialog(): Dialog
     {
         return Dialog::make();
     }
 
-    public function DialogAction()
+    /**
+     * 创建 DialogAction 渲染器实例.
+     *
+     * @return DialogAction
+     */
+    public function DialogAction(): DialogAction
     {
         return DialogAction::make();
     }
 
-    public function DiffControl($name = '', $label = '')
+    /**
+     * 创建 DiffEditor 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return DiffEditor
+     */
+    public function DiffEditor($name = '', $label = ''): DiffEditor
     {
         $instance = DiffEditor::make();
 
@@ -399,32 +706,64 @@ class Amis
         return $instance;
     }
 
-    public function Divider()
+    /**
+     * 创建 Divider 渲染器实例.
+     *
+     * @return Divider
+     */
+    public function Divider(): Divider
     {
         return Divider::make();
     }
 
-    public function Drawer()
+    /**
+     * 创建 Drawer 渲染器实例.
+     *
+     * @return Drawer
+     */
+    public function Drawer(): Drawer
     {
         return Drawer::make();
     }
 
-    public function DrawerAction()
+    /**
+     * 创建 DrawerAction 渲染器实例.
+     *
+     * @return DrawerAction
+     */
+    public function DrawerAction(): DrawerAction
     {
         return DrawerAction::make();
     }
 
-    public function DropdownButton()
+    /**
+     * 创建 DropdownButton 渲染器实例.
+     *
+     * @return DropdownButton
+     */
+    public function DropdownButton(): DropdownButton
     {
         return DropdownButton::make();
     }
 
-    public function Each()
+    /**
+     * 创建 Each 渲染器实例.
+     *
+     * @return Each
+     */
+    public function Each(): Each
     {
         return Each::make();
     }
 
-    public function EditorControl($name = '', $label = '')
+    /**
+     * 创建 Editor 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return Editor
+     */
+    public function Editor($name = '', $label = ''): Editor
     {
         $instance = Editor::make();
 
@@ -439,22 +778,44 @@ class Amis
         return $instance;
     }
 
-    public function EmailAction()
+    /**
+     * 创建 EmailAction 渲染器实例.
+     *
+     * @return EmailAction
+     */
+    public function EmailAction(): EmailAction
     {
         return EmailAction::make();
     }
 
-    public function Expandable()
+    /**
+     * 创建 Expandable 渲染器实例.
+     *
+     * @return Expandable
+     */
+    public function Expandable(): Expandable
     {
         return Expandable::make();
     }
 
-    public function FeedbackDialog()
+    /**
+     * 创建 FeedbackDialog 渲染器实例.
+     *
+     * @return FeedbackDialog
+     */
+    public function FeedbackDialog(): FeedbackDialog
     {
         return FeedbackDialog::make();
     }
 
-    public function FieldSetControl($name = '', $label = '')
+    /**
+     * 创建 FieldSet 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return FieldSet
+     */
+    public function FieldSet($name = '', $label = ''): FieldSet
     {
         $instance = FieldSet::make();
 
@@ -469,7 +830,14 @@ class Amis
         return $instance;
     }
 
-    public function FileControl($name = '', $label = '')
+    /**
+     * 创建 InputFile 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return InputFile
+     */
+    public function InputFile($name = '', $label = ''): InputFile
     {
         $instance = InputFile::make();
 
@@ -484,17 +852,24 @@ class Amis
         return $instance;
     }
 
-    public function Flex()
+    /**
+     * 创建 Flex 渲染器实例.
+     *
+     * @return Flex
+     */
+    public function Flex(): Flex
     {
         return Flex::make();
     }
 
-    public function Form()
-    {
-        return Form::make();
-    }
-
-    public function FormControl($name = '', $label = '')
+    /**
+     * 创建 Form 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return Form
+     */
+    public function Form($name = '', $label = ''): Form
     {
         $instance = Form::make();
 
@@ -509,7 +884,14 @@ class Amis
         return $instance;
     }
 
-    public function FormulaControl($name = '', $label = '')
+    /**
+     * 创建 Formula 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return Formula
+     */
+    public function Formula($name = '', $label = ''): Formula
     {
         $instance = Formula::make();
 
@@ -524,27 +906,54 @@ class Amis
         return $instance;
     }
 
-    public function Grid()
+    /**
+     * 创建 Grid 渲染器实例.
+     *
+     * @return Grid
+     */
+    public function Grid(): Grid
     {
         return Grid::make();
     }
 
-    public function Grid2D()
+    /**
+     * 创建 Grid2D 渲染器实例.
+     *
+     * @return Grid2D
+     */
+    public function Grid2D(): Grid2D
     {
         return Grid2D::make();
     }
 
-    public function GridColumn()
+    /**
+     * 创建 GridColumn 渲染器实例.
+     *
+     * @return GridColumn
+     */
+    public function GridColumn(): GridColumn
     {
         return GridColumn::make();
     }
 
-    public function GridNav()
+    /**
+     * 创建 GridNav 渲染器实例.
+     *
+     * @return GridNav
+     */
+    public function GridNav(): GridNav
     {
         return GridNav::make();
     }
 
-    public function GroupControl($name = '', $label = '')
+    /**
+     * 创建 Group 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return Group
+     */
+    public function Group($name = '', $label = ''): Group
     {
         $instance = Group::make();
 
@@ -559,17 +968,34 @@ class Amis
         return $instance;
     }
 
-    public function HBox()
+    /**
+     * 创建 HBox 渲染器实例.
+     *
+     * @return HBox
+     */
+    public function HBox(): HBox
     {
         return HBox::make();
     }
 
-    public function HBoxColumn()
+    /**
+     * 创建 HBoxColumn 渲染器实例.
+     *
+     * @return HBoxColumn
+     */
+    public function HBoxColumn(): HBoxColumn
     {
         return HBoxColumn::make();
     }
 
-    public function HiddenControl($name = '', $label = '')
+    /**
+     * 创建 Hidden 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return Hidden
+     */
+    public function Hidden($name = '', $label = ''): Hidden
     {
         $instance = Hidden::make();
 
@@ -584,32 +1010,64 @@ class Amis
         return $instance;
     }
 
-    public function Html()
+    /**
+     * 创建 Html 渲染器实例.
+     *
+     * @return Html
+     */
+    public function Html(): Html
     {
         return Html::make();
     }
 
-    public function IFrame()
+    /**
+     * 创建 IFrame 渲染器实例.
+     *
+     * @return IFrame
+     */
+    public function IFrame(): IFrame
     {
         return IFrame::make();
     }
 
-    public function Icon()
+    /**
+     * 创建 Icon 渲染器实例.
+     *
+     * @return Icon
+     */
+    public function Icon(): Icon
     {
         return Icon::make();
     }
 
-    public function IconChecked()
+    /**
+     * 创建 IconChecked 渲染器实例.
+     *
+     * @return IconChecked
+     */
+    public function IconChecked(): IconChecked
     {
         return IconChecked::make();
     }
 
-    public function IconItem()
+    /**
+     * 创建 IconItem 渲染器实例.
+     *
+     * @return IconItem
+     */
+    public function IconItem(): IconItem
     {
         return IconItem::make();
     }
 
-    public function IconPickerControl($name = '', $label = '')
+    /**
+     * 创建 IconPicker 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return IconPicker
+     */
+    public function IconPicker($name = '', $label = ''): IconPicker
     {
         $instance = IconPicker::make();
 
@@ -624,7 +1082,14 @@ class Amis
         return $instance;
     }
 
-    public function Image($name = '', $label = '')
+    /**
+     * 创建 Image 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return Image
+     */
+    public function Image($name = '', $label = ''): Image
     {
         $instance = Image::make();
         if ($name !== '') {
@@ -638,7 +1103,14 @@ class Amis
         return $instance;
     }
 
-    public function ImageControl($name = '', $label = '')
+    /**
+     * 创建 InputImage 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return InputImage
+     */
+    public function InputImage($name = '', $label = ''): InputImage
     {
         $instance = InputImage::make();
 
@@ -653,12 +1125,24 @@ class Amis
         return $instance;
     }
 
-    public function ImageToolbarAction()
+    /**
+     * 创建 ImageToolbarAction 渲染器实例.
+     *
+     * @return ImageToolbarAction
+     */
+    public function ImageToolbarAction(): ImageToolbarAction
     {
         return ImageToolbarAction::make();
     }
 
-    public function Images($name = '', $label = '')
+    /**
+     * 创建 Images 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return Images
+     */
+    public function Images($name = '', $label = ''): Images
     {
         $instance = Images::make();
         if ($name !== '') {
@@ -672,7 +1156,14 @@ class Amis
         return $instance;
     }
 
-    public function InputCityControl($name = '', $label = '')
+    /**
+     * 创建 InputCity 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return InputCity
+     */
+    public function InputCity($name = '', $label = ''): InputCity
     {
         $instance = InputCity::make();
 
@@ -687,7 +1178,14 @@ class Amis
         return $instance;
     }
 
-    public function InputColorControl($name = '', $label = '')
+    /**
+     * 创建 InputColor 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return InputColor
+     */
+    public function InputColor($name = '', $label = ''): InputColor
     {
         $instance = InputColor::make();
 
@@ -702,17 +1200,34 @@ class Amis
         return $instance;
     }
 
-    public function InputDatetimeRange()
+    /**
+     * 创建 InputDatetimeRange 渲染器实例.
+     *
+     * @return InputDatetimeRange
+     */
+    public function InputDatetimeRange(): InputDatetimeRange
     {
         return InputDatetimeRange::make();
     }
 
-    public function InputExcel()
+    /**
+     * 创建 InputExcel 渲染器实例.
+     *
+     * @return InputExcel
+     */
+    public function InputExcel(): InputExcel
     {
         return InputExcel::make();
     }
 
-    public function InputGroupControl($name = '', $label = '')
+    /**
+     * 创建 InputGroup 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return InputGroup
+     */
+    public function InputGroup($name = '', $label = ''): InputGroup
     {
         $instance = InputGroup::make();
 
@@ -727,17 +1242,34 @@ class Amis
         return $instance;
     }
 
-    public function InputKV()
+    /**
+     * 创建 InputKV 渲染器实例.
+     *
+     * @return InputKV
+     */
+    public function InputKV(): InputKV
     {
         return InputKV::make();
     }
 
-    public function InputKVS()
+    /**
+     * 创建 InputKVS 渲染器实例.
+     *
+     * @return InputKVS
+     */
+    public function InputKVS(): InputKVS
     {
         return InputKVS::make();
     }
 
-    public function InputSignature($name = '', $label = '')
+    /**
+     * 创建 InputSignature 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return InputSignature
+     */
+    public function InputSignature($name = '', $label = ''): InputSignature
     {
         $instance = InputSignature::make();
 
@@ -752,17 +1284,34 @@ class Amis
         return $instance;
     }
 
-    public function InputTimeRange()
+    /**
+     * 创建 InputTimeRange 渲染器实例.
+     *
+     * @return InputTimeRange
+     */
+    public function InputTimeRange(): InputTimeRange
     {
         return InputTimeRange::make();
     }
 
-    public function InputYearRange()
+    /**
+     * 创建 InputYearRange 渲染器实例.
+     *
+     * @return InputYearRange
+     */
+    public function InputYearRange(): InputYearRange
     {
         return InputYearRange::make();
     }
 
-    public function InputPasswordControl($name = '', $label = '')
+    /**
+     * 创建 InputPassword 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return InputPassword
+     */
+    public function InputPassword($name = '', $label = ''): InputPassword
     {
         $instance = InputPassword::make();
 
@@ -776,7 +1325,14 @@ class Amis
         return $instance;
     }
 
-    public function JSONSchemaEditorControl($name = '', $label = '')
+    /**
+     * 创建 JSONSchemaEditor 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return JSONSchemaEditor
+     */
+    public function JSONSchemaEditor($name = '', $label = ''): JSONSchemaEditor
     {
         $instance = JSONSchemaEditor::make();
 
@@ -791,22 +1347,44 @@ class Amis
         return $instance;
     }
 
-    public function Json()
+    /**
+     * 创建 Json 渲染器实例.
+     *
+     * @return Json
+     */
+    public function Json(): Json
     {
         return Json::make();
     }
 
-    public function Link()
+    /**
+     * 创建 Link 渲染器实例.
+     *
+     * @return Link
+     */
+    public function Link(): Link
     {
         return Link::make();
     }
 
-    public function LinkAction()
+    /**
+     * 创建 LinkAction 渲染器实例.
+     *
+     * @return LinkAction
+     */
+    public function LinkAction(): LinkAction
     {
         return LinkAction::make();
     }
 
-    public function ListBodyField($name = '', $label = '')
+    /**
+     * 创建 ListBodyField 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return ListBodyField
+     */
+    public function ListBodyField($name = '', $label = ''): ListBodyField
     {
         $instance = ListBodyField::make();
 
@@ -821,7 +1399,14 @@ class Amis
         return $instance;
     }
 
-    public function ListControl($name = '', $label = '')
+    /**
+     * 创建 ListSelect 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return ListSelect
+     */
+    public function ListSelect($name = '', $label = ''): ListSelect
     {
         $instance = ListSelect::make();
 
@@ -836,22 +1421,44 @@ class Amis
         return $instance;
     }
 
-    public function ListItem()
+    /**
+     * 创建 ListItem 渲染器实例.
+     *
+     * @return ListItem
+     */
+    public function ListItem(): ListItem
     {
         return ListItem::make();
     }
 
-    public function ListRenderer()
+    /**
+     * 创建 ListRenderer 渲染器实例.
+     *
+     * @return ListRenderer
+     */
+    public function ListRenderer(): ListRenderer
     {
         return ListRenderer::make();
     }
 
-    public function ListenerAction()
+    /**
+     * 创建 ListenerAction 渲染器实例.
+     *
+     * @return ListenerAction
+     */
+    public function ListenerAction(): ListenerAction
     {
         return ListenerAction::make();
     }
 
-    public function LocationControl($name = '', $label = '')
+    /**
+     * 创建 LocationPicker 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return LocationPicker
+     */
+    public function LocationPicker($name = '', $label = ''): LocationPicker
     {
         $instance = LocationPicker::make();
 
@@ -866,12 +1473,24 @@ class Amis
         return $instance;
     }
 
-    public function Log()
+    /**
+     * 创建 Log 渲染器实例.
+     *
+     * @return Log
+     */
+    public function Log(): Log
     {
         return Log::make();
     }
 
-    public function Mapping($name = '', $label = '')
+    /**
+     * 创建 Mapping 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return Mapping
+     */
+    public function Mapping($name = '', $label = ''): Mapping
     {
         $instance = Mapping::make();
         if ($name !== '') {
@@ -885,12 +1504,24 @@ class Amis
         return $instance;
     }
 
-    public function Markdown()
+    /**
+     * 创建 Markdown 渲染器实例.
+     *
+     * @return Markdown
+     */
+    public function Markdown(): Markdown
     {
         return Markdown::make();
     }
 
-    public function MatrixControl($name = '', $label = '')
+    /**
+     * 创建 MatrixCheckboxes 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return MatrixCheckboxes
+     */
+    public function MatrixCheckboxes($name = '', $label = ''): MatrixCheckboxes
     {
         $instance = MatrixCheckboxes::make();
 
@@ -905,7 +1536,14 @@ class Amis
         return $instance;
     }
 
-    public function MonthControl($name = '', $label = '')
+    /**
+     * 创建 InputMonth 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return InputMonth
+     */
+    public function InputMonth($name = '', $label = ''): InputMonth
     {
         $instance = InputMonth::make();
 
@@ -920,7 +1558,14 @@ class Amis
         return $instance;
     }
 
-    public function MonthRangeControl($name = '', $label = '')
+    /**
+     * 创建 InputMonthRange 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return InputMonthRange
+     */
+    public function InputMonthRange($name = '', $label = ''): InputMonthRange
     {
         $instance = InputMonthRange::make();
 
@@ -935,27 +1580,54 @@ class Amis
         return $instance;
     }
 
-    public function MultilineText()
+    /**
+     * 创建 MultilineText 渲染器实例.
+     *
+     * @return MultilineText
+     */
+    public function MultilineText(): MultilineText
     {
         return MultilineText::make();
     }
 
-    public function Nav()
+    /**
+     * 创建 Nav 渲染器实例.
+     *
+     * @return Nav
+     */
+    public function Nav(): Nav
     {
         return Nav::make();
     }
 
-    public function NavItem()
+    /**
+     * 创建 NavItem 渲染器实例.
+     *
+     * @return NavItem
+     */
+    public function NavItem(): NavItem
     {
         return NavItem::make();
     }
 
-    public function NavOverflow()
+    /**
+     * 创建 NavOverflow 渲染器实例.
+     *
+     * @return NavOverflow
+     */
+    public function NavOverflow(): NavOverflow
     {
         return NavOverflow::make();
     }
 
-    public function NestedSelectControl($name = '', $label = '')
+    /**
+     * 创建 NestedSelect 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return NestedSelect
+     */
+    public function NestedSelect($name = '', $label = ''): NestedSelect
     {
         $instance = NestedSelect::make();
 
@@ -970,7 +1642,14 @@ class Amis
         return $instance;
     }
 
-    public function NumberControl($name = '', $label = '')
+    /**
+     * 创建 InputNumber 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return InputNumber
+     */
+    public function InputNumber($name = '', $label = ''): InputNumber
     {
         $instance = InputNumber::make();
 
@@ -985,52 +1664,104 @@ class Amis
         return $instance;
     }
 
-    public function Operation()
+    /**
+     * 创建 Operation 渲染器实例.
+     *
+     * @return Operation
+     */
+    public function Operation(): Operation
     {
         return Operation::make();
     }
 
-    public function Option()
+    /**
+     * 创建 Option 渲染器实例.
+     *
+     * @return Option
+     */
+    public function Option(): Option
     {
         return Option::make();
     }
 
-    public function Options()
+    /**
+     * 创建 Options 渲染器实例.
+     *
+     * @return Options
+     */
+    public function Options(): Options
     {
         return Options::make();
     }
 
-    public function OtherAction()
+    /**
+     * 创建 OtherAction 渲染器实例.
+     *
+     * @return OtherAction
+     */
+    public function OtherAction(): OtherAction
     {
         return OtherAction::make();
     }
 
-    public function Page()
+    /**
+     * 创建 Page 渲染器实例.
+     *
+     * @return Page
+     */
+    public function Page(): Page
     {
         return Page::make();
     }
 
-    public function Pagination()
+    /**
+     * 创建 Pagination 渲染器实例.
+     *
+     * @return Pagination
+     */
+    public function Pagination(): Pagination
     {
         return Pagination::make();
     }
 
-    public function PaginationWrapper()
+    /**
+     * 创建 PaginationWrapper 渲染器实例.
+     *
+     * @return PaginationWrapper
+     */
+    public function PaginationWrapper(): PaginationWrapper
     {
         return PaginationWrapper::make();
     }
 
-    public function Panel()
+    /**
+     * 创建 Panel 渲染器实例.
+     *
+     * @return Panel
+     */
+    public function Panel(): Panel
     {
         return Panel::make();
     }
 
-    public function Password()
+    /**
+     * 创建 Password 渲染器实例.
+     *
+     * @return Password
+     */
+    public function Password(): Password
     {
         return Password::make();
     }
 
-    public function PickerControl($name = '', $label = '')
+    /**
+     * 创建 Picker 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return Picker
+     */
+    public function Picker($name = '', $label = ''): Picker
     {
         $instance = Picker::make();
 
@@ -1045,42 +1776,84 @@ class Amis
         return $instance;
     }
 
-    public function Plain()
+    /**
+     * 创建 Plain 渲染器实例.
+     *
+     * @return Plain
+     */
+    public function Plain(): Plain
     {
         return Plain::make();
     }
 
-    public function Portlet()
+    /**
+     * 创建 Portlet 渲染器实例.
+     *
+     * @return Portlet
+     */
+    public function Portlet(): Portlet
     {
         return Portlet::make();
     }
 
-    public function PortletTab()
+    /**
+     * 创建 PortletTab 渲染器实例.
+     *
+     * @return PortletTab
+     */
+    public function PortletTab(): PortletTab
     {
         return PortletTab::make();
     }
 
-    public function Progress()
+    /**
+     * 创建 Progress 渲染器实例.
+     *
+     * @return Progress
+     */
+    public function Progress(): Progress
     {
         return Progress::make();
     }
 
-    public function Property()
+    /**
+     * 创建 Property 渲染器实例.
+     *
+     * @return Property
+     */
+    public function Property(): Property
     {
         return Property::make();
     }
 
-    public function QRCode()
+    /**
+     * 创建 QRCode 渲染器实例.
+     *
+     * @return QRCode
+     */
+    public function QRCode(): QRCode
     {
         return QRCode::make();
     }
 
-    public function QRCodeImageSettings()
+    /**
+     * 创建 QRCodeImageSettings 渲染器实例.
+     *
+     * @return QRCodeImageSettings
+     */
+    public function QRCodeImageSettings(): QRCodeImageSettings
     {
         return QRCodeImageSettings::make();
     }
 
-    public function QuarterControl($name = '', $label = '')
+    /**
+     * 创建 InputQuarter 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return InputQuarter
+     */
+    public function InputQuarter($name = '', $label = ''): InputQuarter
     {
         $instance = InputQuarter::make();
 
@@ -1095,7 +1868,14 @@ class Amis
         return $instance;
     }
 
-    public function QuarterRangeControl($name = '', $label = '')
+    /**
+     * 创建 InputQuarterRange 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return InputQuarterRange
+     */
+    public function InputQuarterRange($name = '', $label = ''): InputQuarterRange
     {
         $instance = InputQuarterRange::make();
 
@@ -1110,7 +1890,14 @@ class Amis
         return $instance;
     }
 
-    public function RadioControl($name = '', $label = '')
+    /**
+     * 创建 Radio 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return Radio
+     */
+    public function Radio($name = '', $label = ''): Radio
     {
         $instance = Radio::make();
 
@@ -1125,7 +1912,14 @@ class Amis
         return $instance;
     }
 
-    public function RadiosControl($name = '', $label = '')
+    /**
+     * 创建 Radios 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return Radios
+     */
+    public function Radios($name = '', $label = ''): Radios
     {
         $instance = Radios::make();
 
@@ -1140,7 +1934,14 @@ class Amis
         return $instance;
     }
 
-    public function RangeControl($name = '', $label = '')
+    /**
+     * 创建 InputRange 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return InputRange
+     */
+    public function InputRange($name = '', $label = ''): InputRange
     {
         $instance = InputRange::make();
 
@@ -1155,7 +1956,14 @@ class Amis
         return $instance;
     }
 
-    public function RatingControl($name = '', $label = '')
+    /**
+     * 创建 InputRating 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return InputRating
+     */
+    public function InputRating($name = '', $label = ''): InputRating
     {
         $instance = InputRating::make();
 
@@ -1170,17 +1978,34 @@ class Amis
         return $instance;
     }
 
-    public function ReloadAction()
+    /**
+     * 创建 ReloadAction 渲染器实例.
+     *
+     * @return ReloadAction
+     */
+    public function ReloadAction(): ReloadAction
     {
         return ReloadAction::make();
     }
 
-    public function Remark()
+    /**
+     * 创建 Remark 渲染器实例.
+     *
+     * @return Remark
+     */
+    public function Remark(): Remark
     {
         return Remark::make();
     }
 
-    public function RepeatControl($name = '', $label = '')
+    /**
+     * 创建 InputRepeat 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return InputRepeat
+     */
+    public function InputRepeat($name = '', $label = ''): InputRepeat
     {
         $instance = InputRepeat::make();
 
@@ -1195,7 +2020,14 @@ class Amis
         return $instance;
     }
 
-    public function RichTextControl($name = '', $label = '')
+    /**
+     * 创建 InputRichText 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return InputRichText
+     */
+    public function InputRichText($name = '', $label = ''): InputRichText
     {
         $instance = InputRichText::make();
 
@@ -1210,47 +2042,94 @@ class Amis
         return $instance;
     }
 
-    public function Root()
+    /**
+     * 创建 Root 渲染器实例.
+     *
+     * @return Root
+     */
+    public function Root(): Root
     {
         return Root::make();
     }
 
-    public function RowSelection()
+    /**
+     * 创建 RowSelection 渲染器实例.
+     *
+     * @return RowSelection
+     */
+    public function RowSelection(): RowSelection
     {
         return RowSelection::make();
     }
 
-    public function RowSelectionOptions()
+    /**
+     * 创建 RowSelectionOptions 渲染器实例.
+     *
+     * @return RowSelectionOptions
+     */
+    public function RowSelectionOptions(): RowSelectionOptions
     {
         return RowSelectionOptions::make();
     }
 
-    public function SchemaApi()
+    /**
+     * 创建 SchemaApi 渲染器实例.
+     *
+     * @return SchemaApi
+     */
+    public function SchemaApi(): SchemaApi
     {
         return SchemaApi::make();
     }
 
-    public function SchemaCopyable()
+    /**
+     * 创建 SchemaCopyable 渲染器实例.
+     *
+     * @return SchemaCopyable
+     */
+    public function SchemaCopyable(): SchemaCopyable
     {
         return SchemaCopyable::make();
     }
 
-    public function SchemaMessage()
+    /**
+     * 创建 SchemaMessage 渲染器实例.
+     *
+     * @return SchemaMessage
+     */
+    public function SchemaMessage(): SchemaMessage
     {
         return SchemaMessage::make();
     }
 
-    public function SchemaPopOver()
+    /**
+     * 创建 SchemaPopOver 渲染器实例.
+     *
+     * @return SchemaPopOver
+     */
+    public function SchemaPopOver(): SchemaPopOver
     {
         return SchemaPopOver::make();
     }
 
-    public function SearchBox()
+    /**
+     * 创建 SearchBox 渲染器实例.
+     *
+     * @return SearchBox
+     */
+    public function SearchBox(): SearchBox
     {
         return SearchBox::make();
     }
 
-    public function SelectControl($name = '', $label = '')
+    /**
+     * 创建 Select 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return Select
+     */
+    public function Select($name = '', $label = ''): Select
     {
         $instance = Select::make();
 
@@ -1265,27 +2144,54 @@ class Amis
         return $instance;
     }
 
-    public function Service()
+    /**
+     * 创建 Service 渲染器实例.
+     *
+     * @return Service
+     */
+    public function Service(): Service
     {
         return Service::make();
     }
 
-    public function SparkLine()
+    /**
+     * 创建 SparkLine 渲染器实例.
+     *
+     * @return SparkLine
+     */
+    public function SparkLine(): SparkLine
     {
         return SparkLine::make();
     }
 
-    public function Spinner()
+    /**
+     * 创建 Spinner 渲染器实例.
+     *
+     * @return Spinner
+     */
+    public function Spinner(): Spinner
     {
         return Spinner::make();
     }
 
-    public function State()
+    /**
+     * 创建 State 渲染器实例.
+     *
+     * @return State
+     */
+    public function State(): State
     {
         return State::make();
     }
 
-    public function StaticExactControl($name = '', $label = '')
+    /**
+     * 创建 StaticExactControl 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return StaticExactControl
+     */
+    public function Static($name = '', $label = ''): StaticExactControl
     {
         $instance = StaticExactControl::make();
 
@@ -1300,7 +2206,14 @@ class Amis
         return $instance;
     }
 
-    public function Status($name = '', $label = '')
+    /**
+     * 创建 Status 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return Status
+     */
+    public function Status($name = '', $label = ''): Status
     {
         $instance = Status::make();
 
@@ -1315,17 +2228,34 @@ class Amis
         return $instance;
     }
 
-    public function Step()
+    /**
+     * 创建 Step 渲染器实例.
+     *
+     * @return Step
+     */
+    public function Step(): Step
     {
         return Step::make();
     }
 
-    public function Steps()
+    /**
+     * 创建 Steps 渲染器实例.
+     *
+     * @return Steps
+     */
+    public function Steps(): Steps
     {
         return Steps::make();
     }
 
-    public function SubFormControl($name = '', $label = '')
+    /**
+     * 创建 InputSubForm 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return InputSubForm
+     */
+    public function InputSubForm($name = '', $label = ''): InputSubForm
     {
         $instance = InputSubForm::make();
 
@@ -1340,19 +2270,36 @@ class Amis
         return $instance;
     }
 
-    public function SvgIcon()
+    /**
+     * 创建 CustomSvgIcon 渲染器实例.
+     *
+     * @return CustomSvgIcon
+     */
+    public function CustomSvgIcon(): CustomSvgIcon
     {
         return CustomSvgIcon::make();
     }
 
-    public function SwitchContainer()
+    /**
+     * 创建 SwitchContainer 渲染器实例.
+     *
+     * @return SwitchContainer
+     */
+    public function SwitchContainer(): SwitchContainer
     {
         return SwitchContainer::make();
     }
 
-    public function SwitchControl($name = '', $label = '')
+    /**
+     * 创建 Switch 渲染器实例.
+     *
+     * @param string      $name  字段名
+     * @param string      $label 标签
+     * @return SwitchClass
+     */
+    public function Switch($name = '', $label = ''): SwitchClass
     {
-        $instance = SwitchControl::make();
+        $instance = SwitchClass::make();
 
         if ($name !== '') {
             $instance->name($name);
@@ -1365,17 +2312,34 @@ class Amis
         return $instance;
     }
 
-    public function Tab()
+    /**
+     * 创建 Tab 渲染器实例.
+     *
+     * @return Tab
+     */
+    public function Tab(): Tab
     {
         return Tab::make();
     }
 
-    public function Table()
+    /**
+     * 创建 Table 渲染器实例.
+     *
+     * @return Table
+     */
+    public function Table(): Table
     {
         return Table::make();
     }
 
-    public function TableColumn($name = '', $label = '')
+    /**
+     * 创建 TableColumn 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return TableColumn
+     */
+    public function TableColumn($name = '', $label = ''): TableColumn
     {
         $instance = TableColumn::make();
 
@@ -1390,7 +2354,14 @@ class Amis
         return $instance;
     }
 
-    public function TableControl($name = '', $label = '')
+    /**
+     * 创建 inputTable 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return inputTable
+     */
+    public function inputTable($name = '', $label = ''): inputTable
     {
         $instance = inputTable::make();
 
@@ -1405,22 +2376,44 @@ class Amis
         return $instance;
     }
 
-    public function TableSchema2()
+    /**
+     * 创建 Table2 渲染器实例.
+     *
+     * @return Table2
+     */
+    public function Table2(): Table2
     {
         return Table2::make();
     }
 
-    public function TableView()
+    /**
+     * 创建 TableView 渲染器实例.
+     *
+     * @return TableView
+     */
+    public function TableView(): TableView
     {
         return TableView::make();
     }
 
-    public function Tabs()
+    /**
+     * 创建 Tabs 渲染器实例.
+     *
+     * @return Tabs
+     */
+    public function Tabs(): Tabs
     {
         return Tabs::make();
     }
 
-    public function TabsTransferControl($name = '', $label = '')
+    /**
+     * 创建 TabsTransfer 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return TabsTransfer
+     */
+    public function TabsTransfer($name = '', $label = ''): TabsTransfer
     {
         $instance = TabsTransfer::make();
 
@@ -1435,7 +2428,14 @@ class Amis
         return $instance;
     }
 
-    public function TabsTransferPickerControl($name = '', $label = '')
+    /**
+     * 创建 TabsTransferPicker 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return TabsTransferPicker
+     */
+    public function TabsTransferPicker($name = '', $label = ''): TabsTransferPicker
     {
         $instance = TabsTransferPicker::make();
 
@@ -1450,12 +2450,24 @@ class Amis
         return $instance;
     }
 
-    public function Tag()
+    /**
+     * 创建 Tag 渲染器实例.
+     *
+     * @return Tag
+     */
+    public function Tag(): Tag
     {
         return Tag::make();
     }
 
-    public function TagControl($name = '', $label = '')
+    /**
+     * 创建 InputTag 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return InputTag
+     */
+    public function InputTag($name = '', $label = ''): InputTag
     {
         $instance = InputTag::make();
 
@@ -1470,12 +2482,24 @@ class Amis
         return $instance;
     }
 
-    public function Tasks()
+    /**
+     * 创建 Tasks 渲染器实例.
+     *
+     * @return Tasks
+     */
+    public function Tasks(): Tasks
     {
         return Tasks::make();
     }
 
-    public function TextControl($name = '', $label = '')
+    /**
+     * 创建 InputText 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return InputText
+     */
+    public function InputText($name = '', $label = ''): InputText
     {
         $instance = InputText::make();
 
@@ -1490,7 +2514,14 @@ class Amis
         return $instance;
     }
 
-    public function TextareaControl($name = '', $label = '')
+    /**
+     * 创建 Textarea 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return Textarea
+     */
+    public function Textarea($name = '', $label = ''): Textarea
     {
         $instance = Textarea::make();
 
@@ -1505,7 +2536,14 @@ class Amis
         return $instance;
     }
 
-    public function TimeControl($name = '', $label = '')
+    /**
+     * 创建 InputTime 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return InputTime
+     */
+    public function InputTime($name = '', $label = ''): InputTime
     {
         $instance = InputTime::make();
 
@@ -1520,37 +2558,74 @@ class Amis
         return $instance;
     }
 
-    public function Timeline()
+    /**
+     * 创建 Timeline 渲染器实例.
+     *
+     * @return Timeline
+     */
+    public function Timeline(): Timeline
     {
         return Timeline::make();
     }
 
-    public function TimelineItem()
+    /**
+     * 创建 TimelineItem 渲染器实例.
+     *
+     * @return TimelineItem
+     */
+    public function TimelineItem(): TimelineItem
     {
         return TimelineItem::make();
     }
 
-    public function Toast()
+    /**
+     * 创建 Toast 渲染器实例.
+     *
+     * @return Toast
+     */
+    public function Toast(): Toast
     {
         return Toast::make();
     }
 
-    public function ToastAction()
+    /**
+     * 创建 ToastAction 渲染器实例.
+     *
+     * @return ToastAction
+     */
+    public function ToastAction(): ToastAction
     {
         return ToastAction::make();
     }
 
-    public function TooltipWrapper()
+    /**
+     * 创建 TooltipWrapper 渲染器实例.
+     *
+     * @return TooltipWrapper
+     */
+    public function TooltipWrapper(): TooltipWrapper
     {
         return TooltipWrapper::make();
     }
 
-    public function Tpl()
+    /**
+     * 创建 Tpl 渲染器实例.
+     *
+     * @return Tpl
+     */
+    public function Tpl(): Tpl
     {
         return Tpl::make();
     }
 
-    public function TransferControl($name = '', $label = '')
+    /**
+     * 创建 Transfer 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return Transfer
+     */
+    public function Transfer($name = '', $label = ''): Transfer
     {
         $instance = Transfer::make();
 
@@ -1565,7 +2640,14 @@ class Amis
         return $instance;
     }
 
-    public function TransferPickerControl($name = '', $label = '')
+    /**
+     * 创建 TransferPicker 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return TransferPicker
+     */
+    public function TransferPicker($name = '', $label = ''): TransferPicker
     {
         $instance = TransferPicker::make();
 
@@ -1580,7 +2662,14 @@ class Amis
         return $instance;
     }
 
-    public function TreeControl($name = '', $label = '')
+    /**
+     * 创建 InputTree 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return InputTree
+     */
+    public function InputTree($name = '', $label = ''): InputTree
     {
         $instance = InputTree::make();
 
@@ -1595,7 +2684,14 @@ class Amis
         return $instance;
     }
 
-    public function TreeSelectControl($name = '', $label = '')
+    /**
+     * 创建 TreeSelect 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return TreeSelect
+     */
+    public function TreeSelect($name = '', $label = ''): TreeSelect
     {
         $instance = TreeSelect::make();
 
@@ -1610,7 +2706,14 @@ class Amis
         return $instance;
     }
 
-    public function UUIDControl($name = '', $label = '')
+    /**
+     * 创建 UUID 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return UUID
+     */
+    public function UUID($name = '', $label = ''): UUID
     {
         $instance = UUID::make();
 
@@ -1625,12 +2728,24 @@ class Amis
         return $instance;
     }
 
-    public function UrlAction()
+    /**
+     * 创建 UrlAction 渲染器实例.
+     *
+     * @return UrlAction
+     */
+    public function UrlAction(): UrlAction
     {
         return UrlAction::make();
     }
 
-    public function UserSelectControl($name = '', $label = '')
+    /**
+     * 创建 UserSelect 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return UserSelect
+     */
+    public function UserSelect($name = '', $label = ''): UserSelect
     {
         $instance = UserSelect::make();
 
@@ -1645,22 +2760,39 @@ class Amis
         return $instance;
     }
 
-    public function VBox()
+    /**
+     * 创建 VBox 渲染器实例.
+     *
+     * @return VBox
+     */
+    public function VBox(): VBox
     {
         return VBox::make();
     }
 
-    public function VanillaAction()
-    {
-        return Button::make();
-    }
+//    public function VanillaAction()
+//    {
+//        return Button::make();
+//    }
 
-    public function Video()
+    /**
+     * 创建 Video 渲染器实例.
+     *
+     * @return Video
+     */
+    public function Video(): Video
     {
         return Video::make();
     }
 
-    public function WangEditor($name = '', $label = '')
+    /**
+     * 创建 CustomWangEditor 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return CustomWangEditor
+     */
+    public function CustomWangEditor($name = '', $label = ''): CustomWangEditor
     {
         $instance = CustomWangEditor::make();
 
@@ -1675,22 +2807,44 @@ class Amis
         return $instance;
     }
 
-    public function Watermark()
+    /**
+     * 创建 CustomWatermark 渲染器实例.
+     *
+     * @return CustomWatermark
+     */
+    public function CustomWatermark(): CustomWatermark
     {
         return CustomWatermark::make();
     }
 
-    public function WebComponent()
+    /**
+     * 创建 WebComponent 渲染器实例.
+     *
+     * @return WebComponent
+     */
+    public function WebComponent(): WebComponent
     {
         return WebComponent::make();
     }
 
-    public function Wizard()
+    /**
+     * 创建 Wizard 渲染器实例.
+     *
+     * @return Wizard
+     */
+    public function Wizard(): Wizard
     {
         return Wizard::make();
     }
 
-    public function WizardStep($name = '', $label = '')
+    /**
+     * 创建 WizardStep 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return WizardStep
+     */
+    public function WizardStep($name = '', $label = ''): WizardStep
     {
         $instance = WizardStep::make();
 
@@ -1705,17 +2859,34 @@ class Amis
         return $instance;
     }
 
-    public function Words()
+    /**
+     * 创建 Words 渲染器实例.
+     *
+     * @return Words
+     */
+    public function Words(): Words
     {
         return Words::make();
     }
 
-    public function Wrapper()
+    /**
+     * 创建 Wrapper 渲染器实例.
+     *
+     * @return Wrapper
+     */
+    public function Wrapper(): Wrapper
     {
         return Wrapper::make();
     }
 
-    public function YearControl($name = '', $label = '')
+    /**
+     * 创建 InputYear 渲染器实例.
+     *
+     * @param string $name  字段名
+     * @param string $label 标签
+     * @return InputYear
+     */
+    public function InputYear($name = '', $label = ''): InputYear
     {
         $instance = InputYear::make();
 

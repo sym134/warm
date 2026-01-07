@@ -1,6 +1,6 @@
 <?php
 
-namespace warm\framework\support\facade;
+namespace warm\support\facade;
 
 use Closure;
 use support\Cache as WebmanCache;

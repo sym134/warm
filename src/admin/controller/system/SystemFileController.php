@@ -38,11 +38,11 @@ class SystemFileController extends AdminController
             ->filterDefaultVisible(true)
             ->filter(
                 $this->baseFilter()->submitOnChange()->body([
-                    amis()->TextControl('origin_name', translator('admin.admin_attachments.origin_name'))
+                    amis()->InputText('origin_name', translator('admin.admin_attachments.origin_name'))
                         ->size('sm'),
-                    amis()->SelectControl('file_type', translator('admin.admin_attachments.file_type'))
+                    amis()->Select('file_type', translator('admin.admin_attachments.file_type'))
                         ->size('xs')->options(SystemFile::FILE_TYPE),
-                    amis()->SelectControl('storage_mode', translator('admin.admin_attachments.storage_mode'))
+                    amis()->Select('storage_mode', translator('admin.admin_attachments.storage_mode'))
                         ->size('xs')->options(SystemFile::STORAGE_MODE),
                 ])->actions()
             )

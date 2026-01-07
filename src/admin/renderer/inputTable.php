@@ -3,7 +3,7 @@
 namespace warm\admin\renderer;
 
 /**
- * TableControl
+ * inputTable
  *
  * @author  slowlyo
  * @version 6.8.0

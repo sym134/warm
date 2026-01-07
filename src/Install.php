@@ -25,14 +25,14 @@ class Install
      * @var array
      */
     protected static $pathRelation = array(
-        '../config/plugin/jizhi/warm' => 'config/plugin/jizhi/warm',
-        '../config/database.php' => 'config/database.php',
-        '../config/redis.php' => 'config/redis.php',
-        '../config/hashing.php' => 'config/hashing.php',
-        '../config/filesystems.php' => 'config/filesystems.php',
-        '../admin-assets' => 'public/admin-assets',
-        '../resource' => 'resource',
-        '../.example.env' => '.example.env',
+        './config/plugin/jizhi/warm' => 'config/plugin/jizhi/warm',
+        './config/database.php' => 'config/database.php',
+        './config/redis.php' => 'config/redis.php',
+        './config/hashing.php' => 'config/hashing.php',
+        './config/filesystems.php' => 'config/filesystems.php',
+        './admin-assets' => 'public/admin-assets',
+        './resource' => 'resource',
+        './.example.env' => '.example.env',
     );
 
     /**

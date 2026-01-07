@@ -1,6 +1,6 @@
 <?php
 
-namespace warm\framework\filesystem\Drivers;
+namespace warm\framework\filesystem\drivers;
 
 use League\Flysystem\Filesystem;
 use League\Flysystem\InMemory\InMemoryFilesystemAdapter;

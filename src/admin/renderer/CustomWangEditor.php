@@ -6,7 +6,7 @@ namespace warm\admin\renderer;
 use warm\admin\trait\UploadTrait;
 
 /**
- * WangEditor
+ * CustomWangEditor
  *
  * @author  slowlyo
  * @version 6.8.0
