@@ -171,7 +171,12 @@ class SystemCrontabService extends AdminService
                 $dayOfWeek = '*';
                 break;
             case 'second-n':
-                $second = ($second !== '*') ? '*/' . $second : '0';
+                // 修复：当 second 为 '*' 时，应该使用默认值而不是 '0'
+                if ($second === '*' || $second === '' || $second === null) {
+                    $second = '*/1'; // 默认每秒执行
+                } else {
+                    $second = '*/' . $second;
+                }
                 $minute = "*";
                 $hour = '*';
                 $dayOfMonth = '*';
@@ -305,20 +310,182 @@ class SystemCrontabService extends AdminService
      * 运行任务
      *
      * @param int $id 任务ID
-     * @return bool 是否运行成功
+     * @param bool $forceSync 是否强制同步执行（忽略异步配置）
+     * @return bool 是否运行成功（异步执行时立即返回 true）
      *
      * Author:sym
      * Date:2024/7/2 下午3:29
      * Company:极智科技
      */
-    public function run(int $id): bool
+    public function run(int $id, bool $forceSync = false): bool
     {
+        // 检查是否启用异步执行
+        if (!$forceSync && config('crontab.enable_async', false)) {
+            return $this->runAsync($id);
+        }
+        
+        // 同步执行
+        return $this->runSync($id);
+    }
+
+    /**
+     * 异步执行任务
+     *
+     * @param int $id 任务ID
+     * @return bool 是否成功提交异步任务
+     */
+    private function runAsync(int $id): bool
+    {
+        $asyncMethod = config('crontab.async_method', 'coroutine');
+        
+        switch ($asyncMethod) {
+            case 'coroutine':
+                return $this->runAsyncWithCoroutine($id);
+            case 'queue':
+                return $this->runAsyncWithQueue($id);
+            default:
+                // 降级到同步执行
+                \support\Log::warning("未知的异步执行方式: {$asyncMethod}，降级到同步执行");
+                return $this->runSync($id);
+        }
+    }
+
+    /**
+     * 使用协程异步执行任务
+     *
+     * @param int $id 任务ID
+     * @return bool 是否成功提交
+     */
+    private function runAsyncWithCoroutine(int $id): bool
+    {
+        // 检查是否支持协程
+        $coroutineAvailable = false;
+        
+        // 检查 Workerman 协程
+        if (class_exists('\Workerman\Coroutine')) {
+            $coroutineAvailable = true;
+        } elseif (function_exists('Workerman\Coroutine\run')) {
+            $coroutineAvailable = true;
+        }
+        
+        if (!$coroutineAvailable) {
+            \support\Log::warning("协程不可用，降级到同步执行 [任务ID: {$id}]");
+            return $this->runSync($id);
+        }
+
+        try {
+            // 使用协程异步执行
+            if (class_exists('\Workerman\Coroutine')) {
+                // 使用协程类
+                \Workerman\Coroutine::create(function () use ($id) {
+                    try {
+                        $this->runSync($id);
+                    } catch (\Exception $e) {
+                        \support\Log::error("异步任务执行失败 [任务ID: {$id}]: " . $e->getMessage());
+                    }
+                });
+            } else {
+                // 使用函数方式（如果 workerman/coroutine 扩展可用）
+                // @phpstan-ignore-next-line
+                \Workerman\Coroutine\run(function () use ($id) {
+                    try {
+                        $this->runSync($id);
+                    } catch (\Exception $e) {
+                        \support\Log::error("异步任务执行失败 [任务ID: {$id}]: " . $e->getMessage());
+                    }
+                });
+            }
+            
+            return true;
+        } catch (\Exception $e) {
+            \support\Log::error("提交异步任务失败 [任务ID: {$id}]: " . $e->getMessage());
+            // 降级到同步执行
+            return $this->runSync($id);
+        }
+    }
+
+    /**
+     * 使用队列异步执行任务
+     *
+     * @param int $id 任务ID
+     * @return bool 是否成功提交
+     */
+    private function runAsyncWithQueue(int $id): bool
+    {
+        $queueName = config('crontab.queue_name', 'crontab_tasks');
+        
+        try {
+            // 检查是否有队列服务（可选，需要安装队列扩展）
+            if (class_exists('\support\Queue')) {
+                // @phpstan-ignore-next-line
+                \support\Queue::push($queueName, [
+                    'task_id' => $id,
+                    'type' => 'crontab',
+                    'created_at' => time(),
+                ]);
+                return true;
+            }
+            
+            // 检查是否有 Laravel Queue
+            if (class_exists('\Illuminate\Support\Facades\Queue')) {
+                // 尝试使用 Laravel Queue
+                try {
+                    // 如果存在 CrontabJob 类，使用它
+                    if (class_exists('\App\Jobs\CrontabJob')) {
+                        \Illuminate\Support\Facades\Queue::push(\App\Jobs\CrontabJob::class, [
+                            'task_id' => $id,
+                        ]);
+                    } else {
+                        // 否则直接推送任务数据
+                        \Illuminate\Support\Facades\Queue::push(function ($job) use ($id) {
+                            $service = new self();
+                            $service->runSync($id);
+                            $job->delete();
+                        });
+                    }
+                    return true;
+                } catch (\Exception $e) {
+                    \support\Log::error("Laravel Queue 推送失败: " . $e->getMessage());
+                }
+            }
+            
+            \support\Log::warning("队列服务不可用，降级到同步执行 [任务ID: {$id}]");
+            return $this->runSync($id);
+        } catch (\Exception $e) {
+            \support\Log::error("提交队列任务失败 [任务ID: {$id}]: " . $e->getMessage());
+            // 降级到同步执行
+            return $this->runSync($id);
+        }
+    }
+
+    /**
+     * 同步执行任务（原有逻辑）
+     *
+     * @param int $id 任务ID
+     * @return bool 是否运行成功
+     */
+    private function runSync(int $id): bool
+    {
+        $startTime = microtime(true);
+        
         // 获取任务信息
         $info = $this->getModel()->find($id);
         
         // 检查任务是否存在
         if (!$info) {
             return false;
+        }
+        
+        // 检查任务状态是否为启用状态
+        if ($info->task_status !== 1) {
+            return false;
+        }
+        
+        // 并发控制检查
+        if (config('crontab.enable_concurrent_control', false)) {
+            if (!$this->acquireLock($id)) {
+                return false; // 任务正在执行中，跳过本次执行
+            }
         }
         
         // 初始化日志数据
@@ -331,28 +498,176 @@ class SystemCrontabService extends AdminService
         ];
 
         try {
+            $result = false;
             switch ($info->task_type) {
                 case 1:
                     // URL任务GET
-                    return $this->executeHttpGetTask($info, $logData);
+                    $result = $this->executeHttpGetTask($info, $logData);
+                    break;
                     
                 case 2:
                     // URL任务POST
-                    return $this->executeHttpPostTask($info, $logData);
+                    $result = $this->executeHttpPostTask($info, $logData);
+                    break;
                     
                 case 3:
                     // 类任务
-                    return $this->executeClassTask($info, $logData);
+                    $result = $this->executeClassTask($info, $logData);
+                    break;
                     
                 default:
                     $logData['exception_info'] = '未知的任务类型: ' . $info->task_type;
                     SystemCrontabLogService::make()->store($logData);
-                    return false;
+                    $result = false;
+            }
+            
+            // 记录执行时间
+            $executionTime = round((microtime(true) - $startTime) * 1000, 2); // 转换为毫秒
+            if (isset($logData['exception_info']) && is_array($logData['exception_info'])) {
+                $logData['exception_info']['execution_time_ms'] = $executionTime;
+            } elseif (is_string($logData['exception_info'])) {
+                $logData['exception_info'] = [
+                    'message' => $logData['exception_info'],
+                    'execution_time_ms' => $executionTime
+                ];
+            }
+            
+            // 监控和告警
+            if (config('crontab.enable_monitor', false)) {
+                $this->monitorTaskExecution($info, $result, $executionTime, $logData);
+            }
+            
+            // 如果任务失败且启用了重试，安排重试
+            if (!$result && config('crontab.enable_retry', false)) {
+                $this->scheduleRetry($id, $info);
+            }
+            
+            return $result;
+        } catch (\Exception $e) {
+            // 记录完整的异常信息，包括堆栈跟踪
+            $executionTime = round((microtime(true) - $startTime) * 1000, 2);
+            $logData['exception_info'] = [
+                'message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'trace' => $e->getTraceAsString(),
+                'execution_time_ms' => $executionTime
+            ];
+            SystemCrontabLogService::make()->store($logData);
+            
+            // 监控和告警
+            if (config('crontab.enable_monitor', false)) {
+                $this->monitorTaskExecution($info, false, $executionTime, $logData);
+            }
+            
+            // 如果任务失败且启用了重试，安排重试
+            if (config('crontab.enable_retry', false)) {
+                $this->scheduleRetry($id, $info);
+            }
+            
+            return false;
+        } finally {
+            // 释放锁
+            if (config('crontab.enable_concurrent_control', false)) {
+                $this->releaseLock($id);
+            }
+        }
+    }
+    
+    /**
+     * 获取任务执行锁
+     *
+     * @param int $id 任务ID
+     * @return bool 是否成功获取锁
+     */
+    private function acquireLock(int $id): bool
+    {
+        $lockKey = 'crontab_lock_' . $id;
+        $lockExpire = config('crontab.lock_expire', 3600);
+        
+        // 尝试使用 Redis（如果可用）
+        try {
+            if (class_exists('\Illuminate\Support\Facades\Redis')) {
+                $redis = \Illuminate\Support\Facades\Redis::connection();
+                $result = $redis->set($lockKey, time(), 'EX', $lockExpire, 'NX');
+                if ($result) {
+                    return true;
+                }
             }
         } catch (\Exception $e) {
-            $logData['exception_info'] = $e->getMessage();
-            SystemCrontabLogService::make()->store($logData);
-            return false;
+            // Redis 不可用时，使用文件锁
+        }
+        
+        // 使用文件锁作为后备方案
+        return $this->acquireFileLock($id, $lockExpire);
+    }
+    
+    /**
+     * 获取文件锁
+     *
+     * @param int $id 任务ID
+     * @param int $expire 过期时间（秒）
+     * @return bool 是否成功获取锁
+     */
+    private function acquireFileLock(int $id, int $expire): bool
+    {
+        $lockFile = runtime_path() . '/crontab_locks/' . $id . '.lock';
+        $lockDir = dirname($lockFile);
+        
+        if (!is_dir($lockDir)) {
+            mkdir($lockDir, 0755, true);
+        }
+        
+        // 检查锁文件是否存在且未过期
+        if (file_exists($lockFile)) {
+            $lockTime = filemtime($lockFile);
+            if (time() - $lockTime < $expire) {
+                return false; // 锁仍有效
+            }
+            // 锁已过期，删除旧锁文件
+            @unlink($lockFile);
+        }
+        
+        // 创建锁文件
+        return touch($lockFile);
+    }
+    
+    /**
+     * 释放任务执行锁
+     *
+     * @param int $id 任务ID
+     * @return void
+     */
+    private function releaseLock(int $id): void
+    {
+        $lockKey = 'crontab_lock_' . $id;
+        
+        // 尝试使用 Redis（如果可用）
+        try {
+            if (class_exists('\Illuminate\Support\Facades\Redis')) {
+                $redis = \Illuminate\Support\Facades\Redis::connection();
+                $redis->del($lockKey);
+                return;
+            }
+        } catch (\Exception $e) {
+            // Redis 不可用时，删除文件锁
+        }
+        
+        // 使用文件锁作为后备方案
+        $this->releaseFileLock($id);
+    }
+    
+    /**
+     * 释放文件锁
+     *
+     * @param int $id 任务ID
+     * @return void
+     */
+    private function releaseFileLock(int $id): void
+    {
+        $lockFile = runtime_path() . '/crontab_locks/' . $id . '.lock';
+        if (file_exists($lockFile)) {
+            @unlink($lockFile);
         }
     }
     
@@ -366,20 +681,27 @@ class SystemCrontabService extends AdminService
     private function executeHttpGetTask(SystemCrontab $info, array &$logData): bool
     {
         $httpClient = new Client([
-            'timeout' => 5,
-            'verify' => false,
+            'timeout' => config('crontab.http_timeout', 30),
+            'verify' => config('crontab.verify_ssl', true),
         ]);
         
         try {
+            // GET 请求使用 query 参数，而不是 form_params
             $response = $httpClient->request('GET', $info->target, [
-                'form_params' => $info->parameter,
+                'query' => $info->parameter ?? [],
             ]);
             
             $logData['execution_status'] = $response->getStatusCode() === 200 ? 1 : 2;
             SystemCrontabLogService::make()->store($logData);
             return $logData['execution_status'] === 1;
         } catch (GuzzleException $e) {
-            $logData['exception_info'] = $e->getMessage();
+            // 记录完整的异常信息
+            $logData['exception_info'] = [
+                'message' => $e->getMessage(),
+                'code' => $e->getCode(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+            ];
             SystemCrontabLogService::make()->store($logData);
             return false;
         }
@@ -395,20 +717,35 @@ class SystemCrontabService extends AdminService
     private function executeHttpPostTask(SystemCrontab $info, array &$logData): bool
     {
         $httpClient = new Client([
-            'timeout' => 5,
-            'verify' => false,
+            'timeout' => config('crontab.http_timeout', 30),
+            'verify' => config('crontab.verify_ssl', true),
         ]);
         
         try {
-            $response = $httpClient->request('POST', $info->target, [
-                'form_params' => $info->parameter,
-            ]);
+            // POST 请求根据参数类型选择 form_params 或 json
+            $options = [];
+            if (!empty($info->parameter)) {
+                // 如果参数是数组，使用 form_params；如果是 JSON 字符串，使用 json
+                if (is_array($info->parameter)) {
+                    $options['form_params'] = $info->parameter;
+                } else {
+                    $options['json'] = $info->parameter;
+                }
+            }
+            
+            $response = $httpClient->request('POST', $info->target, $options);
             
             $logData['execution_status'] = $response->getStatusCode() === 200 ? 1 : 2;
             SystemCrontabLogService::make()->store($logData);
             return $logData['execution_status'] === 1;
         } catch (GuzzleException $e) {
-            $logData['exception_info'] = $e->getMessage();
+            // 记录完整的异常信息
+            $logData['exception_info'] = [
+                'message' => $e->getMessage(),
+                'code' => $e->getCode(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+            ];
             SystemCrontabLogService::make()->store($logData);
             return false;
         }
@@ -429,7 +766,7 @@ class SystemCrontabService extends AdminService
             return false;
         }
         
-        [$className, $methodName] = explode(':', $info->target);
+        [$className, $methodName] = explode(':', $info->target, 2);
         
         if (!class_exists($className)) {
             $logData['exception_info'] = '类任务不存在:' . $className;
@@ -445,29 +782,523 @@ class SystemCrontabService extends AdminService
         
         try {
             $class = new $className;
-            $result = $class->$methodName($info->parameter);
+            
+            // 根据方法签名决定如何传递参数
+            $reflection = new \ReflectionMethod($className, $methodName);
+            $parameters = $reflection->getParameters();
+            
+            if (empty($parameters)) {
+                // 方法无参数
+                $result = $class->$methodName();
+            } elseif (count($parameters) === 1 && $parameters[0]->isArray()) {
+                // 方法接受数组参数
+                $result = $class->$methodName($info->parameter ?? []);
+            } else {
+                // 其他情况，直接传递参数
+                $result = $class->$methodName($info->parameter);
+            }
             
             $logData['execution_status'] = 1;
             $logData['exception_info'] = is_string($result) ? $result : json_encode($result, JSON_UNESCAPED_UNICODE);
             SystemCrontabLogService::make()->store($logData);
             return true;
         } catch (\Exception $e) {
-            $logData['exception_info'] = '执行类任务时发生错误: ' . $e->getMessage();
+            // 记录完整的异常信息
+            $logData['exception_info'] = [
+                'message' => '执行类任务时发生错误: ' . $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'trace' => $e->getTraceAsString(),
+            ];
             SystemCrontabLogService::make()->store($logData);
             return false;
         }
     }
 
     /**
-     * @param array $data
-     * @return array
+     * 处理任务数据数组
+     *
+     * @param array $data 任务数据
+     * @return array 处理后的数据
      * @throws \Exception
      */
     public function getArr(array $data): array
     {
-        $data['rule'] = $this->generateCrontabExpression($data['execution_cycle'], $data['second'], $data['minute'], $data['hour'], $data['day'], '*', $data['week']);
-        $data['created_by'] = $this->request->user->id;
+        // 验证必填字段
+        $requiredFields = ['execution_cycle', 'task_type', 'target'];
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field]) || $data[$field] === '') {
+                throw new \Exception("字段 {$field} 是必填的");
+            }
+        }
+        
+        // 验证任务类型
+        if (!in_array((int)$data['task_type'], [1, 2, 3])) {
+            throw new \Exception('无效的任务类型: ' . $data['task_type']);
+        }
+        
+        // 验证执行周期
+        $validPeriods = ['day', 'day-n', 'hour', 'hour-n', 'minute-n', 'week', 'month', 'second-n'];
+        if (!in_array($data['execution_cycle'], $validPeriods)) {
+            throw new \Exception('无效的执行周期: ' . $data['execution_cycle']);
+        }
+        
+        // 验证 URL 任务的目标格式
+        if (in_array((int)$data['task_type'], [1, 2])) {
+            if (!filter_var($data['target'], FILTER_VALIDATE_URL)) {
+                throw new \Exception('URL 任务的目标必须是有效的 URL 地址');
+            }
+        }
+        
+        // 生成 Cron 表达式
+        $data['rule'] = $this->generateCrontabExpression(
+            $data['execution_cycle'],
+            $data['second'] ?? '*',
+            $data['minute'] ?? '*',
+            $data['hour'] ?? '*',
+            $data['day'] ?? '*',
+            '*',
+            $data['week'] ?? '*'
+        );
+        
+        // 设置创建者（如果存在 request 对象）
+        if (isset($this->request) && isset($this->request->user) && isset($this->request->user->id)) {
+            $data['created_by'] = $this->request->user->id;
+        }
+        
+        // 验证任务
         $this->validateTask($data['task_type'], $data['target']);
+        
         return $data;
+    }
+
+    /**
+     * 监控任务执行
+     *
+     * @param SystemCrontab $task 任务信息
+     * @param bool $success 是否执行成功
+     * @param float $executionTime 执行时间（毫秒）
+     * @param array $logData 日志数据
+     * @return void
+     */
+    private function monitorTaskExecution(SystemCrontab $task, bool $success, float $executionTime, array $logData): void
+    {
+        // 检查失败告警
+        if (!$success) {
+            $failureCount = $this->getRecentFailureCount($task->id);
+            if ($failureCount >= config('crontab.failure_alert_threshold', 3)) {
+                $this->sendAlert($task, 'failure', [
+                    'failure_count' => $failureCount,
+                    'last_error' => $logData['exception_info'] ?? '未知错误',
+                ]);
+            }
+        }
+
+        // 检查超时告警
+        $timeoutThreshold = config('crontab.timeout_alert_threshold_ms', 60000);
+        if ($executionTime > $timeoutThreshold) {
+            $this->sendAlert($task, 'timeout', [
+                'execution_time_ms' => $executionTime,
+                'threshold_ms' => $timeoutThreshold,
+            ]);
+        }
+    }
+
+    /**
+     * 获取最近失败次数
+     *
+     * @param int $taskId 任务ID
+     * @param int $minutes 统计时间范围（分钟）
+     * @return int 失败次数
+     */
+    private function getRecentFailureCount(int $taskId, int $minutes = 60): int
+    {
+        $logService = SystemCrontabLogService::make();
+        $startTime = date('Y-m-d H:i:s', time() - $minutes * 60);
+        
+        return $logService->getModel()
+            ->where('crontab_id', $taskId)
+            ->where('execution_status', 2) // 失败状态
+            ->where('created_at', '>=', $startTime)
+            ->count();
+    }
+
+    /**
+     * 发送告警
+     *
+     * @param SystemCrontab $task 任务信息
+     * @param string $alertType 告警类型：failure, timeout
+     * @param array $data 告警数据
+     * @return void
+     */
+    private function sendAlert(SystemCrontab $task, string $alertType, array $data = []): void
+    {
+        $channels = config('crontab.alert_channels', '');
+        $receivers = config('crontab.alert_receivers', '');
+        
+        if (empty($channels) || empty($receivers)) {
+            return; // 未配置告警渠道或接收人
+        }
+
+        $channels = array_map('trim', explode(',', $channels));
+        $receivers = array_map('trim', explode(',', $receivers));
+
+        // 构建告警消息
+        $message = $this->buildAlertMessage($task, $alertType, $data);
+        $title = $this->buildAlertTitle($task, $alertType);
+
+        // 发送告警到各个渠道
+        foreach ($channels as $channel) {
+            try {
+                $this->sendAlertToChannel($channel, $receivers, $title, $message, $task, $alertType);
+            } catch (\Exception $e) {
+                // 记录告警发送失败，但不影响主流程
+                \support\Log::error("定时任务告警发送失败 [任务ID: {$task->id}, 渠道: {$channel}]: " . $e->getMessage());
+            }
+        }
+    }
+
+    /**
+     * 构建告警标题
+     *
+     * @param SystemCrontab $task 任务信息
+     * @param string $alertType 告警类型
+     * @return string
+     */
+    private function buildAlertTitle(SystemCrontab $task, string $alertType): string
+    {
+        $typeMap = [
+            'failure' => '任务执行失败',
+            'timeout' => '任务执行超时',
+        ];
+        
+        return sprintf(
+            '[定时任务告警] %s - %s',
+            $typeMap[$alertType] ?? '未知告警',
+            $task->name ?? "任务 #{$task->id}"
+        );
+    }
+
+    /**
+     * 构建告警消息
+     *
+     * @param SystemCrontab $task 任务信息
+     * @param string $alertType 告警类型
+     * @param array $data 告警数据
+     * @return string
+     */
+    private function buildAlertMessage(SystemCrontab $task, string $alertType, array $data): string
+    {
+        $message = "任务名称：{$task->name}\n";
+        $message .= "任务ID：{$task->id}\n";
+        $message .= "任务类型：" . (SystemCrontab::TASK_TYPE[$task->task_type] ?? '未知') . "\n";
+        $message .= "任务目标：{$task->target}\n";
+        $message .= "告警时间：" . date('Y-m-d H:i:s') . "\n\n";
+
+        if ($alertType === 'failure') {
+            $message .= "连续失败次数：{$data['failure_count']}\n";
+            if (isset($data['last_error'])) {
+                $error = is_array($data['last_error']) 
+                    ? ($data['last_error']['message'] ?? json_encode($data['last_error'], JSON_UNESCAPED_UNICODE))
+                    : $data['last_error'];
+                $message .= "最后错误：{$error}\n";
+            }
+        } elseif ($alertType === 'timeout') {
+            $message .= "执行时间：{$data['execution_time_ms']} 毫秒\n";
+            $message .= "超时阈值：{$data['threshold_ms']} 毫秒\n";
+        }
+
+        return $message;
+    }
+
+    /**
+     * 发送告警到指定渠道
+     *
+     * @param string $channel 告警渠道
+     * @param array $receivers 接收人列表
+     * @param string $title 告警标题
+     * @param string $message 告警消息
+     * @param SystemCrontab $task 任务信息
+     * @param string $alertType 告警类型
+     * @return void
+     */
+    private function sendAlertToChannel(string $channel, array $receivers, string $title, string $message, SystemCrontab $task, string $alertType): void
+    {
+        switch (strtolower($channel)) {
+            case 'email':
+                $this->sendEmailAlert($receivers, $title, $message);
+                break;
+            case 'sms':
+                $this->sendSmsAlert($receivers, $message);
+                break;
+            case 'wechat':
+                $this->sendWechatAlert($receivers, $title, $message);
+                break;
+            case 'webhook':
+                $this->sendWebhookAlert($receivers, $title, $message, $task, $alertType);
+                break;
+            default:
+                \support\Log::warning("未知的告警渠道: {$channel}");
+        }
+    }
+
+    /**
+     * 发送邮件告警
+     *
+     * @param array $receivers 接收人列表
+     * @param string $title 标题
+     * @param string $message 消息
+     * @return void
+     */
+    private function sendEmailAlert(array $receivers, string $title, string $message): void
+    {
+        // 如果系统有邮件服务，使用邮件服务发送
+        // 这里使用日志记录，实际项目中应该调用邮件服务
+        foreach ($receivers as $receiver) {
+            \support\Log::info("邮件告警 [收件人: {$receiver}]: {$title}\n{$message}");
+            // TODO: 集成实际的邮件发送服务
+            // Mail::to($receiver)->send(new CrontabAlertMail($title, $message));
+        }
+    }
+
+    /**
+     * 发送短信告警
+     *
+     * @param array $receivers 接收人列表
+     * @param string $message 消息
+     * @return void
+     */
+    private function sendSmsAlert(array $receivers, string $message): void
+    {
+        // 如果系统有短信服务，使用短信服务发送
+        foreach ($receivers as $receiver) {
+            \support\Log::info("短信告警 [收件人: {$receiver}]: {$message}");
+            // TODO: 集成实际的短信发送服务
+            // SmsService::send($receiver, $message);
+        }
+    }
+
+    /**
+     * 发送微信告警
+     *
+     * @param array $receivers 接收人列表
+     * @param string $title 标题
+     * @param string $message 消息
+     * @return void
+     */
+    private function sendWechatAlert(array $receivers, string $title, string $message): void
+    {
+        // 如果系统有微信服务，使用微信服务发送
+        foreach ($receivers as $receiver) {
+            \support\Log::info("微信告警 [收件人: {$receiver}]: {$title}\n{$message}");
+            // TODO: 集成实际的微信发送服务
+            // WechatService::send($receiver, $title, $message);
+        }
+    }
+
+    /**
+     * 发送 Webhook 告警
+     *
+     * @param array $webhooks Webhook URL 列表
+     * @param string $title 标题
+     * @param string $message 消息
+     * @param SystemCrontab $task 任务信息
+     * @param string $alertType 告警类型
+     * @return void
+     */
+    private function sendWebhookAlert(array $webhooks, string $title, string $message, SystemCrontab $task, string $alertType): void
+    {
+        $client = new Client(['timeout' => 10]);
+        $payload = [
+            'alert_type' => $alertType,
+            'title' => $title,
+            'message' => $message,
+            'task_id' => $task->id,
+            'task_name' => $task->name,
+            'task_target' => $task->target,
+            'timestamp' => time(),
+        ];
+
+        foreach ($webhooks as $webhook) {
+            try {
+                $client->post($webhook, [
+                    'json' => $payload,
+                ]);
+            } catch (\Exception $e) {
+                \support\Log::error("Webhook 告警发送失败 [URL: {$webhook}]: " . $e->getMessage());
+            }
+        }
+    }
+
+    /**
+     * 安排任务重试
+     *
+     * @param int $taskId 任务ID
+     * @param SystemCrontab $task 任务信息
+     * @return void
+     */
+    private function scheduleRetry(int $taskId, SystemCrontab $task): void
+    {
+        // 获取当前重试次数
+        $retryCount = $this->getRetryCount($taskId);
+        $maxRetryCount = config('crontab.max_retry_count', 3);
+
+        if ($retryCount >= $maxRetryCount) {
+            // 已达到最大重试次数，发送告警
+            $this->sendAlert($task, 'failure', [
+                'failure_count' => $retryCount,
+                'message' => "任务已达到最大重试次数 ({$maxRetryCount})，停止重试",
+            ]);
+            return;
+        }
+
+        // 计算重试延迟时间（指数退避）
+        $retryInterval = config('crontab.retry_interval', 60);
+        $multiplier = config('crontab.retry_interval_multiplier', 2);
+        $delay = $retryInterval * pow($multiplier, $retryCount);
+
+        // 记录重试计划
+        $this->recordRetrySchedule($taskId, $retryCount + 1, $delay);
+
+        // 使用延迟执行（这里使用简单的延迟，实际项目中可以使用队列系统）
+        // 由于是同步执行，这里使用定时器延迟执行
+        if (function_exists('Workerman\Timer::add')) {
+            \Workerman\Timer::add($delay, function () use ($taskId) {
+                $this->retryTask($taskId);
+            }, [], false);
+        } else {
+            // 如果没有 Timer，记录到数据库，由另一个进程处理
+            $this->saveRetryTask($taskId, $delay);
+        }
+    }
+
+    /**
+     * 获取任务重试次数
+     *
+     * @param int $taskId 任务ID
+     * @return int 重试次数
+     */
+    private function getRetryCount(int $taskId): int
+    {
+        $retryKey = 'crontab_retry_count_' . $taskId;
+        
+        // 尝试从 Redis 获取
+        try {
+            if (class_exists('\Illuminate\Support\Facades\Redis')) {
+                $redis = \Illuminate\Support\Facades\Redis::connection();
+                $count = $redis->get($retryKey);
+                return $count ? (int)$count : 0;
+            }
+        } catch (\Exception $e) {
+            // Redis 不可用，使用文件
+        }
+
+        // 使用文件存储
+        $retryFile = runtime_path() . '/crontab_retries/' . $taskId . '.retry';
+        if (file_exists($retryFile)) {
+            $data = json_decode(file_get_contents($retryFile), true);
+            return $data['count'] ?? 0;
+        }
+
+        return 0;
+    }
+
+    /**
+     * 记录重试计划
+     *
+     * @param int $taskId 任务ID
+     * @param int $retryCount 重试次数
+     * @param int $delay 延迟时间（秒）
+     * @return void
+     */
+    private function recordRetrySchedule(int $taskId, int $retryCount, int $delay): void
+    {
+        $retryKey = 'crontab_retry_count_' . $taskId;
+        $retryData = [
+            'count' => $retryCount,
+            'next_retry_time' => time() + $delay,
+            'delay' => $delay,
+        ];
+
+        // 尝试存储到 Redis
+        try {
+            if (class_exists('\Illuminate\Support\Facades\Redis')) {
+                $redis = \Illuminate\Support\Facades\Redis::connection();
+                $redis->setex($retryKey, $delay + 60, $retryCount); // 设置过期时间
+                return;
+            }
+        } catch (\Exception $e) {
+            // Redis 不可用，使用文件
+        }
+
+        // 使用文件存储
+        $retryDir = runtime_path() . '/crontab_retries';
+        if (!is_dir($retryDir)) {
+            mkdir($retryDir, 0755, true);
+        }
+        $retryFile = $retryDir . '/' . $taskId . '.retry';
+        file_put_contents($retryFile, json_encode($retryData, JSON_UNESCAPED_UNICODE));
+    }
+
+    /**
+     * 保存重试任务到数据库（用于队列处理）
+     *
+     * @param int $taskId 任务ID
+     * @param int $delay 延迟时间（秒）
+     * @return void
+     */
+    private function saveRetryTask(int $taskId, int $delay): void
+    {
+        // 这里可以将重试任务保存到数据库，由另一个进程处理
+        // 或者使用队列系统
+        \support\Log::info("任务重试已安排 [任务ID: {$taskId}, 延迟: {$delay}秒]");
+    }
+
+    /**
+     * 重试任务
+     *
+     * @param int $taskId 任务ID
+     * @return bool 是否重试成功
+     */
+    public function retryTask(int $taskId): bool
+    {
+        \support\Log::info("开始重试任务 [任务ID: {$taskId}]");
+        
+        $result = $this->run($taskId);
+        
+        if ($result) {
+            // 重试成功，清除重试计数
+            $this->clearRetryCount($taskId);
+        }
+        
+        return $result;
+    }
+
+    /**
+     * 清除重试计数
+     *
+     * @param int $taskId 任务ID
+     * @return void
+     */
+    private function clearRetryCount(int $taskId): void
+    {
+        $retryKey = 'crontab_retry_count_' . $taskId;
+
+        // 尝试从 Redis 清除
+        try {
+            if (class_exists('\Illuminate\Support\Facades\Redis')) {
+                $redis = \Illuminate\Support\Facades\Redis::connection();
+                $redis->del($retryKey);
+                return;
+            }
+        } catch (\Exception $e) {
+            // Redis 不可用，删除文件
+        }
+
+        // 删除文件
+        $retryFile = runtime_path() . '/crontab_retries/' . $taskId . '.retry';
+        if (file_exists($retryFile)) {
+            @unlink($retryFile);
+        }
     }
 }

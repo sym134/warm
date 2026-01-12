@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use warm\admin\Admin;
 use warm\admin\model\AdminUser;
-use warm\support\facade\Hash;
+use warm\framework\hash\facade\Hash;
 
 /**
  * 管理用户服务类

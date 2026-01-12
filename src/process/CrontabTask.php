@@ -27,22 +27,19 @@ class CrontabTask
         $taskList = $service->getModel()->where('task_status', 1)->get();
 
         foreach ($taskList as $item) {
-            new Crontab($item->rule, function () use ($service, $item) {
-                $service->run($item->id);
-            });
+            // 验证 Cron 表达式格式
+            if (empty($item->rule)) {
+                continue;
+            }
+            
+            try {
+                new Crontab($item->rule, function () use ($service, $item) {
+                    $service->run($item->id);
+                });
+            } catch (\Exception $e) {
+                // 记录任务注册失败的错误
+                \support\Log::error("定时任务注册失败 [ID: {$item->id}]: " . $e->getMessage());
+            }
         }
-    }
-
-    /**
-     * 运行任务
-     * 
-     * 执行具体的任务逻辑，这里是一个示例实现
-     *
-     * @param mixed $item 任务项
-     * @return string 任务执行结果信息
-     */
-    public function run($item): string
-    {
-        return '任务调用：' . date('Y-m-d H:i:s') . "\n";
     }
 }

@@ -5,6 +5,7 @@ namespace warm\admin\service;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 use ReflectionClass;
+use ReflectionNamedType;
 use warm\admin\Admin;
 use warm\admin\model\AdminCodeGenerator;
 
@@ -180,45 +181,19 @@ class AdminCodeGeneratorService extends AdminService
      */
     public function getComponentOptions(): array
     {
-        $amis = amis();
-        $reflection = new ReflectionClass($amis);
-
-        return collect(get_class_methods($amis))
+        return collect(get_class_methods(amis()))
             ->filter(fn($item) => $item != 'make')
-            ->map(function ($item) use ($reflection) {
-                try {
-                    $method = $reflection->getMethod($item);
-                    $returnType = $method->getReturnType();
+            ->map(function ($item) {
+                $renderer = new \ReflectionClass('\\warm\\admin\\renderer\\' . $item);
+                $_doc     = $renderer->getDocComment();
+                $_doc     = preg_replace("/[^\x{4e00}-\x{9fa5}]/u", "", $_doc);
+                $_doc     = $_doc ? trim(str_replace('文档', '', $_doc)) : '';
+                $label    = $_doc ? $item . ' - ' . $_doc : $item;
 
-                    if ($returnType instanceof ReflectionNamedType) {
-                        $className = $returnType->getName();
-                        // 如果返回的是完整类名，提取类名部分
-                        if (strpos($className, '\\') !== false) {
-                            $className = basename(str_replace('\\', '/', $className));
-                        }
-                    } else {
-                        // 如果没有类型声明，尝试调用方法获取类名
-                        $instance = $amis->$item();
-                        $className = (new ReflectionClass($instance))->getShortName();
-                    }
-
-                    $renderer = new ReflectionClass('\\warm\\admin\\renderer\\' . $className);
-                    $_doc = $renderer->getDocComment();
-                    $_doc = preg_replace("/[^\x{4e00}-\x{9fa5}]/u", "", $_doc);
-                    $_doc = $_doc ? trim(str_replace('文档', '', $_doc)) : '';
-                    $label = $_doc ? $item . ' - ' . $_doc : $item;
-
-                    return [
-                        'label' => $label,
-                        'value' => $item,
-                    ];
-                } catch (\Exception $e) {
-                    // 如果出错，使用原方法名作为后备
-                    return [
-                        'label' => $item,
-                        'value' => $item,
-                    ];
-                }
+                return [
+                    'label' => $label,
+                    'value' => $item,
+                ];
             })
             ->values()
             ->toArray();

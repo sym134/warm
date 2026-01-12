@@ -197,9 +197,10 @@ class AdminRelationshipService extends AdminService
         $template = <<<PHP
 <?php
 
-namespace warm\model;
+namespace app\model;
+use warm\common\model\BaseModel as Model;
 
-class $className extends Model
+class $className extends Model::
 {
     protected \$table = '$table';
 }

@@ -4,7 +4,6 @@ namespace warm\admin\controller\dev_tools;
 
 use Illuminate\Support\Str;
 use support\Response;
-use warm\admin\Admin;
 use warm\admin\controller\AdminController;
 use warm\admin\renderer\DialogAction;
 use warm\admin\renderer\Form;
@@ -233,7 +232,7 @@ class ApiController extends AdminController
     public function template(): Response
     {
         // 获取所有API模板
-        $apis = collect(Admin::context()->get('apis'))
+        $apis = collect(Api::getAllApis())
             ->filter(fn($item) => (new \ReflectionClass($item))->isSubclassOf(AdminBaseApi::class))
             ->map(fn($item) => [
                 'label' => app($item)->getMethod() . ' - ' . app($item)->getTitle(),

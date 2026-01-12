@@ -2,6 +2,7 @@
 
 namespace warm\exception;
 
+use Exception;
 use support\Response;
 use warm\admin\Admin;
 
@@ -11,7 +12,7 @@ use warm\admin\Admin;
  * 自定义的管理后台异常处理类，继承自系统异常类
  * 提供统一的异常响应格式，支持自定义数据和提示信息控制
  */
-class AdminException extends \Exception
+class AdminException extends Exception
 {
     /**
      * 异常附带数据

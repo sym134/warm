@@ -2,6 +2,7 @@
 
 namespace warm\admin\support\code_generator;
 
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Database\Migrations\MigrationCreator as BaseMigrationCreator;
 use Illuminate\Support\Arr;
 use warm\admin\model\AdminCodeGenerator;
@@ -35,7 +36,7 @@ class MigrationGenerator extends BaseMigrationCreator
      * @param AdminCodeGenerator $model 模型实例
      * @return static 静态实例
      */
-    public static function make($model): static
+    public static function make(AdminCodeGenerator $model): static
     {
         return new self($model);
     }
@@ -61,10 +62,11 @@ class MigrationGenerator extends BaseMigrationCreator
 
     /**
      * 填充模板内容
-     * 
+     *
      * @param string $stub 模板内容
      * @param string $table 表名
      * @return array|string 填充后的模板内容
+     * @throws \Exception
      */
     protected function populateStub($stub, $table): array|string
     {
@@ -73,8 +75,9 @@ class MigrationGenerator extends BaseMigrationCreator
 
     /**
      * 预览迁移代码
-     * 
+     *
      * @return array|string 迁移代码
+     * @throws FileNotFoundException
      */
     public function preview(): array|string
     {
@@ -83,8 +86,9 @@ class MigrationGenerator extends BaseMigrationCreator
 
     /**
      * 生成迁移内容
-     * 
+     *
      * @return string 迁移内容代码
+     * @throws \Exception
      */
     public function generateContent(): string
     {
@@ -145,10 +149,11 @@ class MigrationGenerator extends BaseMigrationCreator
 
     /**
      * 获取模板内容
-     * 
+     *
      * @param string $table 表名
      * @param bool $create 是否为创建表
      * @return string 模板内容
+     * @throws FileNotFoundException
      */
     protected function getStub($table, $create): string
     {

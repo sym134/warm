@@ -10,7 +10,6 @@ use warm\admin\model\AdminRole;
 use warm\admin\model\AdminUser;
 use warm\admin\plugin\PluginService;
 use warm\admin\service\system\SystemConfigService;
-use warm\admin\support\cores\Context;
 use warm\admin\support\cores\JsonResponse;
 use warm\admin\support\cores\Menu;
 use warm\admin\support\cores\Permission;
@@ -83,28 +82,6 @@ class Admin
     public static function user(): ?AdminUser
     {
         return static::guard()->user();
-    }
-
-    /**
-     * 上下文管理实例
-     * 
-     * @var Context|null
-     */
-    protected static ?Context $contextInstance = null;
-
-    /**
-     * 上下文管理
-     *
-     * 获取上下文管理对象，用于存储和获取请求上下文数据
-     *
-     * @return Context
-     */
-    public static function context(): Context
-    {
-        if (self::$contextInstance === null) {
-            self::$contextInstance = new Context();
-        }
-        return self::$contextInstance;
     }
 
     /**

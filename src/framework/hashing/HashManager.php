@@ -24,14 +24,14 @@ class HashManager implements Hasher
      *
      * @var array
      */
-    protected $drivers = [];
+    protected array $drivers = [];
 
     /**
      * 已注册的自定义驱动创建器
      *
      * @var array
      */
-    protected $customCreators = [];
+    protected array $customCreators = [];
 
     /**
      * 获取指定的哈希驱动
@@ -40,7 +40,7 @@ class HashManager implements Hasher
      * @return mixed 哈希驱动实例
      * @throws InvalidArgumentException 当无法解析驱动时抛出异常
      */
-    public function driver($driver = null)
+    public function driver(string $driver = null): mixed
     {
         $driver = $driver ?: $this->getDefaultDriver();
 
@@ -66,7 +66,7 @@ class HashManager implements Hasher
      * @return mixed 驱动实例
      * @throws InvalidArgumentException 当不支持指定驱动时抛出异常
      */
-    protected function createDriver($driver)
+    protected function createDriver(string $driver): mixed
     {
         // First, we will determine if a custom driver creator exists for the given driver and
         // if it does not we will check for a creator method for the driver. Custom creator
@@ -89,7 +89,7 @@ class HashManager implements Hasher
      * @param string $driver 驱动名称
      * @return mixed 自定义驱动创建器返回的实例
      */
-    protected function callCustomCreator($driver)
+    protected function callCustomCreator(string $driver): mixed
     {
         return $this->customCreators[$driver]();
     }
@@ -99,7 +99,7 @@ class HashManager implements Hasher
      *
      * @return string 默认驱动名称
      */
-    public function getDefaultDriver()
+    public function getDefaultDriver(): string
     {
         return Admin::warmConfig('hashing.driver', 'bcrypt');
     }
@@ -107,9 +107,9 @@ class HashManager implements Hasher
     /**
      * 创建Bcrypt哈希驱动实例
      *
-     * @return \Illuminate\Hashing\BcryptHasher Bcrypt哈希驱动实例
+     * @return BcryptHasher Bcrypt哈希驱动实例
      */
-    public function createBcryptDriver()
+    public function createBcryptDriver(): BcryptHasher
     {
         return new BcryptHasher(Admin::warmConfig('hashing.bcrypt', []));
     }
@@ -117,9 +117,9 @@ class HashManager implements Hasher
     /**
      * 创建Argon2i哈希驱动实例
      *
-     * @return \Illuminate\Hashing\ArgonHasher Argon2i哈希驱动实例
+     * @return ArgonHasher Argon2i哈希驱动实例
      */
-    public function createArgonDriver()
+    public function createArgonDriver(): ArgonHasher
     {
         return new ArgonHasher(Admin::warmConfig('hashing.argon', []));
     }
@@ -127,9 +127,9 @@ class HashManager implements Hasher
     /**
      * 创建Argon2id哈希驱动实例
      *
-     * @return \Illuminate\Hashing\Argon2IdHasher Argon2id哈希驱动实例
+     * @return Argon2IdHasher Argon2id哈希驱动实例
      */
-    public function createArgon2idDriver()
+    public function createArgon2idDriver(): Argon2IdHasher
     {
         return new Argon2IdHasher(Admin::warmConfig('hashing.argon',[]));
     }
@@ -140,7 +140,7 @@ class HashManager implements Hasher
      * @param string $hashedValue 哈希值
      * @return array 哈希信息数组
      */
-    public function info($hashedValue)
+    public function info($hashedValue): array
     {
         return $this->driver()->info($hashedValue);
     }
@@ -152,7 +152,7 @@ class HashManager implements Hasher
      * @param array $options 哈希选项
      * @return string 哈希后的值
      */
-    public function make($value, array $options = [])
+    public function make($value, array $options = []): string
     {
         return $this->driver()->make($value, $options);
     }
@@ -165,7 +165,7 @@ class HashManager implements Hasher
      * @param array $options 验证选项
      * @return bool 是否匹配
      */
-    public function check($value, $hashedValue, array $options = [])
+    public function check($value, $hashedValue, array $options = []): bool
     {
         return $this->driver()->check($value, $hashedValue, $options);
     }
@@ -177,7 +177,7 @@ class HashManager implements Hasher
      * @param array $options 选项
      * @return bool 是否需要重新哈希
      */
-    public function needsRehash($hashedValue, array $options = [])
+    public function needsRehash($hashedValue, array $options = []): bool
     {
         return $this->driver()->needsRehash($hashedValue, $options);
     }
@@ -189,7 +189,7 @@ class HashManager implements Hasher
      * @param \Closure $callback 创建器闭包
      * @return $this
      */
-    public function extend($driver, \Closure $callback)
+    public function extend(string $driver, \Closure $callback): static
     {
         $this->customCreators[$driver] = $callback;
 
@@ -203,7 +203,7 @@ class HashManager implements Hasher
      * @param array $parameters 方法参数
      * @return mixed 方法调用结果
      */
-    public function __call($method, $parameters)
+    public function __call(string $method, array $parameters)
     {
         return $this->driver()->$method(...$parameters);
     }

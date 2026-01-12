@@ -55,7 +55,7 @@ class WechatReply extends BaseModel
      * @param string $value
      * @return array|null
      */
-    public function getDataAttribute($value)
+    public function getDataAttribute(string $value): ?array
     {
         if (empty($value)) {
             return null;
@@ -71,7 +71,7 @@ class WechatReply extends BaseModel
      * @param array $value
      * @return void
      */
-    public function setDataAttribute($value)
+    public function setDataAttribute(array $value): void
     {
         $this->attributes['data'] = is_array($value) ? json_encode($value, JSON_UNESCAPED_UNICODE) : $value;
     }
@@ -81,7 +81,7 @@ class WechatReply extends BaseModel
      *
      * @return HasOne
      */
-    public function key()
+    public function key(): HasOne
     {
         return $this->hasOne(WechatKey::class, 'reply_id', 'id');
     }

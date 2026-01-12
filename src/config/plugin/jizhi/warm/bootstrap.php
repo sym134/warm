@@ -10,5 +10,5 @@ return [
     // SQL监控启动类
     \warm\bootstrap\SqlMonitor::class,
     // Laravel 服务提供者（文件系统服务）
-    \warm\bootstrap\LaravelServiceProvider::class,
+    \warm\bootstrap\WarmBootstrap::class,
 ];

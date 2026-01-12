@@ -49,47 +49,49 @@ class WechatOfficialAccountConfigController extends AdminController
         $form = $this->baseForm(false)
             ->initApi(admin_url($this->queryPath . '?_action=getData'))
             ->api('post:' . admin_url($this->queryPath . '/save'))
+            ->mode('horizontal')
             ->body([
                 amis()->Alert()
                     ->body('请填写微信公众号相关配置信息')
                     ->level('info')
                     ->showIcon(),
 
-                amis()->Group()->body([
-                    amis()->Group()->direction('vertical')->body([
-                        amis()->InputText('app_id', 'App ID')
-                            ->required()
-                            ->placeholder('请输入微信公众号App ID'),
+                amis()->Grid()->columns([
+                    [
+                        'body'=>[
+                            amis()->InputText('app_id', 'App ID')
+                                ->required()
+                                ->placeholder('请输入微信公众号App ID'),
 
-                        amis()->InputText('app_secret', 'App Secret')
-                            ->required()
-                            ->placeholder('请输入微信公众号App Secret')
-                            ->type('input-password'),
+                            amis()->InputText('app_secret', 'App Secret')
+                                ->required()
+                                ->placeholder('请输入微信公众号App Secret')
+                                ->type('input-password'),
 
-                        amis()->InputText('token', 'Token')
-                            ->placeholder('请输入微信公众号Token'),
+                            amis()->InputText('token', 'Token')
+                                ->placeholder('请输入微信公众号Token'),
 
-                        amis()->InputText('aes_key', 'AES Key')
-                            ->placeholder('请输入微信公众号AES Key'),
+                            amis()->InputText('aes_key', 'AES Key')
+                                ->placeholder('请输入微信公众号AES Key'),
 
-                        amis()->InputFile('verify_file_path', '微信校验文件')
-                            ->maxLength(1)
-                            ->accept('.txt')
-                            ->autoUpload(true)
-                            ->uploadType('file')
-                            ->receiver(admin_url('/app/wechat_official_account_config/upload'))
-                            ->btnLabel('上传文件')
-                            ->btnClassName('btn-secondary')
-                            ->drag(true)
-                            ->useChunk(false)
-                            ->placeholder('请选择微信校验文件，文件将自动上传至public目录')
-                            ->description('上传的文件将保存在 /public 目录下，并在此保存文件路径'),
+                            amis()->InputFile('verify_file_path', '微信校验文件')
+                                ->maxLength(1)
+                                ->accept('.txt')
+                                ->autoUpload(true)
+                                ->receiver(admin_url('/app/wechat/official_account_config/upload'))
+                                ->btnLabel('上传文件')
+                                ->btnClassName('btn-secondary')
+                                ->drag(true)
+                                ->useChunk(false)
+                                ->placeholder('请选择微信校验文件，文件将自动上传至public目录')
+                                ->description('上传的文件将保存在 /public 目录下，并在此保存文件路径'),
 
-                        amis()->Switch('enable', '启用')
-                            ->trueValue(1)
-                            ->falseValue(0)
-                            ->option('启用')
-                    ])
+                            amis()->Switch('enable', '启用')
+                                ->trueValue(1)
+                                ->falseValue(0)
+                                ->option('启用')
+                        ]
+                    ],[]
                 ])
             ]);
 
@@ -128,7 +130,13 @@ class WechatOfficialAccountConfigController extends AdminController
     public function upload(Request $request): Response
     {
         $file = $request->file('file');
-        Storage::disk('local')->put($file->getUploadName(), $file->getPathname());
+        $result = Storage::disk('public')->put($file->getUploadName(), $file->getPathname());
+
+        if (!$result) {
+            return $this->response()->fail('上传失败');
+        }
+
         return $this->response()->success(['value' => $file->getUploadName(), 'id' => 0]);
+
     }
 }

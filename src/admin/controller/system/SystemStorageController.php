@@ -60,6 +60,7 @@ class SystemStorageController extends AdminController
                     amis()->InputText('disks.public.url', '域名')->description('请补全http://或https://，例如https://zzz.xxx.com')->required(),
                 ]),
                 amis()->Wrapper()->visibleOn('${default == "qiniu"}')->body([
+                    amis()->Hidden('disks.qiniu.driver')->value('qiniu'),
                     amis()->InputText('disks.qiniu.bucket', '存储空间')->required(),
                     amis()->InputText('disks.qiniu.access_key', 'AccessKey')->required(),
                     amis()->InputText('disks.qiniu.secret_key', 'SecretKey')->required(),
@@ -67,6 +68,7 @@ class SystemStorageController extends AdminController
                     amis()->InputText('disks.qiniu.url', '域名')->required()->description('请补全http://或https://，例如https://zzz.xxx.com'),
                 ]),
                 amis()->Wrapper()->visibleOn('${default == "aliyun"}')->body([
+                    amis()->Hidden('disks.aliyun.driver')->value('oss'),
                     amis()->InputText('disks.aliyun.bucket', '存储空间')->required(),
                     amis()->InputText('disks.aliyun.access_key', 'AccessKey')->required(),
                     amis()->InputText('disks.aliyun.secret_key', 'SecretKey')->required(),
@@ -74,6 +76,7 @@ class SystemStorageController extends AdminController
                     amis()->InputText('disks.aliyun.url', '域名')->required()->description('请补全http://或https://，例如https://zzz.xxx.com'),
                 ]),
                 amis()->Wrapper()->visibleOn('${default == "qcloud"}')->body([
+                    amis()->Hidden('disks.qiniu.driver')->value('cos'),
                     amis()->InputText('disks.qcloud.bucket', '存储空间')->required(),
                     amis()->InputText('disks.qcloud.access_key', 'AccessKey')->required(),
                     amis()->InputText('disks.qcloud.secret_key', 'SecretKey')->required(),

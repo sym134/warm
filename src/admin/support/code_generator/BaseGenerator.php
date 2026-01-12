@@ -15,7 +15,7 @@ use support\Model;
 class BaseGenerator
 {
     /** @var array 存储已生成的文件路径 */
-    protected static array $files = [];
+//    protected static array $files = [];
 
     /** @var string 主键字段名 */
     protected string $primaryKey = '';

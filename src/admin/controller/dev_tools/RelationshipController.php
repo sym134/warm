@@ -5,23 +5,23 @@ namespace warm\admin\controller\dev_tools;
 use Exception;
 use support\Db;
 use support\Response;
+use Throwable;
 use warm\admin\controller\AdminController;
 use warm\admin\model\AdminRelationship;
 use warm\admin\renderer\DrawerAction;
 use warm\admin\renderer\Form;
-use warm\admin\renderer\InputTree;
 use warm\admin\renderer\Page;
 use warm\admin\service\AdminRelationshipService;
 use warm\admin\support\cores\Database;
 
 /**
  * 关系管理控制器
- * 
+ *
  * 负责处理模型关系的配置和管理功能，包括：
  * 1. 关系记录的增删改查
  * 2. 模型代码生成
  * 3. 关系预览功能
- * 
+ *
  * @property AdminRelationshipService $service 关系管理服务类实例
  */
 class RelationshipController extends AdminController
@@ -30,12 +30,12 @@ class RelationshipController extends AdminController
 
     /**
      * 关系记录列表页面
-     * 
+     *
      * 构建并返回关系记录的列表页面，包含：
      * 1. 数据表格展示关系记录
      * 2. 工具栏按钮（创建、模型生成等）
      * 3. 行操作按钮（预览、编辑、删除）
-     * 
+     *
      * @return Page 页面对象
      */
     public function list(): Page
@@ -66,9 +66,9 @@ class RelationshipController extends AdminController
 
     /**
      * 模型生成器
-     * 
+     *
      * 创建一个抽屉式表单，用于选择数据库表并生成对应的模型文件。
-     * 
+     *
      * @return DrawerAction 抽屉按钮对象
      */
     public function modelGenerator(): DrawerAction
@@ -113,9 +113,9 @@ class RelationshipController extends AdminController
 
     /**
      * 预览按钮
-     * 
+     *
      * 创建一个用于预览关系代码的抽屉按钮。
-     * 
+     *
      * @return DrawerAction 抽屉按钮对象
      */
     public function previewButton(): DrawerAction
@@ -137,7 +137,7 @@ class RelationshipController extends AdminController
 
     /**
      * 关系配置表单
-     * 
+     *
      * 构建用于创建和编辑关系配置的表单，支持多种关系类型：
      * 1. 一对一 (HasOne)
      * 2. 一对多 (HasMany)
@@ -148,7 +148,7 @@ class RelationshipController extends AdminController
      * 7. 一对一多态 (MorphOne)
      * 8. 一对多多态 (MorphMany)
      * 9. 多对多多态 (MorphToMany)
-     * 
+     *
      * @return Form 表单对象
      */
     public function form(): Form
@@ -284,22 +284,21 @@ class RelationshipController extends AdminController
 
     /**
      * 关系详情页面
-     * 
+     *
      * 构建并返回关系记录的详情页面。
-     * 
-     * @param mixed $id 关系记录ID
+     *
      * @return Form 表单对象
      */
-    public function detail($id): Form
+    public function detail(): Form
     {
         return $this->baseDetail()->body([]);
     }
 
     /**
      * 获取所有模型选项
-     * 
+     *
      * 获取系统中所有模型的选项列表，用于前端下拉选择。
-     * 
+     *
      * @return Response 响应对象，包含模型选项列表
      */
     public function modelOptions(): Response
@@ -318,9 +317,9 @@ class RelationshipController extends AdminController
 
     /**
      * 字段选项
-     * 
+     *
      * 根据模型或表名获取对应的字段列表，用于前端下拉选择。
-     * 
+     *
      * @return Response 响应对象，包含字段选项列表
      */
     public function columnOptions(): Response
@@ -333,7 +332,7 @@ class RelationshipController extends AdminController
         if (blank($model) && blank($table)) {
             return $this->response()->success([]);
         }
-        
+
         // 如果没有指定表名，则从模型获取表名
         $table = $table ?: $model::make()->getTable();
 
@@ -355,7 +354,7 @@ class RelationshipController extends AdminController
     public function allModels(): Response
     {
         // 获取所有模型和表信息
-        $all    = $this->service->allModels();
+        $all = $this->service->allModels();
         $tables = $all['tables'];
         $models = collect($all['models'])->keyBy('table');
 
@@ -364,9 +363,9 @@ class RelationshipController extends AdminController
             $model = data_get($models, $item . '.value');
 
             return [
-                'value'    => $item,
-                'label'    => $item,
-                'model'    => $model,
+                'value' => $item,
+                'label' => $item,
+                'model' => $model,
                 'disabled' => (bool)$model,
             ];
         })->sortBy('disabled')->values();
@@ -377,19 +376,20 @@ class RelationshipController extends AdminController
 
     /**
      * 生成模型
-     * 
+     *
      * 根据选择的表生成对应的模型文件。
-     * 
+     *
      * @return Response 响应对象
+     * @throws Exception
      */
     public function generateModel(): Response
     {
         // 获取选中的表列表
-        $tables     = request()->input('check_tables');
+        $tables = request()->input('check_tables');
         // 获取已存在的模型列表
         $existsList = collect($this->service->allModels()['models'])->pluck('table')->toArray();
         // 找出已存在的表
-        $exists     = array_intersect($tables, $existsList);
+        $exists = array_intersect($tables, $existsList);
 
         // 如果有已存在的表，则返回错误信息
         admin_abort_if(filled($exists), translator('admin.relationships.model_exists') . implode(',', $exists));
@@ -399,7 +399,7 @@ class RelationshipController extends AdminController
             foreach ($tables as $table) {
                 $this->service->generateModel($table);
             }
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             // 如果出现异常，则返回失败信息
             return $this->response()->fail($e->getMessage());
         }

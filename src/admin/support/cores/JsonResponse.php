@@ -62,13 +62,13 @@ class JsonResponse
      * @param mixed $data 响应数据
      * @return Response 响应对象
      */
-    private function json($data): Response
+    private function json(mixed $data): Response
     {
         if (config('app.debug')) {
             $this->additionalData['_debug'] = [
                 'sql' => SqlRecord::$sql,
             ];
-            SqlRecord::$sql = []; // 清空sql记录
+            SqlRecord::clear(); // 清空sql记录
         }
         return json(array_merge($this->additionalData, ['data' => $data]));
     }

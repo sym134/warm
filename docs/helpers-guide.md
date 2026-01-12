@@ -502,29 +502,6 @@ function admin_abort_if(bool $flag, string $message = '', array $data = [], int 
 function amis_abort_if(bool $flag, string $message = '', array $data = []): void
 ```
 
-## 流程控制函数
-
-### admin_pipeline()
-
-创建并处理管道流程。
-
-```php
-function admin_pipeline($passable): Pipeline
-```
-
-**参数说明：**
-- `$passable`: 可传递的数据
-
-**使用示例：**
-```php
-$result = admin_pipeline($data)
-    ->through([$middleware1, $middleware2])
-    ->then(function ($data) {
-        // 处理数据
-        return $data;
-    });
-```
-
 ## 其他实用函数
 
 ### translator()

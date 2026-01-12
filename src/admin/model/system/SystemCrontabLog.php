@@ -31,14 +31,8 @@ class SystemCrontabLog extends Model
      */
     protected $table = 'system_crontab_log';
 
-    /**
-     * 需要进行类型转换的字段
-     * 
-     * 将数据库中的JSON字符串自动转换为PHP数组
-     * 
-     * @var array
-     */
     protected $casts = [
-        'parameter' => 'json',  // 任务参数
+        'parameter' => 'json',
+        'exception_info' => 'json',
     ];
 }

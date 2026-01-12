@@ -141,6 +141,7 @@ Route::group(Admin::warmConfig('app.route.prefix'), function () {
             // 微信公众号配置
             Route::get('/official_account_config', [WechatOfficialAccountConfigController::class, 'index']);
             Route::post('/official_account_config/save', [WechatOfficialAccountConfigController::class, 'save']);
+            Route::post('/official_account_config/upload', [WechatOfficialAccountConfigController::class, 'upload']);
         });
 
 

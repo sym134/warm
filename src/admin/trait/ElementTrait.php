@@ -4,6 +4,7 @@ namespace warm\admin\trait;
 
 use warm\admin\Admin;
 use warm\admin\renderer\ConditionBuilder;
+use warm\admin\renderer\CRUD;
 use warm\admin\renderer\DialogAction;
 use warm\admin\renderer\Form;
 use warm\admin\renderer\LinkAction;
@@ -11,7 +12,6 @@ use warm\admin\renderer\Operation;
 use warm\admin\renderer\OtherAction;
 use warm\admin\renderer\Page;
 use warm\admin\renderer\Service;
-use warm\admin\support\cores\AdminPipeline;
 
 /**
  * 元素Trait
@@ -28,10 +28,7 @@ trait ElementTrait
      */
     protected function basePage(): Page
     {
-        return AdminPipeline::handle(
-            AdminPipeline::PIPE_BASE_PAGE,
-            amis()->Page()->className('m:overflow-auto')
-        );
+        return  amis()->Page()->className('m:overflow-auto');
     }
 
     /**
@@ -44,14 +41,12 @@ trait ElementTrait
         $path   = str_replace(Admin::warmConfig('app.route.prefix'), '', request()->path());
         $script = sprintf('window.$owl.hasOwnProperty(\'closeTabByPath\') && window.$owl.closeTabByPath(\'%s\')', $path);
 
-        $action = amis()
+        return amis()
             ->OtherAction()
             ->label(translator('admin.back'))
             ->icon('fa-solid fa-chevron-left')
             ->level('primary')
             ->onClick('window.history.back();' . $script);
-
-        return AdminPipeline::handle(AdminPipeline::PIPE_BACK_ACTION, $action);
     }
 
     /**
@@ -61,7 +56,7 @@ trait ElementTrait
      */
     protected function bulkDeleteButton(): DialogAction
     {
-        $action = amis()->DialogAction()
+        return amis()->DialogAction()
             ->label(translator('admin.delete'))
             ->icon('fa-solid fa-trash-can')
             ->dialog(
@@ -78,8 +73,6 @@ trait ElementTrait
                         ]),
                     ])
             );
-
-        return AdminPipeline::handle(AdminPipeline::PIPE_BULK_DELETE_ACTION, $action);
     }
 
     /**
@@ -112,7 +105,7 @@ trait ElementTrait
 
         $action->label($title)->icon('fa fa-add')->level('primary');
 
-        return AdminPipeline::handle(AdminPipeline::PIPE_CREATE_ACTION, $action);
+        return $action;
     }
 
     /**
@@ -149,7 +142,7 @@ trait ElementTrait
 
         $action->label($title)->level('link');
 
-        return AdminPipeline::handle(AdminPipeline::PIPE_EDIT_ACTION, $action);
+        return $action;
     }
 
     /**
@@ -180,7 +173,7 @@ trait ElementTrait
 
         $action->label($title)->level('link');
 
-        return AdminPipeline::handle(AdminPipeline::PIPE_SHOW_ACTION, $action);
+        return $action;
     }
 
     /**
@@ -192,7 +185,7 @@ trait ElementTrait
      */
     protected function rowDeleteButton(string $title = ''): DialogAction
     {
-        $action = amis()->DialogAction()
+        return amis()->DialogAction()
             ->label($title ?: translator('admin.delete'))
             ->level('link')
             ->className('text-danger')
@@ -210,8 +203,6 @@ trait ElementTrait
                         ]),
                     ])
             );
-
-        return AdminPipeline::handle(AdminPipeline::PIPE_DELETE_ACTION, $action);
     }
 
     /**
@@ -228,13 +219,11 @@ trait ElementTrait
             return amis()->Operation()->label(translator('admin.actions'))->buttons($dialog);
         }
 
-        $actions = amis()->Operation()->label(translator('admin.actions'))->buttons([
+        return amis()->Operation()->label(translator('admin.actions'))->buttons([
             $this->rowShowButton($dialog, $dialogSize),
             $this->rowEditButton($dialog, $dialogSize),
             $this->rowDeleteButton(),
         ]);
-
-        return AdminPipeline::handle(AdminPipeline::PIPE_ROW_ACTIONS, $actions);
     }
 
     /**
@@ -244,15 +233,13 @@ trait ElementTrait
      */
     protected function baseFilter(): Form
     {
-        $schema = amis()->Form()
+        return amis()->Form()
             ->panelClassName('base-filter')
-            ->title('')
+            ->title()
             ->actions([
                 amis()->Button()->label(translator('admin.reset'))->actionType('clear-and-submit'),
                 amis('submit')->label(translator('admin.search'))->level('primary'),
             ]);
-
-        return AdminPipeline::handle(AdminPipeline::PIPE_BASE_FILTER, $schema);
     }
 
     /**
@@ -265,12 +252,8 @@ trait ElementTrait
         return amis()->ConditionBuilder('filter_condition_builder');
     }
 
-    /**
-     * 基础CRUD
-     * 
-     * @return mixed CRUD实例
-     */
-    protected function baseCRUD(): mixed
+    
+    protected function baseCRUD(): CRUD
     {
         $crudId = str_replace('/', '.', request()->path()) . '.crud';
 
@@ -318,7 +301,7 @@ trait ElementTrait
             $crud->set('primaryField', $this->service->primaryKey());
         }
 
-        return AdminPipeline::handle(AdminPipeline::PIPE_BASE_CRUD, $crud);
+        return $crud;
     }
 
     /**
@@ -326,15 +309,13 @@ trait ElementTrait
      *
      * @return array 顶部工具栏元素数组
      */
-    protected function baseHeaderToolBar()
+    protected function baseHeaderToolBar(): array
     {
-        $schema = [
+        return [
             'bulkActions',
             amis('reload')->align('right'),
             amis('filter-toggler')->align('right'),
         ];
-
-        return AdminPipeline::handle(AdminPipeline::PIPE_BASE_HEADER_TOOLBAR, $schema);
     }
 
     /**
@@ -364,7 +345,7 @@ trait ElementTrait
             ]);
         }
 
-        return AdminPipeline::handle(AdminPipeline::PIPE_BASE_FORM, $form);
+        return $form;
     }
 
     /**
@@ -374,14 +355,12 @@ trait ElementTrait
      */
     protected function baseDetail(): Form
     {
-        $schema = amis()->Form()
+        return amis()->Form()
             ->panelClassName('px-48 m:px-0')
             ->title(' ')
             ->mode('horizontal')
             ->actions([])
             ->initApi($this->getShowGetDataPath());
-
-        return AdminPipeline::handle(AdminPipeline::PIPE_BASE_DETAIL, $schema);
     }
 
     /**
@@ -393,10 +372,7 @@ trait ElementTrait
      */
     protected function baseList(mixed $crud): Page
     {
-        return AdminPipeline::handle(
-            AdminPipeline::PIPE_BASE_LIST,
-            amis()->Page()->className('m:overflow-auto')->body($crud)
-        );
+        return amis()->Page()->className('m:overflow-auto')->body($crud);
     }
 
     /**
@@ -421,7 +397,7 @@ trait ElementTrait
         // 按钮点击事件
         $event = fn($script) => ['click' => ['actions' => [['actionType' => 'custom', 'script' => $script]]]];
         // 导出处理动作
-        $doAction = "doAction([{actionType:'setValue',componentId:'export-action',args:{value:{showExportLoading:true}}},{actionType:'ajax',args:{api:{url:url.toString(),method:'get'}}},{actionType:'setValue',componentId:'export-action',args:{value:{showExportLoading:false}}},{actionType:'custom',expression:'\${event.data.responseResult.responseStatus===0}',script:'window.open(\'{$downloadPath}?path=\'+event.data.responseResult.responseData.path)'}])";
+        $doAction = "doAction([{actionType:'setValue',componentId:'export-action',args:{value:{showExportLoading:true}}},{actionType:'ajax',args:{api:{url:url.toString(),method:'get'}}},{actionType:'setValue',componentId:'export-action',args:{value:{showExportLoading:false}}},{actionType:'custom',expression:'\${event.data.responseResult.responseStatus===0}',script:'window.open(\'$downloadPath?path=\'+event.data.responseResult.responseData.path)'}])";
         // 按钮
         $buttons = [
             // 导出全部
@@ -440,7 +416,7 @@ trait ElementTrait
             );
         }
 
-        $action = amis()->Service()
+        return amis()->Service()
             ->id('export-action')
             ->set('align', 'right')
             ->set('data', ['showExportLoading' => false])
@@ -454,7 +430,5 @@ trait ElementTrait
                         ->align('right')
                 )
             );
-
-        return AdminPipeline::handle(AdminPipeline::PIPE_EXPORT_ACTION, $action);
     }
 }

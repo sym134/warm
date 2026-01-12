@@ -16,9 +16,9 @@ use warm\admin\service\AdminPageService;
 use warm\admin\support\Pipeline;
 use warm\common\service\SystemConfigService;
 use warm\exception\AdminException;
+use warm\framework\cache\facade\Cache;
 use warm\framework\filesystem\facade\Storage;
-use warm\support\facade\Cache;
-use warm\support\facade\Hash;
+use warm\framework\hash\facade\Hash;
 use Webman\Console\Command;
 use Webman\Console\Util;
 
@@ -752,21 +752,6 @@ if (!function_exists('safe_explode')) {
         }
 
         return explode($delimiter, $string);
-    }
-}
-
-/**
- * 管道处理函数
- *
- * 创建并处理管道流程
- *
- * @param mixed $passable 可传递的数据
- * @return mixed 管道处理结果
- */
-if (!function_exists('admin_pipeline')) {
-    function admin_pipeline($passable): Pipeline
-    {
-        return Pipeline::handle($passable);
     }
 }
 

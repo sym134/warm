@@ -9,10 +9,10 @@ use warm\admin\service\system\SystemCrontabLogService;
 
 /**
  * 定时任务日志控制器
- * 
+ *
  * 用于管理系统定时任务的执行日志
  * 提供日志列表查看和详情展示功能
- * 
+ *
  * @property SystemCrontabLogService $service 定时任务日志服务类实例
  */
 class SystemCrontabLogController extends AdminController
@@ -25,9 +25,9 @@ class SystemCrontabLogController extends AdminController
 
     /**
      * 日志列表页面
-     * 
+     *
      * 展示定时任务执行日志列表，支持按执行状态筛选
-     * 
+     *
      * @param mixed $id 定时任务ID，用于筛选特定任务的日志
      * @return Page 返回日志列表页面
      */
@@ -37,17 +37,17 @@ class SystemCrontabLogController extends AdminController
         $this->queryPath = '/system/crontab_log';
         $crud = $this->baseCRUD()
             ->api([
-                'url'=>$this->getListGetDataPath(),
-                'data'=>[
-                    'crontab_id'=>$id,
-                    'execution_status'=>'${execution_status}',
+                'url' => $this->getListGetDataPath(),
+                'data' => [
+                    'crontab_id' => $id,
+                    'execution_status' => '${execution_status}',
                 ],
             ])
             ->filterTogglable(false)
             ->filter(
                 amis()->Form()->submitOnChange(true)->body([
                     amis()->Select('execution_status', translator('crontab.crontab_log.execution_status'))
-                    ->options(map2options(SystemCrontabLog::EXECUTION_STATUS))->clearable(true),
+                        ->options(map2options(SystemCrontabLog::EXECUTION_STATUS))->clearable(true),
                 ])
             )
             ->headerToolbar([
@@ -72,9 +72,9 @@ class SystemCrontabLogController extends AdminController
 
     /**
      * 日志详情页面
-     * 
+     *
      * 展示定时任务执行日志的详细信息
-     * 
+     *
      * @return mixed 返回日志详情表单
      */
     public function detail()
@@ -86,7 +86,9 @@ class SystemCrontabLogController extends AdminController
             amis()->InputGroup()->label(translator('crontab.crontab_log.parameter'))->body([
                 amis()->Json()->name('parameter'),
             ]),
-            amis()->InputText('exception_info', translator('crontab.crontab_log.exception_info'))->static(),
+            amis()->InputGroup()->label(translator('crontab.crontab_log.exception_info'))->body([
+                amis()->Json()->name('exception_info'),
+            ]),
             amis()->Select('execution_status', translator('crontab.crontab_log.execution_status'))->options(map2options(SystemCrontabLog::EXECUTION_STATUS))->static(),
         ]);
     }

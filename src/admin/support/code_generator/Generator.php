@@ -105,7 +105,7 @@ class Generator
      * @param string|null $tb 表名
      * @return \think\Collection|Collection 数据库字段信息集合
      */
-    public function getDatabaseColumns($db = null, $tb = null): \think\Collection|Collection
+    public function getDatabaseColumns(string $db = null, string $tb = null): \think\Collection|Collection
     {
         $databases = Arr::where(config('database.connections', []), function ($value) {
             $supports = ['mysql'];
@@ -130,18 +130,7 @@ class Generator
 
                 $sql .= ' ORDER BY `ORDINAL_POSITION` ASC';
 
-                $tmp = DB::connection($connectName)->select($sql);
-
-                $collection = collect($tmp)->map(function ($v) use ($value) {
-                    if (!$p = Arr::get($value, 'prefix')) {
-                        return (array)$v;
-                    }
-                    $v = (array)$v;
-
-                    $v['TABLE_NAME'] = Str::replaceFirst($p, '', $v['TABLE_NAME']);
-
-                    return $v;
-                });
+                $collection = $this->getCollection($connectName, $sql, $value);
 
                 $data[$value['database']] = $collection->groupBy('TABLE_NAME')->map(function ($v) {
                     return collect($v)
@@ -168,7 +157,7 @@ class Generator
                         ->values();
                 });
             }
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
         }
 
         return collect($data);
@@ -204,18 +193,7 @@ class Generator
                     $sql .= " AND TABLE_NAME = '{$p}{$tb}'";
                 }
 
-                $tmp = DB::connection($connectName)->select($sql);
-
-                $collection = collect($tmp)->map(function ($v) use ($value) {
-                    if (!$p = Arr::get($value, 'prefix')) {
-                        return (array)$v;
-                    }
-                    $v = (array)$v;
-
-                    $v['TABLE_NAME'] = Str::replaceFirst($p, '', $v['TABLE_NAME']);
-
-                    return $v;
-                });
+                $collection = $this->getCollection($connectName, $sql, $value);
 
                 $data[$value['database']] = $collection->groupBy('TABLE_NAME')->map(function ($v) {
                     return collect($v)
@@ -227,7 +205,7 @@ class Generator
                         ->first();
                 });
             }
-        } catch (Throwable $e) {
+        } catch (Throwable) {
         }
 
         return collect($data);
@@ -337,7 +315,7 @@ class Generator
      * @return array 包含各类代码的数组
      * @throws Exception
      */
-    public function preview($id): array
+    public function preview(int $id): array
     {
         $record = AdminCodeGenerator::find($id);
 
@@ -355,5 +333,28 @@ class Generator
         }
 
         return compact('model', 'migration', 'controller', 'service');
+    }
+
+    /**
+     * @param int|string $connectName
+     * @param string $sql
+     * @param mixed $value
+     * @return Collection|\think\Collection
+     */
+    public function getCollection(int|string $connectName, string $sql, mixed $value): Collection|\think\Collection
+    {
+        $tmp = DB::connection($connectName)->select($sql);
+
+        $collection = collect($tmp)->map(function ($v) use ($value) {
+            if (!$p = Arr::get($value, 'prefix')) {
+                return (array)$v;
+            }
+            $v = (array)$v;
+
+            $v['TABLE_NAME'] = Str::replaceFirst($p, '', $v['TABLE_NAME']);
+
+            return $v;
+        });
+        return $collection;
     }
 }

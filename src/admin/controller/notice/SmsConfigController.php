@@ -129,7 +129,7 @@ class SmsConfigController extends AdminController
                         'title' => '${name} 网关配置',
                         'size' => 'lg',
                         'body' => [
-                            amis()->Service()->schemaApi('get:' . admin_url('notice/sms-config/gateway-form?gateway=${gateway_key}'))
+                            amis()->Service()->schemaApi('get:' . admin_url('setting/other_config/sms/gateway_form?gateway=${gateway_key}'))
                         ]
                     ])
                 ]

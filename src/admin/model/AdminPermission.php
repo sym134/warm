@@ -81,7 +81,7 @@ class AdminPermission extends BaseModel
     public function shouldPassThrough(Request $request): bool
     {
         // 如果没有配置HTTP方法和路径，则允许通过
-        if (empty($this->http_method) && empty($this->http_path)) {
+        if (empty($this->http_path)) {
             return true;
         }
         

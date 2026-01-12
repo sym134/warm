@@ -136,7 +136,6 @@ trait UploadTrait
     public function systemFileUpload($file): array
     {
         $file_info = StorageService::upload($file);
-        var_dump($file_info);
         $fileId = SystemFile::baseQuery()->insertGetId([
             'origin_name' => $file_info['origin_name'],
             'storage_mode' => $file_info['adapter'],
@@ -164,7 +163,7 @@ trait UploadTrait
 
         cache()->put($uploadId, [], 600);
 
-        (new \Illuminate\Filesystem\Filesystem)::makeDirectory(base_path('public/chunk/' . $uploadId));
+        Storage::makeDirectory(base_path('public/chunk/' . $uploadId));
 
         return $this->response()->success(compact('uploadId'));
     }
@@ -209,7 +208,7 @@ trait UploadTrait
 
         $dir = dirname($fullPath);
         if (!is_dir($dir)) {
-            (new \Illuminate\Filesystem\Filesystem)::makeDirectory($dir);
+            Storage::makeDirectory($dir);
         }
 
         for ($i = 0; $i < count($partList); $i++) {
@@ -218,20 +217,20 @@ trait UploadTrait
 
             $partPath = 'chunk/' . $uploadId . '/' . $partNumber;
 
-            $partETag = md5(Storage::read($partPath));
+            $partETag = md5(Storage::get($partPath));
 
             if ($eTag != $partETag) {
                 return $this->response()->fail('分片上传失败');
             }
 
-            file_put_contents($fullPath, Storage::read($partPath), FILE_APPEND);
+            file_put_contents($fullPath, Storage::get($partPath), FILE_APPEND);
         }
 
         clearstatcache();
 
         $value = admin_resource_full_path($path);
 
-        (new \Illuminate\Filesystem\Filesystem)->deleteDirectory(base_path('public/chunk/' . $uploadId));
+        Storage::deleteDirectory('chunk/' . $uploadId);
 
         return $this->response()->success(['value' => $value], '上传成功');
     }

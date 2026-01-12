@@ -1,7 +1,8 @@
 <?php
-namespace warm\support\facade;
+namespace warm\framework\hash\facade;
 
 use warm\framework\hashing\HashManager;
+use warm\support\facade\Facade;
 
 /**
  * 哈希门面类

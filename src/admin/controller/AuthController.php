@@ -8,7 +8,7 @@ use support\Response;
 use warm\admin\Admin;
 use warm\admin\service\AdminUserService;
 use warm\admin\support\Captcha;
-use warm\support\facade\Hash;
+use warm\framework\hash\facade\Hash;
 use Webman\Event\Event;
 
 /**

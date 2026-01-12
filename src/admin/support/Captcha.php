@@ -41,7 +41,7 @@ class Captcha
      * 
      * @var string
      */
-    private $code;
+    private string $code;
     
     /**
      * 图片资源句柄
@@ -69,7 +69,7 @@ class Captcha
      * @param int $height 验证码图片高度，默认40像素
      * @param int $codeNum 验证码字符数量，默认4个字符
      */
-    public function __construct($width = 100, $height = 40, $codeNum = 4)
+    public function __construct(int $width = 100, int $height = 40, int $codeNum = 4)
     {
         $this->width = $width;
         $this->height = $height;
@@ -107,7 +107,7 @@ class Captcha
      * 
      * @return string 验证码字符串
      */
-    public function getCaptcha()
+    public function getCaptcha(): string
     {
         return $this->code;
     }
@@ -227,11 +227,11 @@ class Captcha
         imagepng($this->im, $tempPath);
         // 读取临时文件内容
         if ($fp = fopen($tempPath, "rb", 0)) {
-            $gambar = fread($fp, filesize($tempPath));
+            $tempFile = fread($fp, filesize($tempPath));
             fclose($fp);
 
             // 编码为Base64
-            $base64 = base64_encode($gambar);
+            $base64 = base64_encode($tempFile);
             // 删除临时文件
             @unlink($tempPath);
         }

@@ -52,15 +52,11 @@ class SystemConfigService
      */
     public static function set(string $key, mixed $value = null): bool
     {
-        try {
-            $setting = static::query()->firstOrNew(['key' => $key]);
+        $setting = static::query()->firstOrNew(['key' => $key]);
 
-            $setting->values = $value;
-            static::clearCache($key);
-            return $setting->save();
-        } catch (Exception $e) {
-            return false;
-        }
+        $setting->values = $value;
+        static::clearCache($key);
+        return $setting->save();
     }
 
     /**

@@ -16,6 +16,7 @@ use warm\common\model\BaseModel;
  * 4. 菜单项的扩展信息
  * 
  * 支持多语言菜单标题和层级菜单结构。
+ * @property mixed $extension
  */
 class AdminMenu extends BaseModel
 {

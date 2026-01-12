@@ -50,7 +50,7 @@ class Facade
          if ($newInstance){
              return Container::make($class, $args);
          }
-        return Container::get($class, $args, $newInstance);
+        return Container::get($class);
     }
 
     /**
@@ -61,8 +61,9 @@ class Facade
      * @access protected
      * @return string|null 类名
      */
-    protected static function getFacadeClass()
+    protected static function getFacadeClass(): ?string
     {
+        return null;
     }
 
     /**
@@ -72,11 +73,12 @@ class Facade
      * @param mixed ...$args 构造参数
      * @return object|null 类实例
      */
-    public static function instance(...$args)
+    public static function instance(...$args): ?object
     {
         if (__CLASS__ != static::class) {
             return self::createFacade('', $args);
         }
+        return null;
     }
 
     /**
@@ -88,9 +90,9 @@ class Facade
      * @param string $class 类名或者标识
      * @param bool|array $args 变量参数
      * @param bool $newInstance 是否每次创建新的实例
-     * @return object 类实例
+     *
      */
-    public static function make(string $class, bool|array $args = [], bool $newInstance = false): object
+    public static function make(string $class, bool|array $args = [], bool $newInstance = false)
     {
         if (__CLASS__ != static::class) {
             return self::__callStatic('make', func_get_args());
@@ -114,7 +116,7 @@ class Facade
      * @param array $params 方法参数
      * @return mixed 方法调用结果
      */
-    public static function __callStatic($method, $params)
+    public static function __callStatic(string $method, array $params)
     {
         return call_user_func_array([static::createFacade(), $method], $params);
     }

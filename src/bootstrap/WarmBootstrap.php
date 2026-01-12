@@ -2,7 +2,7 @@
 
 namespace warm\bootstrap;
 
-use warm\admin\support\cores\Api;
+use warm\admin\support\cores\Relationships;
 use Webman\Bootstrap;
 use Workerman\Worker;
 
@@ -32,14 +32,10 @@ class WarmBootstrap implements Bootstrap
         if (self::$initialized) {
             return;
         }
-
-        // 启动 API 管理器
-        Api::boot();
+        Relationships::boot();
 
         // 标记为已初始化
         self::$initialized = true;
-
-        echo "[WarmBootstrap] Warm services initialized\n";
     }
 }
 

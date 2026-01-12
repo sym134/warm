@@ -57,4 +57,21 @@ class SqlRecord
             self::$sql[] = $sql;
         });
     }
+
+    /**
+     * 清空SQL记录
+     * 
+     * 1. 在每个请求开始时清空，确保每个请求只记录自己的SQL语句
+     * 2. 在每个请求结束时清空，避免SQL记录累积导致内存泄漏
+     * 
+     * 清空机制：
+     * - ClearSqlRecord 中间件在请求开始时和结束时清空（使用 finally 确保总是执行）
+     * - JsonResponse 在响应中读取SQL记录后清空（用于调试信息）
+     * 
+     * @return void
+     */
+    public static function clear(): void
+    {
+        self::$sql = [];
+    }
 }

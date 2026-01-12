@@ -4,6 +4,7 @@ namespace warm\admin\model;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasTimestamps;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use warm\common\model\BaseModel;
 
@@ -105,10 +106,10 @@ class AdminRelationship extends BaseModel
      * 
      * 返回所有支持的关系类型及其对应的标签和方法名
      * 根据系统语言环境返回中文或英文标签
-     * 
-     * @return array 关系类型选项数组
+     *
+     * @return Collection 关系类型选项数组
      */
-    public static function typeOptions()
+    public static function typeOptions(): Collection
     {
         return collect(self::TYPE_MAP)->map(function ($item, $index) {
             return [
@@ -133,13 +134,14 @@ class AdminRelationship extends BaseModel
 
     /**
      * 构建关系参数
-     * 
+     *
      * 根据模型类和关系方法，通过反射机制获取方法参数，
      * 并结合配置的参数值构建完整的参数列表
-     * 
+     *
      * @return array 构建好的参数数组
+     * @throws \ReflectionException
      */
-    public function buildArgs()
+    public function buildArgs(): array
     {
         // 检查模型类是否存在
         if(!class_exists($this->model)) return [];
@@ -165,13 +167,14 @@ class AdminRelationship extends BaseModel
 
     /**
      * 获取预览代码
-     * 
+     *
      * 根据配置生成关系方法的预览代码
      * 用于在界面中展示将要生成的关系代码
-     * 
+     *
      * @return string 预览代码
+     * @throws \ReflectionException
      */
-    public function getPreviewCode()
+    public function getPreviewCode(): string
     {
         // 从模型类名中提取类名
         $className = Str::of($this->model)->explode('\\')->pop();
