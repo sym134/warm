@@ -4,9 +4,9 @@ namespace warm\admin\renderer;
 
 /**
  * Property 属性表
- *
- * @author  slowlyo
- * @version 6.8.0
+ * 
+ * @author slowlyo
+ * @version 6.13.0
  */
 class Property extends BaseRenderer
 {
@@ -40,7 +40,7 @@ class Property extends BaseRenderer
     }
 
     /**
-     *
+     * 状态项列表
      */
     public function items($value = '')
     {

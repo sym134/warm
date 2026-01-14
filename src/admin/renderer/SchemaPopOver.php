@@ -4,20 +4,15 @@ namespace warm\admin\renderer;
 
 /**
  * SchemaPopOver
- *
- * @author  slowlyo
- * @version 6.8.0
+ * 
+ * @author slowlyo
+ * @version 6.13.0
  */
 class SchemaPopOver extends BaseRenderer
 {
-    public function __construct()
-    {
-
-
-    }
 
     /**
-     *
+     * 子内容
      */
     public function body($value = '')
     {
@@ -57,7 +52,7 @@ class SchemaPopOver extends BaseRenderer
     }
 
     /**
-     * 配置当前行是否启动，要用表达式 (表达式，语法 `data.xxx > 5`。)
+     * 配置当前行是否启动，要用表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function popOverEnableOn($value = '')
     {

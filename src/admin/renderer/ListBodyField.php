@@ -4,17 +4,12 @@ namespace warm\admin\renderer;
 
 /**
  * 不指定类型默认就是文本
- *
- * @author  slowlyo
- * @version 6.8.0
+ * 
+ * @author slowlyo
+ * @version 6.13.0
  */
 class ListBodyField extends BaseRenderer
 {
-    public function __construct()
-    {
-
-
-    }
 
     /**
      * 配置点击复制功能 (配置点击复制功能)

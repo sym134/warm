@@ -4,17 +4,12 @@ namespace warm\admin\renderer;
 
 /**
  * Expandable
- *
- * @author  slowlyo
- * @version 6.8.0
+ * 
+ * @author slowlyo
+ * @version 6.13.0
  */
 class Expandable extends BaseRenderer
 {
-    public function __construct()
-    {
-
-
-    }
 
     /**
      * 行是否可展开表达式

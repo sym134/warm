@@ -4,9 +4,9 @@ namespace warm\admin\renderer;
 
 /**
  * ConditionGroupValue
- *
- * @author  slowlyo
- * @version 6.8.0
+ * 
+ * @author slowlyo
+ * @version 6.13.0
  */
 class ConditionGroupValue extends BaseRenderer
 {
@@ -16,7 +16,7 @@ class ConditionGroupValue extends BaseRenderer
     }
 
     /**
-     *
+     * 表头分组
      */
     public function children($value = '')
     {
@@ -32,7 +32,7 @@ class ConditionGroupValue extends BaseRenderer
     }
 
     /**
-     *
+     * 组件唯一 id，主要用于日志采集
      */
     public function id($value = '')
     {
@@ -40,15 +40,7 @@ class ConditionGroupValue extends BaseRenderer
     }
 
     /**
-     *
-     */
-    public function if($value = '')
-    {
-        return $this->set('if', $value);
-    }
-
-    /**
-     *
+     * 
      */
     public function not($value = true)
     {

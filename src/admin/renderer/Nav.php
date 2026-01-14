@@ -4,9 +4,9 @@ namespace warm\admin\renderer;
 
 /**
  * Nav 导航渲染器 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/nav
- *
- * @author  slowlyo
- * @version 6.8.0
+ * 
+ * @author slowlyo
+ * @version 6.13.0
  */
 class Nav extends BaseRenderer
 {
@@ -72,7 +72,7 @@ class Nav extends BaseRenderer
     }
 
     /**
-     * 是否禁用表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否禁用表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function disabledOn($value = '')
     {
@@ -128,7 +128,7 @@ class Nav extends BaseRenderer
     }
 
     /**
-     * 是否隐藏表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否隐藏表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function hiddenOn($value = '')
     {
@@ -144,7 +144,7 @@ class Nav extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function indentSize($value = '')
     {
@@ -168,7 +168,7 @@ class Nav extends BaseRenderer
     }
 
     /**
-     * 最多展示多少层级
+     * 最多展示多少层级 可选值: info | success | warning | danger | link | primary | dark | light | secondary
      */
     public function level($value = '')
     {
@@ -184,7 +184,7 @@ class Nav extends BaseRenderer
     }
 
     /**
-     * 垂直模式 非折叠状态下 控制菜单打开方式 可选值: float | inline
+     * 垂直模式 非折叠状态下 控制菜单打开方式 可选值: panel | float | inline
      */
     public function mode($value = '')
     {
@@ -256,7 +256,7 @@ class Nav extends BaseRenderer
     }
 
     /**
-     * true 为垂直排列，false 为水平排列类似如 tabs。 可选值: 1 |
+     * true 为垂直排列，false 为水平排列类似如 tabs。 可选值: 1 | 
      */
     public function stacked($value = true)
     {
@@ -296,7 +296,7 @@ class Nav extends BaseRenderer
     }
 
     /**
-     * 是否静态展示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否静态展示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function staticOn($value = '')
     {
@@ -312,7 +312,7 @@ class Nav extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function staticSchema($value = '')
     {
@@ -328,15 +328,7 @@ class Nav extends BaseRenderer
     }
 
     /**
-     *
-     */
-    public function testIdBuilder($value = '')
-    {
-        return $this->set('testIdBuilder', $value);
-    }
-
-    /**
-     *
+     * 
      */
     public function testid($value = '')
     {
@@ -376,7 +368,7 @@ class Nav extends BaseRenderer
     }
 
     /**
-     * 是否显示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否显示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function visibleOn($value = '')
     {

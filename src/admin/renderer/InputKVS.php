@@ -4,9 +4,9 @@ namespace warm\admin\renderer;
 
 /**
  * InputKVS 键值对象
- *
- * @author  slowlyo
- * @version 6.8.0
+ * 
+ * @author slowlyo
+ * @version 6.13.0
  */
 class InputKVS extends BaseRenderer
 {
@@ -80,7 +80,7 @@ class InputKVS extends BaseRenderer
     }
 
     /**
-     * 表单项标签对齐方式，默认右对齐，仅在 mode为horizontal 时生效
+     * 表单项标签对齐方式，默认右对齐，仅在 mode为horizontal 时生效 可选值: right | left | top | inherit
      */
     public function labelAlign($value = '')
     {

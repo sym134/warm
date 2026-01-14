@@ -3,16 +3,40 @@
 namespace warm\admin\renderer;
 
 /**
- * Matrix 选择控件。适合做权限勾选。 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/matrix
- *
- * @author  slowlyo
- * @version 6.8.0
+ * 复选框 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/checkboxes
+ * 
+ * @author slowlyo
+ * @version 6.13.0
  */
 class MatrixCheckboxes extends BaseRenderer
 {
     public function __construct()
     {
-        $this->set('type', 'matrix-checkboxes');
+        $this->set('type', 'checkboxes');
+    }
+
+    /**
+     * 添加时调用的接口
+     */
+    public function addApi($value = '')
+    {
+        return $this->set('addApi', $value);
+    }
+
+    /**
+     * 新增时的表单项。
+     */
+    public function addControls($value = '')
+    {
+        return $this->set('addControls', $value);
+    }
+
+    /**
+     * 控制新增弹框设置项 (控制新增弹框设置项)
+     */
+    public function addDialog($value = '')
+    {
+        return $this->set('addDialog', $value);
     }
 
     /**
@@ -21,6 +45,22 @@ class MatrixCheckboxes extends BaseRenderer
     public function autoFill($value = '')
     {
         return $this->set('autoFill', $value);
+    }
+
+    /**
+     * 是否开启全选功能
+     */
+    public function checkAll($value = true)
+    {
+        return $this->set('checkAll', $value);
+    }
+
+    /**
+     * 全选/不选文案
+     */
+    public function checkAllText($value = '')
+    {
+        return $this->set('checkAllText', $value);
     }
 
     /**
@@ -40,15 +80,96 @@ class MatrixCheckboxes extends BaseRenderer
     }
 
     /**
-     *
+     * source从数据域取值时，数据域值变化后是否自动清空
      */
-    public function columns($value = '')
+    public function clearValueOnSourceChange($value = true)
     {
-        return $this->set('columns', $value);
+        return $this->set('clearValueOnSourceChange', $value);
     }
 
     /**
-     *
+     * 是否可清除
+     */
+    public function clearable($value = true)
+    {
+        return $this->set('clearable', $value);
+    }
+
+    /**
+     * 每行显示多少个
+     */
+    public function columnsCount($value = '')
+    {
+        return $this->set('columnsCount', $value);
+    }
+
+    /**
+     * 是否可以新增
+     */
+    public function creatable($value = true)
+    {
+        return $this->set('creatable', $value);
+    }
+
+    /**
+     * 新增文字
+     */
+    public function createBtnLabel($value = '')
+    {
+        return $this->set('createBtnLabel', $value);
+    }
+
+    /**
+     * 是否默认全选
+     */
+    public function defaultCheckAll($value = true)
+    {
+        return $this->set('defaultCheckAll', $value);
+    }
+
+    /**
+     * 懒加载 API，当行数据中用 defer: true 标记了，则其孩子节点将会用这个 API 来拉取数据。
+     */
+    public function deferApi($value = '')
+    {
+        return $this->set('deferApi', $value);
+    }
+
+    /**
+     * 懒加载字段
+     */
+    public function deferField($value = '')
+    {
+        return $this->set('deferField', $value);
+    }
+
+    /**
+     * 删除时调用的api
+     */
+    public function deleteApi($value = '')
+    {
+        return $this->set('deleteApi', $value);
+    }
+
+    /**
+     * 确认删除时的提示
+     */
+    public function deleteConfirmText($value = '')
+    {
+        return $this->set('deleteConfirmText', $value);
+    }
+
+    /**
+     * 配置值的连接符
+     */
+    public function delimiter($value = '')
+    {
+        return $this->set('delimiter', $value);
+    }
+
+    /**
+     * 描述 (支持两种语法，但是不能混着用。分别是：1. `${xxx}` 或者 `${xxx|upperCase}` 2. `<%= data.xxx %>`
+更多文档：https://aisuda.bce.baidu.com/amis/zh-CN/docs/concepts/template)
      */
     public function desc($value = '')
     {
@@ -80,11 +201,43 @@ class MatrixCheckboxes extends BaseRenderer
     }
 
     /**
-     * 是否禁用表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否禁用表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function disabledOn($value = '')
     {
         return $this->set('disabledOn', $value);
+    }
+
+    /**
+     * 编辑时调用的 API
+     */
+    public function editApi($value = '')
+    {
+        return $this->set('editApi', $value);
+    }
+
+    /**
+     * 选项修改的表单项
+     */
+    public function editControls($value = '')
+    {
+        return $this->set('editControls', $value);
+    }
+
+    /**
+     * 控制编辑弹框设置项 (控制编辑弹框设置项)
+     */
+    public function editDialog($value = '')
+    {
+        return $this->set('editDialog', $value);
+    }
+
+    /**
+     * 是否可编辑标签名
+     */
+    public function editable($value = true)
+    {
+        return $this->set('editable', $value);
     }
 
     /**
@@ -104,6 +257,14 @@ class MatrixCheckboxes extends BaseRenderer
     }
 
     /**
+     * 开启后将选中的选项 value 的值封装为数组，作为当前表单项的值。
+     */
+    public function extractValue($value = true)
+    {
+        return $this->set('extractValue', $value);
+    }
+
+    /**
      * 是否隐藏
      */
     public function hidden($value = true)
@@ -112,7 +273,7 @@ class MatrixCheckboxes extends BaseRenderer
     }
 
     /**
-     * 是否隐藏表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否隐藏表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function hiddenOn($value = '')
     {
@@ -144,11 +305,27 @@ class MatrixCheckboxes extends BaseRenderer
     }
 
     /**
-     *
+     * 初始化时是否把其他字段同步到表单内部。
      */
-    public function initAutoFill($value = '')
+    public function initAutoFill($value = true)
     {
         return $this->set('initAutoFill', $value);
+    }
+
+    /**
+     * 是否默认就拉取？
+     */
+    public function initFetch($value = true)
+    {
+        return $this->set('initFetch', $value);
+    }
+
+    /**
+     * 是否默认就拉取表达式 (表达式，语法 `${xxx > 5}`。)
+     */
+    public function initFetchOn($value = '')
+    {
+        return $this->set('initFetchOn', $value);
     }
 
     /**
@@ -168,7 +345,15 @@ class MatrixCheckboxes extends BaseRenderer
     }
 
     /**
-     * 描述标题
+     * 当扁平化开启的时候，是否用分隔符的形式发送给后端，否则采用array的方式
+     */
+    public function joinValues($value = true)
+    {
+        return $this->set('joinValues', $value);
+    }
+
+    /**
+     * 描述标题, 当值为 false 时不展示
      */
     public function label($value = '')
     {
@@ -192,7 +377,15 @@ class MatrixCheckboxes extends BaseRenderer
     }
 
     /**
-     * 显示一个小图标, 鼠标放上去的时候显示提示内容, 这个小图标跟 label 在一起 (显示一个小图标, 鼠标放上去的时候显示提示内容, 这个小图标跟 label 在一起)
+     * label展示形式 可选值: default | ellipsis
+     */
+    public function labelOverflow($value = '')
+    {
+        return $this->set('labelOverflow', $value);
+    }
+
+    /**
+     * 显示一个小图标, 鼠标放上去的时候显示提示内容, 这个小图标跟 label 在一起
      */
     public function labelRemark($value = '')
     {
@@ -208,6 +401,14 @@ class MatrixCheckboxes extends BaseRenderer
     }
 
     /**
+     * 自定义选项展示
+     */
+    public function menuTpl($value = '')
+    {
+        return $this->set('menuTpl', $value);
+    }
+
+    /**
      * 配置当前表单项展示模式 可选值: normal | inline | horizontal
      */
     public function mode($value = '')
@@ -216,7 +417,7 @@ class MatrixCheckboxes extends BaseRenderer
     }
 
     /**
-     * 配置singleSelectMode时设置为false
+     * 多图模式配置项
      */
     public function multiple($value = true)
     {
@@ -237,6 +438,14 @@ class MatrixCheckboxes extends BaseRenderer
     public function onEvent($value = '')
     {
         return $this->set('onEvent', $value);
+    }
+
+    /**
+     * 配置固定值
+     */
+    public function options($value = '')
+    {
+        return $this->set('options', $value);
     }
 
     /**
@@ -264,11 +473,19 @@ class MatrixCheckboxes extends BaseRenderer
     }
 
     /**
-     * 显示一个小图标, 鼠标放上去的时候显示提示内容 (显示一个小图标, 鼠标放上去的时候显示提示内容)
+     * 显示一个小图标, 鼠标放上去的时候显示提示内容
      */
     public function remark($value = '')
     {
         return $this->set('remark', $value);
+    }
+
+    /**
+     * 是否可删除
+     */
+    public function removable($value = true)
+    {
+        return $this->set('removable', $value);
     }
 
     /**
@@ -280,27 +497,19 @@ class MatrixCheckboxes extends BaseRenderer
     }
 
     /**
-     *
+     * 点清除按钮时，将表单项设置成当前配置的值。
+     */
+    public function resetValue($value = '')
+    {
+        return $this->set('resetValue', $value);
+    }
+
+    /**
+     * 
      */
     public function row($value = '')
     {
         return $this->set('row', $value);
-    }
-
-    /**
-     * 行标题说明
-     */
-    public function rowLabel($value = '')
-    {
-        return $this->set('rowLabel', $value);
-    }
-
-    /**
-     *
-     */
-    public function rows($value = '')
-    {
-        return $this->set('rows', $value);
     }
 
     /**
@@ -312,11 +521,11 @@ class MatrixCheckboxes extends BaseRenderer
     }
 
     /**
-     * 设置单选模式，multiple为false时有效
+     * 默认选择选项第一个值。
      */
-    public function singleSelectMode($value = true)
+    public function selectFirst($value = true)
     {
-        return $this->set('singleSelectMode', $value);
+        return $this->set('selectFirst', $value);
     }
 
     /**
@@ -328,7 +537,7 @@ class MatrixCheckboxes extends BaseRenderer
     }
 
     /**
-     * 可用来通过 API 拉取 options。 (可用来通过 API 拉取 options。)
+     * 数据源: 绑定当前环境变量 (数据源: 绑定当前环境变量)
      */
     public function source($value = '')
     {
@@ -368,7 +577,7 @@ class MatrixCheckboxes extends BaseRenderer
     }
 
     /**
-     * 是否静态展示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否静态展示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function staticOn($value = '')
     {
@@ -384,7 +593,7 @@ class MatrixCheckboxes extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function staticSchema($value = '')
     {
@@ -408,7 +617,7 @@ class MatrixCheckboxes extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function testIdBuilder($value = '')
     {
@@ -416,9 +625,9 @@ class MatrixCheckboxes extends BaseRenderer
     }
 
     /**
-     * 表单项类型
+     * 指定为 Checkboxes 渲染器。 https://aisuda.bce.baidu.com/amis/zh-CN/components/form/checkboxes
      */
-    public function type($value = 'matrix-checkboxes')
+    public function type($value = 'checkboxes')
     {
         return $this->set('type', $value);
     }
@@ -456,7 +665,7 @@ class MatrixCheckboxes extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function validations($value = '')
     {
@@ -472,6 +681,14 @@ class MatrixCheckboxes extends BaseRenderer
     }
 
     /**
+     * 多选模式，值太多时是否避免折行
+     */
+    public function valuesNoWrap($value = true)
+    {
+        return $this->set('valuesNoWrap', $value);
+    }
+
+    /**
      * 是否显示
      */
     public function visible($value = true)
@@ -480,7 +697,7 @@ class MatrixCheckboxes extends BaseRenderer
     }
 
     /**
-     * 是否显示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否显示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function visibleOn($value = '')
     {

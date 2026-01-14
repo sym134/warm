@@ -4,20 +4,15 @@ namespace warm\admin\renderer;
 
 /**
  * RowSelectionOptions
- *
- * @author  slowlyo
- * @version 6.8.0
+ * 
+ * @author slowlyo
+ * @version 6.13.0
  */
 class RowSelectionOptions extends BaseRenderer
 {
-    public function __construct()
-    {
-
-
-    }
 
     /**
-     * 选择类型 选择全部
+     * 选择类型 选择全部 可选值: ROTATE_RIGHT | ROTATE_LEFT | ZOOM_IN | ZOOM_OUT | SCALE_ORIGIN
      */
     public function key($value = '')
     {

@@ -4,9 +4,9 @@ namespace warm\admin\renderer;
 
 /**
  * Breadcrumb 面包屑 https://aisuda.bce.baidu.com/amis/zh-CN/components/breadcrumb
- *
- * @author  slowlyo
- * @version 6.8.0
+ * 
+ * @author slowlyo
+ * @version 6.13.0
  */
 class Breadcrumb extends BaseRenderer
 {

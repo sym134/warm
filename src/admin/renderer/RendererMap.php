@@ -113,6 +113,7 @@ class RendererMap
         'input-url'               => InputText::class,
         'input-verification-code' => Component::class,
         'input-year'              => InputYear::class,
+        'input-year-range' => InputYearRange::class,
         'java-editor'             => Editor::class,
         'javascript-editor'       => Editor::class,
         'json'                    => Json::class,

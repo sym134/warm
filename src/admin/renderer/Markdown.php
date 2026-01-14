@@ -4,9 +4,9 @@ namespace warm\admin\renderer;
 
 /**
  * Markdown 渲染
- *
- * @author  slowlyo
- * @version 6.8.0
+ * 
+ * @author slowlyo
+ * @version 6.13.0
  */
 class Markdown extends BaseRenderer
 {

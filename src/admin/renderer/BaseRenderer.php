@@ -4,7 +4,6 @@ namespace warm\admin\renderer;
 
 use Illuminate\Support\Traits\Macroable;
 use JsonSerializable;
-use warm\admin\support\cores\AdminPipeline;
 
 class BaseRenderer implements JsonSerializable
 {
@@ -30,7 +29,7 @@ class BaseRenderer implements JsonSerializable
         return $this->set($method, array_shift($parameters));
     }
 
-    public function set($name, $value)
+    public function set($name, $value): static
     {
         if ($name == 'map' && is_array($value) && array_keys($value) == array_keys(array_keys($value))) {
             $value = (object)$value;
@@ -55,7 +54,7 @@ class BaseRenderer implements JsonSerializable
         return json_encode($this->amisSchema);
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         return $this->amisSchema;
     }
@@ -66,7 +65,7 @@ class BaseRenderer implements JsonSerializable
      *
      * @return $this
      */
-    public function permission(string $sign, mixed $replaceValue = '')
+    public function permission(string $sign, mixed $replaceValue = ''): static
     {
         $this->amisSchema['warm_permission'] = $sign;
         $this->amisSchema['warm_permission_replace_value'] = $replaceValue;
@@ -84,10 +83,10 @@ class BaseRenderer implements JsonSerializable
             }
         }
 
-        return AdminPipeline::handle(static::class, $this->amisSchema);
+        return $this->amisSchema;
     }
 
-    public function normalizeOption($input)
+    public function normalizeOption($input): array
     {
         // 非数组或对象，直接返回
         if (!is_array($input) && !is_object($input)) {

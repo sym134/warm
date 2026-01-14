@@ -4,17 +4,12 @@ namespace warm\admin\renderer;
 
 /**
  * RowSelection
- *
- * @author  slowlyo
- * @version 6.8.0
+ * 
+ * @author slowlyo
+ * @version 6.13.0
  */
 class RowSelection extends BaseRenderer
 {
-    public function __construct()
-    {
-
-
-    }
 
     /**
      * 已选择的key值表达式

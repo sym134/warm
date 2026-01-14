@@ -3,10 +3,10 @@
 namespace warm\admin\renderer;
 
 /**
- * List 列表展示控件。 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/card
- *
- * @author  slowlyo
- * @version 6.8.0
+ * ListRenderer
+ * 
+ * @author slowlyo
+ * @version 6.13.0
  */
 class ListRenderer extends BaseRenderer
 {
@@ -56,7 +56,7 @@ class ListRenderer extends BaseRenderer
     }
 
     /**
-     * 是否禁用表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否禁用表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function disabledOn($value = '')
     {
@@ -72,7 +72,7 @@ class ListRenderer extends BaseRenderer
     }
 
     /**
-     * 底部区域 (底部区域)
+     * 底部区域
      */
     public function footer($value = '')
     {
@@ -80,7 +80,7 @@ class ListRenderer extends BaseRenderer
     }
 
     /**
-     * 底部区域类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
+     * 底部区域类名
      */
     public function footerClassName($value = '')
     {
@@ -88,7 +88,7 @@ class ListRenderer extends BaseRenderer
     }
 
     /**
-     * 顶部区域 (顶部区域)
+     * 顶部区域
      */
     public function header($value = '')
     {
@@ -96,7 +96,7 @@ class ListRenderer extends BaseRenderer
     }
 
     /**
-     * 顶部区域类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
+     * 顶部区域类名
      */
     public function headerClassName($value = '')
     {
@@ -112,7 +112,7 @@ class ListRenderer extends BaseRenderer
     }
 
     /**
-     * 是否隐藏表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否隐藏表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function hiddenOn($value = '')
     {
@@ -136,7 +136,23 @@ class ListRenderer extends BaseRenderer
     }
 
     /**
-     * 点击列表项的行为 (点击列表项的行为)
+     * 索引条偏移量
+     */
+    public function indexBarOffset($value = '')
+    {
+        return $this->set('indexBarOffset', $value);
+    }
+
+    /**
+     * 索引依据字段
+     */
+    public function indexField($value = '')
+    {
+        return $this->set('indexField', $value);
+    }
+
+    /**
+     * 点击列表项的行为
      */
     public function itemAction($value = '')
     {
@@ -144,7 +160,7 @@ class ListRenderer extends BaseRenderer
     }
 
     /**
-     * 配置某项是否可以点选 (表达式，语法 `data.xxx > 5`。)
+     * 配置某项是否可以点选
      */
     public function itemCheckableOn($value = '')
     {
@@ -152,7 +168,7 @@ class ListRenderer extends BaseRenderer
     }
 
     /**
-     * 配置某项是否可拖拽排序，前提是要开启拖拽功能 (表达式，语法 `data.xxx > 5`。)
+     * 配置某项是否可拖拽排序，前提是要开启拖拽功能
      */
     public function itemDraggableOn($value = '')
     {
@@ -160,7 +176,7 @@ class ListRenderer extends BaseRenderer
     }
 
     /**
-     * 单条数据展示内容配置 (单条数据展示内容配置)
+     * 单条数据展示内容配置
      */
     public function listItem($value = '')
     {
@@ -176,8 +192,7 @@ class ListRenderer extends BaseRenderer
     }
 
     /**
-     * 无数据提示 (支持两种语法，但是不能混着用。分别是：1. `${xxx}` 或者 `${xxx|upperCase}` 2. `<%= data.xxx %>`
-     * 更多文档：https://aisuda.bce.baidu.com/amis/zh-CN/docs/concepts/template)
+     * 无数据提示
      */
     public function placeholder($value = '')
     {
@@ -201,6 +216,14 @@ class ListRenderer extends BaseRenderer
     }
 
     /**
+     * 是否显示右侧字母索引条
+     */
+    public function showIndexBar($value = true)
+    {
+        return $this->set('showIndexBar', $value);
+    }
+
+    /**
      * 大小 可选值: sm | base
      */
     public function size($value = '')
@@ -209,7 +232,7 @@ class ListRenderer extends BaseRenderer
     }
 
     /**
-     * 数据源: 绑定当前环境变量 (数据源: 绑定当前环境变量)
+     * 数据源: 绑定当前环境变量
      */
     public function source($value = '')
     {
@@ -249,7 +272,7 @@ class ListRenderer extends BaseRenderer
     }
 
     /**
-     * 是否静态展示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否静态展示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function staticOn($value = '')
     {
@@ -265,7 +288,7 @@ class ListRenderer extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function staticSchema($value = '')
     {
@@ -281,15 +304,7 @@ class ListRenderer extends BaseRenderer
     }
 
     /**
-     *
-     */
-    public function testIdBuilder($value = '')
-    {
-        return $this->set('testIdBuilder', $value);
-    }
-
-    /**
-     *
+     * 
      */
     public function testid($value = '')
     {
@@ -297,8 +312,7 @@ class ListRenderer extends BaseRenderer
     }
 
     /**
-     * 标题 (支持两种语法，但是不能混着用。分别是：1. `${xxx}` 或者 `${xxx|upperCase}` 2. `<%= data.xxx %>`
-     * 更多文档：https://aisuda.bce.baidu.com/amis/zh-CN/docs/concepts/template)
+     * 标题
      */
     public function title($value = '')
     {
@@ -306,7 +320,7 @@ class ListRenderer extends BaseRenderer
     }
 
     /**
-     * 指定为 List 列表展示控件。 可选值: list | static-list
+     * 指定为模板渲染器。文档：https://aisuda.bce.baidu.com/amis/zh-CN/docs/concepts/template
      */
     public function type($value = '')
     {
@@ -338,7 +352,7 @@ class ListRenderer extends BaseRenderer
     }
 
     /**
-     * 是否显示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否显示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function visibleOn($value = '')
     {

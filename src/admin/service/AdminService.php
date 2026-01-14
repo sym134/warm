@@ -44,6 +44,8 @@ abstract class AdminService
      */
     protected Request|null $request;
 
+    protected ?Model $currentModel = null;
+
     /**
      * 构造函数
      * 
@@ -86,10 +88,27 @@ abstract class AdminService
     }
 
     /**
-     * 获取主键字段名
-     * 
-     * @return string 主键字段名
+     * 获取当前操作的数据实例（新增/修改后）
+     *
+     * @return Model|null
      */
+    public function getCurrentModel(): ?Model
+    {
+        return $this->currentModel;
+    }
+
+    /**
+     * 设置当前操作的数据实例
+     *
+     * @param Model|null $model
+     * @return $this
+     */
+    public function setCurrentModel(?Model $model): static
+    {
+        $this->currentModel = $model;
+        return $this;
+    }
+
     public function primaryKey(): string
     {
         return $this->getModel()->getKeyName();
@@ -107,7 +126,7 @@ abstract class AdminService
                 // laravel11: sqlite 暂时无法获取字段, 等待 laravel 适配
                 $this->tableColumn = DB::schema($this->getModel()->getConnectionName())
                     ->getColumnListing($this->getModel()->getTable());
-            } catch (Throwable $e) {
+            } catch (Throwable) {
                 $this->tableColumn = [];
             }
         }
@@ -117,11 +136,11 @@ abstract class AdminService
 
     /**
      * 检查字段是否存在
-     * 
-     * @param string $column 字段名
+     *
+     * @param string|null $column 字段名
      * @return bool 字段是否存在
      */
-    public function hasColumn(string $column): bool
+    public function hasColumn(string|null $column): bool
     {
         $columns = $this->getTableColumns();
 
@@ -237,7 +256,8 @@ abstract class AdminService
             // 排除非表格字段
             if (!$column instanceof TableColumn) continue;
             // 拆分字段名
-            $field = $column->amisSchema['name'];
+            $field = $column->amisSchema['name'] ?? null;
+            if (!$field) continue;
             // 是否是多层级
             if (str_contains($field, '.')) {
                 // 去除字段名
@@ -247,7 +267,7 @@ abstract class AdminService
                     foreach ($list as $item) {
                         $_class = app($_class)->{$item}()->getModel()::class;
                     }
-                } catch (Throwable $e) {
+                } catch (Throwable) {
                     continue;
                 }
                 $relations[] = implode('.', $list);
@@ -297,11 +317,29 @@ abstract class AdminService
      */
     public function sortColumn(): mixed
     {
+        $updatedAtColumn = $this->getModel()->getUpdatedAtColumn();
+
+        if ($this->hasColumn($updatedAtColumn)) {
+            return $updatedAtColumn;
+        }
+
         if ($this->hasColumn($this->getModel()->getKeyName())) {
             return $this->getModel()->getKeyName();
         }
 
         return Arr::first($this->getTableColumns());
+    }
+
+    /**
+     * 格式化列表数据
+     *
+     * @param array $rows 一次分页的数据
+     *
+     * @return array
+     */
+    public function formatRows(array $rows): array
+    {
+        return $rows;
     }
 
     /**
@@ -313,8 +351,8 @@ abstract class AdminService
     {
         $query = $this->listQuery();
 
-        $list = $query->paginate(request()->input('perPage', 20));
-        $items = $list->items();
+        $list  = $query->paginate(request()->input('perPage', 20));
+        $items = $this->formatRows($list->items());
         $total = $list->total();
 
         return compact('items', 'total');
@@ -339,21 +377,25 @@ abstract class AdminService
                 if (!$this->hasColumn($k)) {
                     continue;
                 }
+
                 $model->setAttribute($k, $v);
             }
 
             $result = $model->save();
+
+            // 无论数据是否变更,都赋值当前模型实例
+            $this->currentModel = $model;
+
             if ($result) {
                 $this->saved($model, true);
             }
 
             Db::commit();
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             Db::rollBack();
 
             admin_abort($e->getMessage());
         }
-
 
         return $result;
     }
@@ -371,6 +413,7 @@ abstract class AdminService
             $this->saving($data);
 
             $model = $this->getModel();
+
             foreach ($data as $k => $v) {
                 if (!$this->hasColumn($k)) {
                     continue;
@@ -380,12 +423,16 @@ abstract class AdminService
             }
 
             $result = $model->save();
+
+            // 无论是否保存成功,都赋值当前模型实例
+            $this->currentModel = $model;
+
             if ($result) {
                 $this->saved($model);
             }
 
             Db::commit();
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             Db::rollBack();
 
             admin_abort($e->getMessage());
@@ -405,12 +452,13 @@ abstract class AdminService
         Db::beginTransaction();
         try {
             $result = $this->query()->whereIn($this->primaryKey(), explode(',', $ids))->delete();
+
             if ($result) {
                 $this->deleted($ids);
             }
 
             Db::commit();
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             Db::rollBack();
             admin_abort($e->getMessage());
         }
@@ -434,11 +482,10 @@ abstract class AdminService
                 $this->update(Arr::pull($item, $this->primaryKey()), $item);
             }
             Db::commit();
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             Db::rollBack();
             admin_abort($e->getMessage());
         }
-
 
         return true;
     }

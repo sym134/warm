@@ -4,9 +4,9 @@ namespace warm\admin\renderer;
 
 /**
  * Log 实时日志
- *
- * @author  slowlyo
- * @version 6.8.0
+ * 
+ * @author slowlyo
+ * @version 6.13.0
  */
 class Log extends BaseRenderer
 {

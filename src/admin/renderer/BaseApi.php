@@ -4,17 +4,12 @@ namespace warm\admin\renderer;
 
 /**
  * BaseApi
- *
- * @author  slowlyo
- * @version 6.8.0
+ * 
+ * @author slowlyo
+ * @version 6.13.0
  */
 class BaseApi extends BaseRenderer
 {
-    public function __construct()
-    {
-
-
-    }
 
     /**
      * 如果 method 为 get 的接口，设置了 data 信息。 默认 data 会自动附带在 query 里面发送给后端。如果想通过 body 发送给后端，那么请把这个配置成 false。但是，浏览器还不支持啊，设置了只是摆设。除非服务端支持 method-override

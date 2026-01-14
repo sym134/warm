@@ -4,9 +4,9 @@ namespace warm\admin\renderer;
 
 /**
  * Chart 图表渲染器。 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/chart
- *
- * @author  slowlyo
- * @version 6.8.0
+ * 
+ * @author slowlyo
+ * @version 6.13.0
  */
 class Chart extends BaseRenderer
 {
@@ -56,7 +56,7 @@ class Chart extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function dataFilter($value = '')
     {
@@ -64,7 +64,7 @@ class Chart extends BaseRenderer
     }
 
     /**
-     * 默认开启 SystemConfig 中的数据映射，如果想关闭，请开启此功能。
+     * 默认开启 Config 中的数据映射，如果想关闭，请开启此功能。
      */
     public function disableDataMapping($value = true)
     {
@@ -80,7 +80,7 @@ class Chart extends BaseRenderer
     }
 
     /**
-     * 是否禁用表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否禁用表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function disabledOn($value = '')
     {
@@ -112,7 +112,7 @@ class Chart extends BaseRenderer
     }
 
     /**
-     * 是否隐藏表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否隐藏表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function hiddenOn($value = '')
     {
@@ -136,7 +136,7 @@ class Chart extends BaseRenderer
     }
 
     /**
-     * 是否初始加载用表达式来配置 (表达式，语法 `data.xxx > 5`。)
+     * 是否初始加载用表达式来配置 (表达式，语法 `${xxx > 5}`。)
      */
     public function initFetchOn($value = '')
     {
@@ -200,7 +200,7 @@ class Chart extends BaseRenderer
     }
 
     /**
-     *
+     * 数据源: 绑定当前环境变量 (数据源: 绑定当前环境变量)
      */
     public function source($value = '')
     {
@@ -240,7 +240,7 @@ class Chart extends BaseRenderer
     }
 
     /**
-     * 是否静态展示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否静态展示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function staticOn($value = '')
     {
@@ -256,7 +256,7 @@ class Chart extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function staticSchema($value = '')
     {
@@ -272,15 +272,7 @@ class Chart extends BaseRenderer
     }
 
     /**
-     *
-     */
-    public function testIdBuilder($value = '')
-    {
-        return $this->set('testIdBuilder', $value);
-    }
-
-    /**
-     *
+     * 
      */
     public function testid($value = '')
     {
@@ -328,7 +320,7 @@ class Chart extends BaseRenderer
     }
 
     /**
-     * 是否显示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否显示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function visibleOn($value = '')
     {

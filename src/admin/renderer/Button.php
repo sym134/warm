@@ -4,23 +4,15 @@ namespace warm\admin\renderer;
 
 /**
  * Button
- *
- * @author  slowlyo
- * @version 6.8.0
+ * 
+ * @author slowlyo
+ * @version 6.13.0
  */
 class Button extends BaseRenderer
 {
     public function __construct()
     {
-        $this->set('type', 'button');
-    }
-
-    /**
-     *
-     */
-    public function actionType($value = '')
-    {
-        return $this->set('actionType', $value);
+        $this->set('type', 'action');
     }
 
     /**
@@ -88,14 +80,6 @@ class Button extends BaseRenderer
     }
 
     /**
-     * 确认弹窗标题
-     */
-    public function confirmTitle($value = '')
-    {
-        return $this->set('confirmTitle', $value);
-    }
-
-    /**
      * 点击后的禁止倒计时（秒）
      */
     public function countDown($value = '')
@@ -120,11 +104,19 @@ class Button extends BaseRenderer
     }
 
     /**
-     * 是否禁用表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否禁用表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function disabledOn($value = '')
     {
         return $this->set('disabledOn', $value);
+    }
+
+    /**
+     * 是否在动作结束前禁用按钮
+     */
+    public function disabledOnAction($value = true)
+    {
+        return $this->set('disabledOnAction', $value);
     }
 
     /**
@@ -133,14 +125,6 @@ class Button extends BaseRenderer
     public function disabledTip($value = '')
     {
         return $this->set('disabledTip', $value);
-    }
-
-    /**
-     *
-     */
-    public function downloadFileName($value = '')
-    {
-        return $this->set('downloadFileName', $value);
     }
 
     /**
@@ -160,7 +144,7 @@ class Button extends BaseRenderer
     }
 
     /**
-     * 是否隐藏表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否隐藏表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function hiddenOn($value = '')
     {
@@ -173,6 +157,14 @@ class Button extends BaseRenderer
     public function hotKey($value = '')
     {
         return $this->set('hotKey', $value);
+    }
+
+    /**
+     * 点击后打开的链接地址
+     */
+    public function href($value = '')
+    {
+        return $this->set('href', $value);
     }
 
     /**
@@ -256,7 +248,7 @@ class Button extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function primary($value = true)
     {
@@ -336,7 +328,7 @@ class Button extends BaseRenderer
     }
 
     /**
-     * 是否静态展示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否静态展示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function staticOn($value = '')
     {
@@ -352,7 +344,7 @@ class Button extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function staticSchema($value = '')
     {
@@ -368,6 +360,14 @@ class Button extends BaseRenderer
     }
 
     /**
+     * 
+     */
+    public function tabIndex($value = '')
+    {
+        return $this->set('tabIndex', $value);
+    }
+
+    /**
      * 可以指定让谁来触发这个动作。
      */
     public function target($value = '')
@@ -376,15 +376,7 @@ class Button extends BaseRenderer
     }
 
     /**
-     *
-     */
-    public function testIdBuilder($value = '')
-    {
-        return $this->set('testIdBuilder', $value);
-    }
-
-    /**
-     *
+     * 
      */
     public function testid($value = '')
     {
@@ -392,7 +384,7 @@ class Button extends BaseRenderer
     }
 
     /**
-     *
+     * 提示文字内容
      */
     public function tooltip($value = '')
     {
@@ -408,7 +400,7 @@ class Button extends BaseRenderer
     }
 
     /**
-     * 指定按钮类型，支持 button、submit或者reset三种类型。 可选值: button | submit | reset
+     * 指定按钮类型，支持 button、submit或者reset三种类型。
      */
     public function type($value = '')
     {
@@ -432,7 +424,7 @@ class Button extends BaseRenderer
     }
 
     /**
-     * 是否显示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否显示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function visibleOn($value = '')
     {

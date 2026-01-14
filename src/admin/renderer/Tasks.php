@@ -4,9 +4,9 @@ namespace warm\admin\renderer;
 
 /**
  * Tasks 渲染器，格式说明 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/tasks
- *
- * @author  slowlyo
- * @version 6.8.0
+ * 
+ * @author slowlyo
+ * @version 6.13.0
  */
 class Tasks extends BaseRenderer
 {
@@ -32,7 +32,7 @@ class Tasks extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function canRetryStatusCode($value = '')
     {
@@ -64,7 +64,7 @@ class Tasks extends BaseRenderer
     }
 
     /**
-     * 是否禁用表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否禁用表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function disabledOn($value = '')
     {
@@ -80,7 +80,7 @@ class Tasks extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function errorStatusCode($value = '')
     {
@@ -88,7 +88,7 @@ class Tasks extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function finishStatusCode($value = '')
     {
@@ -104,7 +104,7 @@ class Tasks extends BaseRenderer
     }
 
     /**
-     * 是否隐藏表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否隐藏表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function hiddenOn($value = '')
     {
@@ -120,7 +120,7 @@ class Tasks extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function initialStatusCode($value = '')
     {
@@ -136,7 +136,7 @@ class Tasks extends BaseRenderer
     }
 
     /**
-     *
+     * 状态项列表
      */
     public function items($value = '')
     {
@@ -144,7 +144,7 @@ class Tasks extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function loadingConfig($value = '')
     {
@@ -152,7 +152,7 @@ class Tasks extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function loadingStatusCode($value = '')
     {
@@ -192,7 +192,7 @@ class Tasks extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function readyStatusCode($value = '')
     {
@@ -256,7 +256,7 @@ class Tasks extends BaseRenderer
     }
 
     /**
-     * 是否静态展示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否静态展示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function staticOn($value = '')
     {
@@ -272,7 +272,7 @@ class Tasks extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function staticSchema($value = '')
     {
@@ -336,15 +336,7 @@ class Tasks extends BaseRenderer
     }
 
     /**
-     *
-     */
-    public function testIdBuilder($value = '')
-    {
-        return $this->set('testIdBuilder', $value);
-    }
-
-    /**
-     *
+     * 
      */
     public function testid($value = '')
     {
@@ -376,7 +368,7 @@ class Tasks extends BaseRenderer
     }
 
     /**
-     * 是否显示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否显示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function visibleOn($value = '')
     {

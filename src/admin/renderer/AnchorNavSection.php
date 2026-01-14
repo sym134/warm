@@ -4,17 +4,12 @@ namespace warm\admin\renderer;
 
 /**
  * AnchorNavSection 锚点区域渲染器 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/anchor-nav
- *
- * @author  slowlyo
- * @version 6.8.0
+ * 
+ * @author slowlyo
+ * @version 6.13.0
  */
 class AnchorNavSection extends BaseRenderer
 {
-    public function __construct()
-    {
-
-
-    }
 
     /**
      * 内容 (内容)
@@ -33,7 +28,7 @@ class AnchorNavSection extends BaseRenderer
     }
 
     /**
-     * 容器 css 类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
+     * 容器 css 类名
      */
     public function className($value = '')
     {
@@ -49,7 +44,7 @@ class AnchorNavSection extends BaseRenderer
     }
 
     /**
-     * 是否禁用表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否禁用表达式
      */
     public function disabledOn($value = '')
     {
@@ -73,7 +68,7 @@ class AnchorNavSection extends BaseRenderer
     }
 
     /**
-     * 是否隐藏表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否隐藏表达式
      */
     public function hiddenOn($value = '')
     {
@@ -113,7 +108,7 @@ class AnchorNavSection extends BaseRenderer
     }
 
     /**
-     * 静态展示表单项类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
+     * 静态展示表单项类名
      */
     public function staticClassName($value = '')
     {
@@ -121,7 +116,7 @@ class AnchorNavSection extends BaseRenderer
     }
 
     /**
-     * 静态展示表单项Value类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
+     * 静态展示表单项Value类名
      */
     public function staticInputClassName($value = '')
     {
@@ -129,7 +124,7 @@ class AnchorNavSection extends BaseRenderer
     }
 
     /**
-     * 静态展示表单项Label类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
+     * 静态展示表单项Label类名
      */
     public function staticLabelClassName($value = '')
     {
@@ -137,7 +132,7 @@ class AnchorNavSection extends BaseRenderer
     }
 
     /**
-     * 是否静态展示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否静态展示表达式
      */
     public function staticOn($value = '')
     {
@@ -153,7 +148,7 @@ class AnchorNavSection extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function staticSchema($value = '')
     {
@@ -166,22 +161,6 @@ class AnchorNavSection extends BaseRenderer
     public function style($value = '')
     {
         return $this->set('style', $value);
-    }
-
-    /**
-     *
-     */
-    public function testIdBuilder($value = '')
-    {
-        return $this->set('testIdBuilder', $value);
-    }
-
-    /**
-     *
-     */
-    public function testid($value = '')
-    {
-        return $this->set('testid', $value);
     }
 
     /**
@@ -209,7 +188,7 @@ class AnchorNavSection extends BaseRenderer
     }
 
     /**
-     * 是否显示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否显示表达式
      */
     public function visibleOn($value = '')
     {

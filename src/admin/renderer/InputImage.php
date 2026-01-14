@@ -6,9 +6,9 @@ use warm\admin\trait\UploadTrait;
 
 /**
  * Image 图片上传控件 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/image
- *
- * @author  slowlyo
- * @version 6.8.0
+ * 
+ * @author slowlyo
+ * @version 6.13.0
  */
 class InputImage extends BaseRenderer
 {
@@ -94,7 +94,7 @@ class InputImage extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function compress($value = true)
     {
@@ -102,7 +102,7 @@ class InputImage extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function compressOptions($value = '')
     {
@@ -110,7 +110,7 @@ class InputImage extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function crop($value = '')
     {
@@ -142,7 +142,8 @@ class InputImage extends BaseRenderer
     }
 
     /**
-     *
+     * 描述 (支持两种语法，但是不能混着用。分别是：1. `${xxx}` 或者 `${xxx|upperCase}` 2. `<%= data.xxx %>`
+更多文档：https://aisuda.bce.baidu.com/amis/zh-CN/docs/concepts/template)
      */
     public function desc($value = '')
     {
@@ -174,7 +175,7 @@ class InputImage extends BaseRenderer
     }
 
     /**
-     * 是否禁用表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否禁用表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function disabledOn($value = '')
     {
@@ -262,7 +263,7 @@ class InputImage extends BaseRenderer
     }
 
     /**
-     * 是否隐藏表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否隐藏表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function hiddenOn($value = '')
     {
@@ -342,6 +343,22 @@ class InputImage extends BaseRenderer
     }
 
     /**
+     * 校验文件大小失败时显示的文字信息
+     */
+    public function invalidSizeMessage($value = '')
+    {
+        return $this->set('invalidSizeMessage', $value);
+    }
+
+    /**
+     * 校验格式失败时显示的文字信息
+     */
+    public function invalidTypeMessage($value = '')
+    {
+        return $this->set('invalidTypeMessage', $value);
+    }
+
+    /**
      * 单选模式：当用户选中某个选项时，选项中的 value 将被作为该表单项的值提交，否则，整个选项对象都会作为该表单项的值提交。 多选模式：选中的多个选项的 `value` 会通过 `delimiter` 连接起来，否则直接将以数组的形式提交值。
      */
     public function joinValues($value = true)
@@ -350,7 +367,7 @@ class InputImage extends BaseRenderer
     }
 
     /**
-     * 描述标题
+     * 描述标题, 当值为 false 时不展示
      */
     public function label($value = '')
     {
@@ -374,7 +391,15 @@ class InputImage extends BaseRenderer
     }
 
     /**
-     * 显示一个小图标, 鼠标放上去的时候显示提示内容, 这个小图标跟 label 在一起 (显示一个小图标, 鼠标放上去的时候显示提示内容, 这个小图标跟 label 在一起)
+     * label展示形式 可选值: default | ellipsis
+     */
+    public function labelOverflow($value = '')
+    {
+        return $this->set('labelOverflow', $value);
+    }
+
+    /**
+     * 显示一个小图标, 鼠标放上去的时候显示提示内容, 这个小图标跟 label 在一起
      */
     public function labelRemark($value = '')
     {
@@ -486,7 +511,7 @@ class InputImage extends BaseRenderer
     }
 
     /**
-     * 显示一个小图标, 鼠标放上去的时候显示提示内容 (显示一个小图标, 鼠标放上去的时候显示提示内容)
+     * 显示一个小图标, 鼠标放上去的时候显示提示内容
      */
     public function remark($value = '')
     {
@@ -510,7 +535,7 @@ class InputImage extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function row($value = '')
     {
@@ -531,6 +556,14 @@ class InputImage extends BaseRenderer
     public function showCompressOptions($value = true)
     {
         return $this->set('showCompressOptions', $value);
+    }
+
+    /**
+     * 格式校验失败是否显示弹窗
+     */
+    public function showErrorModal($value = true)
+    {
+        return $this->set('showErrorModal', $value);
     }
 
     /**
@@ -582,7 +615,7 @@ class InputImage extends BaseRenderer
     }
 
     /**
-     * 是否静态展示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否静态展示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function staticOn($value = '')
     {
@@ -598,7 +631,7 @@ class InputImage extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function staticSchema($value = '')
     {
@@ -619,14 +652,6 @@ class InputImage extends BaseRenderer
     public function submitOnChange($value = true)
     {
         return $this->set('submitOnChange', $value);
-    }
-
-    /**
-     *
-     */
-    public function testIdBuilder($value = '')
-    {
-        return $this->set('testIdBuilder', $value);
     }
 
     /**
@@ -694,7 +719,7 @@ class InputImage extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function validations($value = '')
     {
@@ -718,7 +743,7 @@ class InputImage extends BaseRenderer
     }
 
     /**
-     * 是否显示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否显示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function visibleOn($value = '')
     {

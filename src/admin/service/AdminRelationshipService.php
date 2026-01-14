@@ -136,7 +136,7 @@ class AdminRelationshipService extends AdminService
         if (!file_exists(app_path('admin/model'))) {
             throw new Exception('Please create a model in the app/admin/model directory');
         }
-        
+
         // 递归遍历app/admin/model目录下的所有PHP文件并加载
         $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(app_path('admin/model'))); // todo 目前只有app，没有插件的model
         $phpFiles = new RegexIterator($iterator, '/^.+\.php$/i', RegexIterator::GET_MATCH);
@@ -152,26 +152,49 @@ class AdminRelationshipService extends AdminService
             ->filter(fn($i) => Str::startsWith($i, 'app\\admin\\model'))
             ->toArray();
 
-        // 获取Composer自动加载器中的类映射
-        $composer = require base_path('/vendor/autoload.php');
-        $classMap = $composer->getClassMap();
+        // 扫描插件目录下的app\model模型类
+        $pluginModelClasses = [];
+        $pluginDir = base_path('/plugin');
+        if (is_dir($pluginDir)) {
+            // 获取所有插件目录
+            $plugins = glob($pluginDir . '/*', GLOB_ONLYDIR);
+            foreach ($plugins as $pluginPath) {
+                $pluginName = basename($pluginPath);
+                $pluginModelDir = $pluginPath . '/app/model';
+
+                // 如果插件存在app/model目录，则扫描该目录下的PHP文件
+                if (is_dir($pluginModelDir)) {
+                    $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($pluginModelDir));
+                    $phpFiles = new RegexIterator($iterator, '/^.+\.php$/i', RegexIterator::GET_MATCH);
+
+                    // 加载找到的所有PHP文件
+                    foreach ($phpFiles as $phpFile) {
+                        $filePath = $phpFile[0];
+                        require_once $filePath;
+                    }
+                }
+            }
+
+            // 过滤出plugin\{$firm}\app\model命名空间下的所有已声明类
+            $pluginModelClasses = collect(get_declared_classes())
+                ->filter(fn($i) => preg_match('/^plugin\\\[^\\\\]+\\\app\\\model\\\\/', $i))
+                ->toArray();
+        }
+
         // 获取数据库中所有数据表
         $tables = Database::getTables();
 
-        // 收集并处理所有模型类：
-        // 1. 从Composer类映射中筛选包含'model\'的类
-        // 2. 确保类可以被加载
-        // 3. 筛选出继承自BaseModel的类
-        // 4. 合并app/admin/model目录下定义的模型类
+        // 1. 合并app/admin/model目录下定义的模型类
+        // 2. 合并插件下app/model目录下定义的模型类
+        // 3. 确保类可以被加载
+        // 4. 筛选出继承自BaseModel的类
         // 5. 去重并筛选出对应数据表存在的模型
         // 6. 构造返回格式：包含模型标签、表名和类路径
-        $models = collect($classMap)
-            ->keys()
-            ->filter(fn($item) => str_contains($item, 'model\\'))
+        $models = collect($modelDirClass)
+            ->merge($pluginModelClasses)
+            ->unique()
             ->filter(fn($item) => @class_exists($item))
             ->filter(fn($item) => (new ReflectionClass($item))->isSubclassOf(BaseModel::class))
-            ->merge($modelDirClass)
-            ->unique()
             ->filter(fn($item) => in_array((new $item)->getTable(), $tables))
             ->values()
             ->map(fn($item) => [

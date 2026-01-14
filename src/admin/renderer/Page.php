@@ -3,10 +3,10 @@
 namespace warm\admin\renderer;
 
 /**
- * amis Page 渲染器。详情请见：https://aisuda.bce.baidu.com/amis/zh-CN/components/page
- *
- * @author  slowlyo
- * @version 6.8.0
+ * amis Page 渲染器。详情请见：https://aisuda.bce.baidu.com/amis/zh-CN/components/page 一个页面只允许有一个 Page 渲染器。
+ * 
+ * @author slowlyo
+ * @version 6.13.0
  */
 class Page extends BaseRenderer
 {
@@ -45,6 +45,14 @@ class Page extends BaseRenderer
     public function asideMinWidth($value = '')
     {
         return $this->set('asideMinWidth', $value);
+    }
+
+    /**
+     * 边栏位置 可选值: left | right
+     */
+    public function asidePosition($value = '')
+    {
+        return $this->set('asidePosition', $value);
     }
 
     /**
@@ -112,7 +120,7 @@ class Page extends BaseRenderer
     }
 
     /**
-     *
+     * 可以理解为类型模板，方便快速定义复杂类型
      */
     public function definitions($value = '')
     {
@@ -128,7 +136,7 @@ class Page extends BaseRenderer
     }
 
     /**
-     * 是否禁用表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否禁用表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function disabledOn($value = '')
     {
@@ -160,7 +168,7 @@ class Page extends BaseRenderer
     }
 
     /**
-     * 是否隐藏表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否隐藏表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function hiddenOn($value = '')
     {
@@ -192,7 +200,7 @@ class Page extends BaseRenderer
     }
 
     /**
-     * 是否默认就拉取表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否默认就拉取表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function initFetchOn($value = '')
     {
@@ -208,7 +216,7 @@ class Page extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function loadingConfig($value = '')
     {
@@ -320,7 +328,7 @@ class Page extends BaseRenderer
     }
 
     /**
-     * 是否静态展示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否静态展示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function staticOn($value = '')
     {
@@ -336,7 +344,7 @@ class Page extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function staticSchema($value = '')
     {
@@ -344,7 +352,7 @@ class Page extends BaseRenderer
     }
 
     /**
-     * 配置停止轮询的条件。 (表达式，语法 `data.xxx > 5`。)
+     * 配置停止轮询的条件。 (表达式，语法 `${xxx > 5}`。)
      */
     public function stopAutoRefreshWhen($value = '')
     {
@@ -368,15 +376,7 @@ class Page extends BaseRenderer
     }
 
     /**
-     *
-     */
-    public function testIdBuilder($value = '')
-    {
-        return $this->set('testIdBuilder', $value);
-    }
-
-    /**
-     *
+     * 
      */
     public function testid($value = '')
     {
@@ -432,7 +432,7 @@ class Page extends BaseRenderer
     }
 
     /**
-     * 是否显示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否显示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function visibleOn($value = '')
     {

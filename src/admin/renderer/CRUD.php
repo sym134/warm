@@ -5,8 +5,8 @@ namespace warm\admin\renderer;
 /**
  * CRUD
  *
- * @author  slowlyo
- * @version 6.8.0
+ * @author slowlyo
+ * @version 6.13.0
  */
 class CRUD extends BaseRenderer
 {
@@ -48,7 +48,7 @@ class CRUD extends BaseRenderer
     }
 
     /**
-     * 初始化数据 API (初始化数据 API)
+     * 初始化数据 API
      */
     public function api($value = '')
     {
@@ -56,7 +56,7 @@ class CRUD extends BaseRenderer
     }
 
     /**
-     * 内容区域占满屏幕剩余空间
+     * 表格自动计算高度
      */
     public function autoFillHeight($value = '')
     {
@@ -144,7 +144,7 @@ class CRUD extends BaseRenderer
     }
 
     /**
-     * 可以默认给定初始参数如： {"perPage": 24} (可以默认给定初始参数如： {"perPage": 24})
+     * 可以默认给定初始参数如： {"perPage": 24}
      */
     public function defaultParams($value = '')
     {
@@ -152,7 +152,7 @@ class CRUD extends BaseRenderer
     }
 
     /**
-     * 懒加载 API，当行数据中用 defer: true 标记了，则其孩子节点将会用这个 API 来拉取数据。 (懒加载 API，当行数据中用 defer: true 标记了，则其孩子节点将会用这个 API 来拉取数据。)
+     * 懒加载 API，当行数据中用 defer: true 标记了，则其孩子节点将会用这个 API 来拉取数据。
      */
     public function deferApi($value = '')
     {
@@ -168,7 +168,7 @@ class CRUD extends BaseRenderer
     }
 
     /**
-     * 是否禁用表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否禁用表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function disabledOn($value = '')
     {
@@ -184,7 +184,7 @@ class CRUD extends BaseRenderer
     }
 
     /**
-     * 是否可通过拖拽排序，通过表达式来配置 (表达式，语法 `data.xxx > 5`。)
+     * 是否可通过拖拽排序，通过表达式来配置
      */
     public function draggableOn($value = '')
     {
@@ -216,7 +216,7 @@ class CRUD extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function filterDefaultVisible($value = true)
     {
@@ -224,7 +224,7 @@ class CRUD extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function filterTogglable($value = true)
     {
@@ -240,7 +240,7 @@ class CRUD extends BaseRenderer
     }
 
     /**
-     * 底部外层 CSS 类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
+     * 底部外层 CSS 类名
      */
     public function footerClassName($value = '')
     {
@@ -256,7 +256,7 @@ class CRUD extends BaseRenderer
     }
 
     /**
-     * 顶部外层 CSS 类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
+     * 顶部外层 CSS 类名
      */
     public function headerClassName($value = '')
     {
@@ -280,7 +280,7 @@ class CRUD extends BaseRenderer
     }
 
     /**
-     * 是否隐藏表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否隐藏表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function hiddenOn($value = '')
     {
@@ -312,7 +312,7 @@ class CRUD extends BaseRenderer
     }
 
     /**
-     * 初始是否拉取，用表达式来配置。 (表达式，语法 `data.xxx > 5`。)
+     * 初始是否拉取，用表达式来配置。
      */
     public function initFetchOn($value = '')
     {
@@ -320,7 +320,7 @@ class CRUD extends BaseRenderer
     }
 
     /**
-     * 配置内部 DOM 的 className (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
+     * 配置内部 DOM 的 className
      */
     public function innerClassName($value = '')
     {
@@ -344,7 +344,7 @@ class CRUD extends BaseRenderer
     }
 
     /**
-     * 行角标 (Badge 角标。 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/badge)
+     * 行角标
      */
     public function itemBadge($value = '')
     {
@@ -368,8 +368,7 @@ class CRUD extends BaseRenderer
     }
 
     /**
-     * 当配置 keepItemSelectionOnPageChange 时有用，用来配置已勾选项的文案。 (支持两种语法，但是不能混着用。分别是：1. `${xxx}` 或者 `${xxx|upperCase}` 2. `<%= data.xxx %>`
-     * 更多文档：https://aisuda.bce.baidu.com/amis/zh-CN/docs/concepts/template)
+     * 当配置 keepItemSelectionOnPageChange 时有用，用来配置已勾选项的文案。
      */
     public function labelTpl($value = '')
     {
@@ -393,19 +392,27 @@ class CRUD extends BaseRenderer
     }
 
     /**
-     *
+     * 加载更多配置
      */
-    public function loadingConfig($value = '')
+    public function loadMoreProps($value = '')
     {
-        return $this->set('loadingConfig', $value);
+        return $this->set('loadMoreProps', $value);
     }
 
     /**
-     * 自定义搜索匹配函数，当开启loadDataOnce时，会基于该函数计算的匹配结果进行过滤，主要用于处理列字段类型较为复杂或者字段值格式和后端返回不一致的场景
+     * 自定义搜索匹配函数，当开启loadDataOnce时，会基于该函数计算的匹配结果进行过滤，主要用于处理列字段类型较为复杂或者字段值格式和后端返回不一致的场景参数说明 * `items` 当前表格数据  * `itemsRaw` 当前表格数据（未处理）  * `options` 配置  * `options.query` 查询条件  * `options.columns` 列配置  * `options.matchSorter` 系统默认的排序方法
      */
     public function matchFunc($value = '')
     {
         return $this->set('matchFunc', $value);
+    }
+
+    /**
+     * 当开启 keepItemSelectionOnPageChange 时，最大保留已勾选项的数量。
+     */
+    public function maxKeepItemSelectionLength($value = '')
+    {
+        return $this->set('maxKeepItemSelectionLength', $value);
     }
 
     /**
@@ -417,7 +424,7 @@ class CRUD extends BaseRenderer
     }
 
     /**
-     * 指定内容区的展示模式。
+     * 指定内容区的展示模式。 可选值: table | grid | cards | list
      */
     public function mode($value = 'table')
     {
@@ -425,7 +432,15 @@ class CRUD extends BaseRenderer
     }
 
     /**
-     * 组件名字，这个名字可以用来定位，用于组件通信
+     * 控制是否多选，默认为 false
+     */
+    public function multiple($value = true)
+    {
+        return $this->set('multiple', $value);
+    }
+
+    /**
+     * 字段名，表单提交时的 key，支持多层级，用.连接，如： a.b.c
      */
     public function name($value = '')
     {
@@ -513,6 +528,14 @@ class CRUD extends BaseRenderer
     }
 
     /**
+     * 持久化 key
+     */
+    public function persistKey($value = '')
+    {
+        return $this->set('persistKey', $value);
+    }
+
+    /**
      * 占位符
      */
     public function placeholder($value = '')
@@ -529,7 +552,7 @@ class CRUD extends BaseRenderer
     }
 
     /**
-     * 快速编辑后用来批量保存的 API (快速编辑后用来批量保存的 API)
+     * 快速编辑后用来批量保存的 API
      */
     public function quickSaveApi($value = '')
     {
@@ -537,7 +560,7 @@ class CRUD extends BaseRenderer
     }
 
     /**
-     * 快速编辑配置成及时保存时使用的 API (快速编辑配置成及时保存时使用的 API)
+     * 快速编辑配置成及时保存时使用的 API
      */
     public function quickSaveItemApi($value = '')
     {
@@ -561,11 +584,19 @@ class CRUD extends BaseRenderer
     }
 
     /**
-     * 保存排序的 api (保存排序的 api)
+     * 保存排序的 api
      */
     public function saveOrderApi($value = '')
     {
         return $this->set('saveOrderApi', $value);
+    }
+
+    /**
+     * 是否开启行选择功能, 默认为 false 开启后将支持行选择功能,需要结合事件动作使用
+     */
+    public function selectable($value = true)
+    {
+        return $this->set('selectable', $value);
     }
 
     /**
@@ -585,6 +616,14 @@ class CRUD extends BaseRenderer
     }
 
     /**
+     * 是否显示序号
+     */
+    public function showIndex($value = true)
+    {
+        return $this->set('showIndex', $value);
+    }
+
+    /**
      * 静默拉取
      */
     public function silentPolling($value = true)
@@ -593,7 +632,7 @@ class CRUD extends BaseRenderer
     }
 
     /**
-     * 也可以直接从环境变量中读取，但是不太推荐。 (也可以直接从环境变量中读取，但是不太推荐。)
+     * 数据源：绑定当前环境变量
      */
     public function source($value = '')
     {
@@ -633,7 +672,7 @@ class CRUD extends BaseRenderer
     }
 
     /**
-     * 是否静态展示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否静态展示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function staticOn($value = '')
     {
@@ -649,7 +688,7 @@ class CRUD extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function staticSchema($value = '')
     {
@@ -657,7 +696,7 @@ class CRUD extends BaseRenderer
     }
 
     /**
-     * 表达式，语法 `data.xxx > 5`。
+     * 配置停止轮询的条件。 (表达式，语法 `${xxx > 5}`。)
      */
     public function stopAutoRefreshWhen($value = '')
     {
@@ -665,7 +704,7 @@ class CRUD extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function stopAutoRefreshWhenModalIsOpen($value = true)
     {
@@ -697,7 +736,7 @@ class CRUD extends BaseRenderer
     }
 
     /**
-     * 表格 CSS 类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
+     * 表格 CSS 类名
      */
     public function tableClassName($value = '')
     {
@@ -711,7 +750,6 @@ class CRUD extends BaseRenderer
     {
         return $this->set('tableLayout', $value);
     }
-
     /**
      *
      */

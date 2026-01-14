@@ -4,20 +4,22 @@ namespace warm\admin\renderer;
 
 /**
  * ReloadAction
- *
- * @author  slowlyo
- * @version 6.8.0
+ * 
+ * @author slowlyo
+ * @version 6.13.0
  */
 class ReloadAction extends BaseRenderer
 {
     public function __construct()
     {
-        $this->set('type', 'button');
-        $this->set('actionType', 'reload');
+        $this->set('type', 'action');
+$this->set('actionType', 'reload');
+
+        $this->set('type', 'action');
     }
 
     /**
-     * 指定为刷新目标组件。
+     * 指定为刷新目标组件。 可选值: prev | next | cancel | close | submit | confirm | add | reset | reset-and-submit
      */
     public function actionType($value = 'reload')
     {
@@ -41,7 +43,7 @@ class ReloadAction extends BaseRenderer
     }
 
     /**
-     * 角标 (Badge 角标。 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/badge)
+     * 角标
      */
     public function badge($value = '')
     {
@@ -57,7 +59,7 @@ class ReloadAction extends BaseRenderer
     }
 
     /**
-     * 子内容 (子内容)
+     * 子内容
      */
     public function body($value = '')
     {
@@ -121,11 +123,19 @@ class ReloadAction extends BaseRenderer
     }
 
     /**
-     * 是否禁用表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否禁用表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function disabledOn($value = '')
     {
         return $this->set('disabledOn', $value);
+    }
+
+    /**
+     * 是否在动作结束前禁用按钮
+     */
+    public function disabledOnAction($value = true)
+    {
+        return $this->set('disabledOnAction', $value);
     }
 
     /**
@@ -153,7 +163,7 @@ class ReloadAction extends BaseRenderer
     }
 
     /**
-     * 是否隐藏表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否隐藏表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function hiddenOn($value = '')
     {
@@ -169,7 +179,15 @@ class ReloadAction extends BaseRenderer
     }
 
     /**
-     * 按钮图标， iconfont 的类名 (iconfont 里面的类名。)
+     * 点击后打开的链接地址
+     */
+    public function href($value = '')
+    {
+        return $this->set('href', $value);
+    }
+
+    /**
+     * 按钮图标， iconfont 的类名
      */
     public function icon($value = '')
     {
@@ -177,7 +195,7 @@ class ReloadAction extends BaseRenderer
     }
 
     /**
-     * icon 上的css 类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
+     * icon 上的css 类名
      */
     public function iconClassName($value = '')
     {
@@ -209,7 +227,7 @@ class ReloadAction extends BaseRenderer
     }
 
     /**
-     * loading 上的css 类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
+     * loading 上的css 类名
      */
     public function loadingClassName($value = '')
     {
@@ -249,7 +267,7 @@ class ReloadAction extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function primary($value = true)
     {
@@ -273,7 +291,7 @@ class ReloadAction extends BaseRenderer
     }
 
     /**
-     * 右侧按钮图标， iconfont 的类名 (iconfont 里面的类名。)
+     * 右侧按钮图标， iconfont 的类名
      */
     public function rightIcon($value = '')
     {
@@ -281,7 +299,7 @@ class ReloadAction extends BaseRenderer
     }
 
     /**
-     * 右侧 icon 上的 css 类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
+     * 右侧 icon 上的 css 类名
      */
     public function rightIconClassName($value = '')
     {
@@ -329,7 +347,7 @@ class ReloadAction extends BaseRenderer
     }
 
     /**
-     * 是否静态展示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否静态展示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function staticOn($value = '')
     {
@@ -345,7 +363,7 @@ class ReloadAction extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function staticSchema($value = '')
     {
@@ -361,7 +379,15 @@ class ReloadAction extends BaseRenderer
     }
 
     /**
-     * 指定目标组件。 (配置刷新动作，这个动作通常在完成渲染器本省的固定动作后出发。一般用来配置目标组件的 name 属性。多个目标可以用逗号隔开。当目标是 windows 时表示刷新整个页面。刷新目标的同时还支持传递参数如： `foo?a=${a}&b=${b},boo?c=${c}`)
+     * 
+     */
+    public function tabIndex($value = '')
+    {
+        return $this->set('tabIndex', $value);
+    }
+
+    /**
+     * 可以指定让谁来触发这个动作。
      */
     public function target($value = '')
     {
@@ -369,15 +395,7 @@ class ReloadAction extends BaseRenderer
     }
 
     /**
-     *
-     */
-    public function testIdBuilder($value = '')
-    {
-        return $this->set('testIdBuilder', $value);
-    }
-
-    /**
-     *
+     * 
      */
     public function testid($value = '')
     {
@@ -385,7 +403,7 @@ class ReloadAction extends BaseRenderer
     }
 
     /**
-     *
+     * 提示文字内容
      */
     public function tooltip($value = '')
     {
@@ -401,7 +419,7 @@ class ReloadAction extends BaseRenderer
     }
 
     /**
-     * 指定按钮类型，支持 button、submit或者reset三种类型。 可选值: button | submit | reset
+     * 指定按钮类型，支持 button、submit或者reset三种类型。
      */
     public function type($value = '')
     {
@@ -425,7 +443,7 @@ class ReloadAction extends BaseRenderer
     }
 
     /**
-     * 是否显示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否显示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function visibleOn($value = '')
     {

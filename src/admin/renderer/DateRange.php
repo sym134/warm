@@ -4,9 +4,9 @@ namespace warm\admin\renderer;
 
 /**
  * DateRange 展示渲染器。
- *
- * @author  slowlyo
- * @version 6.8.0
+ * 
+ * @author slowlyo
+ * @version 6.13.0
  */
 class DateRange extends BaseRenderer
 {
@@ -48,7 +48,7 @@ class DateRange extends BaseRenderer
     }
 
     /**
-     * 是否禁用表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否禁用表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function disabledOn($value = '')
     {
@@ -72,7 +72,7 @@ class DateRange extends BaseRenderer
     }
 
     /**
-     * 展示的时间格式，参考 moment 中的格式说明。
+     * 展示的时间格式，参考 moment 中的格式说明。 可选值: hex | hexa | rgb | rgba | hsl
      */
     public function format($value = '')
     {
@@ -88,7 +88,7 @@ class DateRange extends BaseRenderer
     }
 
     /**
-     * 是否隐藏表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否隐藏表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function hiddenOn($value = '')
     {
@@ -144,7 +144,7 @@ class DateRange extends BaseRenderer
     }
 
     /**
-     * 是否静态展示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否静态展示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function staticOn($value = '')
     {
@@ -160,7 +160,7 @@ class DateRange extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function staticSchema($value = '')
     {
@@ -176,15 +176,7 @@ class DateRange extends BaseRenderer
     }
 
     /**
-     *
-     */
-    public function testIdBuilder($value = '')
-    {
-        return $this->set('testIdBuilder', $value);
-    }
-
-    /**
-     *
+     * 
      */
     public function testid($value = '')
     {
@@ -224,7 +216,7 @@ class DateRange extends BaseRenderer
     }
 
     /**
-     * 是否显示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否显示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function visibleOn($value = '')
     {

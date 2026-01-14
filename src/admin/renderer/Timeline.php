@@ -4,15 +4,23 @@ namespace warm\admin\renderer;
 
 /**
  * Timeline
- *
- * @author  slowlyo
- * @version 6.8.0
+ * 
+ * @author slowlyo
+ * @version 6.13.0
  */
 class Timeline extends BaseRenderer
 {
     public function __construct()
     {
         $this->set('type', 'timeline');
+    }
+
+    /**
+     * 卡片展示配置，如果传入则将items数据传入cardSchema中循环渲染，itemTitleSchema、titleClassName、detailClassName将不生效。配置后 timeline item中的数据都将可以在cardSchema中通过数据方式引用。如果子节点也配置了cardSchema，则子节点的cardSchema优先级高于timeline的cardSchema (Card 卡片渲染器。 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/card)
+     */
+    public function cardSchema($value = '')
+    {
+        return $this->set('cardSchema', $value);
     }
 
     /**
@@ -48,7 +56,7 @@ class Timeline extends BaseRenderer
     }
 
     /**
-     * 是否禁用表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否禁用表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function disabledOn($value = '')
     {
@@ -72,7 +80,7 @@ class Timeline extends BaseRenderer
     }
 
     /**
-     * 是否隐藏表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否隐藏表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function hiddenOn($value = '')
     {
@@ -112,7 +120,7 @@ class Timeline extends BaseRenderer
     }
 
     /**
-     * 文字相对于时间轴展示方向 可选值: left | right | alternate
+     * 文字相对于时间轴展示方向 可选值: left | right | top | bottom | alternate
      */
     public function mode($value = '')
     {
@@ -176,7 +184,7 @@ class Timeline extends BaseRenderer
     }
 
     /**
-     * 是否静态展示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否静态展示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function staticOn($value = '')
     {
@@ -192,7 +200,7 @@ class Timeline extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function staticSchema($value = '')
     {
@@ -208,15 +216,7 @@ class Timeline extends BaseRenderer
     }
 
     /**
-     *
-     */
-    public function testIdBuilder($value = '')
-    {
-        return $this->set('testIdBuilder', $value);
-    }
-
-    /**
-     *
+     * 
      */
     public function testid($value = '')
     {
@@ -264,7 +264,7 @@ class Timeline extends BaseRenderer
     }
 
     /**
-     * 是否显示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否显示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function visibleOn($value = '')
     {

@@ -487,21 +487,6 @@ if (!function_exists('admin_abort')) {
             admin_abort($message, $data, $doNotDisplayToast);
         }
     }
-
-    /**
-     * 条件抛出Amis异常（不显示提示）
-     *
-     * 如果条件成立，则抛出Amis异常
-     *
-     * @param boolean $flag 条件
-     * @param string $message 异常信息
-     * @param array $data 异常数据
-     * @return void
-     */
-    function amis_abort_if(bool $flag, string $message = '', array $data = []): void
-    {
-        admin_abort_if($flag, $message, $data, 1);
-    }
 }
 
 /**
@@ -517,7 +502,7 @@ if (!function_exists('admin_path')) {
     {
         $path = ltrim($path, '/');
 
-        return base_path('/vendor/jizhi/warm/src/warm/admin/' . $path);
+        return base_path('/vendor/jizhi/warm/src/admin/' . $path);
     }
 }
 

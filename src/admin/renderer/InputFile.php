@@ -6,10 +6,10 @@ namespace warm\admin\renderer;
 use warm\admin\trait\UploadTrait;
 
 /**
- * SystemFile 文件上传控件 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/file
- *
- * @author  slowlyo
- * @version 6.8.0
+ * File 文件上传控件 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/file
+ * 
+ * @author slowlyo
+ * @version 6.13.0
  */
 class InputFile extends BaseRenderer
 {
@@ -42,7 +42,7 @@ class InputFile extends BaseRenderer
     }
 
     /**
-     * 如果不希望 SystemFile 组件上传，可以配置 `asBlob` 或者 `asBase64`，采用这种方式后，组件不再自己上传了，而是直接把文件数据作为表单项的值，文件内容会在 Form 表单提交的接口里面一起带上。
+     * 如果不希望 File 组件上传，可以配置 `asBlob` 或者 `asBase64`，采用这种方式后，组件不再自己上传了，而是直接把文件数据作为表单项的值，文件内容会在 Form 表单提交的接口里面一起带上。
      */
     public function asBlob($value = true)
     {
@@ -146,7 +146,8 @@ class InputFile extends BaseRenderer
     }
 
     /**
-     *
+     * 描述 (支持两种语法，但是不能混着用。分别是：1. `${xxx}` 或者 `${xxx|upperCase}` 2. `<%= data.xxx %>`
+更多文档：https://aisuda.bce.baidu.com/amis/zh-CN/docs/concepts/template)
      */
     public function desc($value = '')
     {
@@ -178,7 +179,7 @@ class InputFile extends BaseRenderer
     }
 
     /**
-     * 是否禁用表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否禁用表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function disabledOn($value = '')
     {
@@ -202,7 +203,7 @@ class InputFile extends BaseRenderer
     }
 
     /**
-     * 默认显示文件路径的时候会支持直接下载， 可以支持加前缀如：`http://xx.dom/file_name=` ， 如果不希望这样，可以把当前配置项设置为 `false`。1.1.6 版本开始将支持变量 ${xxx} 来自己拼凑个下载地址，并且支持配置成 post. (默认显示文件路径的时候会支持直接下载， 可以支持加前缀如：`http://xx.dom/file_name=` ， 如果不希望这样，可以把当前配置项设置为 `false`。1.1.6 版本开始将支持变量 ${xxx} 来自己拼凑个下载地址，并且支持配置成 post.)
+     * 默认显示文件路径的时候会支持直接下载， 可以支持加前缀如：`http://xx.dom/filename=` ， 如果不希望这样，可以把当前配置项设置为 `false`。1.1.6 版本开始将支持变量 ${xxx} 来自己拼凑个下载地址，并且支持配置成 post. (默认显示文件路径的时候会支持直接下载， 可以支持加前缀如：`http://xx.dom/filename=` ， 如果不希望这样，可以把当前配置项设置为 `false`。1.1.6 版本开始将支持变量 ${xxx} 来自己拼凑个下载地址，并且支持配置成 post.)
      */
     public function downloadUrl($value = '')
     {
@@ -266,7 +267,7 @@ class InputFile extends BaseRenderer
     }
 
     /**
-     * 是否隐藏表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否隐藏表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function hiddenOn($value = '')
     {
@@ -330,6 +331,22 @@ class InputFile extends BaseRenderer
     }
 
     /**
+     * 校验文件大小失败时显示的文字信息
+     */
+    public function invalidSizeMessage($value = '')
+    {
+        return $this->set('invalidSizeMessage', $value);
+    }
+
+    /**
+     * 校验格式失败时显示的文字信息
+     */
+    public function invalidTypeMessage($value = '')
+    {
+        return $this->set('invalidTypeMessage', $value);
+    }
+
+    /**
      * 1. 单选模式：当用户选中某个选项时，选项中的 value 将被作为该表单项的值提交， 否则，整个选项对象都会作为该表单项的值提交。 2. 多选模式：选中的多个选项的 `value` 会通过 `delimiter` 连接起来， 否则直接将以数组的形式提交值。
      */
     public function joinValues($value = true)
@@ -338,7 +355,7 @@ class InputFile extends BaseRenderer
     }
 
     /**
-     * 描述标题
+     * 描述标题, 当值为 false 时不展示
      */
     public function label($value = '')
     {
@@ -362,7 +379,15 @@ class InputFile extends BaseRenderer
     }
 
     /**
-     * 显示一个小图标, 鼠标放上去的时候显示提示内容, 这个小图标跟 label 在一起 (显示一个小图标, 鼠标放上去的时候显示提示内容, 这个小图标跟 label 在一起)
+     * label展示形式 可选值: default | ellipsis
+     */
+    public function labelOverflow($value = '')
+    {
+        return $this->set('labelOverflow', $value);
+    }
+
+    /**
+     * 显示一个小图标, 鼠标放上去的时候显示提示内容, 这个小图标跟 label 在一起
      */
     public function labelRemark($value = '')
     {
@@ -466,7 +491,7 @@ class InputFile extends BaseRenderer
     }
 
     /**
-     * 显示一个小图标, 鼠标放上去的时候显示提示内容 (显示一个小图标, 鼠标放上去的时候显示提示内容)
+     * 显示一个小图标, 鼠标放上去的时候显示提示内容
      */
     public function remark($value = '')
     {
@@ -490,7 +515,7 @@ class InputFile extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function row($value = '')
     {
@@ -562,7 +587,7 @@ class InputFile extends BaseRenderer
     }
 
     /**
-     * 是否静态展示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否静态展示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function staticOn($value = '')
     {
@@ -578,7 +603,7 @@ class InputFile extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function staticSchema($value = '')
     {
@@ -607,14 +632,6 @@ class InputFile extends BaseRenderer
     public function templateUrl($value = '')
     {
         return $this->set('templateUrl', $value);
-    }
-
-    /**
-     *
-     */
-    public function testIdBuilder($value = '')
-    {
-        return $this->set('testIdBuilder', $value);
     }
 
     /**
@@ -674,7 +691,7 @@ class InputFile extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function validations($value = '')
     {
@@ -706,7 +723,7 @@ class InputFile extends BaseRenderer
     }
 
     /**
-     * 是否显示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否显示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function visibleOn($value = '')
     {

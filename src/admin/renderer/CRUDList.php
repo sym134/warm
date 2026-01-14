@@ -4,16 +4,16 @@ namespace warm\admin\renderer;
 
 /**
  * CRUDList
- *
- * @author  slowlyo
- * @version 6.8.0
+ * 
+ * @author slowlyo
+ * @version 6.13.0
  */
 class CRUDList extends BaseRenderer
 {
     public function __construct()
     {
-        $this->set('mode', 'list');
         $this->set('type', 'crud');
+$this->set('mode', 'list');
     }
 
     /**
@@ -41,7 +41,7 @@ class CRUDList extends BaseRenderer
     }
 
     /**
-     * 初始化数据 API (初始化数据 API)
+     * 初始化数据 API
      */
     public function api($value = '')
     {
@@ -97,7 +97,7 @@ class CRUDList extends BaseRenderer
     }
 
     /**
-     * 可以默认给定初始参数如： {"perPage": 24} (可以默认给定初始参数如： {"perPage": 24})
+     * 可以默认给定初始参数如： {"perPage": 24}
      */
     public function defaultParams($value = '')
     {
@@ -105,7 +105,7 @@ class CRUDList extends BaseRenderer
     }
 
     /**
-     * 懒加载 API，当行数据中用 defer: true 标记了，则其孩子节点将会用这个 API 来拉取数据。 (懒加载 API，当行数据中用 defer: true 标记了，则其孩子节点将会用这个 API 来拉取数据。)
+     * 懒加载 API，当行数据中用 defer: true 标记了，则其孩子节点将会用这个 API 来拉取数据。
      */
     public function deferApi($value = '')
     {
@@ -121,7 +121,7 @@ class CRUDList extends BaseRenderer
     }
 
     /**
-     * 是否禁用表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否禁用表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function disabledOn($value = '')
     {
@@ -137,7 +137,7 @@ class CRUDList extends BaseRenderer
     }
 
     /**
-     * 是否可通过拖拽排序，通过表达式来配置 (表达式，语法 `data.xxx > 5`。)
+     * 是否可通过拖拽排序，通过表达式来配置
      */
     public function draggableOn($value = '')
     {
@@ -169,7 +169,7 @@ class CRUDList extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function filterDefaultVisible($value = true)
     {
@@ -177,7 +177,7 @@ class CRUDList extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function filterTogglable($value = true)
     {
@@ -185,7 +185,7 @@ class CRUDList extends BaseRenderer
     }
 
     /**
-     * 底部区域 (底部区域)
+     * 底部区域
      */
     public function footer($value = '')
     {
@@ -193,7 +193,7 @@ class CRUDList extends BaseRenderer
     }
 
     /**
-     * 底部区域类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
+     * 底部区域类名
      */
     public function footerClassName($value = '')
     {
@@ -209,7 +209,7 @@ class CRUDList extends BaseRenderer
     }
 
     /**
-     * 顶部区域 (顶部区域)
+     * 顶部区域
      */
     public function header($value = '')
     {
@@ -217,7 +217,7 @@ class CRUDList extends BaseRenderer
     }
 
     /**
-     * 顶部区域类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
+     * 顶部区域类名
      */
     public function headerClassName($value = '')
     {
@@ -241,7 +241,7 @@ class CRUDList extends BaseRenderer
     }
 
     /**
-     * 是否隐藏表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否隐藏表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function hiddenOn($value = '')
     {
@@ -273,6 +273,22 @@ class CRUDList extends BaseRenderer
     }
 
     /**
+     * 索引条偏移量
+     */
+    public function indexBarOffset($value = '')
+    {
+        return $this->set('indexBarOffset', $value);
+    }
+
+    /**
+     * 索引依据字段
+     */
+    public function indexField($value = '')
+    {
+        return $this->set('indexField', $value);
+    }
+
+    /**
      * 初始是否拉取
      */
     public function initFetch($value = true)
@@ -281,7 +297,7 @@ class CRUDList extends BaseRenderer
     }
 
     /**
-     * 初始是否拉取，用表达式来配置。 (表达式，语法 `data.xxx > 5`。)
+     * 初始是否拉取，用表达式来配置。
      */
     public function initFetchOn($value = '')
     {
@@ -289,7 +305,7 @@ class CRUDList extends BaseRenderer
     }
 
     /**
-     * 配置内部 DOM 的 className (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
+     * 配置内部 DOM 的 className
      */
     public function innerClassName($value = '')
     {
@@ -305,7 +321,7 @@ class CRUDList extends BaseRenderer
     }
 
     /**
-     * 点击列表项的行为 (点击列表项的行为)
+     * 点击列表项的行为
      */
     public function itemAction($value = '')
     {
@@ -329,7 +345,7 @@ class CRUDList extends BaseRenderer
     }
 
     /**
-     * 配置某项是否可拖拽排序，前提是要开启拖拽功能 (表达式，语法 `data.xxx > 5`。)
+     * 配置某项是否可拖拽排序，前提是要开启拖拽功能
      */
     public function itemDraggableOn($value = '')
     {
@@ -345,8 +361,7 @@ class CRUDList extends BaseRenderer
     }
 
     /**
-     * 当配置 keepItemSelectionOnPageChange 时有用，用来配置已勾选项的文案。 (支持两种语法，但是不能混着用。分别是：1. `${xxx}` 或者 `${xxx|upperCase}` 2. `<%= data.xxx %>`
-     * 更多文档：https://aisuda.bce.baidu.com/amis/zh-CN/docs/concepts/template)
+     * 当配置 keepItemSelectionOnPageChange 时有用，用来配置已勾选项的文案。
      */
     public function labelTpl($value = '')
     {
@@ -354,7 +369,7 @@ class CRUDList extends BaseRenderer
     }
 
     /**
-     * 单条数据展示内容配置 (单条数据展示内容配置)
+     * 单条数据展示内容配置
      */
     public function listItem($value = '')
     {
@@ -378,19 +393,27 @@ class CRUDList extends BaseRenderer
     }
 
     /**
-     *
+     * 加载更多配置
      */
-    public function loadingConfig($value = '')
+    public function loadMoreProps($value = '')
     {
-        return $this->set('loadingConfig', $value);
+        return $this->set('loadMoreProps', $value);
     }
 
     /**
-     * 自定义搜索匹配函数，当开启loadDataOnce时，会基于该函数计算的匹配结果进行过滤，主要用于处理列字段类型较为复杂或者字段值格式和后端返回不一致的场景
+     * 自定义搜索匹配函数，当开启loadDataOnce时，会基于该函数计算的匹配结果进行过滤，主要用于处理列字段类型较为复杂或者字段值格式和后端返回不一致的场景参数说明 * `items` 当前表格数据  * `itemsRaw` 当前表格数据（未处理）  * `options` 配置  * `options.query` 查询条件  * `options.columns` 列配置  * `options.matchSorter` 系统默认的排序方法
      */
     public function matchFunc($value = '')
     {
         return $this->set('matchFunc', $value);
+    }
+
+    /**
+     * 当开启 keepItemSelectionOnPageChange 时，最大保留已勾选项的数量。
+     */
+    public function maxKeepItemSelectionLength($value = '')
+    {
+        return $this->set('maxKeepItemSelectionLength', $value);
     }
 
     /**
@@ -402,7 +425,7 @@ class CRUDList extends BaseRenderer
     }
 
     /**
-     * 指定内容区的展示模式。
+     * 指定内容区的展示模式。 可选值: table | grid | cards | list
      */
     public function mode($value = 'list')
     {
@@ -410,7 +433,15 @@ class CRUDList extends BaseRenderer
     }
 
     /**
-     * 组件名字，这个名字可以用来定位，用于组件通信
+     * 控制是否多选，默认为 false
+     */
+    public function multiple($value = true)
+    {
+        return $this->set('multiple', $value);
+    }
+
+    /**
+     * 字段名，表单提交时的 key，支持多层级，用.连接，如： a.b.c
      */
     public function name($value = '')
     {
@@ -498,8 +529,7 @@ class CRUDList extends BaseRenderer
     }
 
     /**
-     * 无数据提示 (支持两种语法，但是不能混着用。分别是：1. `${xxx}` 或者 `${xxx|upperCase}` 2. `<%= data.xxx %>`
-     * 更多文档：https://aisuda.bce.baidu.com/amis/zh-CN/docs/concepts/template)
+     * 无数据提示
      */
     public function placeholder($value = '')
     {
@@ -507,7 +537,7 @@ class CRUDList extends BaseRenderer
     }
 
     /**
-     * 快速编辑后用来批量保存的 API (快速编辑后用来批量保存的 API)
+     * 快速编辑后用来批量保存的 API
      */
     public function quickSaveApi($value = '')
     {
@@ -515,7 +545,7 @@ class CRUDList extends BaseRenderer
     }
 
     /**
-     * 快速编辑配置成及时保存时使用的 API (快速编辑配置成及时保存时使用的 API)
+     * 快速编辑配置成及时保存时使用的 API
      */
     public function quickSaveItemApi($value = '')
     {
@@ -523,11 +553,19 @@ class CRUDList extends BaseRenderer
     }
 
     /**
-     * 保存排序的 api (保存排序的 api)
+     * 保存排序的 api
      */
     public function saveOrderApi($value = '')
     {
         return $this->set('saveOrderApi', $value);
+    }
+
+    /**
+     * 是否开启行选择功能, 默认为 false 开启后将支持行选择功能,需要结合事件动作使用
+     */
+    public function selectable($value = true)
+    {
+        return $this->set('selectable', $value);
     }
 
     /**
@@ -547,6 +585,14 @@ class CRUDList extends BaseRenderer
     }
 
     /**
+     * 是否显示右侧字母索引条
+     */
+    public function showIndexBar($value = true)
+    {
+        return $this->set('showIndexBar', $value);
+    }
+
+    /**
      * 静默拉取
      */
     public function silentPolling($value = true)
@@ -563,7 +609,7 @@ class CRUDList extends BaseRenderer
     }
 
     /**
-     * 也可以直接从环境变量中读取，但是不太推荐。 (也可以直接从环境变量中读取，但是不太推荐。)
+     * 数据源: 绑定当前环境变量
      */
     public function source($value = '')
     {
@@ -603,7 +649,7 @@ class CRUDList extends BaseRenderer
     }
 
     /**
-     * 是否静态展示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否静态展示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function staticOn($value = '')
     {
@@ -619,7 +665,7 @@ class CRUDList extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function staticSchema($value = '')
     {
@@ -627,7 +673,7 @@ class CRUDList extends BaseRenderer
     }
 
     /**
-     * 表达式，语法 `data.xxx > 5`。
+     * 配置停止轮询的条件。 (表达式，语法 `${xxx > 5}`。)
      */
     public function stopAutoRefreshWhen($value = '')
     {
@@ -635,7 +681,7 @@ class CRUDList extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function stopAutoRefreshWhenModalIsOpen($value = true)
     {
@@ -667,15 +713,7 @@ class CRUDList extends BaseRenderer
     }
 
     /**
-     *
-     */
-    public function testIdBuilder($value = '')
-    {
-        return $this->set('testIdBuilder', $value);
-    }
-
-    /**
-     *
+     * 
      */
     public function testid($value = '')
     {
@@ -683,8 +721,7 @@ class CRUDList extends BaseRenderer
     }
 
     /**
-     * 标题 (支持两种语法，但是不能混着用。分别是：1. `${xxx}` 或者 `${xxx|upperCase}` 2. `<%= data.xxx %>`
-     * 更多文档：https://aisuda.bce.baidu.com/amis/zh-CN/docs/concepts/template)
+     * 标题
      */
     public function title($value = '')
     {
@@ -692,7 +729,31 @@ class CRUDList extends BaseRenderer
     }
 
     /**
-     * 指定为 CRUD 渲染器。
+     * 工具栏按钮
+     */
+    public function toolbar($value = '')
+    {
+        return $this->set('toolbar', $value);
+    }
+
+    /**
+     * 工具栏是否为 inline 模式
+     */
+    public function toolbarInline($value = true)
+    {
+        return $this->set('toolbarInline', $value);
+    }
+
+    /**
+     * 设置总条数的字段名。
+     */
+    public function totalField($value = '')
+    {
+        return $this->set('totalField', $value);
+    }
+
+    /**
+     * 指定为模板渲染器。文档：https://aisuda.bce.baidu.com/amis/zh-CN/docs/concepts/template
      */
     public function type($value = 'crud')
     {
@@ -724,7 +785,7 @@ class CRUDList extends BaseRenderer
     }
 
     /**
-     * 是否显示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否显示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function visibleOn($value = '')
     {

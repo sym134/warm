@@ -4,9 +4,9 @@ namespace warm\admin\renderer;
 
 /**
  * ChartRadios 图表单选框
- *
- * @author  slowlyo
- * @version 6.8.0
+ * 
+ * @author slowlyo
+ * @version 6.13.0
  */
 class ChartRadios extends BaseRenderer
 {

@@ -4,9 +4,9 @@ namespace warm\admin\renderer;
 
 /**
  * Panel渲染器。 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/panel
- *
- * @author  slowlyo
- * @version 6.8.0
+ * 
+ * @author slowlyo
+ * @version 6.13.0
  */
 class Panel extends BaseRenderer
 {
@@ -32,9 +32,17 @@ class Panel extends BaseRenderer
     }
 
     /**
+     * 
+     */
+    public function actionsControlClassName($value = '')
+    {
+        return $this->set('actionsControlClassName', $value);
+    }
+
+    /**
      * 固定底部, 想要把按钮固定在底部的时候配置。
      */
-    public function affixFooter($value = '')
+    public function affixFooter($value = true)
     {
         return $this->set('affixFooter', $value);
     }
@@ -56,11 +64,27 @@ class Panel extends BaseRenderer
     }
 
     /**
+     * 
+     */
+    public function bodyControlClassName($value = '')
+    {
+        return $this->set('bodyControlClassName', $value);
+    }
+
+    /**
      * 容器 css 类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
      */
     public function className($value = '')
     {
         return $this->set('className', $value);
+    }
+
+    /**
+     * \ 可折叠。先简单实现一下
+     */
+    public function collapsible($value = true)
+    {
+        return $this->set('collapsible', $value);
     }
 
     /**
@@ -72,7 +96,7 @@ class Panel extends BaseRenderer
     }
 
     /**
-     * 是否禁用表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否禁用表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function disabledOn($value = '')
     {
@@ -128,6 +152,14 @@ class Panel extends BaseRenderer
     }
 
     /**
+     * 外观配置的classname
+     */
+    public function headerControlClassName($value = '')
+    {
+        return $this->set('headerControlClassName', $value);
+    }
+
+    /**
      * 是否隐藏
      */
     public function hidden($value = true)
@@ -136,7 +168,7 @@ class Panel extends BaseRenderer
     }
 
     /**
-     * 是否隐藏表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否隐藏表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function hiddenOn($value = '')
     {
@@ -192,7 +224,7 @@ class Panel extends BaseRenderer
     }
 
     /**
-     * 是否静态展示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否静态展示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function staticOn($value = '')
     {
@@ -208,7 +240,7 @@ class Panel extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function staticSchema($value = '')
     {
@@ -240,15 +272,7 @@ class Panel extends BaseRenderer
     }
 
     /**
-     *
-     */
-    public function testIdBuilder($value = '')
-    {
-        return $this->set('testIdBuilder', $value);
-    }
-
-    /**
-     *
+     * 
      */
     public function testid($value = '')
     {
@@ -257,7 +281,7 @@ class Panel extends BaseRenderer
 
     /**
      * Panel 标题 (支持两种语法，但是不能混着用。分别是：1. `${xxx}` 或者 `${xxx|upperCase}` 2. `<%= data.xxx %>`
-     * 更多文档：https://aisuda.bce.baidu.com/amis/zh-CN/docs/concepts/template)
+更多文档：https://aisuda.bce.baidu.com/amis/zh-CN/docs/concepts/template)
      */
     public function title($value = '')
     {
@@ -289,7 +313,7 @@ class Panel extends BaseRenderer
     }
 
     /**
-     * 是否显示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否显示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function visibleOn($value = '')
     {

@@ -4,9 +4,9 @@ namespace warm\admin\renderer;
 
 /**
  * Tag 输入框 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/tag
- *
- * @author  slowlyo
- * @version 6.8.0
+ * 
+ * @author slowlyo
+ * @version 6.13.0
  */
 class InputTag extends BaseRenderer
 {
@@ -48,6 +48,14 @@ class InputTag extends BaseRenderer
     }
 
     /**
+     * 是否默认全选
+     */
+    public function checkAll($value = true)
+    {
+        return $this->set('checkAll', $value);
+    }
+
+    /**
      * 容器 css 类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
      */
     public function className($value = '')
@@ -64,7 +72,15 @@ class InputTag extends BaseRenderer
     }
 
     /**
-     * 是否可清除。
+     * source从数据域取值时，数据域值变化后是否自动清空
+     */
+    public function clearValueOnSourceChange($value = true)
+    {
+        return $this->set('clearValueOnSourceChange', $value);
+    }
+
+    /**
+     * 是否可清除
      */
     public function clearable($value = true)
     {
@@ -88,7 +104,7 @@ class InputTag extends BaseRenderer
     }
 
     /**
-     * 延时加载的 API，当选项中有 defer: true 的选项时，点开会通过此接口扩充。
+     * 懒加载 API，当行数据中用 defer: true 标记了，则其孩子节点将会用这个 API 来拉取数据。
      */
     public function deferApi($value = '')
     {
@@ -104,7 +120,7 @@ class InputTag extends BaseRenderer
     }
 
     /**
-     * 选项删除 API
+     * 删除时调用的api
      */
     public function deleteApi($value = '')
     {
@@ -112,7 +128,7 @@ class InputTag extends BaseRenderer
     }
 
     /**
-     * 选项删除提示文字。
+     * 确认删除时的提示
      */
     public function deleteConfirmText($value = '')
     {
@@ -120,7 +136,7 @@ class InputTag extends BaseRenderer
     }
 
     /**
-     * 分割符
+     * 配置值的连接符
      */
     public function delimiter($value = '')
     {
@@ -128,7 +144,8 @@ class InputTag extends BaseRenderer
     }
 
     /**
-     *
+     * 描述 (支持两种语法，但是不能混着用。分别是：1. `${xxx}` 或者 `${xxx|upperCase}` 2. `<%= data.xxx %>`
+更多文档：https://aisuda.bce.baidu.com/amis/zh-CN/docs/concepts/template)
      */
     public function desc($value = '')
     {
@@ -160,7 +177,7 @@ class InputTag extends BaseRenderer
     }
 
     /**
-     * 是否禁用表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否禁用表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function disabledOn($value = '')
     {
@@ -200,7 +217,7 @@ class InputTag extends BaseRenderer
     }
 
     /**
-     * 是否可以编辑
+     * 是否可编辑标签名
      */
     public function editable($value = true)
     {
@@ -248,7 +265,7 @@ class InputTag extends BaseRenderer
     }
 
     /**
-     * 是否隐藏表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否隐藏表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function hiddenOn($value = '')
     {
@@ -280,15 +297,15 @@ class InputTag extends BaseRenderer
     }
 
     /**
-     *
+     * 初始化时是否把其他字段同步到表单内部。
      */
-    public function initAutoFill($value = '')
+    public function initAutoFill($value = true)
     {
         return $this->set('initAutoFill', $value);
     }
 
     /**
-     * 配置 source 接口初始拉不拉取。
+     * 是否默认就拉取？
      */
     public function initFetch($value = true)
     {
@@ -296,7 +313,7 @@ class InputTag extends BaseRenderer
     }
 
     /**
-     * 用表达式来配置 source 接口初始要不要拉取
+     * 是否默认就拉取表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function initFetchOn($value = '')
     {
@@ -320,7 +337,7 @@ class InputTag extends BaseRenderer
     }
 
     /**
-     * 单选模式：当用户选中某个选项时，选项中的 value 将被作为该表单项的值提交，否则，整个选项对象都会作为该表单项的值提交。 多选模式：选中的多个选项的 `value` 会通过 `delimiter` 连接起来，否则直接将以数组的形式提交值。
+     * 当扁平化开启的时候，是否用分隔符的形式发送给后端，否则采用array的方式
      */
     public function joinValues($value = true)
     {
@@ -328,7 +345,7 @@ class InputTag extends BaseRenderer
     }
 
     /**
-     * 描述标题
+     * 描述标题, 当值为 false 时不展示
      */
     public function label($value = '')
     {
@@ -352,7 +369,15 @@ class InputTag extends BaseRenderer
     }
 
     /**
-     * 显示一个小图标, 鼠标放上去的时候显示提示内容, 这个小图标跟 label 在一起 (显示一个小图标, 鼠标放上去的时候显示提示内容, 这个小图标跟 label 在一起)
+     * label展示形式 可选值: default | ellipsis
+     */
+    public function labelOverflow($value = '')
+    {
+        return $this->set('labelOverflow', $value);
+    }
+
+    /**
+     * 显示一个小图标, 鼠标放上去的时候显示提示内容, 这个小图标跟 label 在一起
      */
     public function labelRemark($value = '')
     {
@@ -400,7 +425,7 @@ class InputTag extends BaseRenderer
     }
 
     /**
-     * 是否为多选模式
+     * 多图模式配置项
      */
     public function multiple($value = true)
     {
@@ -424,7 +449,7 @@ class InputTag extends BaseRenderer
     }
 
     /**
-     * 选项集合
+     * 配置固定值
      */
     public function options($value = '')
     {
@@ -472,7 +497,7 @@ class InputTag extends BaseRenderer
     }
 
     /**
-     * 显示一个小图标, 鼠标放上去的时候显示提示内容 (显示一个小图标, 鼠标放上去的时候显示提示内容)
+     * 显示一个小图标, 鼠标放上去的时候显示提示内容
      */
     public function remark($value = '')
     {
@@ -504,7 +529,7 @@ class InputTag extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function row($value = '')
     {
@@ -544,7 +569,7 @@ class InputTag extends BaseRenderer
     }
 
     /**
-     * 可用来通过 API 拉取 options。
+     * 数据源: 绑定当前环境变量 (数据源: 绑定当前环境变量)
      */
     public function source($value = '')
     {
@@ -584,7 +609,7 @@ class InputTag extends BaseRenderer
     }
 
     /**
-     * 是否静态展示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否静态展示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function staticOn($value = '')
     {
@@ -600,7 +625,7 @@ class InputTag extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function staticSchema($value = '')
     {
@@ -624,15 +649,7 @@ class InputTag extends BaseRenderer
     }
 
     /**
-     *
-     */
-    public function testIdBuilder($value = '')
-    {
-        return $this->set('testIdBuilder', $value);
-    }
-
-    /**
-     * 表单项类型
+     * 指定为 InputTag 渲染器。 https://aisuda.bce.baidu.com/amis/zh-CN/components/form/input-tag
      */
     public function type($value = 'input-tag')
     {
@@ -672,7 +689,7 @@ class InputTag extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function validations($value = '')
     {
@@ -704,7 +721,7 @@ class InputTag extends BaseRenderer
     }
 
     /**
-     * 是否显示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否显示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function visibleOn($value = '')
     {

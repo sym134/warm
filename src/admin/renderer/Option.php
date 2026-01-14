@@ -4,17 +4,12 @@ namespace warm\admin\renderer;
 
 /**
  * Option
- *
- * @author  slowlyo
- * @version 6.8.0
+ * 
+ * @author slowlyo
+ * @version 6.13.0
  */
 class Option extends BaseRenderer
 {
-    public function __construct()
-    {
-
-
-    }
 
     /**
      * 支持嵌套 (支持嵌套)
@@ -33,7 +28,7 @@ class Option extends BaseRenderer
     }
 
     /**
-     * 如果设置了，优先级更高，不设置走 source 接口加载。
+     * 如果设置了，优先级更高，不设置走 source 接口加载。 (如果设置了，优先级更高，不设置走 source 接口加载。)
      */
     public function deferApi($value = '')
     {
@@ -54,6 +49,14 @@ class Option extends BaseRenderer
     public function disabled($value = true)
     {
         return $this->set('disabled', $value);
+    }
+
+    /**
+     * 禁用提示
+     */
+    public function disabledTip($value = '')
+    {
+        return $this->set('disabledTip', $value);
     }
 
     /**

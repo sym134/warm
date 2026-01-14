@@ -50,11 +50,11 @@ class SystemStorageController extends AdminController
             ->panelClassName('px-10 m:px-0')->mode('horizontal')
             ->body([
                 amis()->Wrapper()->body([
-                    amis()->Select('default', '存储状态')
-                        ->options(['public' => '本地存储', 'qiniu' => '七牛云存储', 'aliyun' => '阿里云存储', 'qcloud' => '腾讯云存储']),
                     amis()->InputText('upload_size', '上传大小')->value('5242880')->description('单位Byte,1MB=1024*1024Byte'),
                     amis()->InputText('file_type', '文件类型')->value('txt,doc,docx,xls,xlsx,ppt,pptx,rar,zip,7z,gz,pdf,wps,md'),
                     amis()->InputText('image_type', '图片类型')->value('jpg,jpeg,png,gif,svg,bmp'),
+                    amis()->Select('default', '存储状态')
+                        ->options(['public' => '本地存储', 'qiniu' => '七牛云存储', 'aliyun' => '阿里云存储', 'qcloud' => '腾讯云存储']),
                 ]),
                 amis()->Wrapper()->visibleOn('${default == "public"}')->body([
                     amis()->InputText('disks.public.url', '域名')->description('请补全http://或https://，例如https://zzz.xxx.com')->required(),

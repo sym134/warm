@@ -4,9 +4,9 @@ namespace warm\admin\renderer;
 
 /**
  * Barcode 条形码 https://aisuda.bce.baidu.com/amis/zh-CN/components/barcode
- *
- * @author  slowlyo
- * @version 6.8.0
+ * 
+ * @author slowlyo
+ * @version 6.13.0
  */
 class Barcode extends BaseRenderer
 {

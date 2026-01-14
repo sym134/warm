@@ -4,9 +4,9 @@ namespace warm\admin\renderer;
 
 /**
  * Custom 自定义组件
- *
- * @author  slowlyo
- * @version 6.8.0
+ * 
+ * @author slowlyo
+ * @version 6.13.0
  */
 class Custom extends BaseRenderer
 {

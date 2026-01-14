@@ -5,8 +5,8 @@ namespace warm\admin\renderer;
 /**
  * Date日期选择控件 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/date
  *
- * @author  slowlyo
- * @version 6.8.0
+ * @author slowlyo
+ * @version 6.13.0
  */
 class InputDate extends BaseRenderer
 {
@@ -56,15 +56,8 @@ class InputDate extends BaseRenderer
     }
 
     /**
-     * 点选日期后是否关闭弹窗
-     */
-    public function closeOnSelect($value = true)
-    {
-        return $this->set('closeOnSelect', $value);
-    }
-
-    /**
-     *
+     * 描述 (支持两种语法，但是不能混着用。分别是：1. `${xxx}` 或者 `${xxx|upperCase}` 2. `<%= data.xxx %>`
+更多文档：https://aisuda.bce.baidu.com/amis/zh-CN/docs/concepts/template)
      */
     public function desc($value = '')
     {
@@ -104,7 +97,7 @@ class InputDate extends BaseRenderer
     }
 
     /**
-     * 是否禁用表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否禁用表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function disabledOn($value = '')
     {
@@ -144,7 +137,7 @@ class InputDate extends BaseRenderer
     }
 
     /**
-     * 日期存储格式
+     * 日期存储格式 可选值: hex | hexa | rgb | rgba | hsl
      */
     public function format($value = '')
     {
@@ -160,7 +153,7 @@ class InputDate extends BaseRenderer
     }
 
     /**
-     * 是否隐藏表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否隐藏表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function hiddenOn($value = '')
     {
@@ -192,9 +185,9 @@ class InputDate extends BaseRenderer
     }
 
     /**
-     *
+     * 初始化时是否把其他字段同步到表单内部。
      */
-    public function initAutoFill($value = '')
+    public function initAutoFill($value = true)
     {
         return $this->set('initAutoFill', $value);
     }
@@ -216,6 +209,14 @@ class InputDate extends BaseRenderer
     }
 
     /**
+     * 
+     */
+    public function inputForbid($value = true)
+    {
+        return $this->set('inputForbid', $value);
+    }
+
+    /**
      * 日期展示格式
      */
     public function inputFormat($value = '')
@@ -224,7 +225,7 @@ class InputDate extends BaseRenderer
     }
 
     /**
-     * 描述标题
+     * 描述标题, 当值为 false 时不展示
      */
     public function label($value = '')
     {
@@ -248,7 +249,15 @@ class InputDate extends BaseRenderer
     }
 
     /**
-     * 显示一个小图标, 鼠标放上去的时候显示提示内容, 这个小图标跟 label 在一起 (显示一个小图标, 鼠标放上去的时候显示提示内容, 这个小图标跟 label 在一起)
+     * label展示形式 可选值: default | ellipsis
+     */
+    public function labelOverflow($value = '')
+    {
+        return $this->set('labelOverflow', $value);
+    }
+
+    /**
+     * 显示一个小图标, 鼠标放上去的时候显示提示内容, 这个小图标跟 label 在一起
      */
     public function labelRemark($value = '')
     {
@@ -261,22 +270,6 @@ class InputDate extends BaseRenderer
     public function labelWidth($value = '')
     {
         return $this->set('labelWidth', $value);
-    }
-
-    /**
-     * 限制最大日期
-     */
-    public function maxDate($value = '')
-    {
-        return $this->set('maxDate', $value);
-    }
-
-    /**
-     * 限制最小日期
-     */
-    public function minDate($value = '')
-    {
-        return $this->set('minDate', $value);
     }
 
     /**
@@ -312,14 +305,6 @@ class InputDate extends BaseRenderer
     }
 
     /**
-     * 弹窗容器选择器
-     */
-    public function popOverContainerSelector($value = '')
-    {
-        return $this->set('popOverContainerSelector', $value);
-    }
-
-    /**
      * 是否只读
      */
     public function readOnly($value = true)
@@ -336,7 +321,7 @@ class InputDate extends BaseRenderer
     }
 
     /**
-     * 显示一个小图标, 鼠标放上去的时候显示提示内容 (显示一个小图标, 鼠标放上去的时候显示提示内容)
+     * 显示一个小图标, 鼠标放上去的时候显示提示内容
      */
     public function remark($value = '')
     {
@@ -352,7 +337,7 @@ class InputDate extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function row($value = '')
     {
@@ -416,7 +401,7 @@ class InputDate extends BaseRenderer
     }
 
     /**
-     * 是否静态展示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否静态展示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function staticOn($value = '')
     {
@@ -432,7 +417,7 @@ class InputDate extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function staticSchema($value = '')
     {
@@ -456,17 +441,9 @@ class InputDate extends BaseRenderer
     }
 
     /**
-     *
-     */
-    public function testIdBuilder($value = '')
-    {
-        return $this->set('testIdBuilder', $value);
-    }
-
-    /**
      * 指定为日期选择控件
      */
-    public function type($value = 'input-date')
+    public function type($value = '')
     {
         return $this->set('type', $value);
     }
@@ -512,7 +489,7 @@ class InputDate extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function validations($value = '')
     {
@@ -544,7 +521,7 @@ class InputDate extends BaseRenderer
     }
 
     /**
-     * 是否显示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否显示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function visibleOn($value = '')
     {

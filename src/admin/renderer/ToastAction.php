@@ -4,20 +4,22 @@ namespace warm\admin\renderer;
 
 /**
  * ToastAction
- *
- * @author  slowlyo
- * @version 6.8.0
+ * 
+ * @author slowlyo
+ * @version 6.13.0
  */
 class ToastAction extends BaseRenderer
 {
     public function __construct()
     {
-        $this->set('type', 'button');
-        $this->set('actionType', 'toast');
+        $this->set('type', 'action');
+$this->set('actionType', 'toast');
+
+        $this->set('type', 'action');
     }
 
     /**
-     * 指定为打开弹窗，抽出式弹窗
+     * 指定为发送 ajax 的行为。 可选值: prev | next | cancel | close | submit | confirm | add | reset | reset-and-submit
      */
     public function actionType($value = 'toast')
     {
@@ -41,7 +43,7 @@ class ToastAction extends BaseRenderer
     }
 
     /**
-     * 角标 (Badge 角标。 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/badge)
+     * 角标
      */
     public function badge($value = '')
     {
@@ -57,7 +59,7 @@ class ToastAction extends BaseRenderer
     }
 
     /**
-     * 子内容 (子内容)
+     * 子内容
      */
     public function body($value = '')
     {
@@ -121,11 +123,19 @@ class ToastAction extends BaseRenderer
     }
 
     /**
-     * 是否禁用表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否禁用表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function disabledOn($value = '')
     {
         return $this->set('disabledOn', $value);
+    }
+
+    /**
+     * 是否在动作结束前禁用按钮
+     */
+    public function disabledOnAction($value = true)
+    {
+        return $this->set('disabledOnAction', $value);
     }
 
     /**
@@ -153,7 +163,7 @@ class ToastAction extends BaseRenderer
     }
 
     /**
-     * 是否隐藏表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否隐藏表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function hiddenOn($value = '')
     {
@@ -169,7 +179,15 @@ class ToastAction extends BaseRenderer
     }
 
     /**
-     * 按钮图标， iconfont 的类名 (iconfont 里面的类名。)
+     * 点击后打开的链接地址
+     */
+    public function href($value = '')
+    {
+        return $this->set('href', $value);
+    }
+
+    /**
+     * 按钮图标， iconfont 的类名
      */
     public function icon($value = '')
     {
@@ -177,7 +195,7 @@ class ToastAction extends BaseRenderer
     }
 
     /**
-     * icon 上的css 类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
+     * icon 上的css 类名
      */
     public function iconClassName($value = '')
     {
@@ -209,7 +227,7 @@ class ToastAction extends BaseRenderer
     }
 
     /**
-     * loading 上的css 类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
+     * loading 上的css 类名
      */
     public function loadingClassName($value = '')
     {
@@ -249,7 +267,7 @@ class ToastAction extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function primary($value = true)
     {
@@ -273,7 +291,7 @@ class ToastAction extends BaseRenderer
     }
 
     /**
-     * 右侧按钮图标， iconfont 的类名 (iconfont 里面的类名。)
+     * 右侧按钮图标， iconfont 的类名
      */
     public function rightIcon($value = '')
     {
@@ -281,7 +299,7 @@ class ToastAction extends BaseRenderer
     }
 
     /**
-     * 右侧 icon 上的 css 类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
+     * 右侧 icon 上的 css 类名
      */
     public function rightIconClassName($value = '')
     {
@@ -329,7 +347,7 @@ class ToastAction extends BaseRenderer
     }
 
     /**
-     * 是否静态展示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否静态展示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function staticOn($value = '')
     {
@@ -345,7 +363,7 @@ class ToastAction extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function staticSchema($value = '')
     {
@@ -361,6 +379,14 @@ class ToastAction extends BaseRenderer
     }
 
     /**
+     * 
+     */
+    public function tabIndex($value = '')
+    {
+        return $this->set('tabIndex', $value);
+    }
+
+    /**
      * 可以指定让谁来触发这个动作。
      */
     public function target($value = '')
@@ -369,15 +395,7 @@ class ToastAction extends BaseRenderer
     }
 
     /**
-     *
-     */
-    public function testIdBuilder($value = '')
-    {
-        return $this->set('testIdBuilder', $value);
-    }
-
-    /**
-     *
+     * 
      */
     public function testid($value = '')
     {
@@ -385,7 +403,7 @@ class ToastAction extends BaseRenderer
     }
 
     /**
-     * 轻提示详情 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/toast (轻提示详情 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/toast)
+     * 
      */
     public function toast($value = '')
     {
@@ -393,7 +411,7 @@ class ToastAction extends BaseRenderer
     }
 
     /**
-     *
+     * 提示文字内容
      */
     public function tooltip($value = '')
     {
@@ -409,7 +427,7 @@ class ToastAction extends BaseRenderer
     }
 
     /**
-     * 指定按钮类型，支持 button、submit或者reset三种类型。 可选值: button | submit | reset
+     * 指定按钮类型，支持 button、submit或者reset三种类型。
      */
     public function type($value = '')
     {
@@ -433,7 +451,7 @@ class ToastAction extends BaseRenderer
     }
 
     /**
-     * 是否显示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否显示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function visibleOn($value = '')
     {

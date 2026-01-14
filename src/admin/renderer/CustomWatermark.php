@@ -5,8 +5,8 @@ namespace warm\admin\renderer;
 /**
  * Watermark
  *
- * @author  slowlyo
- * @version 6.8.0
+ * @author slowlyo
+ * @version 6.13.0
  */
 class CustomWatermark extends BaseRenderer
 {
@@ -48,7 +48,7 @@ class CustomWatermark extends BaseRenderer
     }
 
     /**
-     * 水印之间的间距, 默认: [100, 100]
+     * 水印之间的间距, 默认: [100, 100] 可选值: xs | sm | base | none | md | lg
      */
     public function gap($value = '')
     {

@@ -4,17 +4,12 @@ namespace warm\admin\renderer;
 
 /**
  * 表格列，不指定类型时默认为文本类型。
- *
- * @author  slowlyo
- * @version 6.8.0
+ * 
+ * @author slowlyo
+ * @version 6.13.0
  */
 class TableColumn extends BaseRenderer
 {
-    public function __construct()
-    {
-
-
-    }
 
     /**
      * 列对齐方式 可选值: left | right | center | justify

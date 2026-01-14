@@ -58,7 +58,7 @@ class Asset
      * @param array|string|null $js JS资源
      * @return $this|array 当$js为null时返回JS资源列表，否则返回当前实例
      */
-    public function js($js = null)
+    public function js(array|string $js = null)
     {
         return $this->assetsHandler('js', $js);
     }
@@ -69,7 +69,7 @@ class Asset
      * @param array|string|null $css CSS资源
      * @return $this|array 当$css为null时返回CSS资源列表，否则返回当前实例
      */
-    public function css($css = null)
+    public function css(array|string $css = null)
     {
         return $this->assetsHandler('css', $css);
     }
@@ -80,7 +80,7 @@ class Asset
      * @param array|string|null $scripts 脚本资源
      * @return $this|array 当$scripts为null时返回脚本资源列表，否则返回当前实例
      */
-    public function scripts($scripts = null)
+    public function scripts(array|string $scripts = null)
     {
         return $this->assetsHandler('scripts', $scripts);
     }

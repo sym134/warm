@@ -4,9 +4,9 @@ namespace warm\admin\renderer;
 
 /**
  * Spinner
- *
- * @author  slowlyo
- * @version 6.8.0
+ * 
+ * @author slowlyo
+ * @version 6.13.0
  */
 class Spinner extends BaseRenderer
 {
@@ -48,7 +48,7 @@ class Spinner extends BaseRenderer
     }
 
     /**
-     * 是否禁用表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否禁用表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function disabledOn($value = '')
     {
@@ -72,7 +72,7 @@ class Spinner extends BaseRenderer
     }
 
     /**
-     * 是否隐藏表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否隐藏表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function hiddenOn($value = '')
     {
@@ -96,7 +96,7 @@ class Spinner extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function loadingConfig($value = '')
     {
@@ -104,7 +104,7 @@ class Spinner extends BaseRenderer
     }
 
     /**
-     *
+     * 配置当前表单项展示模式 可选值: normal | inline | horizontal
      */
     public function mode($value = '')
     {
@@ -136,7 +136,7 @@ class Spinner extends BaseRenderer
     }
 
     /**
-     * spinner Icon 大小 可选值: sm | lg |
+     * spinner Icon 大小 可选值: sm | lg | 
      */
     public function size($value = '')
     {
@@ -192,7 +192,7 @@ class Spinner extends BaseRenderer
     }
 
     /**
-     * 是否静态展示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否静态展示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function staticOn($value = '')
     {
@@ -208,7 +208,7 @@ class Spinner extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function staticSchema($value = '')
     {
@@ -224,15 +224,7 @@ class Spinner extends BaseRenderer
     }
 
     /**
-     *
-     */
-    public function testIdBuilder($value = '')
-    {
-        return $this->set('testIdBuilder', $value);
-    }
-
-    /**
-     *
+     * 
      */
     public function testid($value = '')
     {
@@ -280,7 +272,7 @@ class Spinner extends BaseRenderer
     }
 
     /**
-     * 是否显示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否显示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function visibleOn($value = '')
     {

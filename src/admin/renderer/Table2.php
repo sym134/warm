@@ -4,9 +4,9 @@ namespace warm\admin\renderer;
 
 /**
  * Table2
- *
- * @author  slowlyo
- * @version 6.8.0
+ * 
+ * @author slowlyo
+ * @version 6.13.0
  */
 class Table2 extends BaseRenderer
 {
@@ -88,7 +88,7 @@ class Table2 extends BaseRenderer
     }
 
     /**
-     * 是否禁用表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否禁用表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function disabledOn($value = '')
     {
@@ -104,7 +104,7 @@ class Table2 extends BaseRenderer
     }
 
     /**
-     * 表格行可展开配置 (表格行可展开配置)
+     * 表格行可展开配置
      */
     public function expandable($value = true)
     {
@@ -128,7 +128,7 @@ class Table2 extends BaseRenderer
     }
 
     /**
-     * 是否隐藏表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否隐藏表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function hiddenOn($value = '')
     {
@@ -144,7 +144,7 @@ class Table2 extends BaseRenderer
     }
 
     /**
-     * 行角标内容 (Badge 角标。 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/badge)
+     * 行角标内容
      */
     public function itemBadge($value = '')
     {
@@ -186,7 +186,7 @@ class Table2 extends BaseRenderer
     /**
      * 加载中
      */
-    public function loading($value = '')
+    public function loading($value = true)
     {
         return $this->set('loading', $value);
     }
@@ -200,7 +200,7 @@ class Table2 extends BaseRenderer
     }
 
     /**
-     * 接口报错信息配置 (消息文案配置，记住这个优先级是最低的，如果你的接口返回了 msg，接口返回的优先。)
+     * 接口报错信息配置
      */
     public function messages($value = '')
     {
@@ -240,7 +240,7 @@ class Table2 extends BaseRenderer
     }
 
     /**
-     * 快速编辑后用来批量保存的 API (快速编辑后用来批量保存的 API)
+     * 快速编辑后用来批量保存的 API
      */
     public function quickSaveApi($value = '')
     {
@@ -248,7 +248,7 @@ class Table2 extends BaseRenderer
     }
 
     /**
-     * 快速编辑配置成及时保存时使用的 API (快速编辑配置成及时保存时使用的 API)
+     * 快速编辑配置成及时保存时使用的 API
      */
     public function quickSaveItemApi($value = '')
     {
@@ -304,7 +304,7 @@ class Table2 extends BaseRenderer
     }
 
     /**
-     * 表格数据源 (表格数据源)
+     * 表格数据源
      */
     public function source($value = '')
     {
@@ -344,7 +344,7 @@ class Table2 extends BaseRenderer
     }
 
     /**
-     * 是否静态展示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否静态展示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function staticOn($value = '')
     {
@@ -360,7 +360,7 @@ class Table2 extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function staticSchema($value = '')
     {
@@ -384,7 +384,7 @@ class Table2 extends BaseRenderer
     }
 
     /**
-     *  可选值: fixed | auto
+     * table layout 可选值: fixed | auto
      */
     public function tableLayout($value = '')
     {
@@ -392,15 +392,7 @@ class Table2 extends BaseRenderer
     }
 
     /**
-     *
-     */
-    public function testIdBuilder($value = '')
-    {
-        return $this->set('testIdBuilder', $value);
-    }
-
-    /**
-     *
+     * 
      */
     public function testid($value = '')
     {
@@ -416,7 +408,7 @@ class Table2 extends BaseRenderer
     }
 
     /**
-     * 指定为表格类型
+     * 指定为模板渲染器。文档：https://aisuda.bce.baidu.com/amis/zh-CN/docs/concepts/template
      */
     public function type($value = 'table2')
     {
@@ -440,7 +432,7 @@ class Table2 extends BaseRenderer
     }
 
     /**
-     * 是否显示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否显示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function visibleOn($value = '')
     {

@@ -4,9 +4,9 @@ namespace warm\admin\renderer;
 
 /**
  * Carousel 轮播图渲染器。 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/carousel
- *
- * @author  slowlyo
- * @version 6.8.0
+ * 
+ * @author slowlyo
+ * @version 6.13.0
  */
 class Carousel extends BaseRenderer
 {
@@ -24,7 +24,7 @@ class Carousel extends BaseRenderer
     }
 
     /**
-     * 动画类型 可选值: fade | slide
+     * 动画类型 可选值: fade | slide | marquee
      */
     public function animation($value = '')
     {
@@ -64,6 +64,14 @@ class Carousel extends BaseRenderer
     }
 
     /**
+     * 轮播图方向，默认为水平方向 可选值: horizontal | vertical
+     */
+    public function direction($value = '')
+    {
+        return $this->set('direction', $value);
+    }
+
+    /**
      * 是否禁用
      */
     public function disabled($value = true)
@@ -72,7 +80,7 @@ class Carousel extends BaseRenderer
     }
 
     /**
-     * 是否禁用表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否禁用表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function disabledOn($value = '')
     {
@@ -112,7 +120,7 @@ class Carousel extends BaseRenderer
     }
 
     /**
-     * 是否隐藏表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否隐藏表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function hiddenOn($value = '')
     {
@@ -152,9 +160,25 @@ class Carousel extends BaseRenderer
     }
 
     /**
+     * 是否循环播放, 默认为 true。
+     */
+    public function loop($value = true)
+    {
+        return $this->set('loop', $value);
+    }
+
+    /**
+     * 是否支持鼠标事件 默认为 true。
+     */
+    public function mouseEvent($value = true)
+    {
+        return $this->set('mouseEvent', $value);
+    }
+
+    /**
      * 多图模式配置项
      */
-    public function multiple($value = '')
+    public function multiple($value = true)
     {
         return $this->set('multiple', $value);
     }
@@ -224,7 +248,7 @@ class Carousel extends BaseRenderer
     }
 
     /**
-     * 是否静态展示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否静态展示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function staticOn($value = '')
     {
@@ -240,7 +264,7 @@ class Carousel extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function staticSchema($value = '')
     {
@@ -256,15 +280,7 @@ class Carousel extends BaseRenderer
     }
 
     /**
-     *
-     */
-    public function testIdBuilder($value = '')
-    {
-        return $this->set('testIdBuilder', $value);
-    }
-
-    /**
-     *
+     * 
      */
     public function testid($value = '')
     {
@@ -304,7 +320,7 @@ class Carousel extends BaseRenderer
     }
 
     /**
-     * 是否显示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否显示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function visibleOn($value = '')
     {

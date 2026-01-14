@@ -3,10 +3,10 @@
 namespace warm\admin\renderer;
 
 /**
- * Button Group 渲染器。 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/button-group
- *
- * @author  slowlyo
- * @version 6.8.0
+ * ButtonGroup
+ * 
+ * @author slowlyo
+ * @version 6.13.0
  */
 class ButtonGroup extends BaseRenderer
 {
@@ -16,7 +16,7 @@ class ButtonGroup extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function btnActiveClassName($value = '')
     {
@@ -72,7 +72,7 @@ class ButtonGroup extends BaseRenderer
     }
 
     /**
-     * 通过 JS 表达式来配置当前表单项的禁用状态。 (表达式，语法 `data.xxx > 5`。)
+     * 通过 JS 表达式来配置当前表单项的禁用状态。
      */
     public function disabledOn($value = '')
     {
@@ -96,7 +96,7 @@ class ButtonGroup extends BaseRenderer
     }
 
     /**
-     * 是否隐藏表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否隐藏表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function hiddenOn($value = '')
     {
@@ -160,7 +160,7 @@ class ButtonGroup extends BaseRenderer
     }
 
     /**
-     * 是否静态展示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否静态展示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function staticOn($value = '')
     {
@@ -176,7 +176,7 @@ class ButtonGroup extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function staticSchema($value = '')
     {
@@ -192,15 +192,7 @@ class ButtonGroup extends BaseRenderer
     }
 
     /**
-     *
-     */
-    public function testIdBuilder($value = '')
-    {
-        return $this->set('testIdBuilder', $value);
-    }
-
-    /**
-     *
+     * 
      */
     public function testid($value = '')
     {
@@ -216,7 +208,7 @@ class ButtonGroup extends BaseRenderer
     }
 
     /**
-     * 指定为提交按钮类型
+     * 指定为模板渲染器。文档：https://aisuda.bce.baidu.com/amis/zh-CN/docs/concepts/template
      */
     public function type($value = 'button-group')
     {
@@ -248,7 +240,7 @@ class ButtonGroup extends BaseRenderer
     }
 
     /**
-     * 通过 JS 表达式来配置当前表单项是否显示 (表达式，语法 `data.xxx > 5`。)
+     * 通过 JS 表达式来配置当前表单项是否显示
      */
     public function visibleOn($value = '')
     {

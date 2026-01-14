@@ -4,9 +4,9 @@ namespace warm\admin\renderer;
 
 /**
  * 二维码展示控件。 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/qrcode
- *
- * @author  slowlyo
- * @version 6.8.0
+ * 
+ * @author slowlyo
+ * @version 6.13.0
  */
 class QRCode extends BaseRenderer
 {
@@ -48,7 +48,7 @@ class QRCode extends BaseRenderer
     }
 
     /**
-     * 是否禁用表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否禁用表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function disabledOn($value = '')
     {
@@ -61,6 +61,38 @@ class QRCode extends BaseRenderer
     public function editorSetting($value = '')
     {
         return $this->set('editorSetting', $value);
+    }
+
+    /**
+     * 码眼边框颜色
+     */
+    public function eyeBorderColor($value = '')
+    {
+        return $this->set('eyeBorderColor', $value);
+    }
+
+    /**
+     * 码眼边框大小 可选值: default | sm | xs
+     */
+    public function eyeBorderSize($value = '')
+    {
+        return $this->set('eyeBorderSize', $value);
+    }
+
+    /**
+     * 码眼内部颜色
+     */
+    public function eyeInnerColor($value = '')
+    {
+        return $this->set('eyeInnerColor', $value);
+    }
+
+    /**
+     * 码眼类型 可选值: default | circle | rounded
+     */
+    public function eyeType($value = '')
+    {
+        return $this->set('eyeType', $value);
     }
 
     /**
@@ -80,7 +112,7 @@ class QRCode extends BaseRenderer
     }
 
     /**
-     * 是否隐藏表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否隐藏表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function hiddenOn($value = '')
     {
@@ -112,6 +144,14 @@ class QRCode extends BaseRenderer
     }
 
     /**
+     * 渲染模式 可选值: canvas | svg
+     */
+    public function mode($value = '')
+    {
+        return $this->set('mode', $value);
+    }
+
+    /**
      * 关联字段名。
      */
     public function name($value = '')
@@ -133,6 +173,30 @@ class QRCode extends BaseRenderer
     public function placeholder($value = '')
     {
         return $this->set('placeholder', $value);
+    }
+
+    /**
+     * 码点大小 可选值: default | sm | xs
+     */
+    public function pointSize($value = '')
+    {
+        return $this->set('pointSize', $value);
+    }
+
+    /**
+     * 码点大小随机
+     */
+    public function pointSizeRandom($value = true)
+    {
+        return $this->set('pointSizeRandom', $value);
+    }
+
+    /**
+     * 码点类型 可选值: default | circle
+     */
+    public function pointType($value = '')
+    {
+        return $this->set('pointType', $value);
     }
 
     /**
@@ -176,7 +240,7 @@ class QRCode extends BaseRenderer
     }
 
     /**
-     * 是否静态展示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否静态展示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function staticOn($value = '')
     {
@@ -192,7 +256,7 @@ class QRCode extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function staticSchema($value = '')
     {
@@ -208,15 +272,7 @@ class QRCode extends BaseRenderer
     }
 
     /**
-     *
-     */
-    public function testIdBuilder($value = '')
-    {
-        return $this->set('testIdBuilder', $value);
-    }
-
-    /**
-     *
+     * 
      */
     public function testid($value = '')
     {
@@ -224,7 +280,7 @@ class QRCode extends BaseRenderer
     }
 
     /**
-     *  可选值: qrcode | qr-code
+     * 指定为模板渲染器。文档：https://aisuda.bce.baidu.com/amis/zh-CN/docs/concepts/template
      */
     public function type($value = '')
     {
@@ -248,7 +304,7 @@ class QRCode extends BaseRenderer
     }
 
     /**
-     * 是否显示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否显示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function visibleOn($value = '')
     {

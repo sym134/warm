@@ -4,16 +4,16 @@ namespace warm\admin\renderer;
 
 /**
  * Avatar
- *
- * @author  slowlyo
- * @version 6.8.0
+ * 
+ * @author slowlyo
+ * @version 6.13.0
  */
 class Avatar extends BaseRenderer
 {
     public function __construct()
     {
         $this->set('type', 'avatar');
-        $this->set('crossOrigin', 'anonymous');
+$this->set('crossOrigin', 'anonymous');
     }
 
     /**
@@ -41,7 +41,7 @@ class Avatar extends BaseRenderer
     }
 
     /**
-     * 图片CORS属性 可选值: anonymous | use-credentials |
+     * 图片CORS属性 可选值: anonymous | use-credentials | 
      */
     public function crossOrigin($value = '')
     {
@@ -65,7 +65,7 @@ class Avatar extends BaseRenderer
     }
 
     /**
-     * 是否禁用表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否禁用表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function disabledOn($value = '')
     {
@@ -97,7 +97,7 @@ class Avatar extends BaseRenderer
     }
 
     /**
-     * 字符类型距离左右两侧边界单位像素
+     * 字符类型距离左右两侧边界单位像素 可选值: xs | sm | base | none | md | lg
      */
     public function gap($value = '')
     {
@@ -113,7 +113,7 @@ class Avatar extends BaseRenderer
     }
 
     /**
-     * 是否隐藏表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否隐藏表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function hiddenOn($value = '')
     {
@@ -161,7 +161,7 @@ class Avatar extends BaseRenderer
     }
 
     /**
-     * 大小
+     * 大小 可选值: xs | sm | md | lg | full
      */
     public function size($value = '')
     {
@@ -209,7 +209,7 @@ class Avatar extends BaseRenderer
     }
 
     /**
-     * 是否静态展示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否静态展示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function staticOn($value = '')
     {
@@ -225,7 +225,7 @@ class Avatar extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function staticSchema($value = '')
     {
@@ -241,15 +241,7 @@ class Avatar extends BaseRenderer
     }
 
     /**
-     *
-     */
-    public function testIdBuilder($value = '')
-    {
-        return $this->set('testIdBuilder', $value);
-    }
-
-    /**
-     *
+     * 
      */
     public function testid($value = '')
     {
@@ -265,7 +257,7 @@ class Avatar extends BaseRenderer
     }
 
     /**
-     *
+     * 指定为模板渲染器。文档：https://aisuda.bce.baidu.com/amis/zh-CN/docs/concepts/template
      */
     public function type($value = 'avatar')
     {
@@ -289,7 +281,7 @@ class Avatar extends BaseRenderer
     }
 
     /**
-     * 是否显示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否显示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function visibleOn($value = '')
     {

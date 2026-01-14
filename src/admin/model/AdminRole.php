@@ -3,6 +3,7 @@
 namespace warm\admin\model;
 
 use Illuminate\Database\Eloquent\Concerns\HasTimestamps;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use warm\common\model\BaseModel;
 
 /**
@@ -18,15 +19,17 @@ class AdminRole extends BaseModel
 {
     use HasTimestamps;
 
+    const SuperAdministrator = 'administrator';
+
     /**
      * 角色关联的权限
      * 
      * 定义角色与权限的多对多关联关系
      * 一个角色可以拥有多个权限，一个权限也可以分配给多个角色
      * 
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany 权限关联关系
+     * @return BelongsToMany 权限关联关系
      */
-    public function permissions(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    public function permissions(): BelongsToMany
     {
         return $this->belongsToMany(AdminPermission::class, 'admin_role_permissions', 'role_id', 'permission_id')
             ->withTimestamps();

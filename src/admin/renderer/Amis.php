@@ -2043,16 +2043,6 @@ class Amis
     }
 
     /**
-     * 创建 Root 渲染器实例.
-     *
-     * @return Root
-     */
-    public function Root(): Root
-    {
-        return Root::make();
-    }
-
-    /**
      * 创建 RowSelection 渲染器实例.
      *
      * @return RowSelection

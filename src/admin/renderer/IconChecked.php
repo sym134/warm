@@ -4,20 +4,15 @@ namespace warm\admin\renderer;
 
 /**
  * IconChecked
- *
- * @author  slowlyo
- * @version 6.8.0
+ * 
+ * @author slowlyo
+ * @version 6.13.0
  */
 class IconChecked extends BaseRenderer
 {
-    public function __construct()
-    {
-
-
-    }
 
     /**
-     *
+     * 组件唯一 id，主要用于日志采集
      */
     public function id($value = '')
     {
@@ -25,7 +20,7 @@ class IconChecked extends BaseRenderer
     }
 
     /**
-     *
+     * 字段名，表单提交时的 key，支持多层级，用.连接，如： a.b.c
      */
     public function name($value = '')
     {
@@ -33,7 +28,7 @@ class IconChecked extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function svg($value = '')
     {

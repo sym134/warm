@@ -4,20 +4,15 @@ namespace warm\admin\renderer;
 
 /**
  * QRCodeImageSettings
- *
- * @author  slowlyo
- * @version 6.8.0
+ * 
+ * @author slowlyo
+ * @version 6.13.0
  */
 class QRCodeImageSettings extends BaseRenderer
 {
-    public function __construct()
-    {
-
-
-    }
 
     /**
-     *
+     * 
      */
     public function excavate($value = true)
     {
@@ -25,7 +20,7 @@ class QRCodeImageSettings extends BaseRenderer
     }
 
     /**
-     *
+     * Dialog 高度
      */
     public function height($value = '')
     {
@@ -33,7 +28,7 @@ class QRCodeImageSettings extends BaseRenderer
     }
 
     /**
-     *
+     * 图片地址
      */
     public function src($value = '')
     {
@@ -41,7 +36,7 @@ class QRCodeImageSettings extends BaseRenderer
     }
 
     /**
-     *
+     * Dialog 宽度
      */
     public function width($value = '')
     {
@@ -49,7 +44,7 @@ class QRCodeImageSettings extends BaseRenderer
     }
 
     /**
-     *
+     * 起始横坐标位置，以 1 为起点
      */
     public function x($value = '')
     {
@@ -57,7 +52,7 @@ class QRCodeImageSettings extends BaseRenderer
     }
 
     /**
-     *
+     * 起始纵坐标位置，以 1 为起点
      */
     public function y($value = '')
     {

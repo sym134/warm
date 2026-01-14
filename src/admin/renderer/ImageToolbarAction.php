@@ -4,19 +4,29 @@ namespace warm\admin\renderer;
 
 /**
  * ImageToolbarAction
- *
- * @author  slowlyo
- * @version 6.8.0
+ * 
+ * @author slowlyo
+ * @version 6.13.0
  */
 class ImageToolbarAction extends BaseRenderer
 {
     public function __construct()
     {
         $this->set('key', 'ROTATE_RIGHT');
+
+        $this->set('type', 'action');
     }
 
     /**
-     *
+     * 确认弹窗标题
+     */
+    public function confirmTitle($value = '')
+    {
+        return $this->set('confirmTitle', $value);
+    }
+
+    /**
+     * 是否禁用
      */
     public function disabled($value = true)
     {
@@ -24,7 +34,7 @@ class ImageToolbarAction extends BaseRenderer
     }
 
     /**
-     *
+     * iconfont 里面的类名。
      */
     public function icon($value = '')
     {
@@ -32,7 +42,7 @@ class ImageToolbarAction extends BaseRenderer
     }
 
     /**
-     *
+     * 图标CSS类名
      */
     public function iconClassName($value = '')
     {
@@ -48,7 +58,7 @@ class ImageToolbarAction extends BaseRenderer
     }
 
     /**
-     *
+     * 描述标题, 当值为 false 时不展示
      */
     public function label($value = '')
     {

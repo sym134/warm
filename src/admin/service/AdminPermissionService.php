@@ -38,21 +38,20 @@ class AdminPermissionService extends AdminService
      */
     public function getTree(): array
     {
-        $list = $this->query()->orderBy('order')->get()->toArray();
+        $name = request()->input('name');
+        $slug = request()->input('slug');
 
-        return array2tree($list);
+        $list = $this->query()
+            ->when($name, fn($query) => $query->where('name', 'like', '%' . $name . '%'))
+            ->when($slug, fn($query) => $query->where('slug', 'like', '%' . $slug . '%'))
+            ->orderBy('custom_order')
+            ->get()
+            ->toArray();
+
+        return array2tree($list, collect($list)->min('parent_id') ?? 0);
     }
 
-    /**
-     * 检查父级权限是否为子权限
-     * 
-     * 防止出现循环嵌套的情况
-     * 
-     * @param int $id 权限ID
-     * @param int $parent_id 父级权限ID
-     * @return bool 是否为子权限
-     */
-    public function parentIsChild($id, $parent_id): bool
+    public function parentIsChild($id, $parent_id)
     {
         $parent = $this->query()->find($parent_id);
 
@@ -69,7 +68,7 @@ class AdminPermissionService extends AdminService
 
     /**
      * 获取编辑数据
-     * 
+     *
      * @param mixed $id 数据ID
      * @return Model|Collection|Builder|array|null 权限数据
      */
@@ -114,7 +113,7 @@ class AdminPermissionService extends AdminService
 
         $parent_id = Arr::get($data, 'parent_id');
         if ($parent_id != 0) {
-            amis_abort_if($this->parentIsChild($primaryKey, $parent_id), translator('admin.admin_permission.parent_id_not_allow'));
+            admin_abort_if($this->parentIsChild($primaryKey, $parent_id), translator('admin.admin_permission.parent_id_not_allow'));
         }
 
         $model = $this->query()->whereKey($primaryKey)->first();
@@ -129,14 +128,14 @@ class AdminPermissionService extends AdminService
      * @param int $id 权限ID
      * @return void
      */
-    public function checkRepeated($data, $id = 0): void
+    public function checkRepeated(array $data, int $id = 0): void
     {
         $query = $this->query()->when($id, fn($query) => $query->where('id', '<>', $id));
 
-        amis_abort_if($query->clone()->where('name', $data['name'])
+        admin_abort_if($query->clone()->where('name', $data['name'])
             ->exists(), translator('admin.admin_permission.name_already_exists'));
 
-        amis_abort_if($query->clone()->where('slug', $data['slug'])
+        admin_abort_if($query->clone()->where('slug', $data['slug'])
             ->exists(), translator('admin.admin_permission.slug_already_exists'));
     }
 
@@ -158,9 +157,10 @@ class AdminPermissionService extends AdminService
      * @param AdminPermission $model 权限模型实例
      * @return bool 是否保存成功
      */
-    protected function saveData($data, array $columns, AdminPermission $model): bool
+    protected function saveData(array $data, array $columns, AdminPermission $model): bool
     {
         $menus = Arr::pull($data, 'menus');
+        $data['parent_id'] = data_get($data, 'parent_id', 0) ?: 0;
 
         foreach ($data as $k => $v) {
             if (!in_array($k, $columns)) {
@@ -171,7 +171,17 @@ class AdminPermissionService extends AdminService
         }
 
         if ($model->save()) {
-            $model->menus()->sync(Arr::has($menus, '0.id') ? Arr::pluck($menus, 'id') : $menus);
+            // 规范化 $menus，避免非数组类型导致 Arr::has 抛出 TypeError
+            $normalizedMenus = [];
+
+            if (is_array($menus)) {
+                $normalizedMenus = Arr::has($menus, '0.id') ? Arr::pluck($menus, 'id') : $menus;
+            } elseif (is_numeric($menus)) {
+                // 兼容单个 ID
+                $normalizedMenus = [(int)$menus];
+            }
+
+            $model->menus()->sync($normalizedMenus);
 
             return true;
         }

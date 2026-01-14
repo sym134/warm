@@ -5,6 +5,7 @@ namespace warm\admin\support\cores;
 
 use Illuminate\Database\Schema\Blueprint;
 use support\Db as DB;
+use warm\admin\model\AdminRole;
 use warm\framework\hash\facade\Hash;
 
 /**
@@ -95,7 +96,7 @@ class Database
      */
     public function up(): void
     {
-         $this->create('admin_users', function (Blueprint $table) {
+        $this->create('admin_users', function (Blueprint $table) {
             $table->id();
             $table->string('username', 120)->unique();
             $table->string('password', 80);
@@ -119,7 +120,7 @@ class Database
             $table->string('slug', 50)->unique();
             $table->text('http_method')->nullable();
             $table->text('http_path')->nullable();
-            $table->integer('order')->default(0);
+            $table->integer('custom_order')->default(0);
             $table->integer('parent_id')->default(0);
             $table->timestamps();
         });
@@ -127,9 +128,9 @@ class Database
         $this->create('admin_menus', function (Blueprint $table) {
             $table->id();
             $table->integer('parent_id')->default(0);
-            $table->integer('order')->default(0);
+            $table->integer('custom_order')->default(0);
             $table->string('title', 100)->comment('菜单名称');
-            $table->string('icon', 100)->nullable()->comment('菜单图标');
+            $table->string('icon', 255)->nullable()->comment('菜单图标');
             $table->string('url')->nullable()->comment('菜单路由');
             $table->tinyInteger('url_type')->default(1)->comment('路由类型(1:路由,2:外链,3:iframe)');
             $table->tinyInteger('visible')->default(1)->comment('是否可见');
@@ -163,6 +164,11 @@ class Database
             $table->index(['permission_id', 'menu_id']);
             $table->timestamps();
         });
+
+        // 如果是模块，跳过下面的表
+        if ($this->moduleName) {
+            return;
+        }
 
         $this->create('admin_code_generators', function (Blueprint $table) {
             $table->id();
@@ -390,7 +396,7 @@ class Database
         $adminRole->truncate();
         $adminRole->insert($data([
             'name' => 'Administrator',
-            'slug' => 'administrator',
+            'slug' => AdminRole::SuperAdministrator,
         ]));
 
         // 用户 - 角色绑定
@@ -583,14 +589,6 @@ class Database
      */
     public static function getTables(): array
     {
-        try {
-            return collect(json_decode(json_encode(Db::schema()->getAllTables()), true))
-            ->map(fn($i) => config('database.default') == 'sqlite' ? $i['name'] : array_shift($i))
-                ->toArray();
-        } catch (\Throwable $e) {
-        }
-
-        // laravel 11+
         return array_column(Db::schema()->getTables(), 'name');  // webman
     }
 }

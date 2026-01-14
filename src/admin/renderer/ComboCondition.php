@@ -4,20 +4,15 @@ namespace warm\admin\renderer;
 
 /**
  * ComboCondition
- *
- * @author  slowlyo
- * @version 6.8.0
+ * 
+ * @author slowlyo
+ * @version 6.13.0
  */
 class ComboCondition extends BaseRenderer
 {
-    public function __construct()
-    {
-
-
-    }
 
     /**
-     *
+     * 状态项列表
      */
     public function items($value = '')
     {
@@ -25,7 +20,7 @@ class ComboCondition extends BaseRenderer
     }
 
     /**
-     *
+     * 描述标题, 当值为 false 时不展示
      */
     public function label($value = '')
     {
@@ -33,7 +28,7 @@ class ComboCondition extends BaseRenderer
     }
 
     /**
-     *
+     * 配置当前表单项展示模式 可选值: normal | inline | horizontal
      */
     public function mode($value = '')
     {
@@ -41,7 +36,7 @@ class ComboCondition extends BaseRenderer
     }
 
     /**
-     *
+     * 单组表单项初始值。默认为 `{}`
      */
     public function scaffold($value = '')
     {
@@ -49,7 +44,7 @@ class ComboCondition extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function test($value = '')
     {

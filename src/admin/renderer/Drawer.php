@@ -3,10 +3,10 @@
 namespace warm\admin\renderer;
 
 /**
- * Drawer 抽出式弹框。 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/drawer
- *
- * @author  slowlyo
- * @version 6.8.0
+ * Drawer
+ * 
+ * @author slowlyo
+ * @version 6.13.0
  */
 class Drawer extends BaseRenderer
 {
@@ -24,7 +24,7 @@ class Drawer extends BaseRenderer
     }
 
     /**
-     * 内容区域 (内容区域)
+     * 内容区域
      */
     public function body($value = '')
     {
@@ -32,7 +32,7 @@ class Drawer extends BaseRenderer
     }
 
     /**
-     * 配置 Body 容器 className (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
+     * 配置 Body 容器 className
      */
     public function bodyClassName($value = '')
     {
@@ -40,7 +40,7 @@ class Drawer extends BaseRenderer
     }
 
     /**
-     * 配置 外层 className (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
+     * 配置 外层 className
      */
     public function className($value = '')
     {
@@ -88,7 +88,7 @@ class Drawer extends BaseRenderer
     }
 
     /**
-     * 是否禁用表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否禁用表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function disabledOn($value = '')
     {
@@ -104,7 +104,7 @@ class Drawer extends BaseRenderer
     }
 
     /**
-     * 底部 (底部)
+     * 底部
      */
     public function footer($value = '')
     {
@@ -112,7 +112,7 @@ class Drawer extends BaseRenderer
     }
 
     /**
-     * 配置 头部 容器 className (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
+     * 配置 头部 容器 className
      */
     public function footerClassName($value = '')
     {
@@ -120,7 +120,7 @@ class Drawer extends BaseRenderer
     }
 
     /**
-     * 头部 (头部)
+     * 头部
      */
     public function header($value = '')
     {
@@ -128,7 +128,7 @@ class Drawer extends BaseRenderer
     }
 
     /**
-     * 配置 头部 容器 className (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
+     * 配置 头部 容器 className
      */
     public function headerClassName($value = '')
     {
@@ -152,7 +152,7 @@ class Drawer extends BaseRenderer
     }
 
     /**
-     * 是否隐藏表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否隐藏表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function hiddenOn($value = '')
     {
@@ -176,7 +176,7 @@ class Drawer extends BaseRenderer
     }
 
     /**
-     * 组件名字，这个名字可以用来定位，用于组件通信
+     * 字段名，表单提交时的 key，支持多层级，用.连接，如： a.b.c
      */
     public function name($value = '')
     {
@@ -272,7 +272,7 @@ class Drawer extends BaseRenderer
     }
 
     /**
-     * 是否静态展示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否静态展示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function staticOn($value = '')
     {
@@ -288,7 +288,7 @@ class Drawer extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function staticSchema($value = '')
     {
@@ -304,15 +304,7 @@ class Drawer extends BaseRenderer
     }
 
     /**
-     *
-     */
-    public function testIdBuilder($value = '')
-    {
-        return $this->set('testIdBuilder', $value);
-    }
-
-    /**
-     *
+     * 
      */
     public function testid($value = '')
     {
@@ -320,7 +312,7 @@ class Drawer extends BaseRenderer
     }
 
     /**
-     * 请通过配置 title 设置标题 (请通过配置 title 设置标题)
+     * 请通过配置 title 设置标题
      */
     public function title($value = '')
     {
@@ -328,7 +320,7 @@ class Drawer extends BaseRenderer
     }
 
     /**
-     *
+     * 指定为模板渲染器。文档：https://aisuda.bce.baidu.com/amis/zh-CN/docs/concepts/template
      */
     public function type($value = 'drawer')
     {
@@ -352,7 +344,7 @@ class Drawer extends BaseRenderer
     }
 
     /**
-     * 是否显示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否显示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function visibleOn($value = '')
     {

@@ -4,17 +4,12 @@ namespace warm\admin\renderer;
 
 /**
  * Toast 轻提示
- *
- * @author  slowlyo
- * @version 6.8.0
+ * 
+ * @author slowlyo
+ * @version 6.13.0
  */
 class Toast extends BaseRenderer
 {
-    public function __construct()
-    {
-
-
-    }
 
     /**
      * 内容
@@ -41,7 +36,7 @@ class Toast extends BaseRenderer
     }
 
     /**
-     * 展示图标，可选'info'/'success'/'error'/'warning'
+     * 展示图标，可选'info'/'success'/'error'/'warning' 可选值: info | success | warning | danger | link | primary | dark | light | secondary
      */
     public function level($value = '')
     {

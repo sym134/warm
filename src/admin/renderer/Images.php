@@ -4,9 +4,9 @@ namespace warm\admin\renderer;
 
 /**
  * 图片集展示控件。 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/images
- *
- * @author  slowlyo
- * @version 6.8.0
+ * 
+ * @author slowlyo
+ * @version 6.13.0
  */
 class Images extends BaseRenderer
 {
@@ -21,6 +21,14 @@ class Images extends BaseRenderer
     public function className($value = '')
     {
         return $this->set('className', $value);
+    }
+
+    /**
+     * 当前展示图片索引
+     */
+    public function currentIndex($value = '')
+    {
+        return $this->set('currentIndex', $value);
     }
 
     /**
@@ -48,11 +56,19 @@ class Images extends BaseRenderer
     }
 
     /**
-     * 是否禁用表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否禁用表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function disabledOn($value = '')
     {
         return $this->set('disabledOn', $value);
+    }
+
+    /**
+     * 展示模式，支持缩略图模式（thumb）和大图模式（full） 可选值: thumb | full
+     */
+    public function displayMode($value = '')
+    {
+        return $this->set('displayMode', $value);
     }
 
     /**
@@ -80,6 +96,30 @@ class Images extends BaseRenderer
     }
 
     /**
+     * 描述文字样式
+     */
+    public function fontStyle($value = '')
+    {
+        return $this->set('fontStyle', $value);
+    }
+
+    /**
+     * 大图模式下的缩放模式 可选值: cover | contain
+     */
+    public function fullThumbMode($value = '')
+    {
+        return $this->set('fullThumbMode', $value);
+    }
+
+    /**
+     * 高度（有sortType时生效）
+     */
+    public function height($value = '')
+    {
+        return $this->set('height', $value);
+    }
+
+    /**
      * 是否隐藏
      */
     public function hidden($value = true)
@@ -88,11 +128,19 @@ class Images extends BaseRenderer
     }
 
     /**
-     * 是否隐藏表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否隐藏表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function hiddenOn($value = '')
     {
         return $this->set('hiddenOn', $value);
+    }
+
+    /**
+     * 鼠标悬浮时的展示状态（对应AIpage的文字6，9，10不存在） 可选值: hover-slide | pull-top | scale-center | scale-top | text-style-1 | text-style-2 | text-style-3 | text-style-4 | text-style-5 | text-style-6 | text-style-7
+     */
+    public function hoverMode($value = '')
+    {
+        return $this->set('hoverMode', $value);
     }
 
     /**
@@ -120,6 +168,14 @@ class Images extends BaseRenderer
     }
 
     /**
+     * 蒙层颜色
+     */
+    public function maskColor($value = '')
+    {
+        return $this->set('maskColor', $value);
+    }
+
+    /**
      * 关联字段名，也可以直接配置 src
      */
     public function name($value = '')
@@ -136,7 +192,7 @@ class Images extends BaseRenderer
     }
 
     /**
-     *
+     * 配置固定值
      */
     public function options($value = '')
     {
@@ -176,7 +232,15 @@ class Images extends BaseRenderer
     }
 
     /**
-     *
+     * 排列方式 类命名方式按照上右下左四个边命名，l=2m，m=2s，最小单位为s 每条边的顺序都是从上到下，从左到右。 可选值: sm-ss-sss-m | sss-ss-ms-m | sms-ss-sms-m | sm-ss-sss-ss | ms-ss-sss-ss | sss-ss-sm-ss | mss-ss-ssm-ss | sss-ss-mm-ss | even-${number}-${number}
+     */
+    public function sortType($value = '')
+    {
+        return $this->set('sortType', $value);
+    }
+
+    /**
+     * 数据源: 绑定当前环境变量 (数据源: 绑定当前环境变量)
      */
     public function source($value = '')
     {
@@ -224,7 +288,7 @@ class Images extends BaseRenderer
     }
 
     /**
-     * 是否静态展示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否静态展示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function staticOn($value = '')
     {
@@ -240,7 +304,7 @@ class Images extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function staticSchema($value = '')
     {
@@ -256,15 +320,7 @@ class Images extends BaseRenderer
     }
 
     /**
-     *
-     */
-    public function testIdBuilder($value = '')
-    {
-        return $this->set('testIdBuilder', $value);
-    }
-
-    /**
-     *
+     * 
      */
     public function testid($value = '')
     {
@@ -296,7 +352,7 @@ class Images extends BaseRenderer
     }
 
     /**
-     * 指定为图片集渲染器 可选值: images | static-images
+     * 指定为图片集渲染器
      */
     public function type($value = '')
     {
@@ -312,7 +368,7 @@ class Images extends BaseRenderer
     }
 
     /**
-     *
+     * 默认值，切记只能是静态值，不支持取变量，跟数据关联是通过设置 name 属性来实现的。
      */
     public function value($value = '')
     {
@@ -328,12 +384,19 @@ class Images extends BaseRenderer
     }
 
     /**
-     * 是否显示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否显示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function visibleOn($value = '')
     {
         return $this->set('visibleOn', $value);
     }
 
+    /**
+     * 宽度（有sortType时生效）
+     */
+    public function width($value = '')
+    {
+        return $this->set('width', $value);
+    }
 
 }

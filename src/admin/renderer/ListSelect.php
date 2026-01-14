@@ -3,24 +3,16 @@
 namespace warm\admin\renderer;
 
 /**
- * List 复选框 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/list
- *
- * @author  slowlyo
- * @version 6.8.0
+ * Select 下拉选择框。 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/select
+ * 
+ * @author slowlyo
+ * @version 6.13.0
  */
 class ListSelect extends BaseRenderer
 {
     public function __construct()
     {
-        $this->set('type', 'list-select');
-    }
-
-    /**
-     * 激活态自定义展示模板。 (激活态自定义展示模板。)
-     */
-    public function activeItemSchema($value = '')
-    {
-        return $this->set('activeItemSchema', $value);
+        $this->set('type', 'select');
     }
 
     /**
@@ -48,11 +40,51 @@ class ListSelect extends BaseRenderer
     }
 
     /**
+     * 是否自动选中子节点
+     */
+    public function autoCheckChildren($value = true)
+    {
+        return $this->set('autoCheckChildren', $value);
+    }
+
+    /**
+     * 自动完成 API，当输入部分文字的时候，会将这些文字通过 ${term} 可以取到，发送给接口。 接口可以返回匹配到的选项，帮助用户输入。 (自动完成 API，当输入部分文字的时候，会将这些文字通过 ${term} 可以取到，发送给接口。 接口可以返回匹配到的选项，帮助用户输入。)
+     */
+    public function autoComplete($value = '')
+    {
+        return $this->set('autoComplete', $value);
+    }
+
+    /**
      * 自动填充，当选项被选择的时候，将选项中的其他值同步设置到表单内。
      */
     public function autoFill($value = '')
     {
         return $this->set('autoFill', $value);
+    }
+
+    /**
+     * 边框模式，全边框，还是半边框，或者没边框。 可选值: full | half | none
+     */
+    public function borderMode($value = '')
+    {
+        return $this->set('borderMode', $value);
+    }
+
+    /**
+     * 可多选条件下，是否可全选
+     */
+    public function checkAll($value = true)
+    {
+        return $this->set('checkAll', $value);
+    }
+
+    /**
+     * 可多选条件下，全选项文案，默认 ”全选“
+     */
+    public function checkAllLabel($value = '')
+    {
+        return $this->set('checkAllLabel', $value);
     }
 
     /**
@@ -72,11 +104,27 @@ class ListSelect extends BaseRenderer
     }
 
     /**
-     * 是否可清除。
+     * source从数据域取值时，数据域值变化后是否自动清空
+     */
+    public function clearValueOnSourceChange($value = true)
+    {
+        return $this->set('clearValueOnSourceChange', $value);
+    }
+
+    /**
+     * 是否可清除
      */
     public function clearable($value = true)
     {
         return $this->set('clearable', $value);
+    }
+
+    /**
+     * 当 selectMode 为 table 时定义表格列信息。
+     */
+    public function columns($value = '')
+    {
+        return $this->set('columns', $value);
     }
 
     /**
@@ -96,7 +144,15 @@ class ListSelect extends BaseRenderer
     }
 
     /**
-     * 延时加载的 API，当选项中有 defer: true 的选项时，点开会通过此接口扩充。
+     * 可多选条件下，是否默认全选中所有值
+     */
+    public function defaultCheckAll($value = true)
+    {
+        return $this->set('defaultCheckAll', $value);
+    }
+
+    /**
+     * 懒加载 API，当行数据中用 defer: true 标记了，则其孩子节点将会用这个 API 来拉取数据。
      */
     public function deferApi($value = '')
     {
@@ -112,7 +168,7 @@ class ListSelect extends BaseRenderer
     }
 
     /**
-     * 选项删除 API
+     * 删除时调用的api
      */
     public function deleteApi($value = '')
     {
@@ -120,7 +176,7 @@ class ListSelect extends BaseRenderer
     }
 
     /**
-     * 选项删除提示文字。
+     * 确认删除时的提示
      */
     public function deleteConfirmText($value = '')
     {
@@ -128,7 +184,7 @@ class ListSelect extends BaseRenderer
     }
 
     /**
-     * 分割符
+     * 配置值的连接符
      */
     public function delimiter($value = '')
     {
@@ -136,7 +192,8 @@ class ListSelect extends BaseRenderer
     }
 
     /**
-     *
+     * 描述 (支持两种语法，但是不能混着用。分别是：1. `${xxx}` 或者 `${xxx|upperCase}` 2. `<%= data.xxx %>`
+更多文档：https://aisuda.bce.baidu.com/amis/zh-CN/docs/concepts/template)
      */
     public function desc($value = '')
     {
@@ -168,7 +225,7 @@ class ListSelect extends BaseRenderer
     }
 
     /**
-     * 是否禁用表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否禁用表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function disabledOn($value = '')
     {
@@ -200,7 +257,7 @@ class ListSelect extends BaseRenderer
     }
 
     /**
-     * 是否可以编辑
+     * 是否可编辑标签名
      */
     public function editable($value = true)
     {
@@ -240,7 +297,7 @@ class ListSelect extends BaseRenderer
     }
 
     /**
-     * 是否隐藏表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否隐藏表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function hiddenOn($value = '')
     {
@@ -272,23 +329,15 @@ class ListSelect extends BaseRenderer
     }
 
     /**
-     * 图片div类名
+     * 初始化时是否把其他字段同步到表单内部。
      */
-    public function imageClassName($value = '')
-    {
-        return $this->set('imageClassName', $value);
-    }
-
-    /**
-     *
-     */
-    public function initAutoFill($value = '')
+    public function initAutoFill($value = true)
     {
         return $this->set('initAutoFill', $value);
     }
 
     /**
-     * 配置 source 接口初始拉不拉取。
+     * 是否默认就拉取？
      */
     public function initFetch($value = true)
     {
@@ -296,7 +345,7 @@ class ListSelect extends BaseRenderer
     }
 
     /**
-     * 用表达式来配置 source 接口初始要不要拉取
+     * 是否默认就拉取表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function initFetchOn($value = '')
     {
@@ -320,15 +369,15 @@ class ListSelect extends BaseRenderer
     }
 
     /**
-     * 可以自定义展示模板。 (可以自定义展示模板。)
+     * 单个选项的高度，主要用于虚拟渲染
      */
-    public function itemSchema($value = '')
+    public function itemHeight($value = '')
     {
-        return $this->set('itemSchema', $value);
+        return $this->set('itemHeight', $value);
     }
 
     /**
-     * 单选模式：当用户选中某个选项时，选项中的 value 将被作为该表单项的值提交，否则，整个选项对象都会作为该表单项的值提交。 多选模式：选中的多个选项的 `value` 会通过 `delimiter` 连接起来，否则直接将以数组的形式提交值。
+     * 当扁平化开启的时候，是否用分隔符的形式发送给后端，否则采用array的方式
      */
     public function joinValues($value = true)
     {
@@ -336,7 +385,7 @@ class ListSelect extends BaseRenderer
     }
 
     /**
-     * 描述标题
+     * 描述标题, 当值为 false 时不展示
      */
     public function label($value = '')
     {
@@ -360,7 +409,23 @@ class ListSelect extends BaseRenderer
     }
 
     /**
-     * 显示一个小图标, 鼠标放上去的时候显示提示内容, 这个小图标跟 label 在一起 (显示一个小图标, 鼠标放上去的时候显示提示内容, 这个小图标跟 label 在一起)
+     * 设置label字段
+     */
+    public function labelField($value = '')
+    {
+        return $this->set('labelField', $value);
+    }
+
+    /**
+     * label展示形式 可选值: default | ellipsis
+     */
+    public function labelOverflow($value = '')
+    {
+        return $this->set('labelOverflow', $value);
+    }
+
+    /**
+     * 显示一个小图标, 鼠标放上去的时候显示提示内容, 这个小图标跟 label 在一起
      */
     public function labelRemark($value = '')
     {
@@ -376,11 +441,43 @@ class ListSelect extends BaseRenderer
     }
 
     /**
-     * 支持配置 list div 的 css 类名。 比如：flex justify-between (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
+     * 当 selectMode 为 associated 时用来定义左侧的选择模式 可选值: tree | list
      */
-    public function listClassName($value = '')
+    public function leftMode($value = '')
     {
-        return $this->set('listClassName', $value);
+        return $this->set('leftMode', $value);
+    }
+
+    /**
+     * 当 selectMode 为 associated 时用来定义左侧的选项
+     */
+    public function leftOptions($value = '')
+    {
+        return $this->set('leftOptions', $value);
+    }
+
+    /**
+     * 
+     */
+    public function loadingConfig($value = '')
+    {
+        return $this->set('loadingConfig', $value);
+    }
+
+    /**
+     * 标签的最大展示数量，超出数量后以收纳浮层的方式展示，仅在多选模式开启后生效
+     */
+    public function maxTagCount($value = '')
+    {
+        return $this->set('maxTagCount', $value);
+    }
+
+    /**
+     * 可以自定义菜单展示。
+     */
+    public function menuTpl($value = '')
+    {
+        return $this->set('menuTpl', $value);
     }
 
     /**
@@ -392,7 +489,7 @@ class ListSelect extends BaseRenderer
     }
 
     /**
-     * 是否为多选模式
+     * 多图模式配置项
      */
     public function multiple($value = true)
     {
@@ -416,11 +513,35 @@ class ListSelect extends BaseRenderer
     }
 
     /**
-     * 选项集合
+     * 选项的自定义CSS类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
+     */
+    public function optionClassName($value = '')
+    {
+        return $this->set('optionClassName', $value);
+    }
+
+    /**
+     * 配置固定值
      */
     public function options($value = '')
     {
         return $this->set('options', $value);
+    }
+
+    /**
+     * 收纳标签的Popover配置
+     */
+    public function overflowTagPopover($value = '')
+    {
+        return $this->set('overflowTagPopover', $value);
+    }
+
+    /**
+     * 下拉框 Popover 设置
+     */
+    public function overlay($value = '')
+    {
+        return $this->set('overlay', $value);
     }
 
     /**
@@ -448,7 +569,7 @@ class ListSelect extends BaseRenderer
     }
 
     /**
-     * 显示一个小图标, 鼠标放上去的时候显示提示内容 (显示一个小图标, 鼠标放上去的时候显示提示内容)
+     * 显示一个小图标, 鼠标放上去的时候显示提示内容
      */
     public function remark($value = '')
     {
@@ -480,7 +601,15 @@ class ListSelect extends BaseRenderer
     }
 
     /**
-     *
+     * 当 selectMode 为 associated 时用来定义右侧的选择模式 可选值: table | list | tree | chained
+     */
+    public function rightMode($value = '')
+    {
+        return $this->set('rightMode', $value);
+    }
+
+    /**
+     * 
      */
     public function row($value = '')
     {
@@ -496,11 +625,59 @@ class ListSelect extends BaseRenderer
     }
 
     /**
+     * 搜索 API (搜索 API)
+     */
+    public function searchApi($value = '')
+    {
+        return $this->set('searchApi', $value);
+    }
+
+    /**
+     * 当 searchResultMode 为 table 时定义表格列信息。
+     */
+    public function searchResultColumns($value = '')
+    {
+        return $this->set('searchResultColumns', $value);
+    }
+
+    /**
+     * 搜索结果展示模式 可选值: table | list | tree | chained
+     */
+    public function searchResultMode($value = '')
+    {
+        return $this->set('searchResultMode', $value);
+    }
+
+    /**
+     * 是否可搜索
+     */
+    public function searchable($value = true)
+    {
+        return $this->set('searchable', $value);
+    }
+
+    /**
      * 默认选择选项第一个值。
      */
     public function selectFirst($value = true)
     {
         return $this->set('selectFirst', $value);
+    }
+
+    /**
+     * 勾选展示模式 可选值: table | group | tree | chained | associated
+     */
+    public function selectMode($value = '')
+    {
+        return $this->set('selectMode', $value);
+    }
+
+    /**
+     * 当在value值未匹配到当前options中的选项时，是否value值对应文本飘红显示
+     */
+    public function showInvalidMatch($value = true)
+    {
+        return $this->set('showInvalidMatch', $value);
     }
 
     /**
@@ -512,7 +689,7 @@ class ListSelect extends BaseRenderer
     }
 
     /**
-     * 可用来通过 API 拉取 options。
+     * 数据源: 绑定当前环境变量 (数据源: 绑定当前环境变量)
      */
     public function source($value = '')
     {
@@ -552,7 +729,7 @@ class ListSelect extends BaseRenderer
     }
 
     /**
-     * 是否静态展示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否静态展示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function staticOn($value = '')
     {
@@ -568,7 +745,7 @@ class ListSelect extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function staticSchema($value = '')
     {
@@ -592,15 +769,7 @@ class ListSelect extends BaseRenderer
     }
 
     /**
-     * 开启双击点选并提交。
-     */
-    public function submitOnDBClick($value = true)
-    {
-        return $this->set('submitOnDBClick', $value);
-    }
-
-    /**
-     *
+     * 
      */
     public function testIdBuilder($value = '')
     {
@@ -608,9 +777,9 @@ class ListSelect extends BaseRenderer
     }
 
     /**
-     * 表单项类型
+     * 指定为 Select 渲染器。 https://aisuda.bce.baidu.com/amis/zh-CN/components/form/select
      */
-    public function type($value = 'list-select')
+    public function type($value = '')
     {
         return $this->set('type', $value);
     }
@@ -648,7 +817,7 @@ class ListSelect extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function validations($value = '')
     {
@@ -664,11 +833,27 @@ class ListSelect extends BaseRenderer
     }
 
     /**
+     * 设置value字段
+     */
+    public function valueField($value = '')
+    {
+        return $this->set('valueField', $value);
+    }
+
+    /**
      * 多选模式，值太多时是否避免折行
      */
     public function valuesNoWrap($value = true)
     {
         return $this->set('valuesNoWrap', $value);
+    }
+
+    /**
+     * 在选项数量达到多少时开启虚拟渲染
+     */
+    public function virtualThreshold($value = '')
+    {
+        return $this->set('virtualThreshold', $value);
     }
 
     /**
@@ -680,7 +865,7 @@ class ListSelect extends BaseRenderer
     }
 
     /**
-     * 是否显示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否显示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function visibleOn($value = '')
     {

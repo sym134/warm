@@ -54,7 +54,7 @@ class AdminCodeGeneratorService extends AdminService
      */
     public function store(array $data): bool
     {
-        amis_abort_if($this->query()->where('table_name', $data['table_name'])->exists(), translator('admin.code_generators.exists_table'));
+        admin_abort_if($this->query()->where('table_name', $data['table_name'])->exists(), translator('admin.code_generators.exists_table'));
 
         return parent::store($this->filterData($data));
     }
@@ -75,7 +75,7 @@ class AdminCodeGeneratorService extends AdminService
             ->where($this->primaryKey(), '<>', $primaryKey)
             ->exists();
 
-        amis_abort_if($exists, translator('admin.code_generators.exists_table'));
+        admin_abort_if($exists, translator('admin.code_generators.exists_table'));
 
         return parent::update($primaryKey, $this->filterData($data));
     }
@@ -140,18 +140,13 @@ class AdminCodeGeneratorService extends AdminService
      * 获取命名空间
      *
      * @param string $name 命名空间名称
-     * @param mixed|null $app 应用标识
      * @return string 命名空间路径
      */
-    public function getNamespace(string $name, mixed $app = null): string
+    public function getNamespace(string $name): string
     {
         $namespace = collect(explode('\\', Admin::warmConfig('app.route.namespace')));
 
         $namespace->pop();
-
-        // if ($app && !Admin::currentModule()) {
-        //     $namespace->pop();
-        // }
 
         return $namespace->push($name)->implode('/') . '/';
     }
@@ -168,8 +163,8 @@ class AdminCodeGeneratorService extends AdminService
             'value' => [
                 'directory'       => 'app',
                 'controller_path' => $this->getNamespace('controller'),
-                'service_path'    => $this->getNamespace('service', 1),
-                'model_path'      => $this->getNamespace('model', 1),
+                'service_path'    => $this->getNamespace('service'),
+                'model_path'      => $this->getNamespace('model'),
             ],
         ];
     }
@@ -181,19 +176,45 @@ class AdminCodeGeneratorService extends AdminService
      */
     public function getComponentOptions(): array
     {
-        return collect(get_class_methods(amis()))
-            ->filter(fn($item) => $item != 'make')
-            ->map(function ($item) {
-                $renderer = new \ReflectionClass('\\warm\\admin\\renderer\\' . $item);
-                $_doc     = $renderer->getDocComment();
-                $_doc     = preg_replace("/[^\x{4e00}-\x{9fa5}]/u", "", $_doc);
-                $_doc     = $_doc ? trim(str_replace('文档', '', $_doc)) : '';
-                $label    = $_doc ? $item . ' - ' . $_doc : $item;
+        $amis = amis();
+        $reflection = new ReflectionClass($amis);
 
-                return [
-                    'label' => $label,
-                    'value' => $item,
-                ];
+        return collect(get_class_methods($amis))
+            ->filter(fn($item) => $item != 'make')
+            ->map(function ($item) use ($reflection,$amis) {
+                try {
+                    $method = $reflection->getMethod($item);
+                    $returnType = $method->getReturnType();
+
+                    if ($returnType instanceof ReflectionNamedType) {
+                        $className = $returnType->getName();
+                        // 如果返回的是完整类名，提取类名部分
+                        if (str_contains($className, '\\')) {
+                            $className = basename(str_replace('\\', '/', $className));
+                        }
+                    } else {
+                        // 如果没有类型声明，尝试调用方法获取类名
+                        $instance = $amis->$item();
+                        $className = (new ReflectionClass($instance))->getShortName();
+                    }
+
+                    $renderer = new ReflectionClass('\\warm\\admin\\renderer\\' . $className);
+                    $_doc = $renderer->getDocComment();
+                    $_doc = preg_replace("/[^\x{4e00}-\x{9fa5}]/u", "", $_doc);
+                    $_doc = $_doc ? trim(str_replace('文档', '', $_doc)) : '';
+                    $label = $_doc ? $item . ' - ' . $_doc : $item;
+
+                    return [
+                        'label' => $label,
+                        'value' => $item,
+                    ];
+                } catch (\Exception $e) {
+                    // 如果出错，使用原方法名作为后备
+                    return [
+                        'label' => $item,
+                        'value' => $item,
+                    ];
+                }
             })
             ->values()
             ->toArray();

@@ -4,20 +4,15 @@ namespace warm\admin\renderer;
 
 /**
  * AutoFillHeight
- *
- * @author  slowlyo
- * @version 6.8.0
+ * 
+ * @author slowlyo
+ * @version 6.13.0
  */
 class AutoFillHeight extends BaseRenderer
 {
-    public function __construct()
-    {
-
-
-    }
 
     /**
-     *
+     * Dialog 高度
      */
     public function height($value = '')
     {
@@ -25,7 +20,7 @@ class AutoFillHeight extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function maxHeight($value = '')
     {

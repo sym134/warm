@@ -4,20 +4,15 @@ namespace warm\admin\renderer;
 
 /**
  * GridColumn
- *
- * @author  slowlyo
- * @version 6.8.0
+ * 
+ * @author slowlyo
+ * @version 6.13.0
  */
 class GridColumn extends BaseRenderer
 {
-    public function __construct()
-    {
-
-
-    }
 
     /**
-     *
+     * 子内容
      */
     public function body($value = '')
     {
@@ -89,7 +84,7 @@ class GridColumn extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function themeCss($value = '')
     {
@@ -105,7 +100,7 @@ class GridColumn extends BaseRenderer
     }
 
     /**
-     *
+     * 
      */
     public function wrapperCustomStyle($value = '')
     {

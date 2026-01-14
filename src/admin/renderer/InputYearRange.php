@@ -4,9 +4,9 @@ namespace warm\admin\renderer;
 
 /**
  * InputYearRange 年份范围
- *
- * @author  slowlyo
- * @version 6.8.0
+ * 
+ * @author slowlyo
+ * @version 6.13.0
  */
 class InputYearRange extends BaseRenderer
 {
@@ -72,7 +72,7 @@ class InputYearRange extends BaseRenderer
     }
 
     /**
-     * 年份选择器值格式
+     * 年份选择器值格式 可选值: hex | hexa | rgb | rgba | hsl
      */
     public function format($value = '')
     {
@@ -112,7 +112,7 @@ class InputYearRange extends BaseRenderer
     }
 
     /**
-     * 表单项标签对齐方式，默认右对齐，仅在 mode为horizontal 时生效
+     * 表单项标签对齐方式，默认右对齐，仅在 mode为horizontal 时生效 可选值: right | left | top | inherit
      */
     public function labelAlign($value = '')
     {

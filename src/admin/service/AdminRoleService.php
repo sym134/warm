@@ -108,11 +108,11 @@ class AdminRoleService extends AdminService
     {
         $query = $this->query()->when($id, fn($query) => $query->where('id', '<>', $id));
 
-        amis_abort_if($query->clone()
+        admin_abort_if($query->clone()
             ->where('name', $data['name'])
             ->exists(), translator('admin.admin_role.name_already_exists'));
 
-        amis_abort_if($query->clone()
+        admin_abort_if($query->clone()
             ->where('slug', $data['slug'])
             ->exists(), translator('admin.admin_role.slug_already_exists'));
     }

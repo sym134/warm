@@ -4,20 +4,15 @@ namespace warm\admin\renderer;
 
 /**
  * Column
- *
- * @author  slowlyo
- * @version 6.8.0
+ * 
+ * @author slowlyo
+ * @version 6.13.0
  */
 class Column extends BaseRenderer
 {
-    public function __construct()
-    {
-
-
-    }
 
     /**
-     * 内容居左、居中、居右
+     * 内容居左、居中、居右 可选值: left | right
      */
     public function align($value = '')
     {
@@ -81,11 +76,19 @@ class Column extends BaseRenderer
     }
 
     /**
-     * 是否固定在左侧/右侧
+     * 是否固定在左侧/右侧 可选值: left | right | none
      */
     public function fixed($value = '')
     {
         return $this->set('fixed', $value);
+    }
+
+    /**
+     * 标题内容居左、居中、居右 可选值: left | center | right
+     */
+    public function headerAlign($value = '')
+    {
+        return $this->set('headerAlign', $value);
     }
 
     /**
@@ -177,7 +180,15 @@ class Column extends BaseRenderer
     }
 
     /**
-     *
+     * 列垂直对齐方式 可选值: top | middle | bottom
+     */
+    public function vAlign($value = '')
+    {
+        return $this->set('vAlign', $value);
+    }
+
+    /**
+     * Dialog 宽度
      */
     public function width($value = '')
     {

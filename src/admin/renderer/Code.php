@@ -4,9 +4,9 @@ namespace warm\admin\renderer;
 
 /**
  * Code 代码高亮
- *
- * @author  slowlyo
- * @version 6.8.0
+ * 
+ * @author slowlyo
+ * @version 6.13.0
  */
 class Code extends BaseRenderer
 {

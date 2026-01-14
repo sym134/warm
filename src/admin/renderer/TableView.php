@@ -4,9 +4,9 @@ namespace warm\admin\renderer;
 
 /**
  * Table View 表格展现
- *
- * @author  slowlyo
- * @version 6.8.0
+ * 
+ * @author slowlyo
+ * @version 6.13.0
  */
 class TableView extends BaseRenderer
 {

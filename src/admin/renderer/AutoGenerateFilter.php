@@ -4,17 +4,12 @@ namespace warm\admin\renderer;
 
 /**
  * AutoGenerateFilter
- *
- * @author  slowlyo
- * @version 6.8.0
+ * 
+ * @author slowlyo
+ * @version 6.13.0
  */
 class AutoGenerateFilter extends BaseRenderer
 {
-    public function __construct()
-    {
-
-
-    }
 
     /**
      * 过滤条件单行列数
@@ -30,6 +25,22 @@ class AutoGenerateFilter extends BaseRenderer
     public function defaultCollapsed($value = true)
     {
         return $this->set('defaultCollapsed', $value);
+    }
+
+    /**
+     * 是否启用多选框
+     */
+    public function enableBulkActions($value = true)
+    {
+        return $this->set('enableBulkActions', $value);
+    }
+
+    /**
+     * 启用批量操作的表达式 (表达式，语法 `${xxx > 5}`。)
+     */
+    public function enableBulkActionsOn($value = '')
+    {
+        return $this->set('enableBulkActionsOn', $value);
     }
 
     /**
