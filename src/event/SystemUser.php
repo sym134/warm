@@ -2,6 +2,8 @@
 
 namespace warm\event;
 
+use Exception;
+use Ip2Region;
 use warm\admin\Admin;
 use warm\admin\model\AdminMenu;
 use warm\admin\service\monitor\AdminLoginLogService;
@@ -78,11 +80,16 @@ class SystemUser
     protected function getServiceName(): string
     {
         $path = request()->route->getPath();
+        var_dump($path);
         if (preg_match("/\{[^}]+\}/", $path)) {
             $path = rtrim(preg_replace("/\{[^}]+\}/", '', $path), '/');
         }
         $path = ltrim($path, Admin::warmConfig('app.route.prefix'));
+        var_dump($path);
+
         $menu = AdminMenu::where('url', $path)->first();
+        var_dump($menu);
+
         if (!is_null($menu)) {
             return $menu->getAttribute('title');
         } else {
@@ -119,10 +126,10 @@ class SystemUser
      */
     protected function getIpLocation(string $ip): string
     {
-        $ip2region = new \Ip2Region();
+        $ip2region = new Ip2Region();
         try {
             $region = $ip2region->simple($ip);
-        } catch (\Exception $e) {
+        } catch (Exception) {
             return '未知';
         }
         return $region;

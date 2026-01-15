@@ -37,7 +37,7 @@ class AdminMenuService extends AdminService
      */
     public function getTree(): array
     {
-        $list = $this->query()->orderBy('custom_order')->get()->toArray();
+        $list = $this->query()->orderBy('order')->get()->toArray();
 
         return array2tree($list);
     }

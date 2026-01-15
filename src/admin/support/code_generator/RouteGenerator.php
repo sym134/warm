@@ -36,7 +36,7 @@ class RouteGenerator
                 'icon'         => $menuInfo['icon'],
                 'parent_id'    => $menuInfo['parent_id'],
                 'url'          => $_url,
-                'custom_order' => 100,
+                'order' => 100,
             ]);
         }
 

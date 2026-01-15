@@ -51,6 +51,7 @@ class AdminOperationLogController extends AdminController
                 amis()->TableColumn('username', translator('admin.admin_operation_log.username')),
                 amis()->TableColumn('app', translator('admin.admin_operation_log.app')),
                 amis()->TableColumn('service_name', translator('admin.admin_operation_log.service_name')),
+                amis()->TableColumn('method', translator('admin.admin_operation_log.method')),
                 amis()->TableColumn('router', translator('admin.admin_operation_log.router')),
                 amis()->TableColumn('ip', translator('admin.admin_operation_log.ip')),
                 amis()->TableColumn('ip_location', translator('admin.admin_operation_log.ip_location')),
