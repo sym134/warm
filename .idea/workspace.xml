@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8bbfd692-532d-4389-a5df-5fb345b8aab7" name="更改" comment="更新">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/admin/renderer/CRUD.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/admin/renderer/CRUD.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/admin/renderer/Grid2D.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/admin/renderer/Grid2D.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/admin/renderer/HBox.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/admin/renderer/HBox.php" afterDir="false" />
@@ -81,7 +82,7 @@
       <workItem from="1768490335963" duration="5443000" />
       <workItem from="1768530236679" duration="11568000" />
       <workItem from="1768542763038" duration="3974000" />
-      <workItem from="1768548589499" duration="9868000" />
+      <workItem from="1768548589499" duration="10196000" />
     </task>
     <task id="LOCAL-00001" summary="更新">
       <option name="closed" value="true" />
