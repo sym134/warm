@@ -9,9 +9,9 @@ use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 use Mockery;
 use Webman\Config;
-use warm\admin\model\system\SystemCrontab;
-use warm\admin\service\system\SystemCrontabLogService;
-use warm\admin\service\system\SystemCrontabService;
+use warm\admin\renderer\expand\model\system\SystemCrontab;
+use warm\admin\renderer\expand\service\system\SystemCrontabLogService;
+use warm\admin\renderer\expand\service\system\SystemCrontabService;
 
 /**
  * SystemCrontabService 完整单元测试
