@@ -28,7 +28,7 @@ trait ElementTrait
      */
     protected function basePage(): Page
     {
-        return  amis()->Page()->className('m:overflow-auto');
+        return amis()->Page()->className('m:overflow-auto');
     }
 
     /**

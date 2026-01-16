@@ -1,243 +1,109 @@
 <?php
-
 namespace warm\admin\renderer;
-
 /**
- * Date 展示渲染器。 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/date
- * 
- * @author slowlyo
- * @version 6.13.0
+ * Date
+ *
+ * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/date
  */
 class Date extends BaseRenderer
 {
-    public function __construct()
-    {
-        $this->set('type', 'date');
-    }
+    public string $type = 'date';
 
     /**
-     * 容器 css 类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
+     * 外层 CSS 类名
+     *
+     * @param string $value
+     * @return self
      */
-    public function className($value = '')
+    public function className(string $value = ''): self
     {
         return $this->set('className', $value);
     }
 
     /**
-     * 是否禁用
+     * 显示的日期数值
+     *
+     * @param string $value
+     * @return self
      */
-    public function disabled($value = true)
+    public function value(string $value = ''): self
     {
-        return $this->set('disabled', $value);
+        return $this->set('value', $value);
     }
 
     /**
-     * 是否禁用表达式 (表达式，语法 `${xxx > 5}`。)
+     * 在其他组件中，时，用作变量映射
+     *
+     * @param string $value
+     * @return self
      */
-    public function disabledOn($value = '')
+    public function name(string $value = ''): self
     {
-        return $this->set('disabledOn', $value);
+        return $this->set('name', $value);
     }
 
     /**
-     * 展示的时间格式，参考 moment 中的格式说明。（新：同format）
+     * 占位内容
+     *
+     * @param string $value
+     * @return self
      */
-    public function displayFormat($value = '')
-    {
-        return $this->set('displayFormat', $value);
-    }
-
-    /**
-     * 时区
-     */
-    public function displayTimeZone($value = '')
-    {
-        return $this->set('displayTimeZone', $value);
-    }
-
-    /**
-     * 编辑器配置，运行时可以忽略
-     */
-    public function editorSetting($value = '')
-    {
-        return $this->set('editorSetting', $value);
-    }
-
-    /**
-     * 展示的时间格式，参考 moment 中的格式说明。 可选值: hex | hexa | rgb | rgba | hsl
-     */
-    public function format($value = '')
-    {
-        return $this->set('format', $value);
-    }
-
-    /**
-     * 显示成相对时间，比如1分钟前
-     */
-    public function fromNow($value = true)
-    {
-        return $this->set('fromNow', $value);
-    }
-
-    /**
-     * 是否隐藏
-     */
-    public function hidden($value = true)
-    {
-        return $this->set('hidden', $value);
-    }
-
-    /**
-     * 是否隐藏表达式 (表达式，语法 `${xxx > 5}`。)
-     */
-    public function hiddenOn($value = '')
-    {
-        return $this->set('hiddenOn', $value);
-    }
-
-    /**
-     * 组件唯一 id，主要用于日志采集
-     */
-    public function id($value = '')
-    {
-        return $this->set('id', $value);
-    }
-
-    /**
-     * 事件动作配置
-     */
-    public function onEvent($value = '')
-    {
-        return $this->set('onEvent', $value);
-    }
-
-    /**
-     * 占位符
-     */
-    public function placeholder($value = '')
+    public function placeholder(string $value = '-'): self
     {
         return $this->set('placeholder', $value);
     }
 
     /**
-     * 是否静态展示
+     * 展示格式, 更多格式类型请参考 [文档](https://momentjs.com/docs/#/displaying/format/)
+     *
+     * @param string $value
+     * @return self
      */
-    public function static($value = true)
+    public function displayFormat(string $value = 'YYYY-MM-DD'): self
     {
-        return $this->set('static', $value);
+        return $this->set('displayFormat', $value);
     }
 
     /**
-     * 静态展示表单项类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
+     * 数据格式，默认为时间戳。更多格式类型请参考 [文档](https://momentjs.com/docs/#/displaying/format/)
+     *
+     * @param string $value
+     * @return self
      */
-    public function staticClassName($value = '')
-    {
-        return $this->set('staticClassName', $value);
-    }
-
-    /**
-     * 静态展示表单项Value类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
-     */
-    public function staticInputClassName($value = '')
-    {
-        return $this->set('staticInputClassName', $value);
-    }
-
-    /**
-     * 静态展示表单项Label类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
-     */
-    public function staticLabelClassName($value = '')
-    {
-        return $this->set('staticLabelClassName', $value);
-    }
-
-    /**
-     * 是否静态展示表达式 (表达式，语法 `${xxx > 5}`。)
-     */
-    public function staticOn($value = '')
-    {
-        return $this->set('staticOn', $value);
-    }
-
-    /**
-     * 静态展示空值占位
-     */
-    public function staticPlaceholder($value = '')
-    {
-        return $this->set('staticPlaceholder', $value);
-    }
-
-    /**
-     * 
-     */
-    public function staticSchema($value = '')
-    {
-        return $this->set('staticSchema', $value);
-    }
-
-    /**
-     * 组件样式
-     */
-    public function style($value = '')
-    {
-        return $this->set('style', $value);
-    }
-
-    /**
-     * 
-     */
-    public function testid($value = '')
-    {
-        return $this->set('testid', $value);
-    }
-
-    /**
-     * 指定为日期展示类型
-     */
-    public function type($value = '')
-    {
-        return $this->set('type', $value);
-    }
-
-    /**
-     * 更新频率， 默认为1分钟
-     */
-    public function updateFrequency($value = '')
-    {
-        return $this->set('updateFrequency', $value);
-    }
-
-    /**
-     * 可以组件级别用来关闭移动端样式
-     */
-    public function useMobileUI($value = true)
-    {
-        return $this->set('useMobileUI', $value);
-    }
-
-    /**
-     * 值的时间格式，参考 moment 中的格式说明。
-     */
-    public function valueFormat($value = '')
+    public function valueFormat(string $value = 'X'): self
     {
         return $this->set('valueFormat', $value);
     }
 
     /**
-     * 是否显示
+     * 是否显示相对当前的时间描述，比如: 11 小时前、3 天前、1 年前等，fromNow 为 true 时，format 不生效。
+     *
+     * @param bool $value
+     * @return self
      */
-    public function visible($value = true)
+    public function fromNow(bool $value = true): self
     {
-        return $this->set('visible', $value);
+        return $this->set('fromNow', $value);
     }
 
     /**
-     * 是否显示表达式 (表达式，语法 `${xxx > 5}`。)
+     * 更新频率， 默认为 1 分钟
+     *
+     * @param int|float $value
+     * @return self
      */
-    public function visibleOn($value = '')
+    public function updateFrequency(int|float $value = 60000): self
     {
-        return $this->set('visibleOn', $value);
+        return $this->set('updateFrequency', $value);
     }
 
-
-}
+    /**
+     * 设置日期展示时区，可设置清单参考：https://gist.github.com/diogocapela/12c6617fc87607d11fd62d2a4f42b02a
+     *
+     * @param string $value
+     * @return self
+     */
+    public function displayTimeZone(string $value = ''): self
+    {
+        return $this->set('displayTimeZone', $value);
+ 

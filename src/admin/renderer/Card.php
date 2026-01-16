@@ -1,251 +1,209 @@
 <?php
-
 namespace warm\admin\renderer;
-
 /**
- * Card 卡片渲染器。 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/card
- * 
- * @author slowlyo
- * @version 6.13.0
+ * Card
+ *
+ * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/card
  */
 class Card extends BaseRenderer
 {
-    public function __construct()
-    {
-        $this->set('type', 'card');
-    }
+    public string $type = 'card';
 
     /**
-     * 底部按钮集合。
+     * 外层 Dom 的类名
+     *
+     * @param string $value
+     * @return self
      */
-    public function actions($value = '')
-    {
-        return $this->set('actions', $value);
-    }
-
-    /**
-     * 内容区域
-     */
-    public function body($value = '')
-    {
-        return $this->set('body', $value);
-    }
-
-    /**
-     * 容器 css 类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
-     */
-    public function className($value = '')
+    public function className(string $value = ''): self
     {
         return $this->set('className', $value);
     }
 
     /**
-     * 是否禁用
+     * 外部链接
+     *
+     * @param mixed $value
+     * @return self
      */
-    public function disabled($value = true)
+    public function href(mixed $value = null): self
     {
-        return $this->set('disabled', $value);
+        return $this->set('href', $value);
     }
 
     /**
-     * 是否禁用表达式 (表达式，语法 `${xxx > 5}`。)
+     * Card 头部内容设置
+     *
+     * @param array $value
+     * @return self
      */
-    public function disabledOn($value = '')
-    {
-        return $this->set('disabledOn', $value);
-    }
-
-    /**
-     * 编辑器配置，运行时可以忽略
-     */
-    public function editorSetting($value = '')
-    {
-        return $this->set('editorSetting', $value);
-    }
-
-    /**
-     * 头部配置
-     */
-    public function header($value = '')
+    public function header(array $value = []): self
     {
         return $this->set('header', $value);
     }
 
     /**
-     * 是否隐藏
+     * 内容容器，主要用来放置非表单项组件
+     *
+     * @param array $value
+     * @return self
      */
-    public function hidden($value = true)
+    public function body(array $value = []): self
     {
-        return $this->set('hidden', $value);
+        return $this->set('body', $value);
     }
 
     /**
-     * 是否隐藏表达式 (表达式，语法 `${xxx > 5}`。)
+     * 内容区域类名
+     *
+     * @param string $value
+     * @return self
      */
-    public function hiddenOn($value = '')
+    public function bodyClassName(string $value = ''): self
     {
-        return $this->set('hiddenOn', $value);
+        return $this->set('bodyClassName', $value);
     }
 
     /**
-     * 组件唯一 id，主要用于日志采集
+     * 配置按钮集合
+     *
+     * @param mixed $value
+     * @return self
      */
-    public function id($value = '')
+    public function actions(mixed $value = null): self
     {
-        return $this->set('id', $value);
+        return $this->set('actions', $value);
     }
 
     /**
-     * 设置 CardItem 的操作
+     * 按钮集合每行个数
+     *
+     * @param int|float $value
+     * @return self
      */
-    public function itemAction($value = '')
+    public function actionsCount(int|float $value = 4): self
+    {
+        return $this->set('actionsCount', $value);
+    }
+
+    /**
+     * 点击卡片的行为
+     *
+     * @param mixed $value
+     * @return self
+     */
+    public function itemAction(mixed $value = null): self
     {
         return $this->set('itemAction', $value);
     }
 
     /**
-     * 多媒体区域
+     * Card 多媒体部内容设置
+     *
+     * @param array $value
+     * @return self
      */
-    public function media($value = '')
+    public function media(array $value = []): self
     {
         return $this->set('media', $value);
     }
 
     /**
-     * 事件动作配置
-     */
-    public function onEvent($value = '')
-    {
-        return $this->set('onEvent', $value);
-    }
-
-    /**
      * 次要说明
+     *
+     * @param mixed $value
+     * @return self
      */
-    public function secondary($value = '')
+    public function secondary(mixed $value = null): self
     {
         return $this->set('secondary', $value);
     }
 
     /**
-     * 是否静态展示
-     */
-    public function static($value = true)
-    {
-        return $this->set('static', $value);
-    }
-
-    /**
-     * 静态展示表单项类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
-     */
-    public function staticClassName($value = '')
-    {
-        return $this->set('staticClassName', $value);
-    }
-
-    /**
-     * 静态展示表单项Value类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
-     */
-    public function staticInputClassName($value = '')
-    {
-        return $this->set('staticInputClassName', $value);
-    }
-
-    /**
-     * 静态展示表单项Label类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
-     */
-    public function staticLabelClassName($value = '')
-    {
-        return $this->set('staticLabelClassName', $value);
-    }
-
-    /**
-     * 是否静态展示表达式 (表达式，语法 `${xxx > 5}`。)
-     */
-    public function staticOn($value = '')
-    {
-        return $this->set('staticOn', $value);
-    }
-
-    /**
-     * 静态展示空值占位
-     */
-    public function staticPlaceholder($value = '')
-    {
-        return $this->set('staticPlaceholder', $value);
-    }
-
-    /**
-     * 
-     */
-    public function staticSchema($value = '')
-    {
-        return $this->set('staticSchema', $value);
-    }
-
-    /**
-     * 组件样式
-     */
-    public function style($value = '')
-    {
-        return $this->set('style', $value);
-    }
-
-    /**
-     * 
-     */
-    public function testid($value = '')
-    {
-        return $this->set('testid', $value);
-    }
-
-    /**
      * 工具栏按钮
+     *
+     * @param mixed $value
+     * @return self
      */
-    public function toolbar($value = '')
+    public function toolbar(mixed $value = null): self
     {
         return $this->set('toolbar', $value);
     }
 
     /**
-     * 指定为模板渲染器。文档：https://aisuda.bce.baidu.com/amis/zh-CN/docs/concepts/template
+     * 是否显示拖拽图标
+     *
+     * @param bool $value
+     * @return self
      */
-    public function type($value = 'card')
+    public function dragging(bool $value = true): self
     {
-        return $this->set('type', $value);
+        return $this->set('dragging', $value);
     }
 
     /**
-     * 卡片内容区的表单项label是否使用Card内部的样式，默认为true
+     * 卡片是否可选
+     *
+     * @param bool $value
+     * @return self
      */
-    public function useCardLabel($value = true)
+    public function selectable(bool $value = true): self
+    {
+        return $this->set('selectable', $value);
+    }
+
+    /**
+     * 卡片选择按钮是否禁用
+     *
+     * @param bool $value
+     * @return self
+     */
+    public function checkable(bool $value = true): self
+    {
+        return $this->set('checkable', $value);
+    }
+
+    /**
+     * 卡片选择按钮是否选中
+     *
+     * @param bool $value
+     * @return self
+     */
+    public function selected(bool $value = true): self
+    {
+        return $this->set('selected', $value);
+    }
+
+    /**
+     * 卡片选择按钮是否隐藏
+     *
+     * @param bool $value
+     * @return self
+     */
+    public function hideCheckToggler(bool $value = true): self
+    {
+        return $this->set('hideCheckToggler', $value);
+    }
+
+    /**
+     * 卡片是否为多选
+     *
+     * @param bool $value
+     * @return self
+     */
+    public function multiple(bool $value = true): self
+    {
+        return $this->set('multiple', $value);
+    }
+
+    /**
+     * 卡片内容区的表单项 label 是否使用 Card 内部的样式
+     *
+     * @param bool $value
+     * @return self
+     */
+    public function useCardLabel(bool $value = true): self
     {
         return $this->set('useCardLabel', $value);
     }
-
-    /**
-     * 可以组件级别用来关闭移动端样式
-     */
-    public function useMobileUI($value = true)
-    {
-        return $this->set('useMobileUI', $value);
-    }
-
-    /**
-     * 是否显示
-     */
-    public function visible($value = true)
-    {
-        return $this->set('visible', $value);
-    }
-
-    /**
-     * 是否显示表达式 (表达式，语法 `${xxx > 5}`。)
-     */
-    public function visibleOn($value = '')
-    {
-        return $this->set('visibleOn', $value);
-    }
-
-
 }

@@ -1,371 +1,187 @@
 <?php
-
 namespace warm\admin\renderer;
-
 /**
- * 表单向导 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/wizard
- * 
- * @author slowlyo
- * @version 6.13.0
+ * Wizard
+ *
+ * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/wizard
  */
 class Wizard extends BaseRenderer
 {
-    public function __construct()
-    {
-        $this->set('type', 'wizard');
-    }
+    public string $type = 'wizard';
 
     /**
-     * 配置按钮 className (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
+     * 展示模式，选择：`horizontal` 或者 `vertical`
+     *
+     * @param string $value
+     * @return self
      */
-    public function actionClassName($value = '')
-    {
-        return $this->set('actionClassName', $value);
-    }
-
-    /**
-     * 完成按钮的文字描述
-     */
-    public function actionFinishLabel($value = '')
-    {
-        return $this->set('actionFinishLabel', $value);
-    }
-
-    /**
-     * 下一步按钮的文字描述
-     */
-    public function actionNextLabel($value = '')
-    {
-        return $this->set('actionNextLabel', $value);
-    }
-
-    /**
-     * 下一步并且保存按钮的文字描述
-     */
-    public function actionNextSaveLabel($value = '')
-    {
-        return $this->set('actionNextSaveLabel', $value);
-    }
-
-    /**
-     * 上一步按钮的文字描述
-     */
-    public function actionPrevLabel($value = '')
-    {
-        return $this->set('actionPrevLabel', $value);
-    }
-
-    /**
-     * 是否将底部按钮固定在底部。
-     */
-    public function affixFooter($value = true)
-    {
-        return $this->set('affixFooter', $value);
-    }
-
-    /**
-     * Wizard 用来保存数据的 api。 [详情](https://baidu.github.io/amis/docs/api#wizard) (Wizard 用来保存数据的 api。 [详情](https://baidu.github.io/amis/docs/api#wizard))
-     */
-    public function api($value = '')
-    {
-        return $this->set('api', $value);
-    }
-
-    /**
-     * 表单区域css类
-     */
-    public function bodyClassName($value = '')
-    {
-        return $this->set('bodyClassName', $value);
-    }
-
-    /**
-     * 是否合并后再提交
-     */
-    public function bulkSubmit($value = true)
-    {
-        return $this->set('bulkSubmit', $value);
-    }
-
-    /**
-     * 容器 css 类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
-     */
-    public function className($value = '')
-    {
-        return $this->set('className', $value);
-    }
-
-    /**
-     * 是否禁用
-     */
-    public function disabled($value = true)
-    {
-        return $this->set('disabled', $value);
-    }
-
-    /**
-     * 是否禁用表达式 (表达式，语法 `${xxx > 5}`。)
-     */
-    public function disabledOn($value = '')
-    {
-        return $this->set('disabledOn', $value);
-    }
-
-    /**
-     * 编辑器配置，运行时可以忽略
-     */
-    public function editorSetting($value = '')
-    {
-        return $this->set('editorSetting', $value);
-    }
-
-    /**
-     * 底部操作栏的css类
-     */
-    public function footerClassName($value = '')
-    {
-        return $this->set('footerClassName', $value);
-    }
-
-    /**
-     * 是否隐藏
-     */
-    public function hidden($value = true)
-    {
-        return $this->set('hidden', $value);
-    }
-
-    /**
-     * 是否隐藏表达式 (表达式，语法 `${xxx > 5}`。)
-     */
-    public function hiddenOn($value = '')
-    {
-        return $this->set('hiddenOn', $value);
-    }
-
-    /**
-     * 组件唯一 id，主要用于日志采集
-     */
-    public function id($value = '')
-    {
-        return $this->set('id', $value);
-    }
-
-    /**
-     * Wizard 用来获取初始数据的 api。 (Wizard 用来获取初始数据的 api。)
-     */
-    public function initApi($value = '')
-    {
-        return $this->set('initApi', $value);
-    }
-
-    /**
-     * 
-     */
-    public function loadingConfig($value = '')
-    {
-        return $this->set('loadingConfig', $value);
-    }
-
-    /**
-     * 展示模式 可选值: vertical | horizontal
-     */
-    public function mode($value = '')
+    public function mode(string $value = 'horizontal'): self
     {
         return $this->set('mode', $value);
     }
 
     /**
-     * 组件名字，这个名字可以用来定位，用于组件通信
+     * 最后一步保存的接口。
+     *
+     * @param mixed $value
+     * @return self
      */
-    public function name($value = '')
+    public function api(mixed $value = null): self
     {
-        return $this->set('name', $value);
+        return $this->set('api', $value);
     }
 
     /**
-     * 事件动作配置
+     * 初始化数据接口
+     *
+     * @param mixed $value
+     * @return self
      */
-    public function onEvent($value = '')
+    public function initApi(mixed $value = null): self
     {
-        return $this->set('onEvent', $value);
+        return $this->set('initApi', $value);
     }
 
     /**
-     * 是否为只读模式。
+     * 初始是否拉取数据。
+     *
+     * @param mixed $value
+     * @return self
      */
-    public function readOnly($value = true)
+    public function initFetch(mixed $value = null): self
     {
-        return $this->set('readOnly', $value);
+        return $this->set('initFetch', $value);
     }
 
     /**
-     * 保存完后，可以指定跳转地址，支持相对路径和组内绝对路径，同时可以通过 $xxx 使用变量
+     * 初始是否拉取数据，通过表达式来配置
+     *
+     * @param mixed $value
+     * @return self
      */
-    public function redirect($value = '')
+    public function initFetchOn(mixed $value = null): self
     {
-        return $this->set('redirect', $value);
+        return $this->set('initFetchOn', $value);
     }
 
     /**
-     * 配置刷新动作，这个动作通常在完成渲染器本省的固定动作后出发。一般用来配置目标组件的 name 属性。多个目标可以用逗号隔开。当目标是 windows 时表示刷新整个页面。刷新目标的同时还支持传递参数如： `foo?a=${a}&b=${b},boo?c=${c}`
+     * 上一步按钮文本
+     *
+     * @param string $value
+     * @return self
      */
-    public function reload($value = '')
+    public function actionPrevLabel(string $value = '上一步'): self
+    {
+        return $this->set('actionPrevLabel', $value);
+    }
+
+    /**
+     * 下一步按钮文本
+     *
+     * @param string $value
+     * @return self
+     */
+    public function actionNextLabel(string $value = '下一步'): self
+    {
+        return $this->set('actionNextLabel', $value);
+    }
+
+    /**
+     * 保存并下一步按钮文本
+     *
+     * @param string $value
+     * @return self
+     */
+    public function actionNextSaveLabel(string $value = '保存并下一步'): self
+    {
+        return $this->set('actionNextSaveLabel', $value);
+    }
+
+    /**
+     * 完成按钮文本
+     *
+     * @param string $value
+     * @return self
+     */
+    public function actionFinishLabel(string $value = '完成'): self
+    {
+        return $this->set('actionFinishLabel', $value);
+    }
+
+    /**
+     * 外层 CSS 类名
+     *
+     * @param string $value
+     * @return self
+     */
+    public function className(string $value = ''): self
+    {
+        return $this->set('className', $value);
+    }
+
+    /**
+     * 按钮 CSS 类名
+     *
+     * @param string $value
+     * @return self
+     */
+    public function actionClassName(string $value = 'btn-sm btn-default'): self
+    {
+        return $this->set('actionClassName', $value);
+    }
+
+    /**
+     * 操作完后刷新目标对象。请填写目标组件设置的 name 值，如果填写为 `window` 则让当前页面整体刷新。
+     *
+     * @param string $value
+     * @return self
+     */
+    public function reload(string $value = ''): self
     {
         return $this->set('reload', $value);
     }
 
     /**
-     * 
+     * 操作完后跳转。
+     *
+     * @param mixed $value
+     * @return self
      */
-    public function startStep($value = '')
+    public function redirect(mixed $value = null): self
     {
-        return $this->set('startStep', $value);
+        return $this->set('redirect', $value);
     }
 
     /**
-     * 是否静态展示
+     * 可以把数据提交给别的组件而不是自己保存。请填写目标组件设置的 name 值，如果填写为 `window` 则把数据同步到地址栏上，同时依赖这些数据的组件会自动重新刷新。
+     *
+     * @param string $value
+     * @return self
      */
-    public function static($value = true)
-    {
-        return $this->set('static', $value);
-    }
-
-    /**
-     * 静态展示表单项类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
-     */
-    public function staticClassName($value = '')
-    {
-        return $this->set('staticClassName', $value);
-    }
-
-    /**
-     * 静态展示表单项Value类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
-     */
-    public function staticInputClassName($value = '')
-    {
-        return $this->set('staticInputClassName', $value);
-    }
-
-    /**
-     * 静态展示表单项Label类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
-     */
-    public function staticLabelClassName($value = '')
-    {
-        return $this->set('staticLabelClassName', $value);
-    }
-
-    /**
-     * 是否静态展示表达式 (表达式，语法 `${xxx > 5}`。)
-     */
-    public function staticOn($value = '')
-    {
-        return $this->set('staticOn', $value);
-    }
-
-    /**
-     * 静态展示空值占位
-     */
-    public function staticPlaceholder($value = '')
-    {
-        return $this->set('staticPlaceholder', $value);
-    }
-
-    /**
-     * 
-     */
-    public function staticSchema($value = '')
-    {
-        return $this->set('staticSchema', $value);
-    }
-
-    /**
-     * step + body区域css类
-     */
-    public function stepClassName($value = '')
-    {
-        return $this->set('stepClassName', $value);
-    }
-
-    /**
-     * 步骤
-     */
-    public function steps($value = '')
-    {
-        return $this->set('steps', $value);
-    }
-
-    /**
-     * 步骤条区域css类
-     */
-    public function stepsClassName($value = '')
-    {
-        return $this->set('stepsClassName', $value);
-    }
-
-    /**
-     * 组件样式
-     */
-    public function style($value = '')
-    {
-        return $this->set('style', $value);
-    }
-
-    /**
-     * 默认表单提交自己会通过发送 api 保存数据，但是也可以设定另外一个 form 的 name 值，或者另外一个 `CRUD` 模型的 name 值。 如果 target 目标是一个 `Form` ，则目标 `Form` 会重新触发 `initApi` 和 `schemaApi`，api 可以拿到当前 form 数据。如果目标是一个 `CRUD` 模型，则目标模型会重新触发搜索，参数为当前 Form 数据。
-     */
-    public function target($value = '')
+    public function target(string $value = 'false'): self
     {
         return $this->set('target', $value);
     }
 
     /**
-     * 
+     * 数组，配置步骤信息
+     *
+     * @param array $value
+     * @return self
      */
-    public function testid($value = '')
+    public function steps(array $value = []): self
     {
-        return $this->set('testid', $value);
+        return $this->set('steps', $value);
     }
 
     /**
-     * 指定为表单向导
+     * 起始默认值，从第几步开始。可支持模版，但是只有在组件创建时渲染模版并设置当前步数，在之后组件被刷新时，当前 step 不会根据 startStep 改变
+     *
+     * @param string $value
+     * @return self
      */
-    public function type($value = 'wizard')
+    public function startStep(string $value = '1'): self
     {
-        return $this->set('type', $value);
+        return $this->set('startStep', $value);
     }
-
-    /**
-     * 可以组件级别用来关闭移动端样式
-     */
-    public function useMobileUI($value = true)
-    {
-        return $this->set('useMobileUI', $value);
-    }
-
-    /**
-     * 是否显示
-     */
-    public function visible($value = true)
-    {
-        return $this->set('visible', $value);
-    }
-
-    /**
-     * 是否显示表达式 (表达式，语法 `${xxx > 5}`。)
-     */
-    public function visibleOn($value = '')
-    {
-        return $this->set('visibleOn', $value);
-    }
-
-    /**
-     * 是否用panel包裹
-     */
-    public function wrapWithPanel($value = true)
-    {
-        return $this->set('wrapWithPanel', $value);
-    }
-
-
 }

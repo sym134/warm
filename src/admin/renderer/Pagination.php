@@ -1,275 +1,153 @@
 <?php
-
 namespace warm\admin\renderer;
-
 /**
  * Pagination
- * 
- * @author slowlyo
- * @version 6.13.0
+ *
+ * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/pagination
  */
 class Pagination extends BaseRenderer
 {
-    public function __construct()
-    {
-        $this->set('type', 'pagination');
-    }
+    public string $type = 'pagination';
 
     /**
-     * 当前页数
+     * `normal`
+     *
+     * @param mixed $value
+     * @return self
      */
-    public function activePage($value = '')
-    {
-        return $this->set('activePage', $value);
-    }
-
-    /**
-     * 容器 css 类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
-     */
-    public function className($value = '')
-    {
-        return $this->set('className', $value);
-    }
-
-    /**
-     * 是否禁用
-     */
-    public function disabled($value = true)
-    {
-        return $this->set('disabled', $value);
-    }
-
-    /**
-     * 是否禁用表达式 (表达式，语法 `${xxx > 5}`。)
-     */
-    public function disabledOn($value = '')
-    {
-        return $this->set('disabledOn', $value);
-    }
-
-    /**
-     * 编辑器配置，运行时可以忽略
-     */
-    public function editorSetting($value = '')
-    {
-        return $this->set('editorSetting', $value);
-    }
-
-    /**
-     * 
-     */
-    public function hasNext($value = true)
-    {
-        return $this->set('hasNext', $value);
-    }
-
-    /**
-     * 是否隐藏
-     */
-    public function hidden($value = true)
-    {
-        return $this->set('hidden', $value);
-    }
-
-    /**
-     * 是否隐藏表达式 (表达式，语法 `${xxx > 5}`。)
-     */
-    public function hiddenOn($value = '')
-    {
-        return $this->set('hiddenOn', $value);
-    }
-
-    /**
-     * 组件唯一 id，主要用于日志采集
-     */
-    public function id($value = '')
-    {
-        return $this->set('id', $value);
-    }
-
-    /**
-     * 通过控制layout属性的顺序，调整分页结构 total,perPage,pager,go
-     */
-    public function layout($value = '')
-    {
-        return $this->set('layout', $value);
-    }
-
-    /**
-     * 最多显示多少个分页按钮。
-     */
-    public function maxButtons($value = '')
-    {
-        return $this->set('maxButtons', $value);
-    }
-
-    /**
-     * 模式，默认normal，如果只想简单显示可以配置成 `simple`。 (模式，默认normal，如果只想简单显示可以配置成 `simple`。) 可选值: simple | normal
-     */
-    public function mode($value = '')
+    public function mode(mixed $value = null): self
     {
         return $this->set('mode', $value);
     }
 
     /**
-     * 事件动作配置
+     * `["pager"]`
+     *
+     * @param mixed $value
+     * @return self
      */
-    public function onEvent($value = '')
+    public function layout(mixed $value = null): self
     {
-        return $this->set('onEvent', $value);
+        return $this->set('layout', $value);
     }
 
     /**
-     * 每页显示条数
+     * `5`
+     *
+     * @param mixed $value
+     * @return self
      */
-    public function perPage($value = '')
+    public function maxButtons(mixed $value = null): self
     {
-        return $this->set('perPage', $value);
-    }
-
-    /**
-     * 指定每页可以显示多少条
-     */
-    public function perPageAvailable($value = true)
-    {
-        return $this->set('perPageAvailable', $value);
-    }
-
-    /**
-     * 弹层挂载节点
-     */
-    public function popOverContainerSelector($value = '')
-    {
-        return $this->set('popOverContainerSelector', $value);
-    }
-
-    /**
-     * 是否显示快速跳转输入框
-     */
-    public function showPageInput($value = true)
-    {
-        return $this->set('showPageInput', $value);
-    }
-
-    /**
-     * 是否展示分页切换，也同时受layout控制
-     */
-    public function showPerPage($value = true)
-    {
-        return $this->set('showPerPage', $value);
-    }
-
-    /**
-     * 是否静态展示
-     */
-    public function static($value = true)
-    {
-        return $this->set('static', $value);
-    }
-
-    /**
-     * 静态展示表单项类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
-     */
-    public function staticClassName($value = '')
-    {
-        return $this->set('staticClassName', $value);
-    }
-
-    /**
-     * 静态展示表单项Value类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
-     */
-    public function staticInputClassName($value = '')
-    {
-        return $this->set('staticInputClassName', $value);
-    }
-
-    /**
-     * 静态展示表单项Label类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
-     */
-    public function staticLabelClassName($value = '')
-    {
-        return $this->set('staticLabelClassName', $value);
-    }
-
-    /**
-     * 是否静态展示表达式 (表达式，语法 `${xxx > 5}`。)
-     */
-    public function staticOn($value = '')
-    {
-        return $this->set('staticOn', $value);
-    }
-
-    /**
-     * 静态展示空值占位
-     */
-    public function staticPlaceholder($value = '')
-    {
-        return $this->set('staticPlaceholder', $value);
+        return $this->set('maxButtons', $value);
     }
 
     /**
      * 
+     *
+     * @param mixed $value
+     * @return self
      */
-    public function staticSchema($value = '')
-    {
-        return $this->set('staticSchema', $value);
-    }
-
-    /**
-     * 组件样式
-     */
-    public function style($value = '')
-    {
-        return $this->set('style', $value);
-    }
-
-    /**
-     * 
-     */
-    public function testid($value = '')
-    {
-        return $this->set('testid', $value);
-    }
-
-    /**
-     * 总条数
-     */
-    public function total($value = '')
+    public function total(mixed $value = null): self
     {
         return $this->set('total', $value);
     }
 
     /**
-     * 指定为模板渲染器。文档：https://aisuda.bce.baidu.com/amis/zh-CN/docs/concepts/template
+     * `1`
+     *
+     * @param mixed $value
+     * @return self
      */
-    public function type($value = 'pagination')
+    public function activePage(mixed $value = null): self
     {
-        return $this->set('type', $value);
+        return $this->set('activePage', $value);
     }
 
     /**
-     * 可以组件级别用来关闭移动端样式
+     * `10`
+     *
+     * @param mixed $value
+     * @return self
      */
-    public function useMobileUI($value = true)
+    public function perPage(mixed $value = null): self
     {
-        return $this->set('useMobileUI', $value);
+        return $this->set('perPage', $value);
     }
 
     /**
-     * 是否显示
+     * 是否展示 perPage 切换器 layout 和 showPerPage 都可以控制
+     *
+     * @param bool $value
+     * @return self
      */
-    public function visible($value = true)
+    public function showPerPage(bool $value = true): self
     {
-        return $this->set('visible', $value);
+        return $this->set('showPerPage', $value);
     }
 
     /**
-     * 是否显示表达式 (表达式，语法 `${xxx > 5}`。)
+     * `md`
+     *
+     * @param mixed $value
+     * @return self
      */
-    public function visibleOn($value = '')
+    public function size(mixed $value = null): self
     {
-        return $this->set('visibleOn', $value);
+        return $this->set('size', $value);
     }
 
+    /**
+     * 5
+     *
+     * @param mixed $value
+     * @return self
+     */
+    public function ellipsisPageGap(mixed $value = null): self
+    {
+        return $this->set('ellipsisPageGap', $value);
+    }
 
-}
+    /**
+     * 指定每页可以显示多少条
+     *
+     * @param array $value
+     * @return self
+     */
+    public function perPageAvailable(array $value = []): self
+    {
+        return $this->set('perPageAvailable', $value);
+    }
+
+    /**
+     * 是否显示快速跳转输入框 layout 和 showPageInput 都可以控制
+     *
+     * @param bool $value
+     * @return self
+     */
+    public function showPageInput(bool $value = true): self
+    {
+        return $this->set('showPageInput', $value);
+    }
+
+    /**
+     * 是否禁用
+     *
+     * @param bool $value
+     * @return self
+     */
+    public function disabled(bool $value = true): self
+    {
+        return $this->set('disabled', $value);
+    }
+
+    /**
+     * 分页改变触发
+     *
+     * @param mixed $value
+     * @return self
+     */
+    public function onPageChange(mixed $value = null): self
+    {
+        return $this->set('onPageChange', $value);
+ 

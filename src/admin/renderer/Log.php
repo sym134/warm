@@ -1,107 +1,132 @@
 <?php
-
 namespace warm\admin\renderer;
-
 /**
- * Log 实时日志
- * 
- * @author slowlyo
- * @version 6.13.0
+ * Log
+ *
+ * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/log
  */
 class Log extends BaseRenderer
 {
-    public function __construct()
-    {
-        $this->set('type', 'log');
-    }
-
-    /**
-     * 是否自动滚动到底部
-     */
-    public function autoScroll($value = '')
-    {
-        return $this->set('autoScroll', $value);
-    }
-
-    /**
-     * 外层 CSS 类名
-     */
-    public function className($value = '')
-    {
-        return $this->set('className', $value);
-    }
-
-    /**
-     * 关闭 ANSI 颜色支持
-     */
-    public function disableColor($value = '')
-    {
-        return $this->set('disableColor', $value);
-    }
-
-    /**
-     * 返回内容的字符编码
-     */
-    public function encoding($value = '')
-    {
-        return $this->set('encoding', $value);
-    }
+    public string $type = 'log';
 
     /**
      * 展示区域高度
+     *
+     * @param int|float $value
+     * @return self
      */
-    public function height($value = '')
+    public function height(int|float $value = 500): self
     {
         return $this->set('height', $value);
     }
 
     /**
-     * 最大显示行数
+     * 外层 CSS 类名
+     *
+     * @param string $value
+     * @return self
      */
-    public function maxLength($value = '')
+    public function className(string $value = ''): self
     {
-        return $this->set('maxLength', $value);
+        return $this->set('className', $value);
     }
 
     /**
-     * 可选日志操作：['stop', 'clear', 'showLineNumber', 'filter'] 可选值: stop | clear | showLineNumber | filter
+     * 是否自动滚动
+     *
+     * @param bool $value
+     * @return self
      */
-    public function operation($value = '')
+    public function autoScroll(bool $value = true): self
     {
-        return $this->set('operation', $value);
+        return $this->set('autoScroll', $value);
+    }
+
+    /**
+     * 是否禁用 ansi 颜色支持
+     *
+     * @param bool $value
+     * @return self
+     */
+    public function disableColor(bool $value = true): self
+    {
+        return $this->set('disableColor', $value);
     }
 
     /**
      * 加载中的文字
+     *
+     * @param string $value
+     * @return self
      */
-    public function placeholder($value = '')
+    public function placeholder(string $value = ''): self
     {
         return $this->set('placeholder', $value);
     }
 
     /**
-     * 设置每行高度，将会开启虚拟渲染
+     * 返回内容的字符编码
+     *
+     * @param string $value
+     * @return self
      */
-    public function rowHeight($value = '')
+    public function encoding(string $value = 'utf-8'): self
     {
-        return $this->set('rowHeight', $value);
+        return $this->set('encoding', $value);
     }
 
     /**
      * 接口
+     *
+     * @param string $value
+     * @return self
      */
-    public function source($value = '')
+    public function source(string $value = ''): self
     {
         return $this->set('source', $value);
     }
 
     /**
-     * 指定为 log 渲染器。
+     * fetch 的 credentials 设置
+     *
+     * @param string $value
+     * @return self
      */
-    public function type($value = 'log')
+    public function credentials(string $value = 'include'): self
     {
-        return $this->set('type', $value);
+        return $this->set('credentials', $value);
     }
 
+    /**
+     * 设置每行高度，将会开启虚拟渲染
+     *
+     * @param int|float $value
+     * @return self
+     */
+    public function rowHeight(int|float $value = 0): self
+    {
+        return $this->set('rowHeight', $value);
+    }
 
+    /**
+     * 最大显示行数
+     *
+     * @param int|float $value
+     * @return self
+     */
+    public function maxLength(int|float $value = 0): self
+    {
+        return $this->set('maxLength', $value);
+    }
+
+    /**
+     * 可选日志操作：['stop','restart',clear','showLineNumber','filter']
+     *
+     * @param array $value
+     * @return self
+     */
+    public function operation(array $value = []): self
+    {
+        return $this->set('operation', $value);
+    }
 }

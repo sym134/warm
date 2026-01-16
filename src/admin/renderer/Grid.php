@@ -1,91 +1,66 @@
 <?php
-
 namespace warm\admin\renderer;
-
 /**
  * Grid
- * 
- * @author slowlyo
- * @version 6.13.0
+ *
+ * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/grid
  */
 class Grid extends BaseRenderer
 {
-    public function __construct()
+    public string $type = 'grid';
+
+    /**
+     * 外层 Dom 的类名
+     *
+     * @param string $value
+     * @return self
+     */
+    public function className(string $value = ''): self
     {
-        $this->set('type', 'grid');
+        return $this->set('className', $value);
     }
 
     /**
-     * 水平展示方式，用于内容宽度比 grid 小的情况，默认是 auto 自动撑满 可选值: left | right | center | auto
+     * 'base' \
+     *
+     * @param mixed $value
+     * @return self
      */
-    public function align($value = '')
+    public function gap(mixed $value = null): self
     {
-        return $this->set('align', $value);
+        return $this->set('gap', $value);
     }
 
     /**
-     * 每个格子最外层容器的 className
+     * 'bottom' \
+     *
+     * @param mixed $value
+     * @return self
      */
-    public function gridClassName($value = '')
-    {
-        return $this->set('gridClassName', $value);
-    }
-
-    /**
-     * 高度，跨几行
-     */
-    public function h($value = '')
-    {
-        return $this->set('h', $value);
-    }
-
-    /**
-     * 高度，会影响起始位置那一行的高度，设置为 auto 就会自适应
-     */
-    public function height($value = '')
-    {
-        return $this->set('height', $value);
-    }
-
-    /**
-     * 垂直展示方式，用于内容高度比 grid 小的情况，默认是 auto 自动撑满 可选值: top | bottom | middle | auto
-     */
-    public function valign($value = '')
+    public function valign(mixed $value = null): self
     {
         return $this->set('valign', $value);
     }
 
     /**
-     * 宽度，跨几列
+     * 'between' \
+     *
+     * @param mixed $value
+     * @return self
      */
-    public function w($value = '')
+    public function align(mixed $value = null): self
     {
-        return $this->set('w', $value);
+        return $this->set('align', $value);
     }
 
     /**
-     * 宽度，会影响起始位置对应那一列的宽度
+     * 列集合
+     *
+     * @param array $value
+     * @return self
      */
-    public function width($value = '')
+    public function columns(array $value = []): self
     {
-        return $this->set('width', $value);
+        return $this->set('columns', $value);
     }
-
-    /**
-     * 起始横坐标位置，以 1 为起点
-     */
-    public function x($value = '')
-    {
-        return $this->set('x', $value);
-    }
-
-    /**
-     * 起始纵坐标位置，以 1 为起点
-     */
-    public function y($value = '')
-    {
-        return $this->set('y', $value);
-    }
-
-
 }

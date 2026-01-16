@@ -1,11 +1,8 @@
 <?php
 
-namespace warm\admin\renderer;
-
-/**
+namespace warm\admin\renderer;/**
  * Card2 新卡片渲染器。 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/card2
- * 
- * @author slowlyo
+ *
  * @version 6.13.0
  */
 class Card2 extends BaseRenderer

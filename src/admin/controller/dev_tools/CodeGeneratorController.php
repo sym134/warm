@@ -206,8 +206,8 @@ class CodeGeneratorController extends AdminController
             ->initApi('post:/dev_tools/code_generator/form_data')
             ->tabs([
                 // 基本信息标签页
-                amis()->Tab()->title(translator('admin.code_generators.base_info'))->body(
-                    amis()->Card()->body(
+                amis()->Tab()->title(translator('admin.code_generators.base_info'))->body([
+                    amis()->Card()->body([
                         amis()->Group()->body([
                             amis()->Group()->direction('vertical')->body([
                                 amis()->Group()->body([
@@ -327,8 +327,8 @@ class CodeGeneratorController extends AdminController
                                 amis()->Switch('soft_delete', translator('admin.soft_delete'))->value(1),
                             ]),
                         ]),
-                    )
-                ),
+                    ])
+                ]),
                 // 字段信息标签页
                 amis()->Tab()->title(translator('admin.code_generators.column_info'))->body([
                     $this->cachedColumns(),

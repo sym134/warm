@@ -1,267 +1,110 @@
 <?php
-
 namespace warm\admin\renderer;
-
 /**
- * JSON 数据展示控件。 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/json
- * 
- * @author slowlyo
- * @version 6.13.0
+ * Json
+ *
+ * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/json
  */
 class Json extends BaseRenderer
 {
-    public function __construct()
-    {
-        $this->set('type', 'json');
-    }
+    public string $type = 'json';
 
     /**
-     * 容器 css 类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
+     * 外层 CSS 类名
+     *
+     * @param string $value
+     * @return self
      */
-    public function className($value = '')
+    public function className(string $value = ''): self
     {
         return $this->set('className', $value);
     }
 
     /**
-     * 是否禁用
+     * json 值，如果是 string 会自动 parse
+     *
+     * @param mixed $value
+     * @return self
      */
-    public function disabled($value = true)
-    {
-        return $this->set('disabled', $value);
-    }
-
-    /**
-     * 是否禁用表达式 (表达式，语法 `${xxx > 5}`。)
-     */
-    public function disabledOn($value = '')
-    {
-        return $this->set('disabledOn', $value);
-    }
-
-    /**
-     * 是否显示数据类型
-     */
-    public function displayDataTypes($value = true)
-    {
-        return $this->set('displayDataTypes', $value);
-    }
-
-    /**
-     * 编辑器配置，运行时可以忽略
-     */
-    public function editorSetting($value = '')
-    {
-        return $this->set('editorSetting', $value);
-    }
-
-    /**
-     * 设置字符串的最大展示长度，超出长度阈值的字符串将被截断，点击value可切换字符串展示方式，默认为false
-     */
-    public function ellipsisThreshold($value = '')
-    {
-        return $this->set('ellipsisThreshold', $value);
-    }
-
-    /**
-     * 是否可复制
-     */
-    public function enableClipboard($value = true)
-    {
-        return $this->set('enableClipboard', $value);
-    }
-
-    /**
-     * 是否隐藏
-     */
-    public function hidden($value = true)
-    {
-        return $this->set('hidden', $value);
-    }
-
-    /**
-     * 是否隐藏表达式 (表达式，语法 `${xxx > 5}`。)
-     */
-    public function hiddenOn($value = '')
-    {
-        return $this->set('hiddenOn', $value);
-    }
-
-    /**
-     * 图标风格 可选值: square | circle | triangle
-     */
-    public function iconStyle($value = '')
-    {
-        return $this->set('iconStyle', $value);
-    }
-
-    /**
-     * 组件唯一 id，主要用于日志采集
-     */
-    public function id($value = '')
-    {
-        return $this->set('id', $value);
-    }
-
-    /**
-     * 默认展开的级别
-     */
-    public function levelExpand($value = '')
-    {
-        return $this->set('levelExpand', $value);
-    }
-
-    /**
-     * 是否可修改
-     */
-    public function mutable($value = true)
-    {
-        return $this->set('mutable', $value);
-    }
-
-    /**
-     * 事件动作配置
-     */
-    public function onEvent($value = '')
-    {
-        return $this->set('onEvent', $value);
-    }
-
-    /**
-     * 是否显示键的引号
-     */
-    public function quotesOnKeys($value = true)
-    {
-        return $this->set('quotesOnKeys', $value);
-    }
-
-    /**
-     * 是否为键排序
-     */
-    public function sortKeys($value = true)
-    {
-        return $this->set('sortKeys', $value);
-    }
-
-    /**
-     * 支持从数据链取值
-     */
-    public function source($value = '')
-    {
-        return $this->set('source', $value);
-    }
-
-    /**
-     * 是否静态展示
-     */
-    public function static($value = true)
-    {
-        return $this->set('static', $value);
-    }
-
-    /**
-     * 静态展示表单项类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
-     */
-    public function staticClassName($value = '')
-    {
-        return $this->set('staticClassName', $value);
-    }
-
-    /**
-     * 静态展示表单项Value类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
-     */
-    public function staticInputClassName($value = '')
-    {
-        return $this->set('staticInputClassName', $value);
-    }
-
-    /**
-     * 静态展示表单项Label类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
-     */
-    public function staticLabelClassName($value = '')
-    {
-        return $this->set('staticLabelClassName', $value);
-    }
-
-    /**
-     * 是否静态展示表达式 (表达式，语法 `${xxx > 5}`。)
-     */
-    public function staticOn($value = '')
-    {
-        return $this->set('staticOn', $value);
-    }
-
-    /**
-     * 静态展示空值占位
-     */
-    public function staticPlaceholder($value = '')
-    {
-        return $this->set('staticPlaceholder', $value);
-    }
-
-    /**
-     * 
-     */
-    public function staticSchema($value = '')
-    {
-        return $this->set('staticSchema', $value);
-    }
-
-    /**
-     * 组件样式
-     */
-    public function style($value = '')
-    {
-        return $this->set('style', $value);
-    }
-
-    /**
-     * 
-     */
-    public function testid($value = '')
-    {
-        return $this->set('testid', $value);
-    }
-
-    /**
-     * 指定为Json展示类型
-     */
-    public function type($value = '')
-    {
-        return $this->set('type', $value);
-    }
-
-    /**
-     * 可以组件级别用来关闭移动端样式
-     */
-    public function useMobileUI($value = true)
-    {
-        return $this->set('useMobileUI', $value);
-    }
-
-    /**
-     * 要展示的 JSON 数据
-     */
-    public function value($value = '')
+    public function value(mixed $value = null): self
     {
         return $this->set('value', $value);
     }
 
     /**
-     * 是否显示
+     * 通过数据映射获取数据链中的值
+     *
+     * @param string $value
+     * @return self
      */
-    public function visible($value = true)
+    public function source(string $value = ''): self
     {
-        return $this->set('visible', $value);
+        return $this->set('source', $value);
     }
 
     /**
-     * 是否显示表达式 (表达式，语法 `${xxx > 5}`。)
+     * 占位文本
+     *
+     * @param string $value
+     * @return self
      */
-    public function visibleOn($value = '')
+    public function placeholder(string $value = '-'): self
     {
-        return $this->set('visibleOn', $value);
+        return $this->set('placeholder', $value);
     }
 
+    /**
+     * 默认展开的层级
+     *
+     * @param int|bool $value
+     * @return self
+     */
+    public function levelExpand(int|bool $value = 1): self
+    {
+        return $this->set('levelExpand', $value);
+    }
 
+    /**
+     * 主题，可选`twilight`和`eighties`
+     *
+     * @param string $value
+     * @return self
+     */
+    public function jsonTheme(string $value = 'twilight'): self
+    {
+        return $this->set('jsonTheme', $value);
+    }
+
+    /**
+     * 是否可修改
+     *
+     * @param bool $value
+     * @return self
+     */
+    public function mutable(bool $value = true): self
+    {
+        return $this->set('mutable', $value);
+    }
+
+    /**
+     * 是否显示数据类型
+     *
+     * @param bool $value
+     * @return self
+     */
+    public function displayDataTypes(bool $value = true): self
+    {
+        return $this->set('displayDataTypes', $value);
+    }
+
+    /**
+     * 设置字符串的最大展示长度，点击字符串可以切换全量/部分展示方式，默认展示全量字符串
+     *
+     * @param int|bool $value
+     * @return self
+     */
+    public function ellipsisThreshold(int|bool $value = false): self
+    {
+        return $this->set('ellipsisThreshold', $value);
+    }
 }

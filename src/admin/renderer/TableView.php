@@ -1,27 +1,13 @@
 <?php
-
 namespace warm\admin\renderer;
-
 /**
- * Table View 表格展现
- * 
- * @author slowlyo
- * @version 6.13.0
+ * TableView
+ *
+ * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/table-view
  */
 class TableView extends BaseRenderer
 {
-    public function __construct()
-    {
-        $this->set('type', 'table-view');
-    }
-
-    /**
-     * 指定为 table-view 渲染器。
-     */
-    public function type($value = 'table-view')
-    {
-        return $this->set('type', $value);
-    }
+    public string $type = 'table-view';
 
 
 }

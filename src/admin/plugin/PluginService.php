@@ -95,7 +95,7 @@ class PluginService extends AdminService
         }
         Helper::pauseFileMonitor();
         $result = runCommand('warm-plugin:create', ['name' => $data['key'], 'alias' => $data['name']]);
-        var_dump($result);
+
         if ($result['status']) {
             Helper::resumeFileMonitor();
             Helper::reloadWebman();

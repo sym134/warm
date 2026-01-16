@@ -50,19 +50,14 @@ class SystemUser
      */
     public function operateLog(): bool
     {
-        if (request()->method() === 'GET') {
-            return false;
-        }
         $info = request()->user->toArray();
         $ip = request()->getRealIp();
-        $module = request()->plugin;
-        $rule = trim(strtolower(request()->uri()));
         $data['username'] = $info['username'];
         $data['created_by'] = $info['id'];
         $data['method'] = request()->method();
-        $data['router'] = $rule;
+        $data['router'] = trim(strtolower(request()->uri()));
         $data['service_name'] = self::getServiceName();
-        $data['app'] = $module;
+        $data['app'] = request()->app;
         $data['ip'] = $ip;
         $data['ip_location'] = self::getIpLocation($ip);
         $data['request_data'] = $this->filterParams(request()->all());
@@ -80,16 +75,13 @@ class SystemUser
     protected function getServiceName(): string
     {
         $path = request()->route->getPath();
-        var_dump($path);
         if (preg_match("/\{[^}]+\}/", $path)) {
             $path = rtrim(preg_replace("/\{[^}]+\}/", '', $path), '/');
         }
-        $path = ltrim($path, Admin::warmConfig('app.route.prefix'));
-        var_dump($path);
+
+        $path = str_replace(Admin::warmConfig('app.route.prefix'),'',$path);
 
         $menu = AdminMenu::where('url', $path)->first();
-        var_dump($menu);
-
         if (!is_null($menu)) {
             return $menu->getAttribute('title');
         } else {

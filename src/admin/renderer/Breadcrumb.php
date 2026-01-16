@@ -1,107 +1,110 @@
 <?php
-
 namespace warm\admin\renderer;
-
 /**
- * Breadcrumb 面包屑 https://aisuda.bce.baidu.com/amis/zh-CN/components/breadcrumb
- * 
- * @author slowlyo
- * @version 6.13.0
+ * Breadcrumb
+ *
+ * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/breadcrumb
  */
 class Breadcrumb extends BaseRenderer
 {
-    public function __construct()
-    {
-        $this->set('type', 'breadcrumb');
-    }
+    public string $type = 'breadcrumb';
 
     /**
      * 外层类名
+     *
+     * @param string $value
+     * @return self
      */
-    public function className($value = '')
+    public function className(string $value = ''): self
     {
         return $this->set('className', $value);
     }
 
     /**
-     * 下拉菜单类名
+     * 导航项类名
+     *
+     * @param string $value
+     * @return self
      */
-    public function dropdownClassName($value = '')
+    public function itemClassName(string $value = ''): self
+    {
+        return $this->set('itemClassName', $value);
+    }
+
+    /**
+     * 分割符类名
+     *
+     * @param string $value
+     * @return self
+     */
+    public function separatorClassName(string $value = ''): self
+    {
+        return $this->set('separatorClassName', $value);
+    }
+
+    /**
+     * 下拉菜单类名
+     *
+     * @param string $value
+     * @return self
+     */
+    public function dropdownClassName(string $value = ''): self
     {
         return $this->set('dropdownClassName', $value);
     }
 
     /**
      * 下拉菜单项类名
+     *
+     * @param string $value
+     * @return self
      */
-    public function dropdownItemClassName($value = '')
+    public function dropdownItemClassName(string $value = ''): self
     {
         return $this->set('dropdownItemClassName', $value);
     }
 
     /**
-     * 导航项类名
-     */
-    public function itemClassName($value = '')
-    {
-        return $this->set('itemClassName', $value);
-    }
-
-    /**
-     * 文本
-     */
-    public function items($value = '')
-    {
-        return $this->set('items', $value);
-    }
-
-    /**
-     * 最大展示长度
-     */
-    public function labelMaxLength($value = '')
-    {
-        return $this->set('labelMaxLength', $value);
-    }
-
-    /**
      * 分隔符
+     *
+     * @param string $value
+     * @return self
      */
-    public function separator($value = '')
+    public function separator(string $value = ''): self
     {
         return $this->set('separator', $value);
     }
 
     /**
-     * 分割符类名
+     * 最大展示长度
+     *
+     * @param int|float $value
+     * @return self
      */
-    public function separatorClassName($value = '')
+    public function labelMaxLength(int|float $value = 16): self
     {
-        return $this->set('separatorClassName', $value);
+        return $this->set('labelMaxLength', $value);
     }
 
     /**
-     * 动态数据
+     * left \
+     *
+     * @param mixed $value
+     * @return self
      */
-    public function source($value = '')
-    {
-        return $this->set('source', $value);
-    }
-
-    /**
-     * 浮窗提示位置
-     */
-    public function tooltipPosition($value = '')
+    public function tooltipPosition(mixed $value = null): self
     {
         return $this->set('tooltipPosition', $value);
     }
 
     /**
-     * 指定为 breadcrumb 渲染器。
+     * 动态数据
+     *
+     * @param string $value
+     * @return self
      */
-    public function type($value = 'breadcrumb')
+    public function source(string $value = ''): self
     {
-        return $this->set('type', $value);
+        return $this->set('source', $value);
     }
-
-
 }

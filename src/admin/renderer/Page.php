@@ -1,443 +1,275 @@
 <?php
-
 namespace warm\admin\renderer;
-
 /**
- * amis Page 渲染器。详情请见：https://aisuda.bce.baidu.com/amis/zh-CN/components/page 一个页面只允许有一个 Page 渲染器。
- * 
- * @author slowlyo
- * @version 6.13.0
+ * Page
+ *
+ * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/page
  */
 class Page extends BaseRenderer
 {
-    public function __construct()
-    {
-        $this->set('type', 'page');
-    }
-
-    /**
-     * 边栏区域 (边栏区域)
-     */
-    public function aside($value = '')
-    {
-        return $this->set('aside', $value);
-    }
-
-    /**
-     * 边栏区 css 类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
-     */
-    public function asideClassName($value = '')
-    {
-        return $this->set('asideClassName', $value);
-    }
-
-    /**
-     * 边栏最小宽度
-     */
-    public function asideMaxWidth($value = '')
-    {
-        return $this->set('asideMaxWidth', $value);
-    }
-
-    /**
-     * 边栏最小宽度
-     */
-    public function asideMinWidth($value = '')
-    {
-        return $this->set('asideMinWidth', $value);
-    }
-
-    /**
-     * 边栏位置 可选值: left | right
-     */
-    public function asidePosition($value = '')
-    {
-        return $this->set('asidePosition', $value);
-    }
-
-    /**
-     * 边栏是否允许拖动
-     */
-    public function asideResizor($value = true)
-    {
-        return $this->set('asideResizor', $value);
-    }
-
-    /**
-     * 边栏内容是否粘住，即不跟随滚动。
-     */
-    public function asideSticky($value = true)
-    {
-        return $this->set('asideSticky', $value);
-    }
-
-    /**
-     * 内容区域 (内容区域)
-     */
-    public function body($value = '')
-    {
-        return $this->set('body', $value);
-    }
-
-    /**
-     * 内容区 css 类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
-     */
-    public function bodyClassName($value = '')
-    {
-        return $this->set('bodyClassName', $value);
-    }
-
-    /**
-     * 配置容器 className (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
-     */
-    public function className($value = '')
-    {
-        return $this->set('className', $value);
-    }
-
-    /**
-     * 自定义页面级别样式表
-     */
-    public function css($value = '')
-    {
-        return $this->set('css', $value);
-    }
-
-    /**
-     * css 变量
-     */
-    public function cssVars($value = '')
-    {
-        return $this->set('cssVars', $value);
-    }
-
-    /**
-     * 页面级别的初始数据 (初始数据，设置得值可用于组件内部模板使用。)
-     */
-    public function data($value = '')
-    {
-        return $this->set('data', $value);
-    }
-
-    /**
-     * 可以理解为类型模板，方便快速定义复杂类型
-     */
-    public function definitions($value = '')
-    {
-        return $this->set('definitions', $value);
-    }
-
-    /**
-     * 是否禁用
-     */
-    public function disabled($value = true)
-    {
-        return $this->set('disabled', $value);
-    }
-
-    /**
-     * 是否禁用表达式 (表达式，语法 `${xxx > 5}`。)
-     */
-    public function disabledOn($value = '')
-    {
-        return $this->set('disabledOn', $value);
-    }
-
-    /**
-     * 编辑器配置，运行时可以忽略
-     */
-    public function editorSetting($value = '')
-    {
-        return $this->set('editorSetting', $value);
-    }
-
-    /**
-     * 配置 header 容器 className (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
-     */
-    public function headerClassName($value = '')
-    {
-        return $this->set('headerClassName', $value);
-    }
-
-    /**
-     * 是否隐藏
-     */
-    public function hidden($value = true)
-    {
-        return $this->set('hidden', $value);
-    }
-
-    /**
-     * 是否隐藏表达式 (表达式，语法 `${xxx > 5}`。)
-     */
-    public function hiddenOn($value = '')
-    {
-        return $this->set('hiddenOn', $value);
-    }
-
-    /**
-     * 组件唯一 id，主要用于日志采集
-     */
-    public function id($value = '')
-    {
-        return $this->set('id', $value);
-    }
-
-    /**
-     * 页面初始化的时候，可以设置一个 API 让其取拉取，发送数据会携带当前 data 数据（包含地址栏参数），获取得数据会合并到 data 中，供组件内使用。 (页面初始化的时候，可以设置一个 API 让其取拉取，发送数据会携带当前 data 数据（包含地址栏参数），获取得数据会合并到 data 中，供组件内使用。)
-     */
-    public function initApi($value = '')
-    {
-        return $this->set('initApi', $value);
-    }
-
-    /**
-     * 是否默认就拉取？
-     */
-    public function initFetch($value = true)
-    {
-        return $this->set('initFetch', $value);
-    }
-
-    /**
-     * 是否默认就拉取表达式 (表达式，语法 `${xxx > 5}`。)
-     */
-    public function initFetchOn($value = '')
-    {
-        return $this->set('initFetchOn', $value);
-    }
-
-    /**
-     * 配置轮询间隔，配置后 initApi 将轮询加载。
-     */
-    public function interval($value = '')
-    {
-        return $this->set('interval', $value);
-    }
-
-    /**
-     * 
-     */
-    public function loadingConfig($value = '')
-    {
-        return $this->set('loadingConfig', $value);
-    }
-
-    /**
-     * 消息文案配置，记住这个优先级是最低的，如果你的接口返回了 msg，接口返回的优先。
-     */
-    public function messages($value = '')
-    {
-        return $this->set('messages', $value);
-    }
-
-    /**
-     * 移动端下的样式表
-     */
-    public function mobileCSS($value = '')
-    {
-        return $this->set('mobileCSS', $value);
-    }
-
-    /**
-     * 组件名字，这个名字可以用来定位，用于组件通信
-     */
-    public function name($value = '')
-    {
-        return $this->set('name', $value);
-    }
-
-    /**
-     * 事件动作配置
-     */
-    public function onEvent($value = '')
-    {
-        return $this->set('onEvent', $value);
-    }
-
-    /**
-     * 下拉刷新配置
-     */
-    public function pullRefresh($value = '')
-    {
-        return $this->set('pullRefresh', $value);
-    }
-
-    /**
-     * 默认不设置自动感觉内容来决定要不要展示这些区域 如果配置了，以配置为主。
-     */
-    public function regions($value = '')
-    {
-        return $this->set('regions', $value);
-    }
-
-    /**
-     * 页面描述, 标题旁边会出现个小图标，放上去会显示这个属性配置的内容。 (页面描述, 标题旁边会出现个小图标，放上去会显示这个属性配置的内容。)
-     */
-    public function remark($value = '')
-    {
-        return $this->set('remark', $value);
-    }
-
-    /**
-     * 是否显示错误信息，默认是显示的。
-     */
-    public function showErrorMsg($value = true)
-    {
-        return $this->set('showErrorMsg', $value);
-    }
-
-    /**
-     * 是否要静默加载，也就是说不显示进度
-     */
-    public function silentPolling($value = true)
-    {
-        return $this->set('silentPolling', $value);
-    }
-
-    /**
-     * 是否静态展示
-     */
-    public function static($value = true)
-    {
-        return $this->set('static', $value);
-    }
-
-    /**
-     * 静态展示表单项类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
-     */
-    public function staticClassName($value = '')
-    {
-        return $this->set('staticClassName', $value);
-    }
-
-    /**
-     * 静态展示表单项Value类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
-     */
-    public function staticInputClassName($value = '')
-    {
-        return $this->set('staticInputClassName', $value);
-    }
-
-    /**
-     * 静态展示表单项Label类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
-     */
-    public function staticLabelClassName($value = '')
-    {
-        return $this->set('staticLabelClassName', $value);
-    }
-
-    /**
-     * 是否静态展示表达式 (表达式，语法 `${xxx > 5}`。)
-     */
-    public function staticOn($value = '')
-    {
-        return $this->set('staticOn', $value);
-    }
-
-    /**
-     * 静态展示空值占位
-     */
-    public function staticPlaceholder($value = '')
-    {
-        return $this->set('staticPlaceholder', $value);
-    }
-
-    /**
-     * 
-     */
-    public function staticSchema($value = '')
-    {
-        return $this->set('staticSchema', $value);
-    }
-
-    /**
-     * 配置停止轮询的条件。 (表达式，语法 `${xxx > 5}`。)
-     */
-    public function stopAutoRefreshWhen($value = '')
-    {
-        return $this->set('stopAutoRefreshWhen', $value);
-    }
-
-    /**
-     * 自定义样式
-     */
-    public function style($value = '')
-    {
-        return $this->set('style', $value);
-    }
-
-    /**
-     * 页面副标题
-     */
-    public function subTitle($value = '')
-    {
-        return $this->set('subTitle', $value);
-    }
-
-    /**
-     * 
-     */
-    public function testid($value = '')
-    {
-        return $this->set('testid', $value);
-    }
+    public string $type = 'page';
 
     /**
      * 页面标题
+     *
+     * @param mixed $value
+     * @return self
      */
-    public function title($value = '')
+    public function title(mixed $value = null): self
     {
         return $this->set('title', $value);
     }
 
     /**
-     * 页面顶部区域，当存在 title 时在右上角显示。 (页面顶部区域，当存在 title 时在右上角显示。)
+     * 页面副标题
+     *
+     * @param mixed $value
+     * @return self
      */
-    public function toolbar($value = '')
+    public function subTitle(mixed $value = null): self
+    {
+        return $this->set('subTitle', $value);
+    }
+
+    /**
+     * 标题附近会出现一个提示图标，鼠标放上去会提示该内容。
+     *
+     * @param mixed $value
+     * @return self
+     */
+    public function remark(mixed $value = null): self
+    {
+        return $this->set('remark', $value);
+    }
+
+    /**
+     * 往页面的边栏区域加内容
+     *
+     * @param mixed $value
+     * @return self
+     */
+    public function aside(mixed $value = null): self
+    {
+        return $this->set('aside', $value);
+    }
+
+    /**
+     * 页面的边栏区域宽度是否可调整
+     *
+     * @param bool $value
+     * @return self
+     */
+    public function asideResizor(bool $value = true): self
+    {
+        return $this->set('asideResizor', $value);
+    }
+
+    /**
+     * 页面边栏区域的最小宽度
+     *
+     * @param int|float $value
+     * @return self
+     */
+    public function asideMinWidth(int|float $value = 0): self
+    {
+        return $this->set('asideMinWidth', $value);
+    }
+
+    /**
+     * 页面边栏区域的最大宽度
+     *
+     * @param int|float $value
+     * @return self
+     */
+    public function asideMaxWidth(int|float $value = 0): self
+    {
+        return $this->set('asideMaxWidth', $value);
+    }
+
+    /**
+     * 用来控制边栏固定与否
+     *
+     * @param bool $value
+     * @return self
+     */
+    public function asideSticky(bool $value = true): self
+    {
+        return $this->set('asideSticky', $value);
+    }
+
+    /**
+     * `"left"`
+     *
+     * @param mixed $value
+     * @return self
+     */
+    public function asidePosition(mixed $value = null): self
+    {
+        return $this->set('asidePosition', $value);
+    }
+
+    /**
+     * 往页面的右上角加内容，需要注意的是，当有 title 时，该区域在右上角，没有时该区域在顶部
+     *
+     * @param mixed $value
+     * @return self
+     */
+    public function toolbar(mixed $value = null): self
     {
         return $this->set('toolbar', $value);
     }
 
     /**
-     * 配置 toolbar 容器 className (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
+     * 往页面的内容区域加内容
+     *
+     * @param mixed $value
+     * @return self
      */
-    public function toolbarClassName($value = '')
+    public function body(mixed $value = null): self
+    {
+        return $this->set('body', $value);
+    }
+
+    /**
+     * 外层 dom 类名
+     *
+     * @param string $value
+     * @return self
+     */
+    public function className(string $value = ''): self
+    {
+        return $this->set('className', $value);
+    }
+
+    /**
+     * 自定义 CSS 变量，请参考[样式](../style)
+     *
+     * @param array $value
+     * @return self
+     */
+    public function cssVars(array $value = []): self
+    {
+        return $this->set('cssVars', $value);
+    }
+
+    /**
+     * Toolbar dom 类名
+     *
+     * @param string $value
+     * @return self
+     */
+    public function toolbarClassName(string $value = 'v-middle wrapper text-right bg-light b-b'): self
     {
         return $this->set('toolbarClassName', $value);
     }
 
     /**
-     * 指定为 page 渲染器。
+     * Body dom 类名
+     *
+     * @param string $value
+     * @return self
      */
-    public function type($value = 'page')
+    public function bodyClassName(string $value = 'wrapper'): self
     {
-        return $this->set('type', $value);
+        return $this->set('bodyClassName', $value);
     }
 
     /**
-     * 可以组件级别用来关闭移动端样式
+     * Aside dom 类名
+     *
+     * @param string $value
+     * @return self
      */
-    public function useMobileUI($value = true)
+    public function asideClassName(string $value = 'w page-aside-region bg-auto'): self
     {
-        return $this->set('useMobileUI', $value);
+        return $this->set('asideClassName', $value);
     }
 
     /**
-     * 是否显示
+     * Header 区域 dom 类名
+     *
+     * @param string $value
+     * @return self
      */
-    public function visible($value = true)
+    public function headerClassName(string $value = 'bg-light b-b wrapper'): self
     {
-        return $this->set('visible', $value);
+        return $this->set('headerClassName', $value);
     }
 
     /**
-     * 是否显示表达式 (表达式，语法 `${xxx > 5}`。)
+     * Page 用来获取初始数据的 api。返回的数据可以整个 page 级别使用。
+     *
+     * @param mixed $value
+     * @return self
      */
-    public function visibleOn($value = '')
+    public function initApi(mixed $value = null): self
     {
-        return $this->set('visibleOn', $value);
+        return $this->set('initApi', $value);
     }
 
+    /**
+     * 是否起始拉取 initApi
+     *
+     * @param bool $value
+     * @return self
+     */
+    public function initFetch(bool $value = true): self
+    {
+        return $this->set('initFetch', $value);
+    }
 
+    /**
+     * 是否起始拉取 initApi, 通过表达式配置
+     *
+     * @param mixed $value
+     * @return self
+     */
+    public function initFetchOn(mixed $value = null): self
+    {
+        return $this->set('initFetchOn', $value);
+    }
+
+    /**
+     * 刷新时间(最小 1000)
+     *
+     * @param int|float $value
+     * @return self
+     */
+    public function interval(int|float $value = 3000): self
+    {
+        return $this->set('interval', $value);
+    }
+
+    /**
+     * 配置刷新时是否显示加载动画
+     *
+     * @param bool $value
+     * @return self
+     */
+    public function silentPolling(bool $value = true): self
+    {
+        return $this->set('silentPolling', $value);
+    }
+
+    /**
+     * 通过表达式来配置停止刷新的条件
+     *
+     * @param mixed $value
+     * @return self
+     */
+    public function stopAutoRefreshWhen(mixed $value = null): self
+    {
+        return $this->set('stopAutoRefreshWhen', $value);
+    }
+
+    /**
+     * 下拉刷新配置（仅用于移动端）
+     *
+     * @param array $value
+     * @return self
+     */
+    public function pullRefresh(array $value = []): self
+    {
+        return $this->set('pullRefresh', $value);
+    }
 }

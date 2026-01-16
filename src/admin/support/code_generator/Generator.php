@@ -285,7 +285,7 @@ class Generator
                     $migratePath = $record->getAttribute('save_path')['directory'];
                     $migratePath = $migratePath === 'app' ? 'database/migrations' : $migratePath . '/database/migrations';
                 }
-                var_dump($migratePath);
+
                 $output = runCommand('migrate',['--path' => $migratePath])['output'];
                 $message .= $successMessage('Table', $output);
             }

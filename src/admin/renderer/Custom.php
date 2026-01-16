@@ -1,91 +1,99 @@
 <?php
-
 namespace warm\admin\renderer;
-
 /**
- * Custom 自定义组件
- * 
- * @author slowlyo
- * @version 6.13.0
+ * Custom
+ *
+ * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/custom
  */
 class Custom extends BaseRenderer
 {
-    public function __construct()
-    {
-        $this->set('type', 'custom');
-    }
-
-    /**
-     * 节点 class
-     */
-    public function className($value = '')
-    {
-        return $this->set('className', $value);
-    }
-
-    /**
-     * 初始化节点 html
-     */
-    public function html($value = '')
-    {
-        return $this->set('html', $value);
-    }
+    public string $type = 'custom';
 
     /**
      * 节点 id
+     *
+     * @param string $value
+     * @return self
      */
-    public function id($value = '')
+    public function id(string $value = ''): self
     {
         return $this->set('id', $value);
     }
 
     /**
-     * 默认使用 div 标签，如果 true 就使用 span 标签
-     */
-    public function inline($value = true)
-    {
-        return $this->set('inline', $value);
-    }
-
-    /**
      * 节点 名称
+     *
+     * @param string $value
+     * @return self
      */
-    public function name($value = '')
+    public function name(string $value = ''): self
     {
         return $this->set('name', $value);
     }
 
     /**
-     * 节点初始化之后调的用函数
+     * 节点 class
+     *
+     * @param string $value
+     * @return self
      */
-    public function onMount($value = '')
+    public function className(string $value = ''): self
+    {
+        return $this->set('className', $value);
+    }
+
+    /**
+     * 默认使用 div 标签，如果 true 就使用 span 标签
+     *
+     * @param bool $value
+     * @return self
+     */
+    public function inline(bool $value = true): self
+    {
+        return $this->set('inline', $value);
+    }
+
+    /**
+     * 初始化节点 html
+     *
+     * @param string $value
+     * @return self
+     */
+    public function html(string $value = ''): self
+    {
+        return $this->set('html', $value);
+    }
+
+    /**
+     * 节点初始化之后调的用函数
+     *
+     * @param string $value
+     * @return self
+     */
+    public function onMount(string $value = 'Function'): self
     {
         return $this->set('onMount', $value);
     }
 
     /**
-     * 节点销毁的时候调用的函数
-     */
-    public function onUnmount($value = '')
-    {
-        return $this->set('onUnmount', $value);
-    }
-
-    /**
      * 数据有更新的时候调用的函数
+     *
+     * @param string $value
+     * @return self
      */
-    public function onUpdate($value = '')
+    public function onUpdate(string $value = 'Function'): self
     {
         return $this->set('onUpdate', $value);
     }
 
     /**
-     * 指定为 custom 渲染器。
+     * 节点销毁的时候调用的函数
+     *
+     * @param string $value
+     * @return self
      */
-    public function type($value = 'custom')
+    public function onUnmount(string $value = 'Function'): self
     {
-        return $this->set('type', $value);
+        return $this->set('onUnmount', $value);
     }
-
-
 }

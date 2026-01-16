@@ -1,235 +1,88 @@
 <?php
-
 namespace warm\admin\renderer;
-
 /**
- * Each 循环功能渲染器。 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/each
- * 
- * @author slowlyo
- * @version 6.13.0
+ * Each
+ *
+ * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/each
  */
 class Each extends BaseRenderer
 {
-    public function __construct()
+    public string $type = 'each';
+
+    /**
+     * 用于循环的值
+     *
+     * @param array $value
+     * @return self
+     */
+    public function value(array $value = []): self
     {
-        $this->set('type', 'each');
+        return $this->set('value', $value);
     }
 
     /**
-     * 容器 css 类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
+     * 获取数据域中变量
+     *
+     * @param string $value
+     * @return self
      */
-    public function className($value = '')
-    {
-        return $this->set('className', $value);
-    }
-
-    /**
-     * 是否禁用
-     */
-    public function disabled($value = true)
-    {
-        return $this->set('disabled', $value);
-    }
-
-    /**
-     * 是否禁用表达式 (表达式，语法 `${xxx > 5}`。)
-     */
-    public function disabledOn($value = '')
-    {
-        return $this->set('disabledOn', $value);
-    }
-
-    /**
-     * 编辑器配置，运行时可以忽略
-     */
-    public function editorSetting($value = '')
-    {
-        return $this->set('editorSetting', $value);
-    }
-
-    /**
-     * 是否隐藏
-     */
-    public function hidden($value = true)
-    {
-        return $this->set('hidden', $value);
-    }
-
-    /**
-     * 是否隐藏表达式 (表达式，语法 `${xxx > 5}`。)
-     */
-    public function hiddenOn($value = '')
-    {
-        return $this->set('hiddenOn', $value);
-    }
-
-    /**
-     * 组件唯一 id，主要用于日志采集
-     */
-    public function id($value = '')
-    {
-        return $this->set('id', $value);
-    }
-
-    /**
-     * 用来控制通过什么字段读取序号，考虑到可能多层嵌套 如果名字一样会读取不到上层变量，所以这里可以指定一下
-     */
-    public function indexKeyName($value = '')
-    {
-        return $this->set('indexKeyName', $value);
-    }
-
-    /**
-     * 用来控制通过什么字段读取成员数据，考虑到可能多层嵌套 如果名字一样会读取不到上层变量，所以这里可以指定一下
-     */
-    public function itemKeyName($value = '')
-    {
-        return $this->set('itemKeyName', $value);
-    }
-
-    /**
-     * 状态项列表
-     */
-    public function items($value = '')
-    {
-        return $this->set('items', $value);
-    }
-
-    /**
-     * 关联字段名
-     */
-    public function name($value = '')
+    public function name(string $value = ''): self
     {
         return $this->set('name', $value);
     }
 
     /**
-     * 事件动作配置
+     * 获取数据域中变量， 支持 [数据映射](../../docs/concepts/data-mapping)
+     *
+     * @param string $value
+     * @return self
      */
-    public function onEvent($value = '')
-    {
-        return $this->set('onEvent', $value);
-    }
-
-    /**
-     * 占位符
-     */
-    public function placeholder($value = '')
-    {
-        return $this->set('placeholder', $value);
-    }
-
-    /**
-     * 关联字段名 支持数据映射
-     */
-    public function source($value = '')
+    public function source(string $value = ''): self
     {
         return $this->set('source', $value);
     }
 
     /**
-     * 是否静态展示
+     * 使用`value`中的数据，循环输出渲染器。
+     *
+     * @param array $value
+     * @return self
      */
-    public function static($value = true)
+    public function items(array $value = []): self
     {
-        return $this->set('static', $value);
+        return $this->set('items', $value);
     }
 
     /**
-     * 静态展示表单项类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
+     * 当 `value` 值不存在或为空数组时的占位文本
+     *
+     * @param string $value
+     * @return self
      */
-    public function staticClassName($value = '')
+    public function placeholder(string $value = ''): self
     {
-        return $this->set('staticClassName', $value);
+        return $this->set('placeholder', $value);
     }
 
     /**
-     * 静态展示表单项Value类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
+     * 获取循环当前数组成员
+     *
+     * @param string $value
+     * @return self
      */
-    public function staticInputClassName($value = '')
+    public function itemKeyName(string $value = 'item'): self
     {
-        return $this->set('staticInputClassName', $value);
+        return $this->set('itemKeyName', $value);
     }
 
     /**
-     * 静态展示表单项Label类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
+     * 获取循环当前索引
+     *
+     * @param string $value
+     * @return self
      */
-    public function staticLabelClassName($value = '')
+    public function indexKeyName(string $value = 'index'): self
     {
-        return $this->set('staticLabelClassName', $value);
+        return $this->set('indexKeyName', $value);
     }
-
-    /**
-     * 是否静态展示表达式 (表达式，语法 `${xxx > 5}`。)
-     */
-    public function staticOn($value = '')
-    {
-        return $this->set('staticOn', $value);
-    }
-
-    /**
-     * 静态展示空值占位
-     */
-    public function staticPlaceholder($value = '')
-    {
-        return $this->set('staticPlaceholder', $value);
-    }
-
-    /**
-     * 
-     */
-    public function staticSchema($value = '')
-    {
-        return $this->set('staticSchema', $value);
-    }
-
-    /**
-     * 组件样式
-     */
-    public function style($value = '')
-    {
-        return $this->set('style', $value);
-    }
-
-    /**
-     * 
-     */
-    public function testid($value = '')
-    {
-        return $this->set('testid', $value);
-    }
-
-    /**
-     * 指定为each展示类型
-     */
-    public function type($value = 'each')
-    {
-        return $this->set('type', $value);
-    }
-
-    /**
-     * 可以组件级别用来关闭移动端样式
-     */
-    public function useMobileUI($value = true)
-    {
-        return $this->set('useMobileUI', $value);
-    }
-
-    /**
-     * 是否显示
-     */
-    public function visible($value = true)
-    {
-        return $this->set('visible', $value);
-    }
-
-    /**
-     * 是否显示表达式 (表达式，语法 `${xxx > 5}`。)
-     */
-    public function visibleOn($value = '')
-    {
-        return $this->set('visibleOn', $value);
-    }
-
-
 }

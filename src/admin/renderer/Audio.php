@@ -1,235 +1,88 @@
 <?php
-
 namespace warm\admin\renderer;
-
 /**
- * Audio 音频渲染器。 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/audio
- * 
- * @author slowlyo
- * @version 6.13.0
+ * Audio
+ *
+ * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/audio
  */
 class Audio extends BaseRenderer
 {
-    public function __construct()
-    {
-        $this->set('type', 'audio');
-    }
+    public string $type = 'audio';
 
     /**
-     * 是否自动播放
+     * 外层 Dom 的类名
+     *
+     * @param string $value
+     * @return self
      */
-    public function autoPlay($value = true)
-    {
-        return $this->set('autoPlay', $value);
-    }
-
-    /**
-     * 容器 css 类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
-     */
-    public function className($value = '')
+    public function className(string $value = ''): self
     {
         return $this->set('className', $value);
     }
 
     /**
-     * 可以配置控制器
-     */
-    public function controls($value = '')
-    {
-        return $this->set('controls', $value);
-    }
-
-    /**
-     * 是否禁用
-     */
-    public function disabled($value = true)
-    {
-        return $this->set('disabled', $value);
-    }
-
-    /**
-     * 是否禁用表达式 (表达式，语法 `${xxx > 5}`。)
-     */
-    public function disabledOn($value = '')
-    {
-        return $this->set('disabledOn', $value);
-    }
-
-    /**
-     * 编辑器配置，运行时可以忽略
-     */
-    public function editorSetting($value = '')
-    {
-        return $this->set('editorSetting', $value);
-    }
-
-    /**
-     * 是否隐藏
-     */
-    public function hidden($value = true)
-    {
-        return $this->set('hidden', $value);
-    }
-
-    /**
-     * 是否隐藏表达式 (表达式，语法 `${xxx > 5}`。)
-     */
-    public function hiddenOn($value = '')
-    {
-        return $this->set('hiddenOn', $value);
-    }
-
-    /**
-     * 组件唯一 id，主要用于日志采集
-     */
-    public function id($value = '')
-    {
-        return $this->set('id', $value);
-    }
-
-    /**
      * 是否是内联模式
+     *
+     * @param bool $value
+     * @return self
      */
-    public function inline($value = true)
+    public function inline(bool $value = true): self
     {
         return $this->set('inline', $value);
     }
 
     /**
-     * 是否循环播放
+     * 音频地址
+     *
+     * @param string $value
+     * @return self
      */
-    public function loop($value = true)
-    {
-        return $this->set('loop', $value);
-    }
-
-    /**
-     * 事件动作配置
-     */
-    public function onEvent($value = '')
-    {
-        return $this->set('onEvent', $value);
-    }
-
-    /**
-     * 配置可选播放倍速
-     */
-    public function rates($value = '')
-    {
-        return $this->set('rates', $value);
-    }
-
-    /**
-     * "视频播放地址, 支持 $ 取变量。 ("视频播放地址, 支持 $ 取变量。)
-     */
-    public function src($value = '')
+    public function src(string $value = ''): self
     {
         return $this->set('src', $value);
     }
 
     /**
-     * 是否静态展示
+     * 是否循环播放
+     *
+     * @param bool $value
+     * @return self
      */
-    public function static($value = true)
+    public function loop(bool $value = true): self
     {
-        return $this->set('static', $value);
+        return $this->set('loop', $value);
     }
 
     /**
-     * 静态展示表单项类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
+     * 是否自动播放
+     *
+     * @param bool $value
+     * @return self
      */
-    public function staticClassName($value = '')
+    public function autoPlay(bool $value = true): self
     {
-        return $this->set('staticClassName', $value);
+        return $this->set('autoPlay', $value);
     }
 
     /**
-     * 静态展示表单项Value类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
+     * 可配置音频播放倍速如：`[1.0, 1.5, 2.0]`
+     *
+     * @param array $value
+     * @return self
      */
-    public function staticInputClassName($value = '')
+    public function rates(array $value = []): self
     {
-        return $this->set('staticInputClassName', $value);
+        return $this->set('rates', $value);
     }
 
     /**
-     * 静态展示表单项Label类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
+     * 内部模块定制化
+     *
+     * @param array $value
+     * @return self
      */
-    public function staticLabelClassName($value = '')
+    public function controls(array $value = []): self
     {
-        return $this->set('staticLabelClassName', $value);
+        return $this->set('controls', $value);
     }
-
-    /**
-     * 是否静态展示表达式 (表达式，语法 `${xxx > 5}`。)
-     */
-    public function staticOn($value = '')
-    {
-        return $this->set('staticOn', $value);
-    }
-
-    /**
-     * 静态展示空值占位
-     */
-    public function staticPlaceholder($value = '')
-    {
-        return $this->set('staticPlaceholder', $value);
-    }
-
-    /**
-     * 
-     */
-    public function staticSchema($value = '')
-    {
-        return $this->set('staticSchema', $value);
-    }
-
-    /**
-     * 组件样式
-     */
-    public function style($value = '')
-    {
-        return $this->set('style', $value);
-    }
-
-    /**
-     * 
-     */
-    public function testid($value = '')
-    {
-        return $this->set('testid', $value);
-    }
-
-    /**
-     * 指定为音频播放器
-     */
-    public function type($value = 'audio')
-    {
-        return $this->set('type', $value);
-    }
-
-    /**
-     * 可以组件级别用来关闭移动端样式
-     */
-    public function useMobileUI($value = true)
-    {
-        return $this->set('useMobileUI', $value);
-    }
-
-    /**
-     * 是否显示
-     */
-    public function visible($value = true)
-    {
-        return $this->set('visible', $value);
-    }
-
-    /**
-     * 是否显示表达式 (表达式，语法 `${xxx > 5}`。)
-     */
-    public function visibleOn($value = '')
-    {
-        return $this->set('visibleOn', $value);
-    }
-
-
 }

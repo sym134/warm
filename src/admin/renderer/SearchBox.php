@@ -1,251 +1,76 @@
 <?php
-
 namespace warm\admin\renderer;
-
 /**
- * 搜索框渲染器
- * 
- * @author slowlyo
- * @version 6.13.0
+ * SearchBox
+ *
+ * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/search-box
  */
 class SearchBox extends BaseRenderer
 {
-    public function __construct()
-    {
-        $this->set('type', 'search-box');
-    }
+    public string $type = 'search-box';
 
     /**
-     * 外层 css 类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
+     * 外层 CSS 类名
+     *
+     * @param string $value
+     * @return self
      */
-    public function className($value = '')
+    public function className(string $value = ''): self
     {
         return $this->set('className', $value);
     }
 
     /**
-     * 是否开启清空内容后立即重新搜索
+     * 是否为 mini 模式
+     *
+     * @param bool $value
+     * @return self
      */
-    public function clearAndSubmit($value = true)
-    {
-        return $this->set('clearAndSubmit', $value);
-    }
-
-    /**
-     * 是否可清除
-     */
-    public function clearable($value = true)
-    {
-        return $this->set('clearable', $value);
-    }
-
-    /**
-     * 是否禁用
-     */
-    public function disabled($value = true)
-    {
-        return $this->set('disabled', $value);
-    }
-
-    /**
-     * 是否禁用表达式 (表达式，语法 `${xxx > 5}`。)
-     */
-    public function disabledOn($value = '')
-    {
-        return $this->set('disabledOn', $value);
-    }
-
-    /**
-     * 编辑器配置，运行时可以忽略
-     */
-    public function editorSetting($value = '')
-    {
-        return $this->set('editorSetting', $value);
-    }
-
-    /**
-     * 是否为加强样式
-     */
-    public function enhance($value = true)
-    {
-        return $this->set('enhance', $value);
-    }
-
-    /**
-     * 是否隐藏
-     */
-    public function hidden($value = true)
-    {
-        return $this->set('hidden', $value);
-    }
-
-    /**
-     * 是否隐藏表达式 (表达式，语法 `${xxx > 5}`。)
-     */
-    public function hiddenOn($value = '')
-    {
-        return $this->set('hiddenOn', $value);
-    }
-
-    /**
-     * 组件唯一 id，主要用于日志采集
-     */
-    public function id($value = '')
-    {
-        return $this->set('id', $value);
-    }
-
-    /**
-     * 是否处于加载状态
-     */
-    public function loading($value = true)
-    {
-        return $this->set('loading', $value);
-    }
-
-    /**
-     * 是否为 Mini 样式。
-     */
-    public function mini($value = true)
+    public function mini(bool $value = true): self
     {
         return $this->set('mini', $value);
     }
 
     /**
-     * 关键字名字。
+     * 是否立即搜索
+     *
+     * @param bool $value
+     * @return self
      */
-    public function name($value = '')
-    {
-        return $this->set('name', $value);
-    }
-
-    /**
-     * 事件动作配置
-     */
-    public function onEvent($value = '')
-    {
-        return $this->set('onEvent', $value);
-    }
-
-    /**
-     * 占位符
-     */
-    public function placeholder($value = '')
-    {
-        return $this->set('placeholder', $value);
-    }
-
-    /**
-     * 是否立马搜索。
-     */
-    public function searchImediately($value = true)
+    public function searchImediately(bool $value = true): self
     {
         return $this->set('searchImediately', $value);
     }
 
     /**
-     * 是否静态展示
+     * 清空搜索框内容后立即执行搜索
+     *
+     * @param bool $value
+     * @return self
      */
-    public function static($value = true)
+    public function clearAndSubmit(bool $value = true): self
     {
-        return $this->set('static', $value);
+        return $this->set('clearAndSubmit', $value);
     }
 
     /**
-     * 静态展示表单项类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
+     * 是否为禁用状态
+     *
+     * @param bool $value
+     * @return self
      */
-    public function staticClassName($value = '')
+    public function disabled(bool $value = true): self
     {
-        return $this->set('staticClassName', $value);
+        return $this->set('disabled', $value);
     }
 
     /**
-     * 静态展示表单项Value类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
+     * 是否处于加载状态
+     *
+     * @param bool $value
+     * @return self
      */
-    public function staticInputClassName($value = '')
+    public function loading(bool $value = true): self
     {
-        return $this->set('staticInputClassName', $value);
-    }
-
-    /**
-     * 静态展示表单项Label类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
-     */
-    public function staticLabelClassName($value = '')
-    {
-        return $this->set('staticLabelClassName', $value);
-    }
-
-    /**
-     * 是否静态展示表达式 (表达式，语法 `${xxx > 5}`。)
-     */
-    public function staticOn($value = '')
-    {
-        return $this->set('staticOn', $value);
-    }
-
-    /**
-     * 静态展示空值占位
-     */
-    public function staticPlaceholder($value = '')
-    {
-        return $this->set('staticPlaceholder', $value);
-    }
-
-    /**
-     * 
-     */
-    public function staticSchema($value = '')
-    {
-        return $this->set('staticSchema', $value);
-    }
-
-    /**
-     * 组件样式
-     */
-    public function style($value = '')
-    {
-        return $this->set('style', $value);
-    }
-
-    /**
-     * 
-     */
-    public function testid($value = '')
-    {
-        return $this->set('testid', $value);
-    }
-
-    /**
-     * 指定为搜索框。文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/search-box
-     */
-    public function type($value = 'search-box')
-    {
-        return $this->set('type', $value);
-    }
-
-    /**
-     * 可以组件级别用来关闭移动端样式
-     */
-    public function useMobileUI($value = true)
-    {
-        return $this->set('useMobileUI', $value);
-    }
-
-    /**
-     * 是否显示
-     */
-    public function visible($value = true)
-    {
-        return $this->set('visible', $value);
-    }
-
-    /**
-     * 是否显示表达式 (表达式，语法 `${xxx > 5}`。)
-     */
-    public function visibleOn($value = '')
-    {
-        return $this->set('visibleOn', $value);
-    }
-
-
-}
+        return $this->set('loading', $value);
+ 

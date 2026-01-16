@@ -1,283 +1,154 @@
 <?php
-
 namespace warm\admin\renderer;
-
 /**
  * Spinner
- * 
- * @author slowlyo
- * @version 6.13.0
+ *
+ * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/spinner
  */
 class Spinner extends BaseRenderer
 {
-    public function __construct()
-    {
-        $this->set('type', 'spinner');
-    }
+    public string $type = 'spinner';
 
     /**
-     * 作为容器使用时内容 (作为容器使用时内容)
+     * 是否显示 spinner 组件
+     *
+     * @param bool $value
+     * @return self
      */
-    public function body($value = '')
-    {
-        return $this->set('body', $value);
-    }
-
-    /**
-     * 自定义spinner的class
-     */
-    public function className($value = '')
-    {
-        return $this->set('className', $value);
-    }
-
-    /**
-     * 延迟显示
-     */
-    public function delay($value = '')
-    {
-        return $this->set('delay', $value);
-    }
-
-    /**
-     * 是否禁用
-     */
-    public function disabled($value = true)
-    {
-        return $this->set('disabled', $value);
-    }
-
-    /**
-     * 是否禁用表达式 (表达式，语法 `${xxx > 5}`。)
-     */
-    public function disabledOn($value = '')
-    {
-        return $this->set('disabledOn', $value);
-    }
-
-    /**
-     * 编辑器配置，运行时可以忽略
-     */
-    public function editorSetting($value = '')
-    {
-        return $this->set('editorSetting', $value);
-    }
-
-    /**
-     * 是否隐藏
-     */
-    public function hidden($value = true)
-    {
-        return $this->set('hidden', $value);
-    }
-
-    /**
-     * 是否隐藏表达式 (表达式，语法 `${xxx > 5}`。)
-     */
-    public function hiddenOn($value = '')
-    {
-        return $this->set('hiddenOn', $value);
-    }
-
-    /**
-     * 自定义icon
-     */
-    public function icon($value = '')
-    {
-        return $this->set('icon', $value);
-    }
-
-    /**
-     * 组件唯一 id，主要用于日志采集
-     */
-    public function id($value = '')
-    {
-        return $this->set('id', $value);
-    }
-
-    /**
-     * 
-     */
-    public function loadingConfig($value = '')
-    {
-        return $this->set('loadingConfig', $value);
-    }
-
-    /**
-     * 配置当前表单项展示模式 可选值: normal | inline | horizontal
-     */
-    public function mode($value = '')
-    {
-        return $this->set('mode', $value);
-    }
-
-    /**
-     * 事件动作配置
-     */
-    public function onEvent($value = '')
-    {
-        return $this->set('onEvent', $value);
-    }
-
-    /**
-     * 是否显示遮罩层
-     */
-    public function overlay($value = true)
-    {
-        return $this->set('overlay', $value);
-    }
-
-    /**
-     * 控制Spinner显示与隐藏
-     */
-    public function show($value = true)
+    public function show(bool $value = true): self
     {
         return $this->set('show', $value);
     }
 
     /**
-     * spinner Icon 大小 可选值: sm | lg | 
+     * 是否显示 spinner 组件的条件
+     *
+     * @param mixed $value
+     * @return self
      */
-    public function size($value = '')
+    public function showOn(mixed $value = true): self
     {
-        return $this->set('size', $value);
+        return $this->set('showOn', $value);
     }
 
     /**
-     * spin图标位置包裹元素的自定义class
+     * spinner 图标父级标签的自定义 class
+     *
+     * @param string $value
+     * @return self
      */
-    public function spinnerClassName($value = '')
+    public function className(string $value = ''): self
+    {
+        return $this->set('className', $value);
+    }
+
+    /**
+     * 组件中 icon 所在标签的自定义 class
+     *
+     * @param string $value
+     * @return self
+     */
+    public function spinnerClassName(string $value = ''): self
     {
         return $this->set('spinnerClassName', $value);
     }
 
     /**
-     * 作为容器使用时最外层元素的class
+     * 作为容器使用时组件最外层标签的自定义 class
+     *
+     * @param string $value
+     * @return self
      */
-    public function spinnerWrapClassName($value = '')
+    public function spinnerWrapClassName(string $value = ''): self
     {
         return $this->set('spinnerWrapClassName', $value);
     }
 
     /**
-     * 是否静态展示
+     * 组件大小 `sm` `lg`
+     *
+     * @param string $value
+     * @return self
      */
-    public function static($value = true)
+    public function size(string $value = ''): self
     {
-        return $this->set('static', $value);
+        return $this->set('size', $value);
     }
 
     /**
-     * 静态展示表单项类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
+     * 组件图标，可以是`amis`内置图标，也可以是字体图标或者网络图片链接，作为 ui 库使用时也可以是自定义组件
+     *
+     * @param string $value
+     * @return self
      */
-    public function staticClassName($value = '')
+    public function icon(string $value = ''): self
     {
-        return $this->set('staticClassName', $value);
+        return $this->set('icon', $value);
     }
 
     /**
-     * 静态展示表单项Value类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
+     * 配置组件文案，例如`加载中...`
+     *
+     * @param string $value
+     * @return self
      */
-    public function staticInputClassName($value = '')
-    {
-        return $this->set('staticInputClassName', $value);
-    }
-
-    /**
-     * 静态展示表单项Label类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
-     */
-    public function staticLabelClassName($value = '')
-    {
-        return $this->set('staticLabelClassName', $value);
-    }
-
-    /**
-     * 是否静态展示表达式 (表达式，语法 `${xxx > 5}`。)
-     */
-    public function staticOn($value = '')
-    {
-        return $this->set('staticOn', $value);
-    }
-
-    /**
-     * 静态展示空值占位
-     */
-    public function staticPlaceholder($value = '')
-    {
-        return $this->set('staticPlaceholder', $value);
-    }
-
-    /**
-     * 
-     */
-    public function staticSchema($value = '')
-    {
-        return $this->set('staticSchema', $value);
-    }
-
-    /**
-     * 组件样式
-     */
-    public function style($value = '')
-    {
-        return $this->set('style', $value);
-    }
-
-    /**
-     * 
-     */
-    public function testid($value = '')
-    {
-        return $this->set('testid', $value);
-    }
-
-    /**
-     * spinner文案
-     */
-    public function tip($value = '')
+    public function tip(string $value = ''): self
     {
         return $this->set('tip', $value);
     }
 
     /**
-     * spinner文案位置 可选值: top | right | bottom | left
+     * 配置组件 `tip` 相对于 `icon` 的位置
+     *
+     * @param mixed $value
+     * @return self
      */
-    public function tipPlacement($value = '')
+    public function tipPlacement(mixed $value = null): self
     {
         return $this->set('tipPlacement', $value);
     }
 
     /**
-     * 组件类型
+     * 配置组件显示延迟的时间（毫秒）
+     *
+     * @param int|float $value
+     * @return self
      */
-    public function type($value = 'spinner')
+    public function delay(int|float $value = 0): self
     {
-        return $this->set('type', $value);
+        return $this->set('delay', $value);
     }
 
     /**
-     * 可以组件级别用来关闭移动端样式
+     * 配置组件显示 spinner 时是否显示遮罩层
+     *
+     * @param bool $value
+     * @return self
      */
-    public function useMobileUI($value = true)
+    public function overlay(bool $value = true): self
     {
-        return $this->set('useMobileUI', $value);
+        return $this->set('overlay', $value);
     }
 
     /**
-     * 是否显示
+     * 作为容器使用时，被包裹的内容
+     *
+     * @param mixed $value
+     * @return self
      */
-    public function visible($value = true)
+    public function body(mixed $value = null): self
     {
-        return $this->set('visible', $value);
+        return $this->set('body', $value);
     }
 
     /**
-     * 是否显示表达式 (表达式，语法 `${xxx > 5}`。)
+     * 为 `Spinner` 指定挂载的容器, `root` 是一个 selector，在拥有`Spinner`的组件上都可以通过传递`loadingConfig`改变 Spinner 的挂载位置，开启后，会强制开启属性`overlay=true`，并且`icon`会失效
+     *
+     * @param mixed $value
+     * @return self
      */
-    public function visibleOn($value = '')
+    public function loadingConfig(mixed $value = null): self
     {
-        return $this->set('visibleOn', $value);
+        return $this->set('loadingConfig', $value);
     }
-
-
 }

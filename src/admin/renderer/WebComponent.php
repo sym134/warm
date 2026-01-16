@@ -1,51 +1,44 @@
 <?php
-
 namespace warm\admin\renderer;
-
 /**
- * Web Component
- * 
- * @author slowlyo
- * @version 6.13.0
+ * WebComponent
+ *
+ * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/web-component
  */
 class WebComponent extends BaseRenderer
 {
-    public function __construct()
-    {
-        $this->set('type', 'web-component');
-    }
-
-    /**
-     * 子节点
-     */
-    public function body($value = '')
-    {
-        return $this->set('body', $value);
-    }
-
-    /**
-     * 标签上的属性
-     */
-    public function props($value = '')
-    {
-        return $this->set('props', $value);
-    }
+    public string $type = 'web-component';
 
     /**
      * 具体使用的 web-component 标签
+     *
+     * @param string $value
+     * @return self
      */
-    public function tag($value = '')
+    public function tag(string $value = ''): self
     {
         return $this->set('tag', $value);
     }
 
     /**
-     * 指定为 web-component 渲染器。
+     * 标签上的属性
+     *
+     * @param array $value
+     * @return self
      */
-    public function type($value = 'web-component')
+    public function props(array $value = []): self
     {
-        return $this->set('type', $value);
+        return $this->set('props', $value);
     }
 
-
+    /**
+     * 子节点
+     *
+     * @param mixed $value
+     * @return self
+     */
+    public function body(mixed $value = null): self
+    {
+        return $this->set('body', $value);
+    }
 }

@@ -1,79 +1,77 @@
 <?php
-
 namespace warm\admin\renderer;
-
 /**
- * Toast 轻提示
- * 
- * @author slowlyo
- * @version 6.13.0
+ * Toast
+ *
+ * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/toast
  */
 class Toast extends BaseRenderer
 {
+    public string $type = 'toast';
 
     /**
-     * 内容
+     * 指定为 toast 轻提示组件
+     *
+     * @param string $value
+     * @return self
      */
-    public function body($value = '')
+    public function actionType(string $value = 'toast'): self
     {
-        return $this->set('body', $value);
-    }
-
-    /**
-     * 是否显示关闭按钮
-     */
-    public function closeButton($value = true)
-    {
-        return $this->set('closeButton', $value);
+        return $this->set('actionType', $value);
     }
 
     /**
      * 轻提示内容
+     *
+     * @param array $value
+     * @return self
      */
-    public function items($value = '')
+    public function items(array $value = []): self
     {
         return $this->set('items', $value);
     }
 
     /**
-     * 展示图标，可选'info'/'success'/'error'/'warning' 可选值: info | success | warning | danger | link | primary | dark | light | secondary
+     * 提示显示位置，可用'top-right'、'top-center'、'top-left'、'bottom-center'、'bottom-left'、'bottom-right'、'center'
+     *
+     * @param string $value
+     * @return self
      */
-    public function level($value = '')
-    {
-        return $this->set('level', $value);
-    }
-
-    /**
-     * 提示显示位置，可选值: top-right | top-center | top-left | bottom-center | bottom-left | bottom-right | center 可选值: top-right | top-center | top-left | bottom-center | bottom-left | bottom-right | center
-     */
-    public function position($value = '')
+    public function position(string $value = 'top-center（移动端为center）'): self
     {
         return $this->set('position', $value);
     }
 
     /**
-     * 是否显示图标
+     * 是否展示关闭按钮，移动端不展示
+     *
+     * @param bool $value
+     * @return self
      */
-    public function showIcon($value = true)
+    public function closeButton(bool $value = true): self
+    {
+        return $this->set('closeButton', $value);
+    }
+
+    /**
+     * 是否展示图标
+     *
+     * @param bool $value
+     * @return self
+     */
+    public function showIcon(bool $value = true): self
     {
         return $this->set('showIcon', $value);
     }
 
     /**
      * 持续时间
+     *
+     * @param int|float $value
+     * @return self
      */
-    public function timeout($value = '')
+    public function timeout(int|float $value = 0): self
     {
         return $this->set('timeout', $value);
     }
-
-    /**
-     * 标题
-     */
-    public function title($value = '')
-    {
-        return $this->set('title', $value);
-    }
-
-
 }

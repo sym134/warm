@@ -1,13 +1,13 @@
 <?php
-
 namespace warm\admin\renderer;
-
 /**
- * <b>Html</b><br/>
+ * Html
  *
- * @link https://aisuda.bce.baidu.com/amis/zh-CN/components/html
+ * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/html
  */
-class Html extends Tpl
+class Html extends BaseRenderer
 {
     public string $type = 'html';
+
+
 }

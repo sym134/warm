@@ -1,7 +1,6 @@
 <?php
 
 namespace warm\admin\renderer;
-
 use Illuminate\Support\Traits\Macroable;
 use JsonSerializable;
 
@@ -11,9 +10,14 @@ class BaseRenderer implements JsonSerializable
         __call as macroCall;
     }
 
-    public string $type;
+    public string $type = '';
 
     public array $amisSchema = [];
+
+    public function __construct()
+    {
+        $this->set('type', $this->type);
+    }
 
     public static function make(): static
     {
@@ -27,6 +31,11 @@ class BaseRenderer implements JsonSerializable
         }
 
         return $this->set($method, array_shift($parameters));
+    }
+
+    public function get($name, $default = null)
+    {
+        return $this->amisSchema[$name] ?? $default;
     }
 
     public function set($name, $value): static
@@ -94,7 +103,7 @@ class BaseRenderer implements JsonSerializable
         }
 
         // 将对象转换为数组，确保可迭代
-        $input = (array) $input;
+        $input = (array)$input;
 
         // 如果数组中包含嵌套数组（即不是一维数组），直接返回
         if (count(array_filter($input, 'is_array')) > 0) {

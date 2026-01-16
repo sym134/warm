@@ -1,379 +1,275 @@
 <?php
-
 namespace warm\admin\renderer;
-
 /**
- * 选项卡控件。 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/tabs
- * 
- * @author slowlyo
- * @version 6.13.0
+ * Tabs
+ *
+ * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/tabs
  */
 class Tabs extends BaseRenderer
 {
-    public function __construct()
-    {
-        $this->set('type', 'tabs');
-    }
+    public string $type = 'tabs';
 
     /**
-     * 激活的选项卡，hash值或索引值，支持使用表达式
+     * 组件初始化时激活的选项卡，hash 值或索引值，支持使用表达式 `2.7.1 以上版本`
+     *
+     * @param mixed $value
+     * @return self
      */
-    public function activeKey($value = '')
-    {
-        return $this->set('activeKey', $value);
-    }
-
-    /**
-     * 自定义增加按钮文案
-     */
-    public function addBtnText($value = '')
-    {
-        return $this->set('addBtnText', $value);
-    }
-
-    /**
-     * 是否支持新增
-     */
-    public function addable($value = true)
-    {
-        return $this->set('addable', $value);
-    }
-
-    /**
-     * 容器 css 类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
-     */
-    public function className($value = '')
-    {
-        return $this->set('className', $value);
-    }
-
-    /**
-     * 是否支持删除
-     */
-    public function closable($value = true)
-    {
-        return $this->set('closable', $value);
-    }
-
-    /**
-     * 折叠按钮文字
-     */
-    public function collapseBtnLabel($value = '')
-    {
-        return $this->set('collapseBtnLabel', $value);
-    }
-
-    /**
-     * 超过多少个时折叠按钮
-     */
-    public function collapseOnExceed($value = '')
-    {
-        return $this->set('collapseOnExceed', $value);
-    }
-
-    /**
-     * 内容类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
-     */
-    public function contentClassName($value = '')
-    {
-        return $this->set('contentClassName', $value);
-    }
-
-    /**
-     * 初始化激活的选项卡，hash值或索引值，支持使用表达式
-     */
-    public function defaultKey($value = '')
+    public function defaultKey(mixed $value = null): self
     {
         return $this->set('defaultKey', $value);
     }
 
     /**
-     * 是否禁用
+     * 激活的选项卡，hash 值或索引值，支持使用表达式，可响应上下文数据变化
+     *
+     * @param mixed $value
+     * @return self
      */
-    public function disabled($value = true)
+    public function activeKey(mixed $value = null): self
     {
-        return $this->set('disabled', $value);
+        return $this->set('activeKey', $value);
     }
 
     /**
-     * 是否禁用表达式 (表达式，语法 `${xxx > 5}`。)
+     * 外层 Dom 的类名
+     *
+     * @param string $value
+     * @return self
      */
-    public function disabledOn($value = '')
+    public function className(string $value = ''): self
     {
-        return $this->set('disabledOn', $value);
+        return $this->set('className', $value);
     }
 
     /**
-     * 是否支持拖拽
+     * Tabs 标题区的类名
+     *
+     * @param string $value
+     * @return self
      */
-    public function draggable($value = true)
-    {
-        return $this->set('draggable', $value);
-    }
-
-    /**
-     * 是否可编辑标签名
-     */
-    public function editable($value = true)
-    {
-        return $this->set('editable', $value);
-    }
-
-    /**
-     * 编辑器配置，运行时可以忽略
-     */
-    public function editorSetting($value = '')
-    {
-        return $this->set('editorSetting', $value);
-    }
-
-    /**
-     * 是否隐藏
-     */
-    public function hidden($value = true)
-    {
-        return $this->set('hidden', $value);
-    }
-
-    /**
-     * 是否隐藏表达式 (表达式，语法 `${xxx > 5}`。)
-     */
-    public function hiddenOn($value = '')
-    {
-        return $this->set('hiddenOn', $value);
-    }
-
-    /**
-     * 组件唯一 id，主要用于日志采集
-     */
-    public function id($value = '')
-    {
-        return $this->set('id', $value);
-    }
-
-    /**
-     * 链接外层类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
-     */
-    public function linksClassName($value = '')
+    public function linksClassName(string $value = ''): self
     {
         return $this->set('linksClassName', $value);
     }
 
     /**
-     * 卡片是否只有在点开的时候加载？
+     * Tabs 内容区的类名
+     *
+     * @param string $value
+     * @return self
      */
-    public function mountOnEnter($value = true)
+    public function contentClassName(string $value = ''): self
     {
-        return $this->set('mountOnEnter', $value);
+        return $this->set('contentClassName', $value);
     }
 
     /**
-     * 事件动作配置
+     * 展示模式，取值可以是 `line`、`card`、`radio`、`vertical`、`chrome`、`simple`、`strong`、`tiled`、`sidebar`
+     *
+     * @param string $value
+     * @return self
      */
-    public function onEvent($value = '')
-    {
-        return $this->set('onEvent', $value);
-    }
-
-    /**
-     * 是否导航支持内容溢出滚动。属性废弃，为了兼容暂且保留
-     */
-    public function scrollable($value = true)
-    {
-        return $this->set('scrollable', $value);
-    }
-
-    /**
-     * 是否显示提示
-     */
-    public function showTip($value = true)
-    {
-        return $this->set('showTip', $value);
-    }
-
-    /**
-     * tooltip 提示的类名
-     */
-    public function showTipClassName($value = '')
-    {
-        return $this->set('showTipClassName', $value);
-    }
-
-    /**
-     * 编辑器模式，侧边的位置 可选值: left | right
-     */
-    public function sidePosition($value = '')
-    {
-        return $this->set('sidePosition', $value);
-    }
-
-    /**
-     * 关联已有数据，选项卡直接根据目标数据重复。
-     */
-    public function source($value = '')
-    {
-        return $this->set('source', $value);
-    }
-
-    /**
-     * 是否静态展示
-     */
-    public function static($value = true)
-    {
-        return $this->set('static', $value);
-    }
-
-    /**
-     * 静态展示表单项类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
-     */
-    public function staticClassName($value = '')
-    {
-        return $this->set('staticClassName', $value);
-    }
-
-    /**
-     * 静态展示表单项Value类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
-     */
-    public function staticInputClassName($value = '')
-    {
-        return $this->set('staticInputClassName', $value);
-    }
-
-    /**
-     * 静态展示表单项Label类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
-     */
-    public function staticLabelClassName($value = '')
-    {
-        return $this->set('staticLabelClassName', $value);
-    }
-
-    /**
-     * 是否静态展示表达式 (表达式，语法 `${xxx > 5}`。)
-     */
-    public function staticOn($value = '')
-    {
-        return $this->set('staticOn', $value);
-    }
-
-    /**
-     * 静态展示空值占位
-     */
-    public function staticPlaceholder($value = '')
-    {
-        return $this->set('staticPlaceholder', $value);
-    }
-
-    /**
-     * 
-     */
-    public function staticSchema($value = '')
-    {
-        return $this->set('staticSchema', $value);
-    }
-
-    /**
-     * 组件样式
-     */
-    public function style($value = '')
-    {
-        return $this->set('style', $value);
-    }
-
-    /**
-     * 如果是水平排版，这个属性可以细化水平排版的左右宽度占比。 (如果是水平排版，这个属性可以细化水平排版的左右宽度占比。)
-     */
-    public function subFormHorizontal($value = '')
-    {
-        return $this->set('subFormHorizontal', $value);
-    }
-
-    /**
-     * 配置子表单项默认的展示方式。 可选值: normal | inline | horizontal
-     */
-    public function subFormMode($value = '')
-    {
-        return $this->set('subFormMode', $value);
-    }
-
-    /**
-     * 是否滑动切换只在移动端生效
-     */
-    public function swipeable($value = true)
-    {
-        return $this->set('swipeable', $value);
-    }
-
-    /**
-     * 选项卡成员。当配置了 source 时，选项卡成员，将会根据目标数据进行重复。
-     */
-    public function tabs($value = '')
-    {
-        return $this->set('tabs', $value);
-    }
-
-    /**
-     * 展示形式 (展示形式) 可选值:  | line | card | radio | vertical | chrome | simple | strong | tiled | sidebar
-     */
-    public function tabsMode($value = '')
+    public function tabsMode(string $value = ''): self
     {
         return $this->set('tabsMode', $value);
     }
 
     /**
-     * 
+     * tabs 内容
+     *
+     * @param array $value
+     * @return self
      */
-    public function testid($value = '')
+    public function tabs(array $value = []): self
     {
-        return $this->set('testid', $value);
+        return $this->set('tabs', $value);
     }
 
     /**
-     * 可以在右侧配置点其他功能按钮。 (可以在右侧配置点其他功能按钮。)
+     * tabs 关联数据，关联后可以重复生成选项卡
+     *
+     * @param string $value
+     * @return self
      */
-    public function toolbar($value = '')
+    public function source(string $value = ''): self
+    {
+        return $this->set('source', $value);
+    }
+
+    /**
+     * tabs 中的工具栏
+     *
+     * @param mixed $value
+     * @return self
+     */
+    public function toolbar(mixed $value = null): self
     {
         return $this->set('toolbar', $value);
     }
 
     /**
-     * 指定为模板渲染器。文档：https://aisuda.bce.baidu.com/amis/zh-CN/docs/concepts/template
+     * tabs 中工具栏的类名
+     *
+     * @param string $value
+     * @return self
      */
-    public function type($value = 'tabs')
+    public function toolbarClassName(string $value = ''): self
     {
-        return $this->set('type', $value);
+        return $this->set('toolbarClassName', $value);
     }
 
     /**
-     * 卡片隐藏的时候是否销毁卡片内容
+     * 只有在点中 tab 的时候才渲染
+     *
+     * @param bool $value
+     * @return self
      */
-    public function unmountOnExit($value = true)
+    public function mountOnEnter(bool $value = true): self
+    {
+        return $this->set('mountOnEnter', $value);
+    }
+
+    /**
+     * 切换 tab 的时候销毁
+     *
+     * @param bool $value
+     * @return self
+     */
+    public function unmountOnExit(bool $value = true): self
     {
         return $this->set('unmountOnExit', $value);
     }
 
     /**
-     * 可以组件级别用来关闭移动端样式
+     * 是否支持新增
+     *
+     * @param bool $value
+     * @return self
      */
-    public function useMobileUI($value = true)
+    public function addable(bool $value = true): self
     {
-        return $this->set('useMobileUI', $value);
+        return $this->set('addable', $value);
     }
 
     /**
-     * 是否显示
+     * 新增按钮文案
+     *
+     * @param string $value
+     * @return self
      */
-    public function visible($value = true)
+    public function addBtnText(string $value = '增加'): self
     {
-        return $this->set('visible', $value);
+        return $this->set('addBtnText', $value);
     }
 
     /**
-     * 是否显示表达式 (表达式，语法 `${xxx > 5}`。)
+     * 是否支持删除
+     *
+     * @param bool $value
+     * @return self
      */
-    public function visibleOn($value = '')
+    public function closable(bool $value = true): self
     {
-        return $this->set('visibleOn', $value);
+        return $this->set('closable', $value);
     }
 
+    /**
+     * 是否支持拖拽
+     *
+     * @param bool $value
+     * @return self
+     */
+    public function draggable(bool $value = true): self
+    {
+        return $this->set('draggable', $value);
+    }
 
+    /**
+     * 是否支持提示
+     *
+     * @param bool $value
+     * @return self
+     */
+    public function showTip(bool $value = true): self
+    {
+        return $this->set('showTip', $value);
+    }
+
+    /**
+     * 提示的类
+     *
+     * @param string $value
+     * @return self
+     */
+    public function showTipClassName(string $value = ' '): self
+    {
+        return $this->set('showTipClassName', $value);
+    }
+
+    /**
+     * 是否可编辑标签名。当 `tabs[x].title` 为 [SchemaNode](../types/schemanode) 时，双击编辑 Tab 的 title 显示空的内容
+     *
+     * @param bool $value
+     * @return self
+     */
+    public function editable(bool $value = true): self
+    {
+        return $this->set('editable', $value);
+    }
+
+    /**
+     * 是否导航支持内容溢出滚动。（属性废弃）
+     *
+     * @param bool $value
+     * @return self
+     */
+    public function scrollable(bool $value = true): self
+    {
+        return $this->set('scrollable', $value);
+    }
+
+    /**
+     * `sidebar` 模式下，标签栏位置
+     *
+     * @param mixed $value
+     * @return self
+     */
+    public function sidePosition(mixed $value = null): self
+    {
+        return $this->set('sidePosition', $value);
+    }
+
+    /**
+     * 当 tabs 超出多少个时开始折叠
+     *
+     * @param int|float $value
+     * @return self
+     */
+    public function collapseOnExceed(int|float $value = 0): self
+    {
+        return $this->set('collapseOnExceed', $value);
+    }
+
+    /**
+     * 用来设置折叠按钮的文字
+     *
+     * @param string $value
+     * @return self
+     */
+    public function collapseBtnLabel(string $value = 'more'): self
+    {
+        return $this->set('collapseBtnLabel', $value);
+    }
+
+    /**
+     * 是否开启手势滑动切换（移动端生效）
+     *
+     * @param bool $value
+     * @return self
+     */
+    public function swipeable(bool $value = true): self
+    {
+        return $this->set('swipeable', $value);
+    }
 }

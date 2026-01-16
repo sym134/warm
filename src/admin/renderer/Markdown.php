@@ -1,67 +1,55 @@
 <?php
-
 namespace warm\admin\renderer;
-
 /**
- * Markdown 渲染
- * 
- * @author slowlyo
- * @version 6.13.0
+ * Markdown
+ *
+ * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/markdown
  */
 class Markdown extends BaseRenderer
 {
-    public function __construct()
-    {
-        $this->set('type', 'markdown');
-    }
-
-    /**
-     * 类名
-     */
-    public function className($value = '')
-    {
-        return $this->set('className', $value);
-    }
+    public string $type = 'markdown';
 
     /**
      * 名称
+     *
+     * @param string $value
+     * @return self
      */
-    public function name($value = '')
+    public function name(string $value = ''): self
     {
         return $this->set('name', $value);
     }
 
     /**
-     * 设置 Markdown 的配置
-     */
-    public function options($value = '')
-    {
-        return $this->set('options', $value);
-    }
-
-    /**
-     * 外部地址
-     */
-    public function src($value = '')
-    {
-        return $this->set('src', $value);
-    }
-
-    /**
-     * 指定为 markdown 渲染器。
-     */
-    public function type($value = 'markdown')
-    {
-        return $this->set('type', $value);
-    }
-
-    /**
      * 静态值
+     *
+     * @param string $value
+     * @return self
      */
-    public function value($value = '')
+    public function value(string $value = ''): self
     {
         return $this->set('value', $value);
     }
 
+    /**
+     * 类名
+     *
+     * @param string $value
+     * @return self
+     */
+    public function className(string $value = ''): self
+    {
+        return $this->set('className', $value);
+    }
 
+    /**
+     * 外部地址
+     *
+     * @param mixed $value
+     * @return self
+     */
+    public function src(mixed $value = null): self
+    {
+        return $this->set('src', $value);
+    }
 }
