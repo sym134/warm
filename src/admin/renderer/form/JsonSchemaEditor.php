@@ -16,7 +16,8 @@ class JsonSchemaEditor extends BaseRenderer
     {
         return $this->set('name', $value);
     }
-    public function label(string $value = ''): static
+
+    public function label(mixed $value = ''): static
     {
         return $this->set('label', $value);
     }

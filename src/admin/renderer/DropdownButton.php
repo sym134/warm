@@ -1,5 +1,7 @@
 <?php
 namespace warm\admin\renderer;
+use warm\admin\renderer\trait\OnEvent;
+
 /**
  * DropdownButton
  *
@@ -7,17 +9,25 @@ namespace warm\admin\renderer;
  */
 class DropdownButton extends BaseRenderer
 {
+    use OnEvent;
+
+    public string $type = 'dropdown-button';
+
+    public function level(string $value = 'link'): static
+    {
+        return $this->set('level', $value);
+    }
 
     /**
      * 按钮文本
      *
-     * @param string $value
+     * @param mixed $value
      * @return self
      */
-//    public function label(string $value = ''): static
-//    {
-//        return $this->set('label', $value);
-//    }
+    public function label(mixed $value = ''): static
+    {
+        return $this->set('label', $value);
+    }
 
     /**
      * 设置组件样式

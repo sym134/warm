@@ -110,10 +110,10 @@ class TableColumn extends BaseRenderer
     /**
      * 列标题
      */
-//    public function label($value = '')
-//    {
-//        return $this->set('label', $value);
-//    }
+    public function label(mixed $value = ''): static
+    {
+        return $this->set('label', $value);
+    }
 
     /**
      * 列头样式表

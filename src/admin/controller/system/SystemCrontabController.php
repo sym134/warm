@@ -70,7 +70,7 @@ class SystemCrontabController extends AdminController
                             ],],
                         ],])
                         ->confirmText('确认立即执行'),
-                    amis()->DrawerAction()->drawer(
+                    amis()->Action()->actionType('drawer')->drawer(
                         amis()->Drawer()->title(translator('crontab.execution_log'))->body((new SystemCrontabLogController)->list('${id}'))->size('xl')->resizable()
                     )->label(translator('crontab.execution_log'))->icon('fa-solid fa-clock-rotate-left')->level('link'),
                     $this->rowEditButton(true, 'lg'),

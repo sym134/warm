@@ -20,10 +20,10 @@ class Select extends BaseRenderer
     /**
      * [选项组](./options#%E9%9D%99%E6%80%81%E9%80%89%E9%A1%B9%E7%BB%84-options)
      *
-     * @param array $value
+     * @param mixed $value
      * @return self
      */
-    public function options(array $value = []): static
+    public function options(mixed $value = []): static
     {
         return $this->set('options', $value);
     }

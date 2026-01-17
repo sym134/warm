@@ -1,6 +1,7 @@
 <?php
 namespace warm\admin\renderer;
 use warm\admin\renderer\trait\DataDomain;
+use warm\admin\renderer\trait\OnEvent;
 
 /**
  * Dialog
@@ -9,6 +10,7 @@ use warm\admin\renderer\trait\DataDomain;
  */
 class Dialog extends BaseRenderer
 {
+    use OnEvent;
     use DataDomain;
 
     public string $type = 'dialog';

@@ -73,10 +73,10 @@ class Formula extends BaseRenderer
     /**
      * 定义个名字，当某个按钮的目标指定为此值后，会触发一次公式应用。这个机制可以在 `autoSet` 为 false 时用来手动触发
      *
-     * @param string $value
+     * @param string|int $value
      * @return self
      */
-    public function id(string $value = ''): static
+    public function id(string|int $value = ''): static
     {
         return $this->set('id', $value);
     }

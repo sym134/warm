@@ -5,7 +5,7 @@ namespace warm\admin\controller\dev_tools;
 use Illuminate\Support\Str;
 use support\Response;
 use warm\admin\controller\AdminController;
-use warm\admin\renderer\DialogAction;
+use warm\admin\renderer\Action;
 use warm\admin\renderer\form\Form;
 use warm\admin\renderer\Page;
 use warm\admin\service\AdminApiService;
@@ -73,12 +73,12 @@ class ApiController extends AdminController
      * 创建一个用于预览API返回结果的对话框按钮，
      * 仅对启用的GET请求API可见。
      * 
-     * @return DialogAction 对话框按钮对象
+     * @return Action 对话框按钮对象
      */
-    public function previewAction(): DialogAction
+    public function previewAction(): Action
     {
         return amis()
-            ->DialogAction()
+            ->Action()->actionType('dialog')
             ->label(translator('admin.preview'))
             ->size('md')
             ->level('link')
@@ -103,12 +103,12 @@ class ApiController extends AdminController
      * 
      * 创建一个用于添加API模板的对话框按钮。
      * 
-     * @return DialogAction 对话框按钮对象
+     * @return Action 对话框按钮对象
      */
-    public function appTemplateBtn(): DialogAction
+    public function appTemplateBtn(): Action
     {
         return amis()
-            ->DialogAction()
+            ->Action()->actionType('dialog')
             ->label(translator('admin.apis.add_template'))
             ->level('success')
             ->icon('fa fa-upload')

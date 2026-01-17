@@ -29,13 +29,13 @@ class Group extends BaseRenderer
     /**
      * group 的标签
      *
-     * @param string $value
-     * @return self
+     * @param mixed $value
+     * @return static
      */
-//    public function label(string $value = ''): static
-//    {
-//        return $this->set('label', $value);
-//    }
+    public function label(mixed $value = ''): static
+    {
+        return $this->set('label', $value);
+    }
 
     /**
      * 表单项集合

@@ -1,4 +1,5 @@
 <?php
+
 namespace warm\admin\renderer;
 
 use warm\admin\renderer\trait\DataDomain;
@@ -13,6 +14,7 @@ class Page extends BaseRenderer
 {
     use OnEvent;
     use DataDomain;
+
     public string $type = 'page';
 
     /**
@@ -142,9 +144,14 @@ class Page extends BaseRenderer
      * @param mixed $value
      * @return $this
      */
-    public function className(mixed $value=''): static
+    public function className(mixed $value = ''): static
     {
         return $this->set('className', $value);
+    }
+
+    public function css(mixed $value): static
+    {
+        return $this->set('css', $value);
     }
 
     /**

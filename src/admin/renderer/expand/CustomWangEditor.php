@@ -6,7 +6,7 @@ use warm\admin\renderer\BaseRenderer;
 use warm\admin\trait\UploadTrait;
 
 /**
- * CustomWangEditor
+ * CustomWangEditor 富文本编辑器
  *
  * @author slowlyo
  * @version 6.13.0

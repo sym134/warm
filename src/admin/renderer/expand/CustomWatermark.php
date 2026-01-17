@@ -5,7 +5,7 @@ namespace warm\admin\renderer\expand;
 use warm\admin\renderer\BaseRenderer;
 
 /**
- * Watermark
+ * Watermark 水印
  *
  * @author slowlyo
  * @version 6.13.0

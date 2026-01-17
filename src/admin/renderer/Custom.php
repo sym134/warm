@@ -12,10 +12,10 @@ class Custom extends BaseRenderer
     /**
      * 节点 id
      *
-     * @param string $value
+     * @param string|int $value
      * @return self
      */
-    public function id(string $value = ''): static
+    public function id(string|int $value = ''): static
     {
         return $this->set('id', $value);
     }

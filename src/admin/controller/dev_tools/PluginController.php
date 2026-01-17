@@ -159,7 +159,7 @@ class PluginController extends AdminController
                     //         ]))
                     // ),
                     // 插件设置按钮
-                    amis()->DrawerAction()
+                    amis()->Action()->actionType('drawer')
                         ->label(translator('admin.plugins.setting'))
                         ->level('link')
                         ->visibleOn('${is_enabled}')

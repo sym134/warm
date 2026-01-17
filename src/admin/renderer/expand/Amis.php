@@ -2159,6 +2159,15 @@ class Amis
     }
 
     /**
+     * @return Tab
+     */
+    public function Tab(): Tab
+    {
+        return Tab::make();
+    }
+
+
+    /**
      * 创建 TabsTransfer 渲染器实例.
      *
      * @param string $name 字段名

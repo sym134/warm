@@ -33,10 +33,10 @@ class Tag extends BaseRenderer
     /**
      * 标签内容
      *
-     * @param string $value
+     * @param mixed $value
      * @return self
      */
-    public function label(string $value = '-'): static
+    public function label(mixed $value = '-'): static
     {
         return $this->set('label', $value);
     }

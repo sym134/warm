@@ -6,6 +6,7 @@ namespace warm\admin\renderer;
 
 use warm\admin\renderer\trait\FormItem;
 use warm\admin\renderer\trait\OnEvent;
+use warm\admin\renderer\trait\Options;
 
 
 /**
@@ -17,6 +18,8 @@ class Radios extends BaseRenderer
 {
     use FormItem;
     use OnEvent;
+    use Options;
+
     public string $type = 'radios';
 
     /**

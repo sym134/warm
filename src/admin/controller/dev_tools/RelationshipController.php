@@ -8,7 +8,7 @@ use support\Response;
 use Throwable;
 use warm\admin\controller\AdminController;
 use warm\admin\model\AdminRelationship;
-use warm\admin\renderer\DrawerAction;
+use warm\admin\renderer\Action;
 use warm\admin\renderer\form\Form;
 use warm\admin\renderer\Page;
 use warm\admin\service\AdminRelationshipService;
@@ -69,11 +69,11 @@ class RelationshipController extends AdminController
      *
      * 创建一个抽屉式表单，用于选择数据库表并生成对应的模型文件。
      *
-     * @return DrawerAction 抽屉按钮对象
+     * @return Action 抽屉按钮对象
      */
-    public function modelGenerator(): DrawerAction
+    public function modelGenerator(): Action
     {
-        return amis()->DrawerAction()->label(translator('admin.relationships.generate_model'))->level('success')->drawer(
+        return amis()->Action()->actionType('drawer')->label(translator('admin.relationships.generate_model'))->level('success')->drawer(
             amis()->Drawer()
                 ->title(translator('admin.relationships.generate_model'))
                 ->size('lg')
@@ -116,11 +116,11 @@ class RelationshipController extends AdminController
      *
      * 创建一个用于预览关系代码的抽屉按钮。
      *
-     * @return DrawerAction 抽屉按钮对象
+     * @return Action 抽屉按钮对象
      */
-    public function previewButton(): DrawerAction
+    public function previewButton(): Action
     {
-        return amis()->DrawerAction()->label(translator('admin.preview'))->level('link')->icon('fa fa-eye')->drawer(
+        return amis()->Action()->actionType('drawer')->label(translator('admin.preview'))->level('link')->icon('fa fa-eye')->drawer(
             amis()->Drawer()
                 ->position('top')
                 ->resizable()

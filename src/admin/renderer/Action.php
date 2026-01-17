@@ -12,6 +12,7 @@ use warm\admin\renderer\trait\OnEvent;
 class Action extends BaseRenderer
 {
     use OnEvent;
+
     public string $type = 'action';
 
     /**
@@ -26,16 +27,16 @@ class Action extends BaseRenderer
         return $this->set('actionType', $value);
     }
 
-//    /**
-//     * 按钮文本。可用 ${xxx} 取值
-//     *
-//     * @param string $value
-//     * @return self
-//     */
-//    public function label(string $value): static
-//    {
-//        return $this->set('label', $value);
-//    }
+    /**
+     * 按钮文本。可用 ${xxx} 取值
+     *
+     * @param mixed $value
+     * @return static
+     */
+    public function label(mixed $value = null): static
+    {
+        return $this->set('label', $value);
+    }
 
     /**
      * 按钮样式

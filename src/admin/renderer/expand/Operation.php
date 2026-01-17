@@ -84,10 +84,10 @@ class Operation extends BaseRenderer
     /**
      * 设置label
      */
-//    public function label($value = '')
-//    {
-//        return $this->set('label', $value);
-//    }
+    public function label(mixed $value = ''): static
+    {
+        return $this->set('label', $value);
+    }
 
     /**
      * 事件动作配置

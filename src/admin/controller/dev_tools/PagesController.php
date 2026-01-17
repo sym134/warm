@@ -3,6 +3,8 @@
 namespace warm\admin\controller\dev_tools;
 
 use warm\admin\controller\AdminController;
+use warm\admin\renderer\form\Form;
+use warm\admin\renderer\Page;
 use warm\admin\service\AdminPageService;
 
 /**
@@ -26,9 +28,9 @@ class PagesController extends AdminController
      * 2. 工具栏按钮（创建等）
      * 3. 行操作按钮（编辑、删除）
      * 
-     * @return mixed 页面列表对象
+     * @return Page 页面列表对象
      */
-    public function list()
+    public function list(): Page
     {
         // 构建CRUD表格
         $crud = $this->baseCRUD()
@@ -60,9 +62,9 @@ class PagesController extends AdminController
      * 2. 页面标识
      * 3. 页面内容（使用自定义AMIS编辑器）
      * 
-     * @return mixed 表单对象
+     * @return Form 表单对象
      */
-    public function form()
+    public function form(): Form
     {
         return $this->baseForm()->body([
             // 页面标题输入框
@@ -71,13 +73,14 @@ class PagesController extends AdminController
             amis()->InputText('sign', translator('admin.pages.sign'))->required(),
             // 页面内容配置，使用自定义AMIS编辑器
             amis()->InputSubForm('page', translator('admin.pages.page'))->form(
-                amis()->Form()->className('h-full')->set('size', 'full')->title('')->body(
+                amis()->Form()->className('h-full')->set('size', 'full')->title('')->body([
                     amis('custom-amis-editor')
                         ->name('schema')
                         ->label('')
                         ->mode('normal')
                         ->className('h-full')
-                )
+
+                ])
             )->required(),
         ]);
     }
@@ -88,9 +91,9 @@ class PagesController extends AdminController
      * 构建并返回页面记录的详情页面。
      * 
      * @param mixed $id 页面记录ID
-     * @return mixed 详情表单对象
+     * @return Form 详情表单对象
      */
-    public function detail($id)
+    public function detail($id): Form
     {
         return $this->baseDetail()->body([]);
     }

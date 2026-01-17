@@ -10,6 +10,17 @@ namespace warm\admin\renderer\trait;
 trait FormItem
 {
     /**
+     * 表单尺寸
+     * 可选值: 'xs' | 'sm' | 'md' | 'lg' | 'full'
+     *
+     * @param string $value
+     * @return $this
+     */
+    public function size(string $value = 'normal'):static
+    {
+        return $this->set('size', $value);
+    }
+    /**
      * 是否禁用
      *
      * @param mixed $value
@@ -109,10 +120,10 @@ trait FormItem
     /**
      * 表单默认值
      *
-     * @param string $value
+     * @param mixed $value
      * @return static
      */
-    public function value(string $value = ''): static
+    public function value(mixed $value = ''): static
     {
         return $this->set('value', $value);
     }
