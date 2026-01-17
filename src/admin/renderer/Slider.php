@@ -1,5 +1,7 @@
 <?php
 namespace warm\admin\renderer;
+use warm\admin\renderer\trait\OnEvent;
+
 /**
  * Slider
  *
@@ -7,6 +9,8 @@ namespace warm\admin\renderer;
  */
 class Slider extends BaseRenderer
 {
+    use OnEvent;
+
     public string $type = 'slider';
 
     /**
@@ -15,7 +19,7 @@ class Slider extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function body(mixed $value = null): self
+    public function body(mixed $value = null): static
     {
         return $this->set('body', $value);
     }
@@ -26,7 +30,7 @@ class Slider extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function right(mixed $value = null): self
+    public function right(mixed $value = null): static
     {
         return $this->set('right', $value);
     }
@@ -37,7 +41,7 @@ class Slider extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function left(mixed $value = null): self
+    public function left(mixed $value = null): static
     {
         return $this->set('left', $value);
     }
@@ -48,7 +52,7 @@ class Slider extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function bodyWidth(string $value = '60%'): self
+    public function bodyWidth(string $value = '60%'): static
     {
         return $this->set('bodyWidth', $value);
     }

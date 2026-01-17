@@ -6,7 +6,7 @@ use support\Request;
 use support\Response;
 use warm\admin\controller\AdminController;
 use warm\admin\model\system\SystemFile;
-use warm\admin\renderer\Form;
+use warm\admin\renderer\form\Form;
 use warm\admin\renderer\Page;
 use warm\admin\service\system\SystemFileService;
 
@@ -39,15 +39,15 @@ class SystemFileController extends AdminController
             ->tabsMode('line')
             ->className('mb-4')
             ->tabs([
-                amis()->Tab()
+                amis()->Tabs()
                     ->title('图片')
                     ->tab($this->fileContent('image'))
                     ->body($this->fileContent('image')),
-                amis()->Tab()
+                amis()->Tabs()
                     ->title('视频')
                     ->tab($this->fileContent('video'))
                     ->body($this->fileContent('video')),
-                amis()->Tab()
+                amis()->Tabs()
                     ->title('文件')
                     ->tab($this->fileContent('file'))
                     ->body($this->fileContent('file')),
@@ -70,7 +70,9 @@ class SystemFileController extends AdminController
                 [
                     'body' => amis()->Card()
                         ->header(['title' => '分组管理'])
-                        ->body($this->groupSidebar($fileType)),
+                        ->body([
+                            $this->groupSidebar($fileType)
+                        ]),
                     'md' => 3,
                 ],
                 // 右侧文件列表
@@ -131,14 +133,11 @@ class SystemFileController extends AdminController
     {
         $crud = $this->baseCRUD()
             ->headerToolbar([
-                amis()->Button()
+                amis()->InputFile()
                     ->label('本地上传')
-                    ->level('primary')
-                    ->actionType('upload')
                     ->accept('*')
                     ->multiple(true)
-                    ->api('post:' . admin_url('upload_file') . '?file_type=' . $fileType)
-                    ->onSuccess('window.location.reload()'),
+                    ->receiver('post:' . admin_url('upload_file') . '?file_type=' . $fileType),
                 amis()->Button()
                     ->label('删除')
                     ->level('danger'),

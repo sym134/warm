@@ -28,7 +28,7 @@ class CacheController extends AdminController
             amis()->Form()->title('清除缓存')->api($this->getStorePath())
                 ->mode('horizontal')
                 ->body([
-                    amis()->CheckboxControl('storage', '存储器')->value(1),
+                    amis()->Checkbox('storage', '存储器')->value(1),
                 ])
         );
     }

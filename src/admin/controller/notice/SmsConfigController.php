@@ -39,20 +39,22 @@ class SmsConfigController extends AdminController
     public function form(): Page
     {
         // 使用Tabs组织配置项
-        return $this->basePage()->body(amis()->Card()->body([
-            amis()->Tabs()->tabs([
-                [
-                    'title' => '基础配置',
-                    'body' => $this->baseForm()->data($this->service->getSmsConfig())
-                        ->api('put:' . admin_url('/notice/sms-config/save'))
-                        ->body($this->baseConfigForm())->onEvent()
-                ],
-                [
-                    'title' => '网关配置',
-                    'body' => $this->gatewaysConfigForm()
-                ],
+        return $this->basePage()->body([
+            amis()->Card()->body([
+                amis()->Tabs()->tabs([
+                    [
+                        'title' => '基础配置',
+                        'body' => $this->baseForm()->data($this->service->getSmsConfig())
+                            ->api('put:' . admin_url('/notice/sms-config/save'))
+                            ->body($this->baseConfigForm())
+                    ],
+                    [
+                        'title' => '网关配置',
+                        'body' => $this->gatewaysConfigForm()
+                    ],
+                ])
             ])
-        ]));
+        ]);
     }
 
     /**
@@ -117,7 +119,7 @@ class SmsConfigController extends AdminController
     {
         return [
             amis()->Alert()->body('点击对应网关的"配置"按钮进行详细配置')->level('info'),
-            amis()->ListRenderer()->listItem([
+            amis()->List()->listItem([
                 'body' => [
                     amis()->hbox()->columns([
                         amis()->TableColumn('name'),

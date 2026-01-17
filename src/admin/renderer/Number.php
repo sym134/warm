@@ -10,12 +10,12 @@ class Number extends BaseRenderer
     public string $type = 'number';
 
     /**
-     * 外层 CSS 类名
+     * 设置组件样式
      *
-     * @param string $value
-     * @return self
+     * @param mixed $value
+     * @return $this
      */
-    public function className(string $value = ''): self
+    public function className(mixed $value): static
     {
         return $this->set('className', $value);
     }
@@ -26,7 +26,7 @@ class Number extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function value(string $value = ''): self
+    public function value(string $value = ''): static
     {
         return $this->set('value', $value);
     }
@@ -37,7 +37,7 @@ class Number extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function name(string $value = ''): self
+    public function name(string $value = ''): static
     {
         return $this->set('name', $value);
     }
@@ -48,7 +48,7 @@ class Number extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function placeholder(string $value = '-'): self
+    public function placeholder(string $value = '-'): static
     {
         return $this->set('placeholder', $value);
     }
@@ -59,7 +59,7 @@ class Number extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function kilobitSeparator(bool $value = true): self
+    public function kilobitSeparator(bool $value = true): static
     {
         return $this->set('kilobitSeparator', $value);
     }
@@ -70,7 +70,7 @@ class Number extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function precision(int|float $value = 0): self
+    public function precision(int|float $value = 0): static
     {
         return $this->set('precision', $value);
     }
@@ -81,7 +81,7 @@ class Number extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function percent(mixed $value = null): self
+    public function percent(mixed $value = null): static
     {
         return $this->set('percent', $value);
     }
@@ -92,7 +92,7 @@ class Number extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function prefix(string $value = ''): self
+    public function prefix(string $value = ''): static
     {
         return $this->set('prefix', $value);
     }
@@ -103,7 +103,7 @@ class Number extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function affix(string $value = ''): self
+    public function affix(string $value = ''): static
     {
         return $this->set('affix', $value);
     }

@@ -2,7 +2,7 @@
 namespace warm\admin\renderer\form;
 
 use warm\admin\renderer\BaseRenderer;
-use warm\admin\renderer\form\FormItemTrait;
+use warm\admin\renderer\trait\FormItem;
 
 /**
  * InputColor
@@ -11,7 +11,7 @@ use warm\admin\renderer\form\FormItemTrait;
  */
 class InputColor extends BaseRenderer
 {
-    use FormItemTrait;
+    use FormItem;
 
     public string $type = 'input-color';
 
@@ -21,7 +21,7 @@ class InputColor extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function format(string $value = 'hex'): self
+    public function format(string $value = 'hex'): static
     {
         return $this->set('format', $value);
     }
@@ -32,7 +32,7 @@ class InputColor extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function presetColors(array $value = []): self
+    public function presetColors(array $value = []): static
     {
         return $this->set('presetColors', $value);
     }
@@ -43,7 +43,7 @@ class InputColor extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function allowCustomColor(bool $value = true): self
+    public function allowCustomColor(bool $value = true): static
     {
         return $this->set('allowCustomColor', $value);
     }
@@ -54,7 +54,7 @@ class InputColor extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function clearable(bool $value = true): self
+    public function clearable(bool $value = true): static
     {
         return $this->set('clearable', $value);
     }
@@ -65,7 +65,7 @@ class InputColor extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function resetValue(string $value = ''): self
+    public function resetValue(string $value = ''): static
     {
         return $this->set('resetValue', $value);
     }

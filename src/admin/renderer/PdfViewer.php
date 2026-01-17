@@ -15,7 +15,7 @@ class PdfViewer extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function src(mixed $value = null): self
+    public function src(mixed $value = null): static
     {
         return $this->set('src', $value);
     }
@@ -26,7 +26,7 @@ class PdfViewer extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function width(int|float $value = 0): self
+    public function width(int|float $value = 0): static
     {
         return $this->set('width', $value);
     }
@@ -37,7 +37,7 @@ class PdfViewer extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function height(int|float $value = 0): self
+    public function height(int|float $value = 0): static
     {
         return $this->set('height', $value);
     }
@@ -48,7 +48,7 @@ class PdfViewer extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function background(string $value = '#fff'): self
+    public function background(string $value = '#fff'): static
     {
         return $this->set('background', $value);
     }

@@ -2,7 +2,8 @@
 namespace warm\admin\renderer\form;
 
 use warm\admin\renderer\BaseRenderer;
-use warm\admin\renderer\form\FormItemTrait;
+use warm\admin\renderer\trait\FormItem;
+use warm\admin\renderer\trait\OnEvent;
 
 /**
  * Transfer
@@ -11,7 +12,8 @@ use warm\admin\renderer\form\FormItemTrait;
  */
 class Transfer extends BaseRenderer
 {
-    use FormItemTrait;
+    use FormItem;
+    use OnEvent;
 
     public string $type = 'transfer';
 
@@ -21,7 +23,7 @@ class Transfer extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function options(array $value = []): self
+    public function options(array $value = []): static
     {
         return $this->set('options', $value);
     }
@@ -32,7 +34,7 @@ class Transfer extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function source(mixed $value = null): self
+    public function source(mixed $value = null): static
     {
         return $this->set('source', $value);
     }
@@ -43,7 +45,7 @@ class Transfer extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function delimeter(string $value = 'false'): self
+    public function delimeter(string $value = 'false'): static
     {
         return $this->set('delimeter', $value);
     }
@@ -54,7 +56,7 @@ class Transfer extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function joinValues(bool $value = true): self
+    public function joinValues(bool $value = true): static
     {
         return $this->set('joinValues', $value);
     }
@@ -65,7 +67,7 @@ class Transfer extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function extractValue(bool $value = true): self
+    public function extractValue(bool $value = true): static
     {
         return $this->set('extractValue', $value);
     }
@@ -76,7 +78,7 @@ class Transfer extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function searchApi(mixed $value = null): self
+    public function searchApi(mixed $value = null): static
     {
         return $this->set('searchApi', $value);
     }
@@ -87,7 +89,7 @@ class Transfer extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function resultListModeFollowSelect(bool $value = true): self
+    public function resultListModeFollowSelect(bool $value = true): static
     {
         return $this->set('resultListModeFollowSelect', $value);
     }
@@ -98,7 +100,7 @@ class Transfer extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function statistics(bool $value = true): self
+    public function statistics(bool $value = true): static
     {
         return $this->set('statistics', $value);
     }
@@ -109,7 +111,7 @@ class Transfer extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function selectTitle(string $value = '请选择'): self
+    public function selectTitle(string $value = '请选择'): static
     {
         return $this->set('selectTitle', $value);
     }
@@ -120,7 +122,7 @@ class Transfer extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function resultTitle(string $value = '当前选择'): self
+    public function resultTitle(string $value = '当前选择'): static
     {
         return $this->set('resultTitle', $value);
     }
@@ -131,7 +133,7 @@ class Transfer extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function sortable(bool $value = true): self
+    public function sortable(bool $value = true): static
     {
         return $this->set('sortable', $value);
     }
@@ -142,7 +144,7 @@ class Transfer extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function selectMode(string $value = 'list'): self
+    public function selectMode(string $value = 'list'): static
     {
         return $this->set('selectMode', $value);
     }
@@ -153,7 +155,7 @@ class Transfer extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function searchResultMode(string $value = ''): self
+    public function searchResultMode(string $value = ''): static
     {
         return $this->set('searchResultMode', $value);
     }
@@ -164,7 +166,7 @@ class Transfer extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function searchable(bool $value = true): self
+    public function searchable(bool $value = true): static
     {
         return $this->set('searchable', $value);
     }
@@ -175,7 +177,7 @@ class Transfer extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function searchPlaceholder(string $value = ''): self
+    public function searchPlaceholder(string $value = ''): static
     {
         return $this->set('searchPlaceholder', $value);
     }
@@ -186,7 +188,7 @@ class Transfer extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function columns(array $value = []): self
+    public function columns(array $value = []): static
     {
         return $this->set('columns', $value);
     }
@@ -197,7 +199,7 @@ class Transfer extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function leftOptions(array $value = []): self
+    public function leftOptions(array $value = []): static
     {
         return $this->set('leftOptions', $value);
     }
@@ -208,7 +210,7 @@ class Transfer extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function leftMode(string $value = ''): self
+    public function leftMode(string $value = ''): static
     {
         return $this->set('leftMode', $value);
     }
@@ -219,7 +221,7 @@ class Transfer extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function rightMode(string $value = ''): self
+    public function rightMode(string $value = ''): static
     {
         return $this->set('rightMode', $value);
     }
@@ -230,7 +232,7 @@ class Transfer extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function resultSearchable(bool $value = true): self
+    public function resultSearchable(bool $value = true): static
     {
         return $this->set('resultSearchable', $value);
     }
@@ -241,7 +243,7 @@ class Transfer extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function resultSearchPlaceholder(string $value = ''): self
+    public function resultSearchPlaceholder(string $value = ''): static
     {
         return $this->set('resultSearchPlaceholder', $value);
     }
@@ -252,7 +254,7 @@ class Transfer extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function menuTpl(mixed $value = null): self
+    public function menuTpl(mixed $value = null): static
     {
         return $this->set('menuTpl', $value);
     }
@@ -263,7 +265,7 @@ class Transfer extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function valueTpl(mixed $value = null): self
+    public function valueTpl(mixed $value = null): static
     {
         return $this->set('valueTpl', $value);
     }
@@ -274,7 +276,7 @@ class Transfer extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function itemHeight(int|float $value = 38): self
+    public function itemHeight(int|float $value = 38): static
     {
         return $this->set('itemHeight', $value);
     }
@@ -285,7 +287,7 @@ class Transfer extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function virtualThreshold(int|float $value = 100): self
+    public function virtualThreshold(int|float $value = 100): static
     {
         return $this->set('virtualThreshold', $value);
     }
@@ -296,7 +298,7 @@ class Transfer extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function pagination(array $value = []): self
+    public function pagination(array $value = []): static
     {
         return $this->set('pagination', $value);
     }

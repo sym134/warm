@@ -2,7 +2,7 @@
 namespace warm\admin\renderer\form;
 
 use warm\admin\renderer\BaseRenderer;
-use warm\admin\renderer\form\FormItemTrait;
+use warm\admin\renderer\trait\FormItem;
 
 /**
  * InputFormula
@@ -11,7 +11,7 @@ use warm\admin\renderer\form\FormItemTrait;
  */
 class InputFormula extends BaseRenderer
 {
-    use FormItemTrait;
+    use FormItem;
 
     public string $type = 'input-formula';
 
@@ -21,7 +21,7 @@ class InputFormula extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function title(string $value = '公式编辑器'): self
+    public function title(string $value = '公式编辑器'): static
     {
         return $this->set('title', $value);
     }
@@ -32,7 +32,7 @@ class InputFormula extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function header(string $value = '-'): self
+    public function header(string $value = '-'): static
     {
         return $this->set('header', $value);
     }
@@ -43,7 +43,7 @@ class InputFormula extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function evalMode(bool $value = true): self
+    public function evalMode(bool $value = true): static
     {
         return $this->set('evalMode', $value);
     }
@@ -54,7 +54,7 @@ class InputFormula extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function variables(array $value = []): self
+    public function variables(array $value = []): static
     {
         return $this->set('variables', $value);
     }
@@ -65,7 +65,7 @@ class InputFormula extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function variableMode(string $value = 'list'): self
+    public function variableMode(string $value = 'list'): static
     {
         return $this->set('variableMode', $value);
     }
@@ -76,7 +76,7 @@ class InputFormula extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function functions(array $value = []): self
+    public function functions(array $value = []): static
     {
         return $this->set('functions', $value);
     }
@@ -87,7 +87,7 @@ class InputFormula extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function inputMode(mixed $value = null): self
+    public function inputMode(mixed $value = null): static
     {
         return $this->set('inputMode', $value);
     }
@@ -98,7 +98,7 @@ class InputFormula extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function icon(string $value = '-'): self
+    public function icon(string $value = '-'): static
     {
         return $this->set('icon', $value);
     }
@@ -109,7 +109,7 @@ class InputFormula extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function btnLabel(string $value = '公示编辑'): self
+    public function btnLabel(string $value = '公示编辑'): static
     {
         return $this->set('btnLabel', $value);
     }
@@ -120,7 +120,7 @@ class InputFormula extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function level(mixed $value = null): self
+    public function level(mixed $value = null): static
     {
         return $this->set('level', $value);
     }
@@ -131,7 +131,7 @@ class InputFormula extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function allowInput(bool $value = true): self
+    public function allowInput(bool $value = true): static
     {
         return $this->set('allowInput', $value);
     }
@@ -142,7 +142,7 @@ class InputFormula extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function btnSize(mixed $value = null): self
+    public function btnSize(mixed $value = null): static
     {
         return $this->set('btnSize', $value);
     }
@@ -153,7 +153,7 @@ class InputFormula extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function borderMode(mixed $value = null): self
+    public function borderMode(mixed $value = null): static
     {
         return $this->set('borderMode', $value);
     }
@@ -164,18 +164,18 @@ class InputFormula extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function placeholder(string $value = '暂无数据'): self
+    public function placeholder(string $value = '暂无数据'): static
     {
         return $this->set('placeholder', $value);
     }
 
     /**
-     * 控件外层 CSS 样式类名
+     * 设置组件样式
      *
-     * @param string $value
-     * @return self
+     * @param mixed $value
+     * @return $this
      */
-    public function className(string $value = '-'): self
+    public function className(mixed $value): static
     {
         return $this->set('className', $value);
     }
@@ -186,7 +186,7 @@ class InputFormula extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function variableClassName(string $value = '-'): self
+    public function variableClassName(string $value = '-'): static
     {
         return $this->set('variableClassName', $value);
     }
@@ -197,7 +197,7 @@ class InputFormula extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function functionClassName(string $value = '-'): self
+    public function functionClassName(string $value = '-'): static
     {
         return $this->set('functionClassName', $value);
     }

@@ -1,6 +1,7 @@
 <?php
 
 namespace warm\admin\renderer\expand;
+
 use warm\admin\renderer\BaseRenderer;
 
 /**
@@ -16,15 +17,18 @@ class CustomWatermark extends BaseRenderer
     /**
      * 内容
      */
-    public function body($value = '')
+    public function body($value = ''):static
     {
         return $this->set('body', $value);
     }
 
     /**
-     * 设置类名
+     * 设置样式
+     *
+     * @param mixed $value
+     * @return $this
      */
-    public function className($value = '')
+    public function className(mixed $value): static
     {
         return $this->set('className', $value);
     }
@@ -32,7 +36,7 @@ class CustomWatermark extends BaseRenderer
     /**
      * 水印文字内容
      */
-    public function content($value = '')
+    public function content($value = ''):static
     {
         return $this->set('content', $value);
     }
@@ -40,7 +44,7 @@ class CustomWatermark extends BaseRenderer
     /**
      * 文字样式
      */
-    public function font($value = '')
+    public function font($value = ''):static
     {
         return $this->set('font', $value);
     }
@@ -48,7 +52,7 @@ class CustomWatermark extends BaseRenderer
     /**
      * 水印之间的间距, 默认: [100, 100] 可选值: xs | sm | base | none | md | lg
      */
-    public function gap($value = '')
+    public function gap($value = ''):static
     {
         return $this->set('gap', $value);
     }
@@ -56,7 +60,7 @@ class CustomWatermark extends BaseRenderer
     /**
      * 水印的高度，content 的默认值为自身的高度, 默认: 64
      */
-    public function height($value = '')
+    public function height($value = ''):static
     {
         return $this->set('height', $value);
     }
@@ -64,7 +68,7 @@ class CustomWatermark extends BaseRenderer
     /**
      * 图片源，建议导出 2 倍或 3 倍图，优先级高 (支持 base64 格式)
      */
-    public function image($value = '')
+    public function image($value = ''):static
     {
         return $this->set('image', $value);
     }

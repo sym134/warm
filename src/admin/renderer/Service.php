@@ -1,5 +1,8 @@
 <?php
 namespace warm\admin\renderer;
+use warm\admin\renderer\trait\DataDomain;
+use warm\admin\renderer\trait\OnEvent;
+
 /**
  * Service
  *
@@ -7,15 +10,17 @@ namespace warm\admin\renderer;
  */
 class Service extends BaseRenderer
 {
-    public string $type = 'service';
+    use DataDomain;
+    use OnEvent;
 
+    public string $type = 'service';
     /**
-     * 外层 Dom 的类名
+     * 设置组件样式
      *
-     * @param string $value
-     * @return self
+     * @param mixed $value
+     * @return $this
      */
-    public function className(string $value = ''): self
+    public function className(mixed $value): static
     {
         return $this->set('className', $value);
     }
@@ -26,7 +31,7 @@ class Service extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function body(mixed $value = null): self
+    public function body(mixed $value = null): static
     {
         return $this->set('body', $value);
     }
@@ -37,7 +42,7 @@ class Service extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function api(mixed $value = null): self
+    public function api(mixed $value = null): static
     {
         return $this->set('api', $value);
     }
@@ -48,7 +53,7 @@ class Service extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function ws(string $value = ''): self
+    public function ws(string $value = ''): static
     {
         return $this->set('ws', $value);
     }
@@ -59,7 +64,7 @@ class Service extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function dataProvider(mixed $value = null): self
+    public function dataProvider(mixed $value = null): static
     {
         return $this->set('dataProvider', $value);
     }
@@ -70,7 +75,7 @@ class Service extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function initFetch(bool $value = true): self
+    public function initFetch(bool $value = true): static
     {
         return $this->set('initFetch', $value);
     }
@@ -81,7 +86,7 @@ class Service extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function schemaApi(mixed $value = null): self
+    public function schemaApi(mixed $value = null): static
     {
         return $this->set('schemaApi', $value);
     }
@@ -92,7 +97,7 @@ class Service extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function initFetchSchema(bool $value = true): self
+    public function initFetchSchema(bool $value = true): static
     {
         return $this->set('initFetchSchema', $value);
     }
@@ -103,7 +108,7 @@ class Service extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function messages(array $value = []): self
+    public function messages(array $value = []): static
     {
         return $this->set('messages', $value);
     }
@@ -114,7 +119,7 @@ class Service extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function interval(int|float $value = 0): self
+    public function interval(int|float $value = 0): static
     {
         return $this->set('interval', $value);
     }
@@ -125,7 +130,7 @@ class Service extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function silentPolling(bool $value = true): self
+    public function silentPolling(bool $value = true): static
     {
         return $this->set('silentPolling', $value);
     }
@@ -136,7 +141,7 @@ class Service extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function stopAutoRefreshWhen(mixed $value = null): self
+    public function stopAutoRefreshWhen(mixed $value = null): static
     {
         return $this->set('stopAutoRefreshWhen', $value);
     }
@@ -147,7 +152,7 @@ class Service extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function showErrorMsg(bool $value = true): self
+    public function showErrorMsg(bool $value = true): static
     {
         return $this->set('showErrorMsg', $value);
     }

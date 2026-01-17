@@ -10,12 +10,12 @@ class Remark extends BaseRenderer
     public string $type = 'remark';
 
     /**
-     * 外层 CSS 类名
+     * 设置组件样式
      *
-     * @param string $value
-     * @return self
+     * @param mixed $value
+     * @return $this
      */
-    public function className(string $value = ''): self
+    public function className(mixed $value): static
     {
         return $this->set('className', $value);
     }
@@ -26,7 +26,7 @@ class Remark extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function content(string $value = ''): self
+    public function content(string $value = ''): static
     {
         return $this->set('content', $value);
     }
@@ -37,7 +37,7 @@ class Remark extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function placement(string $value = ''): self
+    public function placement(string $value = ''): static
     {
         return $this->set('placement', $value);
     }
@@ -48,7 +48,7 @@ class Remark extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function trigger(string $value = 'hover'): self
+    public function trigger(string $value = 'hover'): static
     {
         return $this->set('trigger', $value);
     }
@@ -59,7 +59,7 @@ class Remark extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function icon(string $value = 'fa fa-question-circle'): self
+    public function icon(string $value = 'fa fa-question-circle'): static
     {
         return $this->set('icon', $value);
     }
@@ -70,7 +70,7 @@ class Remark extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function shape(mixed $value = null): self
+    public function shape(mixed $value = null): static
     {
         return $this->set('shape', $value);
     }

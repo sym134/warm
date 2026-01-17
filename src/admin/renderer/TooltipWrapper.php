@@ -15,7 +15,7 @@ class TooltipWrapper extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function title(string $value = ''): self
+    public function title(string $value = ''): static
     {
         return $this->set('title', $value);
     }
@@ -26,7 +26,7 @@ class TooltipWrapper extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function content(string $value = ''): self
+    public function content(string $value = ''): static
     {
         return $this->set('content', $value);
     }
@@ -37,7 +37,7 @@ class TooltipWrapper extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function placement(mixed $value = null): self
+    public function placement(mixed $value = null): static
     {
         return $this->set('placement', $value);
     }
@@ -48,7 +48,7 @@ class TooltipWrapper extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function tooltipTheme(mixed $value = null): self
+    public function tooltipTheme(mixed $value = null): static
     {
         return $this->set('tooltipTheme', $value);
     }
@@ -59,7 +59,7 @@ class TooltipWrapper extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function offset(mixed $value = null): self
+    public function offset(mixed $value = null): static
     {
         return $this->set('offset', $value);
     }
@@ -70,7 +70,7 @@ class TooltipWrapper extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function showArrow(bool $value = true): self
+    public function showArrow(bool $value = true): static
     {
         return $this->set('showArrow', $value);
     }
@@ -81,7 +81,7 @@ class TooltipWrapper extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function enterable(bool $value = true): self
+    public function enterable(bool $value = true): static
     {
         return $this->set('enterable', $value);
     }
@@ -92,7 +92,7 @@ class TooltipWrapper extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function disabled(bool $value = true): self
+    public function disabled(bool $value = true): static
     {
         return $this->set('disabled', $value);
     }
@@ -103,7 +103,7 @@ class TooltipWrapper extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function trigger(mixed $value = null): self
+    public function trigger(mixed $value = null): static
     {
         return $this->set('trigger', $value);
     }
@@ -114,7 +114,7 @@ class TooltipWrapper extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function mouseEnterDelay(int|float $value = 0): self
+    public function mouseEnterDelay(int|float $value = 0): static
     {
         return $this->set('mouseEnterDelay', $value);
     }
@@ -125,7 +125,7 @@ class TooltipWrapper extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function mouseLeaveDelay(int|float $value = 300): self
+    public function mouseLeaveDelay(int|float $value = 300): static
     {
         return $this->set('mouseLeaveDelay', $value);
     }
@@ -136,7 +136,7 @@ class TooltipWrapper extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function rootClose(bool $value = true): self
+    public function rootClose(bool $value = true): static
     {
         return $this->set('rootClose', $value);
     }
@@ -147,7 +147,7 @@ class TooltipWrapper extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function inline(bool $value = true): self
+    public function inline(bool $value = true): static
     {
         return $this->set('inline', $value);
     }
@@ -158,7 +158,7 @@ class TooltipWrapper extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function wrapperComponent(string $value = 'div'): self
+    public function wrapperComponent(string $value = 'div'): static
     {
         return $this->set('wrapperComponent', $value);
     }
@@ -169,7 +169,7 @@ class TooltipWrapper extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function body(mixed $value = null): self
+    public function body(mixed $value = null): static
     {
         return $this->set('body', $value);
     }
@@ -180,7 +180,7 @@ class TooltipWrapper extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function style(mixed $value = null): self
+    public function style(mixed $value = null): static
     {
         return $this->set('style', $value);
     }
@@ -191,7 +191,7 @@ class TooltipWrapper extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function tooltipStyle(mixed $value = null): self
+    public function tooltipStyle(mixed $value = null): static
     {
         return $this->set('tooltipStyle', $value);
     }
@@ -199,10 +199,10 @@ class TooltipWrapper extends BaseRenderer
     /**
      * 内容区类名
      *
-     * @param string $value
+     * @param mixed $value
      * @return self
      */
-    public function className(string $value = ''): self
+    public function className(mixed $value = ''): static
     {
         return $this->set('className', $value);
     }
@@ -213,7 +213,7 @@ class TooltipWrapper extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function tooltipClassName(string $value = ''): self
+    public function tooltipClassName(string $value = ''): static
     {
         return $this->set('tooltipClassName', $value);
     }
@@ -224,7 +224,7 @@ class TooltipWrapper extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function tooltipArrowClassName(string $value = ''): self
+    public function tooltipArrowClassName(string $value = ''): static
     {
         return $this->set('tooltipArrowClassName', $value);
     }

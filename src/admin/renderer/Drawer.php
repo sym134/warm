@@ -1,5 +1,7 @@
 <?php
 namespace warm\admin\renderer;
+use warm\admin\renderer\trait\DataDomain;
+
 /**
  * Drawer
  *
@@ -7,6 +9,8 @@ namespace warm\admin\renderer;
  */
 class Drawer extends BaseRenderer
 {
+    use DataDomain;
+
     public string $type = 'drawer';
 
     /**
@@ -15,7 +19,7 @@ class Drawer extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function title(mixed $value = null): self
+    public function title(mixed $value = null): static
     {
         return $this->set('title', $value);
     }
@@ -26,7 +30,7 @@ class Drawer extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function body(mixed $value = null): self
+    public function body(mixed $value = null): static
     {
         return $this->set('body', $value);
     }
@@ -37,7 +41,7 @@ class Drawer extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function size(string $value = ''): self
+    public function size(string $value = ''): static
     {
         return $this->set('size', $value);
     }
@@ -48,18 +52,18 @@ class Drawer extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function position(string $value = 'right'): self
+    public function position(string $value = 'right'): static
     {
         return $this->set('position', $value);
     }
 
     /**
-     * Drawer 最外层容器的样式类名
+     * 设置组件样式
      *
-     * @param string $value
-     * @return self
+     * @param mixed $value
+     * @return $this
      */
-    public function className(string $value = ''): self
+    public function className(mixed $value): static
     {
         return $this->set('className', $value);
     }
@@ -70,7 +74,7 @@ class Drawer extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function headerClassName(string $value = ''): self
+    public function headerClassName(string $value = ''): static
     {
         return $this->set('headerClassName', $value);
     }
@@ -81,7 +85,7 @@ class Drawer extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function bodyClassName(string $value = 'modal-body'): self
+    public function bodyClassName(string $value = 'modal-body'): static
     {
         return $this->set('bodyClassName', $value);
     }
@@ -92,7 +96,7 @@ class Drawer extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function footerClassName(string $value = ''): self
+    public function footerClassName(string $value = ''): static
     {
         return $this->set('footerClassName', $value);
     }
@@ -103,7 +107,7 @@ class Drawer extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function showCloseButton(bool $value = true): self
+    public function showCloseButton(bool $value = true): static
     {
         return $this->set('showCloseButton', $value);
     }
@@ -114,7 +118,7 @@ class Drawer extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function closeOnEsc(bool $value = true): self
+    public function closeOnEsc(bool $value = true): static
     {
         return $this->set('closeOnEsc', $value);
     }
@@ -125,7 +129,7 @@ class Drawer extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function closeOnOutside(bool $value = true): self
+    public function closeOnOutside(bool $value = true): static
     {
         return $this->set('closeOnOutside', $value);
     }
@@ -136,7 +140,7 @@ class Drawer extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function overlay(bool $value = true): self
+    public function overlay(bool $value = true): static
     {
         return $this->set('overlay', $value);
     }
@@ -147,7 +151,7 @@ class Drawer extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function resizable(bool $value = true): self
+    public function resizable(bool $value = true): static
     {
         return $this->set('resizable', $value);
     }
@@ -158,7 +162,7 @@ class Drawer extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function width(mixed $value = null): self
+    public function width(mixed $value = null): static
     {
         return $this->set('width', $value);
     }
@@ -169,7 +173,7 @@ class Drawer extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function height(mixed $value = null): self
+    public function height(mixed $value = null): static
     {
         return $this->set('height', $value);
     }
@@ -180,7 +184,7 @@ class Drawer extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function actions(mixed $value = null): self
+    public function actions(mixed $value = null): static
     {
         return $this->set('actions', $value);
     }
@@ -191,7 +195,7 @@ class Drawer extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function data(array $value = []): self
+    public function data(array $value = []): static
     {
         return $this->set('data', $value);
     }

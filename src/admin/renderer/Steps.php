@@ -15,7 +15,7 @@ class Steps extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function steps(array $value = []): self
+    public function steps(array $value = []): static
     {
         return $this->set('steps', $value);
     }
@@ -26,7 +26,7 @@ class Steps extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function source(mixed $value = null): self
+    public function source(mixed $value = null): static
     {
         return $this->set('source', $value);
     }
@@ -37,7 +37,7 @@ class Steps extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function name(string $value = ''): self
+    public function name(string $value = ''): static
     {
         return $this->set('name', $value);
     }
@@ -48,7 +48,7 @@ class Steps extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function value(mixed $value = null): self
+    public function value(mixed $value = null): static
     {
         return $this->set('value', $value);
     }
@@ -59,7 +59,7 @@ class Steps extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function status(mixed $value = null): self
+    public function status(mixed $value = null): static
     {
         return $this->set('status', $value);
     }
@@ -67,10 +67,10 @@ class Steps extends BaseRenderer
     /**
      * 自定义类名
      *
-     * @param string $value
+     * @param mixed $value
      * @return self
      */
-    public function className(string $value = '-'): self
+    public function className(mixed $value = '-'): static
     {
         return $this->set('className', $value);
     }
@@ -81,7 +81,7 @@ class Steps extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function mode(mixed $value = null): self
+    public function mode(mixed $value = null): static
     {
         return $this->set('mode', $value);
     }
@@ -92,7 +92,7 @@ class Steps extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function labelPlacement(mixed $value = null): self
+    public function labelPlacement(mixed $value = null): static
     {
         return $this->set('labelPlacement', $value);
     }
@@ -103,7 +103,7 @@ class Steps extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function progressDot(bool $value = true): self
+    public function progressDot(bool $value = true): static
     {
         return $this->set('progressDot', $value);
     }

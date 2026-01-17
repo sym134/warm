@@ -1,5 +1,7 @@
 <?php
 namespace warm\admin\renderer;
+use warm\admin\renderer\trait\DataDomain;
+
 /**
  * Dialog
  *
@@ -7,6 +9,8 @@ namespace warm\admin\renderer;
  */
 class Dialog extends BaseRenderer
 {
+    use DataDomain;
+
     public string $type = 'dialog';
 
     /**
@@ -15,7 +19,7 @@ class Dialog extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function title(mixed $value = null): self
+    public function title(mixed $value = null): static
     {
         return $this->set('title', $value);
     }
@@ -26,7 +30,7 @@ class Dialog extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function body(mixed $value = null): self
+    public function body(mixed $value = null): static
     {
         return $this->set('body', $value);
     }
@@ -37,7 +41,7 @@ class Dialog extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function size(string $value = ''): self
+    public function size(string $value = ''): static
     {
         return $this->set('size', $value);
     }
@@ -48,7 +52,7 @@ class Dialog extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function width(mixed $value = null): self
+    public function width(mixed $value = null): static
     {
         return $this->set('width', $value);
     }
@@ -59,7 +63,7 @@ class Dialog extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function height(mixed $value = null): self
+    public function height(mixed $value = null): static
     {
         return $this->set('height', $value);
     }
@@ -70,7 +74,7 @@ class Dialog extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function bodyClassName(string $value = 'modal-body'): self
+    public function bodyClassName(string $value = 'modal-body'): static
     {
         return $this->set('bodyClassName', $value);
     }
@@ -81,7 +85,7 @@ class Dialog extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function closeOnEsc(bool $value = true): self
+    public function closeOnEsc(bool $value = true): static
     {
         return $this->set('closeOnEsc', $value);
     }
@@ -92,7 +96,7 @@ class Dialog extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function showCloseButton(bool $value = true): self
+    public function showCloseButton(bool $value = true): static
     {
         return $this->set('showCloseButton', $value);
     }
@@ -103,7 +107,7 @@ class Dialog extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function showErrorMsg(bool $value = true): self
+    public function showErrorMsg(bool $value = true): static
     {
         return $this->set('showErrorMsg', $value);
     }
@@ -114,7 +118,7 @@ class Dialog extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function showLoading(bool $value = true): self
+    public function showLoading(bool $value = true): static
     {
         return $this->set('showLoading', $value);
     }
@@ -125,7 +129,7 @@ class Dialog extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function disabled(bool $value = true): self
+    public function disabled(bool $value = true): static
     {
         return $this->set('disabled', $value);
     }
@@ -136,7 +140,7 @@ class Dialog extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function draggable(bool $value = true): self
+    public function draggable(bool $value = true): static
     {
         return $this->set('draggable', $value);
     }
@@ -147,7 +151,7 @@ class Dialog extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function actions(mixed $value = null): self
+    public function actions(mixed $value = null): static
     {
         return $this->set('actions', $value);
     }
@@ -158,7 +162,7 @@ class Dialog extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function data(array $value = []): self
+    public function data(array $value = []): static
     {
         return $this->set('data', $value);
     }

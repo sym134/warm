@@ -1,5 +1,8 @@
 <?php
 namespace warm\admin\renderer;
+
+use warm\admin\renderer\trait\OnEvent;
+
 /**
  * Container
  *
@@ -7,15 +10,16 @@ namespace warm\admin\renderer;
  */
 class Container extends BaseRenderer
 {
+    use OnEvent;
     public string $type = 'container';
 
     /**
-     * 外层 Dom 的类名
+     * 设置组件样式
      *
-     * @param string $value
-     * @return self
+     * @param mixed $value
+     * @return $this
      */
-    public function className(string $value = ''): self
+    public function className(mixed $value): static
     {
         return $this->set('className', $value);
     }
@@ -26,7 +30,7 @@ class Container extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function bodyClassName(string $value = ''): self
+    public function bodyClassName(string $value = ''): static
     {
         return $this->set('bodyClassName', $value);
     }
@@ -37,7 +41,7 @@ class Container extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function wrapperComponent(string $value = 'div'): self
+    public function wrapperComponent(string $value = 'div'): static
     {
         return $this->set('wrapperComponent', $value);
     }
@@ -48,7 +52,7 @@ class Container extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function style(array $value = []): self
+    public function style(array $value = []): static
     {
         return $this->set('style', $value);
     }
@@ -59,7 +63,7 @@ class Container extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function body(mixed $value = null): self
+    public function body(mixed $value = null): static
     {
         return $this->set('body', $value);
     }

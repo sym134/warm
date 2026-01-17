@@ -1,8 +1,10 @@
 <?php
+
 namespace warm\admin\renderer\form;
 
 use warm\admin\renderer\BaseRenderer;
-use warm\admin\renderer\form\FormItemTrait;
+use warm\admin\renderer\trait\FormItem;
+use warm\admin\renderer\trait\OnEvent;
 
 /**
  * Picker
@@ -11,7 +13,8 @@ use warm\admin\renderer\form\FormItemTrait;
  */
 class Picker extends BaseRenderer
 {
-    use FormItemTrait;
+    use FormItem;
+    use OnEvent;
 
     public string $type = 'picker';
 
@@ -21,7 +24,7 @@ class Picker extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function options(array $value = []): self
+    public function options(array $value = []): static
     {
         return $this->set('options', $value);
     }
@@ -32,7 +35,7 @@ class Picker extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function source(mixed $value = null): self
+    public function source(mixed $value = null): static
     {
         return $this->set('source', $value);
     }
@@ -43,7 +46,7 @@ class Picker extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function multiple(bool $value = true): self
+    public function multiple(bool $value = true): static
     {
         return $this->set('multiple', $value);
     }
@@ -54,7 +57,7 @@ class Picker extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function delimiter(bool $value = true): self
+    public function delimiter(bool $value = true): static
     {
         return $this->set('delimiter', $value);
     }
@@ -62,10 +65,10 @@ class Picker extends BaseRenderer
     /**
      * [选项标签字段](./options#%E9%80%89%E9%A1%B9%E6%A0%87%E7%AD%BE%E5%AD%97%E6%AE%B5-labelfield)
      *
-     * @param bool $value
+     * @param string $value
      * @return self
      */
-    public function labelField(bool $value = true): self
+    public function labelField(string $value = 'label'): static
     {
         return $this->set('labelField', $value);
     }
@@ -73,10 +76,10 @@ class Picker extends BaseRenderer
     /**
      * [选项值字段](./options#%E9%80%89%E9%A1%B9%E5%80%BC%E5%AD%97%E6%AE%B5-valuefield)
      *
-     * @param bool $value
+     * @param string $value
      * @return self
      */
-    public function valueField(bool $value = true): self
+    public function valueField(string $value = 'value'): static
     {
         return $this->set('valueField', $value);
     }
@@ -87,7 +90,7 @@ class Picker extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function joinValues(bool $value = true): self
+    public function joinValues(bool $value = true): static
     {
         return $this->set('joinValues', $value);
     }
@@ -98,7 +101,7 @@ class Picker extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function extractValue(bool $value = true): self
+    public function extractValue(bool $value = true): static
     {
         return $this->set('extractValue', $value);
     }
@@ -109,7 +112,7 @@ class Picker extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function autoFill(array $value = []): self
+    public function autoFill(array $value = []): static
     {
         return $this->set('autoFill', $value);
     }
@@ -120,7 +123,7 @@ class Picker extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function modalTitle(string $value = '请选择'): self
+    public function modalTitle(string $value = '请选择'): static
     {
         return $this->set('modalTitle', $value);
     }
@@ -131,7 +134,7 @@ class Picker extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function modalMode(string $value = 'dialog'): self
+    public function modalMode(string $value = 'dialog'): static
     {
         return $this->set('modalMode', $value);
     }
@@ -142,7 +145,7 @@ class Picker extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function modalSize(string $value = ''): self
+    public function modalSize(string $value = ''): static
     {
         return $this->set('modalSize', $value);
     }
@@ -150,10 +153,10 @@ class Picker extends BaseRenderer
     /**
      * 即用 List 类型的渲染，来展示列表信息。更多配置参考 [CRUD](../crud)
      *
-     * @param string $value
+     * @param mixed $value
      * @return self
      */
-    public function pickerSchema(string $value = ''): self
+    public function pickerSchema(mixed $value = ''): static
     {
         return $this->set('pickerSchema', $value);
     }
@@ -164,7 +167,7 @@ class Picker extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function embed(bool $value = true): self
+    public function embed(bool $value = true): static
     {
         return $this->set('embed', $value);
     }
@@ -175,7 +178,7 @@ class Picker extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function overflowConfig(mixed $value = null): self
+    public function overflowConfig(mixed $value = null): static
     {
         return $this->set('overflowConfig', $value);
     }
@@ -186,7 +189,7 @@ class Picker extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function itemClearable(mixed $value = true): self
+    public function itemClearable(mixed $value = true): static
     {
         return $this->set('itemClearable', $value);
     }

@@ -15,7 +15,7 @@ class Badge extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function mode(string $value = 'dot'): self
+    public function mode(string $value = 'dot'): static
     {
         return $this->set('mode', $value);
     }
@@ -26,7 +26,7 @@ class Badge extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function text(mixed $value = null): self
+    public function text(mixed $value = null): static
     {
         return $this->set('text', $value);
     }
@@ -37,7 +37,7 @@ class Badge extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function size(int|float $value = 0): self
+    public function size(int|float $value = 0): static
     {
         return $this->set('size', $value);
     }
@@ -48,7 +48,7 @@ class Badge extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function level(string $value = ''): self
+    public function level(string $value = ''): static
     {
         return $this->set('level', $value);
     }
@@ -59,7 +59,7 @@ class Badge extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function overflowCount(int|float $value = 99): self
+    public function overflowCount(int|float $value = 99): static
     {
         return $this->set('overflowCount', $value);
     }
@@ -70,7 +70,7 @@ class Badge extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function position(string $value = 'top-right'): self
+    public function position(string $value = 'top-right'): static
     {
         return $this->set('position', $value);
     }
@@ -81,18 +81,18 @@ class Badge extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function offset(mixed $value = null): self
+    public function offset(mixed $value = null): static
     {
         return $this->set('offset', $value);
     }
 
     /**
-     * 外层 dom 的类名
+     * 设置组件样式
      *
-     * @param string $value
-     * @return self
+     * @param mixed $value
+     * @return $this
      */
-    public function className(string $value = ''): self
+    public function className(mixed $value): static
     {
         return $this->set('className', $value);
     }
@@ -103,7 +103,7 @@ class Badge extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function animation(bool $value = true): self
+    public function animation(bool $value = true): static
     {
         return $this->set('animation', $value);
     }
@@ -114,7 +114,7 @@ class Badge extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function style(array $value = []): self
+    public function style(array $value = []): static
     {
         return $this->set('style', $value);
     }
@@ -125,7 +125,7 @@ class Badge extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function visibleOn(mixed $value = null): self
+    public function visibleOn(mixed $value = null): static
     {
         return $this->set('visibleOn', $value);
     }

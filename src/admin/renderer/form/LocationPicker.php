@@ -2,7 +2,8 @@
 namespace warm\admin\renderer\form;
 
 use warm\admin\renderer\BaseRenderer;
-use warm\admin\renderer\form\FormItemTrait;
+use warm\admin\renderer\trait\FormItem;
+use warm\admin\renderer\trait\OnEvent;
 
 /**
  * LocationPicker
@@ -11,7 +12,8 @@ use warm\admin\renderer\form\FormItemTrait;
  */
 class LocationPicker extends BaseRenderer
 {
-    use FormItemTrait;
+    use FormItem;
+    use OnEvent;
 
     public string $type = 'location-picker';
 
@@ -21,7 +23,7 @@ class LocationPicker extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function value(mixed $value = null): self
+    public function value(mixed $value = null): static
     {
         return $this->set('value', $value);
     }
@@ -32,7 +34,7 @@ class LocationPicker extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function vendor(mixed $value = null): self
+    public function vendor(mixed $value = null): static
     {
         return $this->set('vendor', $value);
     }
@@ -43,7 +45,7 @@ class LocationPicker extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function ak(string $value = '无'): self
+    public function ak(string $value = '无'): static
     {
         return $this->set('ak', $value);
     }
@@ -54,7 +56,7 @@ class LocationPicker extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function clearable(bool $value = true): self
+    public function clearable(bool $value = true): static
     {
         return $this->set('clearable', $value);
     }
@@ -65,7 +67,7 @@ class LocationPicker extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function placeholder(string $value = '请选择位置'): self
+    public function placeholder(string $value = '请选择位置'): static
     {
         return $this->set('placeholder', $value);
     }
@@ -76,7 +78,7 @@ class LocationPicker extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function autoSelectCurrentLoc(bool $value = true): self
+    public function autoSelectCurrentLoc(bool $value = true): static
     {
         return $this->set('autoSelectCurrentLoc', $value);
     }
@@ -87,7 +89,7 @@ class LocationPicker extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function onlySelectCurrentLoc(bool $value = true): self
+    public function onlySelectCurrentLoc(bool $value = true): static
     {
         return $this->set('onlySelectCurrentLoc', $value);
     }
@@ -98,7 +100,7 @@ class LocationPicker extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function coordinatesType(mixed $value = null): self
+    public function coordinatesType(mixed $value = null): static
     {
         return $this->set('coordinatesType', $value);
     }
@@ -109,7 +111,7 @@ class LocationPicker extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function staticSchema(array $value = []): self
+    public function staticSchema(array $value = []): static
     {
         return $this->set('staticSchema', $value);
     }

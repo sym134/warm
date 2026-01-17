@@ -10,12 +10,12 @@ class Grid extends BaseRenderer
     public string $type = 'grid';
 
     /**
-     * 外层 Dom 的类名
+     * 设置组件样式
      *
-     * @param string $value
-     * @return self
+     * @param mixed $value
+     * @return $this
      */
-    public function className(string $value = ''): self
+    public function className(mixed $value): static
     {
         return $this->set('className', $value);
     }
@@ -26,7 +26,7 @@ class Grid extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function gap(mixed $value = null): self
+    public function gap(mixed $value = null): static
     {
         return $this->set('gap', $value);
     }
@@ -37,7 +37,7 @@ class Grid extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function valign(mixed $value = null): self
+    public function valign(mixed $value = null): static
     {
         return $this->set('valign', $value);
     }
@@ -48,7 +48,7 @@ class Grid extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function align(mixed $value = null): self
+    public function align(mixed $value = null): static
     {
         return $this->set('align', $value);
     }
@@ -59,7 +59,7 @@ class Grid extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function columns(array $value = []): self
+    public function columns(array $value = []): static
     {
         return $this->set('columns', $value);
     }

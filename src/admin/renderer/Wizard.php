@@ -1,5 +1,8 @@
 <?php
 namespace warm\admin\renderer;
+use warm\admin\renderer\trait\DataDomain;
+use warm\admin\renderer\trait\OnEvent;
+
 /**
  * Wizard
  *
@@ -7,15 +10,17 @@ namespace warm\admin\renderer;
  */
 class Wizard extends BaseRenderer
 {
-    public string $type = 'wizard';
+    use DataDomain;
+    use OnEvent;
 
+    public string $type = 'wizard';
     /**
      * 展示模式，选择：`horizontal` 或者 `vertical`
      *
      * @param string $value
      * @return self
      */
-    public function mode(string $value = 'horizontal'): self
+    public function mode(string $value = 'horizontal'): static
     {
         return $this->set('mode', $value);
     }
@@ -26,7 +31,7 @@ class Wizard extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function api(mixed $value = null): self
+    public function api(mixed $value = null): static
     {
         return $this->set('api', $value);
     }
@@ -37,7 +42,7 @@ class Wizard extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function initApi(mixed $value = null): self
+    public function initApi(mixed $value = null): static
     {
         return $this->set('initApi', $value);
     }
@@ -48,7 +53,7 @@ class Wizard extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function initFetch(mixed $value = null): self
+    public function initFetch(mixed $value = null): static
     {
         return $this->set('initFetch', $value);
     }
@@ -59,7 +64,7 @@ class Wizard extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function initFetchOn(mixed $value = null): self
+    public function initFetchOn(mixed $value = null): static
     {
         return $this->set('initFetchOn', $value);
     }
@@ -70,7 +75,7 @@ class Wizard extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function actionPrevLabel(string $value = '上一步'): self
+    public function actionPrevLabel(string $value = '上一步'): static
     {
         return $this->set('actionPrevLabel', $value);
     }
@@ -81,7 +86,7 @@ class Wizard extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function actionNextLabel(string $value = '下一步'): self
+    public function actionNextLabel(string $value = '下一步'): static
     {
         return $this->set('actionNextLabel', $value);
     }
@@ -92,7 +97,7 @@ class Wizard extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function actionNextSaveLabel(string $value = '保存并下一步'): self
+    public function actionNextSaveLabel(string $value = '保存并下一步'): static
     {
         return $this->set('actionNextSaveLabel', $value);
     }
@@ -103,18 +108,18 @@ class Wizard extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function actionFinishLabel(string $value = '完成'): self
+    public function actionFinishLabel(string $value = '完成'): static
     {
         return $this->set('actionFinishLabel', $value);
     }
 
     /**
-     * 外层 CSS 类名
+     * 设置组件样式
      *
-     * @param string $value
-     * @return self
+     * @param mixed $value
+     * @return $this
      */
-    public function className(string $value = ''): self
+    public function className(mixed $value): static
     {
         return $this->set('className', $value);
     }
@@ -125,7 +130,7 @@ class Wizard extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function actionClassName(string $value = 'btn-sm btn-default'): self
+    public function actionClassName(string $value = 'btn-sm btn-default'): static
     {
         return $this->set('actionClassName', $value);
     }
@@ -136,7 +141,7 @@ class Wizard extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function reload(string $value = ''): self
+    public function reload(string $value = ''): static
     {
         return $this->set('reload', $value);
     }
@@ -147,7 +152,7 @@ class Wizard extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function redirect(mixed $value = null): self
+    public function redirect(mixed $value = null): static
     {
         return $this->set('redirect', $value);
     }
@@ -158,7 +163,7 @@ class Wizard extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function target(string $value = 'false'): self
+    public function target(string $value = 'false'): static
     {
         return $this->set('target', $value);
     }
@@ -169,7 +174,7 @@ class Wizard extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function steps(array $value = []): self
+    public function steps(array $value = []): static
     {
         return $this->set('steps', $value);
     }
@@ -180,7 +185,7 @@ class Wizard extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function startStep(string $value = '1'): self
+    public function startStep(string $value = '1'): static
     {
         return $this->set('startStep', $value);
     }

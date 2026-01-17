@@ -10,12 +10,12 @@ class Audio extends BaseRenderer
     public string $type = 'audio';
 
     /**
-     * 外层 Dom 的类名
+     * 设置组件样式
      *
-     * @param string $value
-     * @return self
+     * @param mixed $value
+     * @return $this
      */
-    public function className(string $value = ''): self
+    public function className(mixed $value): static
     {
         return $this->set('className', $value);
     }
@@ -26,7 +26,7 @@ class Audio extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function inline(bool $value = true): self
+    public function inline(bool $value = true): static
     {
         return $this->set('inline', $value);
     }
@@ -37,7 +37,7 @@ class Audio extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function src(string $value = ''): self
+    public function src(string $value = ''): static
     {
         return $this->set('src', $value);
     }
@@ -48,7 +48,7 @@ class Audio extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function loop(bool $value = true): self
+    public function loop(bool $value = true): static
     {
         return $this->set('loop', $value);
     }
@@ -59,7 +59,7 @@ class Audio extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function autoPlay(bool $value = true): self
+    public function autoPlay(bool $value = true): static
     {
         return $this->set('autoPlay', $value);
     }
@@ -70,7 +70,7 @@ class Audio extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function rates(array $value = []): self
+    public function rates(array $value = []): static
     {
         return $this->set('rates', $value);
     }
@@ -81,7 +81,7 @@ class Audio extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function controls(array $value = []): self
+    public function controls(array $value = []): static
     {
         return $this->set('controls', $value);
     }

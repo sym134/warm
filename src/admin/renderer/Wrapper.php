@@ -10,12 +10,12 @@ class Wrapper extends BaseRenderer
     public string $type = 'wrapper';
 
     /**
-     * 外层 Dom 的类名
+     * 设置组件样式
      *
-     * @param string $value
-     * @return self
+     * @param mixed $value
+     * @return $this
      */
-    public function className(string $value = ''): self
+    public function className(mixed $value): static
     {
         return $this->set('className', $value);
     }
@@ -26,7 +26,7 @@ class Wrapper extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function size(string $value = ''): self
+    public function size(string $value = ''): static
     {
         return $this->set('size', $value);
     }
@@ -37,7 +37,7 @@ class Wrapper extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function style(mixed $value = null): self
+    public function style(mixed $value = null): static
     {
         return $this->set('style', $value);
     }
@@ -48,7 +48,7 @@ class Wrapper extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function body(mixed $value = null): self
+    public function body(mixed $value = null): static
     {
         return $this->set('body', $value);
     }

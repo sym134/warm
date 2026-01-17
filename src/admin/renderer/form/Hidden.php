@@ -2,7 +2,7 @@
 namespace warm\admin\renderer\form;
 
 use warm\admin\renderer\BaseRenderer;
-use warm\admin\renderer\form\FormItemTrait;
+use warm\admin\renderer\trait\FormItem;
 
 /**
  * Hidden
@@ -11,7 +11,7 @@ use warm\admin\renderer\form\FormItemTrait;
  */
 class Hidden extends BaseRenderer
 {
-    use FormItemTrait;
+    use FormItem;
 
     public string $type = 'hidden';
 

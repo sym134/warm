@@ -6,7 +6,7 @@ use Illuminate\Support\Str;
 use support\Response;
 use warm\admin\controller\AdminController;
 use warm\admin\renderer\DialogAction;
-use warm\admin\renderer\Form;
+use warm\admin\renderer\form\Form;
 use warm\admin\renderer\Page;
 use warm\admin\service\AdminApiService;
 use warm\admin\support\apis\AdminBaseApi;

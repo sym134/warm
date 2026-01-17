@@ -3,7 +3,8 @@
 namespace warm\admin\renderer\form;
 
 use warm\admin\renderer\BaseRenderer;
-use warm\admin\renderer\form\FormItemTrait;
+use warm\admin\renderer\trait\FormItem;
+use warm\admin\renderer\trait\OnEvent;
 
 /**
  * InputText
@@ -12,9 +13,20 @@ use warm\admin\renderer\form\FormItemTrait;
  */
 class InputText extends BaseRenderer
 {
-    use FormItemTrait;
+    use FormItem;
+    use OnEvent;
 
     public string $type = 'input-text';
+
+    /**
+     * 输入框尺寸 可选值: 'xs' | 'sm' | 'md' | 'lg' | 'full'
+     * @param string $value
+     * @return self
+     */
+    public function size(string $value = 'md'): static
+    {
+        return $this->set('size', $value);
+    }
 
     /**
      * [选项组](./options#%E9%9D%99%E6%80%81%E9%80%89%E9%A1%B9%E7%BB%84-options)
@@ -22,7 +34,7 @@ class InputText extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function options(array $value = []): self
+    public function options(array $value = []): static
     {
         return $this->set('options', $value);
     }
@@ -33,7 +45,7 @@ class InputText extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function source(mixed $value = null): self
+    public function source(mixed $value = null): static
     {
         return $this->set('source', $value);
     }
@@ -44,7 +56,7 @@ class InputText extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function autoComplete(mixed $value = null): self
+    public function autoComplete(mixed $value = null): static
     {
         return $this->set('autoComplete', $value);
     }
@@ -55,7 +67,7 @@ class InputText extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function multiple(bool $value = true): self
+    public function multiple(bool $value = true): static
     {
         return $this->set('multiple', $value);
     }
@@ -66,7 +78,7 @@ class InputText extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function delimiter(string $value = ','): self
+    public function delimiter(string $value = ','): static
     {
         return $this->set('delimiter', $value);
     }
@@ -77,7 +89,7 @@ class InputText extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function labelField(string $value = 'label'): self
+    public function labelField(string $value = 'label'): static
     {
         return $this->set('labelField', $value);
     }
@@ -88,7 +100,7 @@ class InputText extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function valueField(string $value = 'value'): self
+    public function valueField(string $value = 'value'): static
     {
         return $this->set('valueField', $value);
     }
@@ -99,7 +111,7 @@ class InputText extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function joinValues(bool $value = true): self
+    public function joinValues(bool $value = true): static
     {
         return $this->set('joinValues', $value);
     }
@@ -110,7 +122,7 @@ class InputText extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function extractValue(bool $value = true): self
+    public function extractValue(bool $value = true): static
     {
         return $this->set('extractValue', $value);
     }
@@ -121,7 +133,7 @@ class InputText extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function addOn(mixed $value = null): self
+    public function addOn(mixed $value = null): static
     {
         return $this->set('addOn', $value);
     }
@@ -132,7 +144,7 @@ class InputText extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function trimContents(bool $value = true): self
+    public function trimContents(bool $value = true): static
     {
         return $this->set('trimContents', $value);
     }
@@ -143,7 +155,7 @@ class InputText extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function clearValueOnEmpty(bool $value = true): self
+    public function clearValueOnEmpty(bool $value = true): static
     {
         return $this->set('clearValueOnEmpty', $value);
     }
@@ -154,7 +166,7 @@ class InputText extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function creatable(bool $value = true): self
+    public function creatable(bool $value = true): static
     {
         return $this->set('creatable', $value);
     }
@@ -165,7 +177,7 @@ class InputText extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function clearable(bool $value = true): self
+    public function clearable(bool $value = true): static
     {
         return $this->set('clearable', $value);
     }
@@ -176,7 +188,7 @@ class InputText extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function resetValue(string $value = ''): self
+    public function resetValue(string $value = ''): static
     {
         return $this->set('resetValue', $value);
     }
@@ -187,7 +199,7 @@ class InputText extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function prefix(string $value = ''): self
+    public function prefix(string $value = ''): static
     {
         return $this->set('prefix', $value);
     }
@@ -198,7 +210,7 @@ class InputText extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function suffix(string $value = ''): self
+    public function suffix(string $value = ''): static
     {
         return $this->set('suffix', $value);
     }
@@ -209,7 +221,7 @@ class InputText extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function showCounter(bool $value = true): self
+    public function showCounter(bool $value = true): static
     {
         return $this->set('showCounter', $value);
     }
@@ -220,7 +232,7 @@ class InputText extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function minLength(int|float $value = 0): self
+    public function minLength(int|float $value = 0): static
     {
         return $this->set('minLength', $value);
     }
@@ -231,7 +243,7 @@ class InputText extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function maxLength(int|float $value = 0): self
+    public function maxLength(int|float $value = 0): static
     {
         return $this->set('maxLength', $value);
     }
@@ -242,7 +254,7 @@ class InputText extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function transform(array $value = []): self
+    public function transform(array $value = []): static
     {
         return $this->set('transform', $value);
     }
@@ -253,7 +265,7 @@ class InputText extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function borderMode(mixed $value = null): self
+    public function borderMode(mixed $value = null): static
     {
         return $this->set('borderMode', $value);
     }
@@ -264,7 +276,7 @@ class InputText extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function inputControlClassName(string $value = ''): self
+    public function inputControlClassName(string $value = ''): static
     {
         return $this->set('inputControlClassName', $value);
     }
@@ -275,7 +287,7 @@ class InputText extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function nativeInputClassName(string $value = ''): self
+    public function nativeInputClassName(string $value = ''): static
     {
         return $this->set('nativeInputClassName', $value);
     }
@@ -286,7 +298,7 @@ class InputText extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function nativeAutoComplete(string $value = 'off'): self
+    public function nativeAutoComplete(string $value = 'off'): static
     {
         return $this->set('nativeAutoComplete', $value);
     }

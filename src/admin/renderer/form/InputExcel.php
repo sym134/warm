@@ -2,7 +2,6 @@
 namespace warm\admin\renderer\form;
 
 use warm\admin\renderer\BaseRenderer;
-use warm\admin\renderer\form\FormItemTrait;
 
 /**
  * InputExcel
@@ -11,9 +10,6 @@ use warm\admin\renderer\form\FormItemTrait;
  */
 class InputExcel extends BaseRenderer
 {
-    use FormItemTrait;
-
-    public string $type = 'input-excel';
 
     /**
      * 是否解析所有 sheet
@@ -21,7 +17,7 @@ class InputExcel extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function allSheets(bool $value = true): self
+    public function allSheets(bool $value = true): static
     {
         return $this->set('allSheets', $value);
     }
@@ -32,7 +28,7 @@ class InputExcel extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function parseMode(array $value = []): self
+    public function parseMode(array $value = []): static
     {
         return $this->set('parseMode', $value);
     }
@@ -43,7 +39,7 @@ class InputExcel extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function includeEmpty(bool $value = true): self
+    public function includeEmpty(bool $value = true): static
     {
         return $this->set('includeEmpty', $value);
     }
@@ -54,7 +50,7 @@ class InputExcel extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function plainText(bool $value = true): self
+    public function plainText(bool $value = true): static
     {
         return $this->set('plainText', $value);
     }
@@ -65,7 +61,7 @@ class InputExcel extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function placeholder(string $value = '拖拽 Excel 到这，或点击上传'): self
+    public function placeholder(string $value = '拖拽 Excel 到这，或点击上传'): static
     {
         return $this->set('placeholder', $value);
     }
@@ -76,7 +72,7 @@ class InputExcel extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function autoFill(mixed $value = null): self
+    public function autoFill(mixed $value = null): static
     {
         return $this->set('autoFill', $value);
     }
@@ -87,7 +83,7 @@ class InputExcel extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function multiple(bool $value = true): self
+    public function multiple(bool $value = true): static
     {
         return $this->set('multiple', $value);
     }
@@ -98,7 +94,7 @@ class InputExcel extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function maxLength(int|float $value = 0): self
+    public function maxLength(int|float $value = 0): static
     {
         return $this->set('maxLength', $value);
     }

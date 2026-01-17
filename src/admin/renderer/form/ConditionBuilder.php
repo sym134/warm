@@ -2,7 +2,7 @@
 namespace warm\admin\renderer\form;
 
 use warm\admin\renderer\BaseRenderer;
-use warm\admin\renderer\form\FormItemTrait;
+use warm\admin\renderer\trait\FormItem;
 
 /**
  * ConditionBuilder
@@ -11,17 +11,17 @@ use warm\admin\renderer\form\FormItemTrait;
  */
 class ConditionBuilder extends BaseRenderer
 {
-    use FormItemTrait;
+    use FormItem;
 
     public string $type = 'condition-builder';
 
     /**
-     * 外层 dom 类名
+     * 设置组件样式
      *
-     * @param string $value
-     * @return self
+     * @param mixed $value
+     * @return $this
      */
-    public function className(string $value = ''): self
+    public function className(mixed $value): static
     {
         return $this->set('className', $value);
     }
@@ -32,7 +32,7 @@ class ConditionBuilder extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function fieldClassName(string $value = ''): self
+    public function fieldClassName(string $value = ''): static
     {
         return $this->set('fieldClassName', $value);
     }
@@ -43,7 +43,7 @@ class ConditionBuilder extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function source(string $value = ''): self
+    public function source(string $value = ''): static
     {
         return $this->set('source', $value);
     }
@@ -54,7 +54,7 @@ class ConditionBuilder extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function embed(bool $value = true): self
+    public function embed(bool $value = true): static
     {
         return $this->set('embed', $value);
     }
@@ -65,7 +65,7 @@ class ConditionBuilder extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function title(string $value = ''): self
+    public function title(string $value = ''): static
     {
         return $this->set('title', $value);
     }
@@ -76,7 +76,7 @@ class ConditionBuilder extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function fields(mixed $value = null): self
+    public function fields(mixed $value = null): static
     {
         return $this->set('fields', $value);
     }
@@ -87,7 +87,7 @@ class ConditionBuilder extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function showANDOR(bool $value = true): self
+    public function showANDOR(bool $value = true): static
     {
         return $this->set('showANDOR', $value);
     }
@@ -98,7 +98,7 @@ class ConditionBuilder extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function showNot(bool $value = true): self
+    public function showNot(bool $value = true): static
     {
         return $this->set('showNot', $value);
     }
@@ -109,7 +109,7 @@ class ConditionBuilder extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function draggable(bool $value = true): self
+    public function draggable(bool $value = true): static
     {
         return $this->set('draggable', $value);
     }
@@ -120,7 +120,7 @@ class ConditionBuilder extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function searchable(bool $value = true): self
+    public function searchable(bool $value = true): static
     {
         return $this->set('searchable', $value);
     }
@@ -131,7 +131,7 @@ class ConditionBuilder extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function selectMode(mixed $value = null): self
+    public function selectMode(mixed $value = null): static
     {
         return $this->set('selectMode', $value);
     }
@@ -142,7 +142,7 @@ class ConditionBuilder extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function addBtnVisibleOn(string $value = ''): self
+    public function addBtnVisibleOn(string $value = ''): static
     {
         return $this->set('addBtnVisibleOn', $value);
     }
@@ -153,7 +153,7 @@ class ConditionBuilder extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function addGroupBtnVisibleOn(string $value = ''): self
+    public function addGroupBtnVisibleOn(string $value = ''): static
     {
         return $this->set('addGroupBtnVisibleOn', $value);
     }
@@ -164,7 +164,7 @@ class ConditionBuilder extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function inputSettings(mixed $value = null): self
+    public function inputSettings(mixed $value = null): static
     {
         return $this->set('inputSettings', $value);
     }
@@ -175,7 +175,7 @@ class ConditionBuilder extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function formula(array $value = []): self
+    public function formula(array $value = []): static
     {
         return $this->set('formula', $value);
     }
@@ -186,7 +186,7 @@ class ConditionBuilder extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function showIf(bool $value = true): self
+    public function showIf(bool $value = true): static
     {
         return $this->set('showIf', $value);
     }
@@ -197,7 +197,7 @@ class ConditionBuilder extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function formulaForIf(array $value = []): self
+    public function formulaForIf(array $value = []): static
     {
         return $this->set('formulaForIf', $value);
     }
@@ -208,7 +208,7 @@ class ConditionBuilder extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function uniqueFields(bool $value = true): self
+    public function uniqueFields(bool $value = true): static
     {
         return $this->set('uniqueFields', $value);
     }

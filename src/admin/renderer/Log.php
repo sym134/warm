@@ -15,18 +15,18 @@ class Log extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function height(int|float $value = 500): self
+    public function height(int|float $value = 500): static
     {
         return $this->set('height', $value);
     }
 
     /**
-     * 外层 CSS 类名
+     * 设置组件样式
      *
-     * @param string $value
-     * @return self
+     * @param mixed $value
+     * @return $this
      */
-    public function className(string $value = ''): self
+    public function className(mixed $value): static
     {
         return $this->set('className', $value);
     }
@@ -37,7 +37,7 @@ class Log extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function autoScroll(bool $value = true): self
+    public function autoScroll(bool $value = true): static
     {
         return $this->set('autoScroll', $value);
     }
@@ -48,7 +48,7 @@ class Log extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function disableColor(bool $value = true): self
+    public function disableColor(bool $value = true): static
     {
         return $this->set('disableColor', $value);
     }
@@ -59,7 +59,7 @@ class Log extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function placeholder(string $value = ''): self
+    public function placeholder(string $value = ''): static
     {
         return $this->set('placeholder', $value);
     }
@@ -70,7 +70,7 @@ class Log extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function encoding(string $value = 'utf-8'): self
+    public function encoding(string $value = 'utf-8'): static
     {
         return $this->set('encoding', $value);
     }
@@ -81,7 +81,7 @@ class Log extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function source(string $value = ''): self
+    public function source(string $value = ''): static
     {
         return $this->set('source', $value);
     }
@@ -92,7 +92,7 @@ class Log extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function credentials(string $value = 'include'): self
+    public function credentials(string $value = 'include'): static
     {
         return $this->set('credentials', $value);
     }
@@ -103,7 +103,7 @@ class Log extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function rowHeight(int|float $value = 0): self
+    public function rowHeight(int|float $value = 0): static
     {
         return $this->set('rowHeight', $value);
     }
@@ -114,7 +114,7 @@ class Log extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function maxLength(int|float $value = 0): self
+    public function maxLength(int|float $value = 0): static
     {
         return $this->set('maxLength', $value);
     }
@@ -125,7 +125,7 @@ class Log extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function operation(array $value = []): self
+    public function operation(array $value = []): static
     {
         return $this->set('operation', $value);
     }

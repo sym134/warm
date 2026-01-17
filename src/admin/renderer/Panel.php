@@ -12,10 +12,10 @@ class Panel extends BaseRenderer
     /**
      * 外层 Dom 的类名
      *
-     * @param string $value
+     * @param mixed $value
      * @return self
      */
-    public function className(string $value = 'panel-default'): self
+    public function className(mixed $value = 'panel-default'): static
     {
         return $this->set('className', $value);
     }
@@ -26,7 +26,7 @@ class Panel extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function headerClassName(string $value = 'panel-heading'): self
+    public function headerClassName(string $value = 'panel-heading'): static
     {
         return $this->set('headerClassName', $value);
     }
@@ -37,7 +37,7 @@ class Panel extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function footerClassName(string $value = 'panel-footer bg-light lter wrapper'): self
+    public function footerClassName(string $value = 'panel-footer bg-light lter wrapper'): static
     {
         return $this->set('footerClassName', $value);
     }
@@ -48,7 +48,7 @@ class Panel extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function actionsClassName(string $value = 'panel-footer'): self
+    public function actionsClassName(string $value = 'panel-footer'): static
     {
         return $this->set('actionsClassName', $value);
     }
@@ -59,7 +59,7 @@ class Panel extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function bodyClassName(string $value = 'panel-body'): self
+    public function bodyClassName(string $value = 'panel-body'): static
     {
         return $this->set('bodyClassName', $value);
     }
@@ -70,7 +70,7 @@ class Panel extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function title(mixed $value = null): self
+    public function title(mixed $value = null): static
     {
         return $this->set('title', $value);
     }
@@ -81,7 +81,7 @@ class Panel extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function header(mixed $value = null): self
+    public function header(mixed $value = null): static
     {
         return $this->set('header', $value);
     }
@@ -92,7 +92,7 @@ class Panel extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function body(mixed $value = null): self
+    public function body(mixed $value = null): static
     {
         return $this->set('body', $value);
     }
@@ -103,7 +103,7 @@ class Panel extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function footer(mixed $value = null): self
+    public function footer(mixed $value = null): static
     {
         return $this->set('footer', $value);
     }
@@ -114,7 +114,7 @@ class Panel extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function affixFooter(bool $value = true): self
+    public function affixFooter(bool $value = true): static
     {
         return $this->set('affixFooter', $value);
     }
@@ -125,7 +125,7 @@ class Panel extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function actions(mixed $value = null): self
+    public function actions(mixed $value = null): static
     {
         return $this->set('actions', $value);
     }

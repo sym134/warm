@@ -15,7 +15,7 @@ class Timeline extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function items(array $value = []): self
+    public function items(array $value = []): static
     {
         return $this->set('items', $value);
     }
@@ -26,7 +26,7 @@ class Timeline extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function source(mixed $value = null): self
+    public function source(mixed $value = null): static
     {
         return $this->set('source', $value);
     }
@@ -37,7 +37,7 @@ class Timeline extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function mode(mixed $value = null): self
+    public function mode(mixed $value = null): static
     {
         return $this->set('mode', $value);
     }
@@ -48,7 +48,7 @@ class Timeline extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function direction(mixed $value = null): self
+    public function direction(mixed $value = null): static
     {
         return $this->set('direction', $value);
     }
@@ -59,7 +59,7 @@ class Timeline extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function reverse(bool $value = true): self
+    public function reverse(bool $value = true): static
     {
         return $this->set('reverse', $value);
     }
@@ -70,7 +70,7 @@ class Timeline extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function iconClassName(string $value = ''): self
+    public function iconClassName(string $value = ''): static
     {
         return $this->set('iconClassName', $value);
     }
@@ -81,7 +81,7 @@ class Timeline extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function timeClassName(string $value = ''): self
+    public function timeClassName(string $value = ''): static
     {
         return $this->set('timeClassName', $value);
     }
@@ -92,7 +92,7 @@ class Timeline extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function titleClassName(string $value = ''): self
+    public function titleClassName(string $value = ''): static
     {
         return $this->set('titleClassName', $value);
     }
@@ -103,7 +103,7 @@ class Timeline extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function detailClassName(string $value = ''): self
+    public function detailClassName(string $value = ''): static
     {
         return $this->set('detailClassName', $value);
     }
@@ -114,7 +114,7 @@ class Timeline extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function cardSchema(string $value = ''): self
+    public function cardSchema(string $value = ''): static
     {
         return $this->set('cardSchema', $value);
     }

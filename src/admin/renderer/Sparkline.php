@@ -15,7 +15,7 @@ class Sparkline extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function name(string $value = ''): self
+    public function name(string $value = ''): static
     {
         return $this->set('name', $value);
     }
@@ -26,7 +26,7 @@ class Sparkline extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function width(int|float $value = 0): self
+    public function width(int|float $value = 0): static
     {
         return $this->set('width', $value);
     }
@@ -37,7 +37,7 @@ class Sparkline extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function height(int|float $value = 0): self
+    public function height(int|float $value = 0): static
     {
         return $this->set('height', $value);
     }
@@ -48,7 +48,7 @@ class Sparkline extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function placeholder(string $value = ''): self
+    public function placeholder(string $value = ''): static
     {
         return $this->set('placeholder', $value);
     }

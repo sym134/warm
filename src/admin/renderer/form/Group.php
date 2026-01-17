@@ -2,7 +2,7 @@
 namespace warm\admin\renderer\form;
 
 use warm\admin\renderer\BaseRenderer;
-use warm\admin\renderer\form\FormItemTrait;
+use warm\admin\renderer\trait\FormItem;
 
 /**
  * Group
@@ -11,17 +11,17 @@ use warm\admin\renderer\form\FormItemTrait;
  */
 class Group extends BaseRenderer
 {
-    use FormItemTrait;
+    use FormItem;
 
     public string $type = 'group';
 
     /**
-     * CSS 类名
+     * 设置组件样式
      *
-     * @param string $value
-     * @return self
+     * @param mixed $value
+     * @return $this
      */
-    public function className(string $value = ''): self
+    public function className(mixed $value): static
     {
         return $this->set('className', $value);
     }
@@ -32,10 +32,10 @@ class Group extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function label(string $value = ''): self
-    {
-        return $this->set('label', $value);
-    }
+//    public function label(string $value = ''): static
+//    {
+//        return $this->set('label', $value);
+//    }
 
     /**
      * 表单项集合
@@ -43,7 +43,7 @@ class Group extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function body(mixed $value = null): self
+    public function body(mixed $value = null): static
     {
         return $this->set('body', $value);
     }
@@ -54,7 +54,7 @@ class Group extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function mode(string $value = ''): self
+    public function mode(string $value = ''): static
     {
         return $this->set('mode', $value);
     }
@@ -65,7 +65,7 @@ class Group extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function gap(string $value = ''): self
+    public function gap(string $value = ''): static
     {
         return $this->set('gap', $value);
     }
@@ -76,7 +76,7 @@ class Group extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function direction(string $value = 'horizontal'): self
+    public function direction(string $value = 'horizontal'): static
     {
         return $this->set('direction', $value);
     }

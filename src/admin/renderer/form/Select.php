@@ -2,7 +2,8 @@
 namespace warm\admin\renderer\form;
 
 use warm\admin\renderer\BaseRenderer;
-use warm\admin\renderer\form\FormItemTrait;
+use warm\admin\renderer\trait\OnEvent;
+use warm\admin\renderer\trait\Options;
 
 /**
  * Select
@@ -11,7 +12,8 @@ use warm\admin\renderer\form\FormItemTrait;
  */
 class Select extends BaseRenderer
 {
-    use FormItemTrait;
+    use Options;
+    use OnEvent;
 
     public string $type = 'select';
 
@@ -21,7 +23,7 @@ class Select extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function options(array $value = []): self
+    public function options(array $value = []): static
     {
         return $this->set('options', $value);
     }
@@ -32,7 +34,7 @@ class Select extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function source(mixed $value = null): self
+    public function source(mixed $value = null): static
     {
         return $this->set('source', $value);
     }
@@ -43,7 +45,7 @@ class Select extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function autoComplete(mixed $value = null): self
+    public function autoComplete(mixed $value = null): static
     {
         return $this->set('autoComplete', $value);
     }
@@ -54,7 +56,7 @@ class Select extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function delimiter(string $value = 'false'): self
+    public function delimiter(string $value = 'false'): static
     {
         return $this->set('delimiter', $value);
     }
@@ -65,7 +67,7 @@ class Select extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function labelField(string $value = 'label'): self
+    public function labelField(string $value = 'label'): static
     {
         return $this->set('labelField', $value);
     }
@@ -76,7 +78,7 @@ class Select extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function valueField(string $value = 'value'): self
+    public function valueField(string $value = 'value'): static
     {
         return $this->set('valueField', $value);
     }
@@ -87,7 +89,7 @@ class Select extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function joinValues(bool $value = true): self
+    public function joinValues(bool $value = true): static
     {
         return $this->set('joinValues', $value);
     }
@@ -98,7 +100,7 @@ class Select extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function extractValue(bool $value = true): self
+    public function extractValue(bool $value = true): static
     {
         return $this->set('extractValue', $value);
     }
@@ -109,7 +111,7 @@ class Select extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function checkAll(bool $value = true): self
+    public function checkAll(bool $value = true): static
     {
         return $this->set('checkAll', $value);
     }
@@ -120,7 +122,7 @@ class Select extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function checkAllLabel(string $value = '全选'): self
+    public function checkAllLabel(string $value = '全选'): static
     {
         return $this->set('checkAllLabel', $value);
     }
@@ -131,7 +133,7 @@ class Select extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function checkAllBySearch(bool $value = true): self
+    public function checkAllBySearch(bool $value = true): static
     {
         return $this->set('checkAllBySearch', $value);
     }
@@ -142,7 +144,7 @@ class Select extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function defaultCheckAll(bool $value = true): self
+    public function defaultCheckAll(bool $value = true): static
     {
         return $this->set('defaultCheckAll', $value);
     }
@@ -153,7 +155,7 @@ class Select extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function creatable(bool $value = true): self
+    public function creatable(bool $value = true): static
     {
         return $this->set('creatable', $value);
     }
@@ -164,7 +166,7 @@ class Select extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function multiple(bool $value = true): self
+    public function multiple(bool $value = true): static
     {
         return $this->set('multiple', $value);
     }
@@ -175,7 +177,7 @@ class Select extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function searchable(bool $value = true): self
+    public function searchable(bool $value = true): static
     {
         return $this->set('searchable', $value);
     }
@@ -186,7 +188,7 @@ class Select extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function filterOption(string $value = '(options: Option[], inputValue: string, option: {keys: string[]}) => Option[]'): self
+    public function filterOption(string $value = '(options: Option[], inputValue: string, option: {keys: string[]}) => Option[]'): static
     {
         return $this->set('filterOption', $value);
     }
@@ -197,7 +199,7 @@ class Select extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function createBtnLabel(string $value = '新增选项'): self
+    public function createBtnLabel(string $value = '新增选项'): static
     {
         return $this->set('createBtnLabel', $value);
     }
@@ -208,7 +210,7 @@ class Select extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function addControls(mixed $value = null): self
+    public function addControls(mixed $value = null): static
     {
         return $this->set('addControls', $value);
     }
@@ -219,7 +221,7 @@ class Select extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function addApi(mixed $value = null): self
+    public function addApi(mixed $value = null): static
     {
         return $this->set('addApi', $value);
     }
@@ -230,7 +232,7 @@ class Select extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function editable(bool $value = true): self
+    public function editable(bool $value = true): static
     {
         return $this->set('editable', $value);
     }
@@ -241,7 +243,7 @@ class Select extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function editControls(mixed $value = null): self
+    public function editControls(mixed $value = null): static
     {
         return $this->set('editControls', $value);
     }
@@ -252,7 +254,7 @@ class Select extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function editApi(mixed $value = null): self
+    public function editApi(mixed $value = null): static
     {
         return $this->set('editApi', $value);
     }
@@ -263,7 +265,7 @@ class Select extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function removable(bool $value = true): self
+    public function removable(bool $value = true): static
     {
         return $this->set('removable', $value);
     }
@@ -274,7 +276,7 @@ class Select extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function deleteApi(mixed $value = null): self
+    public function deleteApi(mixed $value = null): static
     {
         return $this->set('deleteApi', $value);
     }
@@ -285,7 +287,7 @@ class Select extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function autoFill(array $value = []): self
+    public function autoFill(array $value = []): static
     {
         return $this->set('autoFill', $value);
     }
@@ -296,7 +298,7 @@ class Select extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function menuTpl(string $value = ''): self
+    public function menuTpl(string $value = ''): static
     {
         return $this->set('menuTpl', $value);
     }
@@ -307,7 +309,7 @@ class Select extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function hideSelected(bool $value = true): self
+    public function hideSelected(bool $value = true): static
     {
         return $this->set('hideSelected', $value);
     }
@@ -318,7 +320,7 @@ class Select extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function mobileClassName(string $value = ''): self
+    public function mobileClassName(string $value = ''): static
     {
         return $this->set('mobileClassName', $value);
     }
@@ -329,7 +331,7 @@ class Select extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function selectMode(string $value = ''): self
+    public function selectMode(string $value = ''): static
     {
         return $this->set('selectMode', $value);
     }
@@ -340,7 +342,7 @@ class Select extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function searchResultMode(string $value = ''): self
+    public function searchResultMode(string $value = ''): static
     {
         return $this->set('searchResultMode', $value);
     }
@@ -351,7 +353,7 @@ class Select extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function columns(array $value = []): self
+    public function columns(array $value = []): static
     {
         return $this->set('columns', $value);
     }
@@ -362,7 +364,7 @@ class Select extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function leftOptions(array $value = []): self
+    public function leftOptions(array $value = []): static
     {
         return $this->set('leftOptions', $value);
     }
@@ -373,7 +375,7 @@ class Select extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function leftMode(string $value = ''): self
+    public function leftMode(string $value = ''): static
     {
         return $this->set('leftMode', $value);
     }
@@ -384,7 +386,7 @@ class Select extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function rightMode(string $value = ''): self
+    public function rightMode(string $value = ''): static
     {
         return $this->set('rightMode', $value);
     }
@@ -395,7 +397,7 @@ class Select extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function maxTagCount(int|float $value = 0): self
+    public function maxTagCount(int|float $value = 0): static
     {
         return $this->set('maxTagCount', $value);
     }
@@ -406,7 +408,7 @@ class Select extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function overflowTagPopover(mixed $value = null): self
+    public function overflowTagPopover(mixed $value = null): static
     {
         return $this->set('overflowTagPopover', $value);
     }
@@ -417,7 +419,7 @@ class Select extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function optionClassName(string $value = ''): self
+    public function optionClassName(string $value = ''): static
     {
         return $this->set('optionClassName', $value);
     }
@@ -428,7 +430,7 @@ class Select extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function popOverContainerSelector(string $value = ''): self
+    public function popOverContainerSelector(string $value = ''): static
     {
         return $this->set('popOverContainerSelector', $value);
     }
@@ -439,7 +441,7 @@ class Select extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function clearable(bool $value = true): self
+    public function clearable(bool $value = true): static
     {
         return $this->set('clearable', $value);
     }
@@ -450,7 +452,7 @@ class Select extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function overlay(mixed $value = null): self
+    public function overlay(mixed $value = null): static
     {
         return $this->set('overlay', $value);
     }
@@ -461,7 +463,7 @@ class Select extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function showInvalidMatch(bool $value = true): self
+    public function showInvalidMatch(bool $value = true): static
     {
         return $this->set('showInvalidMatch', $value);
     }
@@ -472,7 +474,7 @@ class Select extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function noResultsText(string $value = '未找到任何结果'): self
+    public function noResultsText(string $value = '未找到任何结果'): static
     {
         return $this->set('noResultsText', $value);
     }

@@ -15,7 +15,7 @@ class ButtonGroup extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function vertical(bool $value = true): self
+    public function vertical(bool $value = true): static
     {
         return $this->set('vertical', $value);
     }
@@ -26,7 +26,7 @@ class ButtonGroup extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function tiled(bool $value = true): self
+    public function tiled(bool $value = true): static
     {
         return $this->set('tiled', $value);
     }
@@ -37,7 +37,7 @@ class ButtonGroup extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function btnLevel(mixed $value = null): self
+    public function btnLevel(mixed $value = null): static
     {
         return $this->set('btnLevel', $value);
     }
@@ -48,7 +48,7 @@ class ButtonGroup extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function btnActiveLevel(mixed $value = null): self
+    public function btnActiveLevel(mixed $value = null): static
     {
         return $this->set('btnActiveLevel', $value);
     }
@@ -59,18 +59,18 @@ class ButtonGroup extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function buttons(array $value = []): self
+    public function buttons(array $value = []): static
     {
         return $this->set('buttons', $value);
     }
 
     /**
-     * 外层 Dom 的类名
+     * 设置组件样式
      *
-     * @param string $value
-     * @return self
+     * @param mixed $value
+     * @return $this
      */
-    public function className(string $value = ''): self
+    public function className(mixed $value): static
     {
         return $this->set('className', $value);
     }

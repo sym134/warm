@@ -16,18 +16,18 @@ class Alert extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function title(string $value = ''): self
+    public function title(string $value = ''): static
     {
         return $this->set('title', $value);
     }
 
     /**
-     * 外层 Dom 的类名
+     * 设置组件样式
      *
-     * @param string $value
-     * @return self
+     * @param mixed $value
+     * @return $this
      */
-    public function className(string $value = ''): self
+    public function className(mixed $value): static
     {
         return $this->set('className', $value);
     }
@@ -38,18 +38,18 @@ class Alert extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function level(string $value = 'info'): self
+    public function level(string $value = 'info'): static
     {
         return $this->set('level', $value);
     }
 
     /**
-     * 
+     * 内容
      *
-     * @param array $value
+     * @param string|array $value
      * @return self
      */
-    public function body(array $value = []): self
+    public function body(string|array $value = []): static
     {
         return $this->set('body', $value);
     }
@@ -60,7 +60,7 @@ class Alert extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function showCloseButton(bool $value = true): self
+    public function showCloseButton(bool $value = true): static
     {
         return $this->set('showCloseButton', $value);
     }
@@ -71,7 +71,7 @@ class Alert extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function closeButtonClassName(string $value = ''): self
+    public function closeButtonClassName(string $value = ''): static
     {
         return $this->set('closeButtonClassName', $value);
     }
@@ -82,7 +82,7 @@ class Alert extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function showIcon(bool $value = true): self
+    public function showIcon(bool $value = true): static
     {
         return $this->set('showIcon', $value);
     }
@@ -93,7 +93,7 @@ class Alert extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function icon(string $value = ''): self
+    public function icon(string $value = ''): static
     {
         return $this->set('icon', $value);
     }
@@ -104,7 +104,7 @@ class Alert extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function iconClassName(string $value = ''): self
+    public function iconClassName(string $value = ''): static
     {
         return $this->set('iconClassName', $value);
     }
@@ -115,7 +115,7 @@ class Alert extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function actions(array $value = []): self
+    public function actions(array $value = []): static
     {
         return $this->set('actions', $value);
     }

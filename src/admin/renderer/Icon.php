@@ -6,16 +6,13 @@ namespace warm\admin\renderer;
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/icon
  */
 class Icon extends BaseRenderer
-{
-    public string $type = 'icon';
-
-    /**
-     * 外层 CSS 类名
+{/**
+     * 设置组件样式
      *
-     * @param string $value
-     * @return self
+     * @param mixed $value
+     * @return $this
      */
-    public function className(string $value = ''): self
+    public function className(mixed $value): static
     {
         return $this->set('className', $value);
     }
@@ -26,7 +23,7 @@ class Icon extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function icon(mixed $value = null): self
+    public function icon(mixed $value = null): static
     {
         return $this->set('icon', $value);
     }
@@ -37,7 +34,7 @@ class Icon extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function vendor(string $value = ''): self
+    public function vendor(string $value = ''): static
     {
         return $this->set('vendor', $value);
     }

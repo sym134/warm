@@ -2,17 +2,15 @@
 namespace warm\admin\renderer\form;
 
 use warm\admin\renderer\BaseRenderer;
-use warm\admin\renderer\form\FormItemTrait;
+use warm\admin\renderer\trait\FormItem;
 
 /**
  * TransferPicker
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/transfer-picker
  */
-class TransferPicker extends BaseRenderer
+class TransferPicker extends Transfer
 {
-    use FormItemTrait;
-
     public string $type = 'transfer-picker';
 
     /**
@@ -21,7 +19,7 @@ class TransferPicker extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function borderMode(mixed $value = null): self
+    public function borderMode(mixed $value = null): static
     {
         return $this->set('borderMode', $value);
     }
@@ -32,7 +30,7 @@ class TransferPicker extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function pickerSize(string $value = ''): self
+    public function pickerSize(string $value = ''): static
     {
         return $this->set('pickerSize', $value);
     }

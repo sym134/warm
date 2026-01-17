@@ -63,10 +63,9 @@ class WechatOfficialAccountConfigController extends AdminController
                                 ->required()
                                 ->placeholder('请输入微信公众号App ID'),
 
-                            amis()->InputText('app_secret', 'App Secret')
+                            amis()->InputPassword('app_secret', 'App Secret')
                                 ->required()
-                                ->placeholder('请输入微信公众号App Secret')
-                                ->type('input-password'),
+                                ->placeholder('请输入微信公众号App Secret'),
 
                             amis()->InputText('token', 'Token')
                                 ->placeholder('请输入微信公众号Token'),

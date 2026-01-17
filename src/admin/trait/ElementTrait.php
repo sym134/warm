@@ -3,13 +3,11 @@
 namespace warm\admin\trait;
 
 use warm\admin\Admin;
-use warm\admin\renderer\ConditionBuilder;
+use warm\admin\renderer\Action;
 use warm\admin\renderer\CRUD;
-use warm\admin\renderer\DialogAction;
-use warm\admin\renderer\Form;
-use warm\admin\renderer\LinkAction;
-use warm\admin\renderer\Operation;
-use warm\admin\renderer\OtherAction;
+use warm\admin\renderer\expand\Operation;
+use warm\admin\renderer\form\ConditionBuilder;
+use warm\admin\renderer\form\Form;
 use warm\admin\renderer\Page;
 use warm\admin\renderer\Service;
 
@@ -34,15 +32,15 @@ trait ElementTrait
     /**
      * 返回列表按钮
      *
-     * @return OtherAction 返回按钮实例
+     * @return Action 返回按钮实例
      */
-    protected function backButton(): OtherAction
+    protected function backButton(): Action
     {
         $path   = str_replace(Admin::warmConfig('app.route.prefix'), '', request()->path());
         $script = sprintf('window.$owl.hasOwnProperty(\'closeTabByPath\') && window.$owl.closeTabByPath(\'%s\')', $path);
 
         return amis()
-            ->OtherAction()
+            ->Action()->actionType('pre')
             ->label(translator('admin.back'))
             ->icon('fa-solid fa-chevron-left')
             ->level('primary')
@@ -52,17 +50,17 @@ trait ElementTrait
     /**
      * 批量删除按钮
      * 
-     * @return DialogAction 批量删除按钮实例
+     * @return Action 批量删除按钮实例
      */
-    protected function bulkDeleteButton(): DialogAction
+    protected function bulkDeleteButton(): Action
     {
-        return amis()->DialogAction()
+        return amis()->Action()->actionType('dialog')
             ->label(translator('admin.delete'))
             ->icon('fa-solid fa-trash-can')
             ->dialog(
                 amis()->Dialog()
                     ->title(translator('admin.delete'))
-                    ->className('py-2')
+                    ->bodyClassName('py-2')
                     ->actions([
                         amis()->Action()->actionType('cancel')->label(translator('admin.cancel')),
                         amis()->Action()->actionType('submit')->label(translator('admin.delete'))->level('danger'),
@@ -82,22 +80,22 @@ trait ElementTrait
      * @param string $dialogSize 弹窗大小, 默认: md, 可选值: xs | sm | md | lg | xl | full
      * @param string $title 弹窗标题 & 按钮文字, 默认: 新增
      *
-     * @return DialogAction|LinkAction 新增按钮实例
+     * @return Action 新增按钮实例
      */
-    protected function createButton(bool|string $dialog = false, string $dialogSize = 'md', string $title = ''): LinkAction|DialogAction
+    protected function createButton(bool|string $dialog = false, string $dialogSize = 'md', string $title = ''): Action
     {
         $title  = $title ?: translator('admin.create');
-        $action = amis()->LinkAction()->link($this->getCreatePath());
+        $action = amis()->Action()->actionType('link')->link($this->getCreatePath());
 
         if ($dialog) {
             $form = $this->form(false)->canAccessSuperData(false)->api($this->getStorePath())->onEvent([]);
 
             if ($dialog === 'drawer') {
-                $action = amis()->DrawerAction()->drawer(
+                $action = amis()->Action()->actionType('drawer')->drawer(
                     amis()->Drawer()->title($title)->body($form)->size($dialogSize)
                 );
             } else {
-                $action = amis()->DialogAction()->dialog(
+                $action = amis()->Action()->actionType('dialog')->dialog(
                     amis()->Dialog()->title($title)->body($form)->size($dialogSize)
                 );
             }
@@ -115,12 +113,12 @@ trait ElementTrait
      * @param string $dialogSize 弹窗大小, 默认: md, 可选值: xs | sm | md | lg | xl | full
      * @param string $title 弹窗标题 & 按钮文字, 默认: 编辑
      *
-     * @return DialogAction|LinkAction 行编辑按钮实例
+     * @return Action 行编辑按钮实例
      */
-    protected function rowEditButton(bool|string $dialog = false, string $dialogSize = 'md', string $title = ''): LinkAction|DialogAction
+    protected function rowEditButton(bool|string $dialog = false, string $dialogSize = 'md', string $title = ''): Action
     {
         $title  = $title ?: translator('admin.edit');
-        $action = amis()->LinkAction()->link($this->getEditPath());
+        $action = amis()->Action()->actionType('link')->link($this->getEditPath());
 
         if ($dialog) {
             $form = $this->form(true)
@@ -130,11 +128,11 @@ trait ElementTrait
                 ->onEvent([]);
 
             if ($dialog === 'drawer') {
-                $action = amis()->DrawerAction()->drawer(
+                $action = amis()->Action()->actionType('drawer')->drawer(
                     amis()->Drawer()->title($title)->body($form)->size($dialogSize)
                 );
             } else {
-                $action = amis()->DialogAction()->dialog(
+                $action = amis()->Action()->actionType('dialog')->dialog(
                     amis()->Dialog()->title($title)->body($form)->size($dialogSize)
                 );
             }
@@ -152,20 +150,20 @@ trait ElementTrait
      * @param string $dialogSize 弹窗大小, 默认: md, 可选值: xs | sm | md | lg | xl | full
      * @param string $title 弹窗标题 & 按钮文字, 默认: 详情
      *
-     * @return DialogAction|LinkAction 行详情按钮实例
+     * @return Action 行详情按钮实例
      */
-    protected function rowShowButton(bool|string $dialog = false, string $dialogSize = 'md', string $title = ''): LinkAction|DialogAction
+    protected function rowShowButton(bool|string $dialog = false, string $dialogSize = 'md', string $title = ''): Action
     {
         $title  = $title ?: translator('admin.show');
-        $action = amis()->LinkAction()->link($this->getShowPath());
+        $action = amis()->Action()->actionType('link')->link($this->getShowPath());
 
         if ($dialog) {
             if ($dialog === 'drawer') {
-                $action = amis()->DrawerAction()->drawer(
+                $action = amis()->Action()->actionType('drawer')->drawer(
                     amis()->Drawer()->title($title)->body($this->detail('$id'))->size($dialogSize)
                 );
             } else {
-                $action = amis()->DialogAction()->dialog(
+                $action = amis()->Action()->actionType('dialog')->dialog(
                     amis()->Dialog()->title($title)->body($this->detail('$id'))->size($dialogSize)
                 );
             }
@@ -181,18 +179,18 @@ trait ElementTrait
      *
      * @param string $title 按钮标题
      *
-     * @return DialogAction 行删除按钮实例
+     * @return Action 行删除按钮实例
      */
-    protected function rowDeleteButton(string $title = ''): DialogAction
+    protected function rowDeleteButton(string $title = ''): Action
     {
-        return amis()->DialogAction()
+        return amis()->Action()->actionType('dialog')
             ->label($title ?: translator('admin.delete'))
             ->level('link')
             ->className('text-danger')
             ->dialog(
                 amis()->Dialog()
                     ->title()
-                    ->className('py-2')
+                    ->bodyClassName('py-2')
                     ->actions([
                         amis()->Action()->actionType('cancel')->label(translator('admin.cancel')),
                         amis()->Action()->actionType('submit')->label(translator('admin.delete'))->level('danger'),
@@ -262,7 +260,7 @@ trait ElementTrait
             ->perPage(20)
             ->alwaysShowPagination()
             ->affixHeader(false)
-            ->filterTogglable()
+            ->filterTogglable(true)
             ->filterDefaultVisible(false)
             ->api($this->getListGetDataPath())
             ->quickSaveApi($this->getQuickEditPath())
@@ -293,7 +291,7 @@ trait ElementTrait
                 'pagination',
             ])
             ->headerToolbar([
-                $this->createButton(),
+                $this->createButton('drawer'),
                 ...$this->baseHeaderToolBar(),
             ]);
 
@@ -359,7 +357,7 @@ trait ElementTrait
             ->panelClassName('px-48 m:px-0')
             ->title(' ')
             ->mode('horizontal')
-            ->actions([])
+            ->actions()
             ->initApi($this->getShowGetDataPath());
     }
 

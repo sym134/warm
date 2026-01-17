@@ -2,7 +2,6 @@
 namespace warm\admin\renderer\form;
 
 use warm\admin\renderer\BaseRenderer;
-use warm\admin\renderer\form\FormItemTrait;
 
 /**
  * JsonSchemaEditor
@@ -11,17 +10,23 @@ use warm\admin\renderer\form\FormItemTrait;
  */
 class JsonSchemaEditor extends BaseRenderer
 {
-    use FormItemTrait;
-
     public string $type = 'json-schema-editor';
 
+    public function name(string $value = ''): static
+    {
+        return $this->set('name', $value);
+    }
+    public function label(string $value = ''): static
+    {
+        return $this->set('label', $value);
+    }
     /**
      * 顶级类型是否可配置
      *
      * @param bool $value
      * @return self
      */
-    public function rootTypeMutable(bool $value = true): self
+    public function rootTypeMutable(bool $value = true): static
     {
         return $this->set('rootTypeMutable', $value);
     }
@@ -32,7 +37,7 @@ class JsonSchemaEditor extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function showRootInfo(bool $value = true): self
+    public function showRootInfo(bool $value = true): static
     {
         return $this->set('showRootInfo', $value);
     }
@@ -43,7 +48,7 @@ class JsonSchemaEditor extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function disabledTypes(array $value = []): self
+    public function disabledTypes(array $value = []): static
     {
         return $this->set('disabledTypes', $value);
     }
@@ -54,7 +59,7 @@ class JsonSchemaEditor extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function definitions(array $value = []): self
+    public function definitions(array $value = []): static
     {
         return $this->set('definitions', $value);
     }
@@ -65,7 +70,7 @@ class JsonSchemaEditor extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function mini(bool $value = true): self
+    public function mini(bool $value = true): static
     {
         return $this->set('mini', $value);
     }
@@ -76,7 +81,7 @@ class JsonSchemaEditor extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function placeholder(mixed $value = null): self
+    public function placeholder(mixed $value = null): static
     {
         return $this->set('placeholder', $value);
     }

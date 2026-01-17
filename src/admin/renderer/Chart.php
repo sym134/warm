@@ -1,5 +1,8 @@
 <?php
 namespace warm\admin\renderer;
+use warm\admin\renderer\trait\DataDomain;
+use warm\admin\renderer\trait\OnEvent;
+
 /**
  * Chart
  *
@@ -7,15 +10,17 @@ namespace warm\admin\renderer;
  */
 class Chart extends BaseRenderer
 {
-    public string $type = 'chart';
+    use OnEvent;
+    use DataDomain;
 
+    public string $type = 'chart';
     /**
-     * 外层 Dom 的类名
+     * 设置组件样式
      *
-     * @param string $value
-     * @return self
+     * @param mixed $value
+     * @return $this
      */
-    public function className(string $value = ''): self
+    public function className(mixed $value): static
     {
         return $this->set('className', $value);
     }
@@ -26,7 +31,7 @@ class Chart extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function body(mixed $value = null): self
+    public function body(mixed $value = null): static
     {
         return $this->set('body', $value);
     }
@@ -37,7 +42,7 @@ class Chart extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function api(mixed $value = null): self
+    public function api(mixed $value = null): static
     {
         return $this->set('api', $value);
     }
@@ -48,7 +53,7 @@ class Chart extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function source(mixed $value = null): self
+    public function source(mixed $value = null): static
     {
         return $this->set('source', $value);
     }
@@ -59,7 +64,7 @@ class Chart extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function initFetch(bool $value = true): self
+    public function initFetch(bool $value = true): static
     {
         return $this->set('initFetch', $value);
     }
@@ -70,7 +75,7 @@ class Chart extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function interval(int|float $value = 0): self
+    public function interval(int|float $value = 0): static
     {
         return $this->set('interval', $value);
     }
@@ -81,7 +86,7 @@ class Chart extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function config(mixed $value = null): self
+    public function config(mixed $value = null): static
     {
         return $this->set('config', $value);
     }
@@ -92,7 +97,7 @@ class Chart extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function style(array $value = []): self
+    public function style(array $value = []): static
     {
         return $this->set('style', $value);
     }
@@ -103,7 +108,7 @@ class Chart extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function width(string $value = ''): self
+    public function width(string $value = ''): static
     {
         return $this->set('width', $value);
     }
@@ -114,7 +119,7 @@ class Chart extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function height(string $value = ''): self
+    public function height(string $value = ''): static
     {
         return $this->set('height', $value);
     }
@@ -125,7 +130,7 @@ class Chart extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function replaceChartOption(bool $value = true): self
+    public function replaceChartOption(bool $value = true): static
     {
         return $this->set('replaceChartOption', $value);
     }
@@ -136,7 +141,7 @@ class Chart extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function trackExpression(string $value = ''): self
+    public function trackExpression(string $value = ''): static
     {
         return $this->set('trackExpression', $value);
     }
@@ -147,7 +152,7 @@ class Chart extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function dataFilter(string $value = ''): self
+    public function dataFilter(string $value = ''): static
     {
         return $this->set('dataFilter', $value);
     }
@@ -158,7 +163,7 @@ class Chart extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function mapURL(mixed $value = null): self
+    public function mapURL(mixed $value = null): static
     {
         return $this->set('mapURL', $value);
     }
@@ -169,7 +174,7 @@ class Chart extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function mapName(string $value = ''): self
+    public function mapName(string $value = ''): static
     {
         return $this->set('mapName', $value);
     }
@@ -180,7 +185,7 @@ class Chart extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function loadBaiduMap(bool $value = true): self
+    public function loadBaiduMap(bool $value = true): static
     {
         return $this->set('loadBaiduMap', $value);
     }

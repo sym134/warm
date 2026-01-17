@@ -2,16 +2,18 @@
 namespace warm\admin\renderer\form;
 
 use warm\admin\renderer\BaseRenderer;
-use warm\admin\renderer\form\FormItemTrait;
+use warm\admin\renderer\trait\FormItem;
+use warm\admin\renderer\trait\OnEvent;
 
 /**
  * Switch
  *
- * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/switch
+ * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/form/switch
  */
 class SwitchClass extends BaseRenderer
 {
-    use FormItemTrait;
+    use FormItem;
+    use OnEvent;
 
     public string $type = 'switch';
 
@@ -21,7 +23,7 @@ class SwitchClass extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function option(string $value = ''): self
+    public function option(string $value = ''): static
     {
         return $this->set('option', $value);
     }
@@ -32,7 +34,7 @@ class SwitchClass extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function onText(mixed $value = null): self
+    public function onText(mixed $value = null): static
     {
         return $this->set('onText', $value);
     }
@@ -43,7 +45,7 @@ class SwitchClass extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function offText(mixed $value = null): self
+    public function offText(mixed $value = null): static
     {
         return $this->set('offText', $value);
     }
@@ -54,7 +56,7 @@ class SwitchClass extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function trueValue(mixed $value = null): self
+    public function trueValue(mixed $value = null): static
     {
         return $this->set('trueValue', $value);
     }
@@ -65,7 +67,7 @@ class SwitchClass extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function falseValue(mixed $value = null): self
+    public function falseValue(mixed $value = null): static
     {
         return $this->set('falseValue', $value);
     }
@@ -76,7 +78,7 @@ class SwitchClass extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function size(mixed $value = null): self
+    public function size(mixed $value = null): static
     {
         return $this->set('size', $value);
     }
@@ -87,7 +89,7 @@ class SwitchClass extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function loading(bool $value = true): self
+    public function loading(bool $value = true): static
     {
         return $this->set('loading', $value);
     }
@@ -98,7 +100,7 @@ class SwitchClass extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function icon(string $value = ''): self
+    public function icon(string $value = ''): static
     {
         return $this->set('icon', $value);
     }

@@ -1,5 +1,9 @@
 <?php
+
 namespace warm\admin\renderer;
+
+use warm\admin\renderer\trait\OnEvent;
+
 /**
  * Pagination
  *
@@ -7,6 +11,8 @@ namespace warm\admin\renderer;
  */
 class Pagination extends BaseRenderer
 {
+    use OnEvent;
+
     public string $type = 'pagination';
 
     /**
@@ -15,7 +21,7 @@ class Pagination extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function mode(mixed $value = null): self
+    public function mode(mixed $value = null): static
     {
         return $this->set('mode', $value);
     }
@@ -26,7 +32,7 @@ class Pagination extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function layout(mixed $value = null): self
+    public function layout(mixed $value = null): static
     {
         return $this->set('layout', $value);
     }
@@ -37,18 +43,18 @@ class Pagination extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function maxButtons(mixed $value = null): self
+    public function maxButtons(mixed $value = null): static
     {
         return $this->set('maxButtons', $value);
     }
 
     /**
-     * 
+     *
      *
      * @param mixed $value
      * @return self
      */
-    public function total(mixed $value = null): self
+    public function total(mixed $value = null): static
     {
         return $this->set('total', $value);
     }
@@ -59,7 +65,7 @@ class Pagination extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function activePage(mixed $value = null): self
+    public function activePage(mixed $value = null): static
     {
         return $this->set('activePage', $value);
     }
@@ -70,7 +76,7 @@ class Pagination extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function perPage(mixed $value = null): self
+    public function perPage(mixed $value = null): static
     {
         return $this->set('perPage', $value);
     }
@@ -81,7 +87,7 @@ class Pagination extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function showPerPage(bool $value = true): self
+    public function showPerPage(bool $value = true): static
     {
         return $this->set('showPerPage', $value);
     }
@@ -92,7 +98,7 @@ class Pagination extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function size(mixed $value = null): self
+    public function size(mixed $value = null): static
     {
         return $this->set('size', $value);
     }
@@ -103,7 +109,7 @@ class Pagination extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function ellipsisPageGap(mixed $value = null): self
+    public function ellipsisPageGap(mixed $value = null): static
     {
         return $this->set('ellipsisPageGap', $value);
     }
@@ -114,7 +120,7 @@ class Pagination extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function perPageAvailable(array $value = []): self
+    public function perPageAvailable(array $value = []): static
     {
         return $this->set('perPageAvailable', $value);
     }
@@ -125,7 +131,7 @@ class Pagination extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function showPageInput(bool $value = true): self
+    public function showPageInput(bool $value = true): static
     {
         return $this->set('showPageInput', $value);
     }
@@ -136,7 +142,7 @@ class Pagination extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function disabled(bool $value = true): self
+    public function disabled(bool $value = true): static
     {
         return $this->set('disabled', $value);
     }
@@ -147,7 +153,8 @@ class Pagination extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function onPageChange(mixed $value = null): self
+    public function onPageChange(mixed $value = null): static
     {
         return $this->set('onPageChange', $value);
- 
+    }
+}

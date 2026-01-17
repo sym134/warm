@@ -2,7 +2,8 @@
 namespace warm\admin\renderer\form;
 
 use warm\admin\renderer\BaseRenderer;
-use warm\admin\renderer\form\FormItemTrait;
+use warm\admin\renderer\trait\FormItem;
+use warm\admin\renderer\trait\OnEvent;
 
 /**
  * InputCity
@@ -11,7 +12,8 @@ use warm\admin\renderer\form\FormItemTrait;
  */
 class InputCity extends BaseRenderer
 {
-    use FormItemTrait;
+    use FormItem;
+    use OnEvent;
 
     public string $type = 'input-city';
 
@@ -21,7 +23,7 @@ class InputCity extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function allowCity(bool $value = true): self
+    public function allowCity(bool $value = true): static
     {
         return $this->set('allowCity', $value);
     }
@@ -32,7 +34,7 @@ class InputCity extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function allowDistrict(bool $value = true): self
+    public function allowDistrict(bool $value = true): static
     {
         return $this->set('allowDistrict', $value);
     }
@@ -43,7 +45,7 @@ class InputCity extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function searchable(bool $value = true): self
+    public function searchable(bool $value = true): static
     {
         return $this->set('searchable', $value);
     }
@@ -54,7 +56,7 @@ class InputCity extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function extractValue(bool $value = true): self
+    public function extractValue(bool $value = true): static
     {
         return $this->set('extractValue', $value);
     }

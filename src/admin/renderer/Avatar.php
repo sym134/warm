@@ -1,5 +1,8 @@
 <?php
 namespace warm\admin\renderer;
+
+use warm\admin\renderer\trait\OnEvent;
+
 /**
  * Avatar
  *
@@ -7,15 +10,16 @@ namespace warm\admin\renderer;
  */
 class Avatar extends BaseRenderer
 {
+    use OnEvent;
     public string $type = 'avatar';
 
     /**
-     * 外层 dom 的类名
+     * 设置组件样式
      *
-     * @param string $value
-     * @return self
+     * @param mixed $value
+     * @return $this
      */
-    public function className(string $value = ''): self
+    public function className(mixed $value): static
     {
         return $this->set('className', $value);
     }
@@ -26,7 +30,7 @@ class Avatar extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function style(array $value = []): self
+    public function style(array $value = []): static
     {
         return $this->set('style', $value);
     }
@@ -37,7 +41,7 @@ class Avatar extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function fit(mixed $value = null): self
+    public function fit(mixed $value = null): static
     {
         return $this->set('fit', $value);
     }
@@ -48,7 +52,7 @@ class Avatar extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function src(string $value = ''): self
+    public function src(string $value = ''): static
     {
         return $this->set('src', $value);
     }
@@ -59,7 +63,7 @@ class Avatar extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function defaultAvatar(string $value = ''): self
+    public function defaultAvatar(string $value = ''): static
     {
         return $this->set('defaultAvatar', $value);
     }
@@ -70,7 +74,7 @@ class Avatar extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function text(string $value = ''): self
+    public function text(string $value = ''): static
     {
         return $this->set('text', $value);
     }
@@ -81,7 +85,7 @@ class Avatar extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function icon(string $value = 'fa fa-user'): self
+    public function icon(string $value = 'fa fa-user'): static
     {
         return $this->set('icon', $value);
     }
@@ -92,7 +96,7 @@ class Avatar extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function shape(mixed $value = null): self
+    public function shape(mixed $value = null): static
     {
         return $this->set('shape', $value);
     }
@@ -103,7 +107,7 @@ class Avatar extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function size(mixed $value = null): self
+    public function size(mixed $value = null): static
     {
         return $this->set('size', $value);
     }
@@ -114,7 +118,7 @@ class Avatar extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function gap(int|float $value = 4): self
+    public function gap(int|float $value = 4): static
     {
         return $this->set('gap', $value);
     }
@@ -125,7 +129,7 @@ class Avatar extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function alt(int|float $value = 0): self
+    public function alt(int|float $value = 0): static
     {
         return $this->set('alt', $value);
     }
@@ -136,7 +140,7 @@ class Avatar extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function draggable(bool $value = true): self
+    public function draggable(bool $value = true): static
     {
         return $this->set('draggable', $value);
     }
@@ -147,7 +151,7 @@ class Avatar extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function crossOrigin(mixed $value = null): self
+    public function crossOrigin(mixed $value = null): static
     {
         return $this->set('crossOrigin', $value);
     }
@@ -158,7 +162,7 @@ class Avatar extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function onError(string $value = ''): self
+    public function onError(string $value = ''): static
     {
         return $this->set('onError', $value);
     }

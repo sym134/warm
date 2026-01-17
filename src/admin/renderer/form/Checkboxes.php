@@ -2,7 +2,8 @@
 namespace warm\admin\renderer\form;
 
 use warm\admin\renderer\BaseRenderer;
-use warm\admin\renderer\form\FormItemTrait;
+use warm\admin\renderer\trait\FormItem;
+use warm\admin\renderer\trait\OnEvent;
 
 /**
  * Checkboxes
@@ -11,7 +12,9 @@ use warm\admin\renderer\form\FormItemTrait;
  */
 class Checkboxes extends BaseRenderer
 {
-    use FormItemTrait;
+
+    use FormItem;
+    use OnEvent;
 
     public string $type = 'checkboxes';
 
@@ -21,7 +24,7 @@ class Checkboxes extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function options(array $value = []): self
+    public function options(array $value = []): static
     {
         return $this->set('options', $value);
     }
@@ -32,7 +35,7 @@ class Checkboxes extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function source(mixed $value = null): self
+    public function source(mixed $value = null): static
     {
         return $this->set('source', $value);
     }
@@ -43,7 +46,7 @@ class Checkboxes extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function delimiter(string $value = ','): self
+    public function delimiter(string $value = ','): static
     {
         return $this->set('delimiter', $value);
     }
@@ -54,7 +57,7 @@ class Checkboxes extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function labelField(string $value = 'label'): self
+    public function labelField(string $value = 'label'): static
     {
         return $this->set('labelField', $value);
     }
@@ -65,7 +68,7 @@ class Checkboxes extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function valueField(string $value = 'value'): self
+    public function valueField(string $value = 'value'): static
     {
         return $this->set('valueField', $value);
     }
@@ -76,7 +79,7 @@ class Checkboxes extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function joinValues(bool $value = true): self
+    public function joinValues(bool $value = true): static
     {
         return $this->set('joinValues', $value);
     }
@@ -87,7 +90,7 @@ class Checkboxes extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function extractValue(bool $value = true): self
+    public function extractValue(bool $value = true): static
     {
         return $this->set('extractValue', $value);
     }
@@ -98,7 +101,7 @@ class Checkboxes extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function columnsCount(int|float $value = 1): self
+    public function columnsCount(int|float $value = 1): static
     {
         return $this->set('columnsCount', $value);
     }
@@ -109,7 +112,7 @@ class Checkboxes extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function menuTpl(string $value = ''): self
+    public function menuTpl(string $value = ''): static
     {
         return $this->set('menuTpl', $value);
     }
@@ -120,7 +123,7 @@ class Checkboxes extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function checkAll(bool $value = true): self
+    public function checkAll(bool $value = true): static
     {
         return $this->set('checkAll', $value);
     }
@@ -131,7 +134,7 @@ class Checkboxes extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function inline(bool $value = true): self
+    public function inline(bool $value = true): static
     {
         return $this->set('inline', $value);
     }
@@ -142,7 +145,7 @@ class Checkboxes extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function defaultCheckAll(bool $value = true): self
+    public function defaultCheckAll(bool $value = true): static
     {
         return $this->set('defaultCheckAll', $value);
     }
@@ -153,7 +156,7 @@ class Checkboxes extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function creatable(bool $value = true): self
+    public function creatable(bool $value = true): static
     {
         return $this->set('creatable', $value);
     }
@@ -164,7 +167,7 @@ class Checkboxes extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function createBtnLabel(string $value = '新增选项'): self
+    public function createBtnLabel(string $value = '新增选项'): static
     {
         return $this->set('createBtnLabel', $value);
     }
@@ -175,7 +178,7 @@ class Checkboxes extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function addControls(mixed $value = null): self
+    public function addControls(mixed $value = null): static
     {
         return $this->set('addControls', $value);
     }
@@ -186,7 +189,7 @@ class Checkboxes extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function addApi(mixed $value = null): self
+    public function addApi(mixed $value = null): static
     {
         return $this->set('addApi', $value);
     }
@@ -197,7 +200,7 @@ class Checkboxes extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function editable(bool $value = true): self
+    public function editable(bool $value = true): static
     {
         return $this->set('editable', $value);
     }
@@ -208,7 +211,7 @@ class Checkboxes extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function editControls(mixed $value = null): self
+    public function editControls(mixed $value = null): static
     {
         return $this->set('editControls', $value);
     }
@@ -219,7 +222,7 @@ class Checkboxes extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function editApi(mixed $value = null): self
+    public function editApi(mixed $value = null): static
     {
         return $this->set('editApi', $value);
     }
@@ -230,7 +233,7 @@ class Checkboxes extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function removable(bool $value = true): self
+    public function removable(bool $value = true): static
     {
         return $this->set('removable', $value);
     }
@@ -241,7 +244,7 @@ class Checkboxes extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function deleteApi(mixed $value = null): self
+    public function deleteApi(mixed $value = null): static
     {
         return $this->set('deleteApi', $value);
     }
@@ -252,7 +255,7 @@ class Checkboxes extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function optionType(mixed $value = null): self
+    public function optionType(mixed $value = null): static
     {
         return $this->set('optionType', $value);
     }
@@ -263,7 +266,7 @@ class Checkboxes extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function itemClassName(string $value = ''): self
+    public function itemClassName(string $value = ''): static
     {
         return $this->set('itemClassName', $value);
     }
@@ -274,7 +277,7 @@ class Checkboxes extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function labelClassName(string $value = ''): self
+    public function labelClassName(string $value = ''): static
     {
         return $this->set('labelClassName', $value);
     }

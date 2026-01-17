@@ -3,9 +3,8 @@
 namespace warm\admin\controller;
 
 use support\Response;
-use warm\admin\renderer\DrawerAction;
-use warm\admin\renderer\Form;
-use warm\admin\renderer\InputTree;
+use warm\admin\renderer\Action;
+use warm\admin\renderer\form\Form;
 use warm\admin\renderer\Page;
 use warm\admin\service\AdminPermissionService;
 use warm\admin\service\AdminRoleService;
@@ -79,11 +78,11 @@ class AdminRoleController extends AdminController
      * 
      * 提供一个抽屉式界面用于为角色分配权限
      * 
-     * @return DrawerAction 返回抽屉操作组件
+     * @return Action 返回抽屉操作组件
      */
-    protected function setPermission(): DrawerAction
+    protected function setPermission(): Action
     {
-        return amis()->DrawerAction()
+        return amis()->Action()->actionType('drawer')
             ->label(translator('admin.admin_role.set_permissions'))
             ->icon('fa-solid fa-gear')
             ->level('link')

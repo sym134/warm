@@ -1,5 +1,8 @@
 <?php
 namespace warm\admin\renderer;
+
+use warm\admin\renderer\trait\OnEvent;
+
 /**
  * Carousel
  *
@@ -7,15 +10,17 @@ namespace warm\admin\renderer;
  */
 class Carousel extends BaseRenderer
 {
+    use OnEvent;
+
     public string $type = 'carousel';
 
     /**
      * 外层 Dom 的类名
      *
-     * @param string $value
+     * @param mixed $value
      * @return self
      */
-    public function className(string $value = 'panel-default'): self
+    public function className(mixed $value = 'panel-default'): static
     {
         return $this->set('className', $value);
     }
@@ -26,7 +31,7 @@ class Carousel extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function options(array $value = []): self
+    public function options(array $value = []): static
     {
         return $this->set('options', $value);
     }
@@ -37,7 +42,7 @@ class Carousel extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function itemSchema(array $value = []): self
+    public function itemSchema(array $value = []): static
     {
         return $this->set('itemSchema', $value);
     }
@@ -48,7 +53,7 @@ class Carousel extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function auto(bool $value = true): self
+    public function auto(bool $value = true): static
     {
         return $this->set('auto', $value);
     }
@@ -59,7 +64,7 @@ class Carousel extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function interval(string $value = '5s'): self
+    public function interval(string $value = '5s'): static
     {
         return $this->set('interval', $value);
     }
@@ -70,7 +75,7 @@ class Carousel extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function duration(int|float $value = 500): self
+    public function duration(int|float $value = 500): static
     {
         return $this->set('duration', $value);
     }
@@ -81,7 +86,7 @@ class Carousel extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function width(string $value = 'auto'): self
+    public function width(string $value = 'auto'): static
     {
         return $this->set('width', $value);
     }
@@ -92,7 +97,7 @@ class Carousel extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function height(string $value = '200px'): self
+    public function height(string $value = '200px'): static
     {
         return $this->set('height', $value);
     }
@@ -103,7 +108,7 @@ class Carousel extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function controls(array $value = []): self
+    public function controls(array $value = []): static
     {
         return $this->set('controls', $value);
     }
@@ -114,7 +119,7 @@ class Carousel extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function controlsTheme(string $value = 'light'): self
+    public function controlsTheme(string $value = 'light'): static
     {
         return $this->set('controlsTheme', $value);
     }
@@ -125,7 +130,7 @@ class Carousel extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function animation(string $value = 'fade'): self
+    public function animation(string $value = 'fade'): static
     {
         return $this->set('animation', $value);
     }
@@ -136,7 +141,7 @@ class Carousel extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function thumbMode(string $value = 'cover'): self
+    public function thumbMode(string $value = 'cover'): static
     {
         return $this->set('thumbMode', $value);
     }
@@ -147,7 +152,7 @@ class Carousel extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function multiple(array $value = []): self
+    public function multiple(array $value = []): static
     {
         return $this->set('multiple', $value);
     }
@@ -158,7 +163,7 @@ class Carousel extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function alwaysShowArrow(bool $value = true): self
+    public function alwaysShowArrow(bool $value = true): static
     {
         return $this->set('alwaysShowArrow', $value);
     }
@@ -169,7 +174,7 @@ class Carousel extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function icons(mixed $value = null): self
+    public function icons(mixed $value = null): static
     {
         return $this->set('icons', $value);
     }

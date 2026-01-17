@@ -2,7 +2,8 @@
 namespace warm\admin\renderer\form;
 
 use warm\admin\renderer\BaseRenderer;
-use warm\admin\renderer\form\FormItemTrait;
+use warm\admin\renderer\trait\FormItem;
+use warm\admin\renderer\trait\OnEvent;
 
 /**
  * InputImage
@@ -11,7 +12,8 @@ use warm\admin\renderer\form\FormItemTrait;
  */
 class InputImage extends BaseRenderer
 {
-    use FormItemTrait;
+    use FormItem;
+    use OnEvent;
 
     public string $type = 'input-image';
 
@@ -21,7 +23,7 @@ class InputImage extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function receiver(mixed $value = null): self
+    public function receiver(mixed $value = null): static
     {
         return $this->set('receiver', $value);
     }
@@ -32,7 +34,7 @@ class InputImage extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function accept(string $value = '.jpeg,.jpg,.png,.gif'): self
+    public function accept(string $value = '.jpeg,.jpg,.png,.gif'): static
     {
         return $this->set('accept', $value);
     }
@@ -43,7 +45,7 @@ class InputImage extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function capture(string $value = 'undefined'): self
+    public function capture(string $value = 'undefined'): static
     {
         return $this->set('capture', $value);
     }
@@ -54,7 +56,7 @@ class InputImage extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function maxSize(int|float $value = 0): self
+    public function maxSize(int|float $value = 0): static
     {
         return $this->set('maxSize', $value);
     }
@@ -65,7 +67,7 @@ class InputImage extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function maxLength(int|float $value = 0): self
+    public function maxLength(int|float $value = 0): static
     {
         return $this->set('maxLength', $value);
     }
@@ -76,7 +78,7 @@ class InputImage extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function multiple(bool $value = true): self
+    public function multiple(bool $value = true): static
     {
         return $this->set('multiple', $value);
     }
@@ -87,7 +89,7 @@ class InputImage extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function joinValues(bool $value = true): self
+    public function joinValues(bool $value = true): static
     {
         return $this->set('joinValues', $value);
     }
@@ -98,7 +100,7 @@ class InputImage extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function extractValue(bool $value = true): self
+    public function extractValue(bool $value = true): static
     {
         return $this->set('extractValue', $value);
     }
@@ -109,7 +111,7 @@ class InputImage extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function delimiter(string $value = ','): self
+    public function delimiter(string $value = ','): static
     {
         return $this->set('delimiter', $value);
     }
@@ -120,7 +122,7 @@ class InputImage extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function autoUpload(bool $value = true): self
+    public function autoUpload(bool $value = true): static
     {
         return $this->set('autoUpload', $value);
     }
@@ -131,7 +133,7 @@ class InputImage extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function hideUploadButton(bool $value = true): self
+    public function hideUploadButton(bool $value = true): static
     {
         return $this->set('hideUploadButton', $value);
     }
@@ -142,7 +144,7 @@ class InputImage extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function fileField(string $value = 'file'): self
+    public function fileField(string $value = 'file'): static
     {
         return $this->set('fileField', $value);
     }
@@ -153,7 +155,7 @@ class InputImage extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function crop(mixed $value = null): self
+    public function crop(mixed $value = null): static
     {
         return $this->set('crop', $value);
     }
@@ -164,7 +166,7 @@ class InputImage extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function cropFormat(string $value = 'image/png'): self
+    public function cropFormat(string $value = 'image/png'): static
     {
         return $this->set('cropFormat', $value);
     }
@@ -175,7 +177,7 @@ class InputImage extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function cropQuality(int|float $value = 1): self
+    public function cropQuality(int|float $value = 1): static
     {
         return $this->set('cropQuality', $value);
     }
@@ -186,7 +188,7 @@ class InputImage extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function limit(mixed $value = null): self
+    public function limit(mixed $value = null): static
     {
         return $this->set('limit', $value);
     }
@@ -197,7 +199,7 @@ class InputImage extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function frameImage(string $value = ''): self
+    public function frameImage(string $value = ''): static
     {
         return $this->set('frameImage', $value);
     }
@@ -208,7 +210,7 @@ class InputImage extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function fixedSize(bool $value = true): self
+    public function fixedSize(bool $value = true): static
     {
         return $this->set('fixedSize', $value);
     }
@@ -219,7 +221,7 @@ class InputImage extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function fixedSizeClassName(string $value = ''): self
+    public function fixedSizeClassName(string $value = ''): static
     {
         return $this->set('fixedSizeClassName', $value);
     }
@@ -230,7 +232,7 @@ class InputImage extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function initAutoFill(bool $value = true): self
+    public function initAutoFill(bool $value = true): static
     {
         return $this->set('initAutoFill', $value);
     }
@@ -241,7 +243,7 @@ class InputImage extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function uploadBtnText(mixed $value = null): self
+    public function uploadBtnText(mixed $value = null): static
     {
         return $this->set('uploadBtnText', $value);
     }
@@ -252,7 +254,7 @@ class InputImage extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function dropCrop(bool $value = true): self
+    public function dropCrop(bool $value = true): static
     {
         return $this->set('dropCrop', $value);
     }
@@ -263,7 +265,7 @@ class InputImage extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function initCrop(bool $value = true): self
+    public function initCrop(bool $value = true): static
     {
         return $this->set('initCrop', $value);
     }
@@ -274,7 +276,7 @@ class InputImage extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function draggable(bool $value = true): self
+    public function draggable(bool $value = true): static
     {
         return $this->set('draggable', $value);
     }
@@ -285,7 +287,7 @@ class InputImage extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function draggableTip(string $value = '拖拽排序'): self
+    public function draggableTip(string $value = '拖拽排序'): static
     {
         return $this->set('draggableTip', $value);
     }
@@ -296,7 +298,7 @@ class InputImage extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function showErrorModal(bool $value = true): self
+    public function showErrorModal(bool $value = true): static
     {
         return $this->set('showErrorModal', $value);
     }
@@ -307,7 +309,7 @@ class InputImage extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function invalidTypeMessage(string $value = '文件格式不正确'): self
+    public function invalidTypeMessage(string $value = '文件格式不正确'): static
     {
         return $this->set('invalidTypeMessage', $value);
     }
@@ -318,7 +320,7 @@ class InputImage extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function invalidSizeMessage(string $value = '文件大小超出限制'): self
+    public function invalidSizeMessage(string $value = '文件大小超出限制'): static
     {
         return $this->set('invalidSizeMessage', $value);
     }

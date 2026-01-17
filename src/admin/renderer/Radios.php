@@ -2,8 +2,10 @@
 
 declare(strict_types=1);
 
-namespace warm\admin\renderer;use warm\admin\renderer\expand\renderer\expand\form\FormItemTrait;
-use warm\admin\renderer\form\FormItemTrait;
+namespace warm\admin\renderer;
+
+use warm\admin\renderer\trait\FormItem;
+use warm\admin\renderer\trait\OnEvent;
 
 
 /**
@@ -13,7 +15,8 @@ use warm\admin\renderer\form\FormItemTrait;
  */
 class Radios extends BaseRenderer
 {
-    use FormItemTrait;
+    use FormItem;
+    use OnEvent;
     public string $type = 'radios';
 
     /**
@@ -22,7 +25,7 @@ class Radios extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function options(array $value = []): self
+    public function options(array $value = []): static
     {
         return $this->set('options', $value);
     }
@@ -33,7 +36,7 @@ class Radios extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function source(mixed $value = null): self
+    public function source(mixed $value = null): static
     {
         return $this->set('source', $value);
     }
@@ -44,7 +47,7 @@ class Radios extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function labelField(bool $value = true): self
+    public function labelField(bool $value = true): static
     {
         return $this->set('labelField', $value);
     }
@@ -55,7 +58,7 @@ class Radios extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function valueField(bool $value = true): self
+    public function valueField(bool $value = true): static
     {
         return $this->set('valueField', $value);
     }
@@ -66,7 +69,7 @@ class Radios extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function columnsCount(int|float $value = 1): self
+    public function columnsCount(int|float $value = 1): static
     {
         return $this->set('columnsCount', $value);
     }
@@ -77,7 +80,7 @@ class Radios extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function autoFill(array $value = []): self
+    public function autoFill(array $value = []): static
     {
         return $this->set('autoFill', $value);
     }
@@ -88,7 +91,7 @@ class Radios extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function optionClassName(string $value = ''): self
+    public function optionClassName(string $value = ''): static
     {
         return $this->set('optionClassName', $value);
     }

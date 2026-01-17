@@ -10,12 +10,12 @@ class GridNav extends BaseRenderer
     public string $type = 'grid-nav';
 
     /**
-     * 外层 CSS 类名
+     * 设置组件样式
      *
-     * @param string $value
-     * @return self
+     * @param mixed $value
+     * @return $this
      */
-    public function className(string $value = ''): self
+    public function className(mixed $value): static
     {
         return $this->set('className', $value);
     }
@@ -26,7 +26,7 @@ class GridNav extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function itemClassName(string $value = ''): self
+    public function itemClassName(string $value = ''): static
     {
         return $this->set('itemClassName', $value);
     }
@@ -37,7 +37,7 @@ class GridNav extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function contentClassName(string $value = ''): self
+    public function contentClassName(string $value = ''): static
     {
         return $this->set('contentClassName', $value);
     }
@@ -48,7 +48,7 @@ class GridNav extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function value(array $value = []): self
+    public function value(array $value = []): static
     {
         return $this->set('value', $value);
     }
@@ -59,7 +59,7 @@ class GridNav extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function source(string $value = ''): self
+    public function source(string $value = ''): static
     {
         return $this->set('source', $value);
     }
@@ -70,7 +70,7 @@ class GridNav extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function square(bool $value = true): self
+    public function square(bool $value = true): static
     {
         return $this->set('square', $value);
     }
@@ -81,7 +81,7 @@ class GridNav extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function center(bool $value = true): self
+    public function center(bool $value = true): static
     {
         return $this->set('center', $value);
     }
@@ -92,7 +92,7 @@ class GridNav extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function border(bool $value = true): self
+    public function border(bool $value = true): static
     {
         return $this->set('border', $value);
     }
@@ -103,7 +103,7 @@ class GridNav extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function gutter(int|float $value = 0): self
+    public function gutter(int|float $value = 0): static
     {
         return $this->set('gutter', $value);
     }
@@ -114,7 +114,7 @@ class GridNav extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function reverse(bool $value = true): self
+    public function reverse(bool $value = true): static
     {
         return $this->set('reverse', $value);
     }
@@ -125,7 +125,7 @@ class GridNav extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function iconRatio(int|float $value = 60): self
+    public function iconRatio(int|float $value = 60): static
     {
         return $this->set('iconRatio', $value);
     }
@@ -136,7 +136,7 @@ class GridNav extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function direction(string $value = 'vertical'): self
+    public function direction(string $value = 'vertical'): static
     {
         return $this->set('direction', $value);
     }
@@ -147,7 +147,7 @@ class GridNav extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function columnNum(int|float $value = 4): self
+    public function columnNum(int|float $value = 4): static
     {
         return $this->set('columnNum', $value);
     }

@@ -10,12 +10,12 @@ class Json extends BaseRenderer
     public string $type = 'json';
 
     /**
-     * 外层 CSS 类名
+     * 设置组件样式
      *
-     * @param string $value
-     * @return self
+     * @param mixed $value
+     * @return $this
      */
-    public function className(string $value = ''): self
+    public function className(mixed $value): static
     {
         return $this->set('className', $value);
     }
@@ -26,7 +26,7 @@ class Json extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function value(mixed $value = null): self
+    public function value(mixed $value = null): static
     {
         return $this->set('value', $value);
     }
@@ -37,7 +37,7 @@ class Json extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function source(string $value = ''): self
+    public function source(string $value = ''): static
     {
         return $this->set('source', $value);
     }
@@ -48,7 +48,7 @@ class Json extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function placeholder(string $value = '-'): self
+    public function placeholder(string $value = '-'): static
     {
         return $this->set('placeholder', $value);
     }
@@ -59,7 +59,7 @@ class Json extends BaseRenderer
      * @param int|bool $value
      * @return self
      */
-    public function levelExpand(int|bool $value = 1): self
+    public function levelExpand(int|bool $value = 1): static
     {
         return $this->set('levelExpand', $value);
     }
@@ -70,7 +70,7 @@ class Json extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function jsonTheme(string $value = 'twilight'): self
+    public function jsonTheme(string $value = 'twilight'): static
     {
         return $this->set('jsonTheme', $value);
     }
@@ -81,7 +81,7 @@ class Json extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function mutable(bool $value = true): self
+    public function mutable(bool $value = true): static
     {
         return $this->set('mutable', $value);
     }
@@ -92,7 +92,7 @@ class Json extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function displayDataTypes(bool $value = true): self
+    public function displayDataTypes(bool $value = true): static
     {
         return $this->set('displayDataTypes', $value);
     }
@@ -103,7 +103,7 @@ class Json extends BaseRenderer
      * @param int|bool $value
      * @return self
      */
-    public function ellipsisThreshold(int|bool $value = false): self
+    public function ellipsisThreshold(int|bool $value = false): static
     {
         return $this->set('ellipsisThreshold', $value);
     }

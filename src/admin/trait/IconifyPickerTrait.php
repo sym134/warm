@@ -2,11 +2,11 @@
 
 namespace warm\admin\trait;
 
-use warm\admin\renderer\Picker;
+use warm\admin\renderer\form\Picker;
 
 /**
  * Iconify图标选择器Trait
- * 
+ *
  * 提供Iconify图标选择器功能，用于在表单中选择图标
  * 支持从Iconify图标库中搜索和选择图标
  */
@@ -22,7 +22,7 @@ trait IconifyPickerTrait
      */
     public function iconifyPicker(string $name = '', string $label = ''): Picker
     {
-        $schema = amis()->CRUDCards()
+        $schema = amis()->CRUD()->mode('cards')
             ->perPage(40)
             ->loadDataOnce()
             ->set('columnsCount', 8)
@@ -41,7 +41,7 @@ trait IconifyPickerTrait
                             ->level('primary')
                             ->actionType('submit')
                             ->icon('fa fa-search'),
-                        amis()->UrlAction()
+                        amis()->Action()->actionType('url')
                             ->className('ml-2')
                             ->icon('fa fa-external-link-alt')
                             ->label('Icones')
@@ -50,16 +50,14 @@ trait IconifyPickerTrait
                     ]),
                 ])
             )
-            ->card(
-                amis()->Card()->body([
-                    amis()->CustomSvgIcon()->icon('${icon}')->className('text-2xl'),
-                ])
-            );
+            ->card([
+                amis()->CustomSvgIcon()->icon('${icon}')->className('text-2xl'),
+            ]);
 
         return amis()->Picker($name, $label)
             ->pickerSchema($schema)
             ->source('/_iconify_search')
-            ->size('lg')
+            ->modalSize('lg')
             ->labelField('icon')
             ->valueField('icon');
     }

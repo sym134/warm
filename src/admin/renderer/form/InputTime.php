@@ -2,7 +2,8 @@
 namespace warm\admin\renderer\form;
 
 use warm\admin\renderer\BaseRenderer;
-use warm\admin\renderer\form\FormItemTrait;
+use warm\admin\renderer\trait\FormItem;
+use warm\admin\renderer\trait\OnEvent;
 
 /**
  * InputTime
@@ -11,7 +12,8 @@ use warm\admin\renderer\form\FormItemTrait;
  */
 class InputTime extends BaseRenderer
 {
-    use FormItemTrait;
+    use FormItem;
+    use OnEvent;
 
     public string $type = 'input-time';
 
@@ -21,7 +23,7 @@ class InputTime extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function value(string $value = ''): self
+    public function value(string $value = ''): static
     {
         return $this->set('value', $value);
     }
@@ -32,7 +34,7 @@ class InputTime extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function valueFormat(string $value = 'X'): self
+    public function valueFormat(string $value = 'X'): static
     {
         return $this->set('valueFormat', $value);
     }
@@ -43,7 +45,7 @@ class InputTime extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function displayFormat(string $value = 'HH:mm'): self
+    public function displayFormat(string $value = 'HH:mm'): static
     {
         return $this->set('displayFormat', $value);
     }
@@ -54,7 +56,7 @@ class InputTime extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function placeholder(string $value = '请选择时间'): self
+    public function placeholder(string $value = '请选择时间'): static
     {
         return $this->set('placeholder', $value);
     }
@@ -65,7 +67,7 @@ class InputTime extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function clearable(bool $value = true): self
+    public function clearable(bool $value = true): static
     {
         return $this->set('clearable', $value);
     }
@@ -76,7 +78,7 @@ class InputTime extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function timeConstraints(array $value = []): self
+    public function timeConstraints(array $value = []): static
     {
         return $this->set('timeConstraints', $value);
     }
@@ -87,7 +89,7 @@ class InputTime extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function popOverContainerSelector(string $value = ''): self
+    public function popOverContainerSelector(string $value = ''): static
     {
         return $this->set('popOverContainerSelector', $value);
     }

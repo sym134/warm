@@ -1,4 +1,5 @@
 <?php
+
 namespace warm\admin\renderer;
 /**
  * Breadcrumb
@@ -10,12 +11,12 @@ class Breadcrumb extends BaseRenderer
     public string $type = 'breadcrumb';
 
     /**
-     * 外层类名
+     * 设置组件样式
      *
-     * @param string $value
-     * @return self
+     * @param mixed $value
+     * @return $this
      */
-    public function className(string $value = ''): self
+    public function className(mixed $value): static
     {
         return $this->set('className', $value);
     }
@@ -26,7 +27,7 @@ class Breadcrumb extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function itemClassName(string $value = ''): self
+    public function itemClassName(string $value = ''): static
     {
         return $this->set('itemClassName', $value);
     }
@@ -37,7 +38,7 @@ class Breadcrumb extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function separatorClassName(string $value = ''): self
+    public function separatorClassName(string $value = ''): static
     {
         return $this->set('separatorClassName', $value);
     }
@@ -48,7 +49,7 @@ class Breadcrumb extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function dropdownClassName(string $value = ''): self
+    public function dropdownClassName(string $value = ''): static
     {
         return $this->set('dropdownClassName', $value);
     }
@@ -59,7 +60,7 @@ class Breadcrumb extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function dropdownItemClassName(string $value = ''): self
+    public function dropdownItemClassName(string $value = ''): static
     {
         return $this->set('dropdownItemClassName', $value);
     }
@@ -70,7 +71,7 @@ class Breadcrumb extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function separator(string $value = ''): self
+    public function separator(string $value = ''): static
     {
         return $this->set('separator', $value);
     }
@@ -81,7 +82,7 @@ class Breadcrumb extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function labelMaxLength(int|float $value = 16): self
+    public function labelMaxLength(int|float $value = 16): static
     {
         return $this->set('labelMaxLength', $value);
     }
@@ -92,7 +93,7 @@ class Breadcrumb extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function tooltipPosition(mixed $value = null): self
+    public function tooltipPosition(mixed $value = null): static
     {
         return $this->set('tooltipPosition', $value);
     }
@@ -103,7 +104,7 @@ class Breadcrumb extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function source(string $value = ''): self
+    public function source(string $value = ''): static
     {
         return $this->set('source', $value);
     }

@@ -1,5 +1,8 @@
 <?php
 namespace warm\admin\renderer;
+
+use warm\admin\renderer\trait\OnEvent;
+
 /**
  * Calendar 日历日程
  *
@@ -7,6 +10,8 @@ namespace warm\admin\renderer;
  */
 class Calendar extends BaseRenderer
 {
+    use OnEvent;
+
     public string $type = 'calendar';
 
     /**
@@ -16,7 +21,7 @@ class Calendar extends BaseRenderer
      * @param array|string $value
      * @return self
      */
-    public function schedules(array|string $value = []): self
+    public function schedules(array|string $value = []): static
     {
         return $this->set('schedules', $value);
     }
@@ -27,7 +32,7 @@ class Calendar extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function scheduleClassNames(array $value = ['bg-warning', 'bg-danger', 'bg-success', 'bg-info', 'bg-secondary']): self
+    public function scheduleClassNames(array $value = ['bg-warning', 'bg-danger', 'bg-success', 'bg-info', 'bg-secondary']): static
     {
         return $this->set('scheduleClassNames', $value);
     }
@@ -38,7 +43,7 @@ class Calendar extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function scheduleAction(array $value = []): self
+    public function scheduleAction(array $value = []): static
     {
         return $this->set('scheduleAction', $value);
     }
@@ -49,7 +54,7 @@ class Calendar extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function largeMode(bool $value = true): self
+    public function largeMode(bool $value = true): static
     {
         return $this->set('largeMode', $value);
     }
@@ -60,7 +65,7 @@ class Calendar extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function todayActiveStyle(array $value = []): self
+    public function todayActiveStyle(array $value = []): static
     {
         return $this->set('todayActiveStyle', $value);
     }

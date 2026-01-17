@@ -1,5 +1,9 @@
 <?php
 namespace warm\admin\renderer;
+
+use warm\admin\renderer\trait\NameAndLabel;
+use warm\admin\renderer\trait\OnEvent;
+
 /**
  * Progress
  *
@@ -7,6 +11,9 @@ namespace warm\admin\renderer;
  */
 class Progress extends BaseRenderer
 {
+    use OnEvent;
+    use NameAndLabel;
+
     public string $type = 'progress';
 
     /**
@@ -15,18 +22,18 @@ class Progress extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function mode(string $value = 'line'): self
+    public function mode(string $value = 'line'): static
     {
         return $this->set('mode', $value);
     }
 
     /**
-     * 外层 CSS 类名
+     * 设置组件样式
      *
-     * @param string $value
-     * @return self
+     * @param mixed $value
+     * @return $this
      */
-    public function className(string $value = ''): self
+    public function className(mixed $value): static
     {
         return $this->set('className', $value);
     }
@@ -37,7 +44,7 @@ class Progress extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function value(mixed $value = null): self
+    public function value(mixed $value = null): static
     {
         return $this->set('value', $value);
     }
@@ -48,7 +55,7 @@ class Progress extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function placeholder(string $value = '-'): self
+    public function placeholder(string $value = '-'): static
     {
         return $this->set('placeholder', $value);
     }
@@ -59,7 +66,7 @@ class Progress extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function showLabel(bool $value = true): self
+    public function showLabel(bool $value = true): static
     {
         return $this->set('showLabel', $value);
     }
@@ -70,7 +77,7 @@ class Progress extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function stripe(bool $value = true): self
+    public function stripe(bool $value = true): static
     {
         return $this->set('stripe', $value);
     }
@@ -81,7 +88,7 @@ class Progress extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function animate(bool $value = true): self
+    public function animate(bool $value = true): static
     {
         return $this->set('animate', $value);
     }
@@ -92,7 +99,7 @@ class Progress extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function map(mixed $value = null): self
+    public function map(mixed $value = null): static
     {
         return $this->set('map', $value);
     }
@@ -103,7 +110,7 @@ class Progress extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function threshold(mixed $value = null): self
+    public function threshold(mixed $value = null): static
     {
         return $this->set('threshold', $value);
     }
@@ -114,7 +121,7 @@ class Progress extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function showThresholdText(bool $value = true): self
+    public function showThresholdText(bool $value = true): static
     {
         return $this->set('showThresholdText', $value);
     }
@@ -125,7 +132,7 @@ class Progress extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function valueTpl(string $value = '${value}%'): self
+    public function valueTpl(string $value = '${value}%'): static
     {
         return $this->set('valueTpl', $value);
     }
@@ -136,7 +143,7 @@ class Progress extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function strokeWidth(int|float $value = 0): self
+    public function strokeWidth(int|float $value = 0): static
     {
         return $this->set('strokeWidth', $value);
     }
@@ -147,7 +154,7 @@ class Progress extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function gapDegree(int|float $value = 75): self
+    public function gapDegree(int|float $value = 75): static
     {
         return $this->set('gapDegree', $value);
     }
@@ -158,7 +165,7 @@ class Progress extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function gapPosition(string $value = 'bottom'): self
+    public function gapPosition(string $value = 'bottom'): static
     {
         return $this->set('gapPosition', $value);
     }

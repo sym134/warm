@@ -6,8 +6,7 @@ namespace warm\admin\renderer;
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/collapse
  */
 class Collapse extends BaseRenderer
-{
-    public string $type = 'collapse-group';
+{up';
 
     /**
      * 禁用
@@ -15,7 +14,7 @@ class Collapse extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function disabled(bool $value = true): self
+    public function disabled(bool $value = true): static
     {
         return $this->set('disabled', $value);
     }
@@ -26,7 +25,7 @@ class Collapse extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function collapsed(bool $value = true): self
+    public function collapsed(bool $value = true): static
     {
         return $this->set('collapsed', $value);
     }
@@ -37,7 +36,7 @@ class Collapse extends BaseRenderer
      * @param string|int $value
      * @return self
      */
-    public function key(string|int $value): self
+    public function key(string|int $value): static
     {
         return $this->set('key', $value);
     }
@@ -48,7 +47,7 @@ class Collapse extends BaseRenderer
      * @param string|array $value
      * @return self
      */
-    public function header(string|array $value): self
+    public function header(string|array $value): static
     {
         return $this->set('header', $value);
     }
@@ -59,7 +58,7 @@ class Collapse extends BaseRenderer
      * @param string|array $value
      * @return self
      */
-    public function body(string|array $value): self
+    public function body(string|array $value): static
     {
         return $this->set('body', $value);
     }
@@ -70,7 +69,7 @@ class Collapse extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function showArrow(bool $value = true): self
+    public function showArrow(bool $value = true): static
     {
         return $this->set('showArrow', $value);
     }

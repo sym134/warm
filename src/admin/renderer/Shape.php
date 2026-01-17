@@ -1,5 +1,7 @@
 <?php
 namespace warm\admin\renderer;
+use warm\admin\renderer\trait\OnEvent;
+
 /**
  * Shape
  *
@@ -7,6 +9,8 @@ namespace warm\admin\renderer;
  */
 class Shape extends BaseRenderer
 {
+    use OnEvent;
+
     public string $type = 'shape';
 
     /**
@@ -15,18 +19,18 @@ class Shape extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function shapeType(mixed $value = null): self
+    public function shapeType(mixed $value = null): static
     {
         return $this->set('shapeType', $value);
     }
 
     /**
-     * 自定义 CSS 样式类名
+     * 设置组件样式
      *
-     * @param string $value
-     * @return self
+     * @param mixed $value
+     * @return $this
      */
-    public function className(string $value = ''): self
+    public function className(mixed $value): static
     {
         return $this->set('className', $value);
     }
@@ -37,7 +41,7 @@ class Shape extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function color(string $value = ''): self
+    public function color(string $value = ''): static
     {
         return $this->set('color', $value);
     }
@@ -48,7 +52,7 @@ class Shape extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function width(int|float $value = 200): self
+    public function width(int|float $value = 200): static
     {
         return $this->set('width', $value);
     }
@@ -59,7 +63,7 @@ class Shape extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function height(int|float $value = 200): self
+    public function height(int|float $value = 200): static
     {
         return $this->set('height', $value);
     }
@@ -70,7 +74,7 @@ class Shape extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function radius(int|float $value = 0): self
+    public function radius(int|float $value = 0): static
     {
         return $this->set('radius', $value);
     }

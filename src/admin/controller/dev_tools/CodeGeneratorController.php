@@ -16,11 +16,11 @@ use Throwable;
 use warm\admin\controller\AdminController;
 use warm\admin\plugin\PluginService;
 use warm\admin\renderer\Card;
-use warm\admin\renderer\Combo;
 use warm\admin\renderer\CRUD;
 use warm\admin\renderer\DialogAction;
 use warm\admin\renderer\Flex;
-use warm\admin\renderer\Form;
+use warm\admin\renderer\form\Combo;
+use warm\admin\renderer\form\Form;
 use warm\admin\service\AdminCodeGeneratorService;
 use warm\admin\service\AdminMenuService;
 use warm\admin\support\code_generator\FilterGenerator;
@@ -206,7 +206,7 @@ class CodeGeneratorController extends AdminController
             ->initApi('post:/dev_tools/code_generator/form_data')
             ->tabs([
                 // 基本信息标签页
-                amis()->Tab()->title(translator('admin.code_generators.base_info'))->body([
+                amis()->Tabs()->title(translator('admin.code_generators.base_info'))->body([
                     amis()->Card()->body([
                         amis()->Group()->body([
                             amis()->Group()->direction('vertical')->body([
@@ -330,12 +330,12 @@ class CodeGeneratorController extends AdminController
                     ])
                 ]),
                 // 字段信息标签页
-                amis()->Tab()->title(translator('admin.code_generators.column_info'))->body([
+                amis()->Tabs()->title(translator('admin.code_generators.column_info'))->body([
                     $this->cachedColumns(),
                     $this->columnForm(),
                 ]),
                 // 路由配置标签页
-                amis()->Tab()->title(translator('admin.code_generators.route_config'))->body(
+                amis()->Tabs()->title(translator('admin.code_generators.route_config'))->body(
                     amis()->Combo('menu_info', false)->multiLine()->subFormMode('horizontal')->items([
                         amis()->Switch('enabled', translator('admin.code_generators.gen_route_menu'))->value(1),
                         amis()
@@ -358,7 +358,7 @@ class CodeGeneratorController extends AdminController
                     ])
                 ),
                 // 页面配置标签页
-                amis()->Tab()->title(translator('admin.code_generators.page_config'))->body(
+                amis()->Tabs()->title(translator('admin.code_generators.page_config'))->body(
                     amis()->Combo('page_info', false)->multiLine()->subFormMode('horizontal')->items([
                         amis()
                             ->Radios('dialog_form', translator('admin.code_generators.dialog_form'))
@@ -1025,7 +1025,7 @@ class CodeGeneratorController extends AdminController
     {
         // 设置组件的 Tab
         $componentSchema = function ($title, $tips, $key) {
-            return amis()->Tab()->title($title)->body([
+            return amis()->Tabs()->title($title)->body([
                 amis()->Alert()->level('info')->showIcon()->body($tips),
                 amis()->Divider(),
                 $this->componentSelect($key)->mode('normal'),
@@ -1057,7 +1057,7 @@ class CodeGeneratorController extends AdminController
                         ->id('column_form')
                         ->tabs([
                             // 基本信息标签页
-                            amis()->Tab()->title(translator('admin.code_generators.base_info'))->body([
+                            amis()->Tabs()->title(translator('admin.code_generators.base_info'))->body([
                                 amis()->Group()->body([
                                     amis()
                                         ->InputText('name', translator('admin.code_generators.column_name'))
@@ -1119,7 +1119,7 @@ class CodeGeneratorController extends AdminController
                                 'list_component'
                             ),
                             // 列表筛选标签页
-                            amis()->Tab()->title(translator('admin.code_generators.list_filter'))->body([
+                            amis()->Tabs()->title(translator('admin.code_generators.list_filter'))->body([
                                 amis()->Combo('list_filter')->items([
                                     amis()
                                         ->Select('type', translator('admin.code_generators.filter_type'))
@@ -1167,7 +1167,7 @@ class CodeGeneratorController extends AdminController
                                 'detail_component'
                             ),
                             // 模型配置标签页
-                            amis()->Tab()->title(translator('admin.code_generators.model_config'))->body([
+                            amis()->Tabs()->title(translator('admin.code_generators.model_config'))->body([
                                 amis()
                                     ->Switch('file_column', translator('admin.code_generators.file_column'))
                                     ->value(0)
@@ -1194,7 +1194,7 @@ class CodeGeneratorController extends AdminController
     {
         // 定义编辑器标签页回调函数
         $editorTab = function ($column) {
-            return amis()->Tab()->title(Str::title($column))->body(
+            return amis()->Tabs()->title(Str::title($column))->body(
                 amis()->Editor($column)->language('php')->disabled()->size('xxl')
             );
         };

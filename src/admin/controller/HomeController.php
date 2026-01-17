@@ -121,7 +121,7 @@ JS
         };
 
         // 构建框架信息卡片
-        return amis()->Card()->className('h-96')->body(
+        return amis()->Card()->className('h-96')->body([
             amis()->Wrapper()->className('h-full')->body([
                 amis()->Flex()
                     ->className('h-full')
@@ -136,7 +136,8 @@ JS
                         ]),
                     ]),
             ])
-        );
+
+        ]);
     }
 
     /**
@@ -148,7 +149,8 @@ JS
      */
     public function pieChart(): Card
     {
-        return amis()->Card()->className('h-96')->body(
+        return amis()->Card()->className('h-96')->body([
+
             amis()->Chart()->height(350)->config([
                 'backgroundColor' => '',
                 'tooltip'         => ['trigger' => 'item'],
@@ -179,7 +181,7 @@ JS
                     ],
                 ],
             ])
-        );
+        ]);
     }
 
     /**
@@ -238,7 +240,7 @@ JS
         ]);
 
         // 返回折线图卡片
-        return amis()->Card()->className('clear-card-mb')->body($chart);
+        return amis()->Card()->className('clear-card-mb')->body([$chart]);
     }
 
     /**
@@ -250,7 +252,8 @@ JS
      */
     public function cube(): Card
     {
-        return amis()->Card()->className('h-96 ml-4 w-8/12')->body(
+        return amis()->Card()->className('h-96 ml-4 w-8/12')->body([
+
             amis()->Html()->html(<<<HTML
 <style>
     .cube-box{ height: 300px; display: flex; align-items: center; justify-content: center; }
@@ -298,9 +301,9 @@ JS
     </div>
 </div>
 HTML
-
             )
-        );
+
+        ]);
     }
 
     /**

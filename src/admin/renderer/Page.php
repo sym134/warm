@@ -1,5 +1,9 @@
 <?php
 namespace warm\admin\renderer;
+
+use warm\admin\renderer\trait\DataDomain;
+use warm\admin\renderer\trait\OnEvent;
+
 /**
  * Page
  *
@@ -7,6 +11,8 @@ namespace warm\admin\renderer;
  */
 class Page extends BaseRenderer
 {
+    use OnEvent;
+    use DataDomain;
     public string $type = 'page';
 
     /**
@@ -15,7 +21,7 @@ class Page extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function title(mixed $value = null): self
+    public function title(mixed $value = null): static
     {
         return $this->set('title', $value);
     }
@@ -26,7 +32,7 @@ class Page extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function subTitle(mixed $value = null): self
+    public function subTitle(mixed $value = null): static
     {
         return $this->set('subTitle', $value);
     }
@@ -37,7 +43,7 @@ class Page extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function remark(mixed $value = null): self
+    public function remark(mixed $value = null): static
     {
         return $this->set('remark', $value);
     }
@@ -48,7 +54,7 @@ class Page extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function aside(mixed $value = null): self
+    public function aside(mixed $value = null): static
     {
         return $this->set('aside', $value);
     }
@@ -59,7 +65,7 @@ class Page extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function asideResizor(bool $value = true): self
+    public function asideResizor(bool $value = true): static
     {
         return $this->set('asideResizor', $value);
     }
@@ -70,7 +76,7 @@ class Page extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function asideMinWidth(int|float $value = 0): self
+    public function asideMinWidth(int|float $value = 0): static
     {
         return $this->set('asideMinWidth', $value);
     }
@@ -81,7 +87,7 @@ class Page extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function asideMaxWidth(int|float $value = 0): self
+    public function asideMaxWidth(int|float $value = 0): static
     {
         return $this->set('asideMaxWidth', $value);
     }
@@ -92,7 +98,7 @@ class Page extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function asideSticky(bool $value = true): self
+    public function asideSticky(bool $value = true): static
     {
         return $this->set('asideSticky', $value);
     }
@@ -103,7 +109,7 @@ class Page extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function asidePosition(mixed $value = null): self
+    public function asidePosition(mixed $value = null): static
     {
         return $this->set('asidePosition', $value);
     }
@@ -114,7 +120,7 @@ class Page extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function toolbar(mixed $value = null): self
+    public function toolbar(mixed $value = null): static
     {
         return $this->set('toolbar', $value);
     }
@@ -125,18 +131,18 @@ class Page extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function body(mixed $value = null): self
+    public function body(mixed $value = null): static
     {
         return $this->set('body', $value);
     }
 
     /**
-     * 外层 dom 类名
+     * 设置组件样式
      *
-     * @param string $value
-     * @return self
+     * @param mixed $value
+     * @return $this
      */
-    public function className(string $value = ''): self
+    public function className(mixed $value=''): static
     {
         return $this->set('className', $value);
     }
@@ -147,7 +153,7 @@ class Page extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function cssVars(array $value = []): self
+    public function cssVars(array $value = []): static
     {
         return $this->set('cssVars', $value);
     }
@@ -158,7 +164,7 @@ class Page extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function toolbarClassName(string $value = 'v-middle wrapper text-right bg-light b-b'): self
+    public function toolbarClassName(string $value = 'v-middle wrapper text-right bg-light b-b'): static
     {
         return $this->set('toolbarClassName', $value);
     }
@@ -169,7 +175,7 @@ class Page extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function bodyClassName(string $value = 'wrapper'): self
+    public function bodyClassName(string $value = 'wrapper'): static
     {
         return $this->set('bodyClassName', $value);
     }
@@ -180,7 +186,7 @@ class Page extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function asideClassName(string $value = 'w page-aside-region bg-auto'): self
+    public function asideClassName(string $value = 'w page-aside-region bg-auto'): static
     {
         return $this->set('asideClassName', $value);
     }
@@ -191,7 +197,7 @@ class Page extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function headerClassName(string $value = 'bg-light b-b wrapper'): self
+    public function headerClassName(string $value = 'bg-light b-b wrapper'): static
     {
         return $this->set('headerClassName', $value);
     }
@@ -202,7 +208,7 @@ class Page extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function initApi(mixed $value = null): self
+    public function initApi(mixed $value = null): static
     {
         return $this->set('initApi', $value);
     }
@@ -213,7 +219,7 @@ class Page extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function initFetch(bool $value = true): self
+    public function initFetch(bool $value = true): static
     {
         return $this->set('initFetch', $value);
     }
@@ -224,7 +230,7 @@ class Page extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function initFetchOn(mixed $value = null): self
+    public function initFetchOn(mixed $value = null): static
     {
         return $this->set('initFetchOn', $value);
     }
@@ -235,7 +241,7 @@ class Page extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function interval(int|float $value = 3000): self
+    public function interval(int|float $value = 3000): static
     {
         return $this->set('interval', $value);
     }
@@ -246,7 +252,7 @@ class Page extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function silentPolling(bool $value = true): self
+    public function silentPolling(bool $value = true): static
     {
         return $this->set('silentPolling', $value);
     }
@@ -257,7 +263,7 @@ class Page extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function stopAutoRefreshWhen(mixed $value = null): self
+    public function stopAutoRefreshWhen(mixed $value = null): static
     {
         return $this->set('stopAutoRefreshWhen', $value);
     }
@@ -268,7 +274,7 @@ class Page extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function pullRefresh(array $value = []): self
+    public function pullRefresh(array $value = []): static
     {
         return $this->set('pullRefresh', $value);
     }

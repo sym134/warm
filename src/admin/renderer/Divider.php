@@ -10,12 +10,12 @@ class Divider extends BaseRenderer
     public string $type = 'divider';
 
     /**
-     * 外层 Dom 的类名
+     * 设置组件样式
      *
-     * @param string $value
-     * @return self
+     * @param mixed $value
+     * @return $this
      */
-    public function className(string $value = ''): self
+    public function className(mixed $value): static
     {
         return $this->set('className', $value);
     }
@@ -26,7 +26,7 @@ class Divider extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function lineStyle(string $value = 'solid'): self
+    public function lineStyle(string $value = 'solid'): static
     {
         return $this->set('lineStyle', $value);
     }
@@ -37,7 +37,7 @@ class Divider extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function direction(string $value = 'horizontal'): self
+    public function direction(string $value = 'horizontal'): static
     {
         return $this->set('direction', $value);
     }
@@ -48,7 +48,7 @@ class Divider extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function color(string $value = ''): self
+    public function color(string $value = ''): static
     {
         return $this->set('color', $value);
     }
@@ -59,7 +59,7 @@ class Divider extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function rotate(int|float $value = 0): self
+    public function rotate(int|float $value = 0): static
     {
         return $this->set('rotate', $value);
     }
@@ -70,7 +70,7 @@ class Divider extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function title(mixed $value = null): self
+    public function title(mixed $value = null): static
     {
         return $this->set('title', $value);
     }
@@ -81,7 +81,7 @@ class Divider extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function titleClassName(string $value = ''): self
+    public function titleClassName(string $value = ''): static
     {
         return $this->set('titleClassName', $value);
     }
@@ -92,7 +92,7 @@ class Divider extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function titlePosition(string $value = 'center'): self
+    public function titlePosition(string $value = 'center'): static
     {
         return $this->set('titlePosition', $value);
     }

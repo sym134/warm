@@ -15,7 +15,7 @@ class Toast extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function actionType(string $value = 'toast'): self
+    public function actionType(string $value = 'toast'): static
     {
         return $this->set('actionType', $value);
     }
@@ -26,7 +26,7 @@ class Toast extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function items(array $value = []): self
+    public function items(array $value = []): static
     {
         return $this->set('items', $value);
     }
@@ -37,7 +37,7 @@ class Toast extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function position(string $value = 'top-center（移动端为center）'): self
+    public function position(string $value = 'top-center（移动端为center）'): static
     {
         return $this->set('position', $value);
     }
@@ -48,7 +48,7 @@ class Toast extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function closeButton(bool $value = true): self
+    public function closeButton(bool $value = true): static
     {
         return $this->set('closeButton', $value);
     }
@@ -59,7 +59,7 @@ class Toast extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function showIcon(bool $value = true): self
+    public function showIcon(bool $value = true): static
     {
         return $this->set('showIcon', $value);
     }
@@ -70,7 +70,7 @@ class Toast extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function timeout(int|float $value = 0): self
+    public function timeout(int|float $value = 0): static
     {
         return $this->set('timeout', $value);
     }

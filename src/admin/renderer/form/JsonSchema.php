@@ -2,7 +2,7 @@
 namespace warm\admin\renderer\form;
 
 use warm\admin\renderer\BaseRenderer;
-use warm\admin\renderer\form\FormItemTrait;
+use warm\admin\renderer\trait\FormItem;
 
 /**
  * JsonSchema
@@ -11,7 +11,7 @@ use warm\admin\renderer\form\FormItemTrait;
  */
 class JsonSchema extends BaseRenderer
 {
-    use FormItemTrait;
+    use FormItem;
 
     public string $type = 'json-schema';
 
@@ -21,7 +21,7 @@ class JsonSchema extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function schema(mixed $value = null): self
+    public function schema(mixed $value = null): static
     {
         return $this->set('schema', $value);
     }

@@ -10,12 +10,12 @@ class Portlet extends BaseRenderer
     public string $type = 'portlet';
 
     /**
-     * 外层 Dom 的类名
+     * 设置组件样式
      *
-     * @param string $value
-     * @return self
+     * @param mixed $value
+     * @return $this
      */
-    public function className(string $value = ''): self
+    public function className(mixed $value): static
     {
         return $this->set('className', $value);
     }
@@ -26,7 +26,7 @@ class Portlet extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function tabsClassName(string $value = ''): self
+    public function tabsClassName(string $value = ''): static
     {
         return $this->set('tabsClassName', $value);
     }
@@ -37,7 +37,7 @@ class Portlet extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function contentClassName(string $value = ''): self
+    public function contentClassName(string $value = ''): static
     {
         return $this->set('contentClassName', $value);
     }
@@ -48,7 +48,7 @@ class Portlet extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function tabs(array $value = []): self
+    public function tabs(array $value = []): static
     {
         return $this->set('tabs', $value);
     }
@@ -59,7 +59,7 @@ class Portlet extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function source(array $value = []): self
+    public function source(array $value = []): static
     {
         return $this->set('source', $value);
     }
@@ -70,7 +70,7 @@ class Portlet extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function toolbar(mixed $value = null): self
+    public function toolbar(mixed $value = null): static
     {
         return $this->set('toolbar', $value);
     }
@@ -81,7 +81,7 @@ class Portlet extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function style(mixed $value = null): self
+    public function style(mixed $value = null): static
     {
         return $this->set('style', $value);
     }
@@ -92,7 +92,7 @@ class Portlet extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function description(mixed $value = null): self
+    public function description(mixed $value = null): static
     {
         return $this->set('description', $value);
     }
@@ -103,7 +103,7 @@ class Portlet extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function hideHeader(bool $value = true): self
+    public function hideHeader(bool $value = true): static
     {
         return $this->set('hideHeader', $value);
     }
@@ -114,7 +114,7 @@ class Portlet extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function divider(bool $value = true): self
+    public function divider(bool $value = true): static
     {
         return $this->set('divider', $value);
     }
@@ -125,7 +125,7 @@ class Portlet extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function mountOnEnter(bool $value = true): self
+    public function mountOnEnter(bool $value = true): static
     {
         return $this->set('mountOnEnter', $value);
     }
@@ -136,7 +136,7 @@ class Portlet extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function unmountOnExit(bool $value = true): self
+    public function unmountOnExit(bool $value = true): static
     {
         return $this->set('unmountOnExit', $value);
     }
@@ -147,7 +147,7 @@ class Portlet extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function scrollable(bool $value = true): self
+    public function scrollable(bool $value = true): static
     {
         return $this->set('scrollable', $value);
     }

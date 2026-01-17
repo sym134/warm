@@ -3,9 +3,12 @@
 namespace warm\admin\renderer;
 use Illuminate\Support\Traits\Macroable;
 use JsonSerializable;
+use warm\admin\renderer\trait\NameAndLabel;
 
 class BaseRenderer implements JsonSerializable
 {
+    use NameAndLabel;
+
     use Macroable {
         __call as macroCall;
     }
@@ -115,6 +118,72 @@ class BaseRenderer implements JsonSerializable
                 ? $value  // 如果已是标准格式，直接保留
                 : ['label' => $value, 'value' => $key]; // 否则转换
         }, $input, array_keys($input));
+    }
+
+    /**
+     * 设置组件id
+     *
+     * @param string|int $value
+     * @return $this
+     */
+    public function id(string|int $value): static
+    {
+        return $this->set('id', $value);
+    }
+
+    /**
+     * 设置组件样式
+     *
+     * @param mixed $value
+     * @return $this
+     */
+    public function className(mixed $value): static
+    {
+        return $this->set('className', $value);
+    }
+
+    /**
+     * 是否禁用
+     *
+     * @param mixed $value
+     * @return static
+     */
+    public function hiddenOn(mixed $value = null):static
+    {
+        return $this->set('hiddenOn', $value);
+    }
+
+    /**
+     * 当前表单项是否隐藏
+     *
+     * @param bool $value
+     * @return static
+     */
+    public function hidden(bool $value = true):static
+    {
+        return $this->set('hidden', $value);
+    }
+
+    /**
+     * 当前表单项是否禁用的条件
+     *
+     * @param mixed $value
+     * @return static
+     */
+    public function visibleOn(mixed $value = null): static
+    {
+        return $this->set('visibleOn', $value);
+    }
+
+    /**
+     * 当前表单项是否禁用的条件
+     *
+     * @param mixed $value
+     * @return static
+     */
+    public function visible(mixed $value = true): static
+    {
+        return $this->set('visible', $value);
     }
 
 }

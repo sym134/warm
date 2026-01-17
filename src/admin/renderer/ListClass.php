@@ -1,21 +1,26 @@
 <?php
 namespace warm\admin\renderer;
+use warm\admin\renderer\trait\DataDomain;
+use warm\admin\renderer\trait\OnEvent;
+
 /**
  * List
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/list
  */
-class List extends BaseRenderer
+class ListClass extends BaseRenderer
 {
-    public string $type = 'list';
+    use OnEvent;
+    use DataDomain;
 
+    public string $type = 'list';
     /**
      * 标题
      *
      * @param string $value
      * @return self
      */
-    public function title(string $value = ''): self
+    public function title(string $value = ''): static
     {
         return $this->set('title', $value);
     }
@@ -26,7 +31,7 @@ class List extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function source(string $value = '${items}'): self
+    public function source(string $value = '${items}'): static
     {
         return $this->set('source', $value);
     }
@@ -37,7 +42,7 @@ class List extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function placeholder(string $value = '‘暂无数据’'): self
+    public function placeholder(string $value = '‘暂无数据’'): static
     {
         return $this->set('placeholder', $value);
     }
@@ -48,7 +53,7 @@ class List extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function selectable(bool $value = true): self
+    public function selectable(bool $value = true): static
     {
         return $this->set('selectable', $value);
     }
@@ -59,18 +64,18 @@ class List extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function multiple(bool $value = true): self
+    public function multiple(bool $value = true): static
     {
         return $this->set('multiple', $value);
     }
 
     /**
-     * 外层 CSS 类名
+     * 设置组件样式
      *
-     * @param string $value
-     * @return self
+     * @param mixed $value
+     * @return $this
      */
-    public function className(string $value = ''): self
+    public function className(mixed $value): static
     {
         return $this->set('className', $value);
     }
@@ -81,7 +86,7 @@ class List extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function headerClassName(string $value = 'amis-list-header'): self
+    public function headerClassName(string $value = 'amis-list-header'): static
     {
         return $this->set('headerClassName', $value);
     }
@@ -92,7 +97,7 @@ class List extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function footerClassName(string $value = 'amis-list-footer'): self
+    public function footerClassName(string $value = 'amis-list-footer'): static
     {
         return $this->set('footerClassName', $value);
     }
@@ -103,7 +108,7 @@ class List extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function listItem(array $value = []): self
+    public function listItem(array $value = []): static
     {
         return $this->set('listItem', $value);
     }
@@ -114,7 +119,7 @@ class List extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function showIndexBar(bool $value = true): self
+    public function showIndexBar(bool $value = true): static
     {
         return $this->set('showIndexBar', $value);
     }
@@ -125,7 +130,7 @@ class List extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function indexField(string $value = 'title'): self
+    public function indexField(string $value = 'title'): static
     {
         return $this->set('indexField', $value);
     }
@@ -136,7 +141,7 @@ class List extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function indexBarOffset(int|float $value = 0): self
+    public function indexBarOffset(int|float $value = 0): static
     {
         return $this->set('indexBarOffset', $value);
     }

@@ -2,7 +2,7 @@
 namespace warm\admin\renderer\form;
 
 use warm\admin\renderer\BaseRenderer;
-use warm\admin\renderer\form\FormItemTrait;
+use warm\admin\renderer\trait\FormItem;
 
 /**
  * InputTree
@@ -11,7 +11,7 @@ use warm\admin\renderer\form\FormItemTrait;
  */
 class InputTree extends BaseRenderer
 {
-    use FormItemTrait;
+    use FormItem;
 
     public string $type = 'input-tree';
 
@@ -21,7 +21,7 @@ class InputTree extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function options(array $value = []): self
+    public function options(array $value = []): static
     {
         return $this->set('options', $value);
     }
@@ -32,7 +32,7 @@ class InputTree extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function source(mixed $value = null): self
+    public function source(mixed $value = null): static
     {
         return $this->set('source', $value);
     }
@@ -43,7 +43,7 @@ class InputTree extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function autoComplete(mixed $value = null): self
+    public function autoComplete(mixed $value = null): static
     {
         return $this->set('autoComplete', $value);
     }
@@ -54,7 +54,7 @@ class InputTree extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function multiple(bool $value = true): self
+    public function multiple(bool $value = true): static
     {
         return $this->set('multiple', $value);
     }
@@ -65,7 +65,7 @@ class InputTree extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function delimiter(string $value = 'false'): self
+    public function delimiter(string $value = 'false'): static
     {
         return $this->set('delimiter', $value);
     }
@@ -76,7 +76,7 @@ class InputTree extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function labelField(string $value = 'label'): self
+    public function labelField(string $value = 'label'): static
     {
         return $this->set('labelField', $value);
     }
@@ -87,7 +87,7 @@ class InputTree extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function valueField(string $value = 'value'): self
+    public function valueField(string $value = 'value'): static
     {
         return $this->set('valueField', $value);
     }
@@ -98,7 +98,7 @@ class InputTree extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function iconField(string $value = 'icon'): self
+    public function iconField(string $value = 'icon'): static
     {
         return $this->set('iconField', $value);
     }
@@ -109,7 +109,7 @@ class InputTree extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function deferField(string $value = 'defer'): self
+    public function deferField(string $value = 'defer'): static
     {
         return $this->set('deferField', $value);
     }
@@ -120,7 +120,7 @@ class InputTree extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function joinValues(bool $value = true): self
+    public function joinValues(bool $value = true): static
     {
         return $this->set('joinValues', $value);
     }
@@ -131,7 +131,7 @@ class InputTree extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function extractValue(bool $value = true): self
+    public function extractValue(bool $value = true): static
     {
         return $this->set('extractValue', $value);
     }
@@ -142,7 +142,7 @@ class InputTree extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function creatable(bool $value = true): self
+    public function creatable(bool $value = true): static
     {
         return $this->set('creatable', $value);
     }
@@ -153,7 +153,7 @@ class InputTree extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function addControls(mixed $value = null): self
+    public function addControls(mixed $value = null): static
     {
         return $this->set('addControls', $value);
     }
@@ -164,7 +164,7 @@ class InputTree extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function addApi(mixed $value = null): self
+    public function addApi(mixed $value = null): static
     {
         return $this->set('addApi', $value);
     }
@@ -175,7 +175,7 @@ class InputTree extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function editable(bool $value = true): self
+    public function editable(bool $value = true): static
     {
         return $this->set('editable', $value);
     }
@@ -186,7 +186,7 @@ class InputTree extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function editControls(mixed $value = null): self
+    public function editControls(mixed $value = null): static
     {
         return $this->set('editControls', $value);
     }
@@ -197,7 +197,7 @@ class InputTree extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function editApi(mixed $value = null): self
+    public function editApi(mixed $value = null): static
     {
         return $this->set('editApi', $value);
     }
@@ -208,7 +208,7 @@ class InputTree extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function removable(bool $value = true): self
+    public function removable(bool $value = true): static
     {
         return $this->set('removable', $value);
     }
@@ -219,7 +219,7 @@ class InputTree extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function deleteApi(mixed $value = null): self
+    public function deleteApi(mixed $value = null): static
     {
         return $this->set('deleteApi', $value);
     }
@@ -230,7 +230,7 @@ class InputTree extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function searchable(bool $value = true): self
+    public function searchable(bool $value = true): static
     {
         return $this->set('searchable', $value);
     }
@@ -241,7 +241,7 @@ class InputTree extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function hideRoot(bool $value = true): self
+    public function hideRoot(bool $value = true): static
     {
         return $this->set('hideRoot', $value);
     }
@@ -252,7 +252,7 @@ class InputTree extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function rootLabel(bool $value = true): self
+    public function rootLabel(bool $value = true): static
     {
         return $this->set('rootLabel', $value);
     }
@@ -263,7 +263,7 @@ class InputTree extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function showIcon(bool $value = true): self
+    public function showIcon(bool $value = true): static
     {
         return $this->set('showIcon', $value);
     }
@@ -274,7 +274,7 @@ class InputTree extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function showRadio(bool $value = true): self
+    public function showRadio(bool $value = true): static
     {
         return $this->set('showRadio', $value);
     }
@@ -285,7 +285,7 @@ class InputTree extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function showOutline(bool $value = true): self
+    public function showOutline(bool $value = true): static
     {
         return $this->set('showOutline', $value);
     }
@@ -296,7 +296,7 @@ class InputTree extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function initiallyOpen(bool $value = true): self
+    public function initiallyOpen(bool $value = true): static
     {
         return $this->set('initiallyOpen', $value);
     }
@@ -307,7 +307,7 @@ class InputTree extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function unfoldedLevel(int|float $value = 1): self
+    public function unfoldedLevel(int|float $value = 1): static
     {
         return $this->set('unfoldedLevel', $value);
     }
@@ -318,7 +318,7 @@ class InputTree extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function autoCheckChildren(bool $value = true): self
+    public function autoCheckChildren(bool $value = true): static
     {
         return $this->set('autoCheckChildren', $value);
     }
@@ -329,7 +329,7 @@ class InputTree extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function cascade(bool $value = true): self
+    public function cascade(bool $value = true): static
     {
         return $this->set('cascade', $value);
     }
@@ -340,7 +340,7 @@ class InputTree extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function withChildren(bool $value = true): self
+    public function withChildren(bool $value = true): static
     {
         return $this->set('withChildren', $value);
     }
@@ -351,7 +351,7 @@ class InputTree extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function onlyChildren(bool $value = true): self
+    public function onlyChildren(bool $value = true): static
     {
         return $this->set('onlyChildren', $value);
     }
@@ -362,7 +362,7 @@ class InputTree extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function onlyLeaf(bool $value = true): self
+    public function onlyLeaf(bool $value = true): static
     {
         return $this->set('onlyLeaf', $value);
     }
@@ -373,7 +373,7 @@ class InputTree extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function rootCreatable(bool $value = true): self
+    public function rootCreatable(bool $value = true): static
     {
         return $this->set('rootCreatable', $value);
     }
@@ -384,7 +384,7 @@ class InputTree extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function rootCreateTip(string $value = '添加一级节点'): self
+    public function rootCreateTip(string $value = '添加一级节点'): static
     {
         return $this->set('rootCreateTip', $value);
     }
@@ -395,7 +395,7 @@ class InputTree extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function minLength(int|float $value = 0): self
+    public function minLength(int|float $value = 0): static
     {
         return $this->set('minLength', $value);
     }
@@ -406,7 +406,7 @@ class InputTree extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function maxLength(int|float $value = 0): self
+    public function maxLength(int|float $value = 0): static
     {
         return $this->set('maxLength', $value);
     }
@@ -417,7 +417,7 @@ class InputTree extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function treeContainerClassName(string $value = ''): self
+    public function treeContainerClassName(string $value = ''): static
     {
         return $this->set('treeContainerClassName', $value);
     }
@@ -428,7 +428,7 @@ class InputTree extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function treeClassName(string $value = ''): self
+    public function treeClassName(string $value = ''): static
     {
         return $this->set('treeClassName', $value);
     }
@@ -439,7 +439,7 @@ class InputTree extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function enableNodePath(bool $value = true): self
+    public function enableNodePath(bool $value = true): static
     {
         return $this->set('enableNodePath', $value);
     }
@@ -450,7 +450,7 @@ class InputTree extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function pathSeparator(string $value = '/'): self
+    public function pathSeparator(string $value = '/'): static
     {
         return $this->set('pathSeparator', $value);
     }
@@ -461,7 +461,7 @@ class InputTree extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function highlightTxt(string $value = ''): self
+    public function highlightTxt(string $value = ''): static
     {
         return $this->set('highlightTxt', $value);
     }
@@ -472,7 +472,7 @@ class InputTree extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function itemHeight(int|float $value = 32): self
+    public function itemHeight(int|float $value = 32): static
     {
         return $this->set('itemHeight', $value);
     }
@@ -483,7 +483,7 @@ class InputTree extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function virtualThreshold(int|float $value = 100): self
+    public function virtualThreshold(int|float $value = 100): static
     {
         return $this->set('virtualThreshold', $value);
     }
@@ -494,7 +494,7 @@ class InputTree extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function menuTpl(string $value = ''): self
+    public function menuTpl(string $value = ''): static
     {
         return $this->set('menuTpl', $value);
     }
@@ -505,7 +505,7 @@ class InputTree extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function enableDefaultIcon(bool $value = true): self
+    public function enableDefaultIcon(bool $value = true): static
     {
         return $this->set('enableDefaultIcon', $value);
     }
@@ -516,7 +516,7 @@ class InputTree extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function heightAuto(bool $value = true): self
+    public function heightAuto(bool $value = true): static
     {
         return $this->set('heightAuto', $value);
     }
@@ -527,7 +527,7 @@ class InputTree extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function nodeBehavior(array $value = []): self
+    public function nodeBehavior(array $value = []): static
     {
         return $this->set('nodeBehavior', $value);
     }
@@ -538,7 +538,7 @@ class InputTree extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function autoCancelParent(bool $value = true): self
+    public function autoCancelParent(bool $value = true): static
     {
         return $this->set('autoCancelParent', $value);
     }
@@ -549,7 +549,7 @@ class InputTree extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function toolbar(mixed $value = null): self
+    public function toolbar(mixed $value = null): static
     {
         return $this->set('toolbar', $value);
     }
@@ -560,7 +560,7 @@ class InputTree extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function toolbarClassName(string $value = ''): self
+    public function toolbarClassName(string $value = ''): static
     {
         return $this->set('toolbarClassName', $value);
     }
@@ -571,7 +571,7 @@ class InputTree extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function itemActions(mixed $value = null): self
+    public function itemActions(mixed $value = null): static
     {
         return $this->set('itemActions', $value);
     }

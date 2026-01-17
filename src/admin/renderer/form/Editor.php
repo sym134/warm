@@ -2,7 +2,8 @@
 namespace warm\admin\renderer\form;
 
 use warm\admin\renderer\BaseRenderer;
-use warm\admin\renderer\form\FormItemTrait;
+use warm\admin\renderer\trait\OnEvent;
+use warm\admin\renderer\trait\FormItem;
 
 /**
  * Editor
@@ -11,7 +12,8 @@ use warm\admin\renderer\form\FormItemTrait;
  */
 class Editor extends BaseRenderer
 {
-    use FormItemTrait;
+    use FormItem;
+    use OnEvent;
 
     public string $type = 'editor';
 
@@ -21,7 +23,7 @@ class Editor extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function language(string $value = 'javascript'): self
+    public function language(string $value = 'javascript'): static
     {
         return $this->set('language', $value);
     }
@@ -32,7 +34,7 @@ class Editor extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function size(string $value = 'md'): self
+    public function size(string $value = 'md'): static
     {
         return $this->set('size', $value);
     }
@@ -43,7 +45,7 @@ class Editor extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function allowFullscreen(bool $value = true): self
+    public function allowFullscreen(bool $value = true): static
     {
         return $this->set('allowFullscreen', $value);
     }
@@ -54,7 +56,7 @@ class Editor extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function options(array $value = []): self
+    public function options(array $value = []): static
     {
         return $this->set('options', $value);
     }
@@ -65,7 +67,7 @@ class Editor extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function placeholder(string $value = ''): self
+    public function placeholder(string $value = ''): static
     {
         return $this->set('placeholder', $value);
     }

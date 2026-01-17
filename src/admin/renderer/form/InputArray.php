@@ -2,7 +2,8 @@
 namespace warm\admin\renderer\form;
 
 use warm\admin\renderer\BaseRenderer;
-use warm\admin\renderer\form\FormItemTrait;
+use warm\admin\renderer\trait\DataDomain;
+use warm\admin\renderer\trait\FormItem;
 
 /**
  * InputArray
@@ -11,7 +12,8 @@ use warm\admin\renderer\form\FormItemTrait;
  */
 class InputArray extends BaseRenderer
 {
-    use FormItemTrait;
+    use FormItem;
+    use DataDomain;
 
     public string $type = 'input-array';
 
@@ -21,7 +23,7 @@ class InputArray extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function items(mixed $value = null): self
+    public function items(mixed $value = null): static
     {
         return $this->set('items', $value);
     }
@@ -32,7 +34,7 @@ class InputArray extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function addable(bool $value = true): self
+    public function addable(bool $value = true): static
     {
         return $this->set('addable', $value);
     }
@@ -43,7 +45,7 @@ class InputArray extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function removable(bool $value = true): self
+    public function removable(bool $value = true): static
     {
         return $this->set('removable', $value);
     }
@@ -54,7 +56,7 @@ class InputArray extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function draggable(bool $value = true): self
+    public function draggable(bool $value = true): static
     {
         return $this->set('draggable', $value);
     }
@@ -65,7 +67,7 @@ class InputArray extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function draggableTip(string $value = ''): self
+    public function draggableTip(string $value = ''): static
     {
         return $this->set('draggableTip', $value);
     }
@@ -76,7 +78,7 @@ class InputArray extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function addButtonText(string $value = '新增'): self
+    public function addButtonText(string $value = '新增'): static
     {
         return $this->set('addButtonText', $value);
     }
@@ -87,7 +89,7 @@ class InputArray extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function minLength(int|float $value = 0): self
+    public function minLength(int|float $value = 0): static
     {
         return $this->set('minLength', $value);
     }
@@ -98,7 +100,7 @@ class InputArray extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function maxLength(int|float $value = 0): self
+    public function maxLength(int|float $value = 0): static
     {
         return $this->set('maxLength', $value);
     }
@@ -109,7 +111,7 @@ class InputArray extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function scaffold(mixed $value = null): self
+    public function scaffold(mixed $value = null): static
     {
         return $this->set('scaffold', $value);
     }

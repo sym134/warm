@@ -1,5 +1,7 @@
 <?php
 namespace warm\admin\renderer;
+use warm\admin\renderer\trait\OnEvent;
+
 /**
  * Image
  *
@@ -7,15 +9,17 @@ namespace warm\admin\renderer;
  */
 class Image extends BaseRenderer
 {
+    use OnEvent;
+
     public string $type = 'image';
 
     /**
-     * 外层 CSS 类名
+     * 设置组件样式
      *
-     * @param string $value
-     * @return self
+     * @param mixed $value
+     * @return $this
      */
-    public function className(string $value = ''): self
+    public function className(mixed $value): static
     {
         return $this->set('className', $value);
     }
@@ -26,7 +30,7 @@ class Image extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function innerClassName(string $value = ''): self
+    public function innerClassName(string $value = ''): static
     {
         return $this->set('innerClassName', $value);
     }
@@ -37,7 +41,7 @@ class Image extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function imageClassName(string $value = ''): self
+    public function imageClassName(string $value = ''): static
     {
         return $this->set('imageClassName', $value);
     }
@@ -48,7 +52,7 @@ class Image extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function thumbClassName(string $value = ''): self
+    public function thumbClassName(string $value = ''): static
     {
         return $this->set('thumbClassName', $value);
     }
@@ -59,7 +63,7 @@ class Image extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function height(string $value = ''): self
+    public function height(string $value = ''): static
     {
         return $this->set('height', $value);
     }
@@ -70,7 +74,7 @@ class Image extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function width(string $value = ''): self
+    public function width(string $value = ''): static
     {
         return $this->set('width', $value);
     }
@@ -81,7 +85,7 @@ class Image extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function title(string $value = ''): self
+    public function title(string $value = ''): static
     {
         return $this->set('title', $value);
     }
@@ -92,7 +96,7 @@ class Image extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function imageCaption(string $value = ''): self
+    public function imageCaption(string $value = ''): static
     {
         return $this->set('imageCaption', $value);
     }
@@ -103,7 +107,7 @@ class Image extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function placeholder(string $value = ''): self
+    public function placeholder(string $value = ''): static
     {
         return $this->set('placeholder', $value);
     }
@@ -114,7 +118,7 @@ class Image extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function defaultImage(string $value = ''): self
+    public function defaultImage(string $value = ''): static
     {
         return $this->set('defaultImage', $value);
     }
@@ -125,7 +129,7 @@ class Image extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function src(string $value = ''): self
+    public function src(string $value = ''): static
     {
         return $this->set('src', $value);
     }
@@ -136,7 +140,7 @@ class Image extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function href(mixed $value = null): self
+    public function href(mixed $value = null): static
     {
         return $this->set('href', $value);
     }
@@ -147,7 +151,7 @@ class Image extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function originalSrc(string $value = ''): self
+    public function originalSrc(string $value = ''): static
     {
         return $this->set('originalSrc', $value);
     }
@@ -158,7 +162,7 @@ class Image extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function enlargeAble(bool $value = true): self
+    public function enlargeAble(bool $value = true): static
     {
         return $this->set('enlargeAble', $value);
     }
@@ -169,7 +173,7 @@ class Image extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function enlargeTitle(string $value = ''): self
+    public function enlargeTitle(string $value = ''): static
     {
         return $this->set('enlargeTitle', $value);
     }
@@ -180,7 +184,7 @@ class Image extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function enlargeCaption(string $value = ''): self
+    public function enlargeCaption(string $value = ''): static
     {
         return $this->set('enlargeCaption', $value);
     }
@@ -191,7 +195,7 @@ class Image extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function enlargeWithGallary(string $value = 'true'): self
+    public function enlargeWithGallary(string $value = 'true'): static
     {
         return $this->set('enlargeWithGallary', $value);
     }
@@ -202,7 +206,7 @@ class Image extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function thumbMode(string $value = 'contain'): self
+    public function thumbMode(string $value = 'contain'): static
     {
         return $this->set('thumbMode', $value);
     }
@@ -213,7 +217,7 @@ class Image extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function thumbRatio(string $value = '1:1'): self
+    public function thumbRatio(string $value = '1:1'): static
     {
         return $this->set('thumbRatio', $value);
     }
@@ -224,7 +228,7 @@ class Image extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function imageMode(string $value = 'thumb'): self
+    public function imageMode(string $value = 'thumb'): static
     {
         return $this->set('imageMode', $value);
     }
@@ -235,7 +239,7 @@ class Image extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function showToolbar(bool $value = true): self
+    public function showToolbar(bool $value = true): static
     {
         return $this->set('showToolbar', $value);
     }
@@ -246,7 +250,7 @@ class Image extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function toolbarActions(array $value = []): self
+    public function toolbarActions(array $value = []): static
     {
         return $this->set('toolbarActions', $value);
     }
@@ -257,7 +261,7 @@ class Image extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function maxScale(mixed $value = null): self
+    public function maxScale(mixed $value = null): static
     {
         return $this->set('maxScale', $value);
     }
@@ -268,7 +272,7 @@ class Image extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function minScale(mixed $value = null): self
+    public function minScale(mixed $value = null): static
     {
         return $this->set('minScale', $value);
     }

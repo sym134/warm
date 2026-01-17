@@ -15,7 +15,7 @@ class Link extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function body(string $value = ''): self
+    public function body(string $value = ''): static
     {
         return $this->set('body', $value);
     }
@@ -26,7 +26,7 @@ class Link extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function href(string $value = ''): self
+    public function href(string $value = ''): static
     {
         return $this->set('href', $value);
     }
@@ -37,7 +37,7 @@ class Link extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function blank(bool $value = true): self
+    public function blank(bool $value = true): static
     {
         return $this->set('blank', $value);
     }
@@ -48,7 +48,7 @@ class Link extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function htmlTarget(string $value = ''): self
+    public function htmlTarget(string $value = ''): static
     {
         return $this->set('htmlTarget', $value);
     }
@@ -59,7 +59,7 @@ class Link extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function title(string $value = ''): self
+    public function title(string $value = ''): static
     {
         return $this->set('title', $value);
     }
@@ -70,7 +70,7 @@ class Link extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function disabled(bool $value = true): self
+    public function disabled(bool $value = true): static
     {
         return $this->set('disabled', $value);
     }
@@ -81,7 +81,7 @@ class Link extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function icon(string $value = ''): self
+    public function icon(string $value = ''): static
     {
         return $this->set('icon', $value);
     }
@@ -92,7 +92,7 @@ class Link extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function rightIcon(string $value = ''): self
+    public function rightIcon(string $value = ''): static
     {
         return $this->set('rightIcon', $value);
     }

@@ -10,12 +10,12 @@ class Button extends Action
     public string $type = 'button';
 
     /**
-     * 指定添加 button 类名
+     * 设置组件样式
      *
-     * @param string $value
-     * @return self
+     * @param mixed $value
+     * @return $this
      */
-    public function className(string $value = ''): self
+    public function className(mixed $value): static
     {
         return $this->set('className', $value);
     }
@@ -26,7 +26,7 @@ class Button extends Action
      * @param string $value
      * @return self
      */
-    public function url(string $value = ''): self
+    public function url(string $value = ''): static
     {
         return $this->set('url', $value);
     }
@@ -37,7 +37,7 @@ class Button extends Action
      * @param mixed $value
      * @return self
      */
-    public function size(mixed $value = null): self
+    public function size(mixed $value = null): static
     {
         return $this->set('size', $value);
     }
@@ -48,7 +48,7 @@ class Button extends Action
      * @param mixed $value
      * @return self
      */
-    public function actionType(mixed $value = null): self
+    public function actionType(mixed $value = null): static
     {
         return $this->set('actionType', $value);
     }
@@ -59,7 +59,7 @@ class Button extends Action
      * @param mixed $value
      * @return self
      */
-    public function level(mixed $value = null): self
+    public function level(mixed $value = null): static
     {
         return $this->set('level', $value);
     }
@@ -70,7 +70,7 @@ class Button extends Action
      * @param mixed $value
      * @return self
      */
-    public function tooltip(mixed $value = null): self
+    public function tooltip(mixed $value = null): static
     {
         return $this->set('tooltip', $value);
     }
@@ -81,7 +81,7 @@ class Button extends Action
      * @param mixed $value
      * @return self
      */
-    public function tooltipPlacement(mixed $value = null): self
+    public function tooltipPlacement(mixed $value = null): static
     {
         return $this->set('tooltipPlacement', $value);
     }
@@ -92,7 +92,7 @@ class Button extends Action
      * @param mixed $value
      * @return self
      */
-    public function tooltipTrigger(mixed $value = null): self
+    public function tooltipTrigger(mixed $value = null): static
     {
         return $this->set('tooltipTrigger', $value);
     }
@@ -103,7 +103,7 @@ class Button extends Action
      * @param mixed $value
      * @return self
      */
-    public function disabled(mixed $value = false): self
+    public function disabled(mixed $value = false): static
     {
         return $this->set('disabled', $value);
     }
@@ -114,7 +114,7 @@ class Button extends Action
      * @param mixed $value
      * @return self
      */
-    public function disabledTip(mixed $value = null): self
+    public function disabledTip(mixed $value = null): static
     {
         return $this->set('disabledTip', $value);
     }
@@ -125,7 +125,7 @@ class Button extends Action
      * @param mixed $value
      * @return self
      */
-    public function block(mixed $value = false): self
+    public function block(mixed $value = false): static
     {
         return $this->set('block', $value);
     }
@@ -136,7 +136,7 @@ class Button extends Action
      * @param mixed $value
      * @return self
      */
-    public function loading(mixed $value = false): self
+    public function loading(mixed $value = false): static
     {
         return $this->set('loading', $value);
     }
@@ -147,7 +147,7 @@ class Button extends Action
      * @param mixed $value
      * @return self
      */
-    public function loadingOn(mixed $value = null): self
+    public function loadingOn(mixed $value = null): static
     {
         return $this->set('loadingOn', $value);
     }

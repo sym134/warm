@@ -15,7 +15,7 @@ class Custom extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function id(string $value = ''): self
+    public function id(string $value = ''): static
     {
         return $this->set('id', $value);
     }
@@ -26,18 +26,18 @@ class Custom extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function name(string $value = ''): self
+    public function name(string $value = ''): static
     {
         return $this->set('name', $value);
     }
 
     /**
-     * 节点 class
+     * 设置组件样式
      *
-     * @param string $value
-     * @return self
+     * @param mixed $value
+     * @return $this
      */
-    public function className(string $value = ''): self
+    public function className(mixed $value): static
     {
         return $this->set('className', $value);
     }
@@ -48,7 +48,7 @@ class Custom extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function inline(bool $value = true): self
+    public function inline(bool $value = true): static
     {
         return $this->set('inline', $value);
     }
@@ -59,7 +59,7 @@ class Custom extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function html(string $value = ''): self
+    public function html(string $value = ''): static
     {
         return $this->set('html', $value);
     }
@@ -70,7 +70,7 @@ class Custom extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function onMount(string $value = 'Function'): self
+    public function onMount(string $value = 'Function'): static
     {
         return $this->set('onMount', $value);
     }
@@ -81,7 +81,7 @@ class Custom extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function onUpdate(string $value = 'Function'): self
+    public function onUpdate(string $value = 'Function'): static
     {
         return $this->set('onUpdate', $value);
     }
@@ -92,7 +92,7 @@ class Custom extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function onUnmount(string $value = 'Function'): self
+    public function onUnmount(string $value = 'Function'): static
     {
         return $this->set('onUnmount', $value);
     }

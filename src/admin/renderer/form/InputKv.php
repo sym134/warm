@@ -2,7 +2,7 @@
 namespace warm\admin\renderer\form;
 
 use warm\admin\renderer\BaseRenderer;
-use warm\admin\renderer\form\FormItemTrait;
+use warm\admin\renderer\trait\OnEvent;
 
 /**
  * InputKv
@@ -11,7 +11,7 @@ use warm\admin\renderer\form\FormItemTrait;
  */
 class InputKv extends BaseRenderer
 {
-    use FormItemTrait;
+    use OnEvent;
 
     public string $type = 'input-kv';
 
@@ -21,7 +21,7 @@ class InputKv extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function valueType(mixed $value = null): self
+    public function valueType(mixed $value = null): static
     {
         return $this->set('valueType', $value);
     }
@@ -32,7 +32,7 @@ class InputKv extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function keyPlaceholder(string $value = ''): self
+    public function keyPlaceholder(string $value = ''): static
     {
         return $this->set('keyPlaceholder', $value);
     }
@@ -43,7 +43,7 @@ class InputKv extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function valuePlaceholder(string $value = ''): self
+    public function valuePlaceholder(string $value = ''): static
     {
         return $this->set('valuePlaceholder', $value);
     }
@@ -54,7 +54,7 @@ class InputKv extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function draggable(bool $value = true): self
+    public function draggable(bool $value = true): static
     {
         return $this->set('draggable', $value);
     }
@@ -65,7 +65,7 @@ class InputKv extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function defaultValue(mixed $value = null): self
+    public function defaultValue(mixed $value = null): static
     {
         return $this->set('defaultValue', $value);
     }
@@ -76,7 +76,7 @@ class InputKv extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function autoParseJSON(bool $value = true): self
+    public function autoParseJSON(bool $value = true): static
     {
         return $this->set('autoParseJSON', $value);
     }

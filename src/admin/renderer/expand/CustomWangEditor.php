@@ -1,6 +1,8 @@
 <?php
 
-namespace warm\admin\renderer\expand;use warm\admin\renderer\BaseRenderer;
+namespace warm\admin\renderer\expand;
+
+use warm\admin\renderer\BaseRenderer;
 use warm\admin\trait\UploadTrait;
 
 /**
@@ -37,9 +39,12 @@ class CustomWangEditor extends BaseRenderer
     }
 
     /**
-     * 设置类名
+     * 设置样式
+     *
+     * @param mixed $value
+     * @return $this
      */
-    public function className($value = '')
+    public function className(mixed $value): static
     {
         return $this->set('className', $value);
     }

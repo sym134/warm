@@ -7,7 +7,6 @@ namespace warm\admin\renderer;
  */
 class DropdownButton extends BaseRenderer
 {
-    public string $type = 'dropdown-button';
 
     /**
      * 按钮文本
@@ -15,18 +14,18 @@ class DropdownButton extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function label(string $value = ''): self
-    {
-        return $this->set('label', $value);
-    }
+//    public function label(string $value = ''): static
+//    {
+//        return $this->set('label', $value);
+//    }
 
     /**
-     * 外层 CSS 类名
+     * 设置组件样式
      *
-     * @param string $value
-     * @return self
+     * @param mixed $value
+     * @return $this
      */
-    public function className(string $value = ''): self
+    public function className(mixed $value): static
     {
         return $this->set('className', $value);
     }
@@ -37,7 +36,7 @@ class DropdownButton extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function btnClassName(string $value = ''): self
+    public function btnClassName(string $value = ''): static
     {
         return $this->set('btnClassName', $value);
     }
@@ -48,7 +47,7 @@ class DropdownButton extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function menuClassName(string $value = ''): self
+    public function menuClassName(string $value = ''): static
     {
         return $this->set('menuClassName', $value);
     }
@@ -59,7 +58,7 @@ class DropdownButton extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function block(bool $value = true): self
+    public function block(bool $value = true): static
     {
         return $this->set('block', $value);
     }
@@ -70,7 +69,7 @@ class DropdownButton extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function size(string $value = ''): self
+    public function size(string $value = ''): static
     {
         return $this->set('size', $value);
     }
@@ -81,7 +80,7 @@ class DropdownButton extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function align(string $value = ''): self
+    public function align(string $value = ''): static
     {
         return $this->set('align', $value);
     }
@@ -92,7 +91,7 @@ class DropdownButton extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function buttons(array $value = []): self
+    public function buttons(array $value = []): static
     {
         return $this->set('buttons', $value);
     }
@@ -103,7 +102,7 @@ class DropdownButton extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function iconOnly(bool $value = true): self
+    public function iconOnly(bool $value = true): static
     {
         return $this->set('iconOnly', $value);
     }
@@ -114,7 +113,7 @@ class DropdownButton extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function defaultIsOpened(bool $value = true): self
+    public function defaultIsOpened(bool $value = true): static
     {
         return $this->set('defaultIsOpened', $value);
     }
@@ -125,7 +124,7 @@ class DropdownButton extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function closeOnOutside(bool $value = true): self
+    public function closeOnOutside(bool $value = true): static
     {
         return $this->set('closeOnOutside', $value);
     }
@@ -136,7 +135,7 @@ class DropdownButton extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function closeOnClick(bool $value = true): self
+    public function closeOnClick(bool $value = true): static
     {
         return $this->set('closeOnClick', $value);
     }
@@ -147,7 +146,7 @@ class DropdownButton extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function trigger(mixed $value = null): self
+    public function trigger(mixed $value = null): static
     {
         return $this->set('trigger', $value);
     }
@@ -158,7 +157,7 @@ class DropdownButton extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function hideCaret(bool $value = true): self
+    public function hideCaret(bool $value = true): static
     {
         return $this->set('hideCaret', $value);
     }
@@ -169,7 +168,7 @@ class DropdownButton extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function popOverContainerSelector(string $value = ''): self
+    public function popOverContainerSelector(string $value = ''): static
     {
         return $this->set('popOverContainerSelector', $value);
     }

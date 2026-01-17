@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace warm\admin\renderer\form;
 
+use warm\admin\renderer\trait\OnEvent;
+
 /**
  * InputQuarter 季度
  *
@@ -11,5 +13,6 @@ namespace warm\admin\renderer\form;
  */
 class InputQuarter extends InputDate
 {
+    use OnEvent;
     public string $type = 'input-quarter';
 }

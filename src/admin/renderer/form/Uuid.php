@@ -2,7 +2,8 @@
 namespace warm\admin\renderer\form;
 
 use warm\admin\renderer\BaseRenderer;
-use warm\admin\renderer\form\FormItemTrait;
+use warm\admin\renderer\trait\FormItem;
+use warm\admin\renderer\trait\NameAndLabel;
 
 /**
  * Uuid
@@ -11,7 +12,7 @@ use warm\admin\renderer\form\FormItemTrait;
  */
 class Uuid extends BaseRenderer
 {
-    use FormItemTrait;
+    use NameAndLabel;
 
     public string $type = 'uuid';
 

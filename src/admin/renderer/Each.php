@@ -15,7 +15,7 @@ class Each extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function value(array $value = []): self
+    public function value(array $value = []): static
     {
         return $this->set('value', $value);
     }
@@ -26,7 +26,7 @@ class Each extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function name(string $value = ''): self
+    public function name(string $value = ''): static
     {
         return $this->set('name', $value);
     }
@@ -37,7 +37,7 @@ class Each extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function source(string $value = ''): self
+    public function source(string $value = ''): static
     {
         return $this->set('source', $value);
     }
@@ -48,7 +48,7 @@ class Each extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function items(array $value = []): self
+    public function items(array $value = []): static
     {
         return $this->set('items', $value);
     }
@@ -59,7 +59,7 @@ class Each extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function placeholder(string $value = ''): self
+    public function placeholder(string $value = ''): static
     {
         return $this->set('placeholder', $value);
     }
@@ -70,7 +70,7 @@ class Each extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function itemKeyName(string $value = 'item'): self
+    public function itemKeyName(string $value = 'item'): static
     {
         return $this->set('itemKeyName', $value);
     }
@@ -81,7 +81,7 @@ class Each extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function indexKeyName(string $value = 'index'): self
+    public function indexKeyName(string $value = 'index'): static
     {
         return $this->set('indexKeyName', $value);
     }

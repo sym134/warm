@@ -2,6 +2,8 @@
 
 namespace warm\admin\renderer;
 
+use warm\admin\renderer\trait\OnEvent;
+
 /**
  * Action 行为按钮
  *
@@ -9,6 +11,7 @@ namespace warm\admin\renderer;
  */
 class Action extends BaseRenderer
 {
+    use OnEvent;
     public string $type = 'action';
 
     /**
@@ -18,21 +21,21 @@ class Action extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function actionType(string $value): self
+    public function actionType(string $value): static
     {
         return $this->set('actionType', $value);
     }
 
-    /**
-     * 按钮文本。可用 ${xxx} 取值
-     *
-     * @param string $value
-     * @return self
-     */
-    public function label(string $value): self
-    {
-        return $this->set('label', $value);
-    }
+//    /**
+//     * 按钮文本。可用 ${xxx} 取值
+//     *
+//     * @param string $value
+//     * @return self
+//     */
+//    public function label(string $value): static
+//    {
+//        return $this->set('label', $value);
+//    }
 
     /**
      * 按钮样式
@@ -41,7 +44,7 @@ class Action extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function level(string $value = 'default'): self
+    public function level(string $value = 'default'): static
     {
         return $this->set('level', $value);
     }
@@ -53,7 +56,7 @@ class Action extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function size(string $value): self
+    public function size(string $value): static
     {
         return $this->set('size', $value);
     }
@@ -64,7 +67,7 @@ class Action extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function icon(string $value): self
+    public function icon(string $value): static
     {
         return $this->set('icon', $value);
     }
@@ -75,7 +78,7 @@ class Action extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function iconClassName(string $value): self
+    public function iconClassName(string $value): static
     {
         return $this->set('iconClassName', $value);
     }
@@ -86,7 +89,7 @@ class Action extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function rightIcon(string $value): self
+    public function rightIcon(string $value): static
     {
         return $this->set('rightIcon', $value);
     }
@@ -97,7 +100,7 @@ class Action extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function rightIconClassName(string $value): self
+    public function rightIconClassName(string $value): static
     {
         return $this->set('rightIconClassName', $value);
     }
@@ -108,7 +111,7 @@ class Action extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function active(bool $value = true): self
+    public function active(bool $value = true): static
     {
         return $this->set('active', $value);
     }
@@ -119,7 +122,7 @@ class Action extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function activeLevel(string $value): self
+    public function activeLevel(string $value): static
     {
         return $this->set('activeLevel', $value);
     }
@@ -130,7 +133,7 @@ class Action extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function activeClassName(string $value = 'is-active'): self
+    public function activeClassName(string $value = 'is-active'): static
     {
         return $this->set('activeClassName', $value);
     }
@@ -141,7 +144,7 @@ class Action extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function block(bool $value = true): self
+    public function block(bool $value = true): static
     {
         return $this->set('block', $value);
     }
@@ -152,7 +155,7 @@ class Action extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function confirmText(string $value): self
+    public function confirmText(string $value): static
     {
         return $this->set('confirmText', $value);
     }
@@ -163,7 +166,7 @@ class Action extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function confirmTitle(string $value): self
+    public function confirmTitle(string $value): static
     {
         return $this->set('confirmTitle', $value);
     }
@@ -174,7 +177,7 @@ class Action extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function reload(string $value): self
+    public function reload(string $value): static
     {
         return $this->set('reload', $value);
     }
@@ -185,7 +188,7 @@ class Action extends BaseRenderer
      * @param string|array $value
      * @return self
      */
-    public function tooltip(string|array $value): self
+    public function tooltip(string|array $value): static
     {
         return $this->set('tooltip', $value);
     }
@@ -196,7 +199,7 @@ class Action extends BaseRenderer
      * @param string|array $value
      * @return self
      */
-    public function disabledTip(string|array $value): self
+    public function disabledTip(string|array $value): static
     {
         return $this->set('disabledTip', $value);
     }
@@ -207,7 +210,7 @@ class Action extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function tooltipPlacement(string $value = 'top'): self
+    public function tooltipPlacement(string $value = 'top'): static
     {
         return $this->set('tooltipPlacement', $value);
     }
@@ -219,7 +222,7 @@ class Action extends BaseRenderer
      * @param bool|string $value
      * @return self
      */
-    public function close(bool|string $value = true): self
+    public function close(bool|string $value = true): static
     {
         return $this->set('close', $value);
     }
@@ -230,7 +233,7 @@ class Action extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function required(array $value): self
+    public function required(array $value): static
     {
         return $this->set('required', $value);
     }
@@ -241,7 +244,7 @@ class Action extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function hotKey(string $value): self
+    public function hotKey(string $value): static
     {
         return $this->set('hotKey', $value);
     }
@@ -252,7 +255,7 @@ class Action extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function onClick(string $value): self
+    public function onClick(string $value): static
     {
         return $this->set('onClick', $value);
     }
@@ -263,7 +266,7 @@ class Action extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function body(mixed $value): self
+    public function body(mixed $value): static
     {
         return $this->set('body', $value);
     }
@@ -274,7 +277,7 @@ class Action extends BaseRenderer
      * @param string|array $value
      * @return self
      */
-    public function api(string|array $value): self
+    public function api(string|array $value): static
     {
         return $this->set('api', $value);
     }
@@ -285,7 +288,7 @@ class Action extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function redirect(string $value): self
+    public function redirect(string $value): static
     {
         return $this->set('redirect', $value);
     }
@@ -296,7 +299,7 @@ class Action extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function feedback(array $value): self
+    public function feedback(array $value): static
     {
         return $this->set('feedback', $value);
     }
@@ -307,7 +310,7 @@ class Action extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function messages(array $value): self
+    public function messages(array $value): static
     {
         return $this->set('messages', $value);
     }
@@ -318,7 +321,7 @@ class Action extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function downloadFileName(string $value): self
+    public function downloadFileName(string $value): static
     {
         return $this->set('downloadFileName', $value);
     }
@@ -329,7 +332,7 @@ class Action extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function dialog(mixed $value): self
+    public function dialog(mixed $value): static
     {
         return $this->set('dialog', $value);
     }
@@ -340,7 +343,7 @@ class Action extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function drawer(mixed $value): self
+    public function drawer(mixed $value): static
     {
         return $this->set('drawer', $value);
     }
@@ -351,7 +354,7 @@ class Action extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function nextCondition(bool $value = true): self
+    public function nextCondition(bool $value = true): static
     {
         return $this->set('nextCondition', $value);
     }
@@ -362,7 +365,7 @@ class Action extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function link(string $value): self
+    public function link(string $value): static
     {
         return $this->set('link', $value);
     }
@@ -373,7 +376,7 @@ class Action extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function url(string $value): self
+    public function url(string $value): static
     {
         return $this->set('url', $value);
     }
@@ -384,7 +387,7 @@ class Action extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function blank(bool $value = true): self
+    public function blank(bool $value = true): static
     {
         return $this->set('blank', $value);
     }
@@ -395,7 +398,7 @@ class Action extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function to(string $value): self
+    public function to(string $value): static
     {
         return $this->set('to', $value);
     }
@@ -406,7 +409,7 @@ class Action extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function cc(string $value): self
+    public function cc(string $value): static
     {
         return $this->set('cc', $value);
     }
@@ -417,7 +420,7 @@ class Action extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function bcc(string $value): self
+    public function bcc(string $value): static
     {
         return $this->set('bcc', $value);
     }
@@ -428,7 +431,7 @@ class Action extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function subject(string $value): self
+    public function subject(string $value): static
     {
         return $this->set('subject', $value);
     }
@@ -439,7 +442,7 @@ class Action extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function content(string $value): self
+    public function content(string $value): static
     {
         return $this->set('content', $value);
     }
@@ -450,7 +453,7 @@ class Action extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function copyFormat(string $value): self
+    public function copyFormat(string $value): static
     {
         return $this->set('copyFormat', $value);
     }
@@ -461,7 +464,7 @@ class Action extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function target(string $value): self
+    public function target(string $value): static
     {
         return $this->set('target', $value);
     }
@@ -472,7 +475,7 @@ class Action extends BaseRenderer
      * @param int $value
      * @return self
      */
-    public function countDown(int $value): self
+    public function countDown(int $value): static
     {
         return $this->set('countDown', $value);
     }
@@ -483,7 +486,7 @@ class Action extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function countDownTpl(string $value): self
+    public function countDownTpl(string $value): static
     {
         return $this->set('countDownTpl', $value);
     }

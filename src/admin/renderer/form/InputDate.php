@@ -2,7 +2,8 @@
 namespace warm\admin\renderer\form;
 
 use warm\admin\renderer\BaseRenderer;
-use warm\admin\renderer\form\FormItemTrait;
+use warm\admin\renderer\trait\FormItem;
+use warm\admin\renderer\trait\OnEvent;
 
 /**
  * InputDate
@@ -11,7 +12,8 @@ use warm\admin\renderer\form\FormItemTrait;
  */
 class InputDate extends BaseRenderer
 {
-    use FormItemTrait;
+    use OnEvent;
+    use FormItem;
 
     public string $type = 'input-date';
 
@@ -21,7 +23,7 @@ class InputDate extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function value(string $value = ''): self
+    public function value(string $value = ''): static
     {
         return $this->set('value', $value);
     }
@@ -32,7 +34,7 @@ class InputDate extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function valueFormat(string $value = 'X'): self
+    public function valueFormat(string $value = 'X'): static
     {
         return $this->set('valueFormat', $value);
     }
@@ -43,7 +45,7 @@ class InputDate extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function displayFormat(string $value = 'YYYY-MM-DD'): self
+    public function displayFormat(string $value = 'YYYY-MM-DD'): static
     {
         return $this->set('displayFormat', $value);
     }
@@ -54,7 +56,7 @@ class InputDate extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function closeOnSelect(bool $value = true): self
+    public function closeOnSelect(bool $value = true): static
     {
         return $this->set('closeOnSelect', $value);
     }
@@ -65,7 +67,7 @@ class InputDate extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function placeholder(string $value = '请选择日期'): self
+    public function placeholder(string $value = '请选择日期'): static
     {
         return $this->set('placeholder', $value);
     }
@@ -76,7 +78,7 @@ class InputDate extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function shortcuts(mixed $value = null): self
+    public function shortcuts(mixed $value = null): static
     {
         return $this->set('shortcuts', $value);
     }
@@ -87,7 +89,7 @@ class InputDate extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function minDate(string $value = ''): self
+    public function minDate(string $value = ''): static
     {
         return $this->set('minDate', $value);
     }
@@ -98,7 +100,7 @@ class InputDate extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function maxDate(string $value = ''): self
+    public function maxDate(string $value = ''): static
     {
         return $this->set('maxDate', $value);
     }
@@ -109,7 +111,7 @@ class InputDate extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function utc(bool $value = true): self
+    public function utc(bool $value = true): static
     {
         return $this->set('utc', $value);
     }
@@ -120,7 +122,7 @@ class InputDate extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function clearable(bool $value = true): self
+    public function clearable(bool $value = true): static
     {
         return $this->set('clearable', $value);
     }
@@ -131,7 +133,7 @@ class InputDate extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function embed(bool $value = true): self
+    public function embed(bool $value = true): static
     {
         return $this->set('embed', $value);
     }
@@ -142,7 +144,7 @@ class InputDate extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function disabledDate(string $value = ''): self
+    public function disabledDate(string $value = ''): static
     {
         return $this->set('disabledDate', $value);
     }
@@ -153,7 +155,7 @@ class InputDate extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function popOverContainerSelector(string $value = ''): self
+    public function popOverContainerSelector(string $value = ''): static
     {
         return $this->set('popOverContainerSelector', $value);
     }

@@ -2,7 +2,8 @@
 namespace warm\admin\renderer\form;
 
 use warm\admin\renderer\BaseRenderer;
-use warm\admin\renderer\form\FormItemTrait;
+use warm\admin\renderer\trait\FormItem;
+use warm\admin\renderer\trait\OnEvent;
 
 /**
  * Textarea
@@ -11,7 +12,8 @@ use warm\admin\renderer\form\FormItemTrait;
  */
 class Textarea extends BaseRenderer
 {
-    use FormItemTrait;
+    use FormItem;
+    use OnEvent;
 
     public string $type = 'textarea';
 
@@ -21,7 +23,7 @@ class Textarea extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function minRows(int|float $value = 3): self
+    public function minRows(int|float $value = 3): static
     {
         return $this->set('minRows', $value);
     }
@@ -32,7 +34,7 @@ class Textarea extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function maxRows(int|float $value = 20): self
+    public function maxRows(int|float $value = 20): static
     {
         return $this->set('maxRows', $value);
     }
@@ -43,7 +45,7 @@ class Textarea extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function trimContents(bool $value = true): self
+    public function trimContents(bool $value = true): static
     {
         return $this->set('trimContents', $value);
     }
@@ -54,7 +56,7 @@ class Textarea extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function readOnly(bool $value = true): self
+    public function readOnly(bool $value = true): static
     {
         return $this->set('readOnly', $value);
     }
@@ -65,7 +67,7 @@ class Textarea extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function showCounter(bool $value = true): self
+    public function showCounter(bool $value = true): static
     {
         return $this->set('showCounter', $value);
     }
@@ -76,7 +78,7 @@ class Textarea extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function maxLength(int|float $value = 0): self
+    public function maxLength(int|float $value = 0): static
     {
         return $this->set('maxLength', $value);
     }
@@ -87,7 +89,7 @@ class Textarea extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function clearable(bool $value = true): self
+    public function clearable(bool $value = true): static
     {
         return $this->set('clearable', $value);
     }
@@ -98,7 +100,7 @@ class Textarea extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function resetValue(string $value = ''): self
+    public function resetValue(string $value = ''): static
     {
         return $this->set('resetValue', $value);
     }

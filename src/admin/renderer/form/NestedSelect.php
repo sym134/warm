@@ -2,18 +2,20 @@
 namespace warm\admin\renderer\form;
 
 use warm\admin\renderer\BaseRenderer;
-use warm\admin\renderer\form\FormItemTrait;
+use warm\admin\renderer\trait\FormItem;
+use warm\admin\renderer\trait\OnEvent;
 
 /**
- * Nestedselect
+ * NestedSelect
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/nestedselect
  */
-class Nestedselect extends BaseRenderer
+class NestedSelect extends BaseRenderer
 {
-    use FormItemTrait;
+    use FormItem;
+    use OnEvent;
 
-    public string $type = 'nestedselect';
+    public string $type = 'nested-select';
 
     /**
      * [选项组](./options#%E9%9D%99%E6%80%81%E9%80%89%E9%A1%B9%E7%BB%84-options)
@@ -21,7 +23,7 @@ class Nestedselect extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function options(array $value = []): self
+    public function options(array $value = []): static
     {
         return $this->set('options', $value);
     }
@@ -32,7 +34,7 @@ class Nestedselect extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function source(mixed $value = null): self
+    public function source(mixed $value = null): static
     {
         return $this->set('source', $value);
     }
@@ -43,7 +45,7 @@ class Nestedselect extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function delimiter(bool $value = true): self
+    public function delimiter(bool $value = true): static
     {
         return $this->set('delimiter', $value);
     }
@@ -54,7 +56,7 @@ class Nestedselect extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function labelField(bool $value = true): self
+    public function labelField(bool $value = true): static
     {
         return $this->set('labelField', $value);
     }
@@ -65,7 +67,7 @@ class Nestedselect extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function valueField(bool $value = true): self
+    public function valueField(bool $value = true): static
     {
         return $this->set('valueField', $value);
     }
@@ -76,7 +78,7 @@ class Nestedselect extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function joinValues(bool $value = true): self
+    public function joinValues(bool $value = true): static
     {
         return $this->set('joinValues', $value);
     }
@@ -87,7 +89,7 @@ class Nestedselect extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function extractValue(bool $value = true): self
+    public function extractValue(bool $value = true): static
     {
         return $this->set('extractValue', $value);
     }
@@ -98,7 +100,7 @@ class Nestedselect extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function autoFill(array $value = []): self
+    public function autoFill(array $value = []): static
     {
         return $this->set('autoFill', $value);
     }
@@ -109,7 +111,7 @@ class Nestedselect extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function cascade(bool $value = true): self
+    public function cascade(bool $value = true): static
     {
         return $this->set('cascade', $value);
     }
@@ -120,7 +122,7 @@ class Nestedselect extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function withChildren(bool $value = true): self
+    public function withChildren(bool $value = true): static
     {
         return $this->set('withChildren', $value);
     }
@@ -131,7 +133,7 @@ class Nestedselect extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function onlyChildren(bool $value = true): self
+    public function onlyChildren(bool $value = true): static
     {
         return $this->set('onlyChildren', $value);
     }
@@ -142,7 +144,7 @@ class Nestedselect extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function searchable(bool $value = true): self
+    public function searchable(bool $value = true): static
     {
         return $this->set('searchable', $value);
     }
@@ -153,7 +155,7 @@ class Nestedselect extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function searchPromptText(string $value = '输入内容进行检索'): self
+    public function searchPromptText(string $value = '输入内容进行检索'): static
     {
         return $this->set('searchPromptText', $value);
     }
@@ -164,7 +166,7 @@ class Nestedselect extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function noResultsText(string $value = '未找到任何结果'): self
+    public function noResultsText(string $value = '未找到任何结果'): static
     {
         return $this->set('noResultsText', $value);
     }
@@ -175,7 +177,7 @@ class Nestedselect extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function multiple(bool $value = true): self
+    public function multiple(bool $value = true): static
     {
         return $this->set('multiple', $value);
     }
@@ -186,7 +188,7 @@ class Nestedselect extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function hideNodePathLabel(bool $value = true): self
+    public function hideNodePathLabel(bool $value = true): static
     {
         return $this->set('hideNodePathLabel', $value);
     }
@@ -197,7 +199,7 @@ class Nestedselect extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function onlyLeaf(bool $value = true): self
+    public function onlyLeaf(bool $value = true): static
     {
         return $this->set('onlyLeaf', $value);
     }
@@ -208,7 +210,7 @@ class Nestedselect extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function maxTagCount(int|float $value = 0): self
+    public function maxTagCount(int|float $value = 0): static
     {
         return $this->set('maxTagCount', $value);
     }
@@ -219,7 +221,7 @@ class Nestedselect extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function overflowTagPopover(mixed $value = null): self
+    public function overflowTagPopover(mixed $value = null): static
     {
         return $this->set('overflowTagPopover', $value);
     }

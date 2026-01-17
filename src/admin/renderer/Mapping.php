@@ -1,5 +1,7 @@
 <?php
 namespace warm\admin\renderer;
+use warm\admin\renderer\trait\NameAndLabel;
+
 /**
  * Mapping
  *
@@ -7,15 +9,17 @@ namespace warm\admin\renderer;
  */
 class Mapping extends BaseRenderer
 {
+    use NameAndLabel;
+
     public string $type = 'mapping';
 
     /**
-     * 外层 CSS 类名
+     * 设置组件样式
      *
-     * @param string $value
-     * @return self
+     * @param mixed $value
+     * @return $this
      */
-    public function className(string $value = ''): self
+    public function className(mixed $value): static
     {
         return $this->set('className', $value);
     }
@@ -26,7 +30,7 @@ class Mapping extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function placeholder(string $value = ''): self
+    public function placeholder(string $value = ''): static
     {
         return $this->set('placeholder', $value);
     }
@@ -37,7 +41,7 @@ class Mapping extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function map(array $value = []): self
+    public function map(array $value = []): static
     {
         return $this->set('map', $value);
     }
@@ -48,7 +52,7 @@ class Mapping extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function source(mixed $value = null): self
+    public function source(mixed $value = null): static
     {
         return $this->set('source', $value);
     }
@@ -59,7 +63,7 @@ class Mapping extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function valueField(string $value = 'value'): self
+    public function valueField(string $value = 'value'): static
     {
         return $this->set('valueField', $value);
     }
@@ -70,7 +74,7 @@ class Mapping extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function labelField(string $value = 'label'): self
+    public function labelField(string $value = 'label'): static
     {
         return $this->set('labelField', $value);
     }
@@ -81,7 +85,7 @@ class Mapping extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function itemSchema(mixed $value = null): self
+    public function itemSchema(mixed $value = null): static
     {
         return $this->set('itemSchema', $value);
     }

@@ -1,5 +1,7 @@
 <?php
 namespace warm\admin\renderer;
+use warm\admin\renderer\trait\NameAndLabel;
+
 /**
  * Status
  *
@@ -7,15 +9,17 @@ namespace warm\admin\renderer;
  */
 class Status extends BaseRenderer
 {
+    use NameAndLabel;
+
     public string $type = 'status';
 
     /**
-     * 
+     * 设置组件样式
      *
-     * @param string $value
-     * @return self
+     * @param mixed $value
+     * @return $this
      */
-    public function className(string $value = ''): self
+    public function className(mixed $value=''): static
     {
         return $this->set('className', $value);
     }
@@ -26,7 +30,7 @@ class Status extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function placeholder(string $value = '-'): self
+    public function placeholder(string $value = '-'): static
     {
         return $this->set('placeholder', $value);
     }
@@ -37,7 +41,7 @@ class Status extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function map(array $value = []): self
+    public function map(array $value = []): static
     {
         return $this->set('map', $value);
     }
@@ -48,7 +52,7 @@ class Status extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function labelMap(array $value = []): self
+    public function labelMap(array $value = []): static
     {
         return $this->set('labelMap', $value);
     }
@@ -59,7 +63,7 @@ class Status extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function source(array $value = []): self
+    public function source(array $value = []): static
     {
         return $this->set('source', $value);
     }

@@ -2,7 +2,7 @@
 namespace warm\admin\renderer\form;
 
 use warm\admin\renderer\BaseRenderer;
-use warm\admin\renderer\form\FormItemTrait;
+use warm\admin\renderer\trait\NameAndLabel;
 
 /**
  * InputSignature
@@ -11,7 +11,7 @@ use warm\admin\renderer\form\FormItemTrait;
  */
 class InputSignature extends BaseRenderer
 {
-    use FormItemTrait;
+    use NameAndLabel;
 
     public string $type = 'input-signature';
 
@@ -21,7 +21,7 @@ class InputSignature extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function width(int|float $value = 0): self
+    public function width(int|float $value = 0): static
     {
         return $this->set('width', $value);
     }
@@ -32,7 +32,7 @@ class InputSignature extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function height(int|float $value = 0): self
+    public function height(int|float $value = 0): static
     {
         return $this->set('height', $value);
     }
@@ -43,7 +43,7 @@ class InputSignature extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function color(string $value = '#000'): self
+    public function color(string $value = '#000'): static
     {
         return $this->set('color', $value);
     }
@@ -54,7 +54,7 @@ class InputSignature extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function bgColor(string $value = '#EFEFEF'): self
+    public function bgColor(string $value = '#EFEFEF'): static
     {
         return $this->set('bgColor', $value);
     }
@@ -65,7 +65,7 @@ class InputSignature extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function clearBtnLabel(string $value = '清空'): self
+    public function clearBtnLabel(string $value = '清空'): static
     {
         return $this->set('clearBtnLabel', $value);
     }
@@ -76,7 +76,7 @@ class InputSignature extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function undoBtnLabel(string $value = '撤销'): self
+    public function undoBtnLabel(string $value = '撤销'): static
     {
         return $this->set('undoBtnLabel', $value);
     }
@@ -87,7 +87,7 @@ class InputSignature extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function confirmBtnLabel(string $value = '确认'): self
+    public function confirmBtnLabel(string $value = '确认'): static
     {
         return $this->set('confirmBtnLabel', $value);
     }
@@ -98,7 +98,7 @@ class InputSignature extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function embed(bool $value = true): self
+    public function embed(bool $value = true): static
     {
         return $this->set('embed', $value);
     }
@@ -109,7 +109,7 @@ class InputSignature extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function embedConfirmLabel(string $value = '确认'): self
+    public function embedConfirmLabel(string $value = '确认'): static
     {
         return $this->set('embedConfirmLabel', $value);
     }
@@ -120,7 +120,7 @@ class InputSignature extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function ebmedCancelLabel(string $value = '取消'): self
+    public function ebmedCancelLabel(string $value = '取消'): static
     {
         return $this->set('ebmedCancelLabel', $value);
     }
@@ -131,7 +131,7 @@ class InputSignature extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function embedBtnIcon(string $value = ''): self
+    public function embedBtnIcon(string $value = ''): static
     {
         return $this->set('embedBtnIcon', $value);
     }
@@ -142,7 +142,7 @@ class InputSignature extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function embedBtnLabel(string $value = '点击签名'): self
+    public function embedBtnLabel(string $value = '点击签名'): static
     {
         return $this->set('embedBtnLabel', $value);
     }
@@ -153,7 +153,7 @@ class InputSignature extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function uploadApi(mixed $value = null): self
+    public function uploadApi(mixed $value = null): static
     {
         return $this->set('uploadApi', $value);
     }

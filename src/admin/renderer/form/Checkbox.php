@@ -2,7 +2,8 @@
 namespace warm\admin\renderer\form;
 
 use warm\admin\renderer\BaseRenderer;
-use warm\admin\renderer\form\FormItemTrait;
+use warm\admin\renderer\trait\FormItem;
+use warm\admin\renderer\trait\OnEvent;
 
 /**
  * Checkbox
@@ -11,7 +12,8 @@ use warm\admin\renderer\form\FormItemTrait;
  */
 class Checkbox extends BaseRenderer
 {
-    use FormItemTrait;
+    use OnEvent;
+    use FormItem;
 
     public string $type = 'checkbox';
 
@@ -21,7 +23,7 @@ class Checkbox extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function option(string $value = ''): self
+    public function option(string $value = ''): static
     {
         return $this->set('option', $value);
     }
@@ -32,7 +34,7 @@ class Checkbox extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function trueValue(mixed $value = true): self
+    public function trueValue(mixed $value = true): static
     {
         return $this->set('trueValue', $value);
     }
@@ -43,7 +45,7 @@ class Checkbox extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function falseValue(mixed $value = false): self
+    public function falseValue(mixed $value = false): static
     {
         return $this->set('falseValue', $value);
     }
@@ -54,7 +56,7 @@ class Checkbox extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function optionType(mixed $value = null): self
+    public function optionType(mixed $value = null): static
     {
         return $this->set('optionType', $value);
     }

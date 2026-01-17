@@ -2,7 +2,8 @@
 namespace warm\admin\renderer\form;
 
 use warm\admin\renderer\BaseRenderer;
-use warm\admin\renderer\form\FormItemTrait;
+use warm\admin\renderer\trait\FormItem;
+use warm\admin\renderer\trait\OnEvent;
 
 /**
  * InputRange
@@ -11,17 +12,18 @@ use warm\admin\renderer\form\FormItemTrait;
  */
 class InputRange extends BaseRenderer
 {
-    use FormItemTrait;
+    use FormItem;
+    use OnEvent;
 
     public string $type = 'input-range';
 
     /**
-     * css 类名
+     * 设置组件样式
      *
-     * @param string $value
-     * @return self
+     * @param mixed $value
+     * @return $this
      */
-    public function className(string $value = ''): self
+    public function className(mixed $value): static
     {
         return $this->set('className', $value);
     }
@@ -32,7 +34,7 @@ class InputRange extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function value(mixed $value = null): self
+    public function value(mixed $value = null): static
     {
         return $this->set('value', $value);
     }
@@ -43,7 +45,7 @@ class InputRange extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function min(mixed $value = null): self
+    public function min(mixed $value = null): static
     {
         return $this->set('min', $value);
     }
@@ -54,7 +56,7 @@ class InputRange extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function max(mixed $value = null): self
+    public function max(mixed $value = null): static
     {
         return $this->set('max', $value);
     }
@@ -65,7 +67,7 @@ class InputRange extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function disabled(bool $value = true): self
+    public function disabled(bool $value = true): static
     {
         return $this->set('disabled', $value);
     }
@@ -76,7 +78,7 @@ class InputRange extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function step(mixed $value = null): self
+    public function step(mixed $value = null): static
     {
         return $this->set('step', $value);
     }
@@ -87,7 +89,7 @@ class InputRange extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function showSteps(bool $value = true): self
+    public function showSteps(bool $value = true): static
     {
         return $this->set('showSteps', $value);
     }
@@ -98,7 +100,7 @@ class InputRange extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function parts(array $value = []): self
+    public function parts(array $value = []): static
     {
         return $this->set('parts', $value);
     }
@@ -109,7 +111,7 @@ class InputRange extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function marks(mixed $value = null): self
+    public function marks(mixed $value = null): static
     {
         return $this->set('marks', $value);
     }
@@ -120,7 +122,7 @@ class InputRange extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function tooltipVisible(bool $value = true): self
+    public function tooltipVisible(bool $value = true): static
     {
         return $this->set('tooltipVisible', $value);
     }
@@ -131,7 +133,7 @@ class InputRange extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function tooltipPlacement(mixed $value = null): self
+    public function tooltipPlacement(mixed $value = null): static
     {
         return $this->set('tooltipPlacement', $value);
     }
@@ -142,7 +144,7 @@ class InputRange extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function tipFormatter(mixed $value = null): self
+    public function tipFormatter(mixed $value = null): static
     {
         return $this->set('tipFormatter', $value);
     }
@@ -153,7 +155,7 @@ class InputRange extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function multiple(bool $value = true): self
+    public function multiple(bool $value = true): static
     {
         return $this->set('multiple', $value);
     }
@@ -164,7 +166,7 @@ class InputRange extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function joinValues(bool $value = true): self
+    public function joinValues(bool $value = true): static
     {
         return $this->set('joinValues', $value);
     }
@@ -175,7 +177,7 @@ class InputRange extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function delimiter(string $value = ','): self
+    public function delimiter(string $value = ','): static
     {
         return $this->set('delimiter', $value);
     }
@@ -186,7 +188,7 @@ class InputRange extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function unit(string $value = ''): self
+    public function unit(string $value = ''): static
     {
         return $this->set('unit', $value);
     }
@@ -197,7 +199,7 @@ class InputRange extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function clearable(bool $value = true): self
+    public function clearable(bool $value = true): static
     {
         return $this->set('clearable', $value);
     }
@@ -208,7 +210,7 @@ class InputRange extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function showInput(bool $value = true): self
+    public function showInput(bool $value = true): static
     {
         return $this->set('showInput', $value);
     }
@@ -219,7 +221,7 @@ class InputRange extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function showInputUnit(bool $value = true): self
+    public function showInputUnit(bool $value = true): static
     {
         return $this->set('showInputUnit', $value);
     }
@@ -230,7 +232,7 @@ class InputRange extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function onChange(mixed $value = null): self
+    public function onChange(mixed $value = null): static
     {
         return $this->set('onChange', $value);
     }
@@ -241,7 +243,7 @@ class InputRange extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function onAfterChange(mixed $value = null): self
+    public function onAfterChange(mixed $value = null): static
     {
         return $this->set('onAfterChange', $value);
     }

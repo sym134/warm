@@ -1,27 +1,34 @@
 <?php
-namespace warm\admin\renderer\form;
+namespace warm\admin\renderer\trait;
 
 use warm\admin\renderer\BaseRenderer;
-use warm\admin\renderer\form\FormItemTrait;
 
 /**
  * Options
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/options
  */
-class Options extends BaseRenderer
+trait Options
 {
-    use FormItemTrait;
+    use FormItem;
 
-    public string $type = 'options';
-
+    /**
+     * 是否自动选择第一个选项
+     *
+     * @param bool $value
+     * @return static
+     */
+    public function selectFirst(bool $value = true): static
+    {
+        return $this->set('selectFirst', $value);
+    }
     /**
      * 选项组，供用户选择
      *
      * @param array $value
      * @return self
      */
-    public function options(array $value = []): self
+    public function options(array $value = []): static
     {
         return $this->set('options', $value);
     }
@@ -32,7 +39,7 @@ class Options extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function source(mixed $value = null): self
+    public function source(mixed $value = null): static
     {
         return $this->set('source', $value);
     }
@@ -43,7 +50,7 @@ class Options extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function multiple(bool $value = true): self
+    public function multiple(bool $value = true): static
     {
         return $this->set('multiple', $value);
     }
@@ -54,7 +61,7 @@ class Options extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function labelField(bool $value = true): self
+    public function labelField(bool $value = true): static
     {
         return $this->set('labelField', $value);
     }
@@ -65,7 +72,7 @@ class Options extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function valueField(bool $value = true): self
+    public function valueField(bool $value = true): static
     {
         return $this->set('valueField', $value);
     }
@@ -76,7 +83,7 @@ class Options extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function deferField(string $value = 'defer'): self
+    public function deferField(string $value = 'defer'): static
     {
         return $this->set('deferField', $value);
     }
@@ -87,7 +94,7 @@ class Options extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function joinValues(bool $value = true): self
+    public function joinValues(bool $value = true): static
     {
         return $this->set('joinValues', $value);
     }
@@ -98,7 +105,7 @@ class Options extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function extractValue(bool $value = true): self
+    public function extractValue(bool $value = true): static
     {
         return $this->set('extractValue', $value);
     }
@@ -109,7 +116,7 @@ class Options extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function itemHeight(int|float $value = 32): self
+    public function itemHeight(int|float $value = 32): static
     {
         return $this->set('itemHeight', $value);
     }
@@ -120,7 +127,7 @@ class Options extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function virtualThreshold(int|float $value = 100): self
+    public function virtualThreshold(int|float $value = 100): static
     {
         return $this->set('virtualThreshold', $value);
     }
@@ -131,7 +138,7 @@ class Options extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function valuesNoWrap(bool $value = true): self
+    public function valuesNoWrap(bool $value = true): static
     {
         return $this->set('valuesNoWrap', $value);
     }
@@ -142,7 +149,7 @@ class Options extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function clearValueOnSourceChange(bool $value = true): self
+    public function clearValueOnSourceChange(bool $value = true): static
     {
         return $this->set('clearValueOnSourceChange', $value);
     }

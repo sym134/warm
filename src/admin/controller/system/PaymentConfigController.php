@@ -5,7 +5,7 @@ namespace warm\admin\controller\system;
 use support\Request;
 use support\Response;
 use warm\admin\controller\AdminController;
-use warm\admin\renderer\Form;
+use warm\admin\renderer\form\Form;
 use warm\admin\renderer\Page;
 use warm\admin\renderer\Tab;
 use warm\admin\service\system\PaymentConfigService;
@@ -63,7 +63,7 @@ class PaymentConfigController extends AdminController
      */
     private function wechatPayTab(): Tab
     {
-        return amis()->Tab()->title('微信支付')->body([
+        return amis()->Tabs()->title('微信支付')->body([
             amis()->Select('payment.wechat_pay.version', '支付接口类型')
                 ->options([
                     ['label' => 'V3 (支持商户转账到零钱)', 'value' => 'v3'],
@@ -130,7 +130,7 @@ class PaymentConfigController extends AdminController
      */
     private function alipayTab(): Tab
     {
-        return amis()->Tab()->title('支付宝')->body([
+        return amis()->Tabs()->title('支付宝')->body([
             amis()->InputText('payment.alipay.app_id', '支付应用Appid'),
             amis()->InputText('payment.alipay.public_key', '支付应用公钥')
                 ->description('支付宝加签完成后申城的支付宝公钥'),

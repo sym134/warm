@@ -15,7 +15,7 @@ class Grid2d extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function gridClassName(string $value = ''): self
+    public function gridClassName(string $value = ''): static
     {
         return $this->set('gridClassName', $value);
     }
@@ -26,7 +26,7 @@ class Grid2d extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function gap(mixed $value = null): self
+    public function gap(mixed $value = null): static
     {
         return $this->set('gap', $value);
     }
@@ -37,7 +37,7 @@ class Grid2d extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function cols(int|float $value = 12): self
+    public function cols(int|float $value = 12): static
     {
         return $this->set('cols', $value);
     }
@@ -48,7 +48,7 @@ class Grid2d extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function rowHeight(int|float $value = 50): self
+    public function rowHeight(int|float $value = 50): static
     {
         return $this->set('rowHeight', $value);
     }
@@ -59,7 +59,7 @@ class Grid2d extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function rowGap(mixed $value = null): self
+    public function rowGap(mixed $value = null): static
     {
         return $this->set('rowGap', $value);
     }
@@ -70,7 +70,7 @@ class Grid2d extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function grids(mixed $value = null): self
+    public function grids(mixed $value = null): static
     {
         return $this->set('grids', $value);
     }

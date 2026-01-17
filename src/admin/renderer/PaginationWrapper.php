@@ -1,5 +1,7 @@
 <?php
 namespace warm\admin\renderer;
+use warm\admin\renderer\trait\DataDomain;
+
 /**
  * PaginationWrapper
  *
@@ -7,6 +9,8 @@ namespace warm\admin\renderer;
  */
 class PaginationWrapper extends BaseRenderer
 {
+    use DataDomain;
+
     public string $type = 'pagination-wrapper';
 
     /**
@@ -15,7 +19,7 @@ class PaginationWrapper extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function showPageInput(bool $value = true): self
+    public function showPageInput(bool $value = true): static
     {
         return $this->set('showPageInput', $value);
     }
@@ -26,7 +30,7 @@ class PaginationWrapper extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function maxButtons(int|float $value = 5): self
+    public function maxButtons(int|float $value = 5): static
     {
         return $this->set('maxButtons', $value);
     }
@@ -37,7 +41,7 @@ class PaginationWrapper extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function inputName(string $value = 'items'): self
+    public function inputName(string $value = 'items'): static
     {
         return $this->set('inputName', $value);
     }
@@ -48,7 +52,7 @@ class PaginationWrapper extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function outputName(string $value = 'items'): self
+    public function outputName(string $value = 'items'): static
     {
         return $this->set('outputName', $value);
     }
@@ -59,7 +63,7 @@ class PaginationWrapper extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function perPage(int|float $value = 10): self
+    public function perPage(int|float $value = 10): static
     {
         return $this->set('perPage', $value);
     }
@@ -70,7 +74,7 @@ class PaginationWrapper extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function position(mixed $value = null): self
+    public function position(mixed $value = null): static
     {
         return $this->set('position', $value);
     }
@@ -81,7 +85,7 @@ class PaginationWrapper extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function body(mixed $value = null): self
+    public function body(mixed $value = null): static
     {
         return $this->set('body', $value);
     }

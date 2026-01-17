@@ -15,7 +15,7 @@ class Spinner extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function show(bool $value = true): self
+    public function show(bool $value = true): static
     {
         return $this->set('show', $value);
     }
@@ -26,18 +26,18 @@ class Spinner extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function showOn(mixed $value = true): self
+    public function showOn(mixed $value = true): static
     {
         return $this->set('showOn', $value);
     }
 
     /**
-     * spinner 图标父级标签的自定义 class
+     * 设置组件样式
      *
-     * @param string $value
-     * @return self
+     * @param mixed $value
+     * @return $this
      */
-    public function className(string $value = ''): self
+    public function className(mixed $value=''): static
     {
         return $this->set('className', $value);
     }
@@ -48,7 +48,7 @@ class Spinner extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function spinnerClassName(string $value = ''): self
+    public function spinnerClassName(string $value = ''): static
     {
         return $this->set('spinnerClassName', $value);
     }
@@ -59,7 +59,7 @@ class Spinner extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function spinnerWrapClassName(string $value = ''): self
+    public function spinnerWrapClassName(string $value = ''): static
     {
         return $this->set('spinnerWrapClassName', $value);
     }
@@ -70,7 +70,7 @@ class Spinner extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function size(string $value = ''): self
+    public function size(string $value = ''): static
     {
         return $this->set('size', $value);
     }
@@ -81,7 +81,7 @@ class Spinner extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function icon(string $value = ''): self
+    public function icon(string $value = ''): static
     {
         return $this->set('icon', $value);
     }
@@ -92,7 +92,7 @@ class Spinner extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function tip(string $value = ''): self
+    public function tip(string $value = ''): static
     {
         return $this->set('tip', $value);
     }
@@ -103,7 +103,7 @@ class Spinner extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function tipPlacement(mixed $value = null): self
+    public function tipPlacement(mixed $value = null): static
     {
         return $this->set('tipPlacement', $value);
     }
@@ -114,7 +114,7 @@ class Spinner extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function delay(int|float $value = 0): self
+    public function delay(int|float $value = 0): static
     {
         return $this->set('delay', $value);
     }
@@ -125,7 +125,7 @@ class Spinner extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function overlay(bool $value = true): self
+    public function overlay(bool $value = true): static
     {
         return $this->set('overlay', $value);
     }
@@ -136,7 +136,7 @@ class Spinner extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function body(mixed $value = null): self
+    public function body(mixed $value = null): static
     {
         return $this->set('body', $value);
     }
@@ -147,7 +147,7 @@ class Spinner extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function loadingConfig(mixed $value = null): self
+    public function loadingConfig(mixed $value = null): static
     {
         return $this->set('loadingConfig', $value);
     }

@@ -1,5 +1,8 @@
 <?php
 namespace warm\admin\renderer;
+
+use warm\admin\renderer\trait\OnEvent;
+
 /**
  * Iframe
  *
@@ -7,15 +10,16 @@ namespace warm\admin\renderer;
  */
 class Iframe extends BaseRenderer
 {
+    use OnEvent;
     public string $type = 'iframe';
 
     /**
-     * iFrame 的类名
+     * 设置组件样式
      *
-     * @param string $value
-     * @return self
+     * @param mixed $value
+     * @return $this
      */
-    public function className(string $value = ''): self
+    public function className(mixed $value=''): static
     {
         return $this->set('className', $value);
     }
@@ -26,7 +30,7 @@ class Iframe extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function frameBorder(array $value = []): self
+    public function frameBorder(array $value = []): static
     {
         return $this->set('frameBorder', $value);
     }
@@ -37,7 +41,7 @@ class Iframe extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function style(array $value = []): self
+    public function style(array $value = []): static
     {
         return $this->set('style', $value);
     }
@@ -48,7 +52,7 @@ class Iframe extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function src(string $value = ''): self
+    public function src(string $value = ''): static
     {
         return $this->set('src', $value);
     }
@@ -59,7 +63,7 @@ class Iframe extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function allow(string $value = ''): self
+    public function allow(string $value = ''): static
     {
         return $this->set('allow', $value);
     }
@@ -70,7 +74,7 @@ class Iframe extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function sandbox(string $value = ''): self
+    public function sandbox(string $value = ''): static
     {
         return $this->set('sandbox', $value);
     }
@@ -81,7 +85,7 @@ class Iframe extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function referrerpolicy(string $value = ''): self
+    public function referrerpolicy(string $value = ''): static
     {
         return $this->set('referrerpolicy', $value);
     }
@@ -92,7 +96,7 @@ class Iframe extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function height(mixed $value = null): self
+    public function height(mixed $value = null): static
     {
         return $this->set('height', $value);
     }
@@ -103,7 +107,7 @@ class Iframe extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function width(mixed $value = null): self
+    public function width(mixed $value = null): static
     {
         return $this->set('width', $value);
     }

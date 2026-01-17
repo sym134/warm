@@ -2,7 +2,7 @@
 namespace warm\admin\renderer\form;
 
 use warm\admin\renderer\BaseRenderer;
-use warm\admin\renderer\form\FormItemTrait;
+use warm\admin\renderer\trait\FormItem;
 
 /**
  * InputGroup
@@ -11,17 +11,17 @@ use warm\admin\renderer\form\FormItemTrait;
  */
 class InputGroup extends BaseRenderer
 {
-    use FormItemTrait;
+    use FormItem;
 
     public string $type = 'input-group';
 
     /**
-     * CSS 类名
+     * 设置组件样式
      *
-     * @param string $value
-     * @return self
+     * @param mixed $value
+     * @return $this
      */
-    public function className(string $value = ''): self
+    public function className(mixed $value): static
     {
         return $this->set('className', $value);
     }
@@ -32,7 +32,7 @@ class InputGroup extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function body(mixed $value = null): self
+    public function body(mixed $value = null): static
     {
         return $this->set('body', $value);
     }
@@ -43,7 +43,7 @@ class InputGroup extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function validationConfig(mixed $value = null): self
+    public function validationConfig(mixed $value = null): static
     {
         return $this->set('validationConfig', $value);
     }
@@ -54,7 +54,7 @@ class InputGroup extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function errorMode(mixed $value = null): self
+    public function errorMode(mixed $value = null): static
     {
         return $this->set('+errorMode', $value);
     }
@@ -65,7 +65,7 @@ class InputGroup extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function delimiter(string $value = ';'): self
+    public function delimiter(string $value = ';'): static
     {
         return $this->set('+delimiter', $value);
     }

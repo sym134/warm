@@ -5,7 +5,6 @@ namespace warm\admin\controller\system;
 use support\Request;
 use support\Response;
 use warm\admin\controller\AdminController;
-use warm\admin\renderer\Form;
 use warm\admin\renderer\Page;
 use warm\admin\service\system\WechatMenuService;
 
@@ -58,7 +57,9 @@ class WechatMenuController extends AdminController
                         amis()->Card()
                             ->className('flex-1 ml-4')
                             ->header(['title' => '菜单信息'])
-                            ->body($this->menuForm())
+                            ->body([
+                                $this->menuForm()
+                            ])
                     ])
             ]);
 
@@ -793,7 +794,7 @@ class WechatMenuController extends AdminController
                 ->id('menu-crud')
                 ->api($this->getListGetDataPath())
                 ->syncLocation(false)
-                ->childrenColumnName('children')
+//                ->childrenColumnName('children')
                 ->expandable([
                     'expandableOn' => 'this.children && this.children.length > 0'
                 ])

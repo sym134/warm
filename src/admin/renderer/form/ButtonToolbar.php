@@ -2,7 +2,7 @@
 namespace warm\admin\renderer\form;
 
 use warm\admin\renderer\BaseRenderer;
-use warm\admin\renderer\form\FormItemTrait;
+use warm\admin\renderer\trait\NameAndLabel;
 
 /**
  * ButtonToolbar
@@ -11,7 +11,7 @@ use warm\admin\renderer\form\FormItemTrait;
  */
 class ButtonToolbar extends BaseRenderer
 {
-    use FormItemTrait;
+    use NameAndLabel;
 
     public string $type = 'button-toolbar';
 
@@ -21,7 +21,7 @@ class ButtonToolbar extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function buttons(mixed $value = null): self
+    public function buttons(mixed $value = null): static
     {
         return $this->set('buttons', $value);
     }

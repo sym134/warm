@@ -2,6 +2,158 @@
 
 namespace warm\admin\renderer\expand;
 
+use warm\admin\renderer\Action;
+use warm\admin\renderer\Alert;
+use warm\admin\renderer\AnchorNav;
+use warm\admin\renderer\App;
+use warm\admin\renderer\Audio;
+use warm\admin\renderer\Avatar;
+use warm\admin\renderer\Badge;
+use warm\admin\renderer\Barcode;
+use warm\admin\renderer\Breadcrumb;
+use warm\admin\renderer\Button;
+use warm\admin\renderer\ButtonGroup;
+use warm\admin\renderer\Calendar;
+use warm\admin\renderer\Card;
+use warm\admin\renderer\Cards;
+use warm\admin\renderer\Carousel;
+use warm\admin\renderer\Chart;
+use warm\admin\renderer\Code;
+use warm\admin\renderer\Collapse;
+use warm\admin\renderer\Color;
+use warm\admin\renderer\Container;
+use warm\admin\renderer\CRUD;
+use warm\admin\renderer\Custom;
+use warm\admin\renderer\Date;
+use warm\admin\renderer\Dialog;
+use warm\admin\renderer\Divider;
+use warm\admin\renderer\Drawer;
+use warm\admin\renderer\DropdownButton;
+use warm\admin\renderer\Each;
+use warm\admin\renderer\Flex;
+use warm\admin\renderer\form\ButtonGroupSelect;
+use warm\admin\renderer\form\ButtonToolbar;
+use warm\admin\renderer\form\ChainedSelect;
+use warm\admin\renderer\form\ChartRadios;
+use warm\admin\renderer\form\Checkbox;
+use warm\admin\renderer\form\Checkboxes;
+use warm\admin\renderer\form\Combo;
+use warm\admin\renderer\form\ConditionBuilder;
+use warm\admin\renderer\form\Control;
+use warm\admin\renderer\form\DiffEditor;
+use warm\admin\renderer\form\Editor;
+use warm\admin\renderer\form\Fieldset;
+use warm\admin\renderer\form\Form;
+use warm\admin\renderer\form\Formula;
+use warm\admin\renderer\form\Group;
+use warm\admin\renderer\form\Hidden;
+use warm\admin\renderer\form\InputArray;
+use warm\admin\renderer\form\InputCity;
+use warm\admin\renderer\form\InputColor;
+use warm\admin\renderer\form\InputDate;
+use warm\admin\renderer\form\InputDateRange;
+use warm\admin\renderer\form\InputDatetime;
+use warm\admin\renderer\form\InputDatetimeRange;
+use warm\admin\renderer\form\InputExcel;
+use warm\admin\renderer\form\InputFile;
+use warm\admin\renderer\form\InputFormula;
+use warm\admin\renderer\form\InputGroup;
+use warm\admin\renderer\form\InputImage;
+use warm\admin\renderer\form\InputKv;
+use warm\admin\renderer\form\InputKvs;
+use warm\admin\renderer\form\InputMonth;
+use warm\admin\renderer\form\InputMonthRange;
+use warm\admin\renderer\form\InputNumber;
+use warm\admin\renderer\form\InputPassword;
+use warm\admin\renderer\form\InputQuarter;
+use warm\admin\renderer\form\InputQuarterRange;
+use warm\admin\renderer\form\InputRange;
+use warm\admin\renderer\form\InputRating;
+use warm\admin\renderer\form\InputRepeat;
+use warm\admin\renderer\form\InputRichText;
+use warm\admin\renderer\form\InputSignature;
+use warm\admin\renderer\form\InputSubForm;
+use warm\admin\renderer\form\InputTable;
+use warm\admin\renderer\form\InputTag;
+use warm\admin\renderer\form\InputText;
+use warm\admin\renderer\form\InputTime;
+use warm\admin\renderer\form\InputTimeRange;
+use warm\admin\renderer\form\InputTree;
+use warm\admin\renderer\form\InputVerificationCode;
+use warm\admin\renderer\form\InputYear;
+use warm\admin\renderer\form\InputYearRange;
+use warm\admin\renderer\form\JsonSchema;
+use warm\admin\renderer\form\JsonSchemaEditor;
+use warm\admin\renderer\form\ListSelect;
+use warm\admin\renderer\form\LocationPicker;
+use warm\admin\renderer\form\MatrixCheckboxes;
+use warm\admin\renderer\form\NestedSelect;
+use warm\admin\renderer\form\Picker;
+use warm\admin\renderer\form\Radio;
+use warm\admin\renderer\form\Select;
+use warm\admin\renderer\form\StaticClass;
+use warm\admin\renderer\form\SwitchClass;
+use warm\admin\renderer\form\TabsTransfer;
+use warm\admin\renderer\form\TabsTransferPicker;
+use warm\admin\renderer\form\Textarea;
+use warm\admin\renderer\form\Transfer;
+use warm\admin\renderer\form\TransferPicker;
+use warm\admin\renderer\form\TreeSelect;
+use warm\admin\renderer\form\Uuid;
+use warm\admin\renderer\Grid;
+use warm\admin\renderer\Grid2d;
+use warm\admin\renderer\GridNav;
+use warm\admin\renderer\Hbox;
+use warm\admin\renderer\Html;
+use warm\admin\renderer\Icon;
+use warm\admin\renderer\Iframe;
+use warm\admin\renderer\Image;
+use warm\admin\renderer\Images;
+use warm\admin\renderer\Json;
+use warm\admin\renderer\Link;
+use warm\admin\renderer\ListClass;
+use warm\admin\renderer\Log;
+use warm\admin\renderer\Mapping;
+use warm\admin\renderer\Markdown;
+use warm\admin\renderer\Nav;
+use warm\admin\renderer\Number;
+use warm\admin\renderer\OfficeViewer;
+use warm\admin\renderer\Page;
+use warm\admin\renderer\Pagination;
+use warm\admin\renderer\PaginationWrapper;
+use warm\admin\renderer\Panel;
+use warm\admin\renderer\PdfViewer;
+use warm\admin\renderer\Popover;
+use warm\admin\renderer\Portlet;
+use warm\admin\renderer\Progress;
+use warm\admin\renderer\Property;
+use warm\admin\renderer\Qrcode;
+use warm\admin\renderer\Radios;
+use warm\admin\renderer\Remark;
+use warm\admin\renderer\SearchBox;
+use warm\admin\renderer\Service;
+use warm\admin\renderer\Shape;
+use warm\admin\renderer\Slider;
+use warm\admin\renderer\Sparkline;
+use warm\admin\renderer\Spinner;
+use warm\admin\renderer\Status;
+use warm\admin\renderer\Steps;
+use warm\admin\renderer\SwitchContainer;
+use warm\admin\renderer\Table;
+use warm\admin\renderer\Table2;
+use warm\admin\renderer\TableView;
+use warm\admin\renderer\Tabs;
+use warm\admin\renderer\Tag;
+use warm\admin\renderer\Tasks;
+use warm\admin\renderer\Timeline;
+use warm\admin\renderer\Toast;
+use warm\admin\renderer\TooltipWrapper;
+use warm\admin\renderer\Tpl;
+use warm\admin\renderer\Video;
+use warm\admin\renderer\WebComponent;
+use warm\admin\renderer\Wizard;
+use warm\admin\renderer\Wrapper;
+
 /**
  * Amis 构建器扩展类
  */
@@ -12,1328 +164,2293 @@ class Amis
      *
      * @return self
      */
-    public static function make(): self
+    public static function make(): static
     {
         return new self();
     }
 
     /**
-     * @return \warm\admin\renderer\Action
+     * 创建 Form 渲染器实例.
+     *
+     * @param string $name
+     * @param string $label
+     * @return Form
      */
-    public function Action(): \warm\admin\renderer\Action
+    public function Form(string $name = '', string $label = ''): Form
     {
-        return \warm\admin\renderer\Action::make();
-    }
+        $instance = Form::make();
 
-    /**
-     * @return \warm\admin\renderer\expand\AjaxAction
-     */
-    public function AjaxAction(): \warm\admin\renderer\expand\AjaxAction
-    {
-        return \warm\admin\renderer\expand\AjaxAction::make();
-    }
+        if ($name !== '') {
+            $instance->name($name);
+        }
 
-    /**
-     * @return \warm\admin\renderer\Alert
-     */
-    public function Alert(): \warm\admin\renderer\Alert
-    {
-        return \warm\admin\renderer\Alert::make();
-    }
+        if ($label !== '') {
+            $instance->label($label);
+        }
 
-    /**
-     * @return \warm\admin\renderer\AnchorNav
-     */
-    public function AnchorNav(): \warm\admin\renderer\AnchorNav
-    {
-        return \warm\admin\renderer\AnchorNav::make();
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\App
+     * 创建 Action 渲染器实例.
+     *
+     * @return Action
      */
-    public function App(): \warm\admin\renderer\App
+    public function Action(): Action
     {
-        return \warm\admin\renderer\App::make();
+        return Action::make();
     }
 
     /**
-     * @return \warm\admin\renderer\Audio
+     * 创建 Alert 渲染器实例.
+     *
+     * @return Alert
      */
-    public function Audio(): \warm\admin\renderer\Audio
+    public function Alert(): Alert
     {
-        return \warm\admin\renderer\Audio::make();
+        return Alert::make();
     }
 
     /**
-     * @return \warm\admin\renderer\Avatar
+     * 创建 AnchorNav 渲染器实例.
+     *
+     * @return AnchorNav
      */
-    public function Avatar(): \warm\admin\renderer\Avatar
+    public function AnchorNav(): AnchorNav
     {
-        return \warm\admin\renderer\Avatar::make();
+        return AnchorNav::make();
     }
 
     /**
-     * @return \warm\admin\renderer\Badge
+     * 创建 App 渲染器实例.
+     *
+     * @return App
      */
-    public function Badge(): \warm\admin\renderer\Badge
+    public function App(): App
     {
-        return \warm\admin\renderer\Badge::make();
+        return App::make();
     }
 
     /**
-     * @return \warm\admin\renderer\Barcode
+     * 创建 Audio 渲染器实例.
+     *
+     * @return Audio
      */
-    public function Barcode(): \warm\admin\renderer\Barcode
+    public function Audio(): Audio
     {
-        return \warm\admin\renderer\Barcode::make();
+        return Audio::make();
     }
 
     /**
-     * @return \warm\admin\renderer\Breadcrumb
+     * 创建 Avatar 渲染器实例.
+     *
+     * @return Avatar
      */
-    public function Breadcrumb(): \warm\admin\renderer\Breadcrumb
+    public function Avatar(): Avatar
     {
-        return \warm\admin\renderer\Breadcrumb::make();
+        return Avatar::make();
     }
 
     /**
-     * @return \warm\admin\renderer\Button
+     * 创建 Badge 渲染器实例.
+     *
+     * @return Badge
      */
-    public function Button(): \warm\admin\renderer\Button
+    public function Badge(): Badge
     {
-        return \warm\admin\renderer\Button::make();
+        return Badge::make();
     }
 
     /**
-     * @return \warm\admin\renderer\ButtonGroup
+     * 创建 Barcode 渲染器实例.
+     *
+     * @return Barcode
      */
-    public function ButtonGroup(): \warm\admin\renderer\ButtonGroup
+    public function Barcode(): Barcode
     {
-        return \warm\admin\renderer\ButtonGroup::make();
+        return Barcode::make();
     }
 
     /**
-     * @return \warm\admin\renderer\form\ButtonGroupSelect
+     * 创建 Breadcrumb 渲染器实例.
+     *
+     * @return Breadcrumb
      */
-    public function ButtonGroupSelect(): \warm\admin\renderer\form\ButtonGroupSelect
+    public function Breadcrumb(): Breadcrumb
     {
-        return \warm\admin\renderer\form\ButtonGroupSelect::make();
+        return Breadcrumb::make();
     }
 
     /**
-     * @return \warm\admin\renderer\form\ButtonToolbar
+     * 创建 Button 渲染器实例.
+     *
+     * @return Button
      */
-    public function ButtonToolbar(): \warm\admin\renderer\form\ButtonToolbar
+    public function Button(): Button
     {
-        return \warm\admin\renderer\form\ButtonToolbar::make();
+        return Button::make();
     }
 
     /**
-     * @return \warm\admin\renderer\Calendar
+     * 创建 ButtonGroup 渲染器实例.
+     *
+     * @return ButtonGroup
      */
-    public function Calendar(): \warm\admin\renderer\Calendar
+    public function ButtonGroup(): ButtonGroup
     {
-        return \warm\admin\renderer\Calendar::make();
+        return ButtonGroup::make();
     }
 
     /**
-     * @return \warm\admin\renderer\Card
+     * 创建 ButtonGroupSelect 渲染器实例.
+     *
+     * @param string $name 字段名
+     * @param string $label 标签
+     * @return ButtonGroupSelect
      */
-    public function Card(): \warm\admin\renderer\Card
+    public function ButtonGroupSelect(string $name = '', string $label = ''): ButtonGroupSelect
     {
-        return \warm\admin\renderer\Card::make();
-    }
+        $instance = ButtonGroupSelect::make();
 
-    /**
-     * @return \warm\admin\renderer\Card2
-     */
-    public function Card2(): \warm\admin\renderer\Card2
-    {
-        return \warm\admin\renderer\Card2::make();
-    }
+        if ($name !== '') {
+            $instance->name($name);
+        }
 
-    /**
-     * @return \warm\admin\renderer\Cards
-     */
-    public function Cards(): \warm\admin\renderer\Cards
-    {
-        return \warm\admin\renderer\Cards::make();
-    }
+        if ($label !== '') {
+            $instance->label($label);
+        }
 
-    /**
-     * @return \warm\admin\renderer\Carousel
-     */
-    public function Carousel(): \warm\admin\renderer\Carousel
-    {
-        return \warm\admin\renderer\Carousel::make();
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\form\ChainSelect
+     * 创建 ButtonToolbar 渲染器实例.
+     *
+     * @param string $name
+     * @param string $label
+     * @return ButtonToolbar
      */
-    public function ChainSelect(): \warm\admin\renderer\form\ChainSelect
+    public function ButtonToolbar(string $name = '', string $label = ''): ButtonToolbar
     {
-        return \warm\admin\renderer\form\ChainSelect::make();
-    }
+        $instance = ButtonToolbar::make();
 
-    /**
-     * @return \warm\admin\renderer\Chart
-     */
-    public function Chart(): \warm\admin\renderer\Chart
-    {
-        return \warm\admin\renderer\Chart::make();
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\form\ChartRadios
+     * @return Calendar
      */
-    public function ChartRadios(): \warm\admin\renderer\form\ChartRadios
+    public function Calendar(): Calendar
     {
-        return \warm\admin\renderer\form\ChartRadios::make();
+        return Calendar::make();
     }
 
     /**
-     * @return \warm\admin\renderer\form\Checkbox
+     * @return Card
      */
-    public function Checkbox(): \warm\admin\renderer\form\Checkbox
+    public function Card(): Card
     {
-        return \warm\admin\renderer\form\Checkbox::make();
+        return Card::make();
     }
 
     /**
-     * @return \warm\admin\renderer\form\Checkboxes
+     * @return Cards
      */
-    public function Checkboxes(): \warm\admin\renderer\form\Checkboxes
+    public function Cards(): Cards
     {
-        return \warm\admin\renderer\form\Checkboxes::make();
+        return Cards::make();
     }
 
     /**
-     * @return \warm\admin\renderer\Code
+     * @return Carousel
      */
-    public function Code(): \warm\admin\renderer\Code
+    public function Carousel(): Carousel
     {
-        return \warm\admin\renderer\Code::make();
+        return Carousel::make();
     }
 
     /**
-     * @return \warm\admin\renderer\Collapse
+     * 创建 ChainedSelect 渲染器实例.
+     *
+     * @param string $name 字段名
+     * @param string $label 标签
+     * @return ChainedSelect
      */
-    public function Collapse(): \warm\admin\renderer\Collapse
+    public function ChainedSelect(string $name = '', string $label = ''): ChainedSelect
     {
-        return \warm\admin\renderer\Collapse::make();
+        $instance = ChainedSelect::make();
+
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\Color
+     * @return Chart
      */
-    public function Color(): \warm\admin\renderer\Color
+    public function Chart(): Chart
     {
-        return \warm\admin\renderer\Color::make();
+        return Chart::make();
     }
 
     /**
-     * @return \warm\admin\renderer\form\Combo
+     * @return ChartRadios
      */
-    public function Combo(): \warm\admin\renderer\form\Combo
+    public function ChartRadios(): ChartRadios
     {
-        return \warm\admin\renderer\form\Combo::make();
+        return ChartRadios::make();
     }
 
     /**
-     * @return \warm\admin\renderer\expand\Component
+     * 创建 Checkbox 渲染器实例.
+     *
+     * @param string $name 字段名
+     * @param string $label 标签
+     * @return Checkbox
      */
-    public function Component(): \warm\admin\renderer\expand\Component
+    public function Checkbox(string $name = '', string $label = ''): Checkbox
     {
-        return \warm\admin\renderer\expand\Component::make();
+        $instance = Checkbox::make();
+
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\form\ConditionBuilder
+     * 创建 Checkboxes 渲染器实例.
+     *
+     * @param string $name 字段名
+     * @param string $label 标签
+     * @return Checkboxes
      */
-    public function ConditionBuilder(): \warm\admin\renderer\form\ConditionBuilder
+    public function Checkboxes(string $name = '', string $label = ''): Checkboxes
     {
-        return \warm\admin\renderer\form\ConditionBuilder::make();
+        $instance = Checkboxes::make();
+
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\Container
+     * @return Code
      */
-    public function Container(): \warm\admin\renderer\Container
+    public function Code(): Code
     {
-        return \warm\admin\renderer\Container::make();
+        return Code::make();
     }
 
     /**
-     * @return \warm\admin\renderer\form\Control
+     * @return Collapse
      */
-    public function Control(): \warm\admin\renderer\form\Control
+    public function Collapse(): Collapse
     {
-        return \warm\admin\renderer\form\Control::make();
+        return Collapse::make();
     }
 
     /**
-     * @return \warm\admin\renderer\expand\CopyAction
+     * @return Color
      */
-    public function CopyAction(): \warm\admin\renderer\expand\CopyAction
+    public function Color(): Color
     {
-        return \warm\admin\renderer\expand\CopyAction::make();
+        return Color::make();
     }
 
     /**
-     * @return \warm\admin\renderer\Crud
+     * 创建 Combo 渲染器实例.
+     *
+     * @param string $name 字段名
+     * @param string $label 标签
+     * @return Combo
      */
-    public function Crud(): \warm\admin\renderer\Crud
+    public function Combo(string $name = '', string $label = ''): Combo
     {
-        return \warm\admin\renderer\Crud::make();
+        $instance = Combo::make();
+
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\Custom
+     * @return Component
      */
-    public function Custom(): \warm\admin\renderer\Custom
+    public function Component(): Component
     {
-        return \warm\admin\renderer\Custom::make();
+        return Component::make();
     }
 
     /**
-     * @return \warm\admin\renderer\expand\CustomSvgIcon
+     * 创建 ConditionBuilder 渲染器实例.
+     *
+     * @param string $name 字段名
+     * @param string $label 标签
+     * @return ConditionBuilder
      */
-    public function CustomSvgIcon(): \warm\admin\renderer\expand\CustomSvgIcon
+    public function ConditionBuilder(string $name = '', string $label = ''): ConditionBuilder
     {
-        return \warm\admin\renderer\expand\CustomSvgIcon::make();
+        $instance = ConditionBuilder::make();
+
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\expand\CustomWangEditor
+     * @return Container
      */
-    public function CustomWangEditor(): \warm\admin\renderer\expand\CustomWangEditor
+    public function Container(): Container
     {
-        return \warm\admin\renderer\expand\CustomWangEditor::make();
+        return Container::make();
     }
 
     /**
-     * @return \warm\admin\renderer\expand\CustomWatermark
+     * @return Control
      */
-    public function CustomWatermark(): \warm\admin\renderer\expand\CustomWatermark
+    public function Control(): Control
     {
-        return \warm\admin\renderer\expand\CustomWatermark::make();
+        return Control::make();
     }
 
     /**
-     * @return \warm\admin\renderer\Date
+     * @return CopyAction
      */
-    public function Date(): \warm\admin\renderer\Date
+    public function CopyAction(): CopyAction
     {
-        return \warm\admin\renderer\Date::make();
+        return CopyAction::make();
     }
 
     /**
-     * @return \warm\admin\renderer\Dialog
+     * @return CRUD
      */
-    public function Dialog(): \warm\admin\renderer\Dialog
+    public function CRUD(): CRUD
     {
-        return \warm\admin\renderer\Dialog::make();
+        return CRUD::make();
     }
 
     /**
-     * @return \warm\admin\renderer\expand\DialogAction
+     * @return Custom
      */
-    public function DialogAction(): \warm\admin\renderer\expand\DialogAction
+    public function Custom(): Custom
     {
-        return \warm\admin\renderer\expand\DialogAction::make();
+        return Custom::make();
     }
 
     /**
-     * @return \warm\admin\renderer\form\DiffEditor
+     * @return CustomSvgIcon
      */
-    public function DiffEditor(): \warm\admin\renderer\form\DiffEditor
+    public function CustomSvgIcon(): CustomSvgIcon
     {
-        return \warm\admin\renderer\form\DiffEditor::make();
+        return CustomSvgIcon::make();
     }
 
     /**
-     * @return \warm\admin\renderer\Divider
+     * 创建 CustomWangEditor 渲染器实例.
+     *
+     * @param string $name 字段名
+     * @param string $label 标签
+     * @return CustomWangEditor
      */
-    public function Divider(): \warm\admin\renderer\Divider
+    public function CustomWangEditor(string $name = '', string $label = ''): CustomWangEditor
     {
-        return \warm\admin\renderer\Divider::make();
+        $instance = CustomWangEditor::make();
+
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\Drawer
+     * @return CustomWatermark
      */
-    public function Drawer(): \warm\admin\renderer\Drawer
+    public function CustomWatermark(): CustomWatermark
     {
-        return \warm\admin\renderer\Drawer::make();
+        return CustomWatermark::make();
     }
 
     /**
-     * @return \warm\admin\renderer\DropdownButton
+     * @return Date
      */
-    public function DropdownButton(): \warm\admin\renderer\DropdownButton
+    public function Date(): Date
     {
-        return \warm\admin\renderer\DropdownButton::make();
+        return Date::make();
     }
 
     /**
-     * @return \warm\admin\renderer\Each
+     * @return Dialog
      */
-    public function Each(): \warm\admin\renderer\Each
+    public function Dialog(): Dialog
     {
-        return \warm\admin\renderer\Each::make();
+        return Dialog::make();
     }
 
     /**
-     * @return \warm\admin\renderer\form\Editor
+     * 创建 DiffEditor 渲染器实例.
+     *
+     * @param string $name 字段名
+     * @param string $label 标签
+     * @return DiffEditor
      */
-    public function Editor(): \warm\admin\renderer\form\Editor
+    public function DiffEditor(string $name = '', string $label = ''): DiffEditor
     {
-        return \warm\admin\renderer\form\Editor::make();
+        $instance = DiffEditor::make();
+
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\expand\EmailAction
+     * @return Divider
      */
-    public function EmailAction(): \warm\admin\renderer\expand\EmailAction
+    public function Divider(): Divider
     {
-        return \warm\admin\renderer\expand\EmailAction::make();
+        return Divider::make();
     }
 
     /**
-     * @return \warm\admin\renderer\form\Fieldset
+     * @return Drawer
      */
-    public function Fieldset(): \warm\admin\renderer\form\Fieldset
+    public function Drawer(): Drawer
     {
-        return \warm\admin\renderer\form\Fieldset::make();
+        return Drawer::make();
     }
 
     /**
-     * @return \warm\admin\renderer\Flex
+     * @return DropdownButton
      */
-    public function Flex(): \warm\admin\renderer\Flex
+    public function DropdownButton(): DropdownButton
     {
-        return \warm\admin\renderer\Flex::make();
+        return DropdownButton::make();
     }
 
     /**
-     * @return \warm\admin\renderer\form\Formitem
+     * @return Each
      */
-    public function Formitem(): \warm\admin\renderer\form\Formitem
+    public function Each(): Each
     {
-        return \warm\admin\renderer\form\Formitem::make();
+        return Each::make();
     }
 
     /**
-     * @return \warm\admin\renderer\form\Formula
+     * 创建 Editor 渲染器实例.
+     *
+     * @param string $name 字段名
+     * @param string $label 标签
+     * @return Editor
      */
-    public function Formula(): \warm\admin\renderer\form\Formula
+    public function Editor(string $name = '', string $label = ''): Editor
     {
-        return \warm\admin\renderer\form\Formula::make();
+        $instance = Editor::make();
+
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\Grid
+     * 创建 FieldSet 渲染器实例.
+     *
+     * @param string $name 字段名
+     * @param string $label 标签
+     * @return Fieldset
      */
-    public function Grid(): \warm\admin\renderer\Grid
+    public function Fieldset(string $name = '', string $label = ''): Fieldset
     {
-        return \warm\admin\renderer\Grid::make();
+        $instance = Fieldset::make();
+
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\Grid2d
+     * @return Flex
      */
-    public function Grid2d(): \warm\admin\renderer\Grid2d
+    public function Flex(): Flex
     {
-        return \warm\admin\renderer\Grid2d::make();
+        return Flex::make();
     }
 
     /**
-     * @return \warm\admin\renderer\GridNav
+     * 创建 Formula 渲染器实例.
+     *
+     * @param string $name 字段名
+     * @param string $label 标签
+     * @return Formula
      */
-    public function GridNav(): \warm\admin\renderer\GridNav
+    public function Formula(string $name = '', string $label = ''): Formula
     {
-        return \warm\admin\renderer\GridNav::make();
+        $instance = Formula::make();
+
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\form\Group
+     * @return Grid
      */
-    public function Group(): \warm\admin\renderer\form\Group
+    public function Grid(): Grid
     {
-        return \warm\admin\renderer\form\Group::make();
+        return Grid::make();
     }
 
     /**
-     * @return \warm\admin\renderer\Hbox
+     * @return Grid2d
      */
-    public function Hbox(): \warm\admin\renderer\Hbox
+    public function Grid2d(): Grid2d
     {
-        return \warm\admin\renderer\Hbox::make();
+        return Grid2d::make();
     }
 
     /**
-     * @return \warm\admin\renderer\form\Hidden
+     * @return GridNav
      */
-    public function Hidden(): \warm\admin\renderer\form\Hidden
+    public function GridNav(): GridNav
     {
-        return \warm\admin\renderer\form\Hidden::make();
+        return GridNav::make();
     }
 
     /**
-     * @return \warm\admin\renderer\Html
+     * 创建 Group 渲染器实例.
+     *
+     * @param string $name 字段名
+     * @param string $label 标签
+     * @return Group
      */
-    public function Html(): \warm\admin\renderer\Html
+    public function Group(string $name = '', string $label = ''): Group
     {
-        return \warm\admin\renderer\Html::make();
+        $instance = Group::make();
+
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\Icon
+     * @return Hbox
      */
-    public function Icon(): \warm\admin\renderer\Icon
+    public function Hbox(): Hbox
     {
-        return \warm\admin\renderer\Icon::make();
+        return Hbox::make();
     }
 
     /**
-     * @return \warm\admin\renderer\Iframe
+     * 创建 Hidden 渲染器实例.
+     *
+     * @param string $name 字段名
+     * @param string $label 标签
+     * @return Hidden
      */
-    public function Iframe(): \warm\admin\renderer\Iframe
+    public function Hidden(string $name = '', string $label = ''): Hidden
     {
-        return \warm\admin\renderer\Iframe::make();
+        $instance = Hidden::make();
+
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\Image
+     * @return Html
      */
-    public function Image(): \warm\admin\renderer\Image
+    public function Html(): Html
     {
-        return \warm\admin\renderer\Image::make();
+        return Html::make();
     }
 
     /**
-     * @return \warm\admin\renderer\expand\ImageToolbarAction
+     * @return Icon
      */
-    public function ImageToolbarAction(): \warm\admin\renderer\expand\ImageToolbarAction
+    public function Icon(): Icon
     {
-        return \warm\admin\renderer\expand\ImageToolbarAction::make();
+        return Icon::make();
     }
 
     /**
-     * @return \warm\admin\renderer\Images
+     * @return Iframe
      */
-    public function Images(): \warm\admin\renderer\Images
+    public function Iframe(): Iframe
     {
-        return \warm\admin\renderer\Images::make();
+        return Iframe::make();
     }
 
     /**
-     * @return \warm\admin\renderer\form\InputArray
+     * 创建 Image 渲染器实例.
+     *
+     * @return Image
      */
-    public function InputArray(): \warm\admin\renderer\form\InputArray
+    public function Image(): Image
     {
-        return \warm\admin\renderer\form\InputArray::make();
+        return Image::make();
     }
 
     /**
-     * @return \warm\admin\renderer\form\InputCity
+     * 创建 Images 渲染器实例.
+     *
+     * @return Images
      */
-    public function InputCity(): \warm\admin\renderer\form\InputCity
+    public function Images(): Images
     {
-        return \warm\admin\renderer\form\InputCity::make();
+        return Images::make();
     }
 
     /**
-     * @return \warm\admin\renderer\form\InputColor
+     * 创建 InputArray 渲染器实例.
+     *
+     * @param string $name 字段名
+     * @param string $label 标签
+     * @return InputArray
      */
-    public function InputColor(): \warm\admin\renderer\form\InputColor
+    public function InputArray(string $name = '', string $label = ''): InputArray
     {
-        return \warm\admin\renderer\form\InputColor::make();
+        $instance = InputArray::make();
+
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\form\InputDate
+     * 创建 InputCity 渲染器实例.
+     *
+     * @param string $name 字段名
+     * @param string $label 标签
+     * @return InputCity
      */
-    public function InputDate(): \warm\admin\renderer\form\InputDate
+    public function InputCity(string $name = '', string $label = ''): InputCity
     {
-        return \warm\admin\renderer\form\InputDate::make();
+        $instance = InputCity::make();
+
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\form\InputDateRange
+     * 创建 InputColor 渲染器实例.
+     *
+     * @param string $name 字段名
+     * @param string $label 标签
+     * @return InputColor
      */
-    public function InputDateRange(): \warm\admin\renderer\form\InputDateRange
+    public function InputColor(string $name = '', string $label = ''): InputColor
     {
-        return \warm\admin\renderer\form\InputDateRange::make();
+        $instance = InputColor::make();
+
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\form\InputDatetime
+     * 创建 InputDate 渲染器实例.
+     *
+     * @param string $name 字段名
+     * @param string $label 标签
+     * @return InputDate
      */
-    public function InputDatetime(): \warm\admin\renderer\form\InputDatetime
+    public function InputDate(string $name = '', string $label = ''): InputDate
     {
-        return \warm\admin\renderer\form\InputDatetime::make();
+        $instance = InputDate::make();
+
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\form\InputDatetimeRange
+     * 创建 InputDateRange 渲染器实例.
+     *
+     * @param string $name 字段名
+     * @param string $label 标签
+     * @return InputDateRange
      */
-    public function InputDatetimeRange(): \warm\admin\renderer\form\InputDatetimeRange
+    public function InputDateRange(string $name = '', string $label = ''): InputDateRange
     {
-        return \warm\admin\renderer\form\InputDatetimeRange::make();
+        $instance = InputDateRange::make();
+
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\form\InputExcel
+     * 创建 InputDateTime 渲染器实例.
+     *
+     * @param string $name 字段名
+     * @param string $label 标签
+     * @return InputDatetime
      */
-    public function InputExcel(): \warm\admin\renderer\form\InputExcel
+    public function InputDatetime(string $name = '', string $label = ''): InputDatetime
     {
-        return \warm\admin\renderer\form\InputExcel::make();
+        $instance = InputDatetime::make();
+
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\form\InputFile
+     * 创建 InputDatetimeRange 渲染器实例.
+     *
+     * @param string $name
+     * @param string $label
+     * @return InputDatetimeRange
      */
-    public function InputFile(): \warm\admin\renderer\form\InputFile
+    public function InputDatetimeRange(string $name = '', string $label = ''): InputDatetimeRange
     {
-        return \warm\admin\renderer\form\InputFile::make();
+        $instance = InputDatetimeRange::make();
+
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\form\InputFormula
+     * @return InputExcel
      */
-    public function InputFormula(): \warm\admin\renderer\form\InputFormula
+    public function InputExcel(): InputExcel
     {
-        return \warm\admin\renderer\form\InputFormula::make();
+        return InputExcel::make();
     }
 
     /**
-     * @return \warm\admin\renderer\form\InputGroup
+     * 创建 InputFile 渲染器实例.
+     *
+     * @param string $name 字段名
+     * @param string $label 标签
+     * @return InputFile
      */
-    public function InputGroup(): \warm\admin\renderer\form\InputGroup
+    public function InputFile(string $name = '', string $label = ''): InputFile
     {
-        return \warm\admin\renderer\form\InputGroup::make();
+        $instance = InputFile::make();
+
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\form\InputImage
+     * @return InputFormula
      */
-    public function InputImage(): \warm\admin\renderer\form\InputImage
+    public function InputFormula(): InputFormula
     {
-        return \warm\admin\renderer\form\InputImage::make();
+        return InputFormula::make();
     }
 
     /**
-     * @return \warm\admin\renderer\form\InputKv
+     * 创建 InputGroup 渲染器实例.
+     *
+     * @param string $name 字段名
+     * @param string $label 标签
+     * @return InputGroup
      */
-    public function InputKv(): \warm\admin\renderer\form\InputKv
+    public function InputGroup(string $name = '', string $label = ''): InputGroup
     {
-        return \warm\admin\renderer\form\InputKv::make();
+        $instance = InputGroup::make();
+
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\form\InputKvs
+     * 创建 InputImage 渲染器实例.
+     *
+     * @param string $name 字段名
+     * @param string $label 标签
+     * @return InputImage
      */
-    public function InputKvs(): \warm\admin\renderer\form\InputKvs
+    public function InputImage(string $name = '', string $label = ''): InputImage
     {
-        return \warm\admin\renderer\form\InputKvs::make();
+        $instance = InputImage::make();
+
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\form\InputMonth
+     * @return InputKv
      */
-    public function InputMonth(): \warm\admin\renderer\form\InputMonth
+    public function InputKv(): InputKv
     {
-        return \warm\admin\renderer\form\InputMonth::make();
+        return InputKv::make();
     }
 
     /**
-     * @return \warm\admin\renderer\form\InputMonthRange
+     * @return InputKvs
      */
-    public function InputMonthRange(): \warm\admin\renderer\form\InputMonthRange
+    public function InputKvs(): InputKvs
     {
-        return \warm\admin\renderer\form\InputMonthRange::make();
+        return InputKvs::make();
     }
 
     /**
-     * @return \warm\admin\renderer\form\InputNumber
+     * 创建 InputMonth 渲染器实例.
+     *
+     * @param string $name 字段名
+     * @param string $label 标签
+     * @return InputMonth
      */
-    public function InputNumber(): \warm\admin\renderer\form\InputNumber
+    public function InputMonth(string $name = '', string $label = ''): InputMonth
     {
-        return \warm\admin\renderer\form\InputNumber::make();
+        $instance = InputMonth::make();
+
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\form\InputPassword
+     * 创建 InputMonthRange 渲染器实例.
+     *
+     * @param string $name 字段名
+     * @param string $label 标签
+     * @return InputMonthRange
      */
-    public function InputPassword(): \warm\admin\renderer\form\InputPassword
+    public function InputMonthRange(string $name = '', string $label = ''): InputMonthRange
     {
-        return \warm\admin\renderer\form\InputPassword::make();
+        $instance = InputMonthRange::make();
+
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\form\InputQuarter
+     * 创建 InputNumber 渲染器实例.
+     *
+     * @param string $name 字段名
+     * @param string $label 标签
+     * @return InputNumber
      */
-    public function InputQuarter(): \warm\admin\renderer\form\InputQuarter
+    public function InputNumber(string $name = '', string $label = ''): InputNumber
     {
-        return \warm\admin\renderer\form\InputQuarter::make();
+        $instance = InputNumber::make();
+
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\form\InputQuarterRange
+     * 创建 InputPassword 渲染器实例.
+     *
+     * @param string $name 字段名
+     * @param string $label 标签
+     * @return InputPassword
      */
-    public function InputQuarterRange(): \warm\admin\renderer\form\InputQuarterRange
+    public function InputPassword(string $name = '', string $label = ''): InputPassword
     {
-        return \warm\admin\renderer\form\InputQuarterRange::make();
+        $instance = InputPassword::make();
+
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\form\InputRange
+     * 创建 InputQuarter 渲染器实例.
+     *
+     * @param string $name 字段名
+     * @param string $label 标签
+     * @return InputQuarter
      */
-    public function InputRange(): \warm\admin\renderer\form\InputRange
+    public function InputQuarter(string $name = '', string $label = ''): InputQuarter
     {
-        return \warm\admin\renderer\form\InputRange::make();
+        $instance = InputQuarter::make();
+
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\form\InputRating
+     * 创建 InputQuarterRange 渲染器实例.
+     *
+     * @param string $name 字段名
+     * @param string $label 标签
+     * @return InputQuarterRange
      */
-    public function InputRating(): \warm\admin\renderer\form\InputRating
+    public function InputQuarterRange(string $name = '', string $label = ''): InputQuarterRange
     {
-        return \warm\admin\renderer\form\InputRating::make();
+        $instance = InputQuarterRange::make();
+
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\form\InputRepeat
+     * 创建 InputRange 渲染器实例.
+     *
+     * @param string $name 字段名
+     * @param string $label 标签
+     * @return InputRange
      */
-    public function InputRepeat(): \warm\admin\renderer\form\InputRepeat
+    public function InputRange(string $name = '', string $label = ''): InputRange
     {
-        return \warm\admin\renderer\form\InputRepeat::make();
+        $instance = InputRange::make();
+
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\form\InputRichText
+     * 创建 InputRating 渲染器实例.
+     *
+     * @param string $name 字段名
+     * @param string $label 标签
+     * @return InputRating
      */
-    public function InputRichText(): \warm\admin\renderer\form\InputRichText
+    public function InputRating(string $name = '', string $label = ''): InputRating
     {
-        return \warm\admin\renderer\form\InputRichText::make();
+        $instance = InputRating::make();
+
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\form\InputSignature
+     * 创建 InputRepeat 渲染器实例.
+     *
+     * @param string $name 字段名
+     * @param string $label 标签
+     * @return InputRepeat
      */
-    public function InputSignature(): \warm\admin\renderer\form\InputSignature
+    public function InputRepeat(string $name = '', string $label = ''): InputRepeat
     {
-        return \warm\admin\renderer\form\InputSignature::make();
+        $instance = InputRepeat::make();
+
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\form\InputSubForm
+     * 创建 InputRichText 渲染器实例.
+     *
+     * @param string $name 字段名
+     * @param string $label 标签
+     * @return InputRichText
      */
-    public function InputSubForm(): \warm\admin\renderer\form\InputSubForm
+    public function InputRichText(string $name = '', string $label = ''): InputRichText
     {
-        return \warm\admin\renderer\form\InputSubForm::make();
+        $instance = InputRichText::make();
+
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\form\InputTable
+     * 创建 InputSignature 渲染器实例.
+     *
+     * @param string $name 字段名
+     * @param string $label 标签
+     * @return InputSignature
      */
-    public function InputTable(): \warm\admin\renderer\form\InputTable
+    public function InputSignature(string $name = '', string $label = ''): InputSignature
     {
-        return \warm\admin\renderer\form\InputTable::make();
+        $instance = InputSignature::make();
+
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\form\InputTag
+     * 创建 InputSubForm 渲染器实例.
+     *
+     * @param string $name 字段名
+     * @param string $label 标签
+     * @return InputSubForm
      */
-    public function InputTag(): \warm\admin\renderer\form\InputTag
+    public function InputSubForm(string $name = '', string $label = ''): InputSubForm
     {
-        return \warm\admin\renderer\form\InputTag::make();
+        $instance = InputSubForm::make();
+
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\form\InputText
+     * @return InputTable
      */
-    public function InputText(): \warm\admin\renderer\form\InputText
+    public function InputTable(): InputTable
     {
-        return \warm\admin\renderer\form\InputText::make();
+        return InputTable::make();
     }
 
     /**
-     * @return \warm\admin\renderer\form\InputTime
+     * 创建 InputTag 渲染器实例.
+     *
+     * @param string $name 字段名
+     * @param string $label 标签
+     * @return InputTag
      */
-    public function InputTime(): \warm\admin\renderer\form\InputTime
+    public function InputTag(string $name = '', string $label = ''): InputTag
     {
-        return \warm\admin\renderer\form\InputTime::make();
+        $instance = InputTag::make();
+
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\form\InputTimeRange
+     * 创建 InputText 渲染器实例.
+     *
+     * @param string $name 字段名
+     * @param string $label 标签
+     * @return InputText
      */
-    public function InputTimeRange(): \warm\admin\renderer\form\InputTimeRange
+    public function InputText(string $name = '', string $label = ''): InputText
     {
-        return \warm\admin\renderer\form\InputTimeRange::make();
+        $instance = InputText::make();
+
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\form\InputTree
+     * 创建 InputTime 渲染器实例.
+     *
+     * @param string $name 字段名
+     * @param string $label 标签
+     * @return InputTime
      */
-    public function InputTree(): \warm\admin\renderer\form\InputTree
+    public function InputTime(string $name = '', string $label = ''): InputTime
     {
-        return \warm\admin\renderer\form\InputTree::make();
+        $instance = InputTime::make();
+
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\form\InputVerificationCode
+     * 创建 InputTimeRange 渲染器实例.
+     *
+     * @param string $name
+     * @param string $label
+     * @return InputTimeRange
      */
-    public function InputVerificationCode(): \warm\admin\renderer\form\InputVerificationCode
+    public function InputTimeRange(string $name = '', string $label = ''): InputTimeRange
     {
-        return \warm\admin\renderer\form\InputVerificationCode::make();
+        $instance = InputTimeRange::make();
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\form\InputYear
+     * 创建 InputTree 渲染器实例.
+     *
+     * @param string $name 字段名
+     * @param string $label 标签
+     * @return InputTree
      */
-    public function InputYear(): \warm\admin\renderer\form\InputYear
+    public function InputTree(string $name = '', string $label = ''): InputTree
     {
-        return \warm\admin\renderer\form\InputYear::make();
+        $instance = InputTree::make();
+
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\form\InputYearRange
+     * 创建 InputVerificationCode 渲染器实例.
+     *
+     * @param string $name
+     * @return InputVerificationCode
      */
-    public function InputYearRange(): \warm\admin\renderer\form\InputYearRange
+    public function InputVerificationCode(string $name = ''): InputVerificationCode
     {
-        return \warm\admin\renderer\form\InputYearRange::make();
+        $instance = InputVerificationCode::make();
+        if ($name !== '') {
+            $instance->name($name);
+        }
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\Json
+     * 创建 InputYear 渲染器实例.
+     *
+     * @param string $name 字段名
+     * @param string $label 标签
+     * @return InputYear
      */
-    public function Json(): \warm\admin\renderer\Json
+    public function InputYear(string $name = '', string $label = ''): InputYear
     {
-        return \warm\admin\renderer\Json::make();
+        $instance = InputYear::make();
+
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\form\JsonSchema
+     * 创建 InputYearRange 渲染器实例.
+     *
+     * @param string $name
+     * @param string $label
+     * @return InputYearRange
      */
-    public function JsonSchema(): \warm\admin\renderer\form\JsonSchema
+    public function InputYearRange(string $name = '', string $label = ''): InputYearRange
     {
-        return \warm\admin\renderer\form\JsonSchema::make();
+        $instance = InputYearRange::make();
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\form\JsonSchemaEditor
+     * @return Json
      */
-    public function JsonSchemaEditor(): \warm\admin\renderer\form\JsonSchemaEditor
+    public function Json(): Json
     {
-        return \warm\admin\renderer\form\JsonSchemaEditor::make();
+        return Json::make();
     }
 
     /**
-     * @return \warm\admin\renderer\Link
+     * 创建 JsonSchema 渲染器实例.
+     *
+     * @param string $name
+     * @param string $label
+     * @return JsonSchema
      */
-    public function Link(): \warm\admin\renderer\Link
+    public function JsonSchema(string $name = '', string $label = ''): JsonSchema
     {
-        return \warm\admin\renderer\Link::make();
+        $instance = JsonSchema::make();
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\expand\LinkAction
+     * 创建 JSONSchemaEditor 渲染器实例.
+     *
+     * @param string $name 字段名
+     * @param string $label 标签
+     * @return JsonSchemaEditor
      */
-    public function LinkAction(): \warm\admin\renderer\expand\LinkAction
+    public function JsonSchemaEditor(string $name = '', string $label = ''): JsonSchemaEditor
     {
-        return \warm\admin\renderer\expand\LinkAction::make();
+        $instance = JsonSchemaEditor::make();
+
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\List
+     * @return Link
      */
-    public function List(): \warm\admin\renderer\List
+    public function Link(): Link
     {
-        return \warm\admin\renderer\List::make();
+        return Link::make();
     }
 
     /**
-     * @return \warm\admin\renderer\form\ListSelect
+     * @return ListClass
      */
-    public function ListSelect(): \warm\admin\renderer\form\ListSelect
+    public function List(): ListClass
     {
-        return \warm\admin\renderer\form\ListSelect::make();
+        return ListClass::make();
     }
 
     /**
-     * @return \warm\admin\renderer\form\LocationPicker
+     * 创建 ListSelect 渲染器实例.
+     *
+     * @param string $name 字段名
+     * @param string $label 标签
+     * @return ListSelect
      */
-    public function LocationPicker(): \warm\admin\renderer\form\LocationPicker
+    public function ListSelect(string $name = '', string $label = ''): ListSelect
     {
-        return \warm\admin\renderer\form\LocationPicker::make();
+        $instance = ListSelect::make();
+
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\Log
+     * 创建 LocationPicker 渲染器实例.
+     *
+     * @param string $name 字段名
+     * @param string $label 标签
+     * @return LocationPicker
      */
-    public function Log(): \warm\admin\renderer\Log
+    public function LocationPicker(string $name = '', string $label = ''): LocationPicker
     {
-        return \warm\admin\renderer\Log::make();
+        $instance = LocationPicker::make();
+
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\Mapping
+     * @return Log
      */
-    public function Mapping(): \warm\admin\renderer\Mapping
+    public function Log(): Log
     {
-        return \warm\admin\renderer\Mapping::make();
+        return Log::make();
     }
 
     /**
-     * @return \warm\admin\renderer\Markdown
+     * 创建 Mapping 渲染器实例.
+     *
+     * @param string $name 字段名
+     * @param string $label 标签
+     * @return Mapping
      */
-    public function Markdown(): \warm\admin\renderer\Markdown
+    public function Mapping(string $name = '', string $label = ''): Mapping
     {
-        return \warm\admin\renderer\Markdown::make();
+        $instance = Mapping::make();
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\form\MatrixCheckboxes
+     * @return Markdown
      */
-    public function MatrixCheckboxes(): \warm\admin\renderer\form\MatrixCheckboxes
+    public function Markdown(): Markdown
     {
-        return \warm\admin\renderer\form\MatrixCheckboxes::make();
+        return Markdown::make();
     }
 
     /**
-     * @return \warm\admin\renderer\Nav
+     * 创建 MatrixCheckboxes 渲染器实例.
+     *
+     * @param string $name 字段名
+     * @param string $label 标签
+     * @return MatrixCheckboxes
      */
-    public function Nav(): \warm\admin\renderer\Nav
+    public function MatrixCheckboxes(string $name = '', string $label = ''): MatrixCheckboxes
     {
-        return \warm\admin\renderer\Nav::make();
+        $instance = MatrixCheckboxes::make();
+
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\form\Nestedselect
+     * @return Nav
      */
-    public function Nestedselect(): \warm\admin\renderer\form\Nestedselect
+    public function Nav(): Nav
     {
-        return \warm\admin\renderer\form\Nestedselect::make();
+        return Nav::make();
     }
 
     /**
-     * @return \warm\admin\renderer\Number
+     * 创建 NestedSelect 渲染器实例.
+     *
+     * @param string $name 字段名
+     * @param string $label 标签
+     * @return NestedSelect
      */
-    public function Number(): \warm\admin\renderer\Number
+    public function NestedSelect(string $name = '', string $label = ''): NestedSelect
     {
-        return \warm\admin\renderer\Number::make();
+        $instance = NestedSelect::make();
+
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\OfficeViewer
+     * @return Number
      */
-    public function OfficeViewer(): \warm\admin\renderer\OfficeViewer
+    public function Number(): Number
     {
-        return \warm\admin\renderer\OfficeViewer::make();
+        return Number::make();
     }
 
     /**
-     * @return \warm\admin\renderer\OfficeViewerExcel
+     * @return OfficeViewer
      */
-    public function OfficeViewerExcel(): \warm\admin\renderer\OfficeViewerExcel
+    public function OfficeViewer(): OfficeViewer
     {
-        return \warm\admin\renderer\OfficeViewerExcel::make();
+        return OfficeViewer::make();
     }
 
     /**
-     * @return \warm\admin\renderer\form\Options
+     * @return Page
      */
-    public function Options(): \warm\admin\renderer\form\Options
+    public function Page(): Page
     {
-        return \warm\admin\renderer\form\Options::make();
+        return Page::make();
     }
 
     /**
-     * @return \warm\admin\renderer\Page
+     * @return Pagination
      */
-    public function Page(): \warm\admin\renderer\Page
+    public function Pagination(): Pagination
     {
-        return \warm\admin\renderer\Page::make();
+        return Pagination::make();
     }
 
     /**
-     * @return \warm\admin\renderer\Pagination
+     * @return PaginationWrapper
      */
-    public function Pagination(): \warm\admin\renderer\Pagination
+    public function PaginationWrapper(): PaginationWrapper
     {
-        return \warm\admin\renderer\Pagination::make();
+        return PaginationWrapper::make();
     }
 
     /**
-     * @return \warm\admin\renderer\PaginationWrapper
+     * @return Panel
      */
-    public function PaginationWrapper(): \warm\admin\renderer\PaginationWrapper
+    public function Panel(): Panel
     {
-        return \warm\admin\renderer\PaginationWrapper::make();
+        return Panel::make();
     }
 
     /**
-     * @return \warm\admin\renderer\Panel
+     * @return PdfViewer
      */
-    public function Panel(): \warm\admin\renderer\Panel
+    public function PdfViewer(): PdfViewer
     {
-        return \warm\admin\renderer\Panel::make();
+        return PdfViewer::make();
     }
 
     /**
-     * @return \warm\admin\renderer\PdfViewer
+     * 创建 Picker 渲染器实例.
+     *
+     * @param string $name 字段名
+     * @param string $label 标签
+     * @return Picker
      */
-    public function PdfViewer(): \warm\admin\renderer\PdfViewer
+    public function Picker(string $name = '', string $label = ''): Picker
     {
-        return \warm\admin\renderer\PdfViewer::make();
+        $instance = Picker::make();
+
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\form\Picker
+     * @return Popover
      */
-    public function Picker(): \warm\admin\renderer\form\Picker
+    public function Popover(): Popover
     {
-        return \warm\admin\renderer\form\Picker::make();
+        return Popover::make();
     }
 
     /**
-     * @return \warm\admin\renderer\Popover
+     * @return Portlet
      */
-    public function Popover(): \warm\admin\renderer\Popover
+    public function Portlet(): Portlet
     {
-        return \warm\admin\renderer\Popover::make();
+        return Portlet::make();
     }
 
     /**
-     * @return \warm\admin\renderer\Portlet
+     * 创建 Progress 渲染器实例.
+     *
+     * @param string $name
+     * @param string $label
+     * @return Progress
      */
-    public function Portlet(): \warm\admin\renderer\Portlet
+    public function Progress(string $name = '', string $label = ''): Progress
     {
-        return \warm\admin\renderer\Portlet::make();
+        $instance = Progress::make();
+
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\Progress
+     * @return Property
      */
-    public function Progress(): \warm\admin\renderer\Progress
+    public function Property(): Property
     {
-        return \warm\admin\renderer\Progress::make();
+        return Property::make();
     }
 
     /**
-     * @return \warm\admin\renderer\Property
+     * @return Qrcode
      */
-    public function Property(): \warm\admin\renderer\Property
+    public function Qrcode(): Qrcode
     {
-        return \warm\admin\renderer\Property::make();
+        return Qrcode::make();
     }
 
     /**
-     * @return \warm\admin\renderer\Qrcode
+     * 创建 Radio 渲染器实例.
+     *
+     * @param string $name 字段名
+     * @param string $label 标签
+     * @return Radio
      */
-    public function Qrcode(): \warm\admin\renderer\Qrcode
+    public function Radio(string $name = '', string $label = ''): Radio
     {
-        return \warm\admin\renderer\Qrcode::make();
+        $instance = Radio::make();
+
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\form\Radio
+     * 创建 Radios 渲染器实例.
+     *
+     * @param string $name 字段名
+     * @param string $label 标签
+     * @return Radios
      */
-    public function Radio(): \warm\admin\renderer\form\Radio
+    public function Radios(string $name = '', string $label = ''): Radios
     {
-        return \warm\admin\renderer\form\Radio::make();
+        $instance = Radios::make();
+
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\Radios
+     * @return Remark
      */
-    public function Radios(): \warm\admin\renderer\Radios
+    public function Remark(): Remark
     {
-        return \warm\admin\renderer\Radios::make();
+        return Remark::make();
     }
 
     /**
-     * @return \warm\admin\renderer\Remark
+     * @return SearchBox
      */
-    public function Remark(): \warm\admin\renderer\Remark
+    public function SearchBox(): SearchBox
     {
-        return \warm\admin\renderer\Remark::make();
+        return SearchBox::make();
     }
 
     /**
-     * @return \warm\admin\renderer\SearchBox
+     * 创建 Select 渲染器实例.
+     *
+     * @param string $name 字段名
+     * @param string $label 标签
+     * @return Select
      */
-    public function SearchBox(): \warm\admin\renderer\SearchBox
+    public function Select(string $name = '', string $label = ''): Select
     {
-        return \warm\admin\renderer\SearchBox::make();
+        $instance = Select::make();
+
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\form\Select
+     * @return Service
      */
-    public function Select(): \warm\admin\renderer\form\Select
+    public function Service(): Service
     {
-        return \warm\admin\renderer\form\Select::make();
+        return Service::make();
     }
 
     /**
-     * @return \warm\admin\renderer\Service
+     * @return Shape
      */
-    public function Service(): \warm\admin\renderer\Service
+    public function Shape(): Shape
     {
-        return \warm\admin\renderer\Service::make();
+        return Shape::make();
     }
 
     /**
-     * @return \warm\admin\renderer\Shape
+     * @return Slider
      */
-    public function Shape(): \warm\admin\renderer\Shape
+    public function Slider(): Slider
     {
-        return \warm\admin\renderer\Shape::make();
+        return Slider::make();
     }
 
     /**
-     * @return \warm\admin\renderer\Slider
+     * @return Sparkline
      */
-    public function Slider(): \warm\admin\renderer\Slider
+    public function Sparkline(): Sparkline
     {
-        return \warm\admin\renderer\Slider::make();
+        return Sparkline::make();
     }
 
     /**
-     * @return \warm\admin\renderer\Sparkline
+     * @return Spinner
      */
-    public function Sparkline(): \warm\admin\renderer\Sparkline
+    public function Spinner(): Spinner
     {
-        return \warm\admin\renderer\Sparkline::make();
+        return Spinner::make();
     }
 
     /**
-     * @return \warm\admin\renderer\Spinner
+     * 创建 StaticExactControl 渲染器实例.
+     *
+     * @param string $name 字段名
+     * @param string $label 标签
+     * @return StaticClass
      */
-    public function Spinner(): \warm\admin\renderer\Spinner
+    public function Static(string $name = '', string $label = ''): StaticClass
     {
-        return \warm\admin\renderer\Spinner::make();
+        $instance = StaticClass::make();
+
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\form\StaticClass
+     * 创建 Status 渲染器实例.
+     *
+     * @param string $name 字段名
+     * @param string $label 标签
+     * @return Status
      */
-    public function Static(): \warm\admin\renderer\form\StaticClass
+    public function Status(string $name = '', string $label = ''): Status
     {
-        return \warm\admin\renderer\form\StaticClass::make();
+        $instance = Status::make();
+
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\Status
+     * @return Steps
      */
-    public function Status(): \warm\admin\renderer\Status
+    public function Steps(): Steps
     {
-        return \warm\admin\renderer\Status::make();
+        return Steps::make();
     }
 
     /**
-     * @return \warm\admin\renderer\Steps
+     * 创建 SwitchClass 渲染器实例.
+     *
+     * @param string $name 字段名
+     * @param string $label 标签
+     * @return SwitchClass
      */
-    public function Steps(): \warm\admin\renderer\Steps
+    public function Switch(string $name = '', string $label = ''): SwitchClass
     {
-        return \warm\admin\renderer\Steps::make();
+        $instance = SwitchClass::make();
+
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\form\SwitchClass
+     * @return SwitchContainer
      */
-    public function Switch(): \warm\admin\renderer\form\SwitchClass
+    public function SwitchContainer(): SwitchContainer
     {
-        return \warm\admin\renderer\form\SwitchClass::make();
+        return SwitchContainer::make();
     }
 
     /**
-     * @return \warm\admin\renderer\SwitchContainer
+     * @return Table
      */
-    public function SwitchContainer(): \warm\admin\renderer\SwitchContainer
+    public function Table(): Table
     {
-        return \warm\admin\renderer\SwitchContainer::make();
+        return Table::make();
     }
 
     /**
-     * @return \warm\admin\renderer\Table
+     * 创建 TableColumn 渲染器实例.
+     *
+     * @param string $name
+     * @param string $label
+     * @return TableColumn
      */
-    public function Table(): \warm\admin\renderer\Table
+    public function TableColumn(string $name = '', string $label = ''): TableColumn
     {
-        return \warm\admin\renderer\Table::make();
+        $instance = TableColumn::make();
+
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\Table2
+     * @return Table2
      */
-    public function Table2(): \warm\admin\renderer\Table2
+    public function Table2(): Table2
     {
-        return \warm\admin\renderer\Table2::make();
+        return Table2::make();
     }
 
     /**
-     * @return \warm\admin\renderer\TableView
+     * @return TableView
      */
-    public function TableView(): \warm\admin\renderer\TableView
+    public function TableView(): TableView
     {
-        return \warm\admin\renderer\TableView::make();
+        return TableView::make();
     }
 
     /**
-     * @return \warm\admin\renderer\Tabs
+     * @return Tabs
      */
-    public function Tabs(): \warm\admin\renderer\Tabs
+    public function Tabs(): Tabs
     {
-        return \warm\admin\renderer\Tabs::make();
+        return Tabs::make();
     }
 
     /**
-     * @return \warm\admin\renderer\form\TabsTransfer
+     * 创建 TabsTransfer 渲染器实例.
+     *
+     * @param string $name 字段名
+     * @param string $label 标签
+     * @return TabsTransfer
      */
-    public function TabsTransfer(): \warm\admin\renderer\form\TabsTransfer
+    public function TabsTransfer(string $name = '', string $label = ''): TabsTransfer
     {
-        return \warm\admin\renderer\form\TabsTransfer::make();
+        $instance = TabsTransfer::make();
+
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\form\TabsTransferPicker
+     * 创建 TabsTransferPicker 渲染器实例.
+     *
+     * @param string $name 字段名
+     * @param string $label 标签
+     * @return TabsTransferPicker
      */
-    public function TabsTransferPicker(): \warm\admin\renderer\form\TabsTransferPicker
+    public function TabsTransferPicker(string $name = '', string $label = ''): TabsTransferPicker
     {
-        return \warm\admin\renderer\form\TabsTransferPicker::make();
+        $instance = TabsTransferPicker::make();
+
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\Tag
+     * @return Tag
      */
-    public function Tag(): \warm\admin\renderer\Tag
+    public function Tag(): Tag
     {
-        return \warm\admin\renderer\Tag::make();
+        return Tag::make();
     }
 
     /**
-     * @return \warm\admin\renderer\Tasks
+     * @return Tasks
      */
-    public function Tasks(): \warm\admin\renderer\Tasks
+    public function Tasks(): Tasks
     {
-        return \warm\admin\renderer\Tasks::make();
+        return Tasks::make();
     }
 
     /**
-     * @return \warm\admin\renderer\form\Textarea
+     * 创建 Textarea 渲染器实例.
+     *
+     * @param string $name 字段名
+     * @param string $label 标签
+     * @return Textarea
      */
-    public function Textarea(): \warm\admin\renderer\form\Textarea
+    public function Textarea(string $name = '', string $label = ''): Textarea
     {
-        return \warm\admin\renderer\form\Textarea::make();
+        $instance = Textarea::make();
+
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\Timeline
+     * @return Timeline
      */
-    public function Timeline(): \warm\admin\renderer\Timeline
+    public function Timeline(): Timeline
     {
-        return \warm\admin\renderer\Timeline::make();
+        return Timeline::make();
     }
 
     /**
-     * @return \warm\admin\renderer\Toast
+     * @return Toast
      */
-    public function Toast(): \warm\admin\renderer\Toast
+    public function Toast(): Toast
     {
-        return \warm\admin\renderer\Toast::make();
+        return Toast::make();
     }
 
     /**
-     * @return \warm\admin\renderer\TooltipWrapper
+     * @return TooltipWrapper
      */
-    public function TooltipWrapper(): \warm\admin\renderer\TooltipWrapper
+    public function TooltipWrapper(): TooltipWrapper
     {
-        return \warm\admin\renderer\TooltipWrapper::make();
+        return TooltipWrapper::make();
     }
 
     /**
-     * @return \warm\admin\renderer\Tpl
+     * @return Tpl
      */
-    public function Tpl(): \warm\admin\renderer\Tpl
+    public function Tpl(): Tpl
     {
-        return \warm\admin\renderer\Tpl::make();
+        return Tpl::make();
     }
 
     /**
-     * @return \warm\admin\renderer\form\Transfer
+     * 创建 Transfer 渲染器实例.
+     *
+     * @param string $name 字段名
+     * @param string $label 标签
+     * @return Transfer
      */
-    public function Transfer(): \warm\admin\renderer\form\Transfer
+    public function Transfer(string $name = '', string $label = ''): Transfer
     {
-        return \warm\admin\renderer\form\Transfer::make();
+        $instance = Transfer::make();
+
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\form\TransferPicker
+     * 创建 TransferPicker 渲染器实例.
+     *
+     * @param string $name 字段名
+     * @param string $label 标签
+     * @return TransferPicker
      */
-    public function TransferPicker(): \warm\admin\renderer\form\TransferPicker
+    public function TransferPicker(string $name = '', string $label = ''): TransferPicker
     {
-        return \warm\admin\renderer\form\TransferPicker::make();
+        $instance = TransferPicker::make();
+
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\form\Treeselect
+     * 创建 TreeSelect 渲染器实例.
+     *
+     * @param string $name 字段名
+     * @param string $label 标签
+     * @return TreeSelect
      */
-    public function Treeselect(): \warm\admin\renderer\form\Treeselect
+    public function TreeSelect(string $name = '', string $label = ''): TreeSelect
     {
-        return \warm\admin\renderer\form\Treeselect::make();
+        $instance = TreeSelect::make();
+
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\expand\UrlAction
+     * 创建 UUID 渲染器实例.
+     *
+     * @param string $name 字段名
+     * @param string $label 标签
+     * @return Uuid
      */
-    public function UrlAction(): \warm\admin\renderer\expand\UrlAction
+    public function Uuid(string $name = '', string $label = ''): Uuid
     {
-        return \warm\admin\renderer\expand\UrlAction::make();
+        $instance = Uuid::make();
+
+        if ($name !== '') {
+            $instance->name($name);
+        }
+
+        if ($label !== '') {
+            $instance->label($label);
+        }
+
+        return $instance;
     }
 
     /**
-     * @return \warm\admin\renderer\form\Uuid
+     * @return Video
      */
-    public function Uuid(): \warm\admin\renderer\form\Uuid
+    public function Video(): Video
     {
-        return \warm\admin\renderer\form\Uuid::make();
+        return Video::make();
     }
 
     /**
-     * @return \warm\admin\renderer\Video
+     * @return WebComponent
      */
-    public function Video(): \warm\admin\renderer\Video
+    public function WebComponent(): WebComponent
     {
-        return \warm\admin\renderer\Video::make();
+        return WebComponent::make();
     }
 
     /**
-     * @return \warm\admin\renderer\WebComponent
+     * @return Wizard
      */
-    public function WebComponent(): \warm\admin\renderer\WebComponent
+    public function Wizard(): Wizard
     {
-        return \warm\admin\renderer\WebComponent::make();
+        return Wizard::make();
     }
 
     /**
-     * @return \warm\admin\renderer\Wizard
+     * @return Wrapper
      */
-    public function Wizard(): \warm\admin\renderer\Wizard
+    public function Wrapper(): Wrapper
     {
-        return \warm\admin\renderer\Wizard::make();
+        return Wrapper::make();
     }
 
     /**
-     * @return \warm\admin\renderer\Wrapper
+     * 创建 Operation 渲染器实例.
+     *
+     * @return Operation
      */
-    public function Wrapper(): \warm\admin\renderer\Wrapper
+    public function Operation(): Operation
     {
-        return \warm\admin\renderer\Wrapper::make();
+        return Operation::make();
     }
+
+//    /**
+//     * @return EmailAction
+//     */
+//    public function EmailAction(): EmailAction
+//    {
+//        return EmailAction::make();
+//    }
+//
+//
+//    /**
+//     * 创建 AjaxAction 渲染器实例.
+//     *
+//     * @return \warm\admin\renderer\expand\AjaxAction
+//     */
+//    public function AjaxAction(): \warm\admin\renderer\expand\AjaxAction
+//    {
+//        return \warm\admin\renderer\expand\AjaxAction::make();
+//    }
+//
+//    /**
+//     * @return DialogAction
+//     */
+//    public function DialogAction(): DialogAction
+//    {
+//        return DialogAction::make();
+//    }
+//
+//    /**
+//     * @return \warm\admin\renderer\expand\ImageToolbarAction
+//     */
+//    public function ImageToolbarAction(): \warm\admin\renderer\expand\ImageToolbarAction
+//    {
+//        return \warm\admin\renderer\expand\ImageToolbarAction::make();
+//    }
+//
+//    /**
+//     * @return \warm\admin\renderer\expand\LinkAction
+//     */
+//    public function LinkAction(): \warm\admin\renderer\expand\LinkAction
+//    {
+//        return \warm\admin\renderer\expand\LinkAction::make();
+//    }
+//
+//
+//    /**
+//     * @return \warm\admin\renderer\expand\UrlAction
+//     */
+//    public function UrlAction(): \warm\admin\renderer\expand\UrlAction
+//    {
+//        return \warm\admin\renderer\expand\UrlAction::make();
+//    }
 }

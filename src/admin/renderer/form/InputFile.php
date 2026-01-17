@@ -2,7 +2,8 @@
 namespace warm\admin\renderer\form;
 
 use warm\admin\renderer\BaseRenderer;
-use warm\admin\renderer\form\FormItemTrait;
+use warm\admin\renderer\trait\FormItem;
+use warm\admin\renderer\trait\OnEvent;
 
 /**
  * InputFile
@@ -11,7 +12,8 @@ use warm\admin\renderer\form\FormItemTrait;
  */
 class InputFile extends BaseRenderer
 {
-    use FormItemTrait;
+    use FormItem;
+    use OnEvent;
 
     public string $type = 'input-file';
 
@@ -21,7 +23,7 @@ class InputFile extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function receiver(mixed $value = null): self
+    public function receiver(mixed $value = null): static
     {
         return $this->set('receiver', $value);
     }
@@ -32,7 +34,7 @@ class InputFile extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function accept(string $value = 'text/plain'): self
+    public function accept(string $value = 'text/plain'): static
     {
         return $this->set('accept', $value);
     }
@@ -43,7 +45,7 @@ class InputFile extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function capture(string $value = 'undefined'): self
+    public function capture(string $value = 'undefined'): static
     {
         return $this->set('capture', $value);
     }
@@ -54,7 +56,7 @@ class InputFile extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function asBase64(bool $value = true): self
+    public function asBase64(bool $value = true): static
     {
         return $this->set('asBase64', $value);
     }
@@ -65,7 +67,7 @@ class InputFile extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function asBlob(bool $value = true): self
+    public function asBlob(bool $value = true): static
     {
         return $this->set('asBlob', $value);
     }
@@ -76,7 +78,7 @@ class InputFile extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function maxSize(int|float $value = 0): self
+    public function maxSize(int|float $value = 0): static
     {
         return $this->set('maxSize', $value);
     }
@@ -87,7 +89,7 @@ class InputFile extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function maxLength(int|float $value = 0): self
+    public function maxLength(int|float $value = 0): static
     {
         return $this->set('maxLength', $value);
     }
@@ -98,7 +100,7 @@ class InputFile extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function multiple(bool $value = true): self
+    public function multiple(bool $value = true): static
     {
         return $this->set('multiple', $value);
     }
@@ -109,7 +111,7 @@ class InputFile extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function drag(bool $value = true): self
+    public function drag(bool $value = true): static
     {
         return $this->set('drag', $value);
     }
@@ -120,7 +122,7 @@ class InputFile extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function joinValues(bool $value = true): self
+    public function joinValues(bool $value = true): static
     {
         return $this->set('joinValues', $value);
     }
@@ -131,7 +133,7 @@ class InputFile extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function extractValue(bool $value = true): self
+    public function extractValue(bool $value = true): static
     {
         return $this->set('extractValue', $value);
     }
@@ -142,7 +144,7 @@ class InputFile extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function delimiter(string $value = ','): self
+    public function delimiter(string $value = ','): static
     {
         return $this->set('delimiter', $value);
     }
@@ -153,7 +155,7 @@ class InputFile extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function autoUpload(bool $value = true): self
+    public function autoUpload(bool $value = true): static
     {
         return $this->set('autoUpload', $value);
     }
@@ -164,7 +166,7 @@ class InputFile extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function hideUploadButton(bool $value = true): self
+    public function hideUploadButton(bool $value = true): static
     {
         return $this->set('hideUploadButton', $value);
     }
@@ -175,7 +177,7 @@ class InputFile extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function stateTextMap(array $value = []): self
+    public function stateTextMap(array $value = []): static
     {
         return $this->set('stateTextMap', $value);
     }
@@ -186,7 +188,7 @@ class InputFile extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function fileField(string $value = 'file'): self
+    public function fileField(string $value = 'file'): static
     {
         return $this->set('fileField', $value);
     }
@@ -197,7 +199,7 @@ class InputFile extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function nameField(string $value = 'name'): self
+    public function nameField(string $value = 'name'): static
     {
         return $this->set('nameField', $value);
     }
@@ -208,7 +210,7 @@ class InputFile extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function valueField(string $value = 'value'): self
+    public function valueField(string $value = 'value'): static
     {
         return $this->set('valueField', $value);
     }
@@ -219,7 +221,7 @@ class InputFile extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function urlField(string $value = 'url'): self
+    public function urlField(string $value = 'url'): static
     {
         return $this->set('urlField', $value);
     }
@@ -230,7 +232,7 @@ class InputFile extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function btnLabel(string $value = ''): self
+    public function btnLabel(string $value = ''): static
     {
         return $this->set('btnLabel', $value);
     }
@@ -241,7 +243,7 @@ class InputFile extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function downloadUrl(mixed $value = null): self
+    public function downloadUrl(mixed $value = null): static
     {
         return $this->set('downloadUrl', $value);
     }
@@ -252,7 +254,7 @@ class InputFile extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function useChunk(mixed $value = null): self
+    public function useChunk(mixed $value = null): static
     {
         return $this->set('useChunk', $value);
     }
@@ -263,7 +265,7 @@ class InputFile extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function chunkSize(int|float $value = 0): self
+    public function chunkSize(int|float $value = 0): static
     {
         return $this->set('chunkSize', $value);
     }
@@ -274,7 +276,7 @@ class InputFile extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function startChunkApi(mixed $value = null): self
+    public function startChunkApi(mixed $value = null): static
     {
         return $this->set('startChunkApi', $value);
     }
@@ -285,7 +287,7 @@ class InputFile extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function chunkApi(mixed $value = null): self
+    public function chunkApi(mixed $value = null): static
     {
         return $this->set('chunkApi', $value);
     }
@@ -296,7 +298,7 @@ class InputFile extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function finishChunkApi(mixed $value = null): self
+    public function finishChunkApi(mixed $value = null): static
     {
         return $this->set('finishChunkApi', $value);
     }
@@ -307,7 +309,7 @@ class InputFile extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function concurrency(int|float $value = 0): self
+    public function concurrency(int|float $value = 0): static
     {
         return $this->set('concurrency', $value);
     }
@@ -318,7 +320,7 @@ class InputFile extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function documentation(string $value = ''): self
+    public function documentation(string $value = ''): static
     {
         return $this->set('documentation', $value);
     }
@@ -329,7 +331,7 @@ class InputFile extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function documentLink(string $value = ''): self
+    public function documentLink(string $value = ''): static
     {
         return $this->set('documentLink', $value);
     }
@@ -340,7 +342,7 @@ class InputFile extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function initAutoFill(bool $value = true): self
+    public function initAutoFill(bool $value = true): static
     {
         return $this->set('initAutoFill', $value);
     }
@@ -351,7 +353,7 @@ class InputFile extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function invalidTypeMessage(string $value = ''): self
+    public function invalidTypeMessage(string $value = ''): static
     {
         return $this->set('invalidTypeMessage', $value);
     }
@@ -362,7 +364,7 @@ class InputFile extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function invalidSizeMessage(string $value = ''): self
+    public function invalidSizeMessage(string $value = ''): static
     {
         return $this->set('invalidSizeMessage', $value);
     }

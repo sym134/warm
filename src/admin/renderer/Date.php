@@ -1,4 +1,5 @@
 <?php
+
 namespace warm\admin\renderer;
 /**
  * Date
@@ -10,12 +11,12 @@ class Date extends BaseRenderer
     public string $type = 'date';
 
     /**
-     * 外层 CSS 类名
+     * 设置组件样式
      *
-     * @param string $value
-     * @return self
+     * @param mixed $value
+     * @return $this
      */
-    public function className(string $value = ''): self
+    public function className(mixed $value): static
     {
         return $this->set('className', $value);
     }
@@ -26,7 +27,7 @@ class Date extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function value(string $value = ''): self
+    public function value(string $value = ''): static
     {
         return $this->set('value', $value);
     }
@@ -37,7 +38,7 @@ class Date extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function name(string $value = ''): self
+    public function name(string $value = ''): static
     {
         return $this->set('name', $value);
     }
@@ -48,7 +49,7 @@ class Date extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function placeholder(string $value = '-'): self
+    public function placeholder(string $value = '-'): static
     {
         return $this->set('placeholder', $value);
     }
@@ -59,7 +60,7 @@ class Date extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function displayFormat(string $value = 'YYYY-MM-DD'): self
+    public function displayFormat(string $value = 'YYYY-MM-DD'): static
     {
         return $this->set('displayFormat', $value);
     }
@@ -70,7 +71,7 @@ class Date extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function valueFormat(string $value = 'X'): self
+    public function valueFormat(string $value = 'X'): static
     {
         return $this->set('valueFormat', $value);
     }
@@ -81,7 +82,7 @@ class Date extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function fromNow(bool $value = true): self
+    public function fromNow(bool $value = true): static
     {
         return $this->set('fromNow', $value);
     }
@@ -92,7 +93,7 @@ class Date extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function updateFrequency(int|float $value = 60000): self
+    public function updateFrequency(int|float $value = 60000): static
     {
         return $this->set('updateFrequency', $value);
     }
@@ -103,7 +104,9 @@ class Date extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function displayTimeZone(string $value = ''): self
+    public function displayTimeZone(string $value = ''): static
     {
         return $this->set('displayTimeZone', $value);
+    }
+}
  

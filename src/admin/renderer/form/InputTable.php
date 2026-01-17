@@ -2,7 +2,7 @@
 namespace warm\admin\renderer\form;
 
 use warm\admin\renderer\BaseRenderer;
-use warm\admin\renderer\form\FormItemTrait;
+use warm\admin\renderer\trait\OnEvent;
 
 /**
  * InputTable
@@ -11,7 +11,7 @@ use warm\admin\renderer\form\FormItemTrait;
  */
 class InputTable extends BaseRenderer
 {
-    use FormItemTrait;
+    use OnEvent;
 
     public string $type = 'input-table';
 
@@ -21,7 +21,7 @@ class InputTable extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function addable(mixed $value = null): self
+    public function addable(mixed $value = null): static
     {
         return $this->set('addable', $value);
     }
@@ -32,7 +32,7 @@ class InputTable extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function copyable(mixed $value = null): self
+    public function copyable(mixed $value = null): static
     {
         return $this->set('copyable', $value);
     }
@@ -43,7 +43,7 @@ class InputTable extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function copyData(mixed $value = null): self
+    public function copyData(mixed $value = null): static
     {
         return $this->set('copyData', $value);
     }
@@ -54,7 +54,7 @@ class InputTable extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function childrenAddable(mixed $value = null): self
+    public function childrenAddable(mixed $value = null): static
     {
         return $this->set('childrenAddable', $value);
     }
@@ -65,7 +65,7 @@ class InputTable extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function editable(mixed $value = null): self
+    public function editable(mixed $value = null): static
     {
         return $this->set('editable', $value);
     }
@@ -76,7 +76,7 @@ class InputTable extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function removable(mixed $value = null): self
+    public function removable(mixed $value = null): static
     {
         return $this->set('removable', $value);
     }
@@ -87,7 +87,7 @@ class InputTable extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function showTableAddBtn(bool $value = true): self
+    public function showTableAddBtn(bool $value = true): static
     {
         return $this->set('showTableAddBtn', $value);
     }
@@ -98,7 +98,7 @@ class InputTable extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function showFooterAddBtn(bool $value = true): self
+    public function showFooterAddBtn(bool $value = true): static
     {
         return $this->set('showFooterAddBtn', $value);
     }
@@ -109,7 +109,7 @@ class InputTable extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function addApi(mixed $value = null): self
+    public function addApi(mixed $value = null): static
     {
         return $this->set('addApi', $value);
     }
@@ -120,7 +120,7 @@ class InputTable extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function footerAddBtn(mixed $value = null): self
+    public function footerAddBtn(mixed $value = null): static
     {
         return $this->set('footerAddBtn', $value);
     }
@@ -131,7 +131,7 @@ class InputTable extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function updateApi(mixed $value = null): self
+    public function updateApi(mixed $value = null): static
     {
         return $this->set('updateApi', $value);
     }
@@ -142,7 +142,7 @@ class InputTable extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function deleteApi(mixed $value = null): self
+    public function deleteApi(mixed $value = null): static
     {
         return $this->set('deleteApi', $value);
     }
@@ -153,7 +153,7 @@ class InputTable extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function scaffold(mixed $value = null): self
+    public function scaffold(mixed $value = null): static
     {
         return $this->set('scaffold', $value);
     }
@@ -164,7 +164,7 @@ class InputTable extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function addBtnLabel(string $value = ''): self
+    public function addBtnLabel(string $value = ''): static
     {
         return $this->set('addBtnLabel', $value);
     }
@@ -175,7 +175,7 @@ class InputTable extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function addBtnIcon(string $value = 'plus'): self
+    public function addBtnIcon(string $value = 'plus'): static
     {
         return $this->set('addBtnIcon', $value);
     }
@@ -186,7 +186,7 @@ class InputTable extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function subAddBtnLabel(string $value = ''): self
+    public function subAddBtnLabel(string $value = ''): static
     {
         return $this->set('subAddBtnLabel', $value);
     }
@@ -197,7 +197,7 @@ class InputTable extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function subAddBtnIcon(string $value = 'sub-plus'): self
+    public function subAddBtnIcon(string $value = 'sub-plus'): static
     {
         return $this->set('subAddBtnIcon', $value);
     }
@@ -208,7 +208,7 @@ class InputTable extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function copyBtnLabel(string $value = ''): self
+    public function copyBtnLabel(string $value = ''): static
     {
         return $this->set('copyBtnLabel', $value);
     }
@@ -219,7 +219,7 @@ class InputTable extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function copyBtnIcon(string $value = 'copy'): self
+    public function copyBtnIcon(string $value = 'copy'): static
     {
         return $this->set('copyBtnIcon', $value);
     }
@@ -230,7 +230,7 @@ class InputTable extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function editBtnLabel(string $value = ''): self
+    public function editBtnLabel(string $value = ''): static
     {
         return $this->set('editBtnLabel', $value);
     }
@@ -241,7 +241,7 @@ class InputTable extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function editBtnIcon(string $value = 'pencil'): self
+    public function editBtnIcon(string $value = 'pencil'): static
     {
         return $this->set('editBtnIcon', $value);
     }
@@ -252,7 +252,7 @@ class InputTable extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function deleteBtnLabel(string $value = ''): self
+    public function deleteBtnLabel(string $value = ''): static
     {
         return $this->set('deleteBtnLabel', $value);
     }
@@ -263,7 +263,7 @@ class InputTable extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function deleteBtnIcon(string $value = 'minus'): self
+    public function deleteBtnIcon(string $value = 'minus'): static
     {
         return $this->set('deleteBtnIcon', $value);
     }
@@ -274,7 +274,7 @@ class InputTable extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function confirmBtnLabel(string $value = ''): self
+    public function confirmBtnLabel(string $value = ''): static
     {
         return $this->set('confirmBtnLabel', $value);
     }
@@ -285,7 +285,7 @@ class InputTable extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function confirmBtnIcon(string $value = 'check'): self
+    public function confirmBtnIcon(string $value = 'check'): static
     {
         return $this->set('confirmBtnIcon', $value);
     }
@@ -296,7 +296,7 @@ class InputTable extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function cancelBtnLabel(string $value = ''): self
+    public function cancelBtnLabel(string $value = ''): static
     {
         return $this->set('cancelBtnLabel', $value);
     }
@@ -307,7 +307,7 @@ class InputTable extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function cancelBtnIcon(string $value = 'times'): self
+    public function cancelBtnIcon(string $value = 'times'): static
     {
         return $this->set('cancelBtnIcon', $value);
     }
@@ -318,7 +318,7 @@ class InputTable extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function needConfirm(bool $value = true): self
+    public function needConfirm(bool $value = true): static
     {
         return $this->set('needConfirm', $value);
     }
@@ -329,7 +329,7 @@ class InputTable extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function canAccessSuperData(bool $value = true): self
+    public function canAccessSuperData(bool $value = true): static
     {
         return $this->set('canAccessSuperData', $value);
     }
@@ -340,7 +340,7 @@ class InputTable extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function strictMode(bool $value = true): self
+    public function strictMode(bool $value = true): static
     {
         return $this->set('strictMode', $value);
     }
@@ -351,7 +351,7 @@ class InputTable extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function minLength(int|float $value = 0): self
+    public function minLength(int|float $value = 0): static
     {
         return $this->set('minLength', $value);
     }
@@ -362,7 +362,7 @@ class InputTable extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function maxLength(int|float $value = 0): self
+    public function maxLength(int|float $value = 0): static
     {
         return $this->set('maxLength', $value);
     }
@@ -373,7 +373,7 @@ class InputTable extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function perPage(int|float $value = 0): self
+    public function perPage(int|float $value = 0): static
     {
         return $this->set('perPage', $value);
     }
@@ -384,7 +384,7 @@ class InputTable extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function columns(array $value = []): self
+    public function columns(array $value = []): static
     {
         return $this->set('columns', $value);
     }

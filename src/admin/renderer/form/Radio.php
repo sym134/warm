@@ -2,7 +2,8 @@
 namespace warm\admin\renderer\form;
 
 use warm\admin\renderer\BaseRenderer;
-use warm\admin\renderer\form\FormItemTrait;
+use warm\admin\renderer\trait\FormItem;
+use warm\admin\renderer\trait\OnEvent;
 
 /**
  * Radio
@@ -11,7 +12,8 @@ use warm\admin\renderer\form\FormItemTrait;
  */
 class Radio extends BaseRenderer
 {
-    use FormItemTrait;
+    use FormItem;
+    use OnEvent;
 
     public string $type = 'radio';
 
@@ -21,7 +23,7 @@ class Radio extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function option(string $value = ''): self
+    public function option(string $value = ''): static
     {
         return $this->set('option', $value);
     }
@@ -32,7 +34,7 @@ class Radio extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function trueValue(mixed $value = true): self
+    public function trueValue(mixed $value = true): static
     {
         return $this->set('trueValue', $value);
     }
@@ -43,7 +45,7 @@ class Radio extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function falseValue(mixed $value = false): self
+    public function falseValue(mixed $value = false): static
     {
         return $this->set('falseValue', $value);
     }

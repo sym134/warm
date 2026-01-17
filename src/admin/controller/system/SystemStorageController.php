@@ -5,7 +5,7 @@ namespace warm\admin\controller\system;
 use support\Request;
 use support\Response;
 use warm\admin\controller\AdminController;
-use warm\admin\renderer\Form;
+use warm\admin\renderer\form\Form;
 use warm\admin\renderer\Page;
 use warm\admin\service\system\StorageService;
 
@@ -30,7 +30,9 @@ class SystemStorageController extends AdminController
     public function list(): Page
     {
         return amis()->Page()->body(amis()->Wrapper()->className('')->body([
-            amis()->Card()->body('<div class="bg-yellow-100 text-yellow-600 p-2">⚠ 温馨提示：1.切换存储方式后，需要将资源文件传输至新的存储端；2.请勿随意切换存储方式，可能导致图片无法查看</div>'),
+            amis()->Card()->body([
+                '<div class="bg-yellow-100 text-yellow-600 p-2">⚠ 温馨提示：1.切换存储方式后，需要将资源文件传输至新的存储端；2.请勿随意切换存储方式，可能导致图片无法查看</div>'
+            ]),
             $this->form()->api('put:' . admin_url($this->queryPath . '/update'))
                 ->initApi(admin_url($this->queryPath . '?_action=getData')),
 

@@ -10,12 +10,12 @@ class AnchorNav extends BaseRenderer
     public string $type = 'anchor-nav';
 
     /**
-     * 外层 Dom 的类名
+     * 设置组件样式
      *
-     * @param string $value
-     * @return self
+     * @param mixed $value
+     * @return $this
      */
-    public function className(string $value = ''): self
+    public function className(mixed $value): static
     {
         return $this->set('className', $value);
     }
@@ -26,7 +26,7 @@ class AnchorNav extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function linkClassName(string $value = ''): self
+    public function linkClassName(string $value = ''): static
     {
         return $this->set('linkClassName', $value);
     }
@@ -37,7 +37,7 @@ class AnchorNav extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function sectionClassName(string $value = ''): self
+    public function sectionClassName(string $value = ''): static
     {
         return $this->set('sectionClassName', $value);
     }
@@ -48,7 +48,7 @@ class AnchorNav extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function links(array $value = []): self
+    public function links(array $value = []): static
     {
         return $this->set('links', $value);
     }
@@ -59,7 +59,7 @@ class AnchorNav extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function direction(string $value = 'vertical'): self
+    public function direction(string $value = 'vertical'): static
     {
         return $this->set('direction', $value);
     }
@@ -70,7 +70,7 @@ class AnchorNav extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function active(string $value = ''): self
+    public function active(string $value = ''): static
     {
         return $this->set('active', $value);
     }

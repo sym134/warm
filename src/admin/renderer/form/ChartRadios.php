@@ -11,6 +11,8 @@ namespace warm\admin\renderer\form;
  */
 class ChartRadios extends Radios
 {
+    use \warm\admin\renderer\trait\FormItem;
+
     public string $type = 'chart-radios';
 
     /**
@@ -19,7 +21,7 @@ class ChartRadios extends Radios
      * @param array $value
      * @return self
      */
-    public function config(array $value = []): self
+    public function config(array $value = []): static
     {
         return $this->set('config', $value);
     }
@@ -30,7 +32,7 @@ class ChartRadios extends Radios
      * @param bool $value
      * @return self
      */
-    public function showTooltipOnHighlight(bool $value = true): self
+    public function showTooltipOnHighlight(bool $value = true): static
     {
         return $this->set('showTooltipOnHighlight', $value);
     }
@@ -41,7 +43,7 @@ class ChartRadios extends Radios
      * @param string $value
      * @return self
      */
-    public function chartValueField(string $value = 'value'): self
+    public function chartValueField(string $value = 'value'): static
     {
         return $this->set('chartValueField', $value);
     }

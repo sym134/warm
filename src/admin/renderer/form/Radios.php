@@ -2,7 +2,7 @@
 namespace warm\admin\renderer\form;
 
 use warm\admin\renderer\BaseRenderer;
-use warm\admin\renderer\form\FormItemTrait;
+use warm\admin\renderer\trait\FormItem;
 
 /**
  * Radios
@@ -11,7 +11,7 @@ use warm\admin\renderer\form\FormItemTrait;
  */
 class Radios extends BaseRenderer
 {
-    use FormItemTrait;
+    use FormItem;
 
     public string $type = 'radios';
 
@@ -21,7 +21,7 @@ class Radios extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function options(array $value = []): self
+    public function options(array $value = []): static
     {
         return $this->set('options', $value);
     }
@@ -32,7 +32,7 @@ class Radios extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function source(mixed $value = null): self
+    public function source(mixed $value = null): static
     {
         return $this->set('source', $value);
     }
@@ -43,7 +43,7 @@ class Radios extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function labelField(string $value = 'label'): self
+    public function labelField(string $value = 'label'): static
     {
         return $this->set('labelField', $value);
     }
@@ -54,7 +54,7 @@ class Radios extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function valueField(string $value = 'value'): self
+    public function valueField(string $value = 'value'): static
     {
         return $this->set('valueField', $value);
     }
@@ -65,7 +65,7 @@ class Radios extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function columnsCount(int|float $value = 1): self
+    public function columnsCount(int|float $value = 1): static
     {
         return $this->set('columnsCount', $value);
     }
@@ -76,7 +76,7 @@ class Radios extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function inline(bool $value = true): self
+    public function inline(bool $value = true): static
     {
         return $this->set('inline', $value);
     }
@@ -87,7 +87,7 @@ class Radios extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function selectFirst(bool $value = true): self
+    public function selectFirst(bool $value = true): static
     {
         return $this->set('selectFirst', $value);
     }
@@ -98,7 +98,7 @@ class Radios extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function autoFill(array $value = []): self
+    public function autoFill(array $value = []): static
     {
         return $this->set('autoFill', $value);
     }

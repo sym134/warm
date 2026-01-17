@@ -2,7 +2,8 @@
 namespace warm\admin\renderer\form;
 
 use warm\admin\renderer\BaseRenderer;
-use warm\admin\renderer\form\FormItemTrait;
+use warm\admin\renderer\trait\FormItem;
+use warm\admin\renderer\trait\OnEvent;
 
 /**
  * InputPassword
@@ -11,7 +12,8 @@ use warm\admin\renderer\form\FormItemTrait;
  */
 class InputPassword extends BaseRenderer
 {
-    use FormItemTrait;
+    use FormItem;
+    use OnEvent;
 
     public string $type = 'input-password';
 
@@ -21,7 +23,7 @@ class InputPassword extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function revealPassword(bool $value = true): self
+    public function revealPassword(bool $value = true): static
     {
         return $this->set('revealPassword', $value);
     }

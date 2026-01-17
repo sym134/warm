@@ -1,5 +1,8 @@
 <?php
 namespace warm\admin\renderer;
+use warm\admin\renderer\trait\DataDomain;
+use warm\admin\renderer\trait\OnEvent;
+
 /**
  * Table2
  *
@@ -7,15 +10,17 @@ namespace warm\admin\renderer;
  */
 class Table2 extends BaseRenderer
 {
-    public string $type = 'table2';
+    use OnEvent;
+    use DataDomain;
 
+    public string $type = 'table2';
     /**
      * 标题
      *
      * @param string $value
      * @return self
      */
-    public function title(string $value = ''): self
+    public function title(string $value = ''): static
     {
         return $this->set('title', $value);
     }
@@ -26,7 +31,7 @@ class Table2 extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function source(string $value = '${items}'): self
+    public function source(string $value = '${items}'): static
     {
         return $this->set('source', $value);
     }
@@ -37,7 +42,7 @@ class Table2 extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function sticky(bool $value = true): self
+    public function sticky(bool $value = true): static
     {
         return $this->set('sticky', $value);
     }
@@ -48,7 +53,7 @@ class Table2 extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function footer(mixed $value = null): self
+    public function footer(mixed $value = null): static
     {
         return $this->set('footer', $value);
     }
@@ -59,7 +64,7 @@ class Table2 extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function loading(bool $value = true): self
+    public function loading(bool $value = true): static
     {
         return $this->set('loading', $value);
     }
@@ -70,7 +75,7 @@ class Table2 extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function columnsTogglable(mixed $value = null): self
+    public function columnsTogglable(mixed $value = null): static
     {
         return $this->set('columnsTogglable', $value);
     }
@@ -81,7 +86,7 @@ class Table2 extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function placeholder(mixed $value = null): self
+    public function placeholder(mixed $value = null): static
     {
         return $this->set('placeholder', $value);
     }
@@ -92,7 +97,7 @@ class Table2 extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function rowSelection(mixed $value = null): self
+    public function rowSelection(mixed $value = null): static
     {
         return $this->set('rowSelection', $value);
     }
@@ -103,7 +108,7 @@ class Table2 extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function rowClassNameExpr(string $value = ''): self
+    public function rowClassNameExpr(string $value = ''): static
     {
         return $this->set('rowClassNameExpr', $value);
     }
@@ -114,7 +119,7 @@ class Table2 extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function expandable(mixed $value = null): self
+    public function expandable(mixed $value = null): static
     {
         return $this->set('expandable', $value);
     }
@@ -125,7 +130,7 @@ class Table2 extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function lineHeight(mixed $value = null): self
+    public function lineHeight(mixed $value = null): static
     {
         return $this->set('lineHeight', $value);
     }
@@ -136,7 +141,7 @@ class Table2 extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function footerClassName(string $value = 'Action.md-table-footer'): self
+    public function footerClassName(string $value = 'Action.md-table-footer'): static
     {
         return $this->set('footerClassName', $value);
     }
@@ -147,7 +152,7 @@ class Table2 extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function toolbarClassName(string $value = 'Action.md-table-toolbar'): self
+    public function toolbarClassName(string $value = 'Action.md-table-toolbar'): static
     {
         return $this->set('toolbarClassName', $value);
     }
@@ -158,7 +163,7 @@ class Table2 extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function columns(array $value = []): self
+    public function columns(array $value = []): static
     {
         return $this->set('columns', $value);
     }
@@ -169,7 +174,7 @@ class Table2 extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function itemActions(mixed $value = null): self
+    public function itemActions(mixed $value = null): static
     {
         return $this->set('itemActions', $value);
     }
@@ -180,7 +185,7 @@ class Table2 extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function itemCheckableOn(mixed $value = null): self
+    public function itemCheckableOn(mixed $value = null): static
     {
         return $this->set('itemCheckableOn', $value);
     }
@@ -191,7 +196,7 @@ class Table2 extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function itemDraggableOn(mixed $value = null): self
+    public function itemDraggableOn(mixed $value = null): static
     {
         return $this->set('itemDraggableOn', $value);
     }
@@ -202,7 +207,7 @@ class Table2 extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function checkOnItemClick(bool $value = true): self
+    public function checkOnItemClick(bool $value = true): static
     {
         return $this->set('checkOnItemClick', $value);
     }
@@ -213,7 +218,7 @@ class Table2 extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function rowClassName(string $value = ''): self
+    public function rowClassName(string $value = ''): static
     {
         return $this->set('rowClassName', $value);
     }
@@ -224,7 +229,7 @@ class Table2 extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function prefixRow(array $value = []): self
+    public function prefixRow(array $value = []): static
     {
         return $this->set('prefixRow', $value);
     }
@@ -235,7 +240,7 @@ class Table2 extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function affixRow(array $value = []): self
+    public function affixRow(array $value = []): static
     {
         return $this->set('affixRow', $value);
     }
@@ -246,7 +251,7 @@ class Table2 extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function itemBadge(mixed $value = null): self
+    public function itemBadge(mixed $value = null): static
     {
         return $this->set('itemBadge', $value);
     }
@@ -257,7 +262,7 @@ class Table2 extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function autoFillHeight(mixed $value = null): self
+    public function autoFillHeight(mixed $value = null): static
     {
         return $this->set('autoFillHeight', $value);
     }
@@ -268,7 +273,7 @@ class Table2 extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function lazyRenderAfter(int|float $value = 100): self
+    public function lazyRenderAfter(int|float $value = 100): static
     {
         return $this->set('lazyRenderAfter', $value);
     }

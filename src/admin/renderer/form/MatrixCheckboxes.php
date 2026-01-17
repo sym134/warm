@@ -2,7 +2,8 @@
 namespace warm\admin\renderer\form;
 
 use warm\admin\renderer\BaseRenderer;
-use warm\admin\renderer\form\FormItemTrait;
+use warm\admin\renderer\trait\FormItem;
+use warm\admin\renderer\trait\OnEvent;
 
 /**
  * MatrixCheckboxes
@@ -11,7 +12,8 @@ use warm\admin\renderer\form\FormItemTrait;
  */
 class MatrixCheckboxes extends BaseRenderer
 {
-    use FormItemTrait;
+    use FormItem;
+    use OnEvent;
 
     public string $type = 'matrix-checkboxes';
 
@@ -21,7 +23,7 @@ class MatrixCheckboxes extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function columns(array $value = []): self
+    public function columns(array $value = []): static
     {
         return $this->set('columns', $value);
     }
@@ -32,7 +34,7 @@ class MatrixCheckboxes extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function rows(array $value = []): self
+    public function rows(array $value = []): static
     {
         return $this->set('rows', $value);
     }
@@ -43,7 +45,7 @@ class MatrixCheckboxes extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function rowLabel(string $value = ''): self
+    public function rowLabel(string $value = ''): static
     {
         return $this->set('rowLabel', $value);
     }
@@ -54,7 +56,7 @@ class MatrixCheckboxes extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function source(mixed $value = null): self
+    public function source(mixed $value = null): static
     {
         return $this->set('source', $value);
     }
@@ -65,7 +67,7 @@ class MatrixCheckboxes extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function multiple(bool $value = true): self
+    public function multiple(bool $value = true): static
     {
         return $this->set('multiple', $value);
     }
@@ -76,7 +78,7 @@ class MatrixCheckboxes extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function singleSelectMode(string $value = 'column'): self
+    public function singleSelectMode(string $value = 'column'): static
     {
         return $this->set('singleSelectMode', $value);
     }
@@ -87,7 +89,7 @@ class MatrixCheckboxes extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function textAlign(string $value = 'center'): self
+    public function textAlign(string $value = 'center'): static
     {
         return $this->set('textAlign', $value);
     }
@@ -98,7 +100,7 @@ class MatrixCheckboxes extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function yCheckAll(bool $value = true): self
+    public function yCheckAll(bool $value = true): static
     {
         return $this->set('yCheckAll', $value);
     }
@@ -109,7 +111,7 @@ class MatrixCheckboxes extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function xCheckAll(bool $value = true): self
+    public function xCheckAll(bool $value = true): static
     {
         return $this->set('xCheckAll', $value);
     }

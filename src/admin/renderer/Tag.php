@@ -8,14 +8,13 @@ namespace warm\admin\renderer;
 class Tag extends BaseRenderer
 {
     public string $type = 'tag';
-
     /**
      * 'status'`
      *
      * @param mixed $value
      * @return self
      */
-    public function displayMode(mixed $value = null): self
+    public function displayMode(mixed $value = null): static
     {
         return $this->set('displayMode', $value);
     }
@@ -26,7 +25,7 @@ class Tag extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function color(mixed $value = null): self
+    public function color(mixed $value = null): static
     {
         return $this->set('color', $value);
     }
@@ -37,7 +36,7 @@ class Tag extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function label(string $value = '-'): self
+    public function label(string $value = '-'): static
     {
         return $this->set('label', $value);
     }
@@ -48,7 +47,7 @@ class Tag extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function icon(mixed $value = null): self
+    public function icon(mixed $value = null): static
     {
         return $this->set('icon', $value);
     }
@@ -56,10 +55,10 @@ class Tag extends BaseRenderer
     /**
      * 自定义 CSS 样式类名
      *
-     * @param string $value
+     * @param mixed $value
      * @return self
      */
-    public function className(string $value = ''): self
+    public function className(mixed $value = ''): static
     {
         return $this->set('className', $value);
     }
@@ -70,7 +69,7 @@ class Tag extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function style(array $value = []): self
+    public function style(array $value = []): static
     {
         return $this->set('style', $value);
     }
@@ -81,7 +80,7 @@ class Tag extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function closable(bool $value = true): self
+    public function closable(bool $value = true): static
     {
         return $this->set('closable', $value);
     }

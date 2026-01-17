@@ -15,7 +15,7 @@ class WebComponent extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function tag(string $value = ''): self
+    public function tag(string $value = ''): static
     {
         return $this->set('tag', $value);
     }
@@ -26,7 +26,7 @@ class WebComponent extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function props(array $value = []): self
+    public function props(array $value = []): static
     {
         return $this->set('props', $value);
     }
@@ -37,7 +37,7 @@ class WebComponent extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function body(mixed $value = null): self
+    public function body(mixed $value = null): static
     {
         return $this->set('body', $value);
     }

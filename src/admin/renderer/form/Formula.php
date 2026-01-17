@@ -2,7 +2,7 @@
 namespace warm\admin\renderer\form;
 
 use warm\admin\renderer\BaseRenderer;
-use warm\admin\renderer\form\FormItemTrait;
+use warm\admin\renderer\trait\FormItem;
 
 /**
  * Formula
@@ -11,7 +11,7 @@ use warm\admin\renderer\form\FormItemTrait;
  */
 class Formula extends BaseRenderer
 {
-    use FormItemTrait;
+    use FormItem;
 
     public string $type = 'formula';
 
@@ -21,7 +21,7 @@ class Formula extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function name(string $value = ''): self
+    public function name(string $value = ''): static
     {
         return $this->set('name', $value);
     }
@@ -32,7 +32,7 @@ class Formula extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function formula(mixed $value = null): self
+    public function formula(mixed $value = null): static
     {
         return $this->set('formula', $value);
     }
@@ -43,7 +43,7 @@ class Formula extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function condition(mixed $value = null): self
+    public function condition(mixed $value = null): static
     {
         return $this->set('condition', $value);
     }
@@ -54,7 +54,7 @@ class Formula extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function initSet(bool $value = true): self
+    public function initSet(bool $value = true): static
     {
         return $this->set('initSet', $value);
     }
@@ -65,7 +65,7 @@ class Formula extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function autoSet(bool $value = true): self
+    public function autoSet(bool $value = true): static
     {
         return $this->set('autoSet', $value);
     }
@@ -76,7 +76,7 @@ class Formula extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function id(string $value = ''): self
+    public function id(string $value = ''): static
     {
         return $this->set('id', $value);
     }

@@ -2,7 +2,7 @@
 
 namespace warm\admin\controller;
 
-use warm\admin\renderer\Form;
+use warm\admin\renderer\form\Form;
 use warm\admin\renderer\Page;
 use warm\admin\service\AdminRoleService;
 use warm\admin\service\AdminUserService;
@@ -37,11 +37,11 @@ class AdminUserController extends AdminController
                 $this->createButton(true),
                 ...$this->baseHeaderToolBar(),
             ])
-            ->filter($this->baseFilter()->body(
+            ->filter($this->baseFilter()->body([
                 amis()->InputText('keyword', translator('admin.keyword'))
                     ->size('md')
                     ->placeholder(translator('admin.admin_user.search_username'))
-            ))
+            ]))
             ->itemCheckableOn('${id != 1}')
             ->columns([
                 amis()->TableColumn('id', 'ID')->sortable(),
@@ -67,10 +67,9 @@ class AdminUserController extends AdminController
 
     /**
      * 用户表单页面
-     * 
+     *
      * 定义用户新增/编辑表单结构，包含头像、用户名、姓名、密码等字段
-     * 
-     * @return Form 返回用户表单
+     *
      */
     public function form(): Form
     {
@@ -79,7 +78,7 @@ class AdminUserController extends AdminController
             amis()->InputText('username', translator('admin.username'))->required(),
             amis()->InputText('name', translator('admin.admin_user.name'))->required(),
             amis()->InputText('password', translator('admin.password'))->type('input-password'),
-            amis()->InputText('confirm_password', translator('admin.confirm_password'))->type('input-password'),
+            amis()->InputPassword('confirm_password', translator('admin.confirm_password')),
             amis()->Select('roles', translator('admin.admin_user.roles'))
                 ->searchable()
                 ->multiple()
@@ -88,7 +87,7 @@ class AdminUserController extends AdminController
                 ->joinValues(false)
                 ->extractValue()
                 ->disabledOn('${id == 1}')
-                ->options(AdminRoleService::make()->query()->get(['id', 'name'])),
+                ->options(AdminRoleService::make()->query()->get(['id', 'name'])->toArray()),
             amis()->Switch('enabled', translator('admin.plugins.card.status'))
                 ->onText(translator('admin.plugins.enable'))
                 ->offText(translator('admin.plugins.disable'))

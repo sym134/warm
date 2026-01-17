@@ -2,7 +2,8 @@
 namespace warm\admin\renderer\form;
 
 use warm\admin\renderer\BaseRenderer;
-use warm\admin\renderer\form\FormItemTrait;
+use warm\admin\renderer\trait\OnEvent;
+use warm\admin\renderer\trait\FormItem;
 
 /**
  * DiffEditor
@@ -11,8 +12,8 @@ use warm\admin\renderer\form\FormItemTrait;
  */
 class DiffEditor extends BaseRenderer
 {
-    use FormItemTrait;
-
+    use FormItem;
+    use OnEvent;
     public string $type = 'diff-editor';
 
     /**
@@ -21,7 +22,7 @@ class DiffEditor extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function language(string $value = 'javascript'): self
+    public function language(string $value = 'javascript'): static
     {
         return $this->set('language', $value);
     }
@@ -32,7 +33,7 @@ class DiffEditor extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function diffValue(mixed $value = null): self
+    public function diffValue(mixed $value = null): static
     {
         return $this->set('diffValue', $value);
     }

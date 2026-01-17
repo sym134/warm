@@ -198,7 +198,9 @@ abstract class AdminController
             ->Card() // 使用卡片组件
             ->header(['title' => translator('admin.create'), 'className' => 'border-b']) // 设置标题
             ->toolbar([$this->backButton()]) // 添加返回按钮工具栏
-            ->body($this->form(false)->api($this->getStorePath())); // 设置表单内容和提交API地址
+            ->body([
+                $this->form(false)->api($this->getStorePath())
+            ]); // 设置表单内容和提交API地址
 
         // 将表单包装到页面中
         $page = $this->basePage()->body($form);
@@ -250,7 +252,9 @@ abstract class AdminController
         $detail = amis()
             ->Card() // 使用卡片组件
             ->header(['title' => translator('admin.detail'), 'className' => 'border-b']) // 设置标题
-            ->body($this->detail()) // 设置详情内容
+            ->body([
+                $this->detail()
+            ]) // 设置详情内容
             ->toolbar([$this->backButton()]); // 添加返回按钮工具栏
 
         // 将详情内容包装到页面中
@@ -282,9 +286,9 @@ abstract class AdminController
             ->Card() // 使用卡片组件
             ->header(['title' => translator('admin.edit'), 'className' => 'border-b']) // 设置标题
             ->toolbar([$this->backButton()]) // 添加返回按钮工具栏
-            ->body($this->form(true)->api($this->getUpdatePath())->initApi($this->getEditGetDataPath()) // 设置表单内容、提交API和初始化数据API
-
-            );
+            ->body([
+                $this->form(true)->api($this->getUpdatePath())->initApi($this->getEditGetDataPath())
+            ]);
 
         // 将表单包装到页面中
         $page = $this->basePage()->body($form);

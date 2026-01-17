@@ -4,7 +4,7 @@ namespace warm\admin\controller;
 
 use support\Response;
 use warm\admin\Admin;
-use warm\admin\renderer\Form;
+use warm\admin\renderer\form\Form;
 use warm\admin\renderer\Page;
 use warm\admin\service\AdminMenuService;
 use warm\admin\service\AdminPageService;
@@ -53,10 +53,10 @@ class AdminMenuController extends AdminController
             ->bulkActions([$this->bulkDeleteButton()->reload('window')])
             ->columns([
                 amis()->TableColumn('id', 'ID')->sortable(),
+                amis()->InputText()->name('id')->static()->label('ceshi'),
+
                 amis()->TableColumn('title', translator('admin.admin_menu.title')),
-                amis()->TableColumn('icon', translator('admin.admin_menu.icon'))
-                    ->type('flex')
-                    ->className('text-center h-full')
+                amis()->Flex()->name('icon')->label(translator('admin.admin_menu.icon'))->className('text-center h-full')
                     ->justify('start')
                     ->items('center')
                     ->items([
@@ -65,6 +65,17 @@ class AdminMenuController extends AdminController
                         ),
                         amis()->Tpl()->tpl('${icon}'),
                     ]),
+//                amis()->TableColumn('icon', translator('admin.admin_menu.icon'))
+//                    ->type('flex')
+//                    ->className('text-center h-full')
+//                    ->justify('start')
+//                    ->items('center')
+//                    ->items([
+//                        amis()->Wrapper()->size('none')->body(
+//                            amis()->CustomSvgIcon()->icon('${icon}')->className('mr-2 text-xl h-full')
+//                        ),
+//                        amis()->Tpl()->tpl('${icon}'),
+//                    ]),
                 amis()->TableColumn('url', translator('admin.admin_menu.url')),
                 amis()->TableColumn('order', translator('admin.admin_menu.order'))->quickEdit(
                     amis()->InputNumber()->min(0)->saveImmediately()
@@ -136,7 +147,7 @@ class AdminMenuController extends AdminController
 
             amis()->Select('component', translator('admin.admin_menu.page'))
                 ->required()
-                ->options(AdminPageService::make()->options())
+                ->options(AdminPageService::make()->options()->toArray())
                 ->menuTpl('${label} <span class="text-gray-300 pl-2">${value}</span>')
                 ->selectFirst()
                 ->searchable()

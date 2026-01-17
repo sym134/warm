@@ -10,12 +10,12 @@ class Images extends BaseRenderer
     public string $type = 'images';
 
     /**
-     * 外层 CSS 类名
+     * 设置组件样式
      *
-     * @param string $value
-     * @return self
+     * @param mixed $value
+     * @return $this
      */
-    public function className(string $value = ''): self
+    public function className(mixed $value): static
     {
         return $this->set('className', $value);
     }
@@ -26,7 +26,7 @@ class Images extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function defaultImage(string $value = ''): self
+    public function defaultImage(string $value = ''): static
     {
         return $this->set('defaultImage', $value);
     }
@@ -37,7 +37,7 @@ class Images extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function value(array $value = []): self
+    public function value(array $value = []): static
     {
         return $this->set('value', $value);
     }
@@ -48,7 +48,7 @@ class Images extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function source(string $value = ''): self
+    public function source(string $value = ''): static
     {
         return $this->set('source', $value);
     }
@@ -59,7 +59,7 @@ class Images extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function delimiter(string $value = ','): self
+    public function delimiter(string $value = ','): static
     {
         return $this->set('delimiter', $value);
     }
@@ -70,7 +70,7 @@ class Images extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function src(string $value = ''): self
+    public function src(string $value = ''): static
     {
         return $this->set('src', $value);
     }
@@ -81,7 +81,7 @@ class Images extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function originalSrc(string $value = ''): self
+    public function originalSrc(string $value = ''): static
     {
         return $this->set('originalSrc', $value);
     }
@@ -92,7 +92,7 @@ class Images extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function enlargeAble(bool $value = true): self
+    public function enlargeAble(bool $value = true): static
     {
         return $this->set('enlargeAble', $value);
     }
@@ -103,7 +103,7 @@ class Images extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function enlargeWithGallary(string $value = ''): self
+    public function enlargeWithGallary(string $value = ''): static
     {
         return $this->set('enlargeWithGallary', $value);
     }
@@ -114,7 +114,7 @@ class Images extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function thumbMode(string $value = 'contain'): self
+    public function thumbMode(string $value = 'contain'): static
     {
         return $this->set('thumbMode', $value);
     }
@@ -125,7 +125,7 @@ class Images extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function thumbRatio(string $value = '1:1'): self
+    public function thumbRatio(string $value = '1:1'): static
     {
         return $this->set('thumbRatio', $value);
     }
@@ -136,7 +136,7 @@ class Images extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function showToolbar(bool $value = true): self
+    public function showToolbar(bool $value = true): static
     {
         return $this->set('showToolbar', $value);
     }
@@ -147,7 +147,7 @@ class Images extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function toolbarActions(array $value = []): self
+    public function toolbarActions(array $value = []): static
     {
         return $this->set('toolbarActions', $value);
     }
@@ -158,7 +158,7 @@ class Images extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function sortType(mixed $value = null): self
+    public function sortType(mixed $value = null): static
     {
         return $this->set('sortType', $value);
     }
@@ -169,7 +169,7 @@ class Images extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function hoverMode(mixed $value = null): self
+    public function hoverMode(mixed $value = null): static
     {
         return $this->set('hoverMode', $value);
     }
@@ -180,7 +180,7 @@ class Images extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function fontStyle(mixed $value = null): self
+    public function fontStyle(mixed $value = null): static
     {
         return $this->set('fontStyle', $value);
     }
@@ -191,7 +191,7 @@ class Images extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function maskColor(string $value = ''): self
+    public function maskColor(string $value = ''): static
     {
         return $this->set('maskColor', $value);
     }
@@ -202,7 +202,7 @@ class Images extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function displayMode(mixed $value = null): self
+    public function displayMode(mixed $value = null): static
     {
         return $this->set('displayMode', $value);
     }
@@ -213,7 +213,7 @@ class Images extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function fullThumbMode(mixed $value = null): self
+    public function fullThumbMode(mixed $value = null): static
     {
         return $this->set('fullThumbMode', $value);
     }

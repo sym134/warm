@@ -2,7 +2,8 @@
 namespace warm\admin\renderer\form;
 
 use warm\admin\renderer\BaseRenderer;
-use warm\admin\renderer\form\FormItemTrait;
+use warm\admin\renderer\trait\FormItem;
+use warm\admin\renderer\trait\OnEvent;
 
 /**
  * InputRating
@@ -11,7 +12,8 @@ use warm\admin\renderer\form\FormItemTrait;
  */
 class InputRating extends BaseRenderer
 {
-    use FormItemTrait;
+    use FormItem;
+    use OnEvent;
 
     public string $type = 'input-rating';
 
@@ -21,7 +23,7 @@ class InputRating extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function value(int|float $value = 0): self
+    public function value(int|float $value = 0): static
     {
         return $this->set('value', $value);
     }
@@ -32,7 +34,7 @@ class InputRating extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function half(bool $value = true): self
+    public function half(bool $value = true): static
     {
         return $this->set('half', $value);
     }
@@ -43,7 +45,7 @@ class InputRating extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function count(int|float $value = 5): self
+    public function count(int|float $value = 5): static
     {
         return $this->set('count', $value);
     }
@@ -54,7 +56,7 @@ class InputRating extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function readOnly(bool $value = true): self
+    public function readOnly(bool $value = true): static
     {
         return $this->set('readOnly', $value);
     }
@@ -65,7 +67,7 @@ class InputRating extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function allowClear(bool $value = true): self
+    public function allowClear(bool $value = true): static
     {
         return $this->set('allowClear', $value);
     }
@@ -76,7 +78,7 @@ class InputRating extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function colors(mixed $value = null): self
+    public function colors(mixed $value = null): static
     {
         return $this->set('colors', $value);
     }
@@ -87,7 +89,7 @@ class InputRating extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function inactiveColor(string $value = '#e7e7e8'): self
+    public function inactiveColor(string $value = '#e7e7e8'): static
     {
         return $this->set('inactiveColor', $value);
     }
@@ -98,7 +100,7 @@ class InputRating extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function texts(array $value = []): self
+    public function texts(array $value = []): static
     {
         return $this->set('texts', $value);
     }
@@ -109,7 +111,7 @@ class InputRating extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function textPosition(mixed $value = null): self
+    public function textPosition(mixed $value = null): static
     {
         return $this->set('textPosition', $value);
     }
@@ -120,18 +122,18 @@ class InputRating extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function char(string $value = '★'): self
+    public function char(string $value = '★'): static
     {
         return $this->set('char', $value);
     }
 
     /**
-     * 自定义样式类名
+     * 设置组件样式
      *
-     * @param string $value
-     * @return self
+     * @param mixed $value
+     * @return $this
      */
-    public function className(string $value = '-'): self
+    public function className(mixed $value): static
     {
         return $this->set('className', $value);
     }
@@ -142,7 +144,7 @@ class InputRating extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function charClassName(string $value = '-'): self
+    public function charClassName(string $value = '-'): static
     {
         return $this->set('charClassName', $value);
     }
@@ -153,7 +155,7 @@ class InputRating extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function textClassName(string $value = '-'): self
+    public function textClassName(string $value = '-'): static
     {
         return $this->set('textClassName', $value);
     }

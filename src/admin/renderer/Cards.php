@@ -1,5 +1,9 @@
 <?php
 namespace warm\admin\renderer;
+
+use warm\admin\renderer\trait\DataDomain;
+use warm\admin\renderer\trait\OnEvent;
+
 /**
  * Cards
  *
@@ -7,6 +11,9 @@ namespace warm\admin\renderer;
  */
 class Cards extends BaseRenderer
 {
+    use OnEvent;
+    use DataDomain;
+
     public string $type = 'cards';
 
     /**
@@ -15,7 +22,7 @@ class Cards extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function title(mixed $value = null): self
+    public function title(mixed $value = null): static
     {
         return $this->set('title', $value);
     }
@@ -26,7 +33,7 @@ class Cards extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function source(mixed $value = null): self
+    public function source(mixed $value = null): static
     {
         return $this->set('source', $value);
     }
@@ -37,18 +44,18 @@ class Cards extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function placeholder(mixed $value = null): self
+    public function placeholder(mixed $value = null): static
     {
         return $this->set('placeholder', $value);
     }
 
     /**
-     * 外层 CSS 类名
+     * 设置组件样式
      *
-     * @param string $value
-     * @return self
+     * @param mixed $value
+     * @return $this
      */
-    public function className(string $value = ''): self
+    public function className(mixed $value): static
     {
         return $this->set('className', $value);
     }
@@ -59,7 +66,7 @@ class Cards extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function headerClassName(string $value = 'amis-grid-header'): self
+    public function headerClassName(string $value = 'amis-grid-header'): static
     {
         return $this->set('headerClassName', $value);
     }
@@ -70,7 +77,7 @@ class Cards extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function footerClassName(string $value = 'amis-grid-footer'): self
+    public function footerClassName(string $value = 'amis-grid-footer'): static
     {
         return $this->set('footerClassName', $value);
     }
@@ -81,7 +88,7 @@ class Cards extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function itemClassName(string $value = 'col-sm-4 col-md-3'): self
+    public function itemClassName(string $value = 'col-sm-4 col-md-3'): static
     {
         return $this->set('itemClassName', $value);
     }
@@ -92,7 +99,7 @@ class Cards extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function card(mixed $value = null): self
+    public function card(mixed $value = null): static
     {
         return $this->set('card', $value);
     }
@@ -103,7 +110,7 @@ class Cards extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function selectable(bool $value = true): self
+    public function selectable(bool $value = true): static
     {
         return $this->set('selectable', $value);
     }
@@ -114,7 +121,7 @@ class Cards extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function multiple(bool $value = true): self
+    public function multiple(bool $value = true): static
     {
         return $this->set('multiple', $value);
     }
@@ -125,7 +132,7 @@ class Cards extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function checkOnItemClick(bool $value = true): self
+    public function checkOnItemClick(bool $value = true): static
     {
         return $this->set('checkOnItemClick', $value);
     }

@@ -7,15 +7,16 @@ namespace warm\admin\renderer;
  */
 class Flex extends BaseRenderer
 {
+
     public string $type = 'flex';
 
     /**
-     * css 类名
+     * 设置组件样式
      *
-     * @param string $value
-     * @return self
+     * @param mixed $value
+     * @return $this
      */
-    public function className(string $value = ''): self
+    public function className(mixed $value): static
     {
         return $this->set('className', $value);
     }
@@ -24,9 +25,9 @@ class Flex extends BaseRenderer
      * "start", "flex-start", "center", "end", "flex-end", "space-around", "space-between", "space-evenly"
      *
      * @param string $value
-     * @return self
+     * @return static
      */
-    public function justify(string $value = ''): self
+    public function justify(string $value = ''): static
     {
         return $this->set('justify', $value);
     }
@@ -35,9 +36,9 @@ class Flex extends BaseRenderer
      * "stretch", "start", "flex-start", "flex-end", "end", "center", "baseline"
      *
      * @param string $value
-     * @return self
+     * @return static
      */
-    public function alignItems(string $value = ''): self
+    public function alignItems(string $value = ''): static
     {
         return $this->set('alignItems', $value);
     }
@@ -46,10 +47,21 @@ class Flex extends BaseRenderer
      * 自定义样式
      *
      * @param array $value
-     * @return self
+     * @return static
      */
-    public function style(array $value = []): self
+    public function style(array $value = []): static
     {
         return $this->set('style', $value);
+    }
+
+    /**
+     * 列
+     *
+     * @param mixed $value
+     * @return static
+     */
+    public function items(mixed $value):static
+    {
+        return $this->set('items', $value);
     }
 }

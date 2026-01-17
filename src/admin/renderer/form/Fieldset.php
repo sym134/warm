@@ -2,7 +2,7 @@
 namespace warm\admin\renderer\form;
 
 use warm\admin\renderer\BaseRenderer;
-use warm\admin\renderer\form\FormItemTrait;
+use warm\admin\renderer\trait\FormItem;
 
 /**
  * Fieldset
@@ -11,17 +11,17 @@ use warm\admin\renderer\form\FormItemTrait;
  */
 class Fieldset extends BaseRenderer
 {
-    use FormItemTrait;
+    use FormItem;
 
     public string $type = 'fieldset';
 
     /**
-     * CSS 类名
+     * 设置组件样式
      *
-     * @param string $value
-     * @return self
+     * @param mixed $value
+     * @return $this
      */
-    public function className(string $value = ''): self
+    public function className(mixed $value): static
     {
         return $this->set('className', $value);
     }
@@ -32,7 +32,7 @@ class Fieldset extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function headingClassName(string $value = ''): self
+    public function headingClassName(string $value = ''): static
     {
         return $this->set('headingClassName', $value);
     }
@@ -43,7 +43,7 @@ class Fieldset extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function bodyClassName(string $value = ''): self
+    public function bodyClassName(string $value = ''): static
     {
         return $this->set('bodyClassName', $value);
     }
@@ -54,7 +54,7 @@ class Fieldset extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function title(mixed $value = null): self
+    public function title(mixed $value = null): static
     {
         return $this->set('title', $value);
     }
@@ -65,7 +65,7 @@ class Fieldset extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function body(mixed $value = null): self
+    public function body(mixed $value = null): static
     {
         return $this->set('body', $value);
     }
@@ -76,7 +76,7 @@ class Fieldset extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function mode(string $value = ''): self
+    public function mode(string $value = ''): static
     {
         return $this->set('mode', $value);
     }
@@ -87,7 +87,7 @@ class Fieldset extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function collapsable(bool $value = true): self
+    public function collapsable(bool $value = true): static
     {
         return $this->set('collapsable', $value);
     }
@@ -98,7 +98,7 @@ class Fieldset extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function collapsed(mixed $value = false): self
+    public function collapsed(mixed $value = false): static
     {
         return $this->set('collapsed', $value);
     }
@@ -109,7 +109,7 @@ class Fieldset extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function collapseTitle(mixed $value = null): self
+    public function collapseTitle(mixed $value = null): static
     {
         return $this->set('collapseTitle', $value);
     }
@@ -120,7 +120,7 @@ class Fieldset extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function size(string $value = ''): self
+    public function size(string $value = ''): static
     {
         return $this->set('size', $value);
     }

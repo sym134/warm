@@ -2,7 +2,7 @@
 namespace warm\admin\renderer\form;
 
 use warm\admin\renderer\BaseRenderer;
-use warm\admin\renderer\form\FormItemTrait;
+use warm\admin\renderer\trait\FormItem;
 
 /**
  * InputRichText
@@ -11,7 +11,7 @@ use warm\admin\renderer\form\FormItemTrait;
  */
 class InputRichText extends BaseRenderer
 {
-    use FormItemTrait;
+    use FormItem;
 
     public string $type = 'input-rich-text';
 
@@ -21,7 +21,7 @@ class InputRichText extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function saveAsUbb(bool $value = true): self
+    public function saveAsUbb(bool $value = true): static
     {
         return $this->set('saveAsUbb', $value);
     }
@@ -32,7 +32,7 @@ class InputRichText extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function receiver(mixed $value = null): self
+    public function receiver(mixed $value = null): static
     {
         return $this->set('receiver', $value);
     }
@@ -43,7 +43,7 @@ class InputRichText extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function videoReceiver(mixed $value = null): self
+    public function videoReceiver(mixed $value = null): static
     {
         return $this->set('videoReceiver', $value);
     }
@@ -54,7 +54,7 @@ class InputRichText extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function fileField(string $value = ''): self
+    public function fileField(string $value = ''): static
     {
         return $this->set('fileField', $value);
     }
@@ -65,7 +65,7 @@ class InputRichText extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function size(string $value = ''): self
+    public function size(string $value = ''): static
     {
         return $this->set('size', $value);
     }
@@ -76,7 +76,7 @@ class InputRichText extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function options(array $value = []): self
+    public function options(array $value = []): static
     {
         return $this->set('options', $value);
     }
@@ -87,7 +87,7 @@ class InputRichText extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function buttons(array $value = []): self
+    public function buttons(array $value = []): static
     {
         return $this->set('buttons', $value);
     }

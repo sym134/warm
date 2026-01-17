@@ -2,7 +2,8 @@
 namespace warm\admin\renderer\form;
 
 use warm\admin\renderer\BaseRenderer;
-use warm\admin\renderer\form\FormItemTrait;
+use warm\admin\renderer\trait\FormItem;
+use warm\admin\renderer\trait\OnEvent;
 
 /**
  * InputNumber
@@ -11,7 +12,8 @@ use warm\admin\renderer\form\FormItemTrait;
  */
 class InputNumber extends BaseRenderer
 {
-    use FormItemTrait;
+    use FormItem;
+    use OnEvent;
 
     public string $type = 'input-number';
 
@@ -21,7 +23,7 @@ class InputNumber extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function min(mixed $value = null): self
+    public function min(mixed $value = null): static
     {
         return $this->set('min', $value);
     }
@@ -32,7 +34,7 @@ class InputNumber extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function max(mixed $value = null): self
+    public function max(mixed $value = null): static
     {
         return $this->set('max', $value);
     }
@@ -43,7 +45,7 @@ class InputNumber extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function step(int|float $value = 0): self
+    public function step(int|float $value = 0): static
     {
         return $this->set('step', $value);
     }
@@ -54,7 +56,7 @@ class InputNumber extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function precision(int|float $value = 0): self
+    public function precision(int|float $value = 0): static
     {
         return $this->set('precision', $value);
     }
@@ -65,7 +67,7 @@ class InputNumber extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function showSteps(bool $value = true): self
+    public function showSteps(bool $value = true): static
     {
         return $this->set('showSteps', $value);
     }
@@ -76,7 +78,7 @@ class InputNumber extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function readOnly(bool $value = true): self
+    public function readOnly(bool $value = true): static
     {
         return $this->set('readOnly', $value);
     }
@@ -87,7 +89,7 @@ class InputNumber extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function prefix(string $value = ''): self
+    public function prefix(string $value = ''): static
     {
         return $this->set('prefix', $value);
     }
@@ -98,7 +100,7 @@ class InputNumber extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function suffix(string $value = ''): self
+    public function suffix(string $value = ''): static
     {
         return $this->set('suffix', $value);
     }
@@ -109,7 +111,7 @@ class InputNumber extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function unitOptions(array $value = []): self
+    public function unitOptions(array $value = []): static
     {
         return $this->set('unitOptions', $value);
     }
@@ -120,7 +122,7 @@ class InputNumber extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function kilobitSeparator(bool $value = true): self
+    public function kilobitSeparator(bool $value = true): static
     {
         return $this->set('kilobitSeparator', $value);
     }
@@ -131,7 +133,7 @@ class InputNumber extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function keyboard(bool $value = true): self
+    public function keyboard(bool $value = true): static
     {
         return $this->set('keyboard', $value);
     }
@@ -142,7 +144,7 @@ class InputNumber extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function big(bool $value = true): self
+    public function big(bool $value = true): static
     {
         return $this->set('big', $value);
     }
@@ -153,7 +155,7 @@ class InputNumber extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function displayMode(mixed $value = null): self
+    public function displayMode(mixed $value = null): static
     {
         return $this->set('displayMode', $value);
     }
@@ -164,7 +166,7 @@ class InputNumber extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function borderMode(mixed $value = null): self
+    public function borderMode(mixed $value = null): static
     {
         return $this->set('borderMode', $value);
     }
@@ -175,7 +177,7 @@ class InputNumber extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function resetValue(mixed $value = null): self
+    public function resetValue(mixed $value = null): static
     {
         return $this->set('resetValue', $value);
     }
@@ -186,7 +188,7 @@ class InputNumber extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function clearValueOnEmpty(bool $value = true): self
+    public function clearValueOnEmpty(bool $value = true): static
     {
         return $this->set('clearValueOnEmpty', $value);
     }

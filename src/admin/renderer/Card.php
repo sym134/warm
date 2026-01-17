@@ -10,12 +10,12 @@ class Card extends BaseRenderer
     public string $type = 'card';
 
     /**
-     * 外层 Dom 的类名
+     * 设置组件样式
      *
-     * @param string $value
-     * @return self
+     * @param mixed $value
+     * @return $this
      */
-    public function className(string $value = ''): self
+    public function className(mixed $value): static
     {
         return $this->set('className', $value);
     }
@@ -26,7 +26,7 @@ class Card extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function href(mixed $value = null): self
+    public function href(mixed $value = null): static
     {
         return $this->set('href', $value);
     }
@@ -37,7 +37,7 @@ class Card extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function header(array $value = []): self
+    public function header(array $value = []): static
     {
         return $this->set('header', $value);
     }
@@ -48,7 +48,7 @@ class Card extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function body(array $value = []): self
+    public function body(array $value = []): static
     {
         return $this->set('body', $value);
     }
@@ -59,7 +59,7 @@ class Card extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function bodyClassName(string $value = ''): self
+    public function bodyClassName(string $value = ''): static
     {
         return $this->set('bodyClassName', $value);
     }
@@ -70,7 +70,7 @@ class Card extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function actions(mixed $value = null): self
+    public function actions(mixed $value = null): static
     {
         return $this->set('actions', $value);
     }
@@ -81,7 +81,7 @@ class Card extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function actionsCount(int|float $value = 4): self
+    public function actionsCount(int|float $value = 4): static
     {
         return $this->set('actionsCount', $value);
     }
@@ -92,7 +92,7 @@ class Card extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function itemAction(mixed $value = null): self
+    public function itemAction(mixed $value = null): static
     {
         return $this->set('itemAction', $value);
     }
@@ -103,7 +103,7 @@ class Card extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function media(array $value = []): self
+    public function media(array $value = []): static
     {
         return $this->set('media', $value);
     }
@@ -114,7 +114,7 @@ class Card extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function secondary(mixed $value = null): self
+    public function secondary(mixed $value = null): static
     {
         return $this->set('secondary', $value);
     }
@@ -125,7 +125,7 @@ class Card extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function toolbar(mixed $value = null): self
+    public function toolbar(mixed $value = null): static
     {
         return $this->set('toolbar', $value);
     }
@@ -136,7 +136,7 @@ class Card extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function dragging(bool $value = true): self
+    public function dragging(bool $value = true): static
     {
         return $this->set('dragging', $value);
     }
@@ -147,7 +147,7 @@ class Card extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function selectable(bool $value = true): self
+    public function selectable(bool $value = true): static
     {
         return $this->set('selectable', $value);
     }
@@ -158,7 +158,7 @@ class Card extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function checkable(bool $value = true): self
+    public function checkable(bool $value = true): static
     {
         return $this->set('checkable', $value);
     }
@@ -169,7 +169,7 @@ class Card extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function selected(bool $value = true): self
+    public function selected(bool $value = true): static
     {
         return $this->set('selected', $value);
     }
@@ -180,7 +180,7 @@ class Card extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function hideCheckToggler(bool $value = true): self
+    public function hideCheckToggler(bool $value = true): static
     {
         return $this->set('hideCheckToggler', $value);
     }
@@ -191,7 +191,7 @@ class Card extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function multiple(bool $value = true): self
+    public function multiple(bool $value = true): static
     {
         return $this->set('multiple', $value);
     }
@@ -202,7 +202,7 @@ class Card extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function useCardLabel(bool $value = true): self
+    public function useCardLabel(bool $value = true): static
     {
         return $this->set('useCardLabel', $value);
     }

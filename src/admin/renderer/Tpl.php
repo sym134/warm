@@ -1,5 +1,7 @@
 <?php
 namespace warm\admin\renderer;
+use warm\admin\renderer\trait\OnEvent;
+
 /**
  * Tpl
  *
@@ -7,15 +9,17 @@ namespace warm\admin\renderer;
  */
 class Tpl extends BaseRenderer
 {
+    use OnEvent;
+
     public string $type = 'tpl';
 
     /**
-     * 外层 Dom 的类名
+     * 设置组件样式
      *
-     * @param string $value
-     * @return self
+     * @param mixed $value
+     * @return $this
      */
-    public function className(string $value = ''): self
+    public function className(mixed $value): static
     {
         return $this->set('className', $value);
     }
@@ -26,7 +30,7 @@ class Tpl extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function tpl(mixed $value = null): self
+    public function tpl(mixed $value = null): static
     {
         return $this->set('tpl', $value);
     }
@@ -37,7 +41,7 @@ class Tpl extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function showNativeTitle(bool $value = true): self
+    public function showNativeTitle(bool $value = true): static
     {
         return $this->set('showNativeTitle', $value);
     }

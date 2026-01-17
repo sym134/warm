@@ -2,7 +2,9 @@
 namespace warm\admin\renderer\form;
 
 use warm\admin\renderer\BaseRenderer;
-use warm\admin\renderer\form\FormItemTrait;
+use warm\admin\renderer\trait\DataDomain;
+use warm\admin\renderer\trait\FormItem;
+use warm\admin\renderer\trait\OnEvent;
 
 /**
  * Combo
@@ -11,9 +13,12 @@ use warm\admin\renderer\form\FormItemTrait;
  */
 class Combo extends BaseRenderer
 {
-    use FormItemTrait;
+    use FormItem;
+    use OnEvent;
+    use DataDomain;
 
     public string $type = 'combo';
+
 
     /**
      * 单组表单项的类名
@@ -21,7 +26,7 @@ class Combo extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function formClassName(string $value = ''): self
+    public function formClassName(string $value = ''): static
     {
         return $this->set('formClassName', $value);
     }
@@ -32,7 +37,7 @@ class Combo extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function items(mixed $value = null): self
+    public function items(mixed $value = null): static
     {
         return $this->set('items', $value);
     }
@@ -43,7 +48,7 @@ class Combo extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function noBorder(bool $value = true): self
+    public function noBorder(bool $value = true): static
     {
         return $this->set('noBorder', $value);
     }
@@ -54,7 +59,7 @@ class Combo extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function scaffold(array $value = []): self
+    public function scaffold(array $value = []): static
     {
         return $this->set('scaffold', $value);
     }
@@ -65,7 +70,7 @@ class Combo extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function multiple(bool $value = true): self
+    public function multiple(bool $value = true): static
     {
         return $this->set('multiple', $value);
     }
@@ -76,7 +81,7 @@ class Combo extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function perPage(int|float $value = 0): self
+    public function perPage(int|float $value = 0): static
     {
         return $this->set('perPage', $value);
     }
@@ -87,7 +92,7 @@ class Combo extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function multiLine(bool $value = true): self
+    public function multiLine(bool $value = true): static
     {
         return $this->set('multiLine', $value);
     }
@@ -98,7 +103,7 @@ class Combo extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function minLength(int|float $value = 0): self
+    public function minLength(int|float $value = 0): static
     {
         return $this->set('minLength', $value);
     }
@@ -109,7 +114,7 @@ class Combo extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function maxLength(int|float $value = 0): self
+    public function maxLength(int|float $value = 0): static
     {
         return $this->set('maxLength', $value);
     }
@@ -120,7 +125,7 @@ class Combo extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function flat(bool $value = true): self
+    public function flat(bool $value = true): static
     {
         return $this->set('flat', $value);
     }
@@ -131,7 +136,7 @@ class Combo extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function joinValues(bool $value = true): self
+    public function joinValues(bool $value = true): static
     {
         return $this->set('joinValues', $value);
     }
@@ -142,7 +147,7 @@ class Combo extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function delimiter(string $value = 'false'): self
+    public function delimiter(string $value = 'false'): static
     {
         return $this->set('delimiter', $value);
     }
@@ -153,7 +158,7 @@ class Combo extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function addable(bool $value = true): self
+    public function addable(bool $value = true): static
     {
         return $this->set('addable', $value);
     }
@@ -164,7 +169,7 @@ class Combo extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function addattop(bool $value = true): self
+    public function addattop(bool $value = true): static
     {
         return $this->set('addattop', $value);
     }
@@ -175,7 +180,7 @@ class Combo extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function removable(bool $value = true): self
+    public function removable(bool $value = true): static
     {
         return $this->set('removable', $value);
     }
@@ -186,7 +191,7 @@ class Combo extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function deleteApi(mixed $value = null): self
+    public function deleteApi(mixed $value = null): static
     {
         return $this->set('deleteApi', $value);
     }
@@ -197,7 +202,7 @@ class Combo extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function deleteConfirmText(string $value = '确认要删除？'): self
+    public function deleteConfirmText(string $value = '确认要删除？'): static
     {
         return $this->set('deleteConfirmText', $value);
     }
@@ -208,7 +213,7 @@ class Combo extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function draggable(bool $value = true): self
+    public function draggable(bool $value = true): static
     {
         return $this->set('draggable', $value);
     }
@@ -219,7 +224,7 @@ class Combo extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function draggableTip(string $value = ''): self
+    public function draggableTip(string $value = ''): static
     {
         return $this->set('draggableTip', $value);
     }
@@ -230,7 +235,7 @@ class Combo extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function subFormMode(string $value = 'normal'): self
+    public function subFormMode(string $value = 'normal'): static
     {
         return $this->set('subFormMode', $value);
     }
@@ -241,7 +246,7 @@ class Combo extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function subFormHorizontal(array $value = []): self
+    public function subFormHorizontal(array $value = []): static
     {
         return $this->set('subFormHorizontal', $value);
     }
@@ -252,7 +257,7 @@ class Combo extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function placeholder(string $value = ''): self
+    public function placeholder(string $value = ''): static
     {
         return $this->set('placeholder', $value);
     }
@@ -263,7 +268,7 @@ class Combo extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function canAccessSuperData(bool $value = true): self
+    public function canAccessSuperData(bool $value = true): static
     {
         return $this->set('canAccessSuperData', $value);
     }
@@ -274,7 +279,7 @@ class Combo extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function conditions(array $value = []): self
+    public function conditions(array $value = []): static
     {
         return $this->set('conditions', $value);
     }
@@ -285,7 +290,7 @@ class Combo extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function typeSwitchable(bool $value = true): self
+    public function typeSwitchable(bool $value = true): static
     {
         return $this->set('typeSwitchable', $value);
     }
@@ -296,7 +301,7 @@ class Combo extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function strictMode(bool $value = true): self
+    public function strictMode(bool $value = true): static
     {
         return $this->set('strictMode', $value);
     }
@@ -307,7 +312,7 @@ class Combo extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function syncFields(array $value = []): self
+    public function syncFields(array $value = []): static
     {
         return $this->set('syncFields', $value);
     }
@@ -318,7 +323,7 @@ class Combo extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function nullable(bool $value = true): self
+    public function nullable(bool $value = true): static
     {
         return $this->set('nullable', $value);
     }
@@ -329,7 +334,7 @@ class Combo extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function itemClassName(string $value = ''): self
+    public function itemClassName(string $value = ''): static
     {
         return $this->set('itemClassName', $value);
     }
@@ -340,7 +345,7 @@ class Combo extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function itemsWrapperClassName(string $value = ''): self
+    public function itemsWrapperClassName(string $value = ''): static
     {
         return $this->set('itemsWrapperClassName', $value);
     }
@@ -351,7 +356,7 @@ class Combo extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function deleteBtn(mixed $value = null): self
+    public function deleteBtn(mixed $value = null): static
     {
         return $this->set('deleteBtn', $value);
     }
@@ -362,7 +367,7 @@ class Combo extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function addBtn(mixed $value = null): self
+    public function addBtn(mixed $value = null): static
     {
         return $this->set('addBtn', $value);
     }
@@ -373,7 +378,7 @@ class Combo extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function addButtonClassName(string $value = ''): self
+    public function addButtonClassName(string $value = ''): static
     {
         return $this->set('addButtonClassName', $value);
     }
@@ -384,7 +389,7 @@ class Combo extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function addButtonText(string $value = '新增'): self
+    public function addButtonText(string $value = '新增'): static
     {
         return $this->set('addButtonText', $value);
     }

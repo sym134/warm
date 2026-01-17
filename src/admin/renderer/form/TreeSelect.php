@@ -1,19 +1,20 @@
 <?php
 namespace warm\admin\renderer\form;
 
-use warm\admin\renderer\BaseRenderer;
-use warm\admin\renderer\form\FormItemTrait;
+use warm\admin\renderer\trait\FormItem;
+use warm\admin\renderer\trait\OnEvent;
 
 /**
- * Treeselect
+ * TreeSelect
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/treeselect
  */
-class Treeselect extends BaseRenderer
+class TreeSelect extends InputTree
 {
-    use FormItemTrait;
+    use FormItem;
+    use OnEvent;
 
-    public string $type = 'treeselect';
+    public string $type = 'tree-select';
 
     /**
      * 是否隐藏选择框中已选择节点的路径 label 信息
@@ -21,7 +22,7 @@ class Treeselect extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function hideNodePathLabel(bool $value = true): self
+    public function hideNodePathLabel(bool $value = true): static
     {
         return $this->set('hideNodePathLabel', $value);
     }
@@ -32,7 +33,7 @@ class Treeselect extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function onlyLeaf(bool $value = true): self
+    public function onlyLeaf(bool $value = true): static
     {
         return $this->set('onlyLeaf', $value);
     }
@@ -43,7 +44,7 @@ class Treeselect extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function searchable(bool $value = true): self
+    public function searchable(bool $value = true): static
     {
         return $this->set('searchable', $value);
     }

@@ -2,18 +2,20 @@
 namespace warm\admin\renderer\form;
 
 use warm\admin\renderer\BaseRenderer;
-use warm\admin\renderer\form\FormItemTrait;
+use warm\admin\renderer\trait\OnEvent;
+use warm\admin\renderer\trait\FormItem;
 
 /**
  * ChainSelect
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/chain-select
  */
-class ChainSelect extends BaseRenderer
+class ChainedSelect extends BaseRenderer
 {
-    use FormItemTrait;
+    use FormItem;
+    use OnEvent;
 
-    public string $type = 'chain-select';
+    public string $type = 'chained-select';
 
     /**
      * [选项组](./options#%E9%9D%99%E6%80%81%E9%80%89%E9%A1%B9%E7%BB%84-options)
@@ -21,7 +23,7 @@ class ChainSelect extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function options(array $value = []): self
+    public function options(array $value = []): static
     {
         return $this->set('options', $value);
     }
@@ -32,7 +34,7 @@ class ChainSelect extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function source(mixed $value = null): self
+    public function source(mixed $value = null): static
     {
         return $this->set('source', $value);
     }
@@ -43,7 +45,7 @@ class ChainSelect extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function autoComplete(mixed $value = null): self
+    public function autoComplete(mixed $value = null): static
     {
         return $this->set('autoComplete', $value);
     }
@@ -54,7 +56,7 @@ class ChainSelect extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function delimiter(string $value = ','): self
+    public function delimiter(string $value = ','): static
     {
         return $this->set('delimiter', $value);
     }
@@ -65,7 +67,7 @@ class ChainSelect extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function labelField(bool $value = true): self
+    public function labelField(bool $value = true): static
     {
         return $this->set('labelField', $value);
     }
@@ -76,7 +78,7 @@ class ChainSelect extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function valueField(bool $value = true): self
+    public function valueField(bool $value = true): static
     {
         return $this->set('valueField', $value);
     }
@@ -87,7 +89,7 @@ class ChainSelect extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function joinValues(bool $value = true): self
+    public function joinValues(bool $value = true): static
     {
         return $this->set('joinValues', $value);
     }
@@ -98,7 +100,7 @@ class ChainSelect extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function extractValue(bool $value = true): self
+    public function extractValue(bool $value = true): static
     {
         return $this->set('extractValue', $value);
     }

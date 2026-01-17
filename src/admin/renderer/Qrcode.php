@@ -1,5 +1,8 @@
 <?php
 namespace warm\admin\renderer;
+
+use warm\admin\renderer\trait\OnEvent;
+
 /**
  * Qrcode
  *
@@ -7,6 +10,7 @@ namespace warm\admin\renderer;
  */
 class Qrcode extends BaseRenderer
 {
+    use OnEvent;
     public string $type = 'qrcode';
 
     /**
@@ -15,18 +19,18 @@ class Qrcode extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function mode(string $value = 'canvas'): self
+    public function mode(string $value = 'canvas'): static
     {
         return $this->set('mode', $value);
     }
 
     /**
-     * 外层 Dom 的类名
+     * 设置组件样式
      *
-     * @param string $value
-     * @return self
+     * @param mixed $value
+     * @return $this
      */
-    public function className(string $value = ''): self
+    public function className(mixed $value): static
     {
         return $this->set('className', $value);
     }
@@ -37,7 +41,7 @@ class Qrcode extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function qrcodeClassName(string $value = ''): self
+    public function qrcodeClassName(string $value = ''): static
     {
         return $this->set('qrcodeClassName', $value);
     }
@@ -48,7 +52,7 @@ class Qrcode extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function codeSize(int|float $value = 128): self
+    public function codeSize(int|float $value = 128): static
     {
         return $this->set('codeSize', $value);
     }
@@ -59,7 +63,7 @@ class Qrcode extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function backgroundColor(string $value = '#fff'): self
+    public function backgroundColor(string $value = '#fff'): static
     {
         return $this->set('backgroundColor', $value);
     }
@@ -70,7 +74,7 @@ class Qrcode extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function foregroundColor(string $value = '#000'): self
+    public function foregroundColor(string $value = '#000'): static
     {
         return $this->set('foregroundColor', $value);
     }
@@ -81,7 +85,7 @@ class Qrcode extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function level(string $value = 'L'): self
+    public function level(string $value = 'L'): static
     {
         return $this->set('level', $value);
     }
@@ -92,7 +96,7 @@ class Qrcode extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function value(mixed $value = null): self
+    public function value(mixed $value = null): static
     {
         return $this->set('value', $value);
     }
@@ -103,7 +107,7 @@ class Qrcode extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function imageSettings(array $value = []): self
+    public function imageSettings(array $value = []): static
     {
         return $this->set('imageSettings', $value);
     }
@@ -114,7 +118,7 @@ class Qrcode extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function eyeType(string $value = 'default'): self
+    public function eyeType(string $value = 'default'): static
     {
         return $this->set('eyeType', $value);
     }
@@ -125,7 +129,7 @@ class Qrcode extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function eyeBorderColor(string $value = '#000000'): self
+    public function eyeBorderColor(string $value = '#000000'): static
     {
         return $this->set('eyeBorderColor', $value);
     }
@@ -136,7 +140,7 @@ class Qrcode extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function eyeBorderSize(string $value = 'default'): self
+    public function eyeBorderSize(string $value = 'default'): static
     {
         return $this->set('eyeBorderSize', $value);
     }
@@ -147,7 +151,7 @@ class Qrcode extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function eyeInnerColor(string $value = '#000000'): self
+    public function eyeInnerColor(string $value = '#000000'): static
     {
         return $this->set('eyeInnerColor', $value);
     }
@@ -158,7 +162,7 @@ class Qrcode extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function pointType(string $value = 'default'): self
+    public function pointType(string $value = 'default'): static
     {
         return $this->set('pointType', $value);
     }
@@ -169,7 +173,7 @@ class Qrcode extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function pointSize(string $value = 'default'): self
+    public function pointSize(string $value = 'default'): static
     {
         return $this->set('pointSize', $value);
     }
@@ -180,7 +184,7 @@ class Qrcode extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function pointSizeRandom(bool $value = true): self
+    public function pointSizeRandom(bool $value = true): static
     {
         return $this->set('pointSizeRandom', $value);
     }

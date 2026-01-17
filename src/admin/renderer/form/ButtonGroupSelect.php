@@ -3,7 +3,8 @@
 namespace warm\admin\renderer\form;
 
 use warm\admin\renderer\BaseRenderer;
-use warm\admin\renderer\form\FormItemTrait;
+use warm\admin\renderer\trait\OnEvent;
+use warm\admin\renderer\trait\FormItem;
 
 /**
  * ButtonGroupSelect
@@ -12,8 +13,8 @@ use warm\admin\renderer\form\FormItemTrait;
  */
 class ButtonGroupSelect extends BaseRenderer
 {
-    use FormItemTrait;
-
+    use FormItem;
+    use OnEvent;
     public string $type = 'button-group-select';
 
     /**
@@ -22,7 +23,7 @@ class ButtonGroupSelect extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function vertical(bool $value = true): self
+    public function vertical(bool $value = true): static
     {
         return $this->set('vertical', $value);
     }
@@ -33,7 +34,7 @@ class ButtonGroupSelect extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function tiled(bool $value = true): self
+    public function tiled(bool $value = true): static
     {
         return $this->set('tiled', $value);
     }
@@ -44,7 +45,7 @@ class ButtonGroupSelect extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function btnLevel(mixed $value = null): self
+    public function btnLevel(mixed $value = null): static
     {
         return $this->set('btnLevel', $value);
     }
@@ -55,7 +56,7 @@ class ButtonGroupSelect extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function btnActiveLevel(mixed $value = null): self
+    public function btnActiveLevel(mixed $value = null): static
     {
         return $this->set('btnActiveLevel', $value);
     }
@@ -66,7 +67,7 @@ class ButtonGroupSelect extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function options(array $value = []): self
+    public function options(array $value = []): static
     {
         return $this->set('options', $value);
     }
@@ -77,7 +78,7 @@ class ButtonGroupSelect extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function source(mixed $value = null): self
+    public function source(mixed $value = null): static
     {
         return $this->set('source', $value);
     }
@@ -88,7 +89,7 @@ class ButtonGroupSelect extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function multiple(bool $value = true): self
+    public function multiple(bool $value = true): static
     {
         return $this->set('multiple', $value);
     }
@@ -99,7 +100,7 @@ class ButtonGroupSelect extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function labelField(bool $value = true): self
+    public function labelField(bool $value = true): static
     {
         return $this->set('labelField', $value);
     }
@@ -110,7 +111,7 @@ class ButtonGroupSelect extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function valueField(bool $value = true): self
+    public function valueField(bool $value = true): static
     {
         return $this->set('valueField', $value);
     }
@@ -121,7 +122,7 @@ class ButtonGroupSelect extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function joinValues(bool $value = true): self
+    public function joinValues(bool $value = true): static
     {
         return $this->set('joinValues', $value);
     }
@@ -132,7 +133,7 @@ class ButtonGroupSelect extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function extractValue(bool $value = true): self
+    public function extractValue(bool $value = true): static
     {
         return $this->set('extractValue', $value);
     }
@@ -143,7 +144,7 @@ class ButtonGroupSelect extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function autoFill(array $value = []): self
+    public function autoFill(array $value = []): static
     {
         return $this->set('autoFill', $value);
     }

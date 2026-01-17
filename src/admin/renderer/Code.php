@@ -10,12 +10,12 @@ class Code extends BaseRenderer
     public string $type = 'code';
 
     /**
-     * 外层 CSS 类名
+     * 设置组件样式
      *
-     * @param string $value
-     * @return self
+     * @param mixed $value
+     * @return $this
      */
-    public function className(string $value = ''): self
+    public function className(mixed $value): static
     {
         return $this->set('className', $value);
     }
@@ -26,7 +26,7 @@ class Code extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function value(string $value = ''): self
+    public function value(string $value = ''): static
     {
         return $this->set('value', $value);
     }
@@ -37,7 +37,7 @@ class Code extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function name(string $value = ''): self
+    public function name(string $value = ''): static
     {
         return $this->set('name', $value);
     }
@@ -48,7 +48,7 @@ class Code extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function language(string $value = ''): self
+    public function language(string $value = ''): static
     {
         return $this->set('language', $value);
     }
@@ -59,7 +59,7 @@ class Code extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function tabSize(int|float $value = 4): self
+    public function tabSize(int|float $value = 4): static
     {
         return $this->set('tabSize', $value);
     }
@@ -70,7 +70,7 @@ class Code extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function editorTheme(string $value = 'vs'): self
+    public function editorTheme(string $value = 'vs'): static
     {
         return $this->set('editorTheme', $value);
     }
@@ -81,7 +81,7 @@ class Code extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function wordWrap(string $value = 'true'): self
+    public function wordWrap(string $value = 'true'): static
     {
         return $this->set('wordWrap', $value);
     }
@@ -92,7 +92,7 @@ class Code extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function maxHeight(mixed $value = null): self
+    public function maxHeight(mixed $value = null): static
     {
         return $this->set('maxHeight', $value);
     }

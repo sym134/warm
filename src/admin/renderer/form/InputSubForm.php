@@ -2,7 +2,7 @@
 namespace warm\admin\renderer\form;
 
 use warm\admin\renderer\BaseRenderer;
-use warm\admin\renderer\form\FormItemTrait;
+use warm\admin\renderer\trait\FormItem;
 
 /**
  * InputSubForm
@@ -11,7 +11,7 @@ use warm\admin\renderer\form\FormItemTrait;
  */
 class InputSubForm extends BaseRenderer
 {
-    use FormItemTrait;
+    use FormItem;
 
     public string $type = 'input-sub-form';
 
@@ -21,7 +21,7 @@ class InputSubForm extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function multiple(bool $value = true): self
+    public function multiple(bool $value = true): static
     {
         return $this->set('multiple', $value);
     }
@@ -32,7 +32,7 @@ class InputSubForm extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function labelField(string $value = ''): self
+    public function labelField(string $value = ''): static
     {
         return $this->set('labelField', $value);
     }
@@ -43,7 +43,7 @@ class InputSubForm extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function btnLabel(string $value = '设置'): self
+    public function btnLabel(string $value = '设置'): static
     {
         return $this->set('btnLabel', $value);
     }
@@ -54,7 +54,7 @@ class InputSubForm extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function minLength(int|float $value = 0): self
+    public function minLength(int|float $value = 0): static
     {
         return $this->set('minLength', $value);
     }
@@ -65,7 +65,7 @@ class InputSubForm extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function maxLength(int|float $value = 0): self
+    public function maxLength(int|float $value = 0): static
     {
         return $this->set('maxLength', $value);
     }
@@ -76,7 +76,7 @@ class InputSubForm extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function draggable(bool $value = true): self
+    public function draggable(bool $value = true): static
     {
         return $this->set('draggable', $value);
     }
@@ -87,7 +87,7 @@ class InputSubForm extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function addable(bool $value = true): self
+    public function addable(bool $value = true): static
     {
         return $this->set('addable', $value);
     }
@@ -98,7 +98,7 @@ class InputSubForm extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function removable(bool $value = true): self
+    public function removable(bool $value = true): static
     {
         return $this->set('removable', $value);
     }
@@ -109,7 +109,7 @@ class InputSubForm extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function addButtonClassName(string $value = ''): self
+    public function addButtonClassName(string $value = ''): static
     {
         return $this->set('addButtonClassName', $value);
     }
@@ -120,7 +120,7 @@ class InputSubForm extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function itemClassName(string $value = ''): self
+    public function itemClassName(string $value = ''): static
     {
         return $this->set('itemClassName', $value);
     }
@@ -131,7 +131,7 @@ class InputSubForm extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function itemsClassName(string $value = ''): self
+    public function itemsClassName(string $value = ''): static
     {
         return $this->set('itemsClassName', $value);
     }
@@ -142,7 +142,7 @@ class InputSubForm extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function form(mixed $value = null): self
+    public function form(mixed $value = null): static
     {
         return $this->set('form', $value);
     }
@@ -153,7 +153,7 @@ class InputSubForm extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function addButtonText(string $value = ''): self
+    public function addButtonText(string $value = ''): static
     {
         return $this->set('addButtonText', $value);
     }
@@ -164,7 +164,7 @@ class InputSubForm extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function showErrorMsg(bool $value = true): self
+    public function showErrorMsg(bool $value = true): static
     {
         return $this->set('showErrorMsg', $value);
     }

@@ -15,7 +15,7 @@ class Markdown extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function name(string $value = ''): self
+    public function name(string $value = ''): static
     {
         return $this->set('name', $value);
     }
@@ -26,18 +26,18 @@ class Markdown extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function value(string $value = ''): self
+    public function value(string $value = ''): static
     {
         return $this->set('value', $value);
     }
 
     /**
-     * 类名
+     * 设置组件样式
      *
-     * @param string $value
-     * @return self
+     * @param mixed $value
+     * @return $this
      */
-    public function className(string $value = ''): self
+    public function className(mixed $value=''): static
     {
         return $this->set('className', $value);
     }
@@ -48,7 +48,7 @@ class Markdown extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function src(mixed $value = null): self
+    public function src(mixed $value = null): static
     {
         return $this->set('src', $value);
     }

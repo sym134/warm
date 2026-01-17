@@ -2,7 +2,8 @@
 namespace warm\admin\renderer\form;
 
 use warm\admin\renderer\BaseRenderer;
-use warm\admin\renderer\form\FormItemTrait;
+use warm\admin\renderer\trait\FormItem;
+use warm\admin\renderer\trait\OnEvent;
 
 /**
  * InputDateRange
@@ -11,7 +12,8 @@ use warm\admin\renderer\form\FormItemTrait;
  */
 class InputDateRange extends BaseRenderer
 {
-    use FormItemTrait;
+    use FormItem;
+    use OnEvent;
 
     public string $type = 'input-date-range';
 
@@ -21,7 +23,7 @@ class InputDateRange extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function valueFormat(string $value = 'X'): self
+    public function valueFormat(string $value = 'X'): static
     {
         return $this->set('valueFormat', $value);
     }
@@ -32,7 +34,7 @@ class InputDateRange extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function displayFormat(string $value = 'YYYY-MM-DD'): self
+    public function displayFormat(string $value = 'YYYY-MM-DD'): static
     {
         return $this->set('displayFormat', $value);
     }
@@ -43,7 +45,7 @@ class InputDateRange extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function placeholder(string $value = '请选择日期范围'): self
+    public function placeholder(string $value = '请选择日期范围'): static
     {
         return $this->set('placeholder', $value);
     }
@@ -54,7 +56,7 @@ class InputDateRange extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function shortcuts(mixed $value = null): self
+    public function shortcuts(mixed $value = null): static
     {
         return $this->set('shortcuts', $value);
     }
@@ -65,7 +67,7 @@ class InputDateRange extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function minDate(string $value = ''): self
+    public function minDate(string $value = ''): static
     {
         return $this->set('minDate', $value);
     }
@@ -76,7 +78,7 @@ class InputDateRange extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function maxDate(string $value = ''): self
+    public function maxDate(string $value = ''): static
     {
         return $this->set('maxDate', $value);
     }
@@ -87,7 +89,7 @@ class InputDateRange extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function minDuration(string $value = ''): self
+    public function minDuration(string $value = ''): static
     {
         return $this->set('minDuration', $value);
     }
@@ -98,7 +100,7 @@ class InputDateRange extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function maxDuration(string $value = ''): self
+    public function maxDuration(string $value = ''): static
     {
         return $this->set('maxDuration', $value);
     }
@@ -109,7 +111,7 @@ class InputDateRange extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function utc(bool $value = true): self
+    public function utc(bool $value = true): static
     {
         return $this->set('utc', $value);
     }
@@ -120,7 +122,7 @@ class InputDateRange extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function clearable(bool $value = true): self
+    public function clearable(bool $value = true): static
     {
         return $this->set('clearable', $value);
     }
@@ -131,7 +133,7 @@ class InputDateRange extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function embed(bool $value = true): self
+    public function embed(bool $value = true): static
     {
         return $this->set('embed', $value);
     }
@@ -142,7 +144,7 @@ class InputDateRange extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function animation(bool $value = true): self
+    public function animation(bool $value = true): static
     {
         return $this->set('animation', $value);
     }
@@ -153,7 +155,7 @@ class InputDateRange extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function extraName(string $value = ''): self
+    public function extraName(string $value = ''): static
     {
         return $this->set('extraName', $value);
     }
@@ -164,7 +166,7 @@ class InputDateRange extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function transform(string $value = ''): self
+    public function transform(string $value = ''): static
     {
         return $this->set('transform', $value);
     }
@@ -175,7 +177,7 @@ class InputDateRange extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function popOverContainerSelector(string $value = ''): self
+    public function popOverContainerSelector(string $value = ''): static
     {
         return $this->set('popOverContainerSelector', $value);
     }

@@ -2,7 +2,8 @@
 namespace warm\admin\renderer\form;
 
 use warm\admin\renderer\BaseRenderer;
-use warm\admin\renderer\form\FormItemTrait;
+use warm\admin\renderer\trait\OnEvent;
+use warm\admin\renderer\trait\Options;
 
 /**
  * InputTag
@@ -11,7 +12,8 @@ use warm\admin\renderer\form\FormItemTrait;
  */
 class InputTag extends BaseRenderer
 {
-    use FormItemTrait;
+    use Options;
+    use OnEvent;
 
     public string $type = 'input-tag';
 
@@ -21,7 +23,7 @@ class InputTag extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function options(array $value = []): self
+    public function options(array $value = []): static
     {
         return $this->set('options', $value);
     }
@@ -32,7 +34,7 @@ class InputTag extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function optionsTip(array $value = []): self
+    public function optionsTip(array $value = []): static
     {
         return $this->set('optionsTip', $value);
     }
@@ -43,7 +45,7 @@ class InputTag extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function source(mixed $value = null): self
+    public function source(mixed $value = null): static
     {
         return $this->set('source', $value);
     }
@@ -54,7 +56,7 @@ class InputTag extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function delimiter(string $value = 'false'): self
+    public function delimiter(string $value = 'false'): static
     {
         return $this->set('delimiter', $value);
     }
@@ -65,7 +67,7 @@ class InputTag extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function labelField(string $value = 'label'): self
+    public function labelField(string $value = 'label'): static
     {
         return $this->set('labelField', $value);
     }
@@ -76,7 +78,7 @@ class InputTag extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function valueField(string $value = 'value'): self
+    public function valueField(string $value = 'value'): static
     {
         return $this->set('valueField', $value);
     }
@@ -87,7 +89,7 @@ class InputTag extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function joinValues(bool $value = true): self
+    public function joinValues(bool $value = true): static
     {
         return $this->set('joinValues', $value);
     }
@@ -98,7 +100,7 @@ class InputTag extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function extractValue(bool $value = true): self
+    public function extractValue(bool $value = true): static
     {
         return $this->set('extractValue', $value);
     }
@@ -109,7 +111,7 @@ class InputTag extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function clearable(bool $value = true): self
+    public function clearable(bool $value = true): static
     {
         return $this->set('clearable', $value);
     }
@@ -120,7 +122,7 @@ class InputTag extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function resetValue(string $value = ''): self
+    public function resetValue(string $value = ''): static
     {
         return $this->set('resetValue', $value);
     }
@@ -131,7 +133,7 @@ class InputTag extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function max(int|float $value = 0): self
+    public function max(int|float $value = 0): static
     {
         return $this->set('max', $value);
     }
@@ -142,7 +144,7 @@ class InputTag extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function maxTagLength(int|float $value = 0): self
+    public function maxTagLength(int|float $value = 0): static
     {
         return $this->set('maxTagLength', $value);
     }
@@ -153,7 +155,7 @@ class InputTag extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function maxTagCount(int|float $value = 0): self
+    public function maxTagCount(int|float $value = 0): static
     {
         return $this->set('maxTagCount', $value);
     }
@@ -164,7 +166,7 @@ class InputTag extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function overflowTagPopover(mixed $value = null): self
+    public function overflowTagPopover(mixed $value = null): static
     {
         return $this->set('overflowTagPopover', $value);
     }
@@ -175,7 +177,7 @@ class InputTag extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function enableBatchAdd(bool $value = true): self
+    public function enableBatchAdd(bool $value = true): static
     {
         return $this->set('enableBatchAdd', $value);
     }
@@ -186,7 +188,7 @@ class InputTag extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function separator(string $value = '-'): self
+    public function separator(string $value = '-'): static
     {
         return $this->set('separator', $value);
     }

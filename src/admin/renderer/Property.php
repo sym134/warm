@@ -10,12 +10,12 @@ class Property extends BaseRenderer
     public string $type = 'property';
 
     /**
-     * 外层 dom 的类名
+     * 设置组件样式
      *
-     * @param string $value
-     * @return self
+     * @param mixed $value
+     * @return $this
      */
-    public function className(string $value = ''): self
+    public function className(mixed $value=''): static
     {
         return $this->set('className', $value);
     }
@@ -26,7 +26,7 @@ class Property extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function style(array $value = []): self
+    public function style(array $value = []): static
     {
         return $this->set('style', $value);
     }
@@ -37,7 +37,7 @@ class Property extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function contentStyle(array $value = []): self
+    public function contentStyle(array $value = []): static
     {
         return $this->set('contentStyle', $value);
     }
@@ -48,7 +48,7 @@ class Property extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function column(int|float $value = 3): self
+    public function column(int|float $value = 3): static
     {
         return $this->set('column', $value);
     }
@@ -59,7 +59,7 @@ class Property extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function mode(string $value = 'table'): self
+    public function mode(string $value = 'table'): static
     {
         return $this->set('mode', $value);
     }
@@ -70,7 +70,7 @@ class Property extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function title(string $value = ''): self
+    public function title(string $value = ''): static
     {
         return $this->set('title', $value);
     }
@@ -81,7 +81,7 @@ class Property extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function source(string $value = ''): self
+    public function source(string $value = ''): static
     {
         return $this->set('source', $value);
     }

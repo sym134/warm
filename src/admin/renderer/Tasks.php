@@ -10,12 +10,12 @@ class Tasks extends BaseRenderer
     public string $type = 'tasks';
 
     /**
-     * 外层 Dom 的类名
+     * 设置组件样式
      *
-     * @param string $value
-     * @return self
+     * @param mixed $value
+     * @return $this
      */
-    public function className(string $value = ''): self
+    public function className(mixed $value): static
     {
         return $this->set('className', $value);
     }
@@ -26,7 +26,7 @@ class Tasks extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function tableClassName(string $value = ''): self
+    public function tableClassName(string $value = ''): static
     {
         return $this->set('tableClassName', $value);
     }
@@ -37,7 +37,7 @@ class Tasks extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function items(array $value = []): self
+    public function items(array $value = []): static
     {
         return $this->set('items', $value);
     }
@@ -48,7 +48,7 @@ class Tasks extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function checkApi(mixed $value = null): self
+    public function checkApi(mixed $value = null): static
     {
         return $this->set('checkApi', $value);
     }
@@ -59,7 +59,7 @@ class Tasks extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function submitApi(mixed $value = null): self
+    public function submitApi(mixed $value = null): static
     {
         return $this->set('submitApi', $value);
     }
@@ -70,7 +70,7 @@ class Tasks extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function reSubmitApi(mixed $value = null): self
+    public function reSubmitApi(mixed $value = null): static
     {
         return $this->set('reSubmitApi', $value);
     }
@@ -81,7 +81,7 @@ class Tasks extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function interval(int|float $value = 3000): self
+    public function interval(int|float $value = 3000): static
     {
         return $this->set('interval', $value);
     }
@@ -92,7 +92,7 @@ class Tasks extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function taskNameLabel(string $value = '任务名称'): self
+    public function taskNameLabel(string $value = '任务名称'): static
     {
         return $this->set('taskNameLabel', $value);
     }
@@ -103,7 +103,7 @@ class Tasks extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function operationLabel(string $value = '操作'): self
+    public function operationLabel(string $value = '操作'): static
     {
         return $this->set('operationLabel', $value);
     }
@@ -114,7 +114,7 @@ class Tasks extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function statusLabel(string $value = '状态'): self
+    public function statusLabel(string $value = '状态'): static
     {
         return $this->set('statusLabel', $value);
     }
@@ -125,7 +125,7 @@ class Tasks extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function remarkLabel(string $value = '备注'): self
+    public function remarkLabel(string $value = '备注'): static
     {
         return $this->set('remarkLabel', $value);
     }
@@ -136,7 +136,7 @@ class Tasks extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function btnText(string $value = '上线'): self
+    public function btnText(string $value = '上线'): static
     {
         return $this->set('btnText', $value);
     }
@@ -147,7 +147,7 @@ class Tasks extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function retryBtnText(string $value = '重试'): self
+    public function retryBtnText(string $value = '重试'): static
     {
         return $this->set('retryBtnText', $value);
     }
@@ -158,7 +158,7 @@ class Tasks extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function btnClassName(string $value = 'btn-sm btn-default'): self
+    public function btnClassName(string $value = 'btn-sm btn-default'): static
     {
         return $this->set('btnClassName', $value);
     }
@@ -169,7 +169,7 @@ class Tasks extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function retryBtnClassName(string $value = 'btn-sm btn-danger'): self
+    public function retryBtnClassName(string $value = 'btn-sm btn-danger'): static
     {
         return $this->set('retryBtnClassName', $value);
     }
@@ -180,7 +180,7 @@ class Tasks extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function statusLabelMap(array $value = []): self
+    public function statusLabelMap(array $value = []): static
     {
         return $this->set('statusLabelMap', $value);
     }
@@ -191,7 +191,7 @@ class Tasks extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function statusTextMap(array $value = []): self
+    public function statusTextMap(array $value = []): static
     {
         return $this->set('statusTextMap', $value);
     }

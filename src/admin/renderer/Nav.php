@@ -1,5 +1,7 @@
 <?php
 namespace warm\admin\renderer;
+use warm\admin\renderer\trait\OnEvent;
+
 /**
  * Nav
  *
@@ -7,6 +9,8 @@ namespace warm\admin\renderer;
  */
 class Nav extends BaseRenderer
 {
+    use OnEvent;
+
     public string $type = 'nav';
 
     /**
@@ -15,7 +19,7 @@ class Nav extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function mode(string $value = 'inline'): self
+    public function mode(string $value = 'inline'): static
     {
         return $this->set('mode', $value);
     }
@@ -26,7 +30,7 @@ class Nav extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function collapsed(bool $value = true): self
+    public function collapsed(bool $value = true): static
     {
         return $this->set('collapsed', $value);
     }
@@ -37,7 +41,7 @@ class Nav extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function indentSize(int|float $value = 16): self
+    public function indentSize(int|float $value = 16): static
     {
         return $this->set('indentSize', $value);
     }
@@ -48,7 +52,7 @@ class Nav extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function level(int|float $value = 0): self
+    public function level(int|float $value = 0): static
     {
         return $this->set('level', $value);
     }
@@ -59,18 +63,18 @@ class Nav extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function defaultOpenLevel(int|float $value = 0): self
+    public function defaultOpenLevel(int|float $value = 0): static
     {
         return $this->set('defaultOpenLevel', $value);
     }
 
     /**
-     * 外层 Dom 的类名
+     * 设置组件样式
      *
-     * @param string $value
-     * @return self
+     * @param mixed $value
+     * @return $this
      */
-    public function className(string $value = ''): self
+    public function className(mixed $value): static
     {
         return $this->set('className', $value);
     }
@@ -81,7 +85,7 @@ class Nav extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function popupClassName(string $value = ''): self
+    public function popupClassName(string $value = ''): static
     {
         return $this->set('popupClassName', $value);
     }
@@ -92,7 +96,7 @@ class Nav extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function expandIcon(mixed $value = null): self
+    public function expandIcon(mixed $value = null): static
     {
         return $this->set('expandIcon', $value);
     }
@@ -103,7 +107,7 @@ class Nav extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function expandPosition(string $value = ''): self
+    public function expandPosition(string $value = ''): static
     {
         return $this->set('expandPosition', $value);
     }
@@ -114,7 +118,7 @@ class Nav extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function stacked(bool $value = true): self
+    public function stacked(bool $value = true): static
     {
         return $this->set('stacked', $value);
     }
@@ -125,7 +129,7 @@ class Nav extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function accordion(bool $value = true): self
+    public function accordion(bool $value = true): static
     {
         return $this->set('accordion', $value);
     }
@@ -136,7 +140,7 @@ class Nav extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function source(mixed $value = null): self
+    public function source(mixed $value = null): static
     {
         return $this->set('source', $value);
     }
@@ -147,7 +151,7 @@ class Nav extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function deferApi(mixed $value = null): self
+    public function deferApi(mixed $value = null): static
     {
         return $this->set('deferApi', $value);
     }
@@ -158,7 +162,7 @@ class Nav extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function itemActions(mixed $value = null): self
+    public function itemActions(mixed $value = null): static
     {
         return $this->set('itemActions', $value);
     }
@@ -169,7 +173,7 @@ class Nav extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function draggable(bool $value = true): self
+    public function draggable(bool $value = true): static
     {
         return $this->set('draggable', $value);
     }
@@ -180,7 +184,7 @@ class Nav extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function dragOnSameLevel(bool $value = true): self
+    public function dragOnSameLevel(bool $value = true): static
     {
         return $this->set('dragOnSameLevel', $value);
     }
@@ -191,7 +195,7 @@ class Nav extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function saveOrderApi(mixed $value = null): self
+    public function saveOrderApi(mixed $value = null): static
     {
         return $this->set('saveOrderApi', $value);
     }
@@ -202,7 +206,7 @@ class Nav extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function itemBadge(mixed $value = null): self
+    public function itemBadge(mixed $value = null): static
     {
         return $this->set('itemBadge', $value);
     }
@@ -213,7 +217,7 @@ class Nav extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function links(array $value = []): self
+    public function links(array $value = []): static
     {
         return $this->set('links', $value);
     }
@@ -224,7 +228,7 @@ class Nav extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function overflow(mixed $value = null): self
+    public function overflow(mixed $value = null): static
     {
         return $this->set('overflow', $value);
     }
@@ -235,7 +239,7 @@ class Nav extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function searchable(bool $value = true): self
+    public function searchable(bool $value = true): static
     {
         return $this->set('searchable', $value);
     }

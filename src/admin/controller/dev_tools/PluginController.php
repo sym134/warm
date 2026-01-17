@@ -8,9 +8,8 @@ use Throwable;
 use warm\admin\Admin;
 use warm\admin\controller\AdminController;
 use warm\admin\plugin\PluginService;
+use warm\admin\renderer\Action;
 use warm\admin\renderer\CRUD;
-use warm\admin\renderer\DialogAction;
-use warm\admin\renderer\UrlAction;
 
 /**
  * 插件管理控制器
@@ -183,7 +182,7 @@ class PluginController extends AdminController
                                 ->actions([])
                         ),
                     // 启用/禁用按钮
-                    amis()->AjaxAction()
+                    amis()->Action()->actionType('ajax')
                         ->label('${is_enabled ? "' . translator('admin.plugins.disable') . '" : "' . translator('admin.plugins.enable') . '"}')
                         ->level('link')
                         ->className(["text-success" => '${!is_enabled}', "text-danger" => '${is_enabled}'])
@@ -197,7 +196,7 @@ class PluginController extends AdminController
                         ])
                         ->confirmText('${is_enabled ? "' . translator('admin.plugins.disable_confirm') . '" : "' . translator('admin.plugins.enable_confirm') . '"}'),
                     // 卸载按钮
-                    amis()->AjaxAction()
+                    amis()->Action()->actionType('ajax')
                         ->label(translator('admin.plugins.uninstall'))
                         ->level('link')
                         ->className('text-danger')
@@ -217,11 +216,11 @@ class PluginController extends AdminController
      *
      * 创建一个用于创建新插件的对话框按钮。
      *
-     * @return DialogAction 对话框按钮对象
+     * @return Action 对话框按钮对象
      */
-    public function createPlugin(): DialogAction
+    public function createPlugin(): Action
     {
-        return amis()->DialogAction()
+        return amis()->Action()->actionType('dialog')
             ->label(translator('admin.plugins.create_plugin'))
             ->icon('fa fa-add')
             ->level('success')
@@ -318,11 +317,11 @@ class PluginController extends AdminController
      *
      * 创建一个用于本地安装插件的对话框按钮
      *
-     * @return DialogAction 对话框按钮对象
+     * @return Action 对话框按钮对象
      */
-    public function localInstall(): DialogAction
+    public function localInstall(): Action
     {
-        return amis()->DialogAction()
+        return amis()->Action()->actionType('dialog')
             ->label(translator('admin.plugins.local_install'))
             ->icon('fa-solid fa-cloud-arrow-up')
             ->dialog(
@@ -339,11 +338,11 @@ class PluginController extends AdminController
      * 
      * 跳转到扩展市场页面
      *
-     * @return UrlAction URL跳转按钮对象
+     * @return Action URL跳转按钮对象
      */
-    public function moreExtend(): UrlAction
+    public function moreExtend(): Action
     {
-        return amis()->UrlAction()
+        return amis()->Action()->actionType('url')
             ->url('https://xxxxx.com/ext')
             ->label(translator('admin.plugins.more_plugins'))
             ->icon('fa-regular fa-lightbulb')

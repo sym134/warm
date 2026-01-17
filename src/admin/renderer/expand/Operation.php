@@ -1,45 +1,34 @@
 <?php
 
-namespace warm\admin\renderer;/**
- * Card2 新卡片渲染器。 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/card2
+namespace warm\admin\renderer\expand;
+
+use warm\admin\renderer\BaseRenderer;
+
+/**
+ * 自定义组件-操作栏渲染器
  *
+ * @author slowlyo
  * @version 6.13.0
  */
-class Card2 extends BaseRenderer
+class Operation extends BaseRenderer
 {
-    public function __construct()
+    public string $type = 'operation';
+
+    /**
+     * 按钮集合
+     */
+    public function buttons($value = '')
     {
-        $this->set('type', 'card2');
+        return $this->set('buttons', $value);
     }
 
     /**
-     * 内容 (内容)
+     * 设置组件样式
+     *
+     * @param mixed $value
+     * @return $this
      */
-    public function body($value = '')
-    {
-        return $this->set('body', $value);
-    }
-
-    /**
-     * body 类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
-     */
-    public function bodyClassName($value = '')
-    {
-        return $this->set('bodyClassName', $value);
-    }
-
-    /**
-     * 不配置href且cards容器下生效，点击整个卡片触发选中
-     */
-    public function checkOnItemClick($value = true)
-    {
-        return $this->set('checkOnItemClick', $value);
-    }
-
-    /**
-     * 容器 css 类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
-     */
-    public function className($value = '')
+    public function className(mixed $value): static
     {
         return $this->set('className', $value);
     }
@@ -47,7 +36,7 @@ class Card2 extends BaseRenderer
     /**
      * 是否禁用
      */
-    public function disabled($value = true)
+    public function disabled($value = true): static
     {
         return $this->set('disabled', $value);
     }
@@ -55,7 +44,7 @@ class Card2 extends BaseRenderer
     /**
      * 是否禁用表达式 (表达式，语法 `${xxx > 5}`。)
      */
-    public function disabledOn($value = '')
+    public function disabledOn($value = ''): static
     {
         return $this->set('disabledOn', $value);
     }
@@ -63,15 +52,23 @@ class Card2 extends BaseRenderer
     /**
      * 编辑器配置，运行时可以忽略
      */
-    public function editorSetting($value = '')
+    public function editorSetting($value = ''): static
     {
         return $this->set('editorSetting', $value);
     }
 
     /**
+     * 固定列 可选值: left | right | none
+     */
+    public function fixed($value = ''): static
+    {
+        return $this->set('fixed', $value);
+    }
+
+    /**
      * 是否隐藏
      */
-    public function hidden($value = true)
+    public function hidden($value = true): static
     {
         return $this->set('hidden', $value);
     }
@@ -79,39 +76,39 @@ class Card2 extends BaseRenderer
     /**
      * 是否隐藏表达式 (表达式，语法 `${xxx > 5}`。)
      */
-    public function hiddenOn($value = '')
+    public function hiddenOn($value = ''): static
     {
         return $this->set('hiddenOn', $value);
     }
 
     /**
-     * 隐藏选框
+     * 设置label
      */
-    public function hideCheckToggler($value = true)
-    {
-        return $this->set('hideCheckToggler', $value);
-    }
-
-    /**
-     * 组件唯一 id，主要用于日志采集
-     */
-    public function id($value = '')
-    {
-        return $this->set('id', $value);
-    }
+//    public function label($value = '')
+//    {
+//        return $this->set('label', $value);
+//    }
 
     /**
      * 事件动作配置
      */
-    public function onEvent($value = '')
+    public function onEvent($value = ''): static
     {
         return $this->set('onEvent', $value);
     }
 
     /**
+     * 占位符
+     */
+    public function placeholder($value = ''): static
+    {
+        return $this->set('placeholder', $value);
+    }
+
+    /**
      * 是否静态展示
      */
-    public function static($value = true)
+    public function static($value = true): static
     {
         return $this->set('static', $value);
     }
@@ -119,7 +116,7 @@ class Card2 extends BaseRenderer
     /**
      * 静态展示表单项类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
      */
-    public function staticClassName($value = '')
+    public function staticClassName($value = ''): static
     {
         return $this->set('staticClassName', $value);
     }
@@ -127,7 +124,7 @@ class Card2 extends BaseRenderer
     /**
      * 静态展示表单项Value类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
      */
-    public function staticInputClassName($value = '')
+    public function staticInputClassName($value = ''): static
     {
         return $this->set('staticInputClassName', $value);
     }
@@ -135,7 +132,7 @@ class Card2 extends BaseRenderer
     /**
      * 静态展示表单项Label类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
      */
-    public function staticLabelClassName($value = '')
+    public function staticLabelClassName($value = ''): static
     {
         return $this->set('staticLabelClassName', $value);
     }
@@ -143,7 +140,7 @@ class Card2 extends BaseRenderer
     /**
      * 是否静态展示表达式 (表达式，语法 `${xxx > 5}`。)
      */
-    public function staticOn($value = '')
+    public function staticOn($value = ''): static
     {
         return $this->set('staticOn', $value);
     }
@@ -151,39 +148,39 @@ class Card2 extends BaseRenderer
     /**
      * 静态展示空值占位
      */
-    public function staticPlaceholder($value = '')
+    public function staticPlaceholder($value = ''): static
     {
         return $this->set('staticPlaceholder', $value);
     }
 
     /**
-     * 
+     *
      */
-    public function staticSchema($value = '')
+    public function staticSchema($value = ''): static
     {
         return $this->set('staticSchema', $value);
     }
 
     /**
-     * 自定义样式
+     * 组件样式
      */
-    public function style($value = '')
+    public function style($value = ''): static
     {
         return $this->set('style', $value);
     }
 
     /**
-     * 
+     *
      */
-    public function testid($value = '')
+    public function testid($value = ''): static
     {
         return $this->set('testid', $value);
     }
 
     /**
-     * 指定为 card2 类型
+     * 指定为操作栏
      */
-    public function type($value = 'card2')
+    public function type($value = 'operation'): static
     {
         return $this->set('type', $value);
     }
@@ -191,7 +188,7 @@ class Card2 extends BaseRenderer
     /**
      * 可以组件级别用来关闭移动端样式
      */
-    public function useMobileUI($value = true)
+    public function useMobileUI($value = true): static
     {
         return $this->set('useMobileUI', $value);
     }
@@ -199,7 +196,7 @@ class Card2 extends BaseRenderer
     /**
      * 是否显示
      */
-    public function visible($value = true)
+    public function visible($value = true): static
     {
         return $this->set('visible', $value);
     }
@@ -207,17 +204,9 @@ class Card2 extends BaseRenderer
     /**
      * 是否显示表达式 (表达式，语法 `${xxx > 5}`。)
      */
-    public function visibleOn($value = '')
+    public function visibleOn($value = ''): static
     {
         return $this->set('visibleOn', $value);
-    }
-
-    /**
-     * 渲染标签
-     */
-    public function wrapperComponent($value = '')
-    {
-        return $this->set('wrapperComponent', $value);
     }
 
 

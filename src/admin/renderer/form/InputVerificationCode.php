@@ -2,7 +2,7 @@
 namespace warm\admin\renderer\form;
 
 use warm\admin\renderer\BaseRenderer;
-use warm\admin\renderer\form\FormItemTrait;
+use warm\admin\renderer\trait\FormItem;
 
 /**
  * InputVerificationCode
@@ -11,7 +11,7 @@ use warm\admin\renderer\form\FormItemTrait;
  */
 class InputVerificationCode extends BaseRenderer
 {
-    use FormItemTrait;
+    use FormItem;
 
     public string $type = 'input-verification-code';
 
@@ -21,7 +21,7 @@ class InputVerificationCode extends BaseRenderer
      * @param int|float $value
      * @return self
      */
-    public function length(int|float $value = 6): self
+    public function length(int|float $value = 6): static
     {
         return $this->set('length', $value);
     }
@@ -32,7 +32,7 @@ class InputVerificationCode extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function masked(bool $value = true): self
+    public function masked(bool $value = true): static
     {
         return $this->set('masked', $value);
     }
@@ -43,7 +43,7 @@ class InputVerificationCode extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function separator(string $value = ''): self
+    public function separator(string $value = ''): static
     {
         return $this->set('separator', $value);
     }

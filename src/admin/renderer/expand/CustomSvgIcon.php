@@ -14,9 +14,12 @@ class CustomSvgIcon extends BaseRenderer
     public string $type = 'custom-svg-icon';
 
     /**
-     * 设置图标的类名
+     * 设置样式
+     *
+     * @param mixed $value
+     * @return $this
      */
-    public function className($value = '')
+    public function className(mixed $value): static
     {
         return $this->set('className', $value);
     }

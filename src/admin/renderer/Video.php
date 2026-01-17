@@ -10,12 +10,12 @@ class Video extends BaseRenderer
     public string $type = 'video';
 
     /**
-     * 外层 Dom 的类名
+     * 设置组件样式
      *
-     * @param string $value
-     * @return self
+     * @param mixed $value
+     * @return $this
      */
-    public function className(string $value = ''): self
+    public function className(mixed $value): static
     {
         return $this->set('className', $value);
     }
@@ -26,7 +26,7 @@ class Video extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function src(string $value = ''): self
+    public function src(string $value = ''): static
     {
         return $this->set('src', $value);
     }
@@ -37,7 +37,7 @@ class Video extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function isLive(bool $value = true): self
+    public function isLive(bool $value = true): static
     {
         return $this->set('isLive', $value);
     }
@@ -48,7 +48,7 @@ class Video extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function videoType(string $value = ''): self
+    public function videoType(string $value = ''): static
     {
         return $this->set('videoType', $value);
     }
@@ -59,7 +59,7 @@ class Video extends BaseRenderer
      * @param string $value
      * @return self
      */
-    public function poster(string $value = ''): self
+    public function poster(string $value = ''): static
     {
         return $this->set('poster', $value);
     }
@@ -70,7 +70,7 @@ class Video extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function muted(bool $value = true): self
+    public function muted(bool $value = true): static
     {
         return $this->set('muted', $value);
     }
@@ -81,7 +81,7 @@ class Video extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function loop(bool $value = true): self
+    public function loop(bool $value = true): static
     {
         return $this->set('loop', $value);
     }
@@ -92,7 +92,7 @@ class Video extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function autoPlay(bool $value = true): self
+    public function autoPlay(bool $value = true): static
     {
         return $this->set('autoPlay', $value);
     }
@@ -103,7 +103,7 @@ class Video extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function rates(array $value = []): self
+    public function rates(array $value = []): static
     {
         return $this->set('rates', $value);
     }
@@ -114,7 +114,7 @@ class Video extends BaseRenderer
      * @param array $value
      * @return self
      */
-    public function frames(array $value = []): self
+    public function frames(array $value = []): static
     {
         return $this->set('frames', $value);
     }
@@ -125,7 +125,7 @@ class Video extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function jumpBufferDuration(bool $value = true): self
+    public function jumpBufferDuration(bool $value = true): static
     {
         return $this->set('jumpBufferDuration', $value);
     }
@@ -136,7 +136,7 @@ class Video extends BaseRenderer
      * @param bool $value
      * @return self
      */
-    public function stopOnNextFrame(bool $value = true): self
+    public function stopOnNextFrame(bool $value = true): static
     {
         return $this->set('stopOnNextFrame', $value);
     }

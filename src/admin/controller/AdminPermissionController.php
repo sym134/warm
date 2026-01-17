@@ -5,7 +5,7 @@ namespace warm\admin\controller;
 use Illuminate\Support\Str;
 use support\Db;
 use warm\admin\Admin;
-use warm\admin\renderer\Form;
+use warm\admin\renderer\form\Form;
 use warm\admin\renderer\Page;
 use warm\admin\renderer\Tag;
 use warm\admin\service\AdminMenuService;
@@ -39,7 +39,7 @@ class AdminPermissionController extends AdminController
     {
         $autoBtn = '';
         if (Admin::warmConfig('app.show_auto_generate_permission_button')) {
-            $autoBtn = amis()->AjaxAction()
+            $autoBtn = amis()->Action()->actionType('ajax')
                 ->label(translator('admin.admin_permission.auto_generate'))
                 ->level('success')
                 ->confirmText(translator('admin.admin_permission.auto_generate_confirm'))
