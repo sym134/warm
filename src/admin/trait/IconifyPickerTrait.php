@@ -22,10 +22,9 @@ trait IconifyPickerTrait
      */
     public function iconifyPicker(string $name = '', string $label = ''): Picker
     {
-        $schema = amis()->CRUD()->mode('cards')
-            ->perPage(40)
+        $schema = amis()->CRUD()
+            ->perPage(10)
             ->loadDataOnce()
-            ->set('columnsCount', 8)
             ->footerToolbar(['statistics', 'pagination'])
             ->api('/_iconify_search')
             ->filter(
@@ -50,14 +49,17 @@ trait IconifyPickerTrait
                     ]),
                 ])
             )
-            ->card([
-                amis()->CustomSvgIcon()->icon('${icon}')->className('text-2xl'),
+            ->columns([
+                amis()->Flex()->justify('flex-start')->alignItems('center')->items([
+                    amis()->CustomSvgIcon()->icon('${icon}')->className('text-2xl'),
+                    amis()->Tpl()->className('ml-3')->tpl('${icon}')
+                ])
             ]);
 
         return amis()->Picker($name, $label)
             ->pickerSchema($schema)
+            ->modalSize('md')
             ->source('/_iconify_search')
-            ->modalSize('lg')
             ->labelField('icon')
             ->valueField('icon');
     }

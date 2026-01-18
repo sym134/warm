@@ -156,7 +156,7 @@ class Picker extends BaseRenderer
      * @param mixed $value
      * @return self
      */
-    public function pickerSchema(mixed $value = ''): static
+    public function pickerSchema(mixed $value): static
     {
         return $this->set('pickerSchema', $value);
     }
