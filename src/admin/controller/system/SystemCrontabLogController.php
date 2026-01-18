@@ -4,6 +4,7 @@ namespace warm\admin\controller\system;
 
 use warm\admin\controller\AdminController;
 use warm\admin\model\system\SystemCrontabLog;
+use warm\admin\renderer\form\Form;
 use warm\admin\renderer\Page;
 use warm\admin\service\system\SystemCrontabLogService;
 
@@ -28,10 +29,10 @@ class SystemCrontabLogController extends AdminController
      *
      * 展示定时任务执行日志列表，支持按执行状态筛选
      *
-     * @param mixed $id 定时任务ID，用于筛选特定任务的日志
+     * @param mixed|null $id 定时任务ID，用于筛选特定任务的日志
      * @return Page 返回日志列表页面
      */
-    public function list($id = null): Page
+    public function list(mixed $id = null): Page
     {
         // 设置查询路径
         $this->queryPath = '/system/crontab_log';
@@ -75,9 +76,9 @@ class SystemCrontabLogController extends AdminController
      *
      * 展示定时任务执行日志的详细信息
      *
-     * @return mixed 返回日志详情表单
+     * @return Form 返回日志详情表单
      */
-    public function detail()
+    public function detail(): Form
     {
         return $this->baseDetail()->body([
             amis()->InputText('id', 'ID')->static(),

@@ -64,4 +64,15 @@ class Flex extends BaseRenderer
     {
         return $this->set('items', $value);
     }
+
+    /**
+     * "row", "column"
+     *
+     * @param string $string
+     * @return static
+     */
+    public function direction(string $string): static
+    {
+        return $this->set('direction', $string);
+    }
 }

@@ -173,10 +173,10 @@ class Amis
      * 创建 Form 渲染器实例.
      *
      * @param string $name
-     * @param string $label
+     * @param mixed $label
      * @return Form
      */
-    public function Form(string $name = '', string $label = ''): Form
+    public function Form(string $name = '', mixed $label = ''): Form
     {
         $instance = Form::make();
 
@@ -305,10 +305,10 @@ class Amis
      * 创建 ButtonGroupSelect 渲染器实例.
      *
      * @param string $name 字段名
-     * @param string $label 标签
+     * @param mixed $label 标签
      * @return ButtonGroupSelect
      */
-    public function ButtonGroupSelect(string $name = '', string $label = ''): ButtonGroupSelect
+    public function ButtonGroupSelect(string $name = '', mixed $label = ''): ButtonGroupSelect
     {
         $instance = ButtonGroupSelect::make();
 
@@ -327,10 +327,10 @@ class Amis
      * 创建 ButtonToolbar 渲染器实例.
      *
      * @param string $name
-     * @param string $label
+     * @param mixed $label
      * @return ButtonToolbar
      */
-    public function ButtonToolbar(string $name = '', string $label = ''): ButtonToolbar
+    public function ButtonToolbar(string $name = '', mixed $label = ''): ButtonToolbar
     {
         $instance = ButtonToolbar::make();
 
@@ -381,10 +381,10 @@ class Amis
      * 创建 ChainedSelect 渲染器实例.
      *
      * @param string $name 字段名
-     * @param string $label 标签
+     * @param mixed $label 标签
      * @return ChainedSelect
      */
-    public function ChainedSelect(string $name = '', string $label = ''): ChainedSelect
+    public function ChainedSelect(string $name = '', mixed $label = ''): ChainedSelect
     {
         $instance = ChainedSelect::make();
 
@@ -419,10 +419,10 @@ class Amis
      * 创建 Checkbox 渲染器实例.
      *
      * @param string $name 字段名
-     * @param string $label 标签
+     * @param mixed $label 标签
      * @return Checkbox
      */
-    public function Checkbox(string $name = '', string $label = ''): Checkbox
+    public function Checkbox(string $name = '', mixed $label = ''): Checkbox
     {
         $instance = Checkbox::make();
 
@@ -441,10 +441,10 @@ class Amis
      * 创建 Checkboxes 渲染器实例.
      *
      * @param string $name 字段名
-     * @param string $label 标签
+     * @param mixed $label 标签
      * @return Checkboxes
      */
-    public function Checkboxes(string $name = '', string $label = ''): Checkboxes
+    public function Checkboxes(string $name = '', mixed $label = ''): Checkboxes
     {
         $instance = Checkboxes::make();
 
@@ -487,10 +487,10 @@ class Amis
      * 创建 Combo 渲染器实例.
      *
      * @param string $name 字段名
-     * @param string $label 标签
+     * @param mixed $label 标签
      * @return Combo
      */
-    public function Combo(string $name = '', string $label = ''): Combo
+    public function Combo(string $name = '', mixed $label = ''): Combo
     {
         $instance = Combo::make();
 
@@ -517,10 +517,10 @@ class Amis
      * 创建 ConditionBuilder 渲染器实例.
      *
      * @param string $name 字段名
-     * @param string $label 标签
+     * @param mixed $label 标签
      * @return ConditionBuilder
      */
-    public function ConditionBuilder(string $name = '', string $label = ''): ConditionBuilder
+    public function ConditionBuilder(string $name = '', mixed $label = ''): ConditionBuilder
     {
         $instance = ConditionBuilder::make();
 
@@ -587,10 +587,10 @@ class Amis
      * 创建 CustomWangEditor 渲染器实例.
      *
      * @param string $name 字段名
-     * @param string $label 标签
+     * @param mixed $label 标签
      * @return CustomWangEditor
      */
-    public function CustomWangEditor(string $name = '', string $label = ''): CustomWangEditor
+    public function CustomWangEditor(string $name = '', mixed $label = ''): CustomWangEditor
     {
         $instance = CustomWangEditor::make();
 
@@ -633,10 +633,10 @@ class Amis
      * 创建 DiffEditor 渲染器实例.
      *
      * @param string $name 字段名
-     * @param string $label 标签
+     * @param mixed $label 标签
      * @return DiffEditor
      */
-    public function DiffEditor(string $name = '', string $label = ''): DiffEditor
+    public function DiffEditor(string $name = '', mixed $label = ''): DiffEditor
     {
         $instance = DiffEditor::make();
 
@@ -687,10 +687,10 @@ class Amis
      * 创建 Editor 渲染器实例.
      *
      * @param string $name 字段名
-     * @param string $label 标签
+     * @param mixed $label 标签
      * @return Editor
      */
-    public function Editor(string $name = '', string $label = ''): Editor
+    public function Editor(string $name = '', mixed $label = ''): Editor
     {
         $instance = Editor::make();
 
@@ -709,10 +709,10 @@ class Amis
      * 创建 FieldSet 渲染器实例.
      *
      * @param string $name 字段名
-     * @param string $label 标签
+     * @param mixed $label 标签
      * @return Fieldset
      */
-    public function Fieldset(string $name = '', string $label = ''): Fieldset
+    public function Fieldset(string $name = '', mixed $label = ''): Fieldset
     {
         $instance = Fieldset::make();
 
@@ -739,10 +739,10 @@ class Amis
      * 创建 Formula 渲染器实例.
      *
      * @param string $name 字段名
-     * @param string $label 标签
+     * @param mixed $label 标签
      * @return Formula
      */
-    public function Formula(string $name = '', string $label = ''): Formula
+    public function Formula(string $name = '', mixed $label = ''): Formula
     {
         $instance = Formula::make();
 
@@ -785,10 +785,10 @@ class Amis
      * 创建 Group 渲染器实例.
      *
      * @param string $name 字段名
-     * @param string $label 标签
+     * @param mixed $label 标签
      * @return Group
      */
-    public function Group(string $name = '', string $label = ''): Group
+    public function Group(string $name = '', mixed $label = ''): Group
     {
         $instance = Group::make();
 
@@ -815,10 +815,10 @@ class Amis
      * 创建 Hidden 渲染器实例.
      *
      * @param string $name 字段名
-     * @param string $label 标签
+     * @param mixed $label 标签
      * @return Hidden
      */
-    public function Hidden(string $name = '', string $label = ''): Hidden
+    public function Hidden(string $name = '', mixed $label = ''): Hidden
     {
         $instance = Hidden::make();
 
@@ -881,10 +881,10 @@ class Amis
      * 创建 InputArray 渲染器实例.
      *
      * @param string $name 字段名
-     * @param string $label 标签
+     * @param mixed $label 标签
      * @return InputArray
      */
-    public function InputArray(string $name = '', string $label = ''): InputArray
+    public function InputArray(string $name = '', mixed $label = ''): InputArray
     {
         $instance = InputArray::make();
 
@@ -903,10 +903,10 @@ class Amis
      * 创建 InputCity 渲染器实例.
      *
      * @param string $name 字段名
-     * @param string $label 标签
+     * @param mixed $label 标签
      * @return InputCity
      */
-    public function InputCity(string $name = '', string $label = ''): InputCity
+    public function InputCity(string $name = '', mixed $label = ''): InputCity
     {
         $instance = InputCity::make();
 
@@ -925,10 +925,10 @@ class Amis
      * 创建 InputColor 渲染器实例.
      *
      * @param string $name 字段名
-     * @param string $label 标签
+     * @param mixed $label 标签
      * @return InputColor
      */
-    public function InputColor(string $name = '', string $label = ''): InputColor
+    public function InputColor(string $name = '', mixed $label = ''): InputColor
     {
         $instance = InputColor::make();
 
@@ -947,10 +947,10 @@ class Amis
      * 创建 InputDate 渲染器实例.
      *
      * @param string $name 字段名
-     * @param string $label 标签
+     * @param mixed $label 标签
      * @return InputDate
      */
-    public function InputDate(string $name = '', string $label = ''): InputDate
+    public function InputDate(string $name = '', mixed $label = ''): InputDate
     {
         $instance = InputDate::make();
 
@@ -969,10 +969,10 @@ class Amis
      * 创建 InputDateRange 渲染器实例.
      *
      * @param string $name 字段名
-     * @param string $label 标签
+     * @param mixed $label 标签
      * @return InputDateRange
      */
-    public function InputDateRange(string $name = '', string $label = ''): InputDateRange
+    public function InputDateRange(string $name = '', mixed $label = ''): InputDateRange
     {
         $instance = InputDateRange::make();
 
@@ -991,10 +991,10 @@ class Amis
      * 创建 InputDateTime 渲染器实例.
      *
      * @param string $name 字段名
-     * @param string $label 标签
+     * @param mixed $label 标签
      * @return InputDatetime
      */
-    public function InputDatetime(string $name = '', string $label = ''): InputDatetime
+    public function InputDatetime(string $name = '', mixed $label = ''): InputDatetime
     {
         $instance = InputDatetime::make();
 
@@ -1013,10 +1013,10 @@ class Amis
      * 创建 InputDatetimeRange 渲染器实例.
      *
      * @param string $name
-     * @param string $label
+     * @param mixed $label
      * @return InputDatetimeRange
      */
-    public function InputDatetimeRange(string $name = '', string $label = ''): InputDatetimeRange
+    public function InputDatetimeRange(string $name = '', mixed $label = ''): InputDatetimeRange
     {
         $instance = InputDatetimeRange::make();
 
@@ -1043,10 +1043,10 @@ class Amis
      * 创建 InputFile 渲染器实例.
      *
      * @param string $name 字段名
-     * @param string $label 标签
+     * @param mixed $label 标签
      * @return InputFile
      */
-    public function InputFile(string $name = '', string $label = ''): InputFile
+    public function InputFile(string $name = '', mixed $label = ''): InputFile
     {
         $instance = InputFile::make();
 
@@ -1073,10 +1073,10 @@ class Amis
      * 创建 InputGroup 渲染器实例.
      *
      * @param string $name 字段名
-     * @param string $label 标签
+     * @param mixed $label 标签
      * @return InputGroup
      */
-    public function InputGroup(string $name = '', string $label = ''): InputGroup
+    public function InputGroup(string $name = '', mixed $label = ''): InputGroup
     {
         $instance = InputGroup::make();
 
@@ -1095,10 +1095,10 @@ class Amis
      * 创建 InputImage 渲染器实例.
      *
      * @param string $name 字段名
-     * @param string $label 标签
+     * @param mixed $label 标签
      * @return InputImage
      */
-    public function InputImage(string $name = '', string $label = ''): InputImage
+    public function InputImage(string $name = '', mixed $label = ''): InputImage
     {
         $instance = InputImage::make();
 
@@ -1133,10 +1133,10 @@ class Amis
      * 创建 InputMonth 渲染器实例.
      *
      * @param string $name 字段名
-     * @param string $label 标签
+     * @param mixed $label 标签
      * @return InputMonth
      */
-    public function InputMonth(string $name = '', string $label = ''): InputMonth
+    public function InputMonth(string $name = '', mixed $label = ''): InputMonth
     {
         $instance = InputMonth::make();
 
@@ -1155,10 +1155,10 @@ class Amis
      * 创建 InputMonthRange 渲染器实例.
      *
      * @param string $name 字段名
-     * @param string $label 标签
+     * @param mixed $label 标签
      * @return InputMonthRange
      */
-    public function InputMonthRange(string $name = '', string $label = ''): InputMonthRange
+    public function InputMonthRange(string $name = '', mixed $label = ''): InputMonthRange
     {
         $instance = InputMonthRange::make();
 
@@ -1177,10 +1177,10 @@ class Amis
      * 创建 InputNumber 渲染器实例.
      *
      * @param string $name 字段名
-     * @param string $label 标签
+     * @param mixed $label 标签
      * @return InputNumber
      */
-    public function InputNumber(string $name = '', string $label = ''): InputNumber
+    public function InputNumber(string $name = '', mixed $label = ''): InputNumber
     {
         $instance = InputNumber::make();
 
@@ -1199,10 +1199,10 @@ class Amis
      * 创建 InputPassword 渲染器实例.
      *
      * @param string $name 字段名
-     * @param string $label 标签
+     * @param mixed $label 标签
      * @return InputPassword
      */
-    public function InputPassword(string $name = '', string $label = ''): InputPassword
+    public function InputPassword(string $name = '', mixed $label = ''): InputPassword
     {
         $instance = InputPassword::make();
 
@@ -1221,10 +1221,10 @@ class Amis
      * 创建 InputQuarter 渲染器实例.
      *
      * @param string $name 字段名
-     * @param string $label 标签
+     * @param mixed $label 标签
      * @return InputQuarter
      */
-    public function InputQuarter(string $name = '', string $label = ''): InputQuarter
+    public function InputQuarter(string $name = '', mixed $label = ''): InputQuarter
     {
         $instance = InputQuarter::make();
 
@@ -1243,10 +1243,10 @@ class Amis
      * 创建 InputQuarterRange 渲染器实例.
      *
      * @param string $name 字段名
-     * @param string $label 标签
+     * @param mixed $label 标签
      * @return InputQuarterRange
      */
-    public function InputQuarterRange(string $name = '', string $label = ''): InputQuarterRange
+    public function InputQuarterRange(string $name = '', mixed $label = ''): InputQuarterRange
     {
         $instance = InputQuarterRange::make();
 
@@ -1265,10 +1265,10 @@ class Amis
      * 创建 InputRange 渲染器实例.
      *
      * @param string $name 字段名
-     * @param string $label 标签
+     * @param mixed $label 标签
      * @return InputRange
      */
-    public function InputRange(string $name = '', string $label = ''): InputRange
+    public function InputRange(string $name = '', mixed $label = ''): InputRange
     {
         $instance = InputRange::make();
 
@@ -1287,10 +1287,10 @@ class Amis
      * 创建 InputRating 渲染器实例.
      *
      * @param string $name 字段名
-     * @param string $label 标签
+     * @param mixed $label 标签
      * @return InputRating
      */
-    public function InputRating(string $name = '', string $label = ''): InputRating
+    public function InputRating(string $name = '', mixed $label = ''): InputRating
     {
         $instance = InputRating::make();
 
@@ -1309,10 +1309,10 @@ class Amis
      * 创建 InputRepeat 渲染器实例.
      *
      * @param string $name 字段名
-     * @param string $label 标签
+     * @param mixed $label 标签
      * @return InputRepeat
      */
-    public function InputRepeat(string $name = '', string $label = ''): InputRepeat
+    public function InputRepeat(string $name = '', mixed $label = ''): InputRepeat
     {
         $instance = InputRepeat::make();
 
@@ -1331,10 +1331,10 @@ class Amis
      * 创建 InputRichText 渲染器实例.
      *
      * @param string $name 字段名
-     * @param string $label 标签
+     * @param mixed $label 标签
      * @return InputRichText
      */
-    public function InputRichText(string $name = '', string $label = ''): InputRichText
+    public function InputRichText(string $name = '', mixed $label = ''): InputRichText
     {
         $instance = InputRichText::make();
 
@@ -1353,10 +1353,10 @@ class Amis
      * 创建 InputSignature 渲染器实例.
      *
      * @param string $name 字段名
-     * @param string $label 标签
+     * @param mixed $label 标签
      * @return InputSignature
      */
-    public function InputSignature(string $name = '', string $label = ''): InputSignature
+    public function InputSignature(string $name = '', mixed $label = ''): InputSignature
     {
         $instance = InputSignature::make();
 
@@ -1375,10 +1375,10 @@ class Amis
      * 创建 InputSubForm 渲染器实例.
      *
      * @param string $name 字段名
-     * @param string $label 标签
+     * @param mixed $label 标签
      * @return InputSubForm
      */
-    public function InputSubForm(string $name = '', string $label = ''): InputSubForm
+    public function InputSubForm(string $name = '', mixed $label = ''): InputSubForm
     {
         $instance = InputSubForm::make();
 
@@ -1405,10 +1405,10 @@ class Amis
      * 创建 InputTag 渲染器实例.
      *
      * @param string $name 字段名
-     * @param string $label 标签
+     * @param mixed $label 标签
      * @return InputTag
      */
-    public function InputTag(string $name = '', string $label = ''): InputTag
+    public function InputTag(string $name = '', mixed $label = ''): InputTag
     {
         $instance = InputTag::make();
 
@@ -1427,10 +1427,10 @@ class Amis
      * 创建 InputText 渲染器实例.
      *
      * @param string $name 字段名
-     * @param string $label 标签
+     * @param mixed $label 标签
      * @return InputText
      */
-    public function InputText(string $name = '', string $label = ''): InputText
+    public function InputText(string $name = '', mixed $label = ''): InputText
     {
         $instance = InputText::make();
 
@@ -1449,10 +1449,10 @@ class Amis
      * 创建 InputTime 渲染器实例.
      *
      * @param string $name 字段名
-     * @param string $label 标签
+     * @param mixed $label 标签
      * @return InputTime
      */
-    public function InputTime(string $name = '', string $label = ''): InputTime
+    public function InputTime(string $name = '', mixed $label = ''): InputTime
     {
         $instance = InputTime::make();
 
@@ -1471,10 +1471,10 @@ class Amis
      * 创建 InputTimeRange 渲染器实例.
      *
      * @param string $name
-     * @param string $label
+     * @param mixed $label
      * @return InputTimeRange
      */
-    public function InputTimeRange(string $name = '', string $label = ''): InputTimeRange
+    public function InputTimeRange(string $name = '', mixed $label = ''): InputTimeRange
     {
         $instance = InputTimeRange::make();
         if ($name !== '') {
@@ -1492,10 +1492,10 @@ class Amis
      * 创建 InputTree 渲染器实例.
      *
      * @param string $name 字段名
-     * @param string $label 标签
+     * @param mixed $label 标签
      * @return InputTree
      */
-    public function InputTree(string $name = '', string $label = ''): InputTree
+    public function InputTree(string $name = '', mixed $label = ''): InputTree
     {
         $instance = InputTree::make();
 
@@ -1529,10 +1529,10 @@ class Amis
      * 创建 InputYear 渲染器实例.
      *
      * @param string $name 字段名
-     * @param string $label 标签
+     * @param mixed $label 标签
      * @return InputYear
      */
-    public function InputYear(string $name = '', string $label = ''): InputYear
+    public function InputYear(string $name = '', mixed $label = ''): InputYear
     {
         $instance = InputYear::make();
 
@@ -1551,10 +1551,10 @@ class Amis
      * 创建 InputYearRange 渲染器实例.
      *
      * @param string $name
-     * @param string $label
+     * @param mixed $label
      * @return InputYearRange
      */
-    public function InputYearRange(string $name = '', string $label = ''): InputYearRange
+    public function InputYearRange(string $name = '', mixed $label = ''): InputYearRange
     {
         $instance = InputYearRange::make();
         if ($name !== '') {
@@ -1580,10 +1580,10 @@ class Amis
      * 创建 JsonSchema 渲染器实例.
      *
      * @param string $name
-     * @param string $label
+     * @param mixed $label
      * @return JsonSchema
      */
-    public function JsonSchema(string $name = '', string $label = ''): JsonSchema
+    public function JsonSchema(string $name = '', mixed $label = ''): JsonSchema
     {
         $instance = JsonSchema::make();
         if ($name !== '') {
@@ -1601,10 +1601,10 @@ class Amis
      * 创建 JSONSchemaEditor 渲染器实例.
      *
      * @param string $name 字段名
-     * @param string $label 标签
+     * @param mixed $label 标签
      * @return JsonSchemaEditor
      */
-    public function JsonSchemaEditor(string $name = '', string $label = ''): JsonSchemaEditor
+    public function JsonSchemaEditor(string $name = '', mixed $label = ''): JsonSchemaEditor
     {
         $instance = JsonSchemaEditor::make();
 
@@ -1639,10 +1639,10 @@ class Amis
      * 创建 ListSelect 渲染器实例.
      *
      * @param string $name 字段名
-     * @param string $label 标签
+     * @param mixed $label 标签
      * @return ListSelect
      */
-    public function ListSelect(string $name = '', string $label = ''): ListSelect
+    public function ListSelect(string $name = '', mixed $label = ''): ListSelect
     {
         $instance = ListSelect::make();
 
@@ -1661,10 +1661,10 @@ class Amis
      * 创建 LocationPicker 渲染器实例.
      *
      * @param string $name 字段名
-     * @param string $label 标签
+     * @param mixed $label 标签
      * @return LocationPicker
      */
-    public function LocationPicker(string $name = '', string $label = ''): LocationPicker
+    public function LocationPicker(string $name = '', mixed $label = ''): LocationPicker
     {
         $instance = LocationPicker::make();
 
@@ -1691,10 +1691,10 @@ class Amis
      * 创建 Mapping 渲染器实例.
      *
      * @param string $name 字段名
-     * @param string $label 标签
+     * @param mixed $label 标签
      * @return Mapping
      */
-    public function Mapping(string $name = '', string $label = ''): Mapping
+    public function Mapping(string $name = '', mixed $label = ''): Mapping
     {
         $instance = Mapping::make();
         if ($name !== '') {
@@ -1720,10 +1720,10 @@ class Amis
      * 创建 MatrixCheckboxes 渲染器实例.
      *
      * @param string $name 字段名
-     * @param string $label 标签
+     * @param mixed $label 标签
      * @return MatrixCheckboxes
      */
-    public function MatrixCheckboxes(string $name = '', string $label = ''): MatrixCheckboxes
+    public function MatrixCheckboxes(string $name = '', mixed $label = ''): MatrixCheckboxes
     {
         $instance = MatrixCheckboxes::make();
 
@@ -1750,10 +1750,10 @@ class Amis
      * 创建 NestedSelect 渲染器实例.
      *
      * @param string $name 字段名
-     * @param string $label 标签
+     * @param mixed $label 标签
      * @return NestedSelect
      */
-    public function NestedSelect(string $name = '', string $label = ''): NestedSelect
+    public function NestedSelect(string $name = '', mixed $label = ''): NestedSelect
     {
         $instance = NestedSelect::make();
 
@@ -1828,10 +1828,10 @@ class Amis
      * 创建 Picker 渲染器实例.
      *
      * @param string $name 字段名
-     * @param string $label 标签
+     * @param mixed $label 标签
      * @return Picker
      */
-    public function Picker(string $name = '', string $label = ''): Picker
+    public function Picker(string $name = '', mixed $label = ''): Picker
     {
         $instance = Picker::make();
 
@@ -1866,10 +1866,10 @@ class Amis
      * 创建 Progress 渲染器实例.
      *
      * @param string $name
-     * @param string $label
+     * @param mixed $label
      * @return Progress
      */
-    public function Progress(string $name = '', string $label = ''): Progress
+    public function Progress(string $name = '', mixed $label = ''): Progress
     {
         $instance = Progress::make();
 
@@ -1904,10 +1904,10 @@ class Amis
      * 创建 Radio 渲染器实例.
      *
      * @param string $name 字段名
-     * @param string $label 标签
+     * @param mixed $label 标签
      * @return Radio
      */
-    public function Radio(string $name = '', string $label = ''): Radio
+    public function Radio(string $name = '', mixed $label = ''): Radio
     {
         $instance = Radio::make();
 
@@ -1926,10 +1926,10 @@ class Amis
      * 创建 Radios 渲染器实例.
      *
      * @param string $name 字段名
-     * @param string $label 标签
+     * @param mixed $label 标签
      * @return Radios
      */
-    public function Radios(string $name = '', string $label = ''): Radios
+    public function Radios(string $name = '', mixed $label = ''): Radios
     {
         $instance = Radios::make();
 
@@ -1964,10 +1964,10 @@ class Amis
      * 创建 Select 渲染器实例.
      *
      * @param string $name 字段名
-     * @param string $label 标签
+     * @param mixed $label 标签
      * @return Select
      */
-    public function Select(string $name = '', string $label = ''): Select
+    public function Select(string $name = '', mixed $label = ''): Select
     {
         $instance = Select::make();
 
@@ -2026,10 +2026,10 @@ class Amis
      * 创建 StaticExactControl 渲染器实例.
      *
      * @param string $name 字段名
-     * @param string $label 标签
+     * @param mixed $label 标签
      * @return StaticClass
      */
-    public function Static(string $name = '', string $label = ''): StaticClass
+    public function Static(string $name = '', mixed $label = ''): StaticClass
     {
         $instance = StaticClass::make();
 
@@ -2048,10 +2048,10 @@ class Amis
      * 创建 Status 渲染器实例.
      *
      * @param string $name 字段名
-     * @param string $label 标签
+     * @param mixed $label 标签
      * @return Status
      */
-    public function Status(string $name = '', string $label = ''): Status
+    public function Status(string $name = '', mixed $label = ''): Status
     {
         $instance = Status::make();
 
@@ -2078,10 +2078,10 @@ class Amis
      * 创建 SwitchClass 渲染器实例.
      *
      * @param string $name 字段名
-     * @param string $label 标签
+     * @param mixed $label 标签
      * @return SwitchClass
      */
-    public function Switch(string $name = '', string $label = ''): SwitchClass
+    public function Switch(string $name = '', mixed $label = ''): SwitchClass
     {
         $instance = SwitchClass::make();
 
@@ -2116,10 +2116,10 @@ class Amis
      * 创建 TableColumn 渲染器实例.
      *
      * @param string $name
-     * @param string $label
+     * @param mixed $label
      * @return TableColumn
      */
-    public function TableColumn(string $name = '', string $label = ''): TableColumn
+    public function TableColumn(string $name = '', mixed $label = ''): TableColumn
     {
         $instance = TableColumn::make();
 
@@ -2171,10 +2171,10 @@ class Amis
      * 创建 TabsTransfer 渲染器实例.
      *
      * @param string $name 字段名
-     * @param string $label 标签
+     * @param mixed $label 标签
      * @return TabsTransfer
      */
-    public function TabsTransfer(string $name = '', string $label = ''): TabsTransfer
+    public function TabsTransfer(string $name = '', mixed $label = ''): TabsTransfer
     {
         $instance = TabsTransfer::make();
 
@@ -2193,10 +2193,10 @@ class Amis
      * 创建 TabsTransferPicker 渲染器实例.
      *
      * @param string $name 字段名
-     * @param string $label 标签
+     * @param mixed $label 标签
      * @return TabsTransferPicker
      */
-    public function TabsTransferPicker(string $name = '', string $label = ''): TabsTransferPicker
+    public function TabsTransferPicker(string $name = '', mixed $label = ''): TabsTransferPicker
     {
         $instance = TabsTransferPicker::make();
 
@@ -2231,10 +2231,10 @@ class Amis
      * 创建 Textarea 渲染器实例.
      *
      * @param string $name 字段名
-     * @param string $label 标签
+     * @param mixed $label 标签
      * @return Textarea
      */
-    public function Textarea(string $name = '', string $label = ''): Textarea
+    public function Textarea(string $name = '', mixed $label = ''): Textarea
     {
         $instance = Textarea::make();
 
@@ -2285,10 +2285,10 @@ class Amis
      * 创建 Transfer 渲染器实例.
      *
      * @param string $name 字段名
-     * @param string $label 标签
+     * @param mixed $label 标签
      * @return Transfer
      */
-    public function Transfer(string $name = '', string $label = ''): Transfer
+    public function Transfer(string $name = '', mixed $label = ''): Transfer
     {
         $instance = Transfer::make();
 
@@ -2307,10 +2307,10 @@ class Amis
      * 创建 TransferPicker 渲染器实例.
      *
      * @param string $name 字段名
-     * @param string $label 标签
+     * @param mixed $label 标签
      * @return TransferPicker
      */
-    public function TransferPicker(string $name = '', string $label = ''): TransferPicker
+    public function TransferPicker(string $name = '', mixed $label = ''): TransferPicker
     {
         $instance = TransferPicker::make();
 
@@ -2329,10 +2329,10 @@ class Amis
      * 创建 TreeSelect 渲染器实例.
      *
      * @param string $name 字段名
-     * @param string $label 标签
+     * @param mixed $label 标签
      * @return TreeSelect
      */
-    public function TreeSelect(string $name = '', string $label = ''): TreeSelect
+    public function TreeSelect(string $name = '', mixed $label = ''): TreeSelect
     {
         $instance = TreeSelect::make();
 
@@ -2351,10 +2351,10 @@ class Amis
      * 创建 UUID 渲染器实例.
      *
      * @param string $name 字段名
-     * @param string $label 标签
+     * @param mixed $label 标签
      * @return Uuid
      */
-    public function Uuid(string $name = '', string $label = ''): Uuid
+    public function Uuid(string $name = '', mixed $label = ''): Uuid
     {
         $instance = Uuid::make();
 

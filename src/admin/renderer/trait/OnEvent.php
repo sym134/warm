@@ -7,11 +7,11 @@ trait OnEvent
     /**
      * 添加事件
      *
-     * @param array $event
+     * @param string|array $event
      * @return $this
      */
-    public function onEvent(array $event = []): static
+    public function onEvent(string|array $event = []): static
     {
-        return $this->set('onEvent.', $event);
+        return $this->set('onEvent', $event);
     }
 }

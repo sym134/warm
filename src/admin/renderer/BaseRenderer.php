@@ -1,6 +1,7 @@
 <?php
 
 namespace warm\admin\renderer;
+
 use Illuminate\Support\Traits\Macroable;
 use JsonSerializable;
 use warm\admin\renderer\trait\NameAndLabel;
@@ -148,7 +149,7 @@ class BaseRenderer implements JsonSerializable
      * @param mixed $value
      * @return static
      */
-    public function hiddenOn(mixed $value = null):static
+    public function hiddenOn(mixed $value = null): static
     {
         return $this->set('hiddenOn', $value);
     }
@@ -159,7 +160,7 @@ class BaseRenderer implements JsonSerializable
      * @param bool $value
      * @return static
      */
-    public function hidden(bool $value = true):static
+    public function hidden(bool $value = true): static
     {
         return $this->set('hidden', $value);
     }

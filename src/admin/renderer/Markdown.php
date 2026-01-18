@@ -52,4 +52,15 @@ class Markdown extends BaseRenderer
     {
         return $this->set('src', $value);
     }
+
+    /**
+     * 配置选项
+     *
+     * @param array $array
+     * @return self
+     */
+    public function options(array $array): Markdown
+    {
+        return $this->set('options', $array);
+    }
 }

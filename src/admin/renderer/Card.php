@@ -45,10 +45,10 @@ class Card extends BaseRenderer
     /**
      * 内容容器，主要用来放置非表单项组件
      *
-     * @param array $value
+     * @param mixed $value
      * @return self
      */
-    public function body(array $value = []): static
+    public function body(mixed $value = []): static
     {
         return $this->set('body', $value);
     }

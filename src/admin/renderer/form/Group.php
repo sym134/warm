@@ -7,7 +7,7 @@ use warm\admin\renderer\trait\FormItem;
 /**
  * Group
  *
- * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/group
+ * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/form/group
  */
 class Group extends BaseRenderer
 {

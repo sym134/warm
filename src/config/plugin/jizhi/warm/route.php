@@ -24,6 +24,7 @@ use warm\admin\controller\system\SystemCrontabLogController;
 use warm\admin\controller\system\CacheController;
 use warm\admin\controller\system\SystemFileController;
 use warm\admin\controller\system\SystemStorageController;
+use warm\admin\controller\system\WechatMenuController;
 use warm\admin\controller\system\WechatReplyController;
 use warm\admin\controller\system\PaymentConfigController;
 use Webman\Route;
@@ -103,12 +104,31 @@ Route::group(Admin::warmConfig('app.route.prefix'), function () {
         Route::get('/payment_config/getData', [PaymentConfigController::class, 'getData']);
         Route::put('/payment_config/update', [PaymentConfigController::class, 'update']);
 
+        // 存储管理
+        Route::get('/storage', [SystemStorageController::class,'index']);
+        Route::put('/storage/update', [SystemStorageController::class,'updateConfig']);
+        // 文件管理
+        Route::resource('/file', SystemFileController::class);
+        Route::post('/file/move', [SystemFileController::class, 'move']);
+
+        // 微信菜单管理
+        Route::get('/wechat_menu', [WechatMenuController::class, 'index']);
+        Route::get('/wechat_menu/parent_options', [WechatMenuController::class, 'parentOptions']);
+        Route::post('/wechat_menu', [WechatMenuController::class, 'store']);
+        Route::put('/wechat_menu/{id}', [WechatMenuController::class, 'update']);
+        Route::delete('/wechat_menu/{id}', [WechatMenuController::class, 'destroy']);
+        Route::post('/wechat_menu/publish', [WechatMenuController::class, 'publish']);
     });
 
     Route::group('/setting', function () {
         Route::group('/other_config', function () {
+            Route::group('/notice',function (){
+                Route::resource('/n', \warm\admin\controller\notice\NoticeConfigController::class);
+            });
             // 短信配置
             Route::group('/sms', function () {
+                Route::resource('/sms_config', SmsConfigController::class);
+
                 // 短信配置
                 Route::get('/index', [SmsConfigController::class, 'gatewayForm']);
                 // 网关表单
@@ -119,11 +139,7 @@ Route::group(Admin::warmConfig('app.route.prefix'), function () {
                 Route::put('/save', [SmsConfigController::class, 'save']);
             });
         });
-        // 存储管理
-        Route::get('/storage', [SystemStorageController::class,'index']);
-        Route::put('/storage/update', [SystemStorageController::class,'updateConfig']);
-        // 文件管理
-        Route::resource('/file', SystemFileController::class);
+
     });
 
     // 应用设置路由组
@@ -222,3 +238,5 @@ Route::group(Admin::warmConfig('app.route.prefix'), function () {
         });
     }
 })->middleware(Admin::middleware());
+// 加载应用下的路由配置
+require_once config_path('plugin/jizhi/warm/route/autoRoute.php');

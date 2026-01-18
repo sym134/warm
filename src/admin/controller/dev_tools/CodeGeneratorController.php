@@ -196,8 +196,7 @@ class CodeGeneratorController extends AdminController
             ],
         ];
 
-        return amis()
-            ->Form()
+        return amis()->Form()
             ->promptPageLeave()
             ->id('code_generator_form')
             ->wrapWithPanel(false)
@@ -277,25 +276,23 @@ class CodeGeneratorController extends AdminController
                                                 ],
                                             ]),
                                     ]),
-                                    amis()
-                                        ->Checkboxes('needs', translator('admin.code_generators.options'))
+                                    amis()->Checkboxes('needs', translator('admin.code_generators.options'))
                                         ->joinValues(false)
                                         ->extractValue()
                                         ->checkAll()
                                         ->defaultCheckAll()
                                         ->options(Generator::make()->needCreateOptions()),
-                                    amis()
-                                        ->InputText('primary_key', translator('admin.code_generators.primary_key'))
+                                    amis()->InputText('primary_key', translator('admin.code_generators.primary_key'))
                                         ->value('id')
                                         ->description(translator('admin.code_generators.primary_key_description'))
                                         ->required(),
-                                    amis()
-                                        ->Select('save_path', translator('admin.code_generators.save_path_select'))->required()
+                                    amis()->Select('save_path', translator('admin.code_generators.save_path_select'))->required()
                                         ->clearable()
                                         ->searchable()
                                         ->description(translator('admin.code_generators.save_path_select_tips'))
                                         ->selectMode('group')
                                         ->source('${save_path_options}')
+                                        ->selectFirst(true)
                                         ->onEvent([
                                             'change' => [
                                                 'actions' => [
@@ -871,7 +868,7 @@ class CodeGeneratorController extends AdminController
                 ->initFetchOn('${!!' . $key . '_type}')
                 ->api('post:/dev_tools/code_generator/get_property_options?c=${' . $key . '_type}&t=' . $key)
                 ->body([
-                    amis('group')->body([
+                    amis()->Group()->body([
                         amis()
                             ->Select($key . '_type', translator('admin.admin_menu.type'))
                             ->searchable()
@@ -1030,7 +1027,7 @@ class CodeGeneratorController extends AdminController
     {
         // 设置组件的 Tab
         $componentSchema = function ($title, $tips, $key) {
-            return amis()->Tabs()->title($title)->body([
+            return amis()->Tab()->title($title)->tab([
                 amis()->Alert()->level('info')->showIcon()->body($tips),
                 amis()->Divider(),
                 $this->componentSelect($key)->mode('normal'),
@@ -1061,125 +1058,127 @@ class CodeGeneratorController extends AdminController
                         ->size('lg')
                         ->id('column_form')
                         ->body([
-                            // 基本信息标签页
-                            amis()->Tabs()->title(translator('admin.code_generators.base_info'))->body([
-                                amis()->Group()->body([
-                                    amis()
-                                        ->InputText('name', translator('admin.code_generators.column_name'))
-                                        ->required(),
-                                    amis()
-                                        ->Select('type', translator('admin.code_generators.type'))
-                                        ->options(Generator::make()->availableFieldTypes())
-                                        ->searchable()
-                                        ->value('string')
-                                        ->required(),
-                                ]),
+                            amis()->Tabs()->tabs([
+                                // 基本信息标签页
+                                amis()->Tab()->title(translator('admin.code_generators.base_info'))->tab([
+                                    amis()->Group()->body([
+                                        amis()
+                                            ->InputText('name', translator('admin.code_generators.column_name'))
+                                            ->required(),
+                                        amis()
+                                            ->Select('type', translator('admin.code_generators.type'))
+                                            ->options(Generator::make()->availableFieldTypes())
+                                            ->searchable()
+                                            ->value('string')
+                                            ->required(),
+                                    ]),
 
-                                amis()->Group()->body([
-                                    amis()
-                                        ->InputText('comment', translator('admin.code_generators.comment'))
-                                        ->value(),
-                                    amis()->InputText('default', translator('admin.code_generators.default_value')),
-                                ]),
+                                    amis()->Group()->body([
+                                        amis()
+                                            ->InputText('comment', translator('admin.code_generators.comment'))
+                                            ->value(),
+                                        amis()->InputText('default', translator('admin.code_generators.default_value')),
+                                    ]),
 
-                                amis()->Group()->body([
-                                    amis()
-                                        ->InputText('additional', translator('admin.code_generators.extra_params'))
-                                        ->labelRemark(
-                                            translator('admin.code_generators.remark1') .
-                                            "<a href='https://learnku.com/docs/laravel/9.x/migrations/12248#b419dd' target='_blank'>" .
-                                            translator('admin.code_generators.remark2') .
-                                            "</a>, " . translator('admin.code_generators.remark3')
-                                        ),
-                                    amis()
-                                        ->Select('column_index', translator('admin.code_generators.index'))
-                                        ->options(
-                                            collect(['index', 'unique'])->map(fn($value) => [
-                                                'label' => $value,
-                                                'value' => $value,
-                                            ]))
-                                        ->clearable(),
-                                ]),
+                                    amis()->Group()->body([
+                                        amis()
+                                            ->InputText('additional', translator('admin.code_generators.extra_params'))
+                                            ->labelRemark(
+                                                translator('admin.code_generators.remark1') .
+                                                "<a href='https://learnku.com/docs/laravel/9.x/migrations/12248#b419dd' target='_blank'>" .
+                                                translator('admin.code_generators.remark2') .
+                                                "</a>, " . translator('admin.code_generators.remark3')
+                                            ),
+                                        amis()
+                                            ->Select('column_index', translator('admin.code_generators.index'))
+                                            ->options(
+                                                collect(['index', 'unique'])->map(fn($value) => [
+                                                    'label' => $value,
+                                                    'value' => $value,
+                                                ]))
+                                            ->clearable(),
+                                    ]),
 
-                                amis()->Switch('nullable', translator('admin.code_generators.nullable')),
-                                amis()
-                                    ->Checkboxes('action_scope', translator('admin.code_generators.scope'))
-                                    ->options([
-                                        ['label' => translator('admin.list'), 'value' => 'list'],
-                                        ['label' => translator('admin.detail'), 'value' => 'detail'],
-                                        ['label' => translator('admin.create'), 'value' => 'create'],
-                                        ['label' => translator('admin.edit'), 'value' => 'edit'],
-                                    ])
-                                    ->joinValues(false)
-                                    ->extractValue()
-                                    ->checkAll()
-                                    ->defaultCheckAll(),
-                            ]),
-                            // 列表组件标签页
-                            $componentSchema(
-                                translator('admin.code_generators.list_component'),
-                                translator('admin.code_generators.list_component_desc'),
-                                'list_component'
-                            ),
-                            // 列表筛选标签页
-                            amis()->Tabs()->title(translator('admin.code_generators.list_filter'))->tabs([
-                                amis()->Combo('list_filter')->items([
+                                    amis()->Switch('nullable', translator('admin.code_generators.nullable')),
                                     amis()
-                                        ->Select('type', translator('admin.code_generators.filter_type'))
-                                        ->options(map2options(FilterGenerator::$filterMap))
-                                        ->required(),
-                                    amis()
-                                        ->Radios('mode', translator('admin.code_generators.filter_mode'))
-                                        ->selectFirst()
+                                        ->Checkboxes('action_scope', translator('admin.code_generators.scope'))
                                         ->options([
-                                            'fixed' => translator('admin.code_generators.filter_mode_fixed'),
-                                            'input' => translator('admin.code_generators.filter_mode_input'),
-                                        ]),
+                                            ['label' => translator('admin.list'), 'value' => 'list'],
+                                            ['label' => translator('admin.detail'), 'value' => 'detail'],
+                                            ['label' => translator('admin.create'), 'value' => 'create'],
+                                            ['label' => translator('admin.edit'), 'value' => 'edit'],
+                                        ])
+                                        ->joinValues(false)
+                                        ->extractValue()
+                                        ->checkAll()
+                                        ->defaultCheckAll(),
+                                ]),
+                                // 列表组件标签页
+                                $componentSchema(
+                                    translator('admin.code_generators.list_component'),
+                                    translator('admin.code_generators.list_component_desc'),
+                                    'list_component'
+                                ),
+                                // 列表筛选标签页
+                                amis()->Tab()->title(translator('admin.code_generators.list_filter'))->tab([
+                                    amis()->Combo('list_filter')->items([
+                                        amis()
+                                            ->Select('type', translator('admin.code_generators.filter_type'))
+                                            ->options(map2options(FilterGenerator::$filterMap))
+                                            ->required(),
+                                        amis()
+                                            ->Radios('mode', translator('admin.code_generators.filter_mode'))
+                                            ->selectFirst()
+                                            ->options([
+                                                'fixed' => translator('admin.code_generators.filter_mode_fixed'),
+                                                'input' => translator('admin.code_generators.filter_mode_input'),
+                                            ]),
+                                        amis()
+                                            ->InputText('value', translator('admin.code_generators.filter_mode_fixed_value'))
+                                            ->visibleOn('${mode == "fixed"}'),
+                                        amis()
+                                            ->InputText('input_name', translator('admin.code_generators.filter_input_name'))
+                                            ->visibleOn('${mode == "input"}')
+                                            ->required(),
+                                        amis()
+                                            ->InputText('input_label', translator('admin.code_generators.filter_input_label'))
+                                            ->visibleOn('${mode == "input"}'),
+                                        $this
+                                            ->componentSelect('filter', translator('admin.code_generators.filter_component'))
+                                            ->visibleOn('${mode == "input"}')
+                                            ->value([
+                                                'filter_type' => 'InputText',
+                                                'filter_property' => [
+                                                    ['name' => 'size', 'value' => 'md'],
+                                                    ['name' => 'clearable', 'value' => 1],
+                                                ],
+                                            ]),
+                                    ])->multiple()->multiLine()->mode('normal'),
+                                ]),
+                                // 表单组件标签页
+                                $componentSchema(
+                                    translator('admin.code_generators.form_component'),
+                                    translator('admin.code_generators.form_component_desc'),
+                                    'form_component'
+                                ),
+                                // 详情组件标签页
+                                $componentSchema(
+                                    translator('admin.code_generators.detail_component'),
+                                    translator('admin.code_generators.detail_component_desc'),
+                                    'detail_component'
+                                ),
+                                // 模型配置标签页
+                                amis()->Tab()->title(translator('admin.code_generators.model_config'))->tab([
                                     amis()
-                                        ->InputText('value', translator('admin.code_generators.filter_mode_fixed_value'))
-                                        ->visibleOn('${mode == "fixed"}'),
+                                        ->Switch('file_column', translator('admin.code_generators.file_column'))
+                                        ->value(0)
+                                        ->description(translator('admin.code_generators.file_column_desc')),
                                     amis()
-                                        ->InputText('input_name', translator('admin.code_generators.filter_input_name'))
-                                        ->visibleOn('${mode == "input"}')
-                                        ->required(),
-                                    amis()
-                                        ->InputText('input_label', translator('admin.code_generators.filter_input_label'))
-                                        ->visibleOn('${mode == "input"}'),
-                                    $this
-                                        ->componentSelect('filter', translator('admin.code_generators.filter_component'))
-                                        ->visibleOn('${mode == "input"}')
-                                        ->value([
-                                            'filter_type' => 'InputText',
-                                            'filter_property' => [
-                                                ['name' => 'size', 'value' => 'md'],
-                                                ['name' => 'clearable', 'value' => 1],
-                                            ],
-                                        ]),
-                                ])->multiple()->multiLine()->mode('normal'),
-                            ]),
-                            // 表单组件标签页
-                            $componentSchema(
-                                translator('admin.code_generators.form_component'),
-                                translator('admin.code_generators.form_component_desc'),
-                                'form_component'
-                            ),
-                            // 详情组件标签页
-                            $componentSchema(
-                                translator('admin.code_generators.detail_component'),
-                                translator('admin.code_generators.detail_component_desc'),
-                                'detail_component'
-                            ),
-                            // 模型配置标签页
-                            amis()->Tabs()->title(translator('admin.code_generators.model_config'))->tabs([
-                                amis()
-                                    ->Switch('file_column', translator('admin.code_generators.file_column'))
-                                    ->value(0)
-                                    ->description(translator('admin.code_generators.file_column_desc')),
-                                amis()
-                                    ->Switch('file_column_multi', translator('admin.code_generators.file_column_multi'))
-                                    ->value(0)
-                                    ->visibleOn('${file_column}'),
-                            ]),
+                                        ->Switch('file_column_multi', translator('admin.code_generators.file_column_multi'))
+                                        ->value(0)
+                                        ->visibleOn('${file_column}'),
+                                ]),
+                            ])
                         ])
                 ),
         ]);
@@ -1197,7 +1196,7 @@ class CodeGeneratorController extends AdminController
     {
         // 定义编辑器标签页回调函数
         $editorTab = function ($column) {
-            return amis()->Tabs()->title(Str::title($column))->tabs([
+            return amis()->Tab()->title(Str::title($column))->tab([
                 amis()->Editor($column)->language('php')->disabled()->size('xxl')
             ]);
         };

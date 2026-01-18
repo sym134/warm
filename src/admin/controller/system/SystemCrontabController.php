@@ -11,10 +11,10 @@ use warm\admin\service\system\SystemCrontabService;
 
 /**
  * 定时任务控制器
- * 
+ *
  * 用于管理系统定时任务的增删改查操作
  * 提供任务创建、编辑、执行和日志查看等功能
- * 
+ *
  * @property SystemCrontabService $service 定时任务服务类实例
  */
 class SystemCrontabController extends AdminController
@@ -27,9 +27,9 @@ class SystemCrontabController extends AdminController
 
     /**
      * 定时任务列表页面
-     * 
+     *
      * 展示系统中所有定时任务，支持筛选和立即执行功能
-     * 
+     *
      * @return Page 返回定时任务列表页面
      */
     public function list(): Page
@@ -66,12 +66,12 @@ class SystemCrontabController extends AdminController
                                 'outputVar' => 'responseResult',
                                 'actionType' => 'ajax',
                                 'options' => [],
-                                'api'         => ['url' => admin_url('/system/crontab_run'), 'method' => 'get', 'data' => ['id' => '${id}',],],
+                                'api' => ['url' => admin_url('/system/crontab_run'), 'method' => 'get', 'data' => ['id' => '${id}',],],
                             ],],
                         ],])
                         ->confirmText('确认立即执行'),
                     amis()->Action()->actionType('drawer')->drawer(
-                        amis()->Drawer()->title(translator('crontab.execution_log'))->body((new SystemCrontabLogController)->list('${id}'))->size('xl')->resizable()
+                        amis()->Drawer()->title(translator('crontab.execution_log'))->body()->size('xl')->resizable()
                     )->label(translator('crontab.execution_log'))->icon('fa-solid fa-clock-rotate-left')->level('link'),
                     $this->rowEditButton(true, 'lg'),
                     $this->rowDeleteButton(),
@@ -83,18 +83,18 @@ class SystemCrontabController extends AdminController
 
     /**
      * 定时任务表单页面
-     * 
+     *
      * 定义定时任务新增/编辑表单结构，包含任务类型、执行周期、目标等字段
-     * 
+     *
      * @param bool $isEdit 是否为编辑模式
      * @return Form 返回定时任务表单
      */
-    public function form($isEdit = false): Form
+    public function form(bool $isEdit = false): Form
     {
         return $this->baseForm()->mode('horizontal')->data([
-            'week'   => 1,
-            'day'    => 1,
-            'hour'   => 1,
+            'week' => 1,
+            'day' => 1,
+            'hour' => 1,
             'minute' => 30,
             'second' => 1,
         ])->body([
@@ -104,9 +104,9 @@ class SystemCrontabController extends AdminController
                     'change' => [
                         'actions' => [
                             [
-                                'actionType'  => 'setValue',
+                                'actionType' => 'setValue',
                                 'componentId' => 'name',
-                                'args'        => ['value' => '${event.data.selectedItems.label}'],
+                                'args' => ['value' => '${event.data.selectedItems.label}'],
                             ],
                         ],
                     ],
@@ -115,13 +115,13 @@ class SystemCrontabController extends AdminController
                 ->description(translator('crontab.name_description')),
             amis()->Group()->label(translator('crontab.execution_cycle'))->body([
                 amis()->Select('execution_cycle')->mode('inline')->options([
-                    'day'      => translator('crontab.execution_cycle_options.day'),
-                    'day-n'    => translator('crontab.execution_cycle_options.day-n'),
-                    'hour'     => translator('crontab.execution_cycle_options.hour'),
-                    'hour-n'   => translator('crontab.execution_cycle_options.hour-n'),
+                    'day' => translator('crontab.execution_cycle_options.day'),
+                    'day-n' => translator('crontab.execution_cycle_options.day-n'),
+                    'hour' => translator('crontab.execution_cycle_options.hour'),
+                    'hour-n' => translator('crontab.execution_cycle_options.hour-n'),
                     'minute-n' => translator('crontab.execution_cycle_options.minute-n'),
-                    'week'     => translator('crontab.execution_cycle_options.week'),
-                    'month'    => translator('crontab.execution_cycle_options.month'),
+                    'week' => translator('crontab.execution_cycle_options.week'),
+                    'month' => translator('crontab.execution_cycle_options.month'),
                     'second-n' => translator('crontab.execution_cycle_options.second-n'),
                 ])->value('day'),
 
@@ -153,7 +153,7 @@ class SystemCrontabController extends AdminController
 
             ]),
             amis()->InputText('target', translator('crontab.target'))->required()->description(translator('crontab.target_description')),
-            amis()->BaseRenderer()->set('type', 'json-schema')->set('name', 'parameter')->set('label', translator('crontab.parameter')),
+            amis()->JsonSchema()->name('parameter')->set('name', 'parameter')->label(translator('crontab.parameter')),
             amis()->Switch('task_status', translator('crontab.task_status'))->trueValue(1)->falseValue(2)->required()->value(1),
             amis()->InputText('remark', translator('crontab.remark')),
         ]);
@@ -161,9 +161,9 @@ class SystemCrontabController extends AdminController
 
     /**
      * 定时任务详情页面
-     * 
+     *
      * 展示定时任务的详细信息
-     * 
+     *
      * @return Form 返回定时任务详情表单
      */
     public function detail(): Form
@@ -173,9 +173,9 @@ class SystemCrontabController extends AdminController
 
     /**
      * 立即执行定时任务
-     * 
+     *
      * 手动触发指定定时任务的执行
-     * 
+     *
      * @return Response 返回执行结果响应
      */
     public function run(): Response

@@ -4,8 +4,8 @@ namespace warm\admin\controller;
 
 use support\Response;
 use warm\admin\Admin;
-use warm\admin\renderer\Card;
 use warm\admin\renderer\Panel;
+use warm\admin\renderer\Wrapper;
 
 /**
  * 后台首页控制器类
@@ -68,6 +68,11 @@ echo 'Hello World';
 ```
 MD
             ),
+        ])->id('code-view-panel')->set('animations', [
+            'enter' => [
+                'duration' => 0.5,
+                'type'     => 'fadeInRight',
+            ],
         ]);
     }
 
@@ -76,15 +81,18 @@ MD
      * 
      * 展示实时时间的时钟组件
      * 
-     * @return Card 时钟卡片
+     * @return Wrapper 时钟卡片
      */
-    public function clock(): Card
+    public function clock(): Wrapper
     {
-        return amis()->Card()->className('h-full bg-blingbling')->header(['title' => 'Clock'])->body([
+        /** @noinspection all */
+        $panel = amis()->Panel()->className('h-full bg-blingbling')->body([
+            amis()->Tpl()->tpl('<div class="text-2xl font-bold mb-4">Clock</div>'),
             amis()->Custom()
                 ->name('clock')
                 ->html('<div id="clock" class="text-4xl"></div><div id="clock-date" class="mt-5"></div>')
-                ->onMount(<<<JS
+                ->onMount(
+                    <<<JS
 const clock = document.getElementById('clock');
 const tick = () => {
     clock.innerHTML = (new Date()).toLocaleTimeString();
@@ -98,6 +106,13 @@ JS
 
                 ),
         ]);
+
+        return amis()->Wrapper()->size('none')->className('h-full mb-3')->id('clock-panel')->set('animations', [
+            'enter' => [
+                'duration' => 0.5,
+                'type'     => 'fadeInRight',
+            ],
+        ])->body($panel);
     }
 
     /**
@@ -105,9 +120,9 @@ JS
      * 
      * 展示框架相关信息和链接
      * 
-     * @return Card 框架信息卡片
+     * @return Panel 框架信息卡片
      */
-    public function frameworkInfo(): Card
+    public function frameworkInfo(): Panel
     {
         // 创建链接组件的辅助函数
         $link = function ($label, $link) {
@@ -120,8 +135,7 @@ JS
                 ->link($link);
         };
 
-        // 构建框架信息卡片
-        return amis()->Card()->className('h-96')->body([
+        return amis()->Panel()->className('h-96')->body(
             amis()->Wrapper()->className('h-full')->body([
                 amis()->Flex()
                     ->className('h-full')
@@ -136,7 +150,11 @@ JS
                         ]),
                     ]),
             ])
-
+        )->id('framework-info')->set('animations', [
+            'enter' => [
+                'duration' => 0.5,
+                'type'     => 'zoomIn',
+            ],
         ]);
     }
 
@@ -145,12 +163,11 @@ JS
      * 
      * 展示数据分布的饼图
      * 
-     * @return Card 饼图卡片
+     * @return Panel 饼图卡片
      */
-    public function pieChart(): Card
+    public function pieChart(): Panel
     {
-        return amis()->Card()->className('h-96')->body([
-
+        return amis()->Panel()->className('w-full h-96')->body([
             amis()->Chart()->height(350)->config([
                 'backgroundColor' => '',
                 'tooltip'         => ['trigger' => 'item'],
@@ -181,6 +198,11 @@ JS
                     ],
                 ],
             ])
+        ])->id('pie-chart-panel')->set('animations', [
+            'enter' => [
+                'duration' => 0.5,
+                'type'     => 'zoomIn',
+            ],
         ]);
     }
 
@@ -189,9 +211,9 @@ JS
      * 
      * 展示用户行为数据的折线图
      * 
-     * @return Card 折线图卡片
+     * @return Panel 折线图卡片
      */
-    public function lineChart(): Card
+    public function lineChart(): Panel
     {
         // 生成随机数组的辅助函数
         $randArr = function () {
@@ -239,8 +261,12 @@ JS
             ],
         ]);
 
-        // 返回折线图卡片
-        return amis()->Card()->className('clear-card-mb')->body([$chart]);
+        return amis()->Panel()->className('clear-card-mb')->body($chart)->id('line-chart-panel')->set('animations', [
+            'enter' => [
+                'duration' => 0.5,
+                'type'     => 'zoomIn',
+            ],
+        ]);
     }
 
     /**
@@ -248,13 +274,13 @@ JS
      * 
      * 展示一个旋转的3D立方体动画
      * 
-     * @return Card 立方体卡片
+     * @return Panel 立方体卡片
      */
-    public function cube(): Card
+    public function cube(): Panel
     {
-        return amis()->Card()->className('h-96 ml-4 w-8/12')->body([
-
-            amis()->Html()->html(<<<HTML
+        return amis()->Panel()->className('h-96 ml-4 w-8/12')->body(
+            amis()->Html()->html(
+                <<<HTML
 <style>
     .cube-box{ height: 300px; display: flex; align-items: center; justify-content: center; }
   .cube { width: 100px; height: 100px; position: relative; transform-style: preserve-3d; animation: rotate 10s linear infinite; }
@@ -302,7 +328,11 @@ JS
 </div>
 HTML
             )
-
+        )->id('cube-panel')->set('animations', [
+            'enter' => [
+                'duration' => 0.5,
+                'type'     => 'zoomIn',
+            ],
         ]);
     }
 
@@ -324,7 +354,7 @@ HTML
             ],
             '.bg-blingbling'                 => [
                 'color'             => '#fff',
-                'background'        => 'linear-gradient(to bottom right, #2C3E50, #FD746C, #FF8235, #ffff1c, #92FE9D, #00C9FF, #a044ff, #e73827)',
+                'background'        => 'linear-gradient(to bottom right, #00C9FF, #FD746C, #FF8235, #ffff1c, #92FE9D, #2C3E50, #a044ff, #e73827)',
                 'background-repeat' => 'no-repeat',
                 'background-size'   => '1000% 1000%',
                 'animation'         => 'gradient 60s ease infinite',
