@@ -10,7 +10,7 @@ use warm\admin\renderer\trait\Options;
 
 
 /**
- * Radios
+ * Radios 单选框组
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/radios
  */

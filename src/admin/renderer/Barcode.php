@@ -1,7 +1,7 @@
 <?php
 namespace warm\admin\renderer;
 /**
- * Barcode
+ * Barcode 条形码
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/barcode
  */

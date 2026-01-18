@@ -1,7 +1,7 @@
 <?php
 namespace warm\admin\renderer;
 /**
- * Tag
+ * Tag 标签
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/tag
  */

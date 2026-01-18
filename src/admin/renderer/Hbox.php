@@ -1,7 +1,7 @@
 <?php
 namespace warm\admin\renderer;
 /**
- * Hbox
+ * Hbox 布局
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/hbox
  */

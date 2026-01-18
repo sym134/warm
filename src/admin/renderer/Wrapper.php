@@ -1,7 +1,7 @@
 <?php
 namespace warm\admin\renderer;
 /**
- * Wrapper
+ * Wrapper 包装器
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/wrapper
  */

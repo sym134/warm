@@ -4,7 +4,7 @@ use warm\admin\renderer\trait\DataDomain;
 use warm\admin\renderer\trait\OnEvent;
 
 /**
- * Service
+ * Service 功能型容器
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/service
  */

@@ -1,7 +1,7 @@
 <?php
 namespace warm\admin\renderer;
 /**
- * Property
+ * Property 属性表
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/property
  */

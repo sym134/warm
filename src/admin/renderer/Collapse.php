@@ -3,7 +3,7 @@ namespace warm\admin\renderer;
 use warm\admin\renderer\trait\OnEvent;
 
 /**
- * Collapse 折叠器
+ * Collapse 折叠面板
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/collapse
  */

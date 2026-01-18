@@ -1,7 +1,7 @@
 <?php
 namespace warm\admin\renderer;
 /**
- * Sparkline
+ * Sparkline 走势图
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/sparkline
  */

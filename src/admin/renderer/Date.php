@@ -2,7 +2,7 @@
 
 namespace warm\admin\renderer;
 /**
- * Date
+ * Date 日期时间
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/date
  */

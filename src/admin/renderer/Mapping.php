@@ -3,7 +3,7 @@ namespace warm\admin\renderer;
 use warm\admin\renderer\trait\NameAndLabel;
 
 /**
- * Mapping
+ * Mapping 映射
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/mapping
  */

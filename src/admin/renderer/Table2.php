@@ -4,7 +4,7 @@ use warm\admin\renderer\trait\DataDomain;
 use warm\admin\renderer\trait\OnEvent;
 
 /**
- * Table2
+ * Table2 二维表格
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/table2
  */

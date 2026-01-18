@@ -1,7 +1,7 @@
 <?php
 namespace warm\admin\renderer;
 /**
- * PdfViewer
+ * PdfViewer 渲染
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/pdf-viewer
  */

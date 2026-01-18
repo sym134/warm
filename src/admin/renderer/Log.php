@@ -1,7 +1,7 @@
 <?php
 namespace warm\admin\renderer;
 /**
- * Log
+ * Log 实时日志
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/log
  */

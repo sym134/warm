@@ -3,7 +3,7 @@ namespace warm\admin\renderer;
 use warm\admin\renderer\trait\DataDomain;
 
 /**
- * Crud
+ * CRUD 增删改查
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/crud
  */
@@ -135,7 +135,7 @@ class CRUD extends BaseRenderer
     }
 
     /**
-     * `false`
+     * 配置过滤器是否显示切换按钮。
      *
      * @param mixed $value
      * @return static

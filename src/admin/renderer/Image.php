@@ -3,7 +3,7 @@ namespace warm\admin\renderer;
 use warm\admin\renderer\trait\OnEvent;
 
 /**
- * Image
+ * Image 图片
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/image
  */

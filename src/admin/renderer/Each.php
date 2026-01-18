@@ -1,7 +1,7 @@
 <?php
 namespace warm\admin\renderer;
 /**
- * Each
+ * Each 循环渲染器
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/each
  */

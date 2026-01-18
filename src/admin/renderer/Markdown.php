@@ -1,7 +1,7 @@
 <?php
 namespace warm\admin\renderer;
 /**
- * Markdown
+ * Markdown 渲染
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/markdown
  */

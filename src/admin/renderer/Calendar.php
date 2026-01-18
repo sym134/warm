@@ -4,7 +4,7 @@ namespace warm\admin\renderer;
 use warm\admin\renderer\trait\OnEvent;
 
 /**
- * Calendar 日历日程
+ * Calendar 日历组件
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/calendar
  */

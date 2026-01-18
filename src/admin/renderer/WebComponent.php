@@ -1,7 +1,7 @@
 <?php
 namespace warm\admin\renderer;
 /**
- * WebComponent
+ * WebComponent Web组件
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/web-component
  */

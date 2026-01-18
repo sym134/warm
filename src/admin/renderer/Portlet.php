@@ -1,7 +1,7 @@
 <?php
 namespace warm\admin\renderer;
 /**
- * Portlet
+ * Portlet 门户栏目
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/portlet
  */

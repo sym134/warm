@@ -1,7 +1,7 @@
 <?php
 namespace warm\admin\renderer;
 /**
- * Images
+ * Images 图片集
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/images
  */

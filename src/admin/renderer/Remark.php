@@ -1,7 +1,7 @@
 <?php
 namespace warm\admin\renderer;
 /**
- * Remark
+ * Remark 标记
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/remark
  */

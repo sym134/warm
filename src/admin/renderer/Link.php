@@ -1,7 +1,7 @@
 <?php
 namespace warm\admin\renderer;
 /**
- * Link
+ * Link 链接
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/link
  */

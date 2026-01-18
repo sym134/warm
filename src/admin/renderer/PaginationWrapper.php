@@ -3,7 +3,7 @@ namespace warm\admin\renderer;
 use warm\admin\renderer\trait\DataDomain;
 
 /**
- * PaginationWrapper
+ * PaginationWrapper 分页容器
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/pagination-wrapper
  */

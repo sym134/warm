@@ -1,7 +1,7 @@
 <?php
 namespace warm\admin\renderer;
 /**
- * Grid
+ * Grid 水平分栏
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/grid
  */

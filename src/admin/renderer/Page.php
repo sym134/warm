@@ -6,7 +6,7 @@ use warm\admin\renderer\trait\DataDomain;
 use warm\admin\renderer\trait\OnEvent;
 
 /**
- * Page
+ * Page 页面
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/page
  */

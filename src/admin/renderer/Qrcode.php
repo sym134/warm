@@ -4,7 +4,7 @@ namespace warm\admin\renderer;
 use warm\admin\renderer\trait\OnEvent;
 
 /**
- * Qrcode
+ * Qrcode 二维码
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/qrcode
  */

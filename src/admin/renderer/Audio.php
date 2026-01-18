@@ -1,7 +1,7 @@
 <?php
 namespace warm\admin\renderer;
 /**
- * Audio
+ * Audio 音频
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/audio
  */

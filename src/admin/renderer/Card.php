@@ -1,7 +1,7 @@
 <?php
 namespace warm\admin\renderer;
 /**
- * Card
+ * Card 卡片
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/card
  */

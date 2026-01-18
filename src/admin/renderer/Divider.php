@@ -1,7 +1,7 @@
 <?php
 namespace warm\admin\renderer;
 /**
- * Divider
+ * Divider 分割线
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/divider
  */

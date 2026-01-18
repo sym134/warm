@@ -1,7 +1,7 @@
 <?php
 namespace warm\admin\renderer;
 /**
- * Toast
+ * Toast 轻提示
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/toast
  */

@@ -1,7 +1,7 @@
 <?php
 namespace warm\admin\renderer;
 /**
- * Spinner
+ * Spinner 加载中
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/spinner
  */

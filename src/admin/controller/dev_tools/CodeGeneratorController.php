@@ -1037,7 +1037,7 @@ class CodeGeneratorController extends AdminController
         return amis()->Card()->body([
             amis()
                 ->Alert()
-                ->body(translator('admin.code_generators.column_warning') . " <a href='https://github.com/sym134/warm/issues' target='_blank'>" . translator('admin.show') . "</a> ")
+                ->body(translator('admin.code_generators.column_warning') . " <a href='https://github.com/warmup413/warm/issues' target='_blank'>" . translator('admin.show') . "</a> ")
                 ->level('warning')
                 ->showCloseButton()
                 ->showIcon(),

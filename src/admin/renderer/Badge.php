@@ -1,7 +1,7 @@
 <?php
 namespace warm\admin\renderer;
 /**
- * Badge
+ * Badge 角标
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/badge
  */

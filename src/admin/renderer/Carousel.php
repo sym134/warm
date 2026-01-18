@@ -4,7 +4,7 @@ namespace warm\admin\renderer;
 use warm\admin\renderer\trait\OnEvent;
 
 /**
- * Carousel
+ * Carousel 轮播图
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/carousel
  */

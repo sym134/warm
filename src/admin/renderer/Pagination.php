@@ -5,7 +5,7 @@ namespace warm\admin\renderer;
 use warm\admin\renderer\trait\OnEvent;
 
 /**
- * Pagination
+ * Pagination 分页组件
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/pagination
  */

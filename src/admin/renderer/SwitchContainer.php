@@ -3,7 +3,7 @@ namespace warm\admin\renderer;
 use warm\admin\renderer\trait\OnEvent;
 
 /**
- * SwitchContainer
+ * SwitchContainer 开关容器
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/switch-container
  */

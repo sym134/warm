@@ -4,7 +4,7 @@ use warm\admin\renderer\trait\DataDomain;
 use warm\admin\renderer\trait\OnEvent;
 
 /**
- * Chart
+ * Chart 图表
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/chart
  */

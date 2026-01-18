@@ -1,7 +1,7 @@
 <?php
 namespace warm\admin\renderer;
 /**
- * Number
+ * Number 数字展示
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/number
  */

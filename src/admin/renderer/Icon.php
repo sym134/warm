@@ -1,7 +1,7 @@
 <?php
 namespace warm\admin\renderer;
 /**
- * Icon
+ * Icon 图标
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/icon
  */

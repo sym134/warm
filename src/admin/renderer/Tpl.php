@@ -3,7 +3,7 @@ namespace warm\admin\renderer;
 use warm\admin\renderer\trait\OnEvent;
 
 /**
- * Tpl
+ * Tpl 模板
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/tpl
  */

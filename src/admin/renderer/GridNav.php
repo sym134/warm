@@ -1,7 +1,7 @@
 <?php
 namespace warm\admin\renderer;
 /**
- * GridNav
+ * GridNav 宫格导航
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/grid-nav
  */

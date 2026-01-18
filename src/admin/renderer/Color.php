@@ -1,7 +1,7 @@
 <?php
 namespace warm\admin\renderer;
 /**
- * Color
+ * Color 颜色
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/color
  */

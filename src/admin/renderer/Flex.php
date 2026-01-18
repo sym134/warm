@@ -1,7 +1,7 @@
 <?php
 namespace warm\admin\renderer;
 /**
- * Flex
+ * Flex 布局
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/flex
  */

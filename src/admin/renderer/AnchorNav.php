@@ -1,7 +1,7 @@
 <?php
 namespace warm\admin\renderer;
 /**
- * AnchorNav
+ * AnchorNav 锚点导航
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/anchor-nav
  */

@@ -2,7 +2,7 @@
 namespace warm\admin\renderer;
 
 /**
- * Alert
+ * Alert 提示
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/alert
  */

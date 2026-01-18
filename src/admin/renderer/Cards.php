@@ -5,7 +5,7 @@ use warm\admin\renderer\trait\DataDomain;
 use warm\admin\renderer\trait\OnEvent;
 
 /**
- * Cards
+ * Cards 卡片组
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/cards
  */

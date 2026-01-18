@@ -4,7 +4,7 @@ use warm\admin\renderer\trait\DataDomain;
 use warm\admin\renderer\trait\OnEvent;
 
 /**
- * Dialog
+ * Dialog 对话框
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/dialog
  */

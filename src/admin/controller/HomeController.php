@@ -146,7 +146,7 @@ JS
                         amis()->Image()->src(url(Admin::warmConfig('app.logo'))),
                         amis()->Wrapper()->className('text-3xl mt-9 font-bold')->body(Admin::warmConfig('app.name')),
                         amis()->Flex()->className('px-24 w-full mt-5')->justify('space-around')->items([
-                            $link('GitHub', 'https://github.com/sym134/warm'),
+                            $link('GitHub', 'https://github.com/warmup413/warm'),
                         ]),
                     ]),
             ])

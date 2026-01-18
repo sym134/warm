@@ -1,7 +1,7 @@
 <?php
 namespace warm\admin\renderer;
 /**
- * Video
+ * Video 视频播放器
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/video
  */

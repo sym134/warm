@@ -1,7 +1,7 @@
 <?php
 namespace warm\admin\renderer;
 /**
- * TooltipWrapper
+ * TooltipWrapper 文字提示包装器
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/tooltip-wrapper
  */

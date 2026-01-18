@@ -4,7 +4,7 @@ namespace warm\admin\renderer;
 use warm\admin\renderer\trait\OnEvent;
 
 /**
- * Avatar
+ * Avatar 头像
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/avatar
  */

@@ -101,7 +101,7 @@ class PluginController extends AdminController
         return amis()->CRUD()
             ->perPage(20)
             ->affixHeader(false)
-            ->filterTogglable()
+            ->filterTogglable(true)
             ->filterDefaultVisible(false)
             ->api($this->getListGetDataPath())
             ->perPageAvailable([10, 20, 30, 50, 100, 200])

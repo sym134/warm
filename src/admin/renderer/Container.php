@@ -4,7 +4,7 @@ namespace warm\admin\renderer;
 use warm\admin\renderer\trait\OnEvent;
 
 /**
- * Container
+ * Container 容器
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/container
  */

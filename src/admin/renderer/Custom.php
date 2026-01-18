@@ -1,7 +1,7 @@
 <?php
 namespace warm\admin\renderer;
 /**
- * Custom
+ * Custom 自定义组件
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/custom
  */

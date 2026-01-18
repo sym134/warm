@@ -1,7 +1,7 @@
 <?php
 namespace warm\admin\renderer;
 /**
- * Code
+ * Code 代码高亮
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/code
  */

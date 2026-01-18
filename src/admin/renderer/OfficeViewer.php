@@ -4,7 +4,7 @@ namespace warm\admin\renderer;
 use warm\admin\renderer\trait\OnEvent;
 
 /**
- * OfficeViewer
+ * OfficeViewer 文档渲染
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/office-viewer
  */

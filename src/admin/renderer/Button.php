@@ -1,7 +1,7 @@
 <?php
 namespace warm\admin\renderer;
 /**
- * Button
+ * Button 按钮
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/button
  */

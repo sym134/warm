@@ -1,7 +1,7 @@
 <?php
 namespace warm\admin\renderer;
 /**
- * Grid2d
+ * Grid2d 2D布局
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/grid-2d
  */

@@ -3,7 +3,7 @@ namespace warm\admin\renderer;
 use warm\admin\renderer\trait\DataDomain;
 
 /**
- * Drawer
+ * Drawer 抽屉
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/drawer
  */

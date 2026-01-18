@@ -5,7 +5,7 @@ use warm\admin\renderer\trait\NameAndLabel;
 use warm\admin\renderer\trait\OnEvent;
 
 /**
- * Progress
+ * Progress 进度条
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/progress
  */

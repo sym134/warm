@@ -1,7 +1,7 @@
 <?php
 namespace warm\admin\renderer;
 /**
- * Steps
+ * Steps 步骤条
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/steps
  */

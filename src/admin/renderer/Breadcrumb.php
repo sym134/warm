@@ -2,7 +2,7 @@
 
 namespace warm\admin\renderer;
 /**
- * Breadcrumb
+ * Breadcrumb 面包屑
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/breadcrumb
  */
