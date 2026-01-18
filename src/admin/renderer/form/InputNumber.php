@@ -6,7 +6,7 @@ use warm\admin\renderer\trait\FormItem;
 use warm\admin\renderer\trait\OnEvent;
 
 /**
- * InputNumber
+ * InputNumber 数字输入框
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/input-number
  */

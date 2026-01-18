@@ -6,7 +6,7 @@ use warm\admin\renderer\trait\FormItem;
 use warm\admin\renderer\trait\OnEvent;
 
 /**
- * Radio
+ * Radio 单选框
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/radio
  */

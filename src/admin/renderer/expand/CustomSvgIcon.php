@@ -26,19 +26,13 @@ class CustomSvgIcon extends BaseRenderer
 
     /**
      * 设置图标的名称
+     *
+     * @param string $value
+     * @return $this
      */
-    public function icon($value = '')
+    public function icon(string $value = ''): static
     {
         return $this->set('icon', $value);
     }
-
-    /**
-     * 指定为 custom-svg-icon 渲染器。
-     */
-    public function type($value = 'custom-svg-icon')
-    {
-        return $this->set('type', $value);
-    }
-
 
 }

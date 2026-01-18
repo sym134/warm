@@ -6,7 +6,7 @@ use warm\admin\renderer\trait\FormItem;
 use warm\admin\renderer\trait\OnEvent;
 
 /**
- * MatrixCheckboxes
+ * MatrixCheckboxes 矩阵复选框
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/matrix-checkboxes
  */

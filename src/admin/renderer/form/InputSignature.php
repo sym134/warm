@@ -3,15 +3,17 @@ namespace warm\admin\renderer\form;
 
 use warm\admin\renderer\BaseRenderer;
 use warm\admin\renderer\trait\NameAndLabel;
+use warm\admin\renderer\trait\FormItem;
 
 /**
- * InputSignature
+ * InputSignature 签名
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/input-signature
  */
 class InputSignature extends BaseRenderer
 {
     use NameAndLabel;
+    use FormItem;
 
     public string $type = 'input-signature';
 

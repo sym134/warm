@@ -5,7 +5,7 @@ use warm\admin\renderer\BaseRenderer;
 use warm\admin\renderer\trait\FormItem;
 
 /**
- * InputVerificationCode
+ * InputVerificationCode 验证码输入框
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/input-verification-code
  */

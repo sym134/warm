@@ -6,7 +6,7 @@ use warm\admin\renderer\trait\FormItem;
 use warm\admin\renderer\trait\OnEvent;
 
 /**
- * InputTime
+ * InputTime 时间选择器
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/input-time
  */

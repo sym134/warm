@@ -6,7 +6,7 @@ use warm\admin\renderer\trait\FormItem;
 use warm\admin\renderer\trait\OnEvent;
 
 /**
- * Textarea
+ * Textarea 多行文本输入框
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/textarea
  */

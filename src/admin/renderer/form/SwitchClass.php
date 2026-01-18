@@ -6,7 +6,7 @@ use warm\admin\renderer\trait\FormItem;
 use warm\admin\renderer\trait\OnEvent;
 
 /**
- * Switch
+ * SwitchClass 开关
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/form/switch
  */

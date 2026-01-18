@@ -6,7 +6,7 @@ use warm\admin\renderer\trait\OnEvent;
 use warm\admin\renderer\trait\FormItem;
 
 /**
- * ChainSelect
+ * ChainedSelect 级联选择器
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/chain-select
  */

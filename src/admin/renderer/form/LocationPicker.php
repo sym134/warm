@@ -6,7 +6,7 @@ use warm\admin\renderer\trait\FormItem;
 use warm\admin\renderer\trait\OnEvent;
 
 /**
- * LocationPicker
+ * LocationPicker 地理位置选择器
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/location-picker
  */

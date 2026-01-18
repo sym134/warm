@@ -3,15 +3,17 @@ namespace warm\admin\renderer\form;
 
 use warm\admin\renderer\BaseRenderer;
 use warm\admin\renderer\trait\OnEvent;
+use warm\admin\renderer\trait\FormItem;
 
 /**
- * InputTable
+ * InputTable 表格输入框
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/input-table
  */
 class InputTable extends BaseRenderer
 {
     use OnEvent;
+    use FormItem;
 
     public string $type = 'input-table';
 

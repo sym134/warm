@@ -7,7 +7,7 @@ use warm\admin\renderer\trait\FormItem;
 use warm\admin\renderer\trait\OnEvent;
 
 /**
- * Picker
+ * Picker 选择器
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/picker
  */

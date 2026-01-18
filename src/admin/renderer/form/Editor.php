@@ -6,7 +6,7 @@ use warm\admin\renderer\trait\OnEvent;
 use warm\admin\renderer\trait\FormItem;
 
 /**
- * Editor
+ * Editor 代码编辑器
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/editor
  */

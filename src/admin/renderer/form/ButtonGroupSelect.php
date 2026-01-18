@@ -7,7 +7,7 @@ use warm\admin\renderer\trait\OnEvent;
 use warm\admin\renderer\trait\FormItem;
 
 /**
- * ButtonGroupSelect
+ * ButtonGroupSelect 按钮组选择器
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/button-group-select
  */

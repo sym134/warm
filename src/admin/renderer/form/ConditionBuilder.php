@@ -5,7 +5,7 @@ use warm\admin\renderer\BaseRenderer;
 use warm\admin\renderer\trait\FormItem;
 
 /**
- * ConditionBuilder
+ * ConditionBuilder 条件构建器
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/condition-builder
  */

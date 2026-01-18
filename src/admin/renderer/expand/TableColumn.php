@@ -328,4 +328,15 @@ class TableColumn extends BaseRenderer
         return $this->set('textOverflow', $value);
     }
 
+    /**
+     * 文本对齐方式 可选值: "start", "flex-start", "center", "end", "flex-end", "space-around", "space-between", "space-evenly"
+     *
+     * @param string $string
+     * @return static
+     */
+    public function justify(string $string): static
+    {
+        return $this->set('justify', $string);
+    }
+
 }

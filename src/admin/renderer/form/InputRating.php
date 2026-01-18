@@ -6,7 +6,7 @@ use warm\admin\renderer\trait\FormItem;
 use warm\admin\renderer\trait\OnEvent;
 
 /**
- * InputRating
+ * InputRating 评分
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/input-rating
  */

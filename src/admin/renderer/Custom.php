@@ -1,5 +1,7 @@
 <?php
 namespace warm\admin\renderer;
+use warm\admin\renderer\trait\OnEvent;
+
 /**
  * Custom 自定义组件
  *
@@ -7,6 +9,8 @@ namespace warm\admin\renderer;
  */
 class Custom extends BaseRenderer
 {
+    use OnEvent;
+
     public string $type = 'custom';
 
     /**

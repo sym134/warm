@@ -2,14 +2,18 @@
 namespace warm\admin\renderer\form;
 
 use warm\admin\renderer\BaseRenderer;
+use warm\admin\renderer\trait\FormItem;
 
 /**
- * InputExcel
+ * InputExcel Excel输入框
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/input-excel
  */
 class InputExcel extends BaseRenderer
 {
+    use FormItem;
+
+    public string $type = 'input-excel';
 
     /**
      * 是否解析所有 sheet

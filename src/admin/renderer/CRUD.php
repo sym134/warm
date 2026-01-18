@@ -1,6 +1,7 @@
 <?php
 namespace warm\admin\renderer;
 use warm\admin\renderer\trait\DataDomain;
+use warm\admin\renderer\trait\OnEvent;
 
 /**
  * CRUD 增删改查
@@ -10,6 +11,7 @@ use warm\admin\renderer\trait\DataDomain;
 class CRUD extends BaseRenderer
 {
     use DataDomain;
+    use OnEvent;
 
     public string $type = 'crud';
 

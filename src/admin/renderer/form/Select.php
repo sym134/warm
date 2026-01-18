@@ -4,9 +4,10 @@ namespace warm\admin\renderer\form;
 use warm\admin\renderer\BaseRenderer;
 use warm\admin\renderer\trait\OnEvent;
 use warm\admin\renderer\trait\Options;
+use warm\admin\renderer\trait\FormItem;
 
 /**
- * Select
+ * Select 选择器
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/select
  */
@@ -14,6 +15,7 @@ class Select extends BaseRenderer
 {
     use Options;
     use OnEvent;
+    use FormItem;
 
     public string $type = 'select';
 

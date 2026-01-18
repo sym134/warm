@@ -5,7 +5,7 @@ use warm\admin\renderer\BaseRenderer;
 use warm\admin\renderer\trait\FormItem;
 
 /**
- * JsonSchema
+ * JsonSchema JSON模式
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/json-schema
  */

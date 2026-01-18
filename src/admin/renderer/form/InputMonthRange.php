@@ -6,7 +6,7 @@ use warm\admin\renderer\trait\FormItem;
 use warm\admin\renderer\trait\OnEvent;
 
 /**
- * InputMonthRange
+ * InputMonthRange 月份范围选择器
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/input-month-range
  */

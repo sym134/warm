@@ -5,7 +5,7 @@ use warm\admin\renderer\BaseRenderer;
 use warm\admin\renderer\trait\FormItem;
 
 /**
- * InputSubForm
+ * InputSubForm 子表单
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/input-sub-form
  */

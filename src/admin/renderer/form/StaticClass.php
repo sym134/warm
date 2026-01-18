@@ -5,7 +5,7 @@ use warm\admin\renderer\BaseRenderer;
 use warm\admin\renderer\trait\NameAndLabel;
 
 /**
- * Static
+ * StaticClass 静态展示
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/static
  */

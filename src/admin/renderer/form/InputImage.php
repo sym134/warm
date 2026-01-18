@@ -6,7 +6,7 @@ use warm\admin\renderer\trait\FormItem;
 use warm\admin\renderer\trait\OnEvent;
 
 /**
- * InputImage
+ * InputImage 图片上传
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/input-image
  */

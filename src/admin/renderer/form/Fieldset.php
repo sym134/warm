@@ -5,7 +5,7 @@ use warm\admin\renderer\BaseRenderer;
 use warm\admin\renderer\trait\FormItem;
 
 /**
- * Fieldset
+ * Fieldset 字段集合
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/fieldset
  */

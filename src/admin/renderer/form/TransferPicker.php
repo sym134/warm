@@ -5,12 +5,13 @@ use warm\admin\renderer\BaseRenderer;
 use warm\admin\renderer\trait\FormItem;
 
 /**
- * TransferPicker
+ * TransferPicker 穿梭选择器
  *
  * @see https://aisuda.bce.baidu.com/amis/zh-CN/components/transfer-picker
  */
 class TransferPicker extends Transfer
 {
+    use FormItem;
     public string $type = 'transfer-picker';
 
     /**
