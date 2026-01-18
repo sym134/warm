@@ -35,7 +35,7 @@ class SystemFile extends BaseModel
      * 
      * @var array
      */
-    const FILE_TYPE = ['image' => '图片', 'text' => '文档', 'audio' => '音频', 'file' => '文件'];
+    const FILE_TYPE = ['image' => '图片', 'video' => '视频', 'audio' => '音频', 'file' => '文件'];
 
     /**
      * 与模型关联的表名
@@ -43,4 +43,25 @@ class SystemFile extends BaseModel
      * @var string
      */
     protected $table = 'system_files';
+
+    /**
+     * 可批量赋值的属性
+     * 
+     * @var array
+     */
+    protected $fillable = [
+        'storage_mode',
+        'origin_name',
+        'new_name',
+        'hash',
+        'file_type',
+        'mime_type',
+        'storage_path',
+        'size_byte',
+        'file_size',
+        'url',
+        'remark',
+        'group_id',
+        'created_by',
+    ];
 }
