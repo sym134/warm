@@ -5,6 +5,7 @@ namespace warm\admin\service\system;
 use support\Db;
 use warm\admin\Admin;
 use warm\admin\model\system\SystemFile;
+use warm\admin\model\system\SystemFileGroup;
 use warm\admin\service\AdminService;
 use warm\framework\filesystem\facade\Storage;
 
@@ -46,31 +47,32 @@ class SystemFileService extends AdminService
             $baseQuery->where('file_type', $fileType);
         }
         
-        // 获取所有有分组的文件，统计每个分组的文件数量
-        $groupStatsQuery = clone $baseQuery;
-        $groupStats = $groupStatsQuery
-            ->selectRaw('group_id, COUNT(*) as count')
-            ->whereNotNull('group_id')
-            ->where('group_id', '!=', '')
-            ->groupBy('group_id')
+        // 获取分组列表（从分组表获取）
+        $groupQuery = SystemFileGroup::baseQuery();
+        if ($fileType && $fileType !== 'all') {
+            $groupQuery->where(function ($q) use ($fileType) {
+                $q->where('file_type', $fileType)->orWhereNull('file_type');
+            });
+        }
+        
+        $groupStats = $groupQuery
+            ->orderBy('sort', 'asc')
+            ->orderBy('id', 'asc')
             ->get()
-            ->map(function ($item) use ($fileType) {
-                // 尝试从某个文件获取分组名称（使用 remark 字段存储分组名称）
-                $groupFile = SystemFile::baseQuery()
-                    ->where('group_id', $item->group_id)
-                    ->whereNotNull('remark')
-                    ->where('remark', '!=', '')
-                    ->first();
+            ->map(function ($group) use ($baseQuery, $fileType) {
+                // 统计该分组的文件数量
+                $countQuery = clone $baseQuery;
+                $count = $countQuery->where('group_id', $group->id)->count();
                 
-                $to = '?group_id=' . $item->group_id;
+                $to = '?group_id=' . $group->id;
                 if ($fileType) {
                     $to .= '&file_type=' . $fileType;
                 }
                 
                 return [
-                    'id' => $item->group_id,
-                    'name' => $groupFile && $groupFile->remark ? $groupFile->remark : '分组 ' . $item->group_id,
-                    'count' => (int)$item->count,
+                    'id' => $group->id,
+                    'name' => $group->name,
+                    'count' => (int)$count,
                     'to' => $to,
                 ];
             })
@@ -79,9 +81,7 @@ class SystemFileService extends AdminService
         // 统计未分组的文件数量
         $ungroupedQuery = clone $baseQuery;
         $ungroupedCount = $ungroupedQuery
-            ->where(function ($q) {
-                $q->whereNull('group_id')->orWhere('group_id', '');
-            })
+            ->whereNull('group_id')
             ->count();
 
         // 统计全部文件数量
@@ -102,12 +102,6 @@ class SystemFileService extends AdminService
                 'count' => $totalCount,
                 'to' => $allTo,
             ],
-            [
-                'id' => 'ungrouped',
-                'name' => '未分组',
-                'count' => $ungroupedCount,
-                'to' => $ungroupedTo,
-            ],
         ];
 
         // 合并自定义分组
@@ -120,18 +114,35 @@ class SystemFileService extends AdminService
      * 移动文件到指定分组
      * 
      * @param string|array $ids 文件ID列表（逗号分隔的字符串或数组）
-     * @param mixed $groupId 目标分组ID
+     * @param mixed $groupId 目标分组ID（null 表示未分组）
      * @return bool 是否移动成功
      */
     public function moveToGroup(string|array $ids, mixed $groupId): bool
     {
         $ids = is_array($ids) ? $ids : explode(',', $ids);
         
+        // 转换为整数（如果是字符串且是数字）
+        $ids = array_map(function ($id) {
+            return is_numeric($id) ? (int)$id : $id;
+        }, $ids);
+        
         Db::beginTransaction();
         try {
+            // 如果 groupId 不是 null 且不是 'ungrouped'，验证分组是否存在
+            if ($groupId !== null && $groupId !== '' && $groupId !== 'ungrouped') {
+                $group = SystemFileGroup::find($groupId);
+                if (!$group) {
+                    $this->setError('分组不存在');
+                    Db::rollBack();
+                    return false;
+                }
+            }
+            
+            $finalGroupId = ($groupId === null || $groupId === '' || $groupId === 'ungrouped') ? null : (int)$groupId;
+            
             $result = SystemFile::baseQuery()
                 ->whereIn('id', $ids)
-                ->update(['group_id' => $groupId === 'ungrouped' ? null : $groupId]);
+                ->update(['group_id' => $finalGroupId]);
             
             Db::commit();
             return $result > 0;
@@ -187,9 +198,7 @@ class SystemFileService extends AdminService
         $groupId = request()->input('group_id');
         if ($groupId !== null && $groupId !== '') {
             if ($groupId === 'ungrouped') {
-                $query->where(function ($q) {
-                    $q->whereNull('group_id')->orWhere('group_id', '');
-                });
+                $query->whereNull('group_id');
             } else {
                 $query->where('group_id', $groupId);
             }
@@ -255,46 +264,53 @@ class SystemFileService extends AdminService
      * 创建一个新的文件分组
      * 
      * @param string $name 分组名称
-     * @return string|false 返回分组ID，失败返回false
+     * @param string|null $fileType 文件类型（可选）
+     * @return int|false 返回分组ID，失败返回false
      */
-    public function createGroup(string $name): string|false
+    public function createGroup(string $name, ?string $fileType = null): int|false
     {
         if (empty($name)) {
             $this->setError('分组名称不能为空');
             return false;
         }
 
-        // 生成分组ID（使用时间戳+随机数）
-        $groupId = 'group_' . time() . '_' . mt_rand(1000, 9999);
-
         Db::beginTransaction();
         try {
-            // 创建一个虚拟文件记录来存储分组信息（使用 remark 字段存储分组名称）
-            // 或者我们可以直接使用 group_id 作为标识，不创建文件
-            // 这里我们使用一个标记文件来保存分组名称
-            // 实际上，我们可以考虑在数据库中创建一个分组表，但为了简化，这里使用文件表的 remark 字段
-            
-            // 检查分组名是否已存在
-            $exists = SystemFile::baseQuery()
-                ->where('group_id', $groupId)
-                ->where('remark', $name)
+            // 检查分组名是否已存在（同类型下）
+            $exists = SystemFileGroup::baseQuery()
+                ->where('name', $name)
+                ->when($fileType, function ($q) use ($fileType) {
+                    $q->where(function ($query) use ($fileType) {
+                        $query->where('file_type', $fileType)->orWhereNull('file_type');
+                    });
+                })
                 ->exists();
             
-            if (!$exists) {
-                // 创建一个隐藏的文件记录来标识分组（不存储实际文件）
-                SystemFile::baseQuery()->insert([
-                    'group_id' => $groupId,
-                    'origin_name' => '.group',
-                    'remark' => $name,
-                    'file_type' => 'file',
-                    'storage_mode' => 'local',
-                    'created_by' => Admin::user()?->id ?? 1,
-                    'created_at' => date('Y-m-d H:i:s'),
-                ]);
+            if ($exists) {
+                $this->setError('分组名称已存在');
+                Db::rollBack();
+                return false;
             }
             
+            // 获取最大排序值
+            $maxSort = SystemFileGroup::baseQuery()
+                ->when($fileType, function ($q) use ($fileType) {
+                    $q->where(function ($query) use ($fileType) {
+                        $query->where('file_type', $fileType)->orWhereNull('file_type');
+                    });
+                })
+                ->max('sort') ?? 0;
+            
+            // 创建分组
+            $group = SystemFileGroup::create([
+                'name' => $name,
+                'file_type' => $fileType,
+                'sort' => $maxSort + 1,
+                'created_by' => Admin::user()?->id ?? 1,
+            ]);
+            
             Db::commit();
-            return $groupId;
+            return $group->id;
         } catch (\Throwable $e) {
             Db::rollBack();
             $this->setError($e->getMessage());
@@ -305,12 +321,12 @@ class SystemFileService extends AdminService
     /**
      * 删除分组
      * 
-     * 删除指定的分组，分组下的文件将变为未分组状态
+     * 删除指定的分组，同时删除该分组下的所有文件
      * 
-     * @param string $groupId 分组ID
+     * @param int|string $groupId 分组ID
      * @return bool 是否删除成功
      */
-    public function deleteGroup(string $groupId): bool
+    public function deleteGroup(int|string $groupId): bool
     {
         if (empty($groupId)) {
             $this->setError('分组ID不能为空');
@@ -319,16 +335,96 @@ class SystemFileService extends AdminService
 
         Db::beginTransaction();
         try {
-            // 将分组下的所有文件移动到未分组（group_id 设为 null）
-            SystemFile::baseQuery()
-                ->where('group_id', $groupId)
-                ->update(['group_id' => null]);
+            // 检查分组是否存在
+            $group = SystemFileGroup::find($groupId);
+            if (!$group) {
+                $this->setError('分组不存在');
+                Db::rollBack();
+                return false;
+            }
             
-            // 删除分组标记记录（如果有的话）
-            SystemFile::baseQuery()
+            // 获取分组下的所有文件
+            $files = SystemFile::baseQuery()
                 ->where('group_id', $groupId)
-                ->where('origin_name', '.group')
-                ->delete();
+                ->get();
+            
+            // 删除分组下的所有文件
+            foreach ($files as $file) {
+                // 删除物理文件
+                if ($file->storage_path) {
+                    try {
+                        Storage::delete($file->storage_path);
+                    } catch (\Throwable $e) {
+                        // 物理文件删除失败不影响数据库删除
+                    }
+                }
+                // 删除数据库记录
+                $file->delete();
+            }
+            
+            // 删除分组记录
+            $group->delete();
+            
+            Db::commit();
+            return true;
+        } catch (\Throwable $e) {
+            Db::rollBack();
+            $this->setError($e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * 重命名分组
+     * 
+     * @param int|string $groupId 分组ID
+     * @param string $newName 新名称
+     * @return bool 是否重命名成功
+     */
+    public function renameGroup(int|string $groupId, string $newName): bool
+    {
+        if (empty($groupId)) {
+            $this->setError('分组ID不能为空');
+            return false;
+        }
+
+        if (empty($newName)) {
+            $this->setError('分组名称不能为空');
+            return false;
+        }
+
+        Db::beginTransaction();
+        try {
+            // 检查分组是否存在
+            $group = SystemFileGroup::find($groupId);
+            if (!$group) {
+                $this->setError('分组不存在');
+                Db::rollBack();
+                return false;
+            }
+            
+            // 检查新名称是否已存在（同类型下）
+            $exists = SystemFileGroup::baseQuery()
+                ->where('name', $newName)
+                ->where('id', '!=', $groupId)
+                ->where(function ($q) use ($group) {
+                    if ($group->file_type) {
+                        $q->where('file_type', $group->file_type);
+                    } else {
+                        $q->whereNull('file_type');
+                    }
+                })
+                ->exists();
+            
+            if ($exists) {
+                $this->setError('分组名称已存在');
+                Db::rollBack();
+                return false;
+            }
+            
+            // 更新分组名称
+            $group->name = $newName;
+            $group->save();
             
             Db::commit();
             return true;

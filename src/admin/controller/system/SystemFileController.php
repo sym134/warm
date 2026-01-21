@@ -34,7 +34,7 @@ class SystemFileController extends AdminController
      *
      * 展示系统附件文件列表，支持：
      * - 卡片视图和列表视图切换
-     * - 按文件类型筛选（图片、视频、文件）
+     * - 按文件类型筛选（图片、视频、音频、文件）
      * - 按分组筛选
      * - 文件搜索
      * - 文件上传、删除、移动等操作
@@ -60,45 +60,44 @@ class SystemFileController extends AdminController
             $tabs[] = $this->buildFileTypeTab($fileType['label'], $fileType['value']);
         }
 
-        // 创建顶层页面，包含标签导航
-        $page = amis()->Page()
-            ->className('file-manager-page')
-            ->body([
-                [
-                    'type' => 'tabs',
-                    'tabsMode' => 'line',
-                    'activeKey' => $defaultFileType,
-                    'tabs' => $tabs,
-                    'onEvent' => [
-                        'change' => [
-                            'actions' => [
-                                [
-                                    'actionType' => 'setValue',
-                                    'componentId' => 'file-type-store',
-                                    'args' => [
-                                        'value' => '${event.data.value}',
-                                    ],
-                                ],
-                                [
-                                    'actionType' => 'reload',
-                                    'componentId' => 'file-crud-${event.data.value}',
-                                    'data' => [
-                                        'file_type' => '${event.data.value}',
-                                        'page' => 1,
-                                    ],
-                                ],
-                                [
-                                    'actionType' => 'reload',
-                                    'componentId' => 'file-groups-${event.data.value}',
-                                    'data' => [
-                                        'file_type' => '${event.data.value}',
-                                    ],
-                                ],
+        // 创建标签组件
+        $tabsComponent = amis()->Tabs()
+            ->tabsMode('line')
+            ->activeKey($defaultFileType)
+            ->tabs($tabs)
+            ->onEvent([
+                'change' => [
+                    'actions' => [
+                        [
+                            'actionType' => 'setValue',
+                            'componentId' => 'file-type-store',
+                            'args' => [
+                                'value' => '${event.data.value}',
+                            ],
+                        ],
+                        [
+                            'actionType' => 'reload',
+                            'componentId' => 'file-crud-${event.data.value}',
+                            'data' => [
+                                'file_type' => '${event.data.value}',
+                                'page' => 1,
+                            ],
+                        ],
+                        [
+                            'actionType' => 'reload',
+                            'componentId' => 'file-groups-${event.data.value}',
+                            'data' => [
+                                'file_type' => '${event.data.value}',
                             ],
                         ],
                     ],
                 ],
             ]);
+
+        // 创建顶层页面，包含标签导航
+        $page = amis()->Page()
+            ->className('file-manager-page')
+            ->body($tabsComponent);
 
         return $page;
     }
@@ -117,107 +116,211 @@ class SystemFileController extends AdminController
         $viewModeVar = 'viewMode_' . $value;
         $pageId = 'file-page-' . $value;
         $groupsNavId = 'file-groups-' . $value;
-        
+
         // 创建卡片模式的 CRUD 组件配置
-        $crudCardsConfig = $this->buildCrudCardsConfig($crudCardsId, $value, $viewModeVar, $pageId);
-        
+        $crudCardsConfig = $this->buildCrudCardsConfig($crudCardsId, $value, $viewModeVar, $pageId, $crudTableId);
+
         // 创建列表模式的 CRUD 组件配置
-        $crudTableConfig = $this->buildCrudTableConfig($crudTableId, $value, $viewModeVar, $pageId);
-        
+        $crudTableConfig = $this->buildCrudTableConfig($crudTableId, $value, $viewModeVar, $pageId, $crudCardsId);
+
         // 创建文件列表容器（根据视图模式显示不同的 CRUD）
-        $fileListContainer = [
-            'type' => 'container',
-            'className' => 'file-manager-content',
-            'body' => [
+        $fileListContainer = amis()->Container()
+            ->className('file-manager-content')
+            ->body([
                 // 卡片视图（网格）
-                [
-                    'type' => 'wrapper',
-                    'visibleOn' => '${' . $viewModeVar . ' === "cards" || !' . $viewModeVar . '}',
-                    'body' => $crudCardsConfig,
-                ],
+                amis()->Wrapper()
+                    ->visibleOn('${' . $viewModeVar . ' === "cards" || !' . $viewModeVar . '}')
+                    ->body($crudCardsConfig),
                 // 列表视图（表格）
-                [
-                    'type' => 'wrapper',
-                    'visibleOn' => '${' . $viewModeVar . ' === "table"}',
-                    'body' => $crudTableConfig,
-                ],
-            ],
-        ];
-        
-        return [
-            'title' => $label,
-            'hash' => $value,
-            'body' => [
-                'type' => 'page',
-                'id' => $pageId,
-                'className' => 'file-manager-tab-page',
-                'data' => [
-                    $viewModeVar => 'cards', // 默认卡片模式
-                ],
-                'asideResizor' => true,
-                'asideMinWidth' => 200,
-                'asideMaxWidth' => 300,
-                'aside' => [
-                    [
-                        'type' => 'nav',
-                        'id' => $groupsNavId,
-                        'stacked' => true,
-                        'source' => $this->getGroupsPath() . '?file_type=' . $value,
-                        'links' => [
-                            [
-                                'label' => '${name}',
-                                'to' => '${to}',
-                                'badge' => '${count}',
-                            ],
-                        ],
-                        'itemBadge' => [
-                            'mode' => 'tpl',
-                            'text' => '${count | default:0}',
-                        ],
-                    ],
-                    [
-                        'type' => 'button',
-                        'label' => '添加分组',
-                        'icon' => 'fa fa-plus',
-                        'level' => 'link',
-                        'block' => true,
-                        'className' => 'mt-2',
-                        'actionType' => 'dialog',
-                        'dialog' => [
-                            'title' => '添加分组',
-                            'body' => [
-                                'type' => 'form',
-                                'api' => $this->getCreateGroupPath(),
-                                'onEvent' => [
-                                    'submitSucc' => [
-                                        'actions' => [
-                                            [
-                                                'actionType' => 'reload',
-                                                'componentId' => $groupsNavId,
+                amis()->Wrapper()
+                    ->visibleOn('${' . $viewModeVar . ' === "table"}')
+                    ->body($crudTableConfig),
+            ]);
+
+        // 创建分组导航组件（使用Service包装以实现分页）
+        $groupsNavServiceId = $groupsNavId . '-service';
+        $groupsNav = amis()->Service()
+            ->id($groupsNavServiceId)
+            ->api($this->getGroupsPath() . '?file_type=' . $value)
+            ->body([
+                amis()->PaginationWrapper()
+                    ->inputName('items')
+                    ->outputName('items')
+                    ->perPage(10)
+                    ->position('bottom')
+                    ->body([
+                        amis()->Nav()
+                            ->id($groupsNavId)
+                            ->stacked(true)
+                            ->source('${items}')
+                            ->itemBadge([
+                                'mode' => 'tpl',
+                                'text' => '${count | default:0}',
+                            ])
+                            ->itemActions([
+                                amis()->DropdownButton()
+                                    ->level('link')
+                                    ->icon('fa fa-ellipsis-h')
+                                    ->hideCaret(true)
+                                    ->visibleOn('${group_id !== null && group_id !== "ungrouped" && group_id !== undefined}')
+                                    ->buttons([
+                                        amis()->Button()
+                                            ->label('重命名')
+                                            ->actionType('dialog')
+                                            ->dialog(
+                                                amis()->Dialog()
+                                                    ->title('重命名分组')
+                                                    ->body(
+                                                        amis()->Form()
+                                                            ->api($this->getRenameGroupPath())
+                                                            ->onEvent([
+                                                                'submitSucc' => [
+                                                                    'actions' => [
+                                                                        [
+                                                                            'actionType' => 'reload',
+                                                                            'componentId' => $groupsNavServiceId,
+                                                                        ],
+                                                                    ],
+                                                                ],
+                                                            ])
+                                                            ->body([
+                                                                amis()->InputText('id')->hidden(true)->value('${group_id}'),
+                                                                amis()->InputText('name', '分组名称')
+                                                                    ->required(true)
+                                                                    ->value('${label}'),
+                                                            ])
+                                                    )
+                                            ),
+                                        amis()->Button()
+                                            ->label('删除')
+                                            ->level('danger')
+                                            ->actionType('ajax')
+                                            ->api($this->getDeleteGroupPath())
+                                            ->confirmText('确定要删除该分组吗？删除后将同时删除该分组下的所有文件！')
+                                            ->data(['id' => '${group_id}'])
+                                            ->onEvent([
+                                                'ajaxSucc' => [
+                                                    'actions' => [
+                                                        [
+                                                            'actionType' => 'reload',
+                                                            'componentId' => $groupsNavServiceId,
+                                                        ],
+                                                        [
+                                                            'actionType' => 'reload',
+                                                            'componentId' => $crudCardsId,
+                                                        ],
+                                                        [
+                                                            'actionType' => 'reload',
+                                                            'componentId' => $crudTableId,
+                                                        ],
+                                                    ],
+                                                ],
+                                            ]),
+                                    ]),
+                            ])
+                            ->onEvent([
+                                'click' => [
+                                    'actions' => [
+                                        [
+                                            'actionType' => 'setValue',
+                                            'componentId' => $pageId,
+                                            'args' => [
+                                                'value' => [
+                                                    'currentGroupId' => '${event.data.item.group_id}',
+                                                ],
+                                            ],
+                                        ],
+                                        [
+                                            'actionType' => 'reload',
+                                            'componentId' => $crudCardsId,
+                                            'data' => [
+                                                'group_id' => '${event.data.item.group_id}',
+                                                'file_type' => $value,
+                                                'page' => 1,
+                                            ],
+                                        ],
+                                        [
+                                            'actionType' => 'reload',
+                                            'componentId' => $crudTableId,
+                                            'data' => [
+                                                'group_id' => '${event.data.item.group_id}',
+                                                'file_type' => $value,
+                                                'page' => 1,
                                             ],
                                         ],
                                     ],
                                 ],
-                                'body' => [
-                                    [
-                                        'type' => 'input-text',
-                                        'name' => 'name',
-                                        'label' => '分组名称',
-                                        'required' => true,
-                                    ],
-                                    [
-                                        'type' => 'input-text',
-                                        'name' => 'file_type',
-                                        'hidden' => true,
-                                        'value' => $value,
+                            ]),
+                    ]),
+            ]);
+
+        // 创建添加分组按钮
+        $addGroupButton = amis()->Button()
+            ->label('添加分组')
+            ->icon('fa fa-plus')
+            ->level('link')
+            ->block(true)
+            ->className('mt-2')
+            ->actionType('dialog')
+            ->dialog(
+                amis()->Dialog()
+                    ->title('添加分组')
+                    ->body(
+                        amis()->Form()
+                            ->api($this->getCreateGroupPath())
+                            ->onEvent([
+                                'submitSucc' => [
+                                    'actions' => [
+                                        [
+                                            'actionType' => 'reload',
+                                            'componentId' => $groupsNavServiceId,
+                                        ],
                                     ],
                                 ],
-                            ],
-                        ],
-                    ],
-                ],
-                'body' => $fileListContainer,
-            ],
+                            ])
+                            ->body([
+                                amis()->InputText('name', '分组名称')->required(true),
+                                amis()->InputText('file_type')->hidden(true)->value($value),
+                            ])
+                    )
+            );
+
+        // 创建标签页内的页面
+        $tabPage = amis()->Page()
+            ->id($pageId)
+            ->className('file-manager-tab-page')
+            ->data([
+                $viewModeVar => 'cards', // 默认卡片模式
+                'currentGroupId' => null, // 当前选中的分组ID
+            ])
+            ->asideResizor(false)
+            ->asideMinWidth(320)
+            ->asideMaxWidth(400)
+            ->wrapperCustomStyle([
+                '.cxd-Page-aside' => ['width' => '300px']
+            ])
+            ->aside([
+                amis()->Wrapper()
+                    ->className('d-flex flex-column h-100')
+                    ->body([
+                        amis()->Wrapper()
+                            ->className('flex-1 overflow-auto')
+                            ->body([
+                                $groupsNav,
+                            ]),
+                        amis()->Wrapper()
+                            ->className('mt-auto')
+                            ->body([
+                                $addGroupButton,
+                            ]),
+                    ]),
+            ])
+            ->body($fileListContainer);
+
+        return [
+            'title' => $label,
+            'hash' => $value,
+            'body' => $tabPage,
         ];
     }
 
@@ -230,7 +333,7 @@ class SystemFileController extends AdminController
      * @param string $pageId 页面 ID
      * @return array CRUD 配置数组
      */
-    protected function buildCrudCardsConfig(string $crudId, string $fileType, string $viewModeVar, string $pageId): array
+    protected function buildCrudCardsConfig(string $crudId, string $fileType, string $viewModeVar, string $pageId, ?string $crudTableId = null): array
     {
         $crud = $this->baseCRUD()
             ->id($crudId)
@@ -243,196 +346,223 @@ class SystemFileController extends AdminController
             ->defaultParams([
                 'file_type' => $fileType,
             ])
+            ->primaryField('id')
             ->card([
                 'className' => 'file-card',
                 'body' => [
                     // 文件预览区域
-                    [
-                        'type' => 'container',
-                        'className' => 'file-preview-container',
-                        'body' => [
-                            [
-                                'type' => 'tpl',
-                                'className' => 'file-preview',
-                                'tpl' => '<% if (file_type === "image") { %>'
-                                    . '<img src="${url}" class="file-thumbnail" />'
-                                    . '<% } else if (file_type === "video") { %>'
-                                    . '<div class="file-icon video-icon">'
-                                    . '<i class="fa fa-play-circle"></i>'
-                                    . '</div>'
-                                    . '<% } else { %>'
-                                    . '<div class="file-icon file-icon-${mime_type | replace:/[\/\.]/g:\'-\'}">'
+                    amis()->Container()
+                        ->className('file-preview-container')
+                        ->body([
+                            // 图片预览 - 使用 Image 组件自带预览功能
+                            amis()->Image()
+                                ->src('${url}')
+                                ->originalSrc('${url}')
+                                ->thumbClassName('file-thumbnail')
+                                ->thumbMode('cover')
+                                ->enlargeAble(true)
+                                ->imageMode('thumb')
+                                ->visibleOn('${file_type === "image"}'),
+                            // 视频播放 - 点击图标弹出播放对话框
+                            amis()->Action()
+                                ->actionType('dialog')
+                                ->visibleOn('${file_type === "video"}')
+                                ->dialog(
+                                    amis()->Dialog()
+                                        ->title('${origin_name}')
+                                        ->size('lg')
+                                        ->body(
+                                            amis()->Video()
+                                                ->src('${url}')
+                                                ->controls(['rates', 'play', 'time', 'process', 'volume'])
+                                        )
+                                )
+                                ->body([
+                                    amis()->Tpl()
+                                        ->className('file-preview video-preview')
+                                        ->tpl('<div class="file-icon video-icon" style="cursor: pointer; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">'
+                                            . '<i class="fa fa-play-circle" style="font-size: 48px; color: #666;"></i>'
+                                            . '</div>'),
+                                ]),
+                            // 音频播放 - 点击图标弹出播放对话框
+                            amis()->Action()
+                                ->actionType('dialog')
+                                ->visibleOn('${file_type === "audio"}')
+                                ->dialog(
+                                    amis()->Dialog()
+                                        ->title('${origin_name}')
+                                        ->size('md')
+                                        ->body(
+                                            amis()->Audio()
+                                                ->src('${url}')
+                                                ->controls(['rates', 'play', 'time', 'process', 'volume'])
+                                        )
+                                )
+                                ->body([
+                                    amis()->Tpl()
+                                        ->className('file-preview audio-preview')
+                                        ->tpl('<div class="file-icon audio-icon" style="cursor: pointer; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">'
+                                            . '<i class="fa fa-music" style="font-size: 48px; color: #666;"></i>'
+                                            . '</div>'),
+                                ]),
+                            // 其他文件类型
+                            amis()->Tpl()
+                                ->className('file-preview')
+                                ->visibleOn('${file_type !== "image" && file_type !== "video" && file_type !== "audio"}')
+                                ->tpl('<div class="file-icon file-icon-${mime_type | replace:/[\/\.]/g:\'-\'}">'
                                     . '<i class="fa fa-file"></i>'
-                                    . '</div>'
-                                    . '<% } %>',
-                            ],
-                        ],
-                    ],
+                                    . '</div>'),
+                        ]),
                     // 文件名
-                    [
-                        'type' => 'tpl',
-                        'className' => 'file-name',
-                        'tpl' => '${origin_name | truncate:20}',
-                        'tooltip' => '${origin_name}',
-                    ],
+                    amis()->Tpl()
+                        ->className('file-name')
+                        ->tpl('${origin_name | truncate:20}')
+                        ->tooltip('${origin_name}'),
                     // 文件大小和时间
-                    [
-                        'type' => 'tpl',
-                        'className' => 'file-meta',
-                        'tpl' => '<span class="file-size">${file_size | round:2} KB</span>'
-                            . '<span class="file-date">${created_at | date:MM-DD}</span>',
-                    ],
+                    amis()->Tpl()
+                        ->className('file-meta')
+                        ->tpl('<span class="file-size">${file_size | round:2} KB</span>'
+                            . '<span class="file-date">${created_at | date:MM-DD}</span>'),
                 ],
                 'actions' => [
                     // 下载按钮
-                    [
-                        'type' => 'button',
-                        'level' => 'link',
-                        'icon' => 'fa fa-download',
-                        'tooltip' => '下载',
-                        'actionType' => 'url',
-                        'url' => $this->getDownloadPath() . '?id=${id}',
-                    ],
+                    amis()->Button()
+                        ->level('link')
+                        ->icon('fa fa-download')
+                        ->tooltip('下载')
+                        ->actionType('url')
+                        ->url($this->getDownloadPath() . '?id=${id}'),
                     // 重命名按钮
-                    [
-                        'type' => 'button',
-                        'level' => 'link',
-                        'icon' => 'fa fa-edit',
-                        'tooltip' => '重命名',
-                        'actionType' => 'dialog',
-                        'dialog' => [
-                            'title' => '重命名文件',
-                            'body' => [
-                                'type' => 'form',
-                                'api' => $this->getRenamePath(),
-                                'body' => [
-                                    [
-                                        'type' => 'input-text',
-                                        'name' => 'id',
-                                        'hidden' => true,
-                                        'value' => '${id}',
-                                    ],
-                                    [
-                                        'type' => 'input-text',
-                                        'name' => 'name',
-                                        'label' => '文件名',
-                                        'required' => true,
-                                        'value' => '${origin_name}',
-                                    ],
-                                ],
-                            ],
-                        ],
-                    ],
+                    amis()->Button()
+                        ->level('link')
+                        ->icon('fa fa-edit')
+                        ->tooltip('重命名')
+                        ->actionType('dialog')
+                        ->dialog(
+                            amis()->Dialog()
+                                ->title('重命名文件')
+                                ->body(
+                                    amis()->Form()
+                                        ->api($this->getRenamePath())
+                                        ->body([
+                                            amis()->InputText('id')->hidden(true)->value('${id}'),
+                                            amis()->InputText('name', '文件名')
+                                                ->required(true)
+                                                ->value('${origin_name}'),
+                                        ])
+                                )
+                        ),
                     // 删除按钮
-                    [
-                        'type' => 'button',
-                        'level' => 'link',
-                        'icon' => 'fa fa-trash',
-                        'tooltip' => '删除',
-                        'actionType' => 'ajax',
-                        'api' => $this->getDeletePath(),
-                        'confirmText' => '确定要删除这个文件吗？',
-                        'data' => ['ids' => '${id}'],
-                    ],
+                    amis()->Button()
+                        ->level('link')
+                        ->icon('fa fa-trash')
+                        ->tooltip('删除')
+                        ->actionType('ajax')
+                        ->api($this->getDeletePath())
+                        ->confirmText('确定要删除这个文件吗？')
+                        ->data(['ids' => '${id}']),
                 ],
             ])
             ->bulkActions([
                 // 批量删除
                 $this->bulkDeleteButton(),
                 // 批量移动
-                [
-                    'type' => 'button',
-                    'label' => '移动',
-                    'icon' => 'fa fa-folder',
-                    'actionType' => 'dialog',
-                    'dialog' => [
-                        'title' => '移动到分组',
-                        'body' => [
-                            'type' => 'form',
-                            'api' => $this->getMovePath(),
-                            'body' => [
-                                [
-                                    'type' => 'input-text',
-                                    'name' => 'ids',
-                                    'hidden' => true,
-                                    'value' => '${ids|json}',
-                                ],
-                                [
-                                    'type' => 'select',
-                                    'name' => 'group_id',
-                                    'label' => '目标分组',
-                                    'source' => $this->getGroupsPath(),
-                                    'labelField' => 'name',
-                                    'valueField' => 'id',
-                                    'clearable' => true,
-                                    'placeholder' => '选择分组（留空为未分组）',
-                                ],
-                            ],
-                        ],
-                    ],
-                ],
+                amis()->Button()
+                    ->label('移动')
+                    ->icon('fa fa-folder')
+                    ->actionType('dialog')
+                    ->dialog(
+                        amis()->Dialog()
+                            ->title('移动到分组')
+                            ->body(
+                                amis()->Form()
+                                    ->api($this->getMovePath())
+                                    ->body([
+                                        amis()->InputText('ids')->hidden(true)->value('${ids|json}'),
+                                        amis()->Select('group_id', '目标分组')
+                                            ->source($this->getGroupsPath())
+                                            ->labelField('name')
+                                            ->valueField('id')
+                                            ->clearable(true)
+                                            ->placeholder('选择分组（留空为未分组）'),
+                                    ])
+                            )
+                    ),
             ])
             ->headerToolbar([
-                // 本地上传按钮
+                // 左侧组：全选、删除、移动、本地上传
                 [
-                    'type' => 'button',
-                    'label' => '本地上传',
-                    'icon' => 'fa fa-upload',
-                    'level' => 'primary',
-                    'actionType' => 'dialog',
-                    'dialog' => [
-                        'title' => '上传文件',
-                        'size' => 'lg',
-                        'body' => [
-                            'type' => 'form',
-                            'api' => $this->getUploadPath(),
-                            'body' => [
-                                [
-                                    'type' => 'input-file',
-                                    'name' => 'file',
-                                    'label' => '选择文件',
-                                    'required' => true,
-                                    'accept' => 'image/*,video/*,.pdf,.doc,.docx,.xls,.xlsx,.txt,.zip,.rar',
-                                    'multiple' => true,
-                                    'autoUpload' => false,
-                                ],
-                                [
-                                    'type' => 'input-text',
-                                    'name' => 'group_id',
-                                    'label' => '分组',
-                                    'source' => $this->getGroupsPath(),
-                                    'clearable' => true,
-                                    'description' => '选择文件所属分组（可选）',
-                                ],
-                            ],
-                        ],
-                    ],
+                    'type' => 'bulkActions',
+                    'align' => 'left',
                 ],
-                // 删除按钮
-                [
-                    'type' => 'button',
-                    'label' => '删除',
-                    'icon' => 'fa fa-trash',
-                    'level' => 'danger',
-                    'hiddenOn' => '!${__super.__super.selectedItems || selectedItems}',
-                ],
-                // 移动按钮
-                [
-                    'type' => 'button',
-                    'label' => '移动',
-                    'icon' => 'fa fa-folder',
-                    'hiddenOn' => '!${__super.__super.selectedItems || selectedItems}',
-                ],
-                // 视图切换（列表/网格）
-                [
-                    'type' => 'button-group',
-                    'buttons' => [
-                        [
-                            'type' => 'button',
-                            'icon' => 'fa fa-th',
-                            'tooltip' => '网格视图',
-                            'activeOn' => '${' . $viewModeVar . ' === "cards"}',
-                            'onEvent' => [
+                // 本地上传按钮 - 弹窗上传，支持拖拽
+                amis()->Button()
+                    ->label('本地上传')
+                    ->icon('fa fa-upload')
+                    ->level('primary')
+                    ->actionType('dialog')
+                    ->dialog(
+                        amis()->Dialog()
+                            ->title('上传文件')
+                            ->body([
+                                amis()->InputFile('upload_file')
+                                    ->label('')
+                                    ->accept($this->getAcceptForFileType($fileType))
+                                    ->multiple(true)
+                                    ->drag(true)
+                                    ->autoUpload(true)
+                                    ->receiver($this->getUploadPath() . '?group_id=${currentGroupId}&file_type=' . $fileType)
+                                    ->className('hide-file-list')
+                                    ->onEvent([
+                                        'success' => [
+                                            'actions' => array_filter([
+                                                [
+                                                    'actionType' => 'setValue',
+                                                    'componentId' => $pageId,
+                                                    'args' => [
+                                                        'value' => [
+                                                            'upload_file' => null,
+                                                        ],
+                                                    ],
+                                                ],
+                                                [
+                                                    'actionType' => 'reload',
+                                                    'componentId' => $crudId,
+                                                ],
+                                                $crudTableId ? [
+                                                    'actionType' => 'reload',
+                                                    'componentId' => $crudTableId,
+                                                ] : null,
+                                                [
+                                                    'actionType' => 'closeDialog',
+                                                ],
+                                            ]),
+                                        ],
+                                        'error' => [
+                                            'actions' => [
+                                                [
+                                                    'actionType' => 'setValue',
+                                                    'componentId' => $pageId,
+                                                    'args' => [
+                                                        'value' => [
+                                                            'upload_file' => null,
+                                                        ],
+                                                    ],
+                                                ],
+                                            ],
+                                        ],
+                                    ]),
+                            ])
+                    ),
+                // 右侧组：搜索、文件来源选择、刷新、视图切换
+                amis()->ButtonGroup()
+                    ->align('right')
+                    ->buttons([
+                        amis()->Button()
+                            ->icon('fa fa-th')
+                            ->tooltip('网格视图')
+                            ->activeOn('${' . $viewModeVar . ' === "cards"}')
+                            ->onEvent([
                                 'click' => [
                                     'actions' => [
                                         [
@@ -446,14 +576,12 @@ class SystemFileController extends AdminController
                                         ],
                                     ],
                                 ],
-                            ],
-                        ],
-                        [
-                            'type' => 'button',
-                            'icon' => 'fa fa-list',
-                            'tooltip' => '列表视图',
-                            'activeOn' => '${' . $viewModeVar . ' === "table"}',
-                            'onEvent' => [
+                            ]),
+                        amis()->Button()
+                            ->icon('fa fa-list')
+                            ->tooltip('列表视图')
+                            ->activeOn('${' . $viewModeVar . ' === "table"}')
+                            ->onEvent([
                                 'click' => [
                                     'actions' => [
                                         [
@@ -467,69 +595,47 @@ class SystemFileController extends AdminController
                                         ],
                                     ],
                                 ],
-                            ],
-                        ],
-                    ],
-                ],
+                            ]),
+                    ]),
                 // 搜索框
-                [
-                    'type' => 'input-text',
-                    'name' => 'origin_name',
-                    'placeholder' => '请输入名称',
-                    'clearable' => true,
-                    'addOn' => [
-                        'type' => 'button',
-                        'label' => '搜索',
-                        'actionType' => 'submit',
-                        'icon' => 'fa fa-search',
-                    ],
-                ],
+                amis()->InputText('origin_name')
+                    ->placeholder('请输入名称')
+                    ->align('right')
+                    ->clearable(true)
+                    ->addOn(
+                        amis()->Button()
+                            ->label('搜索')
+                            ->actionType('submit')
+                            ->icon('fa fa-search')
+                    ),
                 // 文件来源选择
-                [
-                    'type' => 'select',
-                    'name' => 'storage_mode',
-                    'placeholder' => '请选择文件来源',
-                    'clearable' => true,
-                    'options' => SystemFile::STORAGE_MODE,
-                            'onEvent' => [
-                                'change' => [
-                                    'actions' => [
-                                        [
-                                            'actionType' => 'reload',
-                                            'componentId' => $crudId,
-                                        ],
-                                    ],
-                                ],
-                            ],
-                ],
-                // 刷新按钮
-                [
-                    'type' => 'button',
-                    'icon' => 'fa fa-refresh',
-                    'tooltip' => '刷新',
-                    'actionType' => 'reload',
-                    'target' => $crudId,
-                ],
-            ])
-            ->footerToolbar([
-                'statistics',
-                [
-                    'type' => 'checkbox',
-                    'label' => '当页全选',
-                    'onEvent' => [
+                amis()->Select('storage_mode')
+                    ->placeholder('请选择文件来源')
+                    ->align('right')
+                    ->clearable(true)
+                    ->options(SystemFile::STORAGE_MODE)
+                    ->onEvent([
                         'change' => [
                             'actions' => [
                                 [
-                                    'actionType' => 'toggleAllSelections',
+                                    'actionType' => 'reload',
                                     'componentId' => $crudId,
                                 ],
                             ],
                         ],
-                    ],
-                ],
+                    ]),
+                amis()->Button()
+                    ->icon('fa fa-refresh')
+                    ->tooltip('刷新')
+                    ->align('right')
+                    ->actionType('reload')
+                    ->target($crudId),
+            ])
+            ->footerToolbar([
+                'statistics',
                 'pagination',
             ]);
-        
+
         return $crud->toArray();
     }
 
@@ -542,7 +648,7 @@ class SystemFileController extends AdminController
      * @param string $pageId 页面 ID
      * @return array CRUD 配置数组
      */
-    protected function buildCrudTableConfig(string $crudId, string $fileType, string $viewModeVar, string $pageId): array
+    protected function buildCrudTableConfig(string $crudId, string $fileType, string $viewModeVar, string $pageId, ?string $crudCardsId = null): array
     {
         $crud = $this->baseCRUD()
             ->id($crudId)
@@ -553,145 +659,137 @@ class SystemFileController extends AdminController
             ->defaultParams([
                 'file_type' => $fileType,
             ])
+            ->primaryField('id')
             ->columns([
-                [
-                    'name' => 'id',
-                    'label' => 'ID',
-                    'width' => 80,
-                ],
-                [
-                    'name' => 'origin_name',
-                    'label' => '文件名',
-                    'type' => 'tpl',
-                    'tpl' => '<% if (data.file_type === "image") { %>'
+                amis()->TableColumn('id', 'ID')->width(80),
+                amis()->TableColumn('origin_name', '文件名')
+                    ->type('tpl')
+                    ->tpl('<% if (data.file_type === "image") { %>'
                         . '<img src="<%- data.url %>" style="width: 40px; height: 40px; object-fit: cover; border-radius: 4px; margin-right: 8px;" />'
                         . '<% } else if (data.file_type === "video") { %>'
                         . '<div style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; background: #f5f5f5; border-radius: 4px; margin-right: 8px;">'
                         . '<i class="fa fa-play-circle" style="color: #999;"></i>'
+                        . '</div>'
+                        . '<% } else if (data.file_type === "audio") { %>'
+                        . '<div style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; background: #f5f5f5; border-radius: 4px; margin-right: 8px;">'
+                        . '<i class="fa fa-music" style="color: #999;"></i>'
                         . '</div>'
                         . '<% } else { %>'
                         . '<div style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; background: #f5f5f5; border-radius: 4px; margin-right: 8px;">'
                         . '<i class="fa fa-file" style="color: #999;"></i>'
                         . '</div>'
                         . '<% } %>'
-                        . '<span><%- data.origin_name %></span>',
-                ],
-                [
-                    'name' => 'file_size',
-                    'label' => '大小',
-                    'type' => 'tpl',
-                    'tpl' => '${file_size | round:2} KB',
-                    'width' => 100,
-                ],
-                [
-                    'name' => 'storage_mode',
-                    'label' => '来源',
-                    'type' => 'mapping',
-                    'map' => SystemFile::STORAGE_MODE,
-                    'width' => 100,
-                ],
-                [
-                    'name' => 'created_at',
-                    'label' => '创建时间',
-                    'type' => 'datetime',
-                    'width' => 180,
-                ],
+                        . '<span><%- data.origin_name %></span>'),
+                amis()->TableColumn('file_size', '大小')
+                    ->type('tpl')
+                    ->tpl('${file_size | round:2} KB')
+                    ->width(100),
+                amis()->TableColumn('storage_mode', '来源')
+                    ->type('mapping')
+                    ->map(SystemFile::STORAGE_MODE)
+                    ->width(100),
+                amis()->TableColumn('created_at', '创建时间')
+                    ->type('datetime')
+                    ->width(180),
             ])
             ->bulkActions([
                 $this->bulkDeleteButton(),
-                [
-                    'type' => 'button',
-                    'label' => '移动',
-                    'icon' => 'fa fa-folder',
-                    'actionType' => 'dialog',
-                    'dialog' => [
-                        'title' => '移动到分组',
-                        'body' => [
-                            'type' => 'form',
-                            'api' => $this->getMovePath(),
-                            'body' => [
-                                [
-                                    'type' => 'input-text',
-                                    'name' => 'ids',
-                                    'hidden' => true,
-                                    'value' => '${ids|json}',
-                                ],
-                                [
-                                    'type' => 'select',
-                                    'name' => 'group_id',
-                                    'label' => '目标分组',
-                                    'source' => $this->getGroupsPath(),
-                                    'labelField' => 'name',
-                                    'valueField' => 'id',
-                                    'clearable' => true,
-                                    'placeholder' => '选择分组（留空为未分组）',
-                                ],
-                            ],
-                        ],
-                    ],
-                ],
+                amis()->Button()
+                    ->label('移动')
+                    ->icon('fa fa-folder')
+                    ->actionType('dialog')
+                    ->dialog(
+                        amis()->Dialog()
+                            ->title('移动到分组')
+                            ->body(
+                                amis()->Form()
+                                    ->api($this->getMovePath())
+                                    ->body([
+                                        amis()->InputText('ids')->hidden(true)->value('${ids|json}'),
+                                        amis()->Select('group_id', '目标分组')
+                                            ->source($this->getGroupsPath())
+                                            ->labelField('name')
+                                            ->valueField('id')
+                                            ->clearable(true)
+                                            ->placeholder('选择分组（留空为未分组）'),
+                                    ])
+                            )
+                    ),
             ])
             ->headerToolbar([
-                // 本地上传按钮
+                // 左侧组：全选、删除、移动、本地上传
                 [
-                    'type' => 'button',
-                    'label' => '本地上传',
-                    'icon' => 'fa fa-upload',
-                    'level' => 'primary',
-                    'actionType' => 'dialog',
-                    'dialog' => [
-                        'title' => '上传文件',
-                        'size' => 'lg',
-                        'body' => [
-                            'type' => 'form',
-                            'api' => $this->getUploadPath(),
-                            'body' => [
-                                [
-                                    'type' => 'input-file',
-                                    'name' => 'file',
-                                    'label' => '选择文件',
-                                    'required' => true,
-                                    'accept' => 'image/*,video/*,.pdf,.doc,.docx,.xls,.xlsx,.txt,.zip,.rar',
-                                    'multiple' => true,
-                                    'autoUpload' => false,
-                                ],
-                                [
-                                    'type' => 'input-text',
-                                    'name' => 'group_id',
-                                    'label' => '分组',
-                                    'source' => $this->getGroupsPath(),
-                                    'clearable' => true,
-                                    'description' => '选择文件所属分组（可选）',
-                                ],
-                            ],
-                        ],
-                    ],
+                    'type' => 'bulkActions',
+                    'align' => 'left',
                 ],
-                // 删除按钮
-                [
-                    'type' => 'button',
-                    'label' => '删除',
-                    'icon' => 'fa fa-trash',
-                    'level' => 'danger',
-                    'hiddenOn' => '!${__super.__super.selectedItems || selectedItems}',
-                ],
-                // 移动按钮
-                [
-                    'type' => 'button',
-                    'label' => '移动',
-                    'icon' => 'fa fa-folder',
-                    'hiddenOn' => '!${__super.__super.selectedItems || selectedItems}',
-                ],
-                // 视图切换（列表/网格）
-                [
-                    'type' => 'button-group',
-                    'buttons' => [
-                        [
-                            'type' => 'button',
-                            'icon' => 'fa fa-th',
-                            'tooltip' => '网格视图',
-                            'activeOn' => '${' . $viewModeVar . ' === "cards"}',
-                            'onEvent' => [
+                // 本地上传按钮 - 弹窗上传，支持拖拽
+                amis()->Button()
+                    ->label('本地上传')
+                    ->icon('fa fa-upload')
+                    ->level('primary')
+                    ->actionType('dialog')
+                    ->dialog(
+                        amis()->Dialog()
+                            ->title('上传文件')
+                            ->body([
+                                amis()->InputFile('upload_file')
+                                    ->label('')
+                                    ->accept($this->getAcceptForFileType($fileType))
+                                    ->multiple(true)
+                                    ->drag(true)
+                                    ->autoUpload(true)
+                                    ->receiver($this->getUploadPath() . '?group_id=${currentGroupId}&file_type=' . $fileType)
+                                    ->className('hide-file-list')
+                                    ->onEvent([
+                                        'success' => [
+                                            'actions' => array_filter([
+                                                [
+                                                    'actionType' => 'setValue',
+                                                    'componentId' => $pageId,
+                                                    'args' => [
+                                                        'value' => [
+                                                            'upload_file' => null,
+                                                        ],
+                                                    ],
+                                                ],
+                                                [
+                                                    'actionType' => 'reload',
+                                                    'componentId' => $crudId,
+                                                ],
+                                                $crudTableId ? [
+                                                    'actionType' => 'reload',
+                                                    'componentId' => $crudTableId,
+                                                ] : null,
+                                                [
+                                                    'actionType' => 'closeDialog',
+                                                ],
+                                            ]),
+                                        ],
+                                        'error' => [
+                                            'actions' => [
+                                                [
+                                                    'actionType' => 'setValue',
+                                                    'componentId' => $pageId,
+                                                    'args' => [
+                                                        'value' => [
+                                                            'upload_file' => null,
+                                                        ],
+                                                    ],
+                                                ],
+                                            ],
+                                        ],
+                                    ]),
+                            ])
+                    ),
+                // 右侧组：搜索、文件来源选择、刷新、视图切换
+                amis()->ButtonGroup()
+                    ->align('right')
+                    ->buttons([
+                        amis()->Button()
+                            ->icon('fa fa-th')
+                            ->tooltip('网格视图')
+                            ->activeOn('${' . $viewModeVar . ' === "cards"}')
+                            ->onEvent([
                                 'click' => [
                                     'actions' => [
                                         [
@@ -705,14 +803,12 @@ class SystemFileController extends AdminController
                                         ],
                                     ],
                                 ],
-                            ],
-                        ],
-                        [
-                            'type' => 'button',
-                            'icon' => 'fa fa-list',
-                            'tooltip' => '列表视图',
-                            'activeOn' => '${' . $viewModeVar . ' === "table"}',
-                            'onEvent' => [
+                            ]),
+                        amis()->Button()
+                            ->icon('fa fa-list')
+                            ->tooltip('列表视图')
+                            ->activeOn('${' . $viewModeVar . ' === "table"}')
+                            ->onEvent([
                                 'click' => [
                                     'actions' => [
                                         [
@@ -726,31 +822,24 @@ class SystemFileController extends AdminController
                                         ],
                                     ],
                                 ],
-                            ],
-                        ],
-                    ],
-                ],
-                // 搜索框
-                [
-                    'type' => 'input-text',
-                    'name' => 'origin_name',
-                    'placeholder' => '请输入名称',
-                    'clearable' => true,
-                    'addOn' => [
-                        'type' => 'button',
-                        'label' => '搜索',
-                        'actionType' => 'submit',
-                        'icon' => 'fa fa-search',
-                    ],
-                ],
-                // 文件来源选择
-                [
-                    'type' => 'select',
-                    'name' => 'storage_mode',
-                    'placeholder' => '请选择文件来源',
-                    'clearable' => true,
-                    'options' => SystemFile::STORAGE_MODE,
-                    'onEvent' => [
+                            ]),
+                    ]),
+                amis()->InputText('origin_name')
+                    ->placeholder('请输入名称')
+                    ->align('right')
+                    ->clearable(true)
+                    ->addOn(
+                        amis()->Button()
+                            ->label('搜索')
+                            ->actionType('submit')
+                            ->icon('fa fa-search')
+                    ),
+                amis()->Select('storage_mode')
+                    ->placeholder('请选择文件来源')
+                    ->align('right')
+                    ->clearable(true)
+                    ->options(SystemFile::STORAGE_MODE)
+                    ->onEvent([
                         'change' => [
                             'actions' => [
                                 [
@@ -759,85 +848,19 @@ class SystemFileController extends AdminController
                                 ],
                             ],
                         ],
-                    ],
-                ],
-                // 刷新按钮
-                [
-                    'type' => 'button',
-                    'icon' => 'fa fa-refresh',
-                    'tooltip' => '刷新',
-                    'actionType' => 'reload',
-                    'target' => $crudId,
-                ],
+                    ]),
+                amis()->Button()
+                    ->icon('fa fa-refresh')
+                    ->tooltip('刷新')
+                    ->align('right')
+                    ->actionType('reload')
+                    ->target($crudId),
             ])
             ->footerToolbar([
                 'statistics',
-                [
-                    'type' => 'checkbox',
-                    'label' => '当页全选',
-                    'onEvent' => [
-                        'change' => [
-                            'actions' => [
-                                [
-                                    'actionType' => 'toggleAllSelections',
-                                    'componentId' => $crudId,
-                                ],
-                            ],
-                        ],
-                    ],
-                ],
                 'pagination',
-            ])
-            ->itemActions([
-                [
-                    'type' => 'button',
-                    'level' => 'link',
-                    'icon' => 'fa fa-download',
-                    'tooltip' => '下载',
-                    'actionType' => 'url',
-                    'url' => $this->getDownloadPath() . '?id=${id}',
-                ],
-                [
-                    'type' => 'button',
-                    'level' => 'link',
-                    'icon' => 'fa fa-edit',
-                    'tooltip' => '重命名',
-                    'actionType' => 'dialog',
-                    'dialog' => [
-                        'title' => '重命名文件',
-                        'body' => [
-                            'type' => 'form',
-                            'api' => $this->getRenamePath(),
-                            'body' => [
-                                [
-                                    'type' => 'input-text',
-                                    'name' => 'id',
-                                    'hidden' => true,
-                                    'value' => '${id}',
-                                ],
-                                [
-                                    'type' => 'input-text',
-                                    'name' => 'name',
-                                    'label' => '文件名',
-                                    'required' => true,
-                                    'value' => '${origin_name}',
-                                ],
-                            ],
-                        ],
-                    ],
-                ],
-                [
-                    'type' => 'button',
-                    'level' => 'link',
-                    'icon' => 'fa fa-trash',
-                    'tooltip' => '删除',
-                    'actionType' => 'ajax',
-                    'api' => $this->getDeletePath(),
-                    'confirmText' => '确定要删除这个文件吗？',
-                    'data' => ['ids' => '${id}'],
-                ],
             ]);
-        
+
         return $crud->toArray();
     }
 
@@ -851,7 +874,26 @@ class SystemFileController extends AdminController
         $request = request();
         $fileType = $request ? $request->input('file_type') : null;
         $groups = $this->service->getGroups($fileType);
-        return $this->response()->success(['items' => $groups]);
+
+        // 转换数据格式，确保字段名符合 Nav 组件要求
+        // 移除 to 字段，使用 group_id 用于事件处理
+        $links = array_map(function ($group) {
+            $item = [
+                'label' => $group['name'],
+                'group_id' => $group['id'],
+                'count' => $group['count'],
+                'icon' => 'fa fa-folder', // 统一使用文件夹图标
+            ];
+
+            // 如果是"全部"分组（id为null），设置active为true
+            if ($group['id'] === null) {
+                $item['active'] = true;
+            }
+
+            return $item;
+        }, $groups);
+
+        return $this->response()->success($links);
     }
 
     /**
@@ -903,8 +945,8 @@ class SystemFileController extends AdminController
         try {
             $storage = \warm\framework\filesystem\facade\Storage::disk('public');
             $content = $storage->get($file->storage_path);
-            
-            return \response($content)
+
+            return response($content)
                 ->header('Content-Type', $file->mime_type)
                 ->header('Content-Disposition', 'attachment; filename="' . $file->origin_name . '"');
         } catch (\Throwable $e) {
@@ -979,11 +1021,12 @@ class SystemFileController extends AdminController
     public function createGroup(Request $request): Response
     {
         $name = $request->input('name');
+        $fileType = $request->input('file_type');
         if (!$name) {
             return $this->response()->fail('分组名称不能为空');
         }
 
-        $result = $this->service->createGroup($name);
+        $result = $this->service->createGroup($name, $fileType);
         return $this->autoResponse($result, '创建分组');
     }
 
@@ -1002,6 +1045,29 @@ class SystemFileController extends AdminController
 
         $result = $this->service->deleteGroup($groupId);
         return $this->autoResponse($result, '删除分组');
+    }
+
+    /**
+     * 重命名分组
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function renameGroup(Request $request): Response
+    {
+        $groupId = $request->input('id');
+        $newName = $request->input('name');
+
+        if (!$groupId) {
+            return $this->response()->fail('分组ID不能为空');
+        }
+
+        if (!$newName) {
+            return $this->response()->fail('分组名称不能为空');
+        }
+
+        $result = $this->service->renameGroup($groupId, $newName);
+        return $this->autoResponse($result, '重命名分组');
     }
 
     /**
@@ -1050,6 +1116,46 @@ class SystemFileController extends AdminController
     protected function getCreateGroupPath(): string
     {
         return 'post:' . admin_url($this->queryPath . '/createGroup');
+    }
+
+    /**
+     * 获取重命名分组路径
+     */
+    protected function getRenameGroupPath(): string
+    {
+        return 'post:' . admin_url($this->queryPath . '/renameGroup');
+    }
+
+    /**
+     * 获取删除分组路径
+     */
+    protected function getDeleteGroupPath(): string
+    {
+        return 'delete:' . admin_url($this->queryPath . '/deleteGroup');
+    }
+
+    /**
+     * 文件表单页面
+     *
+     * 定义文件管理表单结构
+     *
+     * @return Form 返回文件表单
+     */
+    /**
+     * 根据文件类型获取 accept 值
+     *
+     * @param string $fileType 文件类型 (image, video, audio, file)
+     * @return string accept 值
+     */
+    protected function getAcceptForFileType(string $fileType): string
+    {
+        return match ($fileType) {
+            'image' => 'image/*',
+            'video' => 'video/*',
+            'audio' => 'audio/*',
+            'file' => '.pdf,.doc,.docx,.xls,.xlsx,.txt,.zip,.rar,.7z,.tar,.gz',
+            default => '*',
+        };
     }
 
     /**
