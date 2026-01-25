@@ -251,7 +251,7 @@ class SystemFileController extends AdminController
                                     ],
                                 ],
                             ]),
-                    ]),
+                ]),
             ]);
 
         // 创建添加分组按钮
@@ -370,7 +370,6 @@ class SystemFileController extends AdminController
                                 ->dialog(
                                     amis()->Dialog()
                                         ->title('${origin_name}')
-                                        ->size('lg')
                                         ->body(
                                             amis()->Video()
                                                 ->src('${url}')
@@ -391,7 +390,6 @@ class SystemFileController extends AdminController
                                 ->dialog(
                                     amis()->Dialog()
                                         ->title('${origin_name}')
-                                        ->size('md')
                                         ->body(
                                             amis()->Audio()
                                                 ->src('${url}')
@@ -430,8 +428,12 @@ class SystemFileController extends AdminController
                         ->level('link')
                         ->icon('fa fa-download')
                         ->tooltip('下载')
-                        ->actionType('url')
-                        ->url($this->getDownloadPath() . '?id=${id}'),
+                        ->actionType('ajax')
+                        ->api([
+                            'method' => 'post',
+                            'url' => $this->getDownloadPath() . '?id=${id}',
+                            'responseType' => 'blob',
+                        ]),
                     // 重命名按钮
                     amis()->Button()
                         ->level('link')
@@ -481,8 +483,8 @@ class SystemFileController extends AdminController
                                         amis()->InputText('ids')->hidden(true)->value('${ids|json}'),
                                         amis()->Select('group_id', '目标分组')
                                             ->source($this->getGroupsPath())
-                                            ->labelField('name')
-                                            ->valueField('id')
+                                            ->labelField('label')
+                                            ->valueField('group_id')
                                             ->clearable(true)
                                             ->placeholder('选择分组（留空为未分组）'),
                                     ])
@@ -683,7 +685,7 @@ class SystemFileController extends AdminController
                 amis()->TableColumn('file_size', '大小')
                     ->type('tpl')
                     ->tpl('${file_size | round:2} KB')
-                    ->width(100),
+                    ->width(200),
                 amis()->TableColumn('storage_mode', '来源')
                     ->type('mapping')
                     ->map(SystemFile::STORAGE_MODE)
@@ -708,8 +710,8 @@ class SystemFileController extends AdminController
                                         amis()->InputText('ids')->hidden(true)->value('${ids|json}'),
                                         amis()->Select('group_id', '目标分组')
                                             ->source($this->getGroupsPath())
-                                            ->labelField('name')
-                                            ->valueField('id')
+                                            ->labelField('label')
+                                            ->valueField('group_id')
                                             ->clearable(true)
                                             ->placeholder('选择分组（留空为未分组）'),
                                     ])
@@ -756,9 +758,9 @@ class SystemFileController extends AdminController
                                                     'actionType' => 'reload',
                                                     'componentId' => $crudId,
                                                 ],
-                                                $crudTableId ? [
+                                                $crudCardsId ? [
                                                     'actionType' => 'reload',
-                                                    'componentId' => $crudTableId,
+                                                    'componentId' => $crudCardsId,
                                                 ] : null,
                                                 [
                                                     'actionType' => 'closeDialog',
@@ -941,14 +943,22 @@ class SystemFileController extends AdminController
         if (!$file) {
             return $this->response()->fail('文件不存在');
         }
+        
 
         try {
             $storage = \warm\framework\filesystem\facade\Storage::disk('public');
-            $content = $storage->get($file->storage_path);
+            
+            // 获取文件的完整路径
+            // public 磁盘的根目录是 base_path('public')
+            $filePath = base_path('public/' . $file->storage_path);
+            
+            // 检查文件是否存在
+            if (!file_exists($filePath)) {
+                return $this->response()->fail('文件不存在');
+            }
 
-            return response($content)
-                ->header('Content-Type', $file->mime_type)
-                ->header('Content-Disposition', 'attachment; filename="' . $file->origin_name . '"');
+            // 使用 webman 的 download 方法
+            return response()->download(\warm\framework\filesystem\facade\Storage::get($file->storage_path), rawurlencode($file->origin_name));
         } catch (\Throwable $e) {
             return $this->response()->fail('文件下载失败：' . $e->getMessage());
         }
