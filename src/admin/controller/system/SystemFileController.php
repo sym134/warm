@@ -524,9 +524,50 @@ class SystemFileController extends AdminController
         return amis()->Button()
             ->level('link')
             ->icon('fa fa-download')
-            ->tooltip('下载')
-            ->actionType('ajax')
-            ->api(['method' => 'post', 'url' => $this->getDownloadPath() . '?id=${id}', 'responseType' => 'blob']);
+            ->onEvent([
+				'click' => [
+					'actions' => [
+						[
+							'ignoreError' => '',
+							'actionType' => 'ajax',
+							'outputVar' => 'responseResult',
+							'options' => [],
+							'api' => [
+								'url' => $this->getDownloadPath() . '?id=${id}',
+								'method' => 'get',
+							],
+						],
+						[
+							'ignoreError' => '',
+							'actionType' => 'custom',
+							'script' => 'window.open(event.data.responseResult.responseData.path)',
+							'args' => [],
+                            'expression' => '${event.data.responseResult.responseStatus===0}',
+						],
+					],
+				],
+			]);
+            // ->onEvent([                
+			// 	'click' => [
+			// 		'actions' => [
+			// 			[
+			// 				'ignoreError' => '',
+			// 				'actionType' => 'download',
+			// 				'api' => [
+			// 					'url' => $this->getDownloadPath() . '?id=${id}',
+			// 					'method' => 'get',
+			// 					'requestAdaptor' => '',
+			// 					'adaptor' => '',
+			// 					'messages' => [],
+			// 					'responseType' => 'blob',
+			// 				],
+			// 			],
+			// 		],
+			// 	],
+			
+            // ]);
+            // ->actionType('ajax')
+            // ->api(['method' => 'get', 'url' => $this->getDownloadPath() . '?id=${id}']);
     }
 
     /**
@@ -798,6 +839,7 @@ class SystemFileController extends AdminController
         if (!$file) {
             return $this->response()->fail('文件不存在');
         }
+        return $this->response()->success(['path' => \warm\framework\filesystem\facade\Storage::url($file->storage_path)]);
         
         try {
             $fileContent = \warm\framework\filesystem\facade\Storage::get($file->storage_path);
