@@ -231,6 +231,16 @@ class Database
             $table->timestamps();
         });
 
+        $this->create('system_file_groups', function (Blueprint $table) {
+            $table->comment('文件分组');
+            $table->increments('id');
+            $table->string('name', 100)->comment('分组名称');
+            $table->enum('file_type', ['image', 'video', 'audio', 'file'])->nullable()->comment('文件类型（可选，用于筛选）');
+            $table->integer('sort')->default(0)->comment('排序');
+            $table->tinyInteger('created_by')->comment('创建者');
+            $table->timestamps();
+        });
+
         $this->create('system_files', function (Blueprint $table) {
             $table->comment('附件管理');
             $table->increments('id');
@@ -245,9 +255,11 @@ class Database
             $table->string('file_size')->nullable()->comment('文件大小');
             $table->string('url')->nullable()->comment('url地址');
             $table->string('remark')->nullable()->comment('备注');
+            $table->unsignedInteger('group_id')->nullable()->comment('分组ID');
             $table->tinyInteger('created_by')->comment('创建者');
             $table->timestamps();
             $table->softDeletes();
+            $table->foreign('group_id')->references('id')->on('system_file_groups')->onDelete('set null');
         });
 
         $this->create('admin_operation_log', function (Blueprint $table) {

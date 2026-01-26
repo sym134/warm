@@ -19,7 +19,7 @@ trait ExportTrait
      */
     protected function export(): Response
     {
-        admin_abort_if(!class_exists('\Rap2hpoutre\FastExcel\FastExcel'), translator('admin.export.please_install_laravel_excel'));
+        admin_abort_if(!class_exists('\Rap2hpoutre\FastExcel\FastExcel'), translator('admin.export.please_install_excel'));
 
         // 默认在 storage/app/ 下
         $path = 'resource/' . sprintf('%s-%s.xlsx', $this->exportFileName(), date('YmdHis'));

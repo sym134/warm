@@ -300,7 +300,7 @@ return [
         'selected_rows'                => '选中行',
         'page_no_data'                 => '本页无数据',
         'selected_rows_no_data'        => '请选择要导出的数据',
-        'please_install_laravel_excel' => '请先安装 rap2hpoutre/fast-excel 插件',
+        'please_install_excel' => '请先安装 rap2hpoutre/fast-excel 插件',
     ],
     'pages'         => [
         'menu'                   => '页面管理',

@@ -126,10 +126,10 @@ class Form extends BaseRenderer
      *
      * 支持多种表单字段类型，如：input-text、input-email、select、checkbox 等
      *
-     * @param string|array $value 表单项数组
+     * @param mixed $value 表单项数组
      * @return self
      */
-    public function body(string|array $value = []): static
+    public function body(mixed $value = []): static
     {
         return $this->set('body', $value);
     }

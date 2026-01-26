@@ -107,9 +107,28 @@ Route::group(Admin::warmConfig('app.route.prefix'), function () {
         // 存储管理
         Route::get('/storage', [SystemStorageController::class,'index']);
         Route::put('/storage/update', [SystemStorageController::class,'updateConfig']);
-        // 文件管理
+        
+        // 文件管理 - 先定义静态路由，避免被 resource 的动态路由遮蔽
+        Route::group('/file', function () {
+            // 获取文件分组列表
+            Route::get('/groups', [SystemFileController::class, 'groups']);
+            // 文件上传
+            Route::post('/upload', [SystemFileController::class, 'upload']);
+            // 文件下载
+            Route::get('/download', [SystemFileController::class, 'download']);
+            // 文件重命名
+            Route::post('/rename', [SystemFileController::class, 'rename']);
+            // 文件移动
+            Route::post('/move', [SystemFileController::class, 'move']);
+            // 创建分组
+            Route::post('/createGroup', [SystemFileController::class, 'createGroup']);
+            // 重命名分组
+            Route::post('/renameGroup', [SystemFileController::class, 'renameGroup']);
+            // 删除分组
+            Route::delete('/deleteGroup', [SystemFileController::class, 'deleteGroup']);
+        });
+        // 文件管理资源路由（必须放在静态路由之后）
         Route::resource('/file', SystemFileController::class);
-        Route::post('/file/move', [SystemFileController::class, 'move']);
 
         // 微信菜单管理
         Route::get('/wechat_menu', [WechatMenuController::class, 'index']);

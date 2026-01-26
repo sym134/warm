@@ -433,7 +433,7 @@ class StorageService extends BaseService
         $extension = self::getSafeExtension($realMime);
         $prefix = $prefix ?: 'file';
         
-        return uniqid($prefix, true) . '.' . $extension;
+        return md5(uniqid($prefix, true)) . '.' . $extension;
     }
 
     /**

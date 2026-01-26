@@ -36,12 +36,12 @@ class SystemCrontabController extends AdminController
     {
         $crud = $this->baseCRUD()
             ->filterTogglable(false)
-            // ->headerToolbar([
-            //     $this->createButton(),
-            //     ...$this->baseHeaderToolBar(),
-            // ])
+            ->headerToolbar([
+                $this->createButton(),
+                ...$this->baseHeaderToolBar(),
+            ])
             ->filter(
-                amis()->Form()->api(['method' => 'get', 'url' => admin_url('/system/crontab')])->body([
+                $this->baseFilter()->api(['method' => 'get', 'url' => admin_url('/system/crontab')])->body([
                     amis()->InputText('name', translator('crontab.name'))->clearable(true),
                     amis()->Select('task_type', translator('crontab.task_type'))->options(SystemCrontab::TASK_TYPE)->clearable(true),
                     amis()->Select('task_status', translator('crontab.task_status'))->options([

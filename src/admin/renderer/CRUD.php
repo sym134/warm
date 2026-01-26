@@ -1,5 +1,7 @@
 <?php
+
 namespace warm\admin\renderer;
+
 use warm\admin\renderer\trait\DataDomain;
 use warm\admin\renderer\trait\OnEvent;
 
@@ -29,10 +31,10 @@ class CRUD extends BaseRenderer
     /**
      * 卡片模式
      *
-     * @param array $value
+     * @param mixed $value
      * @return $this
      */
-    public function card(array $value = []):static
+    public function card(mixed $value = []): static
     {
         return $this->set('card', $value);
     }
@@ -43,7 +45,7 @@ class CRUD extends BaseRenderer
      * @param array $value
      * @return $this
      */
-    public function listItem(array $value = []):static
+    public function listItem(array $value = []): static
     {
         return $this->set('listItem', $value);
     }
@@ -346,7 +348,7 @@ class CRUD extends BaseRenderer
     }
 
     /**
-     * 
+     *
      *
      * @param mixed $value
      * @return static
@@ -566,7 +568,7 @@ class CRUD extends BaseRenderer
     }
 
     /**
-     * 
+     *
      *
      * @param mixed $value
      * @return static
@@ -637,7 +639,7 @@ class CRUD extends BaseRenderer
      * @param string $string
      * @return CRUD
      */
-    public function itemCheckableOn(string $string): CRUD
+    public function itemCheckableOn(string $string): static
     {
         return $this->set('itemCheckableOn', $string);
     }
@@ -648,8 +650,30 @@ class CRUD extends BaseRenderer
      * @param array $array
      * @return CRUD
      */
-    public function columns(array $array): CRUD
+    public function columns(array $array): static
     {
         return $this->set('columns', $array);
+    }
+
+    /**
+     * 是否点击行时选中
+     *
+     * @param bool $value
+     * @return CRUD
+     */
+    public function checkOnItemClick(bool $value = true): static
+    {
+        return $this->set('checkOnItemClick', $value);
+    }
+
+    /**
+     * 列数量
+     *
+     * @param int $int
+     * @return CRUD
+     */
+    public function columnsCount(int $int): CRUD
+    {
+        return $this->set('columnsCount', $int);
     }
 }

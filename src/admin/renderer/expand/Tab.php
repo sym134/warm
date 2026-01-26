@@ -14,4 +14,15 @@ class Tab extends BaseRenderer
     {
         return $this->set('tab', $value);
     }
+
+    /**
+     * 设置hash
+     * 
+     * @param string $string
+     * @return Tab
+     */
+    public function hash(string $string): static
+    {
+        return $this->set('hash', $string);
+    }
 }

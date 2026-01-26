@@ -75,7 +75,7 @@ class Cache
      */
     public static function forever(string $key, mixed $value): bool
     {
-        return WebmanCache::set(self::getPrefixedKey($key), $value, 0);
+        return WebmanCache::set(self::getPrefixedKey($key), $value, null);
     }
 
     /**
