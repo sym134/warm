@@ -50,10 +50,10 @@ class SystemFileController extends AdminController
         // 构建每个标签页的内容（图片、视频、音频、文件）
         $tabs = [];
         $fileTypes = [
-            ['label' => '图片', 'value' => 'image'],
-            ['label' => '视频', 'value' => 'video'],
-            ['label' => '音频', 'value' => 'audio'],
-            ['label' => '文件', 'value' => 'file'],
+            ['label' => translator('admin.system_file.file_type_image'), 'value' => 'image'],
+            ['label' => translator('admin.system_file.file_type_video'), 'value' => 'video'],
+            ['label' => translator('admin.system_file.file_type_audio'), 'value' => 'audio'],
+            ['label' => translator('admin.system_file.file_type_file'), 'value' => 'file'],
         ];
 
         foreach ($fileTypes as $fileType) {
@@ -165,11 +165,11 @@ class SystemFileController extends AdminController
                                     ->visibleOn('${group_id !== null && group_id !== "ungrouped" && group_id !== undefined}')
                                     ->buttons([
                                         amis()->Button()
-                                            ->label('重命名')
+                                            ->label(translator('admin.system_file.rename'))
                                             ->actionType('dialog')
                                             ->dialog(
                                                 amis()->Dialog()
-                                                    ->title('重命名分组')
+                                                    ->title(translator('admin.system_file.rename_group_dialog'))
                                                     ->body(
                                                         amis()->Form()
                                                             ->api($this->getRenameGroupPath())
@@ -185,18 +185,18 @@ class SystemFileController extends AdminController
                                                             ])
                                                             ->body([
                                                                 amis()->InputText('id')->hidden(true)->value('${group_id}'),
-                                                                amis()->InputText('name', '分组名称')
+                                                                amis()->InputText('name', translator('admin.system_file.group_name'))
                                                                     ->required(true)
                                                                     ->value('${label}'),
                                                             ])
                                                     )
                                             ),
                                         amis()->Button()
-                                            ->label('删除')
+                                            ->label(translator('admin.delete'))
                                             ->level('danger')
                                             ->actionType('ajax')
                                             ->api($this->getDeleteGroupPath())
-                                            ->confirmText('确定要删除该分组吗？删除后将同时删除该分组下的所有文件！')
+                                            ->confirmText(translator('admin.system_file.delete_group_confirm'))
                                             ->data(['id' => '${group_id}'])
                                             ->onEvent([
                                                 'ajaxSucc' => [
@@ -251,12 +251,12 @@ class SystemFileController extends AdminController
                                     ],
                                 ],
                             ]),
-                ]),
+                    ]),
             ]);
 
         // 创建添加分组按钮
         $addGroupButton = amis()->Button()
-            ->label('添加分组')
+            ->label(translator('admin.system_file.add_group'))
             ->icon('fa fa-plus')
             ->level('link')
             ->block(true)
@@ -264,7 +264,7 @@ class SystemFileController extends AdminController
             ->actionType('dialog')
             ->dialog(
                 amis()->Dialog()
-                    ->title('添加分组')
+                    ->title(translator('admin.system_file.add_group'))
                     ->body(
                         amis()->Form()
                             ->api($this->getCreateGroupPath())
@@ -279,7 +279,7 @@ class SystemFileController extends AdminController
                                 ],
                             ])
                             ->body([
-                                amis()->InputText('name', '分组名称')->required(true),
+                                amis()->InputText('name', translator('admin.system_file.group_name'))->required(true),
                                 amis()->InputText('file_type')->hidden(true)->value($value),
                             ])
                     )
@@ -333,23 +333,23 @@ class SystemFileController extends AdminController
     protected function buildMoveToGroupButton()
     {
         return amis()->Button()
-            ->label('移动')
+            ->label(translator('admin.system_file.move'))
             ->icon('fa fa-folder')
             ->actionType('dialog')
             ->dialog(
                 amis()->Dialog()
-                    ->title('移动到分组')
+                    ->title(translator('admin.system_file.move_to_group_dialog'))
                     ->body(
                         amis()->Form()
                             ->api($this->getMovePath())
                             ->body([
                                 amis()->InputText('ids')->hidden(true)->value('${ids|json}'),
-                                amis()->Select('group_id', '目标分组')
+                                amis()->Select('group_id', translator('admin.system_file.target_group'))
                                     ->source($this->getGroupsPath())
                                     ->labelField('label')
                                     ->valueField('group_id')
                                     ->clearable(true)
-                                    ->placeholder('选择分组（留空为未分组）'),
+                                    ->placeholder(translator('admin.system_file.select_group_placeholder')),
                             ])
                     )
             );
@@ -376,7 +376,7 @@ class SystemFileController extends AdminController
             ->buttons([
                 amis()->Button()
                     ->icon('fa fa-th')
-                    ->tooltip('网格视图')
+                    ->tooltip(translator('admin.system_file.view_grid'))
                     ->activeOn('${' . $viewModeVar . ' === "cards"}')
                     ->onEvent([
                         'click' => [
@@ -387,7 +387,7 @@ class SystemFileController extends AdminController
                     ]),
                 amis()->Button()
                     ->icon('fa fa-list')
-                    ->tooltip('列表视图')
+                    ->tooltip(translator('admin.system_file.view_list'))
                     ->activeOn('${' . $viewModeVar . ' === "table"}')
                     ->onEvent([
                         'click' => [
@@ -411,13 +411,13 @@ class SystemFileController extends AdminController
             ['actionType' => 'closeDialog'],
         ]));
         return amis()->Button()
-            ->label('本地上传')
+            ->label(translator('admin.system_file.upload_local'))
             ->icon('fa fa-upload')
             ->level('primary')
             ->actionType('dialog')
             ->dialog(
                 amis()->Dialog()
-                    ->title('上传文件')
+                    ->title(translator('admin.system_file.upload_dialog'))
                     ->body([
                         amis()->InputFile('upload_file')
                             ->label('')
@@ -449,17 +449,17 @@ class SystemFileController extends AdminController
             $this->buildUploadButton($fileType, $pageId, $crudId, $anotherCrudId),
             $this->buildViewModeSwitch($viewModeVar, $pageId),
             amis()->InputText('origin_name')
-                ->placeholder('请输入名称')
+                ->placeholder(translator('admin.system_file.placeholder_search_name'))
                 ->align('right')
                 ->clearable(true)
-                ->addOn(amis()->Button()->label('搜索')->actionType('submit')->icon('fa fa-search')),
+                ->addOn(amis()->Button()->label(translator('admin.search'))->actionType('submit')->icon('fa fa-search')),
             amis()->Select('storage_mode')
-                ->placeholder('请选择文件来源')
+                ->placeholder(translator('admin.system_file.placeholder_storage'))
                 ->align('right')
                 ->clearable(true)
                 ->options(SystemFile::STORAGE_MODE)
                 ->onEvent(['change' => ['actions' => [['actionType' => 'reload', 'componentId' => $crudId]]]]),
-            amis()->Button()->icon('fa fa-refresh')->tooltip('刷新')->align('right')->actionType('reload')->target($crudId),
+            amis()->Button()->icon('fa fa-refresh')->tooltip(translator('admin.system_file.refresh'))->align('right')->actionType('reload')->target($crudId),
         ];
     }
 
@@ -479,22 +479,21 @@ class SystemFileController extends AdminController
             ->api($this->getRenamePath())
             ->body([
                 amis()->InputText('id')->hidden(true)->value('${id}'),
-                amis()->InputText('name', '文件名')->required(true)->value('${origin_name}'),
+                amis()->InputText('name', translator('admin.system_file.file_name'))->required(true)->value('${origin_name}'),
             ]);
         if ($reloadComponentIds) {
             $actions = array_merge(
-                array_map(fn ($id) => ['actionType' => 'reload', 'componentId' => $id], array_values(array_filter($reloadComponentIds))),
+                array_map(fn($id) => ['actionType' => 'reload', 'componentId' => $id], array_values(array_filter($reloadComponentIds))),
                 [['actionType' => 'closeDialog']]
             );
             $form->onEvent(['submitSucc' => ['actions' => $actions]]);
         }
         return amis()->Button()
-            ->label('重命名')
+            ->label(translator('admin.system_file.rename'))
             ->level('link')
             ->icon('fa fa-edit')
-            ->tooltip('重命名')
             ->actionType('dialog')
-            ->dialog(amis()->Dialog()->title('重命名文件')->body($form));
+            ->dialog(amis()->Dialog()->title(translator('admin.system_file.rename_file_dialog'))->body($form));
     }
 
     /**
@@ -512,8 +511,8 @@ class SystemFileController extends AdminController
                 amis()->Container()
                     ->visibleOn('${file_type !== "image" && file_type !== "video" && file_type !== "audio"}')
                     ->body([
-                        amis()->Tpl()->tpl('<p class="text-gray-500 mb-2">该文件类型不支持在线预览，可下载后查看或在新窗口打开。</p>'),
-                        amis()->Button()->label('在新窗口打开')->level('primary')->actionType('url')->url('${url}')->blank(true),
+                        amis()->Tpl()->tpl('<p class="text-gray-500 mb-2">' . translator('admin.system_file.preview_not_supported') . '</p>'),
+                        amis()->Button()->label(translator('admin.system_file.open_in_new_window'))->level('primary')->actionType('url')->url('${url}')->blank(true),
                     ]),
             ]);
     }
@@ -525,49 +524,28 @@ class SystemFileController extends AdminController
             ->level('link')
             ->icon('fa fa-download')
             ->onEvent([
-				'click' => [
-					'actions' => [
-						[
-							'ignoreError' => '',
-							'actionType' => 'ajax',
-							'outputVar' => 'responseResult',
-							'options' => [],
-							'api' => [
-								'url' => $this->getDownloadPath() . '?id=${id}',
-								'method' => 'get',
-							],
-						],
-						[
-							'ignoreError' => '',
-							'actionType' => 'custom',
-							'script' => 'window.open(event.data.responseResult.responseData.path)',
-							'args' => [],
+                'click' => [
+                    'actions' => [
+                        [
+                            'ignoreError' => '',
+                            'actionType' => 'ajax',
+                            'outputVar' => 'responseResult',
+                            'options' => [],
+                            'api' => [
+                                'url' => $this->getDownloadPath() . '?id=${id}',
+                                'method' => 'get',
+                            ],
+                        ],
+                        [
+                            'ignoreError' => '',
+                            'actionType' => 'custom',
+                            'script' => 'window.open(event.data.responseResult.responseData.path)',
+                            'args' => [],
                             'expression' => '${event.data.responseResult.responseStatus===0}',
-						],
-					],
-				],
-			]);
-            // ->onEvent([                
-			// 	'click' => [
-			// 		'actions' => [
-			// 			[
-			// 				'ignoreError' => '',
-			// 				'actionType' => 'download',
-			// 				'api' => [
-			// 					'url' => $this->getDownloadPath() . '?id=${id}',
-			// 					'method' => 'get',
-			// 					'requestAdaptor' => '',
-			// 					'adaptor' => '',
-			// 					'messages' => [],
-			// 					'responseType' => 'blob',
-			// 				],
-			// 			],
-			// 		],
-			// 	],
-			
-            // ]);
-            // ->actionType('ajax')
-            // ->api(['method' => 'get', 'url' => $this->getDownloadPath() . '?id=${id}']);
+                        ],
+                    ],
+                ],
+            ]);
     }
 
     /**
@@ -578,19 +556,18 @@ class SystemFileController extends AdminController
     protected function buildDeleteFileButton(?array $reloadComponentIds = null, bool $dangerStyle = false)
     {
         $btn = amis()->Button()
-            ->label('删除')
+            ->label(translator('admin.delete'))
             ->level('link')
             ->icon('fa fa-trash')
-            ->tooltip('删除')
             ->actionType('ajax')
             ->api($this->getDeletePath())
-            ->confirmText('确定要删除这个文件吗？')
+            ->confirmText(translator('admin.system_file.delete_file_confirm'))
             ->data(['ids' => '${id}']);
         if ($dangerStyle) {
             $btn->className('text-danger');
         }
         if ($reloadComponentIds) {
-            $actions = array_map(fn ($id) => ['actionType' => 'reload', 'componentId' => $id], array_values(array_filter($reloadComponentIds)));
+            $actions = array_map(fn($id) => ['actionType' => 'reload', 'componentId' => $id], array_values(array_filter($reloadComponentIds)));
             $btn->onEvent(['ajaxSucc' => ['actions' => $actions]]);
         }
         return $btn;
@@ -606,7 +583,7 @@ class SystemFileController extends AdminController
         if ($forTable) {
             return [
                 $this->buildRenameFileButton($reloadIds),
-                amis()->Button()->label('预览')->level('link')->icon('fa fa-eye')->tooltip('预览')->actionType('dialog')->dialog($this->buildPreviewDialog()),
+                amis()->Button()->label(translator('admin.preview'))->level('link')->icon('fa fa-eye')->actionType('dialog')->dialog($this->buildPreviewDialog()),
                 $this->buildDownloadButton(),
                 $this->buildDeleteFileButton($reloadIds, true),
             ];
@@ -696,6 +673,52 @@ class SystemFileController extends AdminController
         return $crud->toArray();
     }
 
+    /** 列表「文件名」列中图标盒通用样式（非图片类型的 40x40 图标容器） */
+    private const FILE_ICON_BOX_STYLE = [
+        'width' => '40px',
+        'height' => '40px',
+        'display' => 'flex',
+        'alignItems' => 'center',
+        'justifyContent' => 'center',
+        'background' => '#f5f5f5',
+        'borderRadius' => '4px',
+        'marginRight' => '8px',
+        'flexShrink' => 0,
+    ];
+
+    /**
+     * 构建列表模式「文件名」列：使用 Flex + Image/Container/Tpl 等组件
+     */
+    protected function buildFileNameTableColumn()
+    {
+        $iconBox = self::FILE_ICON_BOX_STYLE;
+        return amis()->TableColumn('origin_name', translator('admin.system_file.file_name'))
+            ->type('flex')
+            ->alignItems('center')
+            ->justify('flex-start')
+            ->items([
+                amis()->Image()
+                    ->src('${url}')
+                    ->imageMode('thumb')
+                    ->thumbMode('cover')
+                    ->enlargeAble(false)
+                    ->visibleOn('${file_type === "image"}'),
+                amis()->Container()
+                    ->style($iconBox)
+                    ->body(amis()->Tpl()->tpl('<i class="fa fa-play-circle" style="color:#999"></i>'))
+                    ->visibleOn('${file_type === "video"}'),
+                amis()->Container()
+                    ->style($iconBox)
+                    ->body(amis()->Tpl()->tpl('<i class="fa fa-music" style="color:#999"></i>'))
+                    ->visibleOn('${file_type === "audio"}'),
+                amis()->Container()
+                    ->style($iconBox)
+                    ->body(amis()->Tpl()->tpl('<i class="fa fa-file" style="color:#999"></i>'))
+                    ->visibleOn('${file_type !== "image" && file_type !== "video" && file_type !== "audio"}'),
+                amis()->Tpl()->tpl('${origin_name}')->tooltip('${origin_name}'),
+            ]);
+    }
+
     /**
      * 构建列表模式 CRUD 配置
      *
@@ -719,37 +742,20 @@ class SystemFileController extends AdminController
             ->primaryField('id')
             ->columns([
                 amis()->TableColumn('id', 'ID')->width(80),
-                amis()->TableColumn('origin_name', '文件名')
-                    ->type('tpl')
-                    ->tpl('<% if (data.file_type === "image") { %>'
-                        . '<img src="<%- data.url %>" style="width: 40px; height: 40px; object-fit: cover; border-radius: 4px; margin-right: 8px;" />'
-                        . '<% } else if (data.file_type === "video") { %>'
-                        . '<div style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; background: #f5f5f5; border-radius: 4px; margin-right: 8px;">'
-                        . '<i class="fa fa-play-circle" style="color: #999;"></i>'
-                        . '</div>'
-                        . '<% } else if (data.file_type === "audio") { %>'
-                        . '<div style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; background: #f5f5f5; border-radius: 4px; margin-right: 8px;">'
-                        . '<i class="fa fa-music" style="color: #999;"></i>'
-                        . '</div>'
-                        . '<% } else { %>'
-                        . '<div style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; background: #f5f5f5; border-radius: 4px; margin-right: 8px;">'
-                        . '<i class="fa fa-file" style="color: #999;"></i>'
-                        . '</div>'
-                        . '<% } %>'
-                        . '<span><%- data.origin_name %></span>'),
-                amis()->TableColumn('file_size', '大小')
+                $this->buildFileNameTableColumn(),
+                amis()->TableColumn('file_size', translator('admin.system_file.size'))
                     ->type('tpl')
                     ->tpl('${file_size | round:2} KB')
                     ->width(200),
-                amis()->TableColumn('storage_mode', '来源')
+                amis()->TableColumn('storage_mode', translator('admin.system_file.source'))
                     ->type('mapping')
                     ->map(SystemFile::STORAGE_MODE)
                     ->width(100),
-                amis()->TableColumn('created_at', '创建时间')
+                amis()->TableColumn('created_at', translator('admin.created_at'))
                     ->type('datetime')
                     ->width(180),
                 // 操作列：重命名、预览、下载、删除
-                amis()->TableColumn('operation', '操作')
+                amis()->TableColumn('operation', translator('admin.actions'))
                     ->type('operation')
                     ->width(250)
                     ->fixed('right')
@@ -804,7 +810,7 @@ class SystemFileController extends AdminController
     {
         $file = $request->file('file');
         if (!$file) {
-            return $this->response()->fail('请选择要上传的文件');
+            return $this->response()->fail(translator('admin.system_file.please_select_file'));
         }
 
         try {
@@ -816,7 +822,7 @@ class SystemFileController extends AdminController
                 $this->service->moveToGroup($fileInfo['id'], $groupId);
             }
 
-            return $this->response()->success($fileInfo, '上传成功');
+            return $this->response()->success($fileInfo, translator('admin.system_file.upload_success'));
         } catch (\Throwable $e) {
             return $this->response()->fail($e->getMessage());
         }
@@ -832,26 +838,15 @@ class SystemFileController extends AdminController
     {
         $id = $request->input('id');
         if (!$id) {
-            return $this->response()->fail('文件ID不能为空');
+            return $this->response()->fail(translator('admin.system_file.file_id_required'));
         }
 
         $file = SystemFile::baseQuery()->find($id);
         if (!$file) {
-            return $this->response()->fail('文件不存在');
+            return $this->response()->fail(translator('admin.system_file.file_not_found'));
         }
-        return $this->response()->success(['path' => \warm\framework\filesystem\facade\Storage::url($file->storage_path)]);
         
-        try {
-            $fileContent = \warm\framework\filesystem\facade\Storage::get($file->storage_path);
-            // 存入public临时缓存路径
-            $tempPath = public_path('temp/' . $file->new_name);
-            file_put_contents($tempPath, $fileContent);
-
-            // 使用 webman 的 download 方法
-            return response()->download($tempPath, rawurlencode($file->origin_name));
-        } catch (\Throwable $e) {
-            return $this->response()->fail('文件下载失败：' . $e->getMessage());
-        }
+        return $this->response()->success(['path' => \warm\framework\filesystem\facade\Storage::url($file->storage_path)]);
     }
 
     /**
@@ -866,11 +861,11 @@ class SystemFileController extends AdminController
         $name = $request->input('name');
 
         if (!$id || !$name) {
-            return $this->response()->fail('参数不完整');
+            return $this->response()->fail(translator('admin.system_file.params_incomplete'));
         }
 
         $result = $this->service->rename($id, $name);
-        return $this->autoResponse($result, '重命名');
+        return $this->autoResponse($result, translator('admin.system_file.rename'));
     }
 
     /**
@@ -890,7 +885,7 @@ class SystemFileController extends AdminController
         }
 
         if (!$ids) {
-            return $this->response()->fail('请选择要移动的文件');
+            return $this->response()->fail(translator('admin.system_file.please_select_files_to_move'));
         }
 
         // 如果是 JSON 字符串，解析为数组
@@ -909,7 +904,7 @@ class SystemFileController extends AdminController
         }
 
         $result = $this->service->moveToGroup($ids, $groupId);
-        return $this->autoResponse($result, '移动');
+        return $this->autoResponse($result, translator('admin.system_file.move'));
     }
 
     /**
@@ -923,11 +918,11 @@ class SystemFileController extends AdminController
         $name = $request->input('name');
         $fileType = $request->input('file_type');
         if (!$name) {
-            return $this->response()->fail('分组名称不能为空');
+            return $this->response()->fail(translator('admin.system_file.group_name_required'));
         }
 
         $result = $this->service->createGroup($name, $fileType);
-        return $this->autoResponse($result, '创建分组');
+        return $this->autoResponse($result, translator('admin.system_file.create_group'));
     }
 
     /**
@@ -940,11 +935,11 @@ class SystemFileController extends AdminController
     {
         $groupId = $request->input('id');
         if (!$groupId) {
-            return $this->response()->fail('分组ID不能为空');
+            return $this->response()->fail(translator('admin.system_file.group_id_required'));
         }
 
         $result = $this->service->deleteGroup($groupId);
-        return $this->autoResponse($result, '删除分组');
+        return $this->autoResponse($result, translator('admin.system_file.delete_group'));
     }
 
     /**
@@ -959,15 +954,15 @@ class SystemFileController extends AdminController
         $newName = $request->input('name');
 
         if (!$groupId) {
-            return $this->response()->fail('分组ID不能为空');
+            return $this->response()->fail(translator('admin.system_file.group_id_required'));
         }
 
         if (!$newName) {
-            return $this->response()->fail('分组名称不能为空');
+            return $this->response()->fail(translator('admin.system_file.group_name_required'));
         }
 
         $result = $this->service->renameGroup($groupId, $newName);
-        return $this->autoResponse($result, '重命名分组');
+        return $this->autoResponse($result, translator('admin.system_file.rename_group'));
     }
 
     /**

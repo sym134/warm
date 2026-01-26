@@ -29,6 +29,19 @@ return [
         'second-n' => 'N秒',
     ],
 
+    'task_status_enabled'  => '启用',
+    'task_status_disabled' => '禁用',
+    'run_confirm'          => '确认立即执行',
+    'week_days'            => [
+        0 => '星期日',
+        1 => '星期一',
+        2 => '星期二',
+        3 => '星期三',
+        4 => '星期四',
+        5 => '星期五',
+        6 => '星期六',
+    ],
+
     'crontab_log' => [
         'crontab_id'       => '任务ID',
         'task_name'        => '任务名称',

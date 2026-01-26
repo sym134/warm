@@ -8,6 +8,7 @@ use warm\admin\model\system\SystemCrontab;
 use warm\admin\renderer\form\Form;
 use warm\admin\renderer\Page;
 use warm\admin\service\system\SystemCrontabService;
+use warm\admin\controller\system\SystemCrontabLogController;
 
 /**
  * 定时任务控制器
@@ -45,8 +46,8 @@ class SystemCrontabController extends AdminController
                     amis()->InputText('name', translator('crontab.name'))->clearable(true),
                     amis()->Select('task_type', translator('crontab.task_type'))->options(SystemCrontab::TASK_TYPE)->clearable(true),
                     amis()->Select('task_status', translator('crontab.task_status'))->options([
-                        1 => '启用',
-                        2 => '禁用'
+                        1 => translator('crontab.task_status_enabled'),
+                        2 => translator('crontab.task_status_disabled'),
                     ])->clearable(true),
                 ])
             )
@@ -69,9 +70,9 @@ class SystemCrontabController extends AdminController
                                 'api' => ['url' => admin_url('/system/crontab_run'), 'method' => 'get', 'data' => ['id' => '${id}',],],
                             ],],
                         ],])
-                        ->confirmText('确认立即执行'),
+                        ->confirmText(translator('crontab.run_confirm')),
                     amis()->Action()->actionType('drawer')->drawer(
-                        amis()->Drawer()->title(translator('crontab.execution_log'))->body()->size('xl')->resizable()
+                        amis()->Drawer()->title(translator('crontab.execution_log'))->body((new SystemCrontabLogController)->list('${id}'))->size('xl')->resizable()
                     )->label(translator('crontab.execution_log'))->icon('fa-solid fa-clock-rotate-left')->level('link'),
                     $this->rowEditButton(true, 'lg'),
                     $this->rowDeleteButton(),
@@ -125,15 +126,8 @@ class SystemCrontabController extends AdminController
                     'second-n' => translator('crontab.execution_cycle_options.second-n'),
                 ])->value('day'),
 
-                amis()->Select('week')->mode('inline')->options([
-                    0 => '星期日',
-                    1 => '星期一',
-                    2 => '星期二',
-                    3 => '星期三',
-                    4 => '星期四',
-                    5 => '星期五',
-                    6 => '星期六',
-                ])->value(1)->visibleOn('execution_cycle===\'week\''),
+                amis()->Select('week')->mode('inline')->options(translator('crontab.week_days'))
+                    ->value(1)->visibleOn('execution_cycle===\'week\''),
                 amis()->InputGroup()->mode('inline')->visibleOn('execution_cycle===\'day-n\'||execution_cycle===\'month\'')->body([
                     amis()->InputNumber('day')->mode('inline')->value(1)->min(1)->max(31),
                     amis()->Button()->level('secondary')->label(translator('crontab.day')),

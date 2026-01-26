@@ -37,6 +37,9 @@ class SystemCrontabLogController extends AdminController
         // 设置查询路径
         $this->queryPath = '/system/crontab_log';
         $crud = $this->baseCRUD()
+            ->headerToolbar([
+                ...$this->baseHeaderToolBar(),
+            ])
             ->api([
                 'url' => $this->getListGetDataPath(),
                 'data' => [
@@ -46,14 +49,11 @@ class SystemCrontabLogController extends AdminController
             ])
             ->filterTogglable(false)
             ->filter(
-                amis()->Form()->submitOnChange(true)->body([
+                $this->baseFilter()->submitOnChange(false)->body([
                     amis()->Select('execution_status', translator('crontab.crontab_log.execution_status'))
                         ->options(map2options(SystemCrontabLog::EXECUTION_STATUS))->clearable(true),
                 ])
             )
-            ->headerToolbar([
-                ...$this->baseHeaderToolBar(),
-            ])
             ->columns([
                 amis()->TableColumn('id', 'ID')->sortable(),
                 amis()->TableColumn('crontab_id', translator('crontab.crontab_log.crontab_id')),
@@ -63,12 +63,23 @@ class SystemCrontabLogController extends AdminController
                 amis()->TableColumn('created_at', translator('admin.created_at'))->sortable(),
                 $this->rowActions([
                     $this->rowShowButton(true),
-
                     $this->rowDeleteButton(),
                 ]),
             ]);
 
         return $this->baseList($crud);
+    }
+
+    public function form():Form
+    {
+        return $this->baseForm()->body([
+            amis()->InputText('id', 'ID')->static(),
+            amis()->InputText('crontab_id', translator('crontab.crontab_log.crontab_id'))->static(),
+            amis()->InputText('target', translator('crontab.crontab_log.target'))->static(),
+            amis()->InputGroup()->label(translator('crontab.crontab_log.parameter'))->body([
+                amis()->Json()->name('parameter'),
+            ])
+        ]);
     }
 
     /**

@@ -29,6 +29,19 @@ return [
         'second-n' => 'Every N Seconds',
     ],
 
+    'task_status_enabled'  => 'Enabled',
+    'task_status_disabled' => 'Disabled',
+    'run_confirm'          => 'Confirm to run now',
+    'week_days'            => [
+        0 => 'Sunday',
+        1 => 'Monday',
+        2 => 'Tuesday',
+        3 => 'Wednesday',
+        4 => 'Thursday',
+        5 => 'Friday',
+        6 => 'Saturday',
+    ],
+
     'crontab_log' => [
         'crontab_id'       => 'CrontabTask ID',
         'task_name'        => 'CrontabTask Name',
