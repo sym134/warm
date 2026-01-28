@@ -4,6 +4,7 @@ namespace warm\admin\service\config;
 
 use warm\admin\service\AdminService;
 use warm\common\config\ConfigDefaults;
+use warm\common\service\SystemConfigService;
 
 /**
  * 通知配置服务类
@@ -182,8 +183,7 @@ class ConfigService extends AdminService
             case 'wechat_mini_program':
                 $key = ConfigDefaults::KEY_WECHAT_MINI_PROGRAM_CONFIG;
                 $res = systemConfig()->set($key, $data);
-                // 热重载配置（动态更新数据库配置后）
-                \warm\bootstrap\WechatBootstrap::reload();
+                SystemConfigService::clearCache(ConfigDefaults::KEY_WECHAT_MINI_PROGRAM_CONFIG);
                 return $res;
             case 'email':
                 $key = ConfigDefaults::KEY_EMAIL_CONFIG;
@@ -191,8 +191,7 @@ class ConfigService extends AdminService
             case 'wechat_official_account':
                 $key = ConfigDefaults::KEY_WECHAT_OFFICIAL_ACCOUNT_CONFIG;
                 $res = systemConfig()->set($key, $data);
-                // 热重载配置（动态更新数据库配置后）
-                \warm\bootstrap\WechatBootstrap::reload();
+                SystemConfigService::clearCache(ConfigDefaults::KEY_WECHAT_OFFICIAL_ACCOUNT_CONFIG);
                 return $res;
             case 'payment':
                 $key = ConfigDefaults::KEY_PAYMENT_CONFIG;

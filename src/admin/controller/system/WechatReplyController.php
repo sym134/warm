@@ -30,28 +30,28 @@ class WechatReplyController extends AdminController
         $crud = $this->baseCRUD()
             ->filter(
                 amis()->Form()->body([
-                    amis()->InputText('keys', '关键词')->clearable(true),
-                    amis()->Select('reply.status', '状态')->options([
-                        0 => '禁用',
-                        1 => '启用'
+                    amis()->InputText('keys', translator('wechat_reply.list.keyword'))->clearable(true),
+                    amis()->Select('reply.status', translator('wechat_reply.list.status'))->options([
+                        0 => translator('wechat_reply.list.status_disabled'),
+                        1 => translator('wechat_reply.list.status_enabled')
                     ])->clearable(true),
                 ])
             )
             ->columns([
                 amis()->TableColumn('id', 'ID')->sortable(),
-                amis()->TableColumn('keys', '关键词'),
-                amis()->TableColumn('reply.type', '回复类型')->type('mapping')->map([
-                    'text' => '文本',
-                    'image' => '图片',
-                    'news' => '图文',
-                    'voice' => '语音',
-                    'video' => '视频'
+                amis()->TableColumn('keys', translator('wechat_reply.list.keyword')),
+                amis()->TableColumn('reply.type', translator('wechat_reply.list.reply_type'))->type('mapping')->map([
+                    'text' => translator('wechat_reply.list.reply_type_text'),
+                    'image' => translator('wechat_reply.list.reply_type_image'),
+                    'news' => translator('wechat_reply.list.reply_type_news'),
+                    'voice' => translator('wechat_reply.list.reply_type_voice'),
+                    'video' => translator('wechat_reply.list.reply_type_video')
                 ]),
-                amis()->TableColumn('reply.status', '状态')->type('mapping')->map([
-                    0 => '<span class="label label-danger">禁用</span>',
-                    1 => '<span class="label label-success">启用</span>'
+                amis()->Switch('reply.status', translator('wechat_reply.list.status'))->type('mapping')->map([
+                    0 => '<span class="label label-danger">' . translator('wechat_reply.list.status_disabled') . '</span>',
+                    1 => '<span class="label label-success">' . translator('wechat_reply.list.status_enabled') . '</span>'
                 ]),
-                amis()->TableColumn('created_at', '创建时间')->sortable(),
+                amis()->TableColumn('created_at', translator('wechat_reply.list.created_at'))->sortable(),
                 $this->rowActions([
                     $this->rowEditButton(false),
                     $this->rowDeleteButton(false),
@@ -70,35 +70,31 @@ class WechatReplyController extends AdminController
     public function form(bool $isEdit = false): Form
     {
         return $this->baseForm()->body([
-            amis()->InputText('keys', '关键词')
+            amis()->InputText('keys', translator('wechat_reply.form.keyword'))
                 ->required()
-                ->description('用户发送的关键词，支持精确匹配'),
-            amis()->Select('reply.type', '回复类型')
+                ->description(translator('wechat_reply.form.keyword_description')),
+            amis()->Select('reply.type', translator('wechat_reply.form.reply_type'))
                 ->options([
-                    ['label' => '文本', 'value' => 'text'],
-                    ['label' => '图片', 'value' => 'image'],
-                    ['label' => '图文', 'value' => 'news'],
-                    ['label' => '语音', 'value' => 'voice'],
-                    ['label' => '视频', 'value' => 'video']
+                    ['label' => translator('wechat_reply.list.reply_type_text'), 'value' => 'text'],
+                    ['label' => translator('wechat_reply.list.reply_type_image'), 'value' => 'image'],
+                    ['label' => translator('wechat_reply.list.reply_type_news'), 'value' => 'news'],
+                    ['label' => translator('wechat_reply.list.reply_type_voice'), 'value' => 'voice'],
+                    ['label' => translator('wechat_reply.list.reply_type_video'), 'value' => 'video']
                 ])
                 ->value('text')
                 ->required(),
-            amis()->InputText('reply.content', '回复内容')
+            amis()->InputText('reply.content', translator('wechat_reply.form.reply_content'))
                 ->visibleOn('reply.type === "text"')
                 ->required()
-                ->description('请输入要回复的文本内容'),
-            amis()->InputText('reply.media_id', '媒体ID')
+                ->description(translator('wechat_reply.form.reply_content_description')),
+            amis()->InputText('reply.media_id', translator('wechat_reply.form.media_id'))
                 ->visibleOn('reply.type !== "text"')
-                ->description('请输入微信素材的media_id'),
-            amis()->Switch('reply.status', '状态')
+                ->description(translator('wechat_reply.form.media_id_description')),
+            amis()->Switch('reply.status', translator('wechat_reply.form.status'))
                 ->trueValue(1)
                 ->falseValue(0)
                 ->value(1)
                 ->required(),
-            amis()->Switch('reply.hide', '是否隐藏')
-                ->trueValue(1)
-                ->falseValue(0)
-                ->value(0),
         ]);
     }
 
@@ -128,35 +124,31 @@ class WechatReplyController extends AdminController
     public function subscribe(): Page
     {
         $form = $this->baseForm(false)
-            ->api(['method' => 'get', 'url' => admin_url('/app/wechat/get_reply?key=subscribe')])
+            // 提交保存到 save_reply
+            ->api(['method' => 'post', 'url' => admin_url('/app/wechat/save_reply?key=subscribe')])
+            // 初始化时从 get_reply 读取当前配置
+            ->initApi(['method' => 'get', 'url' => admin_url('/app/wechat/get_reply?key=subscribe')])
             ->body([
-                amis()->Select('reply.type', '回复类型')
+                amis()->Select('reply.type', translator('wechat_reply.subscribe.reply_type'))
                     ->options([
-                        ['label' => '文本', 'value' => 'text'],
-                        ['label' => '图片', 'value' => 'image'],
-                        ['label' => '图文', 'value' => 'news'],
-                        ['label' => '语音', 'value' => 'voice'],
-                        ['label' => '视频', 'value' => 'video']
+                        ['label' => translator('wechat_reply.list.reply_type_text'), 'value' => 'text'],
+                        ['label' => translator('wechat_reply.list.reply_type_image'), 'value' => 'image'],
+                        ['label' => translator('wechat_reply.list.reply_type_news'), 'value' => 'news'],
+                        ['label' => translator('wechat_reply.list.reply_type_voice'), 'value' => 'voice'],
+                        ['label' => translator('wechat_reply.list.reply_type_video'), 'value' => 'video']
                     ])
                     ->value('text')
                     ->required(),
-                amis()->InputText('reply.content', '回复内容')
+                amis()->InputText('reply.content', translator('wechat_reply.subscribe.reply_content'))
                     ->visibleOn('reply.type === "text"')
                     ->required()
-                    ->description('请输入要回复的文本内容'),
-                amis()->InputText('reply.media_id', '媒体ID')
+                    ->description(translator('wechat_reply.subscribe.reply_content_description')),
+                amis()->InputText('reply.media_id', translator('wechat_reply.subscribe.media_id'))
                     ->visibleOn('reply.type !== "text"')
-                    ->description('请输入微信素材的media_id'),
-                amis()->ButtonToolbar()->buttons([
-                    amis()->Button()
-                        ->label('保存')
-                        ->level('primary')
-                        ->type('submit')
-                        ->api(['method' => 'post', 'url' => admin_url('/app/wechat/save_reply?key=subscribe')])
-                ])
+                    ->description(translator('wechat_reply.subscribe.media_id_description')),
             ]);
 
-        return $this->basePage()->title('关注回复')->body([
+        return $this->basePage()->title(translator('wechat_reply.subscribe.title'))->body([
             $form
         ]);
     }
@@ -164,35 +156,31 @@ class WechatReplyController extends AdminController
     public function default(): Page
     {
         $form = $this->baseForm(false)
-            ->api(['method' => 'get', 'url' => admin_url('/app/wechat/get_reply?key=default')])
+            // 提交保存到 save_reply
+            ->api(['method' => 'post', 'url' => admin_url('/app/wechat/save_reply?key=default')])
+            // 初始化时从 get_reply 读取当前配置
+            ->initApi(['method' => 'get', 'url' => admin_url('/app/wechat/get_reply?key=default')])
             ->body([
-                amis()->Select('reply.type', '回复类型')
+                amis()->Select('reply.type', translator('wechat_reply.default.reply_type'))
                     ->options([
-                        ['label' => '文本', 'value' => 'text'],
-                        ['label' => '图片', 'value' => 'image'],
-                        ['label' => '图文', 'value' => 'news'],
-                        ['label' => '语音', 'value' => 'voice'],
-                        ['label' => '视频', 'value' => 'video']
+                        ['label' => translator('wechat_reply.list.reply_type_text'), 'value' => 'text'],
+                        ['label' => translator('wechat_reply.list.reply_type_image'), 'value' => 'image'],
+                        ['label' => translator('wechat_reply.list.reply_type_news'), 'value' => 'news'],
+                        ['label' => translator('wechat_reply.list.reply_type_voice'), 'value' => 'voice'],
+                        ['label' => translator('wechat_reply.list.reply_type_video'), 'value' => 'video']
                     ])
                     ->value('text')
                     ->required(),
-                amis()->InputText('reply.content', '回复内容')
+                amis()->InputText('reply.content', translator('wechat_reply.default.reply_content'))
                     ->visibleOn('reply.type === "text"')
                     ->required()
-                    ->description('请输入要回复的文本内容'),
-                amis()->InputText('reply.media_id', '媒体ID')
+                    ->description(translator('wechat_reply.default.reply_content_description')),
+                amis()->InputText('reply.media_id', translator('wechat_reply.default.media_id'))
                     ->visibleOn('reply.type !== "text"')
-                    ->description('请输入微信素材的media_id'),
-                amis()->ButtonToolbar()->buttons([
-                    amis()->Button()
-                        ->label('保存')
-                        ->level('primary')
-                        ->type('submit')
-                        ->api(['method' => 'post', 'url' => admin_url('/app/wechat/save_reply?key=default')])
-                ])
+                    ->description(translator('wechat_reply.default.media_id_description')),
             ]);
 
-        return $this->basePage()->title('默认回复')->body($form);
+        return $this->basePage()->title(translator('wechat_reply.default.title'))->body($form);
     }
 
     public function getReply(Request $request): Response
@@ -260,9 +248,9 @@ class WechatReplyController extends AdminController
             $result = $this->service->setSubscribeReply($reply);
 
             if ($result) {
-                return $this->response()->successMessage('关注回复设置保存成功');
+                return $this->response()->successMessage(translator('wechat_reply.messages.subscribe_save_success'));
             } else {
-                return $this->response()->fail('关注回复设置保存失败');
+                return $this->response()->fail(translator('wechat_reply.messages.subscribe_save_failed'));
             }
         } catch (\Exception $e) {
             return $this->response()->fail($e->getMessage());
@@ -317,9 +305,9 @@ class WechatReplyController extends AdminController
             $result = $this->service->setDefaultReply($reply);
 
             if ($result) {
-                return $this->response()->successMessage('默认回复设置保存成功');
+                return $this->response()->successMessage(translator('wechat_reply.messages.default_save_success'));
             } else {
-                return $this->response()->fail('默认回复设置保存失败');
+                return $this->response()->fail(translator('wechat_reply.messages.default_save_failed'));
             }
         } catch (\Exception $e) {
             return $this->response()->fail($e->getMessage());

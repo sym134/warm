@@ -29,7 +29,7 @@ class WechatReplyService extends AdminService
     public function list(int $page = 1, int $limit = 15): array
     {
         $query = WechatKey::with('reply')
-            ->where('key_type', 0) // 公众号自动回复
+            ->where('key_type', 1) // 公众号自动回复
             ->orderBy('id', 'desc');
 
         $total = $query->count();
@@ -50,7 +50,44 @@ class WechatReplyService extends AdminService
 
     public function update(mixed $primaryKey, array $data): bool
     {
-        return $this->saveKeyReply($data, $primaryKey);
+        return $this->saveKeyReply($data, (int)$primaryKey);
+    }
+
+    /**
+     * 获取编辑时表单初始数据
+     *
+     * 这里的 $id 实际是 wechat_key 表的主键
+     */
+    public function getEditData(mixed $id): array
+    {
+        $key = WechatKey::with('reply')->find((int)$id);
+        if (!$key || !$key->reply) {
+            return [];
+        }
+
+        /** @var WechatReply $reply */
+        $reply = $key->reply;
+        $data  = [
+            'id'   => $key->id,
+            'keys' => $key->keys,
+            'reply' => [
+                'type'   => $reply->type,
+                'status' => $reply->status,
+                'hide'   => $reply->hide,
+            ],
+        ];
+
+        // WechatReply::data 访问器已将 JSON 转为数组
+        $payload = $reply->data ?? [];
+        if (is_array($payload)) {
+            if ($reply->type === 'text') {
+                $data['reply']['content'] = $payload['content'] ?? '';
+            } else {
+                $data['reply']['media_id'] = $payload['media_id'] ?? '';
+            }
+        }
+
+        return $data;
     }
 
     /**
@@ -77,10 +114,11 @@ class WechatReplyService extends AdminService
         try {
             // 保存回复内容
             $replyData = [
-                'type' => $data['reply']['type'] ?? '',
-                'data' => json_encode($data['reply'], JSON_UNESCAPED_UNICODE),
-                'status' => $data['status'] ?? 1,
-                'hide' => $data['hide'] ?? 0
+                'type'   => $data['reply']['type'] ?? '',
+                // data 字段由模型访问器负责转为 JSON
+                'data'   => $this->buildReplyPayload($data['reply'] ?? []),
+                'status' => $data['reply']['status'] ?? 1,
+                'hide'   => $data['reply']['hide'] ?? 0,
             ];
 
             if ($id) {
@@ -105,7 +143,7 @@ class WechatReplyService extends AdminService
             $keyData = [
                 'reply_id' => $reply->id,
                 'keys' => $data['keys'],
-                'key_type' => 0 // 公众号自动回复
+                'key_type' => 1 // 公众号自动回复
             ];
 
             if ($id) {
@@ -120,6 +158,27 @@ class WechatReplyService extends AdminService
             Db::rollback();
             throw $e;
         }
+    }
+
+    /**
+     * 根据表单提交的数据构建回复内容 payload
+     *
+     * @param array $reply
+     * @return array
+     */
+    protected function buildReplyPayload(array $reply): array
+    {
+        $type = $reply['type'] ?? 'text';
+
+        if ($type === 'text') {
+            return [
+                'content' => $reply['content'] ?? '',
+            ];
+        }
+
+        return [
+            'media_id' => $reply['media_id'] ?? '',
+        ];
     }
 
     /**
@@ -145,6 +204,7 @@ class WechatReplyService extends AdminService
      */
     public function setSubscribeReply(array $reply): bool
     {
+        $reply['hide'] = 1;
         return $this->setFixedReply('subscribe', $reply);
     }
 
@@ -171,6 +231,7 @@ class WechatReplyService extends AdminService
      */
     public function setDefaultReply(array $reply): bool
     {
+        $reply['hide'] = 1;
         return $this->setFixedReply('default', $reply);
     }
 
@@ -196,14 +257,12 @@ class WechatReplyService extends AdminService
                 ->where('key_type', 0)
                 ->first();
 
-            // 准备回复数据
+            // 准备回复数据（这里必须传数组，让模型访问器负责 JSON 化）
             $data = [
-                'type' => $replyData['type'] ?? '',
-                'data' => isset($replyData['content']) ?
-                    json_encode(['content' => $replyData['content']], JSON_UNESCAPED_UNICODE) :
-                    json_encode(['media_id' => $replyData['media_id']], JSON_UNESCAPED_UNICODE),
+                'type'   => $replyData['type'] ?? '',
+                'data'   => $this->buildReplyPayload($replyData),
                 'status' => 1,
-                'hide' => 0
+                'hide'   => 0,
             ];
 
             if ($wechatKey) {

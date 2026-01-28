@@ -193,4 +193,28 @@ trait QueryPathTrait
 
         return '/' . trim($path, '/');
     }
+
+    /**
+     * 发布路径（自定义操作路径）
+     *
+     * @return string 发布操作的API路径
+     */
+    public function getPublishPath(): string
+    {
+        $path = $this->queryPath;
+
+        // 清理路径中的 create 或 edit
+        if (Str::contains($path, '/create')) {
+            $path = str_replace('/create', '', $path);
+        }
+
+        if (Str::contains($path, '/edit')) {
+            $_path = explode('/', $path);
+            array_pop($_path);
+            array_pop($_path);
+            $path = implode('/', $_path);
+        }
+
+        return 'post:' . admin_url($path . '/publish');
+    }
 }

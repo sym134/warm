@@ -162,12 +162,13 @@ Route::group(Admin::warmConfig('app.route.prefix'), function () {
     });
 
     // 应用设置路由组
-    Route::group('/app', function () {
+        Route::group('/app', function () {
         Route::group('/wechat',function (){
             // 微信回复管理
             Route::get('/reply/{key}', [WechatReplyController::class, 'reply']);
             Route::get('/get_reply', [WechatReplyController::class, 'getReply']);
-            Route::get('/save_reply', [WechatReplyController::class, 'saveReply']);
+            // 保存关注回复、默认回复
+            Route::post('/save_reply', [WechatReplyController::class, 'saveReply']);
             Route::resource('/keyword', WechatReplyController::class);
 
             // 微信小程序配置
@@ -257,5 +258,9 @@ Route::group(Admin::warmConfig('app.route.prefix'), function () {
         });
     }
 })->middleware(Admin::middleware());
+
+// 微信消息接收路由（公共接口，不需要登录验证）
+Route::any('/wechat/message', [\warm\common\controller\WechatMessageController::class, 'handle']);
+
 // 加载应用下的路由配置
 require_once config_path('plugin/jizhi/warm/route/autoRoute.php');

@@ -43,18 +43,44 @@ class SmsConfigController extends AdminController
             amis()->Card()->body([
                 amis()->Tabs()->tabs([
                     [
-                        'title' => '基础配置',
+                        'title' => translator('sms.tab_basic'),
                         'body' => $this->baseForm()->data($this->service->getSmsConfig())
                             ->api('put:' . admin_url('/notice/sms-config/save'))
                             ->body($this->baseConfigForm())
                     ],
                     [
-                        'title' => '网关配置',
+                        'title' => translator('sms.tab_gateways'),
                         'body' => $this->gatewaysConfigForm()
                     ],
                 ])
             ])
         ]);
+    }
+
+    /** @var string[] */
+    private const GATEWAY_KEYS = [
+        'aliyun', 'qcloud', 'yunpian', 'smsbao', 'errorlog', 'submail', 'luosimao', 'yuntongxun',
+        'huyi', 'juhe', 'baidu', 'huaxin', 'chuanglan', 'rongcloud', 'tianyiwuxian', 'huawei',
+        'yunxin', 'jdcloud', 'ucloud', 'qiniu', 'sendcloud', 'nowcn', 'volcengine', 'yidongmasblack',
+        'ctyun', 'weiqucloud',
+    ];
+
+    /**
+     * 通过 translator 获取网关列表（每项 name/description 为独立键，避免 translator 取数组）
+     *
+     * @return array<array{gateway_key: string, name: string, description: string}>
+     */
+    private function getSmsGateways(): array
+    {
+        $list = [];
+        foreach (self::GATEWAY_KEYS as $key) {
+            $list[] = [
+                'gateway_key' => $key,
+                'name' => (string) (translator('sms.gateways_' . $key . '_name') ?? $key),
+                'description' => (string) (translator('sms.gateways_' . $key . '_description') ?? ''),
+            ];
+        }
+        return $list;
     }
 
     /**
@@ -64,48 +90,24 @@ class SmsConfigController extends AdminController
      */
     private function baseConfigForm(): array
     {
+        $gateways = $this->getSmsGateways();
+        $gatewayOptions = array_map(fn($g) => ['label' => $g['name'] ?? '', 'value' => $g['gateway_key'] ?? ''], $gateways);
+
         return [
             amis()->Group()->body([
-                amis()->InputNumber('timeout', '请求超时时间(秒)')->value(5.0),
-                amis()->InputNumber('connect_timeout', '连接超时时间(秒)')->value(5.0),
+                amis()->InputNumber('timeout', translator('sms.timeout'))->value(5.0),
+                amis()->InputNumber('connect_timeout', translator('sms.connect_timeout'))->value(5.0),
             ]),
-            amis()->Select('default.strategy', '网关调用策略')
+            amis()->Select('default.strategy', translator('sms.strategy'))
                 ->options([
-                    ['label' => '顺序调用', 'value' => \Overtrue\EasySms\Strategies\OrderStrategy::class],
-                    ['label' => '随机调用', 'value' => \Overtrue\EasySms\Strategies\RandomStrategy::class],
+                    ['label' => translator('sms.strategy_order'), 'value' => \Overtrue\EasySms\Strategies\OrderStrategy::class],
+                    ['label' => translator('sms.strategy_random'), 'value' => \Overtrue\EasySms\Strategies\RandomStrategy::class],
                 ])
                 ->value(\Overtrue\EasySms\Strategies\OrderStrategy::class),
-            amis()->Select('default.gateways', '默认网关')
+            amis()->Select('default.gateways', translator('sms.default_gateways'))
                 ->type('select')
                 ->multiple()
-                ->options([
-                    ['label' => '阿里云', 'value' => 'aliyun'],
-                    ['label' => '腾讯云', 'value' => 'qcloud'],
-                    ['label' => '云片', 'value' => 'yunpian'],
-                    ['label' => '短信宝', 'value' => 'smsbao'],
-                    ['label' => '错误日志', 'value' => 'errorlog'],
-                    ['label' => 'Submail', 'value' => 'submail'],
-                    ['label' => '螺丝帽', 'value' => 'luosimao'],
-                    ['label' => '容联云通讯', 'value' => 'yuntongxun'],
-                    ['label' => '互亿无线', 'value' => 'huyi'],
-                    ['label' => '聚合数据', 'value' => 'juhe'],
-                    ['label' => '百度云', 'value' => 'baidu'],
-                    ['label' => '华信短信平台', 'value' => 'huaxin'],
-                    ['label' => '253云通讯(创蓝)', 'value' => 'chuanglan'],
-                    ['label' => '融云', 'value' => 'rongcloud'],
-                    ['label' => '天毅无线', 'value' => 'tianyiwuxian'],
-                    ['label' => '华为云', 'value' => 'huawei'],
-                    ['label' => '网易云信', 'value' => 'yunxin'],
-                    ['label' => '京东云', 'value' => 'jdcloud'],
-                    ['label' => 'Ucloud', 'value' => 'ucloud'],
-                    ['label' => '七牛云', 'value' => 'qiniu'],
-                    ['label' => 'SendCloud', 'value' => 'sendcloud'],
-                    ['label' => '时代互联', 'value' => 'nowcn'],
-                    ['label' => '火山引擎', 'value' => 'volcengine'],
-                    ['label' => '移动云MAS(黑名单模式)', 'value' => 'yidongmasblack'],
-                    ['label' => '电信天翼云', 'value' => 'ctyun'],
-                    ['label' => '微趣云', 'value' => 'weiqucloud'],
-                ])
+                ->options($gatewayOptions)
                 ->searchable(true),
         ];
     }
@@ -117,8 +119,10 @@ class SmsConfigController extends AdminController
      */
     private function gatewaysConfigForm(): array
     {
+        $data = $this->getSmsGateways();
+
         return [
-            amis()->Alert()->body('点击对应网关的"配置"按钮进行详细配置')->level('info'),
+            amis()->Alert()->body(translator('sms.gateway_config_hint'))->level('info'),
             amis()->List()->listItem([
                 'body' => [
                     amis()->hbox()->columns([
@@ -127,42 +131,15 @@ class SmsConfigController extends AdminController
                     ])
                 ],
                 'actions' => [
-                    amis()->Button()->type('button')->label('配置')->actionType('dialog')->dialog([
-                        'title' => '${name} 网关配置',
+                    amis()->Button()->type('button')->label(translator('sms.config_btn'))->actionType('dialog')->dialog([
+                        'title' => '${name} ' . translator('sms.gateway_config_title'),
                         'size' => 'lg',
                         'body' => [
                             amis()->Service()->schemaApi('get:' . admin_url('setting/other_config/sms/gateway_form?gateway=${gateway_key}'))
                         ]
                     ])
                 ]
-            ])->data([
-                ['name' => '阿里云', 'description' => '阿里云短信服务', 'gateway_key' => 'aliyun'],
-                ['name' => '腾讯云', 'description' => '腾讯云短信服务', 'gateway_key' => 'qcloud'],
-                ['name' => '云片', 'description' => '云片短信服务', 'gateway_key' => 'yunpian'],
-                ['name' => '短信宝', 'description' => '短信宝服务', 'gateway_key' => 'smsbao'],
-                ['name' => '错误日志', 'description' => '错误日志记录', 'gateway_key' => 'errorlog'],
-                ['name' => 'Submail', 'description' => 'Submail短信服务', 'gateway_key' => 'submail'],
-                ['name' => '螺丝帽', 'description' => '螺丝帽短信服务', 'gateway_key' => 'luosimao'],
-                ['name' => '容联云通讯', 'description' => '容联云通讯', 'gateway_key' => 'yuntongxun'],
-                ['name' => '互亿无线', 'description' => '互亿无线', 'gateway_key' => 'huyi'],
-                ['name' => '聚合数据', 'description' => '聚合数据', 'gateway_key' => 'juhe'],
-                ['name' => '百度云', 'description' => '百度云短信服务', 'gateway_key' => 'baidu'],
-                ['name' => '华信短信平台', 'description' => '华信短信平台', 'gateway_key' => 'huaxin'],
-                ['name' => '253云通讯(创蓝)', 'description' => '253云通讯(创蓝)', 'gateway_key' => 'chuanglan'],
-                ['name' => '融云', 'description' => '融云短信服务', 'gateway_key' => 'rongcloud'],
-                ['name' => '天毅无线', 'description' => '天毅无线', 'gateway_key' => 'tianyiwuxian'],
-                ['name' => '华为云', 'description' => '华为云短信服务', 'gateway_key' => 'huawei'],
-                ['name' => '网易云信', 'description' => '网易云信短信服务', 'gateway_key' => 'yunxin'],
-                ['name' => '京东云', 'description' => '京东云短信服务', 'gateway_key' => 'jdcloud'],
-                ['name' => 'Ucloud', 'description' => 'Ucloud短信服务', 'gateway_key' => 'ucloud'],
-                ['name' => '七牛云', 'description' => '七牛云短信服务', 'gateway_key' => 'qiniu'],
-                ['name' => 'SendCloud', 'description' => 'SendCloud短信服务', 'gateway_key' => 'sendcloud'],
-                ['name' => '时代互联', 'description' => '时代互联短信服务', 'gateway_key' => 'nowcn'],
-                ['name' => '火山引擎', 'description' => '火山引擎短信服务', 'gateway_key' => 'volcengine'],
-                ['name' => '移动云MAS(黑名单模式)', 'description' => '移动云MAS(黑名单模式)', 'gateway_key' => 'yidongmasblack'],
-                ['name' => '电信天翼云', 'description' => '电信天翼云短信服务', 'gateway_key' => 'ctyun'],
-                ['name' => '微趣云', 'description' => '微趣云短信服务', 'gateway_key' => 'weiqucloud'],
-            ])
+            ])->data($data)
         ];
     }
 
@@ -239,10 +216,10 @@ class SmsConfigController extends AdminController
 
         // 保存配置
         if ($this->service->saveConfig('sms', $config)) {
-            return $this->response()->successMessage('保存成功');
+            return $this->response()->successMessage(translator('sms.save_success'));
         }
 
-        return $this->response()->fail('保存失败');
+        return $this->response()->fail(translator('sms.save_failed'));
     }
 
     /**
@@ -255,7 +232,7 @@ class SmsConfigController extends AdminController
         return [
             amis()->InputText('gateways.aliyun.access_key_id', 'AccessKeyId')->required(),
             amis()->InputText('gateways.aliyun.access_key_secret', 'AccessKeySecret')->required(),
-            amis()->InputText('gateways.aliyun.sign_name', '签名')->required(),
+            amis()->InputText('gateways.aliyun.sign_name', translator('sms.sign_name'))->required(),
         ];
     }
 
@@ -270,7 +247,7 @@ class SmsConfigController extends AdminController
             amis()->InputText('gateways.qcloud.sdk_app_id', 'SDK AppID')->required(),
             amis()->InputText('gateways.qcloud.secret_id', 'SecretId')->required(),
             amis()->InputText('gateways.qcloud.secret_key', 'SecretKey')->required(),
-            amis()->InputText('gateways.qcloud.sign_name', '签名')->required(),
+            amis()->InputText('gateways.qcloud.sign_name', translator('sms.sign_name'))->required(),
         ];
     }
 
@@ -294,8 +271,8 @@ class SmsConfigController extends AdminController
     private function smsbaoGatewayForm(): array
     {
         return [
-            amis()->InputText('gateways.smsbao.user', '用户名')->required(),
-            amis()->InputText('gateways.smsbao.password', '密码')->required(),
+            amis()->InputText('gateways.smsbao.user', translator('sms.user'))->required(),
+            amis()->InputText('gateways.smsbao.password', translator('sms.password'))->required(),
         ];
     }
 
@@ -307,7 +284,7 @@ class SmsConfigController extends AdminController
     private function errorlogGatewayForm(): array
     {
         return [
-            amis()->InputText('gateways.errorlog.file', '日志文件路径')->value('/tmp/easy-sms.log')->required(),
+            amis()->InputText('gateways.errorlog.file', translator('sms.log_file_path'))->value('/tmp/easy-sms.log')->required(),
         ];
     }
 
@@ -321,7 +298,7 @@ class SmsConfigController extends AdminController
         return [
             amis()->InputText('gateways.submail.app_id', 'App ID')->required(),
             amis()->InputText('gateways.submail.app_key', 'App Key')->required(),
-            amis()->Select('gateways.submail.project', '项目')
+            amis()->Select('gateways.submail.project', translator('sms.project'))
                 ->options([
                     ['label' => 'SMS', 'value' => 'sms'],
                     ['label' => 'MMS', 'value' => 'mms'],
@@ -350,10 +327,10 @@ class SmsConfigController extends AdminController
     private function yuntongxunGatewayForm(): array
     {
         return [
-            amis()->InputText('gateways.yuntongxun.app_id', '应用 ID')->required(),
+            amis()->InputText('gateways.yuntongxun.app_id', translator('sms.app_id'))->required(),
             amis()->InputText('gateways.yuntongxun.account_sid', 'Account SID')->required(),
             amis()->InputText('gateways.yuntongxun.account_token', 'Account Token')->required(),
-            amis()->InputText('gateways.yuntongxun.is_sub_account', '是否子帐号'),
+            amis()->InputText('gateways.yuntongxun.is_sub_account', translator('sms.is_sub_account')),
         ];
     }
 
@@ -405,11 +382,11 @@ class SmsConfigController extends AdminController
     private function huaxinGatewayForm(): array
     {
         return [
-            amis()->InputText('gateways.huaxin.user_id', '用户ID')->required(),
-            amis()->InputText('gateways.huaxin.password', '密码')->required(),
-            amis()->InputText('gateways.huaxin.account', '账号'),
-            amis()->InputText('gateways.huaxin.ip', 'IP地址'),
-            amis()->InputText('gateways.huaxin.ext_no', '扩展号'),
+            amis()->InputText('gateways.huaxin.user_id', translator('sms.user_id'))->required(),
+            amis()->InputText('gateways.huaxin.password', translator('sms.password'))->required(),
+            amis()->InputText('gateways.huaxin.account', translator('sms.account')),
+            amis()->InputText('gateways.huaxin.ip', translator('sms.ip_address')),
+            amis()->InputText('gateways.huaxin.ext_no', translator('sms.ext_no')),
         ];
     }
 
@@ -421,12 +398,12 @@ class SmsConfigController extends AdminController
     private function chuanglanGatewayForm(): array
     {
         return [
-            amis()->InputText('gateways.chuanglan.account', '账号')->required(),
-            amis()->InputText('gateways.chuanglan.password', '密码')->required(),
-            amis()->Select('gateways.chuanglan.is_need_status', '是否需要状态报告')
+            amis()->InputText('gateways.chuanglan.account', translator('sms.account'))->required(),
+            amis()->InputText('gateways.chuanglan.password', translator('sms.password'))->required(),
+            amis()->Select('gateways.chuanglan.is_need_status', translator('sms.need_status_report'))
                 ->options([
-                    ['label' => '需要', 'value' => 'true'],
-                    ['label' => '不需要', 'value' => 'false'],
+                    ['label' => translator('sms.need_status_yes'), 'value' => 'true'],
+                    ['label' => translator('sms.need_status_no'), 'value' => 'false'],
                 ]),
         ];
     }
@@ -452,9 +429,9 @@ class SmsConfigController extends AdminController
     private function tianyiwuxianGatewayForm(): array
     {
         return [
-            amis()->InputText('gateways.tianyiwuxian.username', '用户名')->required(),
-            amis()->InputText('gateways.tianyiwuxian.password', '密码')->required(),
-            amis()->InputText('gateways.tianyiwuxian.sign_name', '签名')->required(),
+            amis()->InputText('gateways.tianyiwuxian.username', translator('sms.user'))->required(),
+            amis()->InputText('gateways.tianyiwuxian.password', translator('sms.password'))->required(),
+            amis()->InputText('gateways.tianyiwuxian.sign_name', translator('sms.sign_name'))->required(),
         ];
     }
 
@@ -469,8 +446,8 @@ class SmsConfigController extends AdminController
             amis()->InputText('gateways.huawei.app_key', 'App Key')->required(),
             amis()->InputText('gateways.huawei.app_secret', 'App Secret')->required(),
             amis()->InputText('gateways.huawei.url', 'URL')->required(),
-            amis()->InputText('gateways.huawei.sign_name', '签名')->required(),
-            amis()->InputText('gateways.huawei.sender', '发送者')->required(),
+            amis()->InputText('gateways.huawei.sign_name', translator('sms.sign_name'))->required(),
+            amis()->InputText('gateways.huawei.sender', translator('sms.sender'))->required(),
         ];
     }
 
@@ -484,8 +461,8 @@ class SmsConfigController extends AdminController
         return [
             amis()->InputText('gateways.yunxin.app_key', 'App Key')->required(),
             amis()->InputText('gateways.yunxin.app_secret', 'App Secret')->required(),
-            amis()->InputText('gateways.yunxin.code_length', '验证码长度'),
-            amis()->InputText('gateways.yunxin.need_up', '是否需要上行'),
+            amis()->InputText('gateways.yunxin.code_length', translator('sms.code_length')),
+            amis()->InputText('gateways.yunxin.need_up', translator('sms.need_up')),
         ];
     }
 
@@ -499,7 +476,7 @@ class SmsConfigController extends AdminController
         return [
             amis()->InputText('gateways.jdcloud.access_key', 'Access Key')->required(),
             amis()->InputText('gateways.jdcloud.secret_key', 'Secret Key')->required(),
-            amis()->InputText('gateways.jdcloud.region', '区域')->required(),
+            amis()->InputText('gateways.jdcloud.region', translator('sms.region'))->required(),
         ];
     }
 
@@ -551,9 +528,9 @@ class SmsConfigController extends AdminController
     private function nowcnGatewayForm(): array
     {
         return [
-            amis()->InputText('gateways.nowcn.key', '用户ID')->required(),
-            amis()->InputText('gateways.nowcn.secret', '开发密钥')->required(),
-            amis()->InputText('gateways.nowcn.api_type', '短信通道')->required(),
+            amis()->InputText('gateways.nowcn.key', translator('sms.user_id'))->required(),
+            amis()->InputText('gateways.nowcn.secret', translator('sms.dev_secret'))->required(),
+            amis()->InputText('gateways.nowcn.api_type', translator('sms.sms_channel'))->required(),
         ];
     }
 
@@ -567,9 +544,9 @@ class SmsConfigController extends AdminController
         return [
             amis()->InputText('gateways.volcengine.access_key_id', 'Access Key ID')->required(),
             amis()->InputText('gateways.volcengine.access_key_secret', 'Access Key Secret')->required(),
-            amis()->InputText('gateways.volcengine.region_id', '区域ID'),
-            amis()->InputText('gateways.volcengine.sign_name', '签名'),
-            amis()->InputText('gateways.volcengine.sms_account', '消息组账号'),
+            amis()->InputText('gateways.volcengine.region_id', translator('sms.region_id')),
+            amis()->InputText('gateways.volcengine.sign_name', translator('sms.sign_name')),
+            amis()->InputText('gateways.volcengine.sms_account', translator('sms.sms_account')),
         ];
     }
 
@@ -581,11 +558,11 @@ class SmsConfigController extends AdminController
     private function yidongmasblackGatewayForm(): array
     {
         return [
-            amis()->InputText('gateways.yidongmasblack.ecName', '机构名称')->required(),
-            amis()->InputText('gateways.yidongmasblack.secretKey', '密钥')->required(),
-            amis()->InputText('gateways.yidongmasblack.apId', '应用ID')->required(),
-            amis()->InputText('gateways.yidongmasblack.sign', '签名')->required(),
-            amis()->InputText('gateways.yidongmasblack.addSerial', '通道号'),
+            amis()->InputText('gateways.yidongmasblack.ecName', translator('sms.org_name'))->required(),
+            amis()->InputText('gateways.yidongmasblack.secretKey', translator('sms.password'))->required(),
+            amis()->InputText('gateways.yidongmasblack.apId', translator('sms.app_id_short'))->required(),
+            amis()->InputText('gateways.yidongmasblack.sign', translator('sms.sign_name'))->required(),
+            amis()->InputText('gateways.yidongmasblack.addSerial', translator('sms.channel_no')),
         ];
     }
 
@@ -599,7 +576,7 @@ class SmsConfigController extends AdminController
         return [
             amis()->InputText('gateways.ctyun.access_key', 'Access Key')->required(),
             amis()->InputText('gateways.ctyun.secret_key', 'Secret Key')->required(),
-            amis()->InputText('gateways.ctyun.sign', '签名')->required(),
+            amis()->InputText('gateways.ctyun.sign', translator('sms.sign_name'))->required(),
         ];
     }
 
@@ -628,9 +605,9 @@ class SmsConfigController extends AdminController
         $data = $request->post();
 
         if ($this->service->saveConfig('sms', $data)) {
-            return $this->response()->successMessage('保存成功');
+            return $this->response()->successMessage(translator('sms.save_success'));
         }
 
-        return $this->response()->fail('保存失败');
+        return $this->response()->fail(translator('sms.save_failed'));
     }
 }

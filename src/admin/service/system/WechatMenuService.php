@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use support\Db;
 use warm\admin\model\system\WechatMenu;
 use warm\admin\service\AdminService;
+use warm\common\api\OfficialAccountApi;
 
 /**
  * 微信菜单服务类
@@ -335,11 +336,46 @@ class WechatMenuService extends AdminService
             $wechatMenu[] = $menuData;
         }
 
-        // TODO: 调用微信API发布菜单
-        // 这里需要集成微信SDK来发布菜单
-        // 示例：WechatService::createMenu($wechatMenu);
+        // 验证菜单数据
+        if (empty($wechatMenu)) {
+            $this->setError('菜单数据为空，无法发布');
+            return false;
+        }
 
-        return true;
+        // 验证一级菜单数量（微信限制最多3个）
+        if (count($wechatMenu) > 3) {
+            $this->setError('一级菜单最多只能有3个');
+            return false;
+        }
+
+        // 验证每个一级菜单的二级菜单数量（微信限制最多5个）
+        foreach ($wechatMenu as $menu) {
+            if (isset($menu['sub_button']) && count($menu['sub_button']) > 5) {
+                $this->setError("菜单「{$menu['name']}」的二级菜单最多只能有5个");
+                return false;
+            }
+        }
+
+        try {
+            // 调用微信API发布菜单
+            $api = new OfficialAccountApi();
+            $result = $api->createMenu($wechatMenu);
+
+            // 检查是否成功
+            if (!$api->isSuccess($result)) {
+                $errorMsg = $api->getErrorMessage($result);
+                $this->setError('发布菜单失败：' . $errorMsg);
+                return false;
+            }
+
+            return true;
+        } catch (\RuntimeException $e) {
+            $this->setError('发布菜单失败：' . $e->getMessage());
+            return false;
+        } catch (\Exception $e) {
+            $this->setError('发布菜单时发生异常：' . $e->getMessage());
+            return false;
+        }
     }
 }
 
