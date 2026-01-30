@@ -39,6 +39,7 @@
     "w7corp/easywechat": "6.17",
     "overtrue/easy-sms": "^3.0",
     "jizhi/webman-auth": "^1.0",
+    "yansongda/pay": "~3.7.0",
     "ext-bcmath": "*",
     "ext-json": "*",
     "ext-mbstring": "*",

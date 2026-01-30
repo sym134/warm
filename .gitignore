@@ -12,3 +12,4 @@ composer.lock
 .idea
 .trae
 .lingma
+.cursorignore

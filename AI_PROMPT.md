@@ -98,6 +98,134 @@ src/
 
 ## 4. 开发规范
 
+### PHP 命名规范
+
+#### 类命名
+- **类名**: 使用大驼峰命名法（PascalCase），每个单词首字母大写
+  - 示例: `AdminController`, `WechatReplyService`, `SystemConfigService`
+- **抽象类**: 以 `Abstract` 开头
+  - 示例: `AbstractBaseModel`, `AbstractService`
+- **接口**: 以 `Interface` 结尾或使用 `I` 前缀
+  - 示例: `FilesystemAdapterInterface`, `IStorageAdapter`
+- **特性（Trait）**: 以 `Trait` 结尾
+  - 示例: `ExportTrait`, `UploadTrait`, `ElementTrait`
+- **异常类**: 以 `Exception` 结尾
+  - 示例: `ValidationException`, `PermissionException`
+
+#### 方法命名
+- **方法名**: 使用小驼峰命名法（camelCase），首字母小写
+  - 示例: `getUserInfo()`, `saveData()`, `beforeSave()`
+- **私有/受保护方法**: 使用小驼峰命名法，通常以动词开头
+  - 示例: `validateData()`, `formatResponse()`, `processUpload()`
+- **布尔方法**: 使用 `is`, `has`, `can` 等前缀
+  - 示例: `isAdmin()`, `hasPermission()`, `canEdit()`
+
+#### 变量命名
+- **变量名**: 使用小驼峰命名法（camelCase）
+  - 示例: `$userId`, `$userInfo`, `$configData`
+- **常量**: 使用全大写下划线分隔（UPPER_SNAKE_CASE）
+  - 示例: `MAX_FILE_SIZE`, `DEFAULT_PAGE_SIZE`, `STATUS_ACTIVE`
+- **私有/受保护属性**: 使用小驼峰命名法，通常以 `$` 开头
+  - 示例: `protected $serviceName`, `private $cacheKey`
+
+#### 函数命名
+- **函数名**: 使用小写下划线分隔（snake_case）
+  - 示例: `translator()`, `validate()`, `storage()`
+- **全局函数**: 遵循 PSR 标准，使用小写下划线分隔
+
+#### 命名空间
+- **命名空间**: 使用小写字母，与目录结构对应
+  - 示例: `warm\admin\controller`, `warm\common\service`
+- **命名空间层级**: 遵循 PSR-4 自动加载规范
+  - 根命名空间对应 `src/` 目录
+
+#### 文件命名
+- **类文件**: 文件名与类名一致，使用大驼峰命名法
+  - 示例: `AdminController.php`, `WechatReplyService.php`
+- **配置文件**: 使用小写下划线分隔
+  - 示例: `app.php`, `database.php`, `route.php`
+- **辅助函数文件**: 使用小写下划线分隔
+  - 示例: `helpers.php`, `functions.php`
+
+### 数据库规范
+
+#### 表命名
+- **表名**: 使用小写下划线分隔（snake_case），使用复数形式
+  - 示例: `admin_users`, `system_configs`, `wechat_replies`
+- **表前缀**: 根据模块使用适当的前缀
+  - 后台管理: `admin_` 前缀（如 `admin_users`, `admin_roles`）
+  - 系统配置: `system_` 前缀（如 `system_configs`）
+  - 业务模块: 使用模块名作为前缀（如 `wechat_replies`, `wechat_menus`）
+
+#### 字段命名
+- **字段名**: 使用小写下划线分隔（snake_case）
+  - 示例: `user_id`, `created_at`, `is_active`, `config_value`
+- **主键**: 统一使用 `id`，类型为 `bigint unsigned` 或 `int unsigned`
+- **外键**: 使用 `表名单数_id` 格式
+  - 示例: `user_id`, `role_id`, `menu_id`
+- **布尔字段**: 使用 `is_` 或 `has_` 前缀
+  - 示例: `is_active`, `is_deleted`, `has_permission`
+- **时间字段**: 统一使用 `created_at`, `updated_at`, `deleted_at`
+  - 使用 `timestamp` 或 `datetime` 类型
+  - `deleted_at` 用于软删除
+
+#### 索引命名
+- **主键索引**: `PRIMARY`
+- **唯一索引**: `uk_表名_字段名`（uk = unique key）
+  - 示例: `uk_users_email`, `uk_configs_group_name`
+- **普通索引**: `idx_表名_字段名`（idx = index）
+  - 示例: `idx_users_status`, `idx_posts_user_id`
+- **外键索引**: `fk_表名_字段名`（fk = foreign key）
+  - 示例: `fk_posts_user_id`, `fk_comments_post_id`
+- **复合索引**: `idx_表名_字段1_字段2`
+  - 示例: `idx_users_status_created_at`
+
+#### 字段类型规范
+- **整数类型**: 
+  - 主键/外键: `bigint unsigned` 或 `int unsigned`
+  - 状态码/枚举: `tinyint` 或 `smallint`
+  - 数量/计数: `int` 或 `bigint`
+- **字符串类型**:
+  - 短字符串（< 255）: `varchar(长度)`
+  - 长文本: `text` 或 `longtext`
+  - 固定长度: `char(长度)`
+- **数值类型**:
+  - 金额/价格: `decimal(10, 2)` 或 `decimal(15, 2)`
+  - 百分比: `decimal(5, 2)`
+- **时间类型**:
+  - 时间戳: `timestamp` 或 `datetime`
+  - 日期: `date`
+  - 时间: `time`
+
+#### 表结构规范
+- **必须字段**: 所有表应包含以下字段（除非特殊需求）
+  - `id`: 主键，自增
+  - `created_at`: 创建时间
+  - `updated_at`: 更新时间
+- **软删除**: 需要软删除的表添加 `deleted_at` 字段（`timestamp nullable`）
+- **排序字段**: 需要排序的表添加 `sort` 字段（`int default 0`）
+- **状态字段**: 需要状态管理的表添加 `status` 或 `is_active` 字段
+
+#### 注释规范
+- **表注释**: 每个表必须有注释，说明表的用途
+  ```sql
+  CREATE TABLE `admin_users` (
+    ...
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='管理员用户表';
+  ```
+- **字段注释**: 重要字段必须有注释，说明字段用途和取值范围
+  ```sql
+  `status` tinyint(1) NOT NULL DEFAULT 1 COMMENT '状态：0=禁用，1=启用',
+  `type` varchar(20) NOT NULL COMMENT '类型：admin=管理员，user=普通用户',
+  ```
+
+#### 数据库操作规范
+- **使用 ORM**: 优先使用 Laravel Eloquent ORM，避免直接写 SQL
+- **查询构建**: 使用 Eloquent 查询构建器，保持代码可读性
+- **事务处理**: 涉及多表操作时使用数据库事务
+- **批量操作**: 使用批量插入/更新方法，提高性能
+- **避免 N+1 查询**: 使用 `with()` 或 `load()` 预加载关联数据
+
 ### 后端架构
 
 #### Controller -> Service -> Model 架构
