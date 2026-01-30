@@ -9,85 +9,91 @@ use Yansongda\Pay\Pay;
 /**
  * 支付服务类
  *
- * 提供统一的支付服务接口，支持微信支付和支付宝
+ * 提供统一支付配置（yansongda/pay 结构），支持 alipay、wechat、unipay、douyin、jsb
+ * 证书路径若为 resource/app/ 相对路径，会自动解析为 base_path 绝对路径
  */
 class PaymentService
 {
     /**
-     * 获取支付配置
+     * 获取支付配置（供 Pay SDK 使用）
+     *
+     * 仅包含已启用平台的 default 配置，及 logger、http
+     * 证书相对路径（resource/app/...）会解析为绝对路径
      *
      * @return array
      */
     public static function getConfig(): array
     {
-        $config = systemConfig()->get(ConfigDefaults::KEY_PAYMENT_CONFIG, ConfigDefaults::getPaymentConfigDefault());
-        
-        $paymentConfig = [
-            'wechat' => [
-                'default' => [
-                    'app_id' => '', // 公众号 APPID
-                    'mch_id' => '', // 商户号
-                    'private_key' => '', // 商户私钥
-                    'cert_path' => '', // 商户证书
-                    'key_path' => '', // 商户证书密钥
-                    'serial_no' => '', // 商户证书序列号
-                ]
-            ],
-            'alipay' => [
-                'default' => [
-                    'app_id' => '',
-                    'public_key' => '',
-                    'private_key' => '',
-                ]
-            ],
-            'http' => [
-                'timeout' => 5.0,
-                'connect_timeout' => 5.0,
-            ],
+        $raw = systemConfig()->get(ConfigDefaults::KEY_PAYMENT_CONFIG, ConfigDefaults::getPaymentConfigDefault());
+        $config = PaymentConfigEncryptionService::decryptConfig(
+            $raw,
+            ConfigDefaults::getPaymentConfigSensitiveFields()
+        );
+
+        $out = [
+            'http' => $config['http'] ?? ConfigDefaults::getPaymentConfigDefault()['http'],
         ];
-        
-        // 处理微信支付配置
-        if (isset($config['wechat_pay']) && $config['wechat_pay']['enable']) {
-            $wechatConfig = $config['wechat_pay'];
-            if ($wechatConfig['version'] === 'v3') {
-                $paymentConfig['wechat']['default'] = [
-                    'app_id' => '', // 公众号 APPID（需要在具体使用时设置）
-                    'mch_id' => $wechatConfig['v3']['mch_id'],
-                    'private_key' => $wechatConfig['v3']['private_key'],
-                    'cert_path' => $wechatConfig['v3']['cert_path'],
-                    'key_path' => $wechatConfig['v3']['key_path'],
-                    'serial_no' => $wechatConfig['v3']['serial_no'],
-                ];
-            } else {
-                $paymentConfig['wechat']['default'] = [
-                    'app_id' => '', // 公众号 APPID（需要在具体使用时设置）
-                    'mch_id' => $wechatConfig['v2']['mch_id'],
-                    'private_key' => '', // V2 不需要私钥
-                    'cert_path' => $wechatConfig['v2']['cert_path'],
-                    'key_path' => $wechatConfig['v2']['key_path'],
-                    'serial_no' => '', // V2 不需要证书序列号
-                    'key' => $wechatConfig['v2']['key'], // V2 特有
-                ];
+
+        $platforms = ['alipay', 'wechat', 'unipay', 'douyin', 'jsb'];
+        foreach ($platforms as $id) {
+            $plat = $config[$id] ?? [];
+            if (empty($plat['enable'])) {
+                continue;
             }
+            $def = $plat['default'] ?? [];
+            if (empty($def)) {
+                continue;
+            }
+            $out[$id] = ['default' => self::resolveCertPaths($def)];
         }
-        
-        // 处理支付宝配置
-        if (isset($config['alipay']) && $config['alipay']['enable']) {
-            $alipayConfig = $config['alipay'];
-            $paymentConfig['alipay']['default'] = [
-                'app_id' => $alipayConfig['app_id'],
-                'public_key' => $alipayConfig['public_key'],
-                'private_key' => $alipayConfig['private_key'],
-            ];
+
+        if (!empty($config['logger'])) {
+            $out['logger'] = $config['logger'];
         }
-        
-        return $paymentConfig;
+
+        return $out;
     }
 
     /**
-     * 创建微信支付实例
+     * 将 default 中的证书相对路径（resource/app/...）解析为 base_path 绝对路径
      *
-     * @param string $version 微信支付版本 (v2 或 v3)
+     * @param array<string, mixed> $def
+     * @return array<string, mixed>
+     */
+    private static function resolveCertPaths(array $def): array
+    {
+        $resolved = [];
+        foreach ($def as $k => $v) {
+            if ($k === 'wechat_public_cert_path' && is_array($v)) {
+                $resolved[$k] = [];
+                foreach ($v as $key => $path) {
+                    $resolved[$k][$key] = is_string($path) ? self::absPath($path) : $path;
+                }
+            } elseif (is_string($v) && $v !== '') {
+                $resolved[$k] = self::absPath($v);
+            } else {
+                $resolved[$k] = $v;
+            }
+        }
+        return $resolved;
+    }
+
+    private static function absPath(string $path): string
+    {
+        $path = trim($path);
+        if ($path === '') {
+            return $path;
+        }
+        if (str_starts_with($path, 'resource/app/')) {
+            return base_path($path);
+        }
+        return $path;
+    }
+
+    /**
+     * 创建微信支付实例（V3）
+     *
+     * @param string $version 微信支付版本 (v2|v3)，默认 v3
      * @return \Yansongda\Pay\Provider\Wechat
      */
     public static function wechat(string $version = 'v3')
@@ -96,12 +102,11 @@ class PaymentService
         if (!isset($config['wechat']['default'])) {
             throw new InvalidArgumentException('微信支付未配置或未启用');
         }
-        
-        // 根据版本选择配置
+
         if ($version === 'v2') {
             return Pay::wechat($config)->v2();
         }
-        
+
         return Pay::wechat($config);
     }
 
@@ -116,7 +121,7 @@ class PaymentService
         if (!isset($config['alipay']['default'])) {
             throw new InvalidArgumentException('支付宝未配置或未启用');
         }
-        
+
         return Pay::alipay($config);
     }
 }

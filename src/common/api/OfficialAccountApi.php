@@ -6,17 +6,25 @@ use EasyWeChat\OfficialAccount\Application;
 use warm\common\api\WechatApiEndpoints;
 use warm\common\config\ConfigDefaults;
 use warm\common\service\SystemConfigService;
+use Workerman\Coroutine\Context;
 
 /**
  * 微信公众号 API 类
  * 
  * 封装微信公众号的所有 API 调用
- * 每次调用 API 时从数据库获取最新配置
+ * 使用协程上下文缓存实例，确保协程安全且性能优化
+ * 每个协程首次调用时从数据库获取最新配置
  */
 class OfficialAccountApi extends BaseApi
 {
     /**
-     * 获取公众号应用实例（每次调用都从数据库获取最新配置）
+     * 协程上下文中的键名
+     */
+    private const CONTEXT_KEY_APP = 'officialaccount_api.application';
+
+    /**
+     * 获取公众号应用实例
+     * 使用协程上下文缓存，每个协程独立，确保协程安全
      * 支持链式调用
      * 
      * @return Application
@@ -24,6 +32,14 @@ class OfficialAccountApi extends BaseApi
      */
     public function app(): Application
     {
+        // 从协程上下文获取缓存的实例
+        $application = Context::get(self::CONTEXT_KEY_APP);
+        
+        if ($application !== null) {
+            return $application;
+        }
+
+        // 首次调用，从数据库获取最新配置并创建实例
         $config = SystemConfigService::get(ConfigDefaults::KEY_WECHAT_OFFICIAL_ACCOUNT_CONFIG)
             ?? ConfigDefaults::getWechatOfficialAccountConfigDefault();
             
@@ -31,7 +47,7 @@ class OfficialAccountApi extends BaseApi
             throw new \RuntimeException('微信公众号配置未设置或配置不完整，请检查数据库配置');
         }
 
-        return new Application([
+        $application = new Application([
             'app_id' => $config['app_id'] ?? '',
             'secret' => $config['app_secret'] ?? '',
             'token' => $config['token'] ?? '',
@@ -39,6 +55,22 @@ class OfficialAccountApi extends BaseApi
             'response_type' => 'array',
             'http' => ['timeout' => 5.0, 'retry' => true],
         ]);
+
+        // 缓存到协程上下文
+        Context::set(self::CONTEXT_KEY_APP, $application);
+
+        return $application;
+    }
+
+    /**
+     * 清除当前协程的缓存实例（强制重新从数据库获取配置）
+     * 
+     * @return $this
+     */
+    public function reset(): self
+    {
+        Context::set(self::CONTEXT_KEY_APP, null);
+        return $this;
     }
 
     // ==================== 菜单相关 API ====================

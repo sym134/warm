@@ -282,41 +282,114 @@ class ConfigDefaults
 
     /**
      * 获取支付配置默认值
+     *
+     * 结构对齐 yansongda/pay，支持 alipay、wechat、unipay、douyin、jsb
      */
     public static function getPaymentConfigDefault(): array
     {
         return [
-            // 微信支付配置
-            'wechat_pay' => [
-                'enable' => 0, // 启用状态
-                'version' => 'v3', // 接口版本 v2 或 v3
-                // V2 配置
-                'v2' => [
-                    'key' => '', // 商户支付密钥Key
-                    'mch_id' => '', // 微信商户号
-                    'cert_path' => '', // 微信支付证书路径
-                    'key_path' => '', // 微信支付证书密钥路径
-                    'mini_app_mode' => 'merchant', // 小程序商户号选择: merchant(商户号绑定) 或 non_merchant(非商户号绑定)
-                    'merchant_type' => 'normal', // 商户类型: normal(普通微信商户模式) 或 service(微信支付服务商模式)
-                ],
-                // V3 配置
-                'v3' => [
-                    'mch_id' => '', // 微信商户号
-                    'serial_no' => '', // 证书序列号
-                    'private_key' => '', // 私钥
-                    'cert_path' => '', // 微信支付证书路径
-                    'key_path' => '', // 微信支付证书密钥路径
-                    'mini_app_mode' => 'merchant', // 小程序商户号选择: merchant(商户号绑定) 或 non_merchant(非商户号绑定)
-                    'merchant_type' => 'normal', // 商户类型: normal(普通微信商户模式) 或 service(微信支付服务商模式)
-                ]
-            ],
-            // 支付宝配置
             'alipay' => [
-                'enable' => 0, // 启用状态
-                'app_id' => '', // 支付应用Appid
-                'public_key' => '', // 支付应用公钥
-                'private_key' => '', // 支付应用私钥
-            ]
+                'enable' => 0,
+                'default' => [
+                    'app_id' => '',
+                    'app_secret_cert' => '',
+                    'app_public_cert_path' => '',
+                    'alipay_public_cert_path' => '',
+                    'alipay_root_cert_path' => '',
+                    'return_url' => '',
+                    'notify_url' => '',
+                    'app_auth_token' => '',
+                    'service_provider_id' => '',
+                    'mode' => 'normal',
+                ],
+            ],
+            'wechat' => [
+                'enable' => 0,
+                'default' => [
+                    'mch_id' => '',
+                    'mch_secret_key_v2' => '',
+                    'mch_secret_key' => '',
+                    'mch_secret_cert' => '',
+                    'mch_public_cert_path' => '',
+                    'notify_url' => '',
+                    'mp_app_id' => '',
+                    'mini_app_id' => '',
+                    'app_id' => '',
+                    'sub_mp_app_id' => '',
+                    'sub_app_id' => '',
+                    'sub_mini_app_id' => '',
+                    'sub_mch_id' => '',
+                    'wechat_public_cert_path' => [],
+                    'mode' => 'normal',
+                ],
+            ],
+            'unipay' => [
+                'enable' => 0,
+                'default' => [
+                    'mch_id' => '',
+                    'mch_secret_key' => '',
+                    'mch_cert_path' => '',
+                    'mch_cert_password' => '',
+                    'unipay_public_cert_path' => '',
+                    'return_url' => '',
+                    'notify_url' => '',
+                    'mode' => 'normal',
+                ],
+            ],
+            'douyin' => [
+                'enable' => 0,
+                'default' => [
+                    'mch_id' => '',
+                    'mch_secret_token' => '',
+                    'mch_secret_salt' => '',
+                    'mini_app_id' => '',
+                    'thirdparty_id' => '',
+                    'notify_url' => '',
+                ],
+            ],
+            'jsb' => [
+                'enable' => 0,
+                'default' => [
+                    'svr_code' => '',
+                    'partner_id' => '',
+                    'public_key_code' => '00',
+                    'mch_secret_cert_path' => '',
+                    'mch_public_cert_path' => '',
+                    'jsb_public_cert_path' => '',
+                    'notify_url' => '',
+                    'mode' => 'normal',
+                ],
+            ],
+            'logger' => [
+                'enable' => false,
+                'file' => './logs/pay.log',
+                'level' => 'info',
+                'type' => 'single',
+                'max_file' => 30,
+            ],
+            'http' => [
+                'timeout' => 5.0,
+                'connect_timeout' => 5.0,
+            ],
+        ];
+    }
+
+    /**
+     * 支付配置需加密的敏感字段（点号路径）
+     *
+     * @return array<int, string>
+     */
+    public static function getPaymentConfigSensitiveFields(): array
+    {
+        return [
+            'alipay.default.app_secret_cert',
+            'wechat.default.mch_secret_key_v2',
+            'wechat.default.mch_secret_key',
+            'wechat.default.mch_secret_cert',
+            'unipay.default.mch_secret_key',
+            'unipay.default.mch_cert_password',
+            'douyin.default.mch_secret_token',
+            'douyin.default.mch_secret_salt',
         ];
     }
 

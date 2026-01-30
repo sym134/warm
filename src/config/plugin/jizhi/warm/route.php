@@ -99,10 +99,9 @@ Route::group(Admin::warmConfig('app.route.prefix'), function () {
         Route::get('/crontab_run', [SystemCrontabController::class, 'run']);
         Route::resource('/crontab_log', SystemCrontabLogController::class);
 
-        // 支付配置
-        Route::get('/payment_config', [PaymentConfigController::class, 'list']);
-        Route::get('/payment_config/getData', [PaymentConfigController::class, 'getData']);
-        Route::put('/payment_config/update', [PaymentConfigController::class, 'update']);
+        // 支付配置（上传路由须在 resource 前，避免被 :id 匹配）
+        Route::post('/payment_config/upload', [PaymentConfigController::class, 'uploadCert']);
+        Route::resource('/payment_config', PaymentConfigController::class);
 
         // 存储管理
         Route::get('/storage', [SystemStorageController::class,'index']);
@@ -261,6 +260,14 @@ Route::group(Admin::warmConfig('app.route.prefix'), function () {
 
 // 微信消息接收路由（公共接口，不需要登录验证）
 Route::any('/wechat/message', [\warm\common\controller\WechatMessageController::class, 'handle']);
+
+// 支付回调路由（公共接口，不需要登录验证）
+Route::any('/payment/callback', [\warm\common\controller\PaymentCallbackController::class, 'handle']);
+Route::any('/payment/callback/wechat', [\warm\common\controller\PaymentCallbackController::class, 'wechat']);
+Route::any('/payment/callback/alipay', [\warm\common\controller\PaymentCallbackController::class, 'alipay']);
+Route::any('/payment/callback/unipay', [\warm\common\controller\PaymentCallbackController::class, 'unipay']);
+Route::any('/payment/callback/douyin', [\warm\common\controller\PaymentCallbackController::class, 'douyin']);
+Route::any('/payment/callback/jsb', [\warm\common\controller\PaymentCallbackController::class, 'jsb']);
 
 // 加载应用下的路由配置
 require_once config_path('plugin/jizhi/warm/route/autoRoute.php');

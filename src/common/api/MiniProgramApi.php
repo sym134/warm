@@ -6,17 +6,25 @@ use EasyWeChat\MiniApp\Application;
 use warm\common\api\WechatApiEndpoints;
 use warm\common\config\ConfigDefaults;
 use warm\common\service\SystemConfigService;
+use Workerman\Coroutine\Context;
 
 /**
  * 微信小程序 API 类
  * 
  * 封装微信小程序的所有 API 调用
- * 每次调用 API 时从数据库获取最新配置
+ * 使用协程上下文缓存实例，确保协程安全且性能优化
+ * 每个协程首次调用时从数据库获取最新配置
  */
 class MiniProgramApi extends BaseApi
 {
     /**
-     * 获取小程序应用实例（每次调用都从数据库获取最新配置）
+     * 协程上下文中的键名
+     */
+    private const CONTEXT_KEY_APP = 'miniprogram_api.application';
+
+    /**
+     * 获取小程序应用实例
+     * 使用协程上下文缓存，每个协程独立，确保协程安全
      * 支持链式调用
      * 
      * @return Application
@@ -24,6 +32,14 @@ class MiniProgramApi extends BaseApi
      */
     public function app(): Application
     {
+        // 从协程上下文获取缓存的实例
+        $application = Context::get(self::CONTEXT_KEY_APP);
+        
+        if ($application !== null) {
+            return $application;
+        }
+
+        // 首次调用，从数据库获取最新配置并创建实例
         $config = SystemConfigService::get(ConfigDefaults::KEY_WECHAT_MINI_PROGRAM_CONFIG)
             ?? ConfigDefaults::getWechatMiniProgramConfigDefault();
 
@@ -31,11 +47,27 @@ class MiniProgramApi extends BaseApi
             throw new \RuntimeException('微信小程序配置未设置或配置不完整，请检查数据库配置');
         }
 
-        return new Application([
+        $application = new Application([
             'app_id' => $config['app_id'] ?? '',
             'secret' => $config['secret'] ?? '',
             'response_type' => 'array',
         ]);
+
+        // 缓存到协程上下文
+        Context::set(self::CONTEXT_KEY_APP, $application);
+
+        return $application;
+    }
+
+    /**
+     * 清除当前协程的缓存实例（强制重新从数据库获取配置）
+     * 
+     * @return $this
+     */
+    public function reset(): self
+    {
+        Context::set(self::CONTEXT_KEY_APP, null);
+        return $this;
     }
 
     // ==================== 用户相关 API ====================
@@ -165,11 +197,11 @@ class MiniProgramApi extends BaseApi
         }
 
         $response = $app->getClient()->postJson(WechatApiEndpoints::miniProgram('getwxacodeunlimit'), $params);
-        
+
         // 检查响应头，判断是否是图片
         $headers = $response->getHeaders();
         $contentType = $headers['Content-Type'][0] ?? '';
-        
+
         if (strpos($contentType, 'image') !== false) {
             return $response->getBody()->getContents();
         }
@@ -201,11 +233,11 @@ class MiniProgramApi extends BaseApi
         ];
 
         $response = $app->getClient()->postJson(WechatApiEndpoints::miniProgram('getwxacode'), $params);
-        
+
         // 检查响应头，判断是否是图片
         $headers = $response->getHeaders();
         $contentType = $headers['Content-Type'][0] ?? '';
-        
+
         if (strpos($contentType, 'image') !== false) {
             return $response->getBody()->getContents();
         }
