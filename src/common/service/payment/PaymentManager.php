@@ -1,14 +1,14 @@
 <?php
 
-namespace warm\common\service;
+namespace warm\common\service\payment;
 
 use InvalidArgumentException;
 use RuntimeException;
+use warm\common\config\ConfigDefaults;
 use Workerman\Coroutine\Context;
 use Yansongda\Pay\Pay;
 use Yansongda\Pay\Provider\Alipay;
 use Yansongda\Pay\Provider\Wechat;
-use warm\common\config\ConfigDefaults;
 
 /**
  * 统一支付平台管理类

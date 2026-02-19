@@ -75,7 +75,7 @@
 通过 `PaymentManager` 获取已配置平台的 Pay 实例（即 yansongda/pay 的 Provider）：
 
 ```php
-use warm\common\service\PaymentManager;
+use warm\common\service\payment\PaymentManager;
 
 // 微信支付 V3（默认）
 $wechat = PaymentManager::wechat();
@@ -108,7 +108,7 @@ PaymentManager::getEnabledPlatforms(); // ['wechat', 'alipay', ...]
 ### 示例：微信 JSAPI
 
 ```php
-use warm\common\service\PaymentManager;
+use warm\common\service\payment\PaymentManager;
 
 $wechat = PaymentManager::wechat();
 
@@ -132,7 +132,7 @@ $result = $wechat->mp($params);
 ### 示例：支付宝网页支付
 
 ```php
-use warm\common\service\PaymentManager;
+use warm\common\service\payment\PaymentManager;
 
 $alipay = PaymentManager::alipay();
 

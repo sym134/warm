@@ -3,7 +3,7 @@
 namespace warm\common\api;
 
 use EasyWeChat\MiniApp\Application;
-use warm\common\api\WechatApiEndpoints;
+use warm\common\api\WechatEndpoints;
 use warm\common\config\ConfigDefaults;
 use warm\common\service\SystemConfigService;
 use Workerman\Coroutine\Context;
@@ -15,7 +15,7 @@ use Workerman\Coroutine\Context;
  * 使用协程上下文缓存实例，确保协程安全且性能优化
  * 每个协程首次调用时从数据库获取最新配置
  */
-class MiniProgramApi extends BaseApi
+class MiniProgram extends BaseWechat
 {
     /**
      * 协程上下文中的键名
@@ -82,7 +82,7 @@ class MiniProgramApi extends BaseApi
     public function codeToSession(string $code): array
     {
         $app = $this->app();
-        $response = $app->getClient()->get(WechatApiEndpoints::miniProgram('jscode2session'), [
+        $response = $app->getClient()->get(WechatEndpoints::miniProgram('jscode2session'), [
             'query' => [
                 'appid' => $app->getConfig()->get('app_id'),
                 'secret' => $app->getConfig()->get('secret'),
@@ -102,7 +102,7 @@ class MiniProgramApi extends BaseApi
      */
     public function getPhoneNumber(string $code): array
     {
-        $response = $this->app()->getClient()->postJson(WechatApiEndpoints::miniProgram('getuserphonenumber'), [
+        $response = $this->app()->getClient()->postJson(WechatEndpoints::miniProgram('getuserphonenumber'), [
             'code' => $code,
         ]);
         return $this->handleResponse($response->toArray());
@@ -136,7 +136,7 @@ class MiniProgramApi extends BaseApi
             $params['page'] = $page;
         }
 
-        $response = $this->app()->getClient()->postJson(WechatApiEndpoints::miniProgram('message_subscribe_send'), $params);
+        $response = $this->app()->getClient()->postJson(WechatEndpoints::miniProgram('message_subscribe_send'), $params);
         return $this->handleResponse($response->toArray());
     }
 
@@ -157,7 +157,7 @@ class MiniProgramApi extends BaseApi
             $msgtype => $message,
         ];
 
-        $response = $this->app()->getClient()->postJson(WechatApiEndpoints::miniProgram('message_custom_send'), $params);
+        $response = $this->app()->getClient()->postJson(WechatEndpoints::miniProgram('message_custom_send'), $params);
         return $this->handleResponse($response->toArray());
     }
 
@@ -196,7 +196,7 @@ class MiniProgramApi extends BaseApi
             $params['page'] = $path;
         }
 
-        $response = $app->getClient()->postJson(WechatApiEndpoints::miniProgram('getwxacodeunlimit'), $params);
+        $response = $app->getClient()->postJson(WechatEndpoints::miniProgram('getwxacodeunlimit'), $params);
 
         // 检查响应头，判断是否是图片
         $headers = $response->getHeaders();
@@ -232,7 +232,7 @@ class MiniProgramApi extends BaseApi
             'width' => $width,
         ];
 
-        $response = $app->getClient()->postJson(WechatApiEndpoints::miniProgram('getwxacode'), $params);
+        $response = $app->getClient()->postJson(WechatEndpoints::miniProgram('getwxacode'), $params);
 
         // 检查响应头，判断是否是图片
         $headers = $response->getHeaders();
@@ -264,7 +264,7 @@ class MiniProgramApi extends BaseApi
      */
     public function getVisitTrend(string $beginDate, string $endDate): array
     {
-        $response = $this->app()->getClient()->postJson(WechatApiEndpoints::miniProgram('datacube_visittrend'), [
+        $response = $this->app()->getClient()->postJson(WechatEndpoints::miniProgram('datacube_visittrend'), [
             'begin_date' => $beginDate,
             'end_date' => $endDate,
         ]);
@@ -281,7 +281,7 @@ class MiniProgramApi extends BaseApi
      */
     public function getUserPortrait(string $beginDate, string $endDate): array
     {
-        $response = $this->app()->getClient()->postJson(WechatApiEndpoints::miniProgram('datacube_userportrait'), [
+        $response = $this->app()->getClient()->postJson(WechatEndpoints::miniProgram('datacube_userportrait'), [
             'begin_date' => $beginDate,
             'end_date' => $endDate,
         ]);
@@ -299,7 +299,7 @@ class MiniProgramApi extends BaseApi
      */
     public function msgSecCheck(string $content): array
     {
-        $response = $this->app()->getClient()->postJson(WechatApiEndpoints::miniProgram('msg_sec_check'), [
+        $response = $this->app()->getClient()->postJson(WechatEndpoints::miniProgram('msg_sec_check'), [
             'content' => $content,
         ]);
         return $this->handleResponse($response->toArray());
@@ -314,7 +314,7 @@ class MiniProgramApi extends BaseApi
      */
     public function imgSecCheck(string $mediaPath): array
     {
-        $response = $this->app()->getClient()->upload(WechatApiEndpoints::miniProgram('img_sec_check'), [
+        $response = $this->app()->getClient()->upload(WechatEndpoints::miniProgram('img_sec_check'), [
             'media' => $mediaPath,
         ]);
         return $this->handleResponse($response->toArray());
@@ -355,7 +355,7 @@ class MiniProgramApi extends BaseApi
             $params['expire_time'] = $expireTime;
         }
 
-        $response = $this->app()->getClient()->postJson(WechatApiEndpoints::miniProgram('generatescheme'), $params);
+        $response = $this->app()->getClient()->postJson(WechatEndpoints::miniProgram('generatescheme'), $params);
         return $this->handleResponse($response->toArray());
     }
 
@@ -387,7 +387,7 @@ class MiniProgramApi extends BaseApi
             $params['expire_type'] = 0;
         }
 
-        $response = $this->app()->getClient()->postJson(WechatApiEndpoints::miniProgram('generate_urllink'), $params);
+        $response = $this->app()->getClient()->postJson(WechatEndpoints::miniProgram('generate_urllink'), $params);
         return $this->handleResponse($response->toArray());
     }
 }

@@ -18,10 +18,10 @@ api/
 ### 公众号 API 使用示例
 
 ```php
-use warm\common\api\OfficialAccountApi;
+use warm\common\api\OfficialAccount;
 
 // 直接创建实例
-$api = new OfficialAccountApi();
+$api = new OfficialAccount();
 
 // 方式1：使用封装好的方法（推荐）
 $result = $api->createMenu($buttons);
@@ -42,10 +42,10 @@ $users = $app->getClient()->get('/cgi-bin/user/get');
 ### 小程序 API 使用示例
 
 ```php
-use warm\common\api\MiniProgramApi;
+use warm\common\api\MiniProgram;
 
 // 直接创建实例
-$api = new MiniProgramApi();
+$api = new MiniProgram();
 
 // 方式1：使用封装好的方法（推荐）
 $session = $api->codeToSession('code_from_frontend');
@@ -137,19 +137,19 @@ $qrcode = $app->getClient()->postJson('/wxa/getwxacodeunlimit', [...]);
 ### 使用方式
 
 ```php
-use warm\common\api\WechatApiEndpoints;
+use warm\common\api\WechatEndpoints;
 
 // 获取公众号 API 端点
-$endpoint = WechatApiEndpoints::officialAccount('menu_create');
+$endpoint = WechatEndpoints::officialAccount('menu_create');
 // 返回: '/cgi-bin/menu/create'
 
 // 获取小程序 API 端点
-$endpoint = WechatApiEndpoints::miniProgram('jscode2session');
+$endpoint = WechatEndpoints::miniProgram('jscode2session');
 // 返回: '/sns/jscode2session'
 
 // 获取所有端点
-$allOfficialAccountEndpoints = WechatApiEndpoints::getAllOfficialAccountEndpoints();
-$allMiniProgramEndpoints = WechatApiEndpoints::getAllMiniProgramEndpoints();
+$allOfficialAccountEndpoints = WechatEndpoints::getAllOfficialAccountEndpoints();
+$allMiniProgramEndpoints = WechatEndpoints::getAllMiniProgramEndpoints();
 ```
 
 ### 更新 API 端点
@@ -193,14 +193,14 @@ public const OFFICIAL_ACCOUNT = [
 ## 在 WechatMenuService 中使用示例
 
 ```php
-use warm\common\api\OfficialAccountApi;
+use warm\common\api\OfficialAccount;
 
 public function publish(): bool
 {
     // ... 构建菜单数据 ...
     
     // 每次创建实例都会从数据库获取最新配置
-    $api = new OfficialAccountApi();
+    $api = new OfficialAccount();
     $result = $api->createMenu($wechatMenu);
     
     if (!$api->isSuccess($result)) {
@@ -214,7 +214,7 @@ public function publish(): bool
 // 如果配置刚更新，可以重新加载
 public function publishWithReload(): bool
 {
-    $api = new OfficialAccountApi();
+    $api = new OfficialAccount();
     $api->reloadConfig(); // 重新从数据库加载最新配置
     
     // ... 使用 API ...

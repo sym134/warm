@@ -4,7 +4,7 @@ namespace warm\admin\service\system;
 
 use warm\admin\service\AdminService;
 use warm\common\config\ConfigDefaults;
-use warm\common\service\PaymentConfigEncryptionService;
+use warm\common\service\payment\PaymentConfigEncryptionService;
 
 /**
  * 支付配置服务类

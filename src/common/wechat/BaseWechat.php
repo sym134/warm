@@ -7,7 +7,7 @@ namespace warm\common\api;
  * 
  * 提供所有微信 API 类的通用功能
  */
-abstract class BaseApi
+abstract class BaseWechat
 {
 
     /**

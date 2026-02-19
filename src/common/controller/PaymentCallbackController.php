@@ -4,7 +4,7 @@ namespace warm\common\controller;
 
 use support\Request;
 use support\Response;
-use warm\common\service\PaymentCallbackHandler;
+use warm\common\service\payment\PaymentCallbackHandler;
 
 /**
  * 支付回调控制器

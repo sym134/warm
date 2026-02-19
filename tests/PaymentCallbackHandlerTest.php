@@ -3,8 +3,7 @@
 namespace warm\tests;
 
 use PHPUnit\Framework\TestCase;
-use RuntimeException;
-use warm\common\service\PaymentCallbackHandler;
+use warm\common\service\payment\PaymentCallbackHandler;
 
 /**
  * 支付回调处理类单元测试

@@ -4,7 +4,7 @@ namespace warm\tests;
 
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
-use warm\common\service\PaymentConfigEncryptionService;
+use warm\common\service\payment\PaymentConfigEncryptionService;
 
 /**
  * 支付配置加密服务单元测试

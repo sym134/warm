@@ -2,10 +2,9 @@
 
 namespace warm\tests;
 
-use PHPUnit\Framework\TestCase;
 use InvalidArgumentException;
-use RuntimeException;
-use warm\common\service\PaymentManager;
+use PHPUnit\Framework\TestCase;
+use warm\common\service\payment\PaymentManager;
 
 /**
  * 支付平台管理类单元测试

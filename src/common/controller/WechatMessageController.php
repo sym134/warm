@@ -5,7 +5,7 @@ namespace warm\common\controller;
 use support\Log;
 use support\Request;
 use support\Response;
-use warm\common\api\OfficialAccountApi;
+use warm\common\api\OfficialAccount;
 use warm\common\model\WechatKey;
 use warm\common\service\WechatReplyService;
 use Symfony\Component\HttpFoundation\HeaderBag;
@@ -71,7 +71,7 @@ class WechatMessageController
     {
         Log::info('verifyToken', $request->all());
         try {
-            $api = new OfficialAccountApi();
+            $api = new OfficialAccount();
             $app = $api->app();
             $symfony_request = new SymfonyRequest($request->get(), $request->post(), [], $request->cookie(), [], [], $request->rawBody());
             $symfony_request->headers = new HeaderBag($request->header());
@@ -99,7 +99,7 @@ class WechatMessageController
     protected function handleMessage(Request $request): Response
     {
         try {
-            $api = new OfficialAccountApi();
+            $api = new OfficialAccount();
             $app = $api->app();
             $symfony_request = new SymfonyRequest($request->get(), $request->post(), [], $request->cookie(), [], [], $request->rawBody());
             $symfony_request->headers = new HeaderBag($request->header());

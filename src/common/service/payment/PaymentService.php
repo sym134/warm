@@ -1,6 +1,6 @@
 <?php
 
-namespace warm\common\service;
+namespace warm\common\service\payment;
 
 use InvalidArgumentException;
 use warm\common\config\ConfigDefaults;

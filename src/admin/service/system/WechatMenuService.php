@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use support\Db;
 use warm\admin\model\system\WechatMenu;
 use warm\admin\service\AdminService;
-use warm\common\api\OfficialAccountApi;
+use warm\common\api\OfficialAccount;
 
 /**
  * 微信菜单服务类
@@ -358,7 +358,7 @@ class WechatMenuService extends AdminService
 
         try {
             // 调用微信API发布菜单
-            $api = new OfficialAccountApi();
+            $api = new OfficialAccount();
             $result = $api->createMenu($wechatMenu);
 
             // 检查是否成功

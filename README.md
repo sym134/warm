@@ -172,6 +172,71 @@ $form = new Form([
     // 按钮数组
 ]);
 ```
+## 10. 辅助函数
+
+Warm 提供了丰富的辅助函数（`src/helpers.php`）：
+
+- `app($abstract = null)`: 获取容器实例
+- `cache()`: 获取缓存实例
+- `config($key, $default = null)`: 获取配置
+- `db()`: 获取数据库连接
+- `env($key, $default = null)`: 获取环境变量
+- `storage($disk = null)`: 获取存储实例
+- `translator($key, $replace = [], $locale = null)`: 多语言翻译
+- `validate($data, $validate, $message = [], $batch = false)`: 数据验证
+
+
+## 11. 相关文档
+
+- [Warm 使用指南](docs/warm-guide.md) - 框架详细使用说明
+- [AdminController 详细指南](docs/admin-controller-guide.md) - AdminController 使用方法和核心概念
+- [辅助函数详细指南](docs/helpers-guide.md) - 所有辅助函数的详细说明
+- [插件系统使用指南](docs/plugin-guide.md) - 插件系统详细使用说明和开发指南
+- [Amis 方法类映射](docs/amis-method-class-mapping.md) - Amis 组件与 PHP 类的映射关系
+
+
+## 13. 注意事项
+
+1. **命名空间**: 所有 Warm 相关类都在 `warm\` 命名空间下
+2. **模型继承**: 所有模型必须继承自 `warm\common\model\BaseModel`
+3. **控制器继承**: 所有后台控制器必须继承自 `warm\admin\controller\AdminController`
+4. **服务类**: Service 类必须实现 `make()` 静态方法用于实例化
+5. **权限控制**: 使用 `$noNeedLogin` 和 `$noNeedAuth` 数组控制权限，不要手动检查
+6. **响应格式**: 统一使用 `Admin::response()` 返回响应
+7. **多语言**: 使用 `translator()` 函数，不要硬编码文本
+8. **文件存储**: 使用 `Storage` 门面，不要直接操作文件系统
+9. **配置获取**: 使用 `Admin::warmConfig()` 获取 Warm 配置，使用 `Admin::config()` 获取系统配置
+10. **数据库操作**: 使用 Eloquent ORM，不要使用原生 SQL（除非必要）
+
+## 12. 常见问题
+
+### 如何修改后台路径？
+修改 `config/plugin/jizhi/warm/app.php` 中的 `route.prefix` 配置。
+
+### 如何扩展用户模型？
+通过配置文件覆盖默认模型：
+```php
+// config/plugin/jizhi/warm/app.php
+return [
+    'models' => [
+        'admin_user' => App\Models\CustomUser::class,
+    ],
+];
+```
+
+### 如何自定义权限验证？
+可以通过中间件或在控制器中手动验证权限。使用 `Admin::permission()->check($permission)` 检查权限。
+
+### 如何前后端分离部署？
+1. 将 `public/admin-assets/` 目录复制到前端服务器
+2. 修改 `index.html` 中的 `window.$adminApiPrefix` 为后端 API 地址
+3. 前端服务器指向包含 `index.html` 的目录
+4. Webman 服务器独立部署，处理 API 请求
+
+### 如何添加自定义存储驱动？
+1. 实现 `warm\framework\filesystem\FilesystemAdapter` 接口
+2. 在 `config/filesystems.php` 中注册驱动
+3. 使用 `Storage::disk('custom')` 访问
 
 ## 贡献
 

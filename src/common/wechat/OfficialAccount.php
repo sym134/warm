@@ -3,7 +3,7 @@
 namespace warm\common\api;
 
 use EasyWeChat\OfficialAccount\Application;
-use warm\common\api\WechatApiEndpoints;
+use warm\common\api\WechatEndpoints;
 use warm\common\config\ConfigDefaults;
 use warm\common\service\SystemConfigService;
 use Workerman\Coroutine\Context;
@@ -15,7 +15,7 @@ use Workerman\Coroutine\Context;
  * 使用协程上下文缓存实例，确保协程安全且性能优化
  * 每个协程首次调用时从数据库获取最新配置
  */
-class OfficialAccount extends BaseApi
+class OfficialAccount extends BaseWechat
 {
     /**
      * 协程上下文中的键名
@@ -84,7 +84,7 @@ class OfficialAccount extends BaseApi
      */
     public function createMenu(array $buttons): array
     {
-        $response = $this->app()->getClient()->postJson(WechatApiEndpoints::officialAccount('menu_create'), ['button' => $buttons]);
+        $response = $this->app()->getClient()->postJson(WechatEndpoints::officialAccount('menu_create'), ['button' => $buttons]);
         return $this->handleResponse($response->toArray());
     }
 
@@ -96,7 +96,7 @@ class OfficialAccount extends BaseApi
      */
     public function getMenu(): array
     {
-        $response = $this->app()->getClient()->get(WechatApiEndpoints::officialAccount('menu_get'));
+        $response = $this->app()->getClient()->get(WechatEndpoints::officialAccount('menu_get'));
         return $this->handleResponse($response->toArray());
     }
 
@@ -108,7 +108,7 @@ class OfficialAccount extends BaseApi
      */
     public function deleteMenu(): array
     {
-        $response = $this->app()->getClient()->get(WechatApiEndpoints::officialAccount('menu_delete'));
+        $response = $this->app()->getClient()->get(WechatEndpoints::officialAccount('menu_delete'));
         return $this->handleResponse($response->toArray());
     }
 
@@ -124,7 +124,7 @@ class OfficialAccount extends BaseApi
      */
     public function getUserInfo(string $openid, string $lang = 'zh_CN'): array
     {
-        $response = $this->app()->getClient()->get(WechatApiEndpoints::officialAccount('user_info'), [
+        $response = $this->app()->getClient()->get(WechatEndpoints::officialAccount('user_info'), [
             'query' => [
                 'openid' => $openid,
                 'lang' => $lang,
@@ -151,7 +151,7 @@ class OfficialAccount extends BaseApi
             ];
         }, $openids);
 
-        $response = $app->getClient()->postJson(WechatApiEndpoints::officialAccount('user_batchget'), [
+        $response = $app->getClient()->postJson(WechatEndpoints::officialAccount('user_batchget'), [
             'user_list' => $userList,
         ]);
         return $this->handleResponse($response->toArray());
@@ -171,7 +171,7 @@ class OfficialAccount extends BaseApi
             $query['next_openid'] = $nextOpenid;
         }
 
-        $response = $this->app()->getClient()->get(WechatApiEndpoints::officialAccount('user_get'), [
+        $response = $this->app()->getClient()->get(WechatEndpoints::officialAccount('user_get'), [
             'query' => $query,
         ]);
         return $this->handleResponse($response->toArray());
@@ -211,7 +211,7 @@ class OfficialAccount extends BaseApi
             $params['miniprogram'] = $miniprogram;
         }
 
-        $response = $this->app()->getClient()->postJson(WechatApiEndpoints::officialAccount('message_template_send'), $params);
+        $response = $this->app()->getClient()->postJson(WechatEndpoints::officialAccount('message_template_send'), $params);
         return $this->handleResponse($response->toArray());
     }
 
@@ -232,7 +232,7 @@ class OfficialAccount extends BaseApi
             $msgtype => $message,
         ];
 
-        $response = $this->app()->getClient()->postJson(WechatApiEndpoints::officialAccount('message_custom_send'), $params);
+        $response = $this->app()->getClient()->postJson(WechatEndpoints::officialAccount('message_custom_send'), $params);
         return $this->handleResponse($response->toArray());
     }
 
@@ -248,7 +248,7 @@ class OfficialAccount extends BaseApi
      */
     public function uploadMedia(string $type, string $path): array
     {
-        $response = $this->app()->getClient()->upload(WechatApiEndpoints::officialAccount('media_upload'), [
+        $response = $this->app()->getClient()->upload(WechatEndpoints::officialAccount('media_upload'), [
             'media' => $path,
         ], [
             'query' => ['type' => $type],
@@ -266,7 +266,7 @@ class OfficialAccount extends BaseApi
     public function getMedia(string $mediaId)
     {
         $app = $this->app();
-        $response = $app->getClient()->get(WechatApiEndpoints::officialAccount('media_get'), [
+        $response = $app->getClient()->get(WechatEndpoints::officialAccount('media_get'), [
             'query' => ['media_id' => $mediaId],
         ]);
         
@@ -288,7 +288,7 @@ class OfficialAccount extends BaseApi
      */
     public function uploadMaterial(string $path): array
     {
-        $response = $this->app()->getClient()->upload(WechatApiEndpoints::officialAccount('material_add_material'), [
+        $response = $this->app()->getClient()->upload(WechatEndpoints::officialAccount('material_add_material'), [
             'media' => $path,
         ]);
         return $this->handleResponse($response->toArray());
@@ -316,7 +316,7 @@ class OfficialAccount extends BaseApi
             ],
         ];
 
-        $response = $this->app()->getClient()->postJson(WechatApiEndpoints::officialAccount('qrcode_create'), $params);
+        $response = $this->app()->getClient()->postJson(WechatEndpoints::officialAccount('qrcode_create'), $params);
         return $this->handleResponse($response->toArray());
     }
 
@@ -338,7 +338,7 @@ class OfficialAccount extends BaseApi
             ],
         ];
 
-        $response = $this->app()->getClient()->postJson(WechatApiEndpoints::officialAccount('qrcode_create'), $params);
+        $response = $this->app()->getClient()->postJson(WechatEndpoints::officialAccount('qrcode_create'), $params);
         return $this->handleResponse($response->toArray());
     }
 
@@ -350,7 +350,7 @@ class OfficialAccount extends BaseApi
      */
     public function getQrcodeUrl(string $ticket): string
     {
-        return WechatApiEndpoints::officialAccount('qrcode_show') . '?ticket=' . urlencode($ticket);
+        return WechatEndpoints::officialAccount('qrcode_show') . '?ticket=' . urlencode($ticket);
     }
 
     // ==================== OAuth 相关 API ====================
@@ -380,7 +380,7 @@ class OfficialAccount extends BaseApi
             $params['state'] = $state;
         }
         
-        return WechatApiEndpoints::officialAccount('oauth_authorize') . '?' . http_build_query($params) . '#wechat_redirect';
+        return WechatEndpoints::officialAccount('oauth_authorize') . '?' . http_build_query($params) . '#wechat_redirect';
     }
 
     /**
@@ -395,7 +395,7 @@ class OfficialAccount extends BaseApi
         $app = $this->app();
         $config = $app->getConfig();
         
-        $response = $app->getClient()->get(WechatApiEndpoints::officialAccount('oauth_access_token'), [
+        $response = $app->getClient()->get(WechatEndpoints::officialAccount('oauth_access_token'), [
             'query' => [
                 'appid' => $config->get('app_id'),
                 'secret' => $config->get('secret'),
