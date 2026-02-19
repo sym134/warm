@@ -7,8 +7,7 @@ use support\Response;
 use warm\admin\controller\AdminController;
 use warm\admin\renderer\form\Form;
 use warm\admin\renderer\Page;
-use warm\admin\renderer\StaticExactControl;
-use warm\admin\renderer\TableColumn;
+use warm\admin\renderer\expand\TableColumn;
 use warm\admin\service\config\ConfigService;
 use warm\common\service\notice\Notice;
 

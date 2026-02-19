@@ -1,420 +1,106 @@
-# AdminController 详细指南
+# AdminController 开发指南
 
 ## 目录
 
-- [简介](#简介)
-- [AdminController 核心概念](#admincontroller-核心概念)
-  - [基础功能](#基础功能)
-  - [核心属性](#核心属性)
-  - [核心方法](#核心方法)
-- [AdminService 服务类](#adminservice-服务类)
-  - [基础功能](#基础功能-1)
-  - [核心方法](#核心方法-1)
-  - [钩子方法](#钩子方法)
-- [使用示例](#使用示例)
+- [1. 概览](#1-概览)
+  - [架构设计](#架构设计)
+  - [核心类说明](#核心类说明)
+- [2. 快速开始](#2-快速开始)
   - [创建控制器](#创建控制器)
   - [创建服务类](#创建服务类)
-  - [实现列表页](#实现列表页)
-  - [实现表单页](#实现表单页)
-  - [实现详情页](#实现详情页)
-- [高级功能](#高级功能)
-  - [权限控制](#权限控制)
+  - [路由注册](#路由注册)
+- [3. 核心功能详解](#3-核心功能详解)
+  - [列表页 (List)](#列表页-list)
+  - [表单页 (Form)](#表单页-form)
+  - [详情页 (Detail)](#详情页-detail)
+  - [删除与批量操作](#删除与批量操作)
+- [4. 高级特性](#4-高级特性)
+  - [权限控制与矩阵](#权限控制与矩阵)
   - [数据导出](#数据导出)
   - [文件上传](#文件上传)
   - [快速编辑](#快速编辑)
+- [5. API 参考](#5-api-参考)
+  - [响应结构](#响应结构)
+  - [异常码表](#异常码表)
+  - [钩子方法](#钩子方法)
+- [6. 最佳实践](#6-最佳实践)
+  - [部署与回滚](#部署与回滚)
+  - [性能优化](#性能优化)
+  - [监控与告警](#监控与告警)
+- [7. 附录](#7-附录)
+  - [Postman 集合](#postman-集合)
+  - [自动化测试用例](#自动化测试用例)
 
-## 简介
+---
 
-AdminController 是 Warm 框架中用于构建后台管理系统的基类控制器。它提供了一套完整的增删改查（CRUD）功能，以及权限控制、数据导出、文件上传等常用后台功能。通过继承 AdminController，开发者可以快速构建功能完善的后台管理模块。
+## 1. 概览
 
-AdminController 采用了"控制器-服务"的设计模式，将业务逻辑从控制器中分离到服务类中，使代码更加清晰和易于维护。
+### 架构设计
 
-## AdminController 核心概念
+Warm Admin 采用了经典的 **MVC + Service** 分层架构，旨在实现业务逻辑与表现层的解耦。
 
-### 基础功能
-
-AdminController 提供了以下核心功能：
-
-1. **增删改查操作**：内置了完整的 CRUD 操作方法
-2. **权限控制**：支持不需要登录和不需要权限验证的方法配置
-3. **数据导出**：支持将列表数据导出为 Excel 文件
-4. **文件上传**：提供统一的文件上传处理方法
-5. **页面渲染**：基于 Amis 前端框架的页面渲染功能
-6. **响应处理**：统一的 JSON 响应格式
-
-### 核心属性
-
-AdminController 定义了几个重要的属性：
-
-```php
-// 定义不需要登录的方法
-protected array $noNeedLogin = [];
-
-// 定义不需要权限验证的方法（但仍需要登录）
-protected array $noNeedAuth = [];
-
-// 服务类实例
-protected object $service;
-
-// 服务类名称
-protected string $serviceName = '';
-
-// 当前请求路径（不包含管理前缀）
-protected string $queryPath;
-
-// 管理后台路由前缀
-protected string $adminPrefix;
-
-// 是否是新增页面
-protected bool $isCreate = false;
-
-// 是否是编辑页面
-protected bool $isEdit = false;
+```mermaid
+graph LR
+    Client[客户端/浏览器] --> Route[路由 Route]
+    Route --> Middleware[中间件 Middleware]
+    Middleware --> Controller[控制器 AdminController]
+    Controller -->|调用| Service[服务层 AdminService]
+    Service -->|操作| Model[模型层 Eloquent Model]
+    Model --> DB[(数据库 Database)]
+    Service -->|返回结果| Controller
+    Controller -->|渲染页面/JSON| Client
 ```
 
-### 核心方法
+### 核心类说明
 
-AdminController 提供了以下核心方法：
+| 类名 | 路径 | 说明 |
+| :--- | :--- | :--- |
+| **AdminController** | `warm\admin\controller\AdminController` | 控制器基类，负责请求处理、参数校验、页面构建与响应格式化。 |
+| **AdminService** | `warm\admin\service\AdminService` | 服务基类，封装 CRUD 逻辑、事务处理、数据转换与复杂业务。 |
+| **BaseModel** | `warm\common\model\BaseModel` | 模型基类，继承自 Laravel Eloquent，提供基础 ORM 能力。 |
 
-#### index()
-处理列表页请求，支持数据获取和导出功能：
-```php
-public function index()
-{
-    // 如果是获取数据的操作，返回列表数据
-    if ($this->actionOfGetData()) {
-        return $this->response()->success($this->service->list());
-    }
+---
 
-    // 如果是导出操作，执行导出逻辑
-    if ($this->actionOfExport()) {
-        return $this->export();
-    }
-
-    // 默认返回列表页面
-    return $this->response()->success($this->list());
-}
-```
-
-#### create()
-获取新增页面：
-```php
-public function create()
-{
-    // 设置当前为创建页面状态
-    $this->isCreate = true;
-
-    // 构建表单页面结构
-    $form = amis()
-        ->Card()
-        ->header(['title' => translator('admin.create'), 'className' => 'border-b'])
-        ->toolbar([$this->backButton()])
-        ->body($this->form(false)->api($this->getStorePath()));
-
-    $page = $this->basePage()->body($form);
-
-    return $this->response()->success($page);
-}
-```
-
-#### store()
-处理新增数据保存：
-```php
-public function store(Request $request)
-{
-    $response = fn($result) => $this->autoResponse($result, translator('admin.save'));
-
-    // 快速编辑处理
-    if ($this->actionOfQuickEdit()) {
-        return $response($this->service->quickEdit($request->all()));
-    }
-
-    // 单项快速编辑处理
-    if ($this->actionOfQuickEditItem()) {
-        return $response($this->service->quickEditItem($request->all()));
-    }
-
-    // 常规新增处理
-    return $response($this->service->store($request->all()));
-}
-```
-
-#### show()
-显示详情页面：
-```php
-public function show($id)
-{
-    // 如果是获取数据操作，返回详情数据
-    if ($this->actionOfGetData()) {
-        return $this->response()->success($this->service->getDetail($id));
-    }
-
-    // 构建详情页面结构
-    $detail = amis()
-        ->Card()
-        ->header(['title' => translator('admin.detail'), 'className' => 'border-b'])
-        ->body($this->detail())
-        ->toolbar([$this->backButton()]);
-
-    $page = $this->basePage()->body($detail);
-
-    return $this->response()->success($page);
-}
-```
-
-#### edit()
-获取编辑页面：
-```php
-public function edit($id)
-{
-    // 设置当前为编辑页面状态
-    $this->isEdit = true;
-
-    // 如果是获取数据操作，返回编辑所需数据
-    if ($this->actionOfGetData()) {
-        return $this->response()->success($this->service->getEditData($id));
-    }
-
-    // 构建编辑表单结构
-    $form = amis()
-        ->Card()
-        ->header(['title' => translator('admin.edit'), 'className' => 'border-b'])
-        ->toolbar([$this->backButton()])
-        ->body($this->form(true)->api($this->getUpdatePath())->initApi($this->getEditGetDataPath()));
-
-    $page = $this->basePage()->body($form);
-
-    return $this->response()->success($page);
-}
-```
-
-#### update()
-处理数据更新：
-```php
-public function update(Request $request, $id)
-{
-    // 获取主键值
-    $primaryKey = $this->getPrimaryValue($request) ?: $id;
-    
-    // 执行更新操作
-    $result = $this->service->update($primaryKey, $request->all());
-
-    // 返回自动响应结果
-    return $this->autoResponse($result, translator('admin.save'));
-}
-```
-
-#### destroy()
-处理数据删除：
-```php
-public function destroy($id)
-{
-    // 执行删除操作
-    $rows = $this->service->delete($id);
-
-    // 返回自动响应结果
-    return $this->autoResponse($rows, translator('admin.delete'));
-}
-```
-
-## AdminService 服务类
-
-AdminService 是 AdminController 对应的服务类基类，负责处理具体的业务逻辑。
-
-### 基础功能
-
-1. **模型操作**：封装了模型的增删改查操作
-2. **数据查询**：提供了灵活的数据查询方法
-3. **关联关系**：支持模型关联关系的处理
-4. **钩子方法**：提供多个钩子方法供子类重写
-
-### 核心方法
-
-#### list()
-获取列表数据：
-```php
-public function list(): array
-{
-    $query = $this->listQuery();
-
-    $list = $query->paginate(request()->input('perPage', 20));
-    $items = $list->items();
-    $total = $list->total();
-
-    return compact('items', 'total');
-}
-```
-
-#### store()
-新增数据：
-```php
-public function store(array $data): bool
-{
-    Db::beginTransaction();
-    try {
-        $this->saving($data);
-
-        $model = $this->getModel();
-        foreach ($data as $k => $v) {
-            if (!$this->hasColumn($k)) {
-                continue;
-            }
-
-            $model->setAttribute($k, $v);
-        }
-
-        $result = $model->save();
-        if ($result) {
-            $this->saved($model);
-        }
-
-        Db::commit();
-    } catch (\Throwable $e) {
-        Db::rollBack();
-
-        admin_abort($e->getMessage());
-    }
-
-    return $result;
-}
-```
-
-#### update()
-更新数据：
-```php
-public function update(mixed $primaryKey, array $data): bool
-{
-    Db::beginTransaction();
-    try {
-        $this->saving($data, $primaryKey);
-
-        $model = $this->query()->whereKey($primaryKey)->first();
-
-        foreach ($data as $k => $v) {
-            if (!$this->hasColumn($k)) {
-                continue;
-            }
-            $model->setAttribute($k, $v);
-        }
-
-        $result = $model->save();
-        if ($result) {
-            $this->saved($model, true);
-        }
-
-        Db::commit();
-    } catch (\Throwable $e) {
-        Db::rollBack();
-
-        admin_abort($e->getMessage());
-    }
-
-    return $result;
-}
-```
-
-#### delete()
-删除数据：
-```php
-public function delete(string $ids): bool
-{
-    Db::beginTransaction();
-    try {
-        $result = $this->query()->whereIn($this->primaryKey(), explode(',', $ids))->delete();
-        if ($result) {
-            $this->deleted($ids);
-        }
-
-        Db::commit();
-    } catch (\Throwable $e) {
-        Db::rollBack();
-        admin_abort($e->getMessage());
-    }
-
-    return $result;
-}
-```
-
-### 钩子方法
-
-AdminService 提供了多个钩子方法，允许子类在特定时机插入自定义逻辑：
-
-1. **saving()**：在数据保存前调用
-2. **saved()**：在数据保存后调用
-3. **deleted()**：在数据删除后调用
-4. **sortable()**：处理排序逻辑
-5. **searchable()**：处理搜索逻辑
-6. **addRelations()**：添加关联关系
-
-## 使用示例
+## 2. 快速开始
 
 ### 创建控制器
 
-创建一个用户管理控制器：
+控制器位于 `plugin/admin/app/controller` 目录下，需继承 `AdminController`。
 
 ```php
 <?php
 
 namespace plugin\admin\app\controller;
 
-use support\Request;
-use support\Response;
+use warm\admin\controller\AdminController;
 use plugin\admin\app\service\UserService;
 
 class UserController extends AdminController
 {
-    // 指定服务类
-    public string $serviceName = UserService::class;
-    
-    // 不需要权限验证的方法
+    // 1. 绑定服务类
+    protected string $serviceName = UserService::class;
+
+    // 2. 定义无需权限验证的方法（可选）
     protected array $noNeedAuth = ['index'];
-    
-    // 实现列表页结构
+
+    // 3. 实现列表页
     public function list()
     {
         return $this->baseList()
-            ->header(['title' => '用户管理', 'className' => 'border-b'])
-            ->filter($this->baseFilter()->body([
-                $this->inputText('username', '用户名'),
-                $this->inputText('email', '邮箱'),
-            ]))
-            ->body(
-                $this->table()
-                    ->api($this->getIndexDataPath())
-                    ->perPage(20)
-                    ->columns([
-                        $this->text('id', 'ID'),
-                        $this->text('username', '用户名'),
-                        $this->text('email', '邮箱'),
-                        $this->datetime('created_at', '创建时间'),
-                        $this->datetime('updated_at', '更新时间'),
-                        $this->fixedColumn()->buttons([
-                            $this->rowButton('edit'),
-                            $this->rowButton('delete'),
-                        ])
-                    ])
-            );
+            ->header(['title' => '用户管理'])
+            ->body($this->table()->columns([
+                $this->text('id', 'ID')->sortable(),
+                $this->text('username', '用户名'),
+                $this->datetime('created_at', '创建时间')
+            ]));
     }
-    
-    // 实现表单页结构
+
+    // 4. 实现表单页
     public function form(bool $isEdit = false)
     {
         return $this->baseForm()->body([
             $this->inputText('username', '用户名')->required(),
-            $this->inputEmail('email', '邮箱')->required(),
-            $this->inputPassword('password', '密码')->required(!$isEdit),
-        ]);
-    }
-    
-    // 实现详情页结构
-    public function detail()
-    {
-        return $this->baseDetail()->body([
-            $this->detailText('id', 'ID'),
-            $this->detailText('username', '用户名'),
-            $this->detailText('email', '邮箱'),
-            $this->detailDate('created_at', '创建时间'),
-            $this->detailDate('updated_at', '更新时间'),
+            $this->inputPassword('password', '密码')->required(!$isEdit)
         ]);
     }
 }
@@ -422,165 +108,318 @@ class UserController extends AdminController
 
 ### 创建服务类
 
-创建对应的用户服务类：
+服务类位于 `plugin/admin/app/service` 目录下，需继承 `AdminService`。
 
 ```php
 <?php
 
 namespace plugin\admin\app\service;
 
-use plugin\admin\app\model\User;
 use warm\admin\service\AdminService;
+use plugin\admin\app\model\User;
 
 class UserService extends AdminService
 {
-    // 指定模型类
+    // 1. 绑定模型
     protected string $modelName = User::class;
-    
-    // 保存前处理
+
+    // 2. 数据保存前钩子
     public function saving(array &$data, string $primaryKey = '')
     {
-        // 如果是新增且密码不为空，进行加密处理
-        if (!$primaryKey && !empty($data['password'])) {
+        if (!empty($data['password'])) {
             $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+        } else {
+            unset($data['password']); // 更新时不传密码则不修改
         }
-        
-        // 如果是更新且密码为空，移除密码字段
-        if ($primaryKey && empty($data['password'])) {
-            unset($data['password']);
-        }
-    }
-    
-    // 保存后处理
-    public function saved(mixed $model, bool $isEdit = false)
-    {
-        // 可以在这里处理保存后的逻辑，如发送通知等
     }
 }
 ```
 
-### 实现列表页
+### 路由注册
 
-在控制器中实现列表页结构：
+在 `plugin/admin/config/route.php` 中注册路由：
 
 ```php
+use Webman\Route;
+
+// 自动注册资源路由
+Route::resource('/user', plugin\admin\app\controller\UserController::class);
+```
+
+---
+
+## 3. 核心功能详解
+
+### 列表页 (List)
+
+`index()` 方法负责列表展示。通过 `baseList()` 和 `table()` 快速构建 Amis 表格。
+
+- **搜索**: 使用 `$this->baseFilter()` 构建搜索表单。
+- **排序**: 字段链式调用 `->sortable()`。
+- **关联**: 在 Service 中重写 `listQuery` 使用 `with()` 预加载。
+
+```php
+// Controller
 public function list()
 {
     return $this->baseList()
-        ->header(['title' => '用户管理', 'className' => 'border-b'])
         ->filter($this->baseFilter()->body([
-            $this->inputText('username', '用户名'),
-            $this->inputText('email', '邮箱'),
+            $this->inputText('username', '用户名'), // 自动模糊搜索
+            $this->select('status', '状态')->options(['1'=>'正常', '0'=>'禁用'])
         ]))
-        ->body(
-            $this->table()
-                ->api($this->getIndexDataPath())
-                ->perPage(20)
-                ->columns([
-                    $this->text('id', 'ID'),
-                    $this->text('username', '用户名'),
-                    $this->text('email', '邮箱'),
-                    $this->datetime('created_at', '创建时间'),
-                    $this->datetime('updated_at', '更新时间'),
-                    $this->fixedColumn()->buttons([
-                        $this->rowButton('edit'),
-                        $this->rowButton('delete'),
-                    ])
-                ])
-        );
+        ->body($this->table()->columns([
+            $this->text('role.name', '角色'), // 关联字段
+            // ...
+        ]));
 }
-```
 
-### 实现表单页
-
-在控制器中实现表单页结构：
-
-```php
-public function form(bool $isEdit = false)
+// Service
+public function listQuery()
 {
-    return $this->baseForm()->body([
-        $this->inputText('username', '用户名')->required(),
-        $this->inputEmail('email', '邮箱')->required(),
-        $this->inputPassword('password', '密码')->required(!$isEdit),
-    ]);
+    return parent::listQuery()->with(['role']); // 预加载避免 N+1
 }
 ```
 
-### 实现详情页
+### 表单页 (Form)
 
-在控制器中实现详情页结构：
+`create()` 和 `edit()` 复用 `form()` 方法。
+
+- **验证**: 链式调用 `->required()`, `->validations('email')`。
+- **布局**: 支持 `Group`, `Grid` 等布局组件。
+
+### 详情页 (Detail)
+
+`show()` 方法调用 `detail()` 构建详情视图。
 
 ```php
 public function detail()
 {
     return $this->baseDetail()->body([
         $this->detailText('id', 'ID'),
-        $this->detailText('username', '用户名'),
-        $this->detailText('email', '邮箱'),
-        $this->detailDate('created_at', '创建时间'),
-        $this->detailDate('updated_at', '更新时间'),
+        $this->detailImage('avatar', '头像'),
+        $this->detailJson('config', '配置信息')
     ]);
 }
 ```
 
-## 高级功能
+### 删除与批量操作
 
-### 权限控制
+- **单删**: `DELETE /admin/user/{id}`
+- **批删**: `DELETE /admin/user/{ids}` (ids 为逗号分隔字符串)
+- **软删除**: 若模型使用了 `SoftDeletes` trait，默认执行软删除。
 
-AdminController 提供了两种权限控制属性：
+---
 
-1. `$noNeedLogin`：定义不需要登录即可访问的方法
-2. `$noNeedAuth`：定义不需要权限验证但需要登录的方法
+## 4. 高级特性
 
-示例：
+### 权限控制与矩阵
+
+权限控制基于中间件拦截，分为两级：登录验证 (`Authenticate`) 和 权限验证 (`Permission`)。
+
+#### 权限矩阵
+
+| 属性 | 定义位置 | 作用 | 典型场景 |
+| :--- | :--- | :--- | :--- |
+| `$noNeedLogin` | Controller | **完全公开**，无需登录即可访问 | 登录页、注册页、公开回调 |
+| `$noNeedAuth` | Controller | **需登录**，但无需具体权限节点 | 个人中心、公共配置读取、仪表盘 |
+| 默认 | - | **严格验证**，需登录且拥有对应权限节点 | 用户管理、订单管理、系统设置 |
+
+#### 示例
 ```php
-class UserController extends AdminController
-{
-    // 不需要登录的方法
-    protected array $noNeedLogin = ['login'];
-    
-    // 不需要权限验证的方法
-    protected array $noNeedAuth = ['index', 'show'];
-}
+protected array $noNeedLogin = ['login', 'captcha'];
+protected array $noNeedAuth = ['dashboard', 'profile'];
 ```
 
 ### 数据导出
 
-AdminController 内置了数据导出功能，通过 `export()` 方法实现。导出功能基于请求参数中的 `export` 字段判断是否需要导出。
-
-在服务类中可以通过重写 `exportMap()` 方法自定义导出字段映射：
+在控制器中无需额外代码，只需在 Service 中定义 `exportMap` 即可启用导出。请求列表接口带上 `_action=export` 参数。
 
 ```php
+// Service
 public function exportMap(): array
 {
     return [
         'id' => 'ID',
         'username' => '用户名',
-        'email' => '邮箱',
-        'created_at' => '创建时间',
+        'created_at' => '注册时间'
     ];
 }
 ```
 
 ### 文件上传
 
-AdminController 提供了统一的文件上传处理方法，通过 `upload()` 方法实现。支持多种存储适配器（本地、OSS、七牛等）。
+使用 `upload` 方法，支持本地、OSS、七牛云等（需配置 `config/plugin/jizhi/warm/file.php`）。
 
-使用示例：
 ```php
+// Controller
 public function uploadImage(Request $request)
 {
-    return $this->upload($request, 'image');
+    // file 为上传字段名
+    return $this->upload($request, 'file'); 
 }
 ```
 
 ### 快速编辑
 
-AdminController 支持快速编辑功能，允许在列表页直接编辑数据。通过 `quickEdit()` 和 `quickEditItem()` 方法实现。
+支持在列表页直接修改字段。
 
-在列表页中配置可编辑字段：
-```php
-$this->text('username', '用户名')->quickEdit(true)
+1.  **Controller**: 字段设置 `->quickEdit(true)`。
+2.  **Service**: 默认支持，无需额外代码。如需自定义逻辑，重写 `quickEdit` 方法。
+
+---
+
+## 5. API 参考
+
+### 响应结构
+
+所有接口统一返回 JSON 格式：
+
+```json
+{
+  "code": 0,          // 状态码：0 成功，非 0 失败
+  "msg": "操作成功",   // 提示信息
+  "data": {           // 业务数据
+    "items": [],      // 列表数据
+    "total": 0        // 总数
+  }
+}
 ```
 
-通过以上详细指南，您可以全面了解 AdminController 的使用方法，并能够基于它快速开发功能完善的后台管理系统。
+### 异常码表
+
+| 错误码 (code) | 说明 | 解决方案 |
+| :--- | :--- | :--- |
+| **0** | **成功** | - |
+| **1** | **通用业务错误** | 检查参数或业务逻辑，查看 msg 提示 |
+| **401** | **未登录** | 跳转至登录页，携带 token 重新请求 |
+| **403** | **无权限** | 联系管理员开通对应权限 |
+| **404** | **资源不存在** | 检查 ID 是否正确或数据已被删除 |
+| **422** | **参数验证失败** | 检查提交表单字段格式 |
+| **500** | **服务器内部错误** | 查看 `runtime/logs` 日志排查 |
+
+### 钩子方法
+
+Service 层提供完整的生命周期钩子：
+
+- `saving(array &$data, string $primaryKey)`: 保存前（新增/更新）
+- `saved($model, bool $isEdit)`: 保存后
+- `deleted(string $ids)`: 删除后
+- `listQuery()`: 列表查询构造器
+- `exportMap()`: 导出字段映射
+
+---
+
+## 6. 最佳实践
+
+### 部署与回滚
+
+#### 部署流程
+1.  **代码更新**: `git pull`
+2.  **依赖安装**: `composer install --no-dev --optimize-autoloader`
+3.  **数据库迁移**: `php webman migrate` (如果使用 Laravel Migration)
+4.  **重启服务**: `php webman reload` (平滑重启) 或 `php webman restart` (强制重启)
+
+#### 回滚流程
+1.  **代码回退**: `git reset --hard v1.0.0`
+2.  **依赖回滚**: `composer install`
+3.  **数据库回滚**: `php webman migrate:rollback`
+4.  **重启服务**: `php webman restart`
+
+### 性能优化
+
+1.  **N+1 问题**: 在 `listQuery` 中务必使用 `with()` 预加载关联数据。
+2.  **索引优化**: 确保 `searchable` 涉及的字段（如 `username`, `phone`）已建立数据库索引。
+3.  **只查所需**: 列表页尽量只 select 需要展示的字段，避免 `select *`。
+
+### 监控与告警
+
+建议监控以下指标：
+- **API 响应时间**: 超过 500ms 告警。
+- **500 错误率**: 超过 1% 告警。
+- **Worker 进程状态**: 进程退出或内存泄漏告警。
+
+---
+
+## 7. 附录
+
+### Postman 集合
+
+可直接导入 Postman 进行接口调试：
+
+```json
+{
+	"info": {
+		"name": "Warm Admin API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "列表查询",
+			"request": {
+				"method": "GET",
+				"url": {
+					"raw": "{{host}}/admin/user?page=1&perPage=20&username=admin",
+					"host": ["{{host}}"],
+					"path": ["admin", "user"],
+					"query": [
+						{ "key": "page", "value": "1" },
+						{ "key": "perPage", "value": "20" },
+						{ "key": "username", "value": "admin" }
+					]
+				}
+			}
+		},
+		{
+			"name": "新增数据",
+			"request": {
+				"method": "POST",
+				"header": [
+					{ "key": "Content-Type", "value": "application/json" }
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"username\": \"test\", \"password\": \"123456\"}"
+				},
+				"url": {
+					"raw": "{{host}}/admin/user",
+					"host": ["{{host}}"],
+					"path": ["admin", "user"]
+				}
+			}
+		}
+	]
+}
+```
+
+### 自动化测试用例
+
+基于 PHPUnit 的控制器测试示例：
+
+```php
+<?php
+
+namespace plugin\admin\tests;
+
+use support\test\BaseTestCase;
+
+class UserTest extends BaseTestCase
+{
+    public function testIndex()
+    {
+        $response = $this->get('/admin/user');
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertStringContainsString('用户管理', $response->getBody());
+    }
+
+    public function testStore()
+    {
+        $response = $this->post('/admin/user', [
+            'username' => 'phpunit_user',
+            'password' => '123456'
+        ]);
+        $this->assertEquals(200, $response->getStatusCode());
+        $json = json_decode($response->getBody(), true);
+        $this->assertEquals(0, $json['code']);
+    }
+}
+```

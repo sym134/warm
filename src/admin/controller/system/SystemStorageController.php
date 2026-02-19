@@ -32,7 +32,7 @@ class SystemStorageController extends AdminController
         return amis()->Page()->body(
             [
                 amis()->Card()->body([
-                    '<div class="bg-yellow-100 text-yellow-600 p-2">⚠ 温馨提示：1.切换存储方式后，需要将资源文件传输至新的存储端；2.请勿随意切换存储方式，可能导致图片无法查看</div>'
+                    '<div class="bg-yellow-100 text-yellow-600 p-2">' . translator('system.storage.warning') . '</div>'
                 ]),
                 $this->form()->api('put:' . admin_url($this->queryPath . '/update'))
                     ->initApi(admin_url($this->queryPath . '?_action=getData')),
@@ -54,39 +54,44 @@ class SystemStorageController extends AdminController
             ->panelClassName('px-10 m:px-0')->mode('horizontal')
             ->body([
                 amis()->Wrapper()->body([
-                    amis()->InputText('upload_size', '上传大小')->value('5242880')->description('单位Byte,1MB=1024*1024Byte'),
-                    amis()->InputText('file_type', '文件类型')->value('txt,doc,docx,xls,xlsx,ppt,pptx,rar,zip,7z,gz,pdf,wps,md'),
-                    amis()->InputText('image_type', '图片类型')->value('jpg,jpeg,png,gif,svg,bmp'),
-                    amis()->Select('default', '存储状态')
-                        ->options(['public' => '本地存储', 'qiniu' => '七牛云存储', 'aliyun' => '阿里云存储', 'qcloud' => '腾讯云存储']),
+                    amis()->InputText('upload_size', translator('system.storage.upload_size'))->value('5242880')->description(translator('system.storage.upload_size_desc')),
+                    amis()->InputText('file_type', translator('system.storage.file_type'))->value('txt,doc,docx,xls,xlsx,ppt,pptx,rar,zip,7z,gz,pdf,wps,md'),
+                    amis()->InputText('image_type', translator('system.storage.image_type'))->value('jpg,jpeg,png,gif,svg,bmp'),
+                    amis()->Select('default', translator('system.storage.default'))
+                        ->options([
+                            'public' => translator('system.storage.driver.public'),
+                            'qiniu' => translator('system.storage.driver.qiniu'),
+                            'aliyun' => translator('system.storage.driver.aliyun'),
+                            'qcloud' => translator('system.storage.driver.qcloud')
+                        ]),
                 ]),
                 amis()->Wrapper()->visibleOn('${default == "public"}')->body([
-                    amis()->InputText('disks.public.url', '域名')->description('请补全http://或https://，例如https://zzz.xxx.com')->required(),
+                    amis()->InputText('disks.public.url', translator('system.storage.domain'))->description(translator('system.storage.domain_desc'))->required(),
                 ]),
                 amis()->Wrapper()->visibleOn('${default == "qiniu"}')->body([
                     amis()->Hidden('disks.qiniu.driver')->value('qiniu'),
-                    amis()->InputText('disks.qiniu.bucket', '存储空间')->required(),
-                    amis()->InputText('disks.qiniu.access_key', 'AccessKey')->required(),
-                    amis()->InputText('disks.qiniu.secret_key', 'SecretKey')->required(),
-                    amis()->InputText('disks.qiniu.root', 'root')->description('根目录，例如：uploads'),
-                    amis()->InputText('disks.qiniu.url', '域名')->required()->description('请补全http://或https://，例如https://zzz.xxx.com'),
+                    amis()->InputText('disks.qiniu.bucket', translator('system.storage.bucket'))->required(),
+                    amis()->InputText('disks.qiniu.access_key', translator('system.storage.access_key'))->required(),
+                    amis()->InputText('disks.qiniu.secret_key', translator('system.storage.secret_key'))->required(),
+                    amis()->InputText('disks.qiniu.root', translator('system.storage.root'))->description(translator('system.storage.root_desc')),
+                    amis()->InputText('disks.qiniu.url', translator('system.storage.domain'))->required()->description(translator('system.storage.domain_desc')),
                 ]),
                 amis()->Wrapper()->visibleOn('${default == "aliyun"}')->body([
                     amis()->Hidden('disks.aliyun.driver')->value('oss'),
-                    amis()->InputText('disks.aliyun.bucket', '存储空间')->required(),
-                    amis()->InputText('disks.aliyun.access_key', 'AccessKey')->required(),
-                    amis()->InputText('disks.aliyun.secret_key', 'SecretKey')->required(),
-                    amis()->InputText('disks.aliyun.root', 'root')->description('根目录，例如：uploads'),
-                    amis()->InputText('disks.aliyun.url', '域名')->required()->description('请补全http://或https://，例如https://zzz.xxx.com'),
+                    amis()->InputText('disks.aliyun.bucket', translator('system.storage.bucket'))->required(),
+                    amis()->InputText('disks.aliyun.access_key', translator('system.storage.access_key'))->required(),
+                    amis()->InputText('disks.aliyun.secret_key', translator('system.storage.secret_key'))->required(),
+                    amis()->InputText('disks.aliyun.root', translator('system.storage.root'))->description(translator('system.storage.root_desc')),
+                    amis()->InputText('disks.aliyun.url', translator('system.storage.domain'))->required()->description(translator('system.storage.domain_desc')),
                 ]),
                 amis()->Wrapper()->visibleOn('${default == "qcloud"}')->body([
                     amis()->Hidden('disks.qiniu.driver')->value('cos'),
-                    amis()->InputText('disks.qcloud.bucket', '存储空间')->required(),
-                    amis()->InputText('disks.qcloud.access_key', 'AccessKey')->required(),
-                    amis()->InputText('disks.qcloud.secret_key', 'SecretKey')->required(),
-                    amis()->InputText('disks.qcloud.url', '域名')->required()->description('请补全http://或https://，例如https://zzz.xxx.com'),
-                    amis()->InputText('disks.qcloud.root', 'root')->description('根目录，例如：uploads'),
-                    amis()->InputText('disks.qcloud.region', 'REGION')->required(),
+                    amis()->InputText('disks.qcloud.bucket', translator('system.storage.bucket'))->required(),
+                    amis()->InputText('disks.qcloud.access_key', translator('system.storage.access_key'))->required(),
+                    amis()->InputText('disks.qcloud.secret_key', translator('system.storage.secret_key'))->required(),
+                    amis()->InputText('disks.qcloud.url', translator('system.storage.domain'))->required()->description(translator('system.storage.domain_desc')),
+                    amis()->InputText('disks.qcloud.root', translator('system.storage.root'))->description(translator('system.storage.root_desc')),
+                    amis()->InputText('disks.qcloud.region', translator('system.storage.region'))->required(),
                 ]),
             ]);
     }

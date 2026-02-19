@@ -601,6 +601,6 @@ class Database
      */
     public static function getTables(): array
     {
-        return array_column(Db::schema()->getTables(), 'name');  // webman
+        return array_column(DB::schema()->getTables(), 'name');
     }
 }

@@ -25,10 +25,10 @@ class CacheController extends AdminController
     public function index(): Response
     {
         return $this->response()->success(
-            amis()->Form()->title('清除缓存')->api($this->getStorePath())
+            amis()->Form()->title(translator('system.cache.title'))->api($this->getStorePath())
                 ->mode('horizontal')
                 ->body([
-                    amis()->Checkbox('storage', '存储器')->value(1),
+                    amis()->Checkbox('storage', translator('system.cache.storage'))->value(1),
                 ])
         );
     }
@@ -44,6 +44,6 @@ class CacheController extends AdminController
     public function store(Request $request): Response
     {
         CacheService::clear($request->all());
-        return $this->autoResponse(1, '清理');
+        return $this->autoResponse(1, translator('system.cache.clear_success'));
     }
 }

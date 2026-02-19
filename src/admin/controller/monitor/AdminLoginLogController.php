@@ -3,7 +3,6 @@
 namespace warm\admin\controller\monitor;
 
 use warm\admin\controller\AdminController;
-use warm\admin\model\monitor\AdminLoginLog;
 use warm\admin\renderer\form\Form;
 use warm\admin\renderer\Page;
 use warm\admin\service\monitor\AdminLoginLogService;
@@ -39,16 +38,20 @@ class AdminLoginLogController extends AdminController
                 ...$this->baseHeaderToolBar(),
             ])
             ->columns([
-                amis()->TableColumn('id', 'ID')->sortable(),
-                amis()->TableColumn('username', '用户名'),
-                amis()->TableColumn('ip', '登录IP地址'),
-                amis()->TableColumn('ip_location', 'IP所属地'),
-                amis()->TableColumn('os', '操作系统'),
-                amis()->TableColumn('browser', '浏览器'),
-                amis()->TableColumn('status', '登录状态')->type('mapping')->map(AdminLoginLog::STATUS),
-                amis()->TableColumn('message', '提示消息'),
-                amis()->TableColumn('login_time', '登录时间'),
-                // amis()->TableColumn('remark', '备注'),
+                amis()->TableColumn('id', translator('monitor.login_log.id'))->sortable(),
+                amis()->TableColumn('username', translator('monitor.login_log.username')),
+                amis()->TableColumn('ip', translator('monitor.login_log.ip')),
+                amis()->TableColumn('ip_location', translator('monitor.login_log.ip_location')),
+                amis()->TableColumn('os', translator('monitor.login_log.os')),
+                amis()->TableColumn('browser', translator('monitor.login_log.browser')),
+                amis()->TableColumn('status', translator('monitor.login_log.status'))->type('mapping')->map([
+                    1 => translator('monitor.login_log.status_success'),
+                    2 => translator('monitor.login_log.status_failed'),
+                    3 => translator('monitor.login_log.status_disabled'),
+                ]),
+                amis()->TableColumn('message', translator('monitor.login_log.message')),
+                amis()->TableColumn('login_time', translator('monitor.login_log.login_time')),
+                // amis()->TableColumn('remark', translator('monitor.login_log.remark')),
                 amis()->TableColumn('created_at', translator('admin.created_at'))->type('datetime')->sortable(),
             ]);
 
@@ -66,15 +69,15 @@ class AdminLoginLogController extends AdminController
     public function form($isEdit = false): Form
     {
         return $this->baseForm()->body([
-            amis()->InputText('username', '用户名'),
-            amis()->InputText('ip', '登录IP地址'),
-            amis()->InputText('ip_location', 'IP所属地'),
-            amis()->InputText('os', '操作系统'),
-            amis()->InputText('browser', '浏览器'),
-            amis()->InputText('status', '登录状态'),
-            amis()->InputText('message', '提示消息'),
-            amis()->InputText('login_time', '登录时间'),
-            amis()->InputText('remark', '备注'),
+            amis()->InputText('username', translator('monitor.login_log.username')),
+            amis()->InputText('ip', translator('monitor.login_log.ip')),
+            amis()->InputText('ip_location', translator('monitor.login_log.ip_location')),
+            amis()->InputText('os', translator('monitor.login_log.os')),
+            amis()->InputText('browser', translator('monitor.login_log.browser')),
+            amis()->InputText('status', translator('monitor.login_log.status')),
+            amis()->InputText('message', translator('monitor.login_log.message')),
+            amis()->InputText('login_time', translator('monitor.login_log.login_time')),
+            amis()->InputText('remark', translator('monitor.login_log.remark')),
         ]);
     }
 
@@ -88,16 +91,16 @@ class AdminLoginLogController extends AdminController
     public function detail(): Form
     {
         return $this->baseDetail()->body([
-            amis()->InputText('id', 'ID')->static(),
-            amis()->InputText('username', '用户名')->static(),
-            amis()->InputText('ip', '登录IP地址')->static(),
-            amis()->InputText('ip_location', 'IP所属地')->static(),
-            amis()->InputText('os', '操作系统')->static(),
-            amis()->InputText('browser', '浏览器')->static(),
-            amis()->InputText('status', '登录状态')->static(),
-            amis()->InputText('message', '提示消息')->static(),
-            amis()->InputText('login_time', '登录时间')->static(),
-            amis()->InputText('remark', '备注')->static(),
+            amis()->InputText('id', translator('monitor.login_log.id'))->static(),
+            amis()->InputText('username', translator('monitor.login_log.username'))->static(),
+            amis()->InputText('ip', translator('monitor.login_log.ip'))->static(),
+            amis()->InputText('ip_location', translator('monitor.login_log.ip_location'))->static(),
+            amis()->InputText('os', translator('monitor.login_log.os'))->static(),
+            amis()->InputText('browser', translator('monitor.login_log.browser'))->static(),
+            amis()->InputText('status', translator('monitor.login_log.status'))->static(),
+            amis()->InputText('message', translator('monitor.login_log.message'))->static(),
+            amis()->InputText('login_time', translator('monitor.login_log.login_time'))->static(),
+            amis()->InputText('remark', translator('monitor.login_log.remark'))->static(),
             amis()->InputText('created_at', translator('admin.created_at'))->static(),
             amis()->InputText('updated_at', translator('admin.updated_at'))->static(),
         ]);
