@@ -15,7 +15,7 @@ use Workerman\Coroutine\Context;
  * 使用协程上下文缓存实例，确保协程安全且性能优化
  * 每个协程首次调用时从数据库获取最新配置
  */
-class OfficialAccountApi extends BaseApi
+class OfficialAccount extends BaseApi
 {
     /**
      * 协程上下文中的键名
