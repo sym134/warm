@@ -119,9 +119,9 @@ return [
      * 说明：
      * - coroutine: 使用 Workerman 协程，需要安装 workerman/coroutine 扩展
      * - queue: 使用队列系统，需要配置队列服务
-     * - process: 使用独立进程执行（当前不支持，保留用于未来扩展）
+     * - process: 使用独立进程执行
      */
-    'async_method' => env('CRONTAB_ASYNC_METHOD', 'coroutine'),
+    'async_method' => env('CRONTAB_ASYNC_METHOD', 'process'),
 
     /**
      * 异步执行超时时间（秒）

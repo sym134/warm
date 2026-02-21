@@ -1,6 +1,6 @@
 <?php
 
-namespace warm\common\api;
+namespace warm\common\wechat;
 
 /**
  * 微信 API 端点管理类

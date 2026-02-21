@@ -4,6 +4,7 @@ namespace warm\common\service\payment;
 
 use Exception;
 use RuntimeException;
+use warm\common\config\ConfigDefaults;
 
 /**
  * 支付配置加密服务类
@@ -31,17 +32,17 @@ class PaymentConfigEncryptionService
     private static function getEncryptionKey(): string
     {
         // 优先从环境变量获取
-        $key = env('PAYMENT_ENCRYPTION_KEY');
+        $key = env(ConfigDefaults::KEY_PAYMENT_ENCRYPTION_KEY);
         
         if (empty($key)) {
             // 从系统配置获取
-            $key = systemConfig()->get('payment_encryption_key');
+            $key = systemConfig()->get(ConfigDefaults::KEY_PAYMENT_ENCRYPTION_KEY);
             
             if (empty($key)) {
                 // 生成新的密钥
                 $key = self::generateKey();
                 // 保存到系统配置
-                systemConfig()->set('payment_encryption_key', $key);
+                systemConfig()->set(ConfigDefaults::KEY_PAYMENT_ENCRYPTION_KEY, $key);
             }
         }
         

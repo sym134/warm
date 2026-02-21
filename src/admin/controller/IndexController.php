@@ -7,6 +7,7 @@ use support\Response;
 use warm\admin\Admin;
 use warm\admin\model\AdminPlugin;
 use warm\admin\service\AdminPageService;
+use warm\common\config\ConfigDefaults;
 
 /**
  * 索引控制器类
@@ -60,7 +61,7 @@ class IndexController extends AdminController
             'nav' => Admin::getNav(),
             'assets' => Admin::getAssets(),
             'app_name' => Admin::warmConfig('app.name'),
-            'locale' => systemConfig()->get('admin_locale', Admin::warmConfig('app.translation.local')),
+            'locale' => systemConfig()->get(ConfigDefaults::KEY_ADMIN_LOCALE, Admin::warmConfig('app.translation.local')),
             'layout' => Admin::warmConfig('app.layout'),
             'logo' => url(Admin::warmConfig('app.logo')),
 
@@ -111,6 +112,12 @@ class IndexController extends AdminController
     }
 
     /**
+     * 图标数据缓存
+     * @var array|null
+     */
+    private static ?array $iconifyCache = null;
+
+    /**
      * 图标搜索
      *
      * 根据关键词搜索Iconify图标
@@ -122,9 +129,12 @@ class IndexController extends AdminController
         // 获取搜索关键词，默认为'home'
         $query = request()->input('query', 'home');
 
-        // 读取图标数据文件
-        $icons = file_get_contents(admin_path('/support/iconify.json'));
-        $icons = json_decode($icons, true);
+        // 使用静态缓存避免频繁IO
+        if (self::$iconifyCache === null) {
+            $content = file_get_contents(admin_path('/support/iconify.json'));
+            self::$iconifyCache = $content ? json_decode($content, true) : [];
+        }
+        $icons = self::$iconifyCache;
 
         // 筛选匹配的图标
         $items = [];

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use support\Db;
 use warm\admin\model\system\WechatMenu;
 use warm\admin\service\AdminService;
-use warm\common\api\OfficialAccount;
+use warm\common\wechat\OfficialAccount;
 
 /**
  * 微信菜单服务类

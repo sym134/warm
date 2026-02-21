@@ -1,6 +1,6 @@
 <?php
 
-namespace warm\admin\controller\notice;
+namespace warm\admin\controller\system;
 
 use support\Request;
 use support\Response;

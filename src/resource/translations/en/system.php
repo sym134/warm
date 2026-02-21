@@ -2,7 +2,12 @@
 return [
     'cache' => [
         'title' => 'Clear Cache',
-        'storage' => 'Storage',
+        'system' => 'System Config',
+        'wechat' => 'WeChat Config',
+        'payment' => 'Payment Config',
+
+        'all' => 'All Cache',
+        'description' => 'Please select the cache types to clear:<br/>• {system}: Clear system-related configuration cache<br/>• {wechat}: Clear all WeChat platform configuration cache<br/>• {payment}: Clear payment-related configuration and instance cache<br/>• {all}: Clear all manageable cache<br/><br/>Check the corresponding options and click submit to execute the cleanup operation.',
         'clear_success' => 'Cache Cleared',
     ],
     'storage' => [

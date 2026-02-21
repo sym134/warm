@@ -26,6 +26,12 @@ class Admin
     use AssetsTrait;
 
     /**
+     * 视图模板缓存
+     * @var string|null
+     */
+    private static ?string $viewTemplate = null;
+
+    /**
      * 创建Admin类实例
      *
      * @return static Admin类实例
@@ -176,15 +182,17 @@ class Admin
             $apiPrefix = ltrim(self::warmConfig('app.route.prefix'),'/');
         }
 
-        if (is_file(public_path('admin-assets/index.html'))) {
-            $view = file_get_contents(public_path('admin-assets/index.html'));
-        } else {
-            $view = file_get_contents(base_path('vendor/jizhi/warm/src/admin-assets/index.html'));
+        if (self::$viewTemplate === null) {
+            if (is_file(public_path('admin-assets/index.html'))) {
+                self::$viewTemplate = file_get_contents(public_path('admin-assets/index.html'));
+            } else {
+                self::$viewTemplate = file_get_contents(base_path('vendor/jizhi/warm/src/admin-assets/index.html'));
+            }
         }
 
         $script = '<script>window.$adminApiPrefix = "/' . $apiPrefix . '"</script>';
 
-        return preg_replace('/<script>window.*?<\/script>/is', $script, $view);
+        return preg_replace('/<script>window.*?<\/script>/is', $script, self::$viewTemplate);
     }
 
     /**

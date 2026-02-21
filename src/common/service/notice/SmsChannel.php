@@ -4,7 +4,7 @@ namespace warm\common\service\notice;
 
 use Overtrue\EasySms\EasySms;
 use Overtrue\EasySms\Exceptions\NoGatewayAvailableException;
-use think\facade\Log;
+use support\Log;
 
 /**
  * 短信通知渠道

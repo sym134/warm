@@ -1,13 +1,13 @@
 <?php
 
-namespace warm\admin\controller\notice;
+namespace warm\admin\controller\system;
 
-use warm\framework\filesystem\facade\Storage;
 use support\Request;
 use support\Response;
 use warm\admin\controller\AdminController;
 use warm\admin\renderer\Page;
 use warm\admin\service\config\ConfigService;
+use warm\framework\filesystem\facade\Storage;
 
 /**
  * 微信公众号配置控制器

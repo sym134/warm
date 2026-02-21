@@ -2,6 +2,7 @@
 
 namespace warm\process;
 
+use support\Log;
 use warm\admin\service\system\SystemCrontabService;
 use Workerman\Crontab\Crontab;
 
@@ -38,7 +39,7 @@ class CrontabTask
                 });
             } catch (\Exception $e) {
                 // 记录任务注册失败的错误
-                \support\Log::error("定时任务注册失败 [ID: {$item->id}]: " . $e->getMessage());
+                Log::error("定时任务注册失败 [ID: {$item->id}]: " . $e->getMessage());
             }
         }
     }

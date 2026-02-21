@@ -129,7 +129,7 @@ class WechatMiniProgramChannel implements NoticeChannelInterface
     {
         // 这里应该是实际的微信小程序订阅消息接口调用
         // 为演示目的，我们只记录日志
-        \think\facade\Log::info('Wechat Mini Program Subscribe Message sent', [
+        \support\Log::info('Wechat Mini Program Subscribe Message sent', [
             'openid' => $openid,
             'template_data' => $templateData,
             'config' => $config

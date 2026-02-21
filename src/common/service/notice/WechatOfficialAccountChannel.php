@@ -132,7 +132,7 @@ class WechatOfficialAccountChannel implements NoticeChannelInterface
     {
         // 这里应该是实际的微信公众号模板消息接口调用
         // 为演示目的，我们只记录日志
-        \think\facade\Log::info('Wechat Official Account Template Message sent', [
+        \support\Log::info('Wechat Official Account Template Message sent', [
             'openid' => $openid,
             'template_data' => $templateData,
             'config' => $config

@@ -9,18 +9,26 @@ namespace warm\common\config;
  */
 class ConfigDefaults
 {
-    // 配置键名常量
+    
+    // 基础配置键
     const KEY_SMS_CONFIG = 'sms_config';
-    // 微信相关配置键
+    const KEY_EMAIL_CONFIG = 'email_config';
+    const KEY_ADMIN_LOCALE = 'admin_locale';
+    const KEY_NOTICE_SCENE_CHANNELS = 'notice_scene_channels';
+    
+    // 支付配置键
+    const KEY_PAYMENT_CONFIG = 'payment_config';
+    const KEY_PAYMENT_ENCRYPTION_KEY = 'payment_encryption_key';
+    
+    // 文件系统缓存键
+    const KEY_FILESYSTEMS = 'filesystems';
+
+     // 微信相关配置键
     const KEY_WECHAT_OFFICIAL_ACCOUNT_CONFIG = 'wechat_official_account_config';
     const KEY_WECHAT_MINI_PROGRAM_CONFIG     = 'wechat_mini_program_config';
     const KEY_WECHAT_WORK_CONFIG             = 'wechat_work_config';
     const KEY_WECHAT_OPEN_PLATFORM_CONFIG    = 'wechat_open_platform_config';
     const KEY_WECHAT_OPEN_WORK_CONFIG        = 'wechat_open_work_config';
-    const KEY_EMAIL_CONFIG = 'email_config';
-    const KEY_NOTICE_SCENE_CHANNELS = 'notice_scene_channels';
-    // 支付配置键
-    const KEY_PAYMENT_CONFIG = 'payment_config';
     
     /**
      * 获取短信配置默认值

@@ -13,7 +13,6 @@ use warm\admin\model\AdminUser;
 use warm\admin\renderer\expand\Amis;
 use warm\admin\renderer\expand\Component;
 use warm\admin\service\AdminPageService;
-use warm\admin\support\Pipeline;
 use warm\common\service\SystemConfigService;
 use warm\exception\AdminException;
 use warm\framework\cache\facade\Cache;
@@ -114,9 +113,9 @@ if (!function_exists('cache')) {
     /**
      * @param array|string|null $key
      * @param mixed|null $default
-     * @return mixed
+     * @return Cache|bool
      */
-    function cache(array|string $key = null, mixed $default = null): mixed
+    function cache(array|string|null $key = null, mixed $default = null): Cache|bool
     {
         if (is_null($key)) {
             return new Cache();
@@ -789,5 +788,17 @@ if (!function_exists('pluginContainer')) {
     function pluginContainer(string $pluginName = null)
     {
         return \support\Container::instance($pluginName);
+    }
+}
+
+if (!function_exists('isCoroutineEnabled')){
+    // 判断是否开启协程（任意驱动）
+    function isCoroutineEnabled(): bool
+    {
+        $eventLoop = \Workerman\Worker::getEventLoop();
+        // 判断是否为协程驱动
+        return $eventLoop instanceof Workerman\Events\Swoole
+            || $eventLoop instanceof Workerman\Events\Swow
+            || $eventLoop instanceof Workerman\Events\Fiber;
     }
 }

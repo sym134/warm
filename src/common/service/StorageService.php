@@ -5,8 +5,9 @@ namespace warm\common\service;
 use finfo;
 use warm\framework\filesystem\facade\Storage;
 use RuntimeException;
+use warm\common\config\ConfigDefaults;
 use Webman\Http\UploadFile;
-use Workerman\Coroutine\Context;
+use support\Context;
 
 /**
  * 存储服务类
@@ -107,7 +108,7 @@ class StorageService extends BaseService
             return;
         }
 
-        $systemConfig = systemConfig()->get('filesystems');
+        $systemConfig = systemConfig()->get(ConfigDefaults::KEY_FILESYSTEMS);
 
         $fileType = $systemConfig['file_type'] ?? '';
         $imageType = $systemConfig['image_type'] ?? '';
@@ -583,13 +584,21 @@ class StorageService extends BaseService
         $filename = empty($fileName) ? self::generateFilename($realMime) : $fileName;
         $filepath = trim($path . '/' . $filename, '/');
 
-        // 获取文件内容并保存
-        $fileContent = file_get_contents($file->getPathname());
-        if ($fileContent === false) {
-            throw new RuntimeException('无法读取上传的文件内容');
+        // 使用流式读取上传文件，避免大文件占用过多内存
+        $stream = fopen($file->getPathname(), 'r');
+        if ($stream === false) {
+            throw new RuntimeException('无法打开上传的文件流');
         }
 
-        Storage::put($filepath, $fileContent);
+        try {
+            // Storage::put 通常支持 resource 类型，如果不支持会自动转换为 string (虽然可能还是会读入内存，取决于具体实现)
+            // 但在大多数适配器(如 Webman/Laravel Filesystem)中，传递 resource 是处理大文件的推荐方式
+            Storage::put($filepath, $stream);
+        } finally {
+            if (is_resource($stream)) {
+                fclose($stream);
+            }
+        }
 
         return [
             'path' => $filepath,

@@ -5,7 +5,7 @@ namespace warm\common\service\payment;
 use InvalidArgumentException;
 use RuntimeException;
 use warm\common\config\ConfigDefaults;
-use Workerman\Coroutine\Context;
+use support\Context;
 use Yansongda\Pay\Pay;
 use Yansongda\Pay\Provider\Alipay;
 use Yansongda\Pay\Provider\Wechat;
@@ -16,8 +16,8 @@ use Yansongda\Pay\Provider\Wechat;
  * 提供统一的支付平台管理接口，集成 wechat、alipay、unipay、douyin、jsb（yansongda/pay 结构）
  *
  * 常驻内存与协程：
- * - 支持 webman 常驻进程；实例按协程缓存，避免多协程共享同一 Pay 实例导致的状态串扰。
- * - 有 Workerman 协程时使用 Context 按协程缓存，每协程内复用；无协程时降级为进程内静态缓存。
+ * - 支持 webman 常驻进程；实例按协程上下文缓存，避免多协程共享同一 Pay 实例导致的状态串扰。
+ * - 统一使用 support\Context，自动适配协程与非协程环境。
  * - 配置变更后请调用 clearCache()，当前协程/进程后续 getInstance 将重新创建实例。
  */
 class PaymentManager
@@ -38,9 +38,6 @@ class PaymentManager
         'v3' => 'V3版本',
     ];
 
-    /** 无协程时的进程级缓存（降级） */
-    private static array $instances = [];
-
     /**
      * 获取支付平台实例
      *
@@ -58,17 +55,11 @@ class PaymentManager
 
         $cacheKey = self::cacheKey($platform, $version);
 
-        if (self::useContext()) {
-            $bag = Context::get(self::CONTEXT_KEY_INSTANCES);
-            if (is_array($bag) && isset($bag[$cacheKey])) {
-                return $bag[$cacheKey];
-            }
-            $bag = is_array($bag) ? $bag : [];
-        } else {
-            if (isset(self::$instances[$cacheKey])) {
-                return self::$instances[$cacheKey];
-            }
+        $bag = Context::get(self::CONTEXT_KEY_INSTANCES);
+        if (is_array($bag) && isset($bag[$cacheKey])) {
+            return $bag[$cacheKey];
         }
+        $bag = is_array($bag) ? $bag : [];
 
         $instance = match ($platform) {
             'wechat' => self::createWechatInstance($version ?? 'v3'),
@@ -79,12 +70,8 @@ class PaymentManager
             default => throw new InvalidArgumentException('不支持的支付平台: ' . $platform),
         };
 
-        if (self::useContext()) {
-            $bag[$cacheKey] = $instance;
-            Context::set(self::CONTEXT_KEY_INSTANCES, $bag);
-        } else {
-            self::$instances[$cacheKey] = $instance;
-        }
+        $bag[$cacheKey] = $instance;
+        Context::set(self::CONTEXT_KEY_INSTANCES, $bag);
 
         return $instance;
     }
@@ -92,11 +79,6 @@ class PaymentManager
     private static function cacheKey(string $platform, ?string $version): string
     {
         return $platform . ($version ? '_' . $version : '');
-    }
-
-    private static function useContext(): bool
-    {
-        return class_exists(Context::class, false);
     }
 
     private static function createWechatInstance(string $version = 'v3'): Wechat
@@ -191,37 +173,25 @@ class PaymentManager
     /**
      * 清除实例缓存
      *
-     * 协程下清除当前协程的 Context 缓存；同时清除进程级降级缓存。
+     * 协程下清除当前协程的 Context 缓存；非协程模式下清除当前请求的 Context。
      * 配置更新后调用以便后续 getInstance 使用新配置。
      *
      * @param string|null $platform 指定平台，null 则清除全部
      */
     public static function clearCache(?string $platform = null): void
     {
-        if (self::useContext()) {
-            $bag = Context::get(self::CONTEXT_KEY_INSTANCES);
-            if (is_array($bag)) {
-                if ($platform === null) {
-                    $bag = [];
-                } else {
-                    foreach (array_keys($bag) as $key) {
-                        if (str_starts_with($key, $platform)) {
-                            unset($bag[$key]);
-                        }
+        $bag = Context::get(self::CONTEXT_KEY_INSTANCES);
+        if (is_array($bag)) {
+            if ($platform === null) {
+                $bag = [];
+            } else {
+                foreach (array_keys($bag) as $key) {
+                    if (str_starts_with($key, $platform)) {
+                        unset($bag[$key]);
                     }
                 }
-                Context::set(self::CONTEXT_KEY_INSTANCES, $bag);
             }
-        }
-
-        if ($platform === null) {
-            self::$instances = [];
-        } else {
-            foreach (array_keys(self::$instances) as $key) {
-                if (str_starts_with($key, $platform)) {
-                    unset(self::$instances[$key]);
-                }
-            }
+            Context::set(self::CONTEXT_KEY_INSTANCES, $bag);
         }
     }
 

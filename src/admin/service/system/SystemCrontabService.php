@@ -2,8 +2,13 @@
 
 namespace warm\admin\service\system;
 
+use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
+use support\Log;
+use Webman\RedisQueue\Redis;
+use Workerman\Coroutine;
+use Workerman\Http\Client as WorkermanHttpClient;
 use Illuminate\Database\Eloquent\Builder;
 use warm\admin\model\system\SystemCrontab;
 use warm\admin\service\AdminService;
@@ -30,11 +35,12 @@ class SystemCrontabService extends AdminService
      *
      * @param array $data 存储的数据
      * @return bool 是否存储成功
-     * @throws \Exception
+     * @throws Exception
      */
     public function store(array $data): bool
     {
         $data = $this->getArr($data);
+        unset($data['parameter']['']);
         return parent::store($data);
     }
 
@@ -44,11 +50,12 @@ class SystemCrontabService extends AdminService
      * @param mixed $primaryKey 主键值
      * @param array $data 更新的数据
      * @return bool 是否更新成功
-     * @throws \Exception
+     * @throws Exception
      */
     public function update(mixed $primaryKey, array $data): bool
     {
         $data = $this->getArr($data);
+        unset($data['parameter']['']);
         return parent::update($primaryKey, $data);
     }
 
@@ -68,7 +75,7 @@ class SystemCrontabService extends AdminService
      * @param string $task_type 任务类型
      * @param string $target 任务目标
      * @return void
-     * @throws \Exception Author:sym
+     * @throws Exception Author:sym
      * Date:2024/7/2 下午3:28
      * Company:极智科技
      */
@@ -76,14 +83,14 @@ class SystemCrontabService extends AdminService
     {
         if ((int)$task_type === 3) {
             if (!str_contains($target, ':')) {
-                throw new \Exception('类任务格式错误');
+                throw new Exception('类任务格式错误');
             }
             [$class, $fun] = explode(':', $target);
             if (!class_exists($class)) {
-                throw new \Exception('类任务不存在:' . $class);
+                throw new Exception('类任务不存在:' . $class);
             }
             if (!method_exists($class, $fun)) {
-                throw new \Exception('类任务:' . $class . ',方法:' . $fun . ',未找到');
+                throw new Exception('类任务:' . $class . ',方法:' . $fun . ',未找到');
             }
         }
     }
@@ -316,6 +323,7 @@ class SystemCrontabService extends AdminService
      * Author:sym
      * Date:2024/7/2 下午3:29
      * Company:极智科技
+     * @throws GuzzleException
      */
     public function run(int $id, bool $forceSync = false): bool
     {
@@ -333,6 +341,7 @@ class SystemCrontabService extends AdminService
      *
      * @param int $id 任务ID
      * @return bool 是否成功提交异步任务
+     * @throws GuzzleException
      */
     private function runAsync(int $id): bool
     {
@@ -344,9 +353,7 @@ class SystemCrontabService extends AdminService
             case 'queue':
                 return $this->runAsyncWithQueue($id);
             default:
-                // 降级到同步执行
-                \support\Log::warning("未知的异步执行方式: {$asyncMethod}，降级到同步执行");
-                return $this->runSync($id);
+                Log::warning("未知的异步执行方式: {$asyncMethod}");
         }
     }
 
@@ -355,52 +362,31 @@ class SystemCrontabService extends AdminService
      *
      * @param int $id 任务ID
      * @return bool 是否成功提交
+     * @throws GuzzleException
      */
     private function runAsyncWithCoroutine(int $id): bool
     {
-        // 检查是否支持协程
-        $coroutineAvailable = false;
-        
-        // 检查 Workerman 协程
-        if (class_exists('\Workerman\Coroutine')) {
-            $coroutineAvailable = true;
-        } elseif (function_exists('Workerman\Coroutine\run')) {
-            $coroutineAvailable = true;
-        }
-        
-        if (!$coroutineAvailable) {
-            \support\Log::warning("协程不可用，降级到同步执行 [任务ID: {$id}]");
+        // 检查是否在协程环境中
+        // 只有当前已经在协程环境中运行，才能安全地创建子协程实现异步
+        // 如果在同步模式下，创建协程也无法实现真正的异步非阻塞（除非使用 Coroutine\run 但那会阻塞当前进程直到协程结束）
+        if (!isCoroutineEnabled()) {
+            Log::warning("当前未运行在协程环境，无法使用协程异步执行，降级到同步执行 [任务ID: {$id}]");
             return $this->runSync($id);
         }
 
         try {
             // 使用协程异步执行
-            if (class_exists('\Workerman\Coroutine')) {
-                // 使用协程类
-                \Workerman\Coroutine::create(function () use ($id) {
-                    try {
-                        $this->runSync($id);
-                    } catch (\Exception $e) {
-                        \support\Log::error("异步任务执行失败 [任务ID: {$id}]: " . $e->getMessage());
-                    }
-                });
-            } else {
-                // 使用函数方式（如果 workerman/coroutine 扩展可用）
-                // @phpstan-ignore-next-line
-                \Workerman\Coroutine\run(function () use ($id) {
-                    try {
-                        $this->runSync($id);
-                    } catch (\Exception $e) {
-                        \support\Log::error("异步任务执行失败 [任务ID: {$id}]: " . $e->getMessage());
-                    }
-                });
-            }
+            Coroutine::create(function () use ($id) {
+                try {
+                    $this->runSync($id);
+                } catch (Exception $e) {
+                    Log::error("异步任务执行失败 [任务ID: {$id}]: " . $e->getMessage());
+                }
+            });
             
             return true;
-        } catch (\Exception $e) {
-            \support\Log::error("提交异步任务失败 [任务ID: {$id}]: " . $e->getMessage());
-            // 降级到同步执行
-            return $this->runSync($id);
+        } catch (Exception $e) {
+            Log::error("提交异步任务失败 [任务ID: {$id}]: " . $e->getMessage());
         }
     }
 
@@ -415,10 +401,12 @@ class SystemCrontabService extends AdminService
         $queueName = config('crontab.queue_name', 'crontab_tasks');
         
         try {
-            // 检查是否有队列服务（可选，需要安装队列扩展）
-            if (class_exists('\support\Queue')) {
-                // @phpstan-ignore-next-line
-                \support\Queue::push($queueName, [
+            // 检查是否有 Webman Redis Queue 服务
+            // 需安装 webman/redis-queue: composer require webman/redis-queue
+            // 文档: https://www.workerman.net/doc/webman/queue/redis.html
+            if (class_exists('\Webman\RedisQueue\Redis')) {
+                // 投递消息
+                Redis::send($queueName, [
                     'task_id' => $id,
                     'type' => 'crontab',
                     'created_at' => time(),
@@ -426,35 +414,9 @@ class SystemCrontabService extends AdminService
                 return true;
             }
             
-            // 检查是否有 Laravel Queue
-            if (class_exists('\Illuminate\Support\Facades\Queue')) {
-                // 尝试使用 Laravel Queue
-                try {
-                    // 如果存在 CrontabJob 类，使用它
-                    if (class_exists('\App\Jobs\CrontabJob')) {
-                        \Illuminate\Support\Facades\Queue::push(\App\Jobs\CrontabJob::class, [
-                            'task_id' => $id,
-                        ]);
-                    } else {
-                        // 否则直接推送任务数据
-                        \Illuminate\Support\Facades\Queue::push(function ($job) use ($id) {
-                            $service = new self();
-                            $service->runSync($id);
-                            $job->delete();
-                        });
-                    }
-                    return true;
-                } catch (\Exception $e) {
-                    \support\Log::error("Laravel Queue 推送失败: " . $e->getMessage());
-                }
-            }
-            
-            \support\Log::warning("队列服务不可用，降级到同步执行 [任务ID: {$id}]");
-            return $this->runSync($id);
-        } catch (\Exception $e) {
-            \support\Log::error("提交队列任务失败 [任务ID: {$id}]: " . $e->getMessage());
-            // 降级到同步执行
-            return $this->runSync($id);
+            Log::warning("Webman Redis Queue 未安装 (composer require webman/redis-queue)， [任务ID: {$id}]");
+        } catch (Exception $e) {
+            Log::error("提交队列任务失败 [任务ID: {$id}]: " . $e->getMessage());
         }
     }
 
@@ -463,6 +425,7 @@ class SystemCrontabService extends AdminService
      *
      * @param int $id 任务ID
      * @return bool 是否运行成功
+     * @throws GuzzleException
      */
     private function runSync(int $id): bool
     {
@@ -493,12 +456,11 @@ class SystemCrontabService extends AdminService
             'crontab_id' => $info->id,
             'target' => $info->target,
             'parameter' => $info->parameter,
-            'exception_info' => '',
+            'exception_info' => [],
             'execution_status' => 2 // 默认失败状态
         ];
 
         try {
-            $result = false;
             switch ($info->task_type) {
                 case 1:
                     // URL任务GET
@@ -516,7 +478,7 @@ class SystemCrontabService extends AdminService
                     break;
                     
                 default:
-                    $logData['exception_info'] = '未知的任务类型: ' . $info->task_type;
+                    $logData['exception_info']['message'] = '未知的任务类型: ' . $info->task_type;
                     SystemCrontabLogService::make()->store($logData);
                     $result = false;
             }
@@ -543,7 +505,7 @@ class SystemCrontabService extends AdminService
             }
             
             return $result;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             // 记录完整的异常信息，包括堆栈跟踪
             $executionTime = round((microtime(true) - $startTime) * 1000, 2);
             $logData['exception_info'] = [
@@ -594,7 +556,7 @@ class SystemCrontabService extends AdminService
                     return true;
                 }
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             // Redis 不可用时，使用文件锁
         }
         
@@ -649,7 +611,7 @@ class SystemCrontabService extends AdminService
                 $redis->del($lockKey);
                 return;
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             // Redis 不可用时，删除文件锁
         }
         
@@ -680,6 +642,37 @@ class SystemCrontabService extends AdminService
      */
     private function executeHttpGetTask(SystemCrontab $info, array &$logData): bool
     {
+        // 优先使用 Workerman\Http\Client (支持协程非阻塞)
+        if (isCoroutineEnabled()) {
+            try {
+                $options = [
+                    'timeout' => config('crontab.http_timeout', 30),
+                    'ssl' => [
+                        'verify_peer' => config('crontab.verify_ssl', true),
+                        'verify_peer_name' => config('crontab.verify_ssl', true),
+                    ],
+                ];
+                $client = new WorkermanHttpClient($options);
+                $url = $info->target;
+                if (!empty($info->parameter)) {
+                    $url .= (!str_contains($url, '?') ? '?' : '&') . http_build_query($info->parameter);
+                }
+                $response = $client->get($url);
+                var_dump($response);
+                $logData['execution_status'] = $response->getStatusCode() === 200 ? 1 : 2;
+                SystemCrontabLogService::make()->store($logData);
+                return $logData['execution_status'] === 1;
+            } catch (\Throwable $e) {
+                $logData['exception_info'] = [
+                    'message' => 'Workerman HTTP Client Error: ' . $e->getMessage(),
+                    'file' => $e->getFile(),
+                    'line' => $e->getLine(),
+                ];
+                SystemCrontabLogService::make()->store($logData);
+                return false;
+            }
+        }
+
         $httpClient = new Client([
             'timeout' => config('crontab.http_timeout', 30),
             'verify' => config('crontab.verify_ssl', true),
@@ -690,7 +683,7 @@ class SystemCrontabService extends AdminService
             $response = $httpClient->request('GET', $info->target, [
                 'query' => $info->parameter ?? [],
             ]);
-            
+
             $logData['execution_status'] = $response->getStatusCode() === 200 ? 1 : 2;
             SystemCrontabLogService::make()->store($logData);
             return $logData['execution_status'] === 1;
@@ -716,6 +709,42 @@ class SystemCrontabService extends AdminService
      */
     private function executeHttpPostTask(SystemCrontab $info, array &$logData): bool
     {
+        // 优先使用 Workerman\Http\Client (支持协程非阻塞)
+        // 必须确保当前处于协程环境中，否则 WorkermanHttpClient 无法正常工作
+        if (isCoroutineEnabled()) {
+            try {
+                $options = [
+                    'timeout' => config('crontab.http_timeout', 30),
+                    'ssl' => [
+                        'verify_peer' => config('crontab.verify_ssl', true),
+                        'verify_peer_name' => config('crontab.verify_ssl', true),
+                    ],
+                ];
+                $client = new WorkermanHttpClient($options);
+                $data = $info->parameter;
+                // 如果是 JSON 字符串，需要设置 Header
+                $headers = [];
+                if (is_string($data) && (str_starts_with(trim($data), '{') || str_starts_with(trim($data), '['))) {
+                     $headers = ['Content-Type' => 'application/json'];
+                }
+                
+                // Workerman Http Client 的 post 方法第二个参数是 data
+                $response = $client->post($info->target, $data, $headers);
+                
+                $logData['execution_status'] = $response->getStatusCode() === 200 ? 1 : 2;
+                SystemCrontabLogService::make()->store($logData);
+                return $logData['execution_status'] === 1;
+            } catch (\Throwable $e) {
+                $logData['exception_info'] = [
+                    'message' => 'Workerman HTTP Client Error: ' . $e->getMessage(),
+                    'file' => $e->getFile(),
+                    'line' => $e->getLine(),
+                ];
+                SystemCrontabLogService::make()->store($logData);
+                return false;
+            }
+        }
+
         $httpClient = new Client([
             'timeout' => config('crontab.http_timeout', 30),
             'verify' => config('crontab.verify_ssl', true),
@@ -769,13 +798,13 @@ class SystemCrontabService extends AdminService
         [$className, $methodName] = explode(':', $info->target, 2);
         
         if (!class_exists($className)) {
-            $logData['exception_info'] = '类任务不存在:' . $className;
+            $logData['exception_info']['message'] = '类任务不存在:' . $className;
             SystemCrontabLogService::make()->store($logData);
             return false;
         }
         
         if (!method_exists($className, $methodName)) {
-            $logData['exception_info'] = '类任务:' . $className . ',方法:' . $methodName . ',未找到';
+            $logData['exception_info']['message'] = '类任务:' . $className . ',方法:' . $methodName . ',未找到';
             SystemCrontabLogService::make()->store($logData);
             return false;
         }
@@ -802,7 +831,7 @@ class SystemCrontabService extends AdminService
             $logData['exception_info'] = is_string($result) ? $result : json_encode($result, JSON_UNESCAPED_UNICODE);
             SystemCrontabLogService::make()->store($logData);
             return true;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             // 记录完整的异常信息
             $logData['exception_info'] = [
                 'message' => '执行类任务时发生错误: ' . $e->getMessage(),
@@ -820,7 +849,7 @@ class SystemCrontabService extends AdminService
      *
      * @param array $data 任务数据
      * @return array 处理后的数据
-     * @throws \Exception
+     * @throws Exception
      */
     public function getArr(array $data): array
     {
@@ -828,25 +857,25 @@ class SystemCrontabService extends AdminService
         $requiredFields = ['execution_cycle', 'task_type', 'target'];
         foreach ($requiredFields as $field) {
             if (!isset($data[$field]) || $data[$field] === '') {
-                throw new \Exception("字段 {$field} 是必填的");
+                throw new Exception("字段 {$field} 是必填的");
             }
         }
         
         // 验证任务类型
         if (!in_array((int)$data['task_type'], [1, 2, 3])) {
-            throw new \Exception('无效的任务类型: ' . $data['task_type']);
+            throw new Exception('无效的任务类型: ' . $data['task_type']);
         }
         
         // 验证执行周期
         $validPeriods = ['day', 'day-n', 'hour', 'hour-n', 'minute-n', 'week', 'month', 'second-n'];
         if (!in_array($data['execution_cycle'], $validPeriods)) {
-            throw new \Exception('无效的执行周期: ' . $data['execution_cycle']);
+            throw new Exception('无效的执行周期: ' . $data['execution_cycle']);
         }
         
         // 验证 URL 任务的目标格式
         if (in_array((int)$data['task_type'], [1, 2])) {
             if (!filter_var($data['target'], FILTER_VALIDATE_URL)) {
-                throw new \Exception('URL 任务的目标必须是有效的 URL 地址');
+                throw new Exception('URL 任务的目标必须是有效的 URL 地址');
             }
         }
         
@@ -880,6 +909,7 @@ class SystemCrontabService extends AdminService
      * @param float $executionTime 执行时间（毫秒）
      * @param array $logData 日志数据
      * @return void
+     * @throws GuzzleException
      */
     private function monitorTaskExecution(SystemCrontab $task, bool $success, float $executionTime, array $logData): void
     {
@@ -930,6 +960,7 @@ class SystemCrontabService extends AdminService
      * @param string $alertType 告警类型：failure, timeout
      * @param array $data 告警数据
      * @return void
+     * @throws GuzzleException
      */
     private function sendAlert(SystemCrontab $task, string $alertType, array $data = []): void
     {
@@ -951,9 +982,9 @@ class SystemCrontabService extends AdminService
         foreach ($channels as $channel) {
             try {
                 $this->sendAlertToChannel($channel, $receivers, $title, $message, $task, $alertType);
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 // 记录告警发送失败，但不影响主流程
-                \support\Log::error("定时任务告警发送失败 [任务ID: {$task->id}, 渠道: {$channel}]: " . $e->getMessage());
+                Log::error("定时任务告警发送失败 [任务ID: {$task->id}, 渠道: {$channel}]: " . $e->getMessage());
             }
         }
     }
@@ -1021,6 +1052,7 @@ class SystemCrontabService extends AdminService
      * @param SystemCrontab $task 任务信息
      * @param string $alertType 告警类型
      * @return void
+     * @throws GuzzleException
      */
     private function sendAlertToChannel(string $channel, array $receivers, string $title, string $message, SystemCrontab $task, string $alertType): void
     {
@@ -1038,7 +1070,7 @@ class SystemCrontabService extends AdminService
                 $this->sendWebhookAlert($receivers, $title, $message, $task, $alertType);
                 break;
             default:
-                \support\Log::warning("未知的告警渠道: {$channel}");
+                Log::warning("未知的告警渠道: {$channel}");
         }
     }
 
@@ -1055,7 +1087,7 @@ class SystemCrontabService extends AdminService
         // 如果系统有邮件服务，使用邮件服务发送
         // 这里使用日志记录，实际项目中应该调用邮件服务
         foreach ($receivers as $receiver) {
-            \support\Log::info("邮件告警 [收件人: {$receiver}]: {$title}\n{$message}");
+            Log::info("邮件告警 [收件人: {$receiver}]: {$title}\n{$message}");
             // TODO: 集成实际的邮件发送服务
             // Mail::to($receiver)->send(new CrontabAlertMail($title, $message));
         }
@@ -1072,7 +1104,7 @@ class SystemCrontabService extends AdminService
     {
         // 如果系统有短信服务，使用短信服务发送
         foreach ($receivers as $receiver) {
-            \support\Log::info("短信告警 [收件人: {$receiver}]: {$message}");
+            Log::info("短信告警 [收件人: {$receiver}]: {$message}");
             // TODO: 集成实际的短信发送服务
             // SmsService::send($receiver, $message);
         }
@@ -1090,7 +1122,7 @@ class SystemCrontabService extends AdminService
     {
         // 如果系统有微信服务，使用微信服务发送
         foreach ($receivers as $receiver) {
-            \support\Log::info("微信告警 [收件人: {$receiver}]: {$title}\n{$message}");
+            Log::info("微信告警 [收件人: {$receiver}]: {$title}\n{$message}");
             // TODO: 集成实际的微信发送服务
             // WechatService::send($receiver, $title, $message);
         }
@@ -1105,6 +1137,7 @@ class SystemCrontabService extends AdminService
      * @param SystemCrontab $task 任务信息
      * @param string $alertType 告警类型
      * @return void
+     * @throws GuzzleException
      */
     private function sendWebhookAlert(array $webhooks, string $title, string $message, SystemCrontab $task, string $alertType): void
     {
@@ -1124,8 +1157,8 @@ class SystemCrontabService extends AdminService
                 $client->post($webhook, [
                     'json' => $payload,
                 ]);
-            } catch (\Exception $e) {
-                \support\Log::error("Webhook 告警发送失败 [URL: {$webhook}]: " . $e->getMessage());
+            } catch (Exception $e) {
+                Log::error("Webhook 告警发送失败 [URL: {$webhook}]: " . $e->getMessage());
             }
         }
     }
@@ -1136,6 +1169,7 @@ class SystemCrontabService extends AdminService
      * @param int $taskId 任务ID
      * @param SystemCrontab $task 任务信息
      * @return void
+     * @throws GuzzleException
      */
     private function scheduleRetry(int $taskId, SystemCrontab $task): void
     {
@@ -1189,7 +1223,7 @@ class SystemCrontabService extends AdminService
                 $count = $redis->get($retryKey);
                 return $count ? (int)$count : 0;
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             // Redis 不可用，使用文件
         }
 
@@ -1227,7 +1261,7 @@ class SystemCrontabService extends AdminService
                 $redis->setex($retryKey, $delay + 60, $retryCount); // 设置过期时间
                 return;
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             // Redis 不可用，使用文件
         }
 
@@ -1251,7 +1285,7 @@ class SystemCrontabService extends AdminService
     {
         // 这里可以将重试任务保存到数据库，由另一个进程处理
         // 或者使用队列系统
-        \support\Log::info("任务重试已安排 [任务ID: {$taskId}, 延迟: {$delay}秒]");
+        Log::info("任务重试已安排 [任务ID: {$taskId}, 延迟: {$delay}秒]");
     }
 
     /**
@@ -1259,10 +1293,11 @@ class SystemCrontabService extends AdminService
      *
      * @param int $taskId 任务ID
      * @return bool 是否重试成功
+     * @throws GuzzleException
      */
     public function retryTask(int $taskId): bool
     {
-        \support\Log::info("开始重试任务 [任务ID: {$taskId}]");
+        Log::info("开始重试任务 [任务ID: {$taskId}]");
         
         $result = $this->run($taskId);
         
@@ -1291,7 +1326,7 @@ class SystemCrontabService extends AdminService
                 $redis->del($retryKey);
                 return;
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             // Redis 不可用，删除文件
         }
 

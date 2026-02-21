@@ -60,7 +60,7 @@ class SystemCrontabController extends AdminController
                 amis()->TableColumn('task_status', translator('crontab.task_status'))->quickEdit(['mode' => 'inline', 'type' => 'switch', 'saveImmediately' => true]),
                 amis()->TableColumn('created_at', translator('admin.created_at'))->sortable(),
                 $this->rowActions([
-                    amis()->Button()->id('u:a53d1837f6be')->label(translator('crontab.run'))->icon('fa-solid fa-play')->level('link')
+                    amis()->Button()->label(translator('crontab.run'))->icon('fa-solid fa-play')->level('link')
                         ->onEvent(['click' => [
                             'actions' => [[
                                 'ignoreError' => '',
@@ -147,7 +147,7 @@ class SystemCrontabController extends AdminController
 
             ]),
             amis()->InputText('target', translator('crontab.target'))->required()->description(translator('crontab.target_description')),
-            amis()->JsonSchema()->name('parameter')->set('name', 'parameter')->label(translator('crontab.parameter')),
+            amis()->JsonSchema()->name('parameter')->label(translator('crontab.parameter'))->value(),
             amis()->Switch('task_status', translator('crontab.task_status'))->trueValue(1)->falseValue(2)->required()->value(1),
             amis()->InputText('remark', translator('crontab.remark')),
         ]);

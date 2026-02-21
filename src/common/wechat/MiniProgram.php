@@ -1,12 +1,11 @@
 <?php
 
-namespace warm\common\api;
+namespace warm\common\wechat;
 
 use EasyWeChat\MiniApp\Application;
-use warm\common\api\WechatEndpoints;
 use warm\common\config\ConfigDefaults;
 use warm\common\service\SystemConfigService;
-use Workerman\Coroutine\Context;
+use support\Context;
 
 /**
  * 微信小程序 API 类

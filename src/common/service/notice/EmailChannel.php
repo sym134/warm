@@ -117,7 +117,7 @@ class EmailChannel implements NoticeChannelInterface
     {
         // 这里应该是实际的邮件发送逻辑
         // 为演示目的，我们只记录日志
-        \think\facade\Log::info('Email sent', [
+        \support\Log::info('Email sent', [
             'email' => $email,
             'email_data' => $emailData,
             'config' => $config

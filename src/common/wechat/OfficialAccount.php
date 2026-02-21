@@ -1,12 +1,12 @@
 <?php
 
-namespace warm\common\api;
+namespace warm\common\wechat;
 
 use EasyWeChat\OfficialAccount\Application;
-use warm\common\api\WechatEndpoints;
+use support\Request;
 use warm\common\config\ConfigDefaults;
 use warm\common\service\SystemConfigService;
-use Workerman\Coroutine\Context;
+use support\Context;
 
 /**
  * 微信公众号 API 类
@@ -432,16 +432,17 @@ class OfficialAccount extends BaseWechat
      * 注意：easywechat6x 不再内置消息处理逻辑，需要自行实现
      * 建议使用消息处理器来处理不同类型的消息
      * 
+     * @param Request $request 请求对象
      * @return array 返回消息数据
      * @throws \RuntimeException
      */
-    public function parseServerMessage(): array
+    public function parseServerMessage(Request $request): array
     {
         $app = $this->app();
         $config = $app->getConfig();
         
         // 获取原始消息数据
-        $xml = file_get_contents('php://input');
+        $xml = $request->rawBody();
         
         // 这里需要根据实际情况解析 XML 消息
         // easywechat6x 不再内置解析逻辑，需要自行实现或使用第三方库

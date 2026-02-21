@@ -16,17 +16,17 @@ use warm\admin\controller\HomeController;
 use warm\admin\controller\IndexController;
 use warm\admin\controller\monitor\AdminLoginLogController;
 use warm\admin\controller\monitor\AdminOperationLogController;
-use warm\admin\controller\notice\SmsConfigController;
-use warm\admin\controller\notice\WechatOfficialAccountConfigController;
-use warm\admin\controller\notice\WechatMiniProgramConfigController;
+use warm\admin\controller\system\CacheController;
+use warm\admin\controller\system\PaymentConfigController;
+use warm\admin\controller\system\SmsConfigController;
 use warm\admin\controller\system\SystemCrontabController;
 use warm\admin\controller\system\SystemCrontabLogController;
-use warm\admin\controller\system\CacheController;
 use warm\admin\controller\system\SystemFileController;
 use warm\admin\controller\system\SystemStorageController;
 use warm\admin\controller\system\WechatMenuController;
+use warm\admin\controller\system\WechatMiniProgramConfigController;
+use warm\admin\controller\system\WechatOfficialAccountConfigController;
 use warm\admin\controller\system\WechatReplyController;
-use warm\admin\controller\system\PaymentConfigController;
 use Webman\Route;
 
 /**

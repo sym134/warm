@@ -2,7 +2,12 @@
 return [
     'cache' => [
         'title' => '清除缓存',
-        'storage' => '存储器',
+        'system' => '系统配置',
+        'wechat' => '微信配置',
+        'payment' => '支付配置',
+
+        'all' => '全部缓存',
+        'description' => '请选择需要清理的缓存类型：<br/>• {system}：清理系统相关配置缓存<br/>• {wechat}：清理所有微信平台配置缓存<br/>• {payment}：清理支付相关配置和实例缓存<br/>• {all}：清理所有可管理的缓存<br/><br/>勾选相应的选项后点击提交即可执行清理操作。',
         'clear_success' => '清理成功',
     ],
     'storage' => [

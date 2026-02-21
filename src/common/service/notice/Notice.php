@@ -212,8 +212,8 @@ class Notice extends BaseService
     private function logNotification(string $scene, string $channel, array $params, bool $success): void
     {
         // 记录日志
-        if (class_exists(\think\facade\Log::class)) {
-            \think\facade\Log::info('Notification sent', [
+        if (class_exists(\support\Log::class)) {
+            \support\Log::info('Notification sent', [
                 'scene' => $scene,
                 'channel' => $channel,
                 'params' => $params,

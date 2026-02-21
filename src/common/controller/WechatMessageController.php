@@ -5,7 +5,7 @@ namespace warm\common\controller;
 use support\Log;
 use support\Request;
 use support\Response;
-use warm\common\api\OfficialAccount;
+use warm\common\wechat\OfficialAccount;
 use warm\common\model\WechatKey;
 use warm\common\service\WechatReplyService;
 use Symfony\Component\HttpFoundation\HeaderBag;

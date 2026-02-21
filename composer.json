@@ -40,6 +40,9 @@
     "overtrue/easy-sms": "^3.0",
     "jizhi/webman-auth": "^1.0",
     "yansongda/pay": "~3.7.0",
+    "topthink/think-validate": "^3.0",
+    "symfony/translation": "^7.4",
+    "workerman/http-client": "^2.0",
     "ext-bcmath": "*",
     "ext-json": "*",
     "ext-mbstring": "*",
@@ -47,9 +50,13 @@
     "ext-fileinfo": "*",
     "ext-zip": "*",
     "ext-curl": "*",
-    "topthink/think-validate": "^3.0",
-    "symfony/translation": "^7.4",
     "ext-gd": "*"
+  },
+  "suggest": {
+    "ext-swoole": "Required for Swoole driver",
+    "ext-swow": "Required for Swow driver",
+    "revolt/event-loop": "Required for Fiber driver",
+    "webman/redis-queue": "Required for async queue tasks"
   },
   "autoload": {
     "files": [
