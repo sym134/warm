@@ -2,6 +2,7 @@
 
 namespace warm\admin\controller\system;
 
+use GuzzleHttp\Exception\GuzzleException;
 use support\Response;
 use warm\admin\controller\AdminController;
 use warm\admin\model\system\SystemCrontab;
@@ -171,6 +172,7 @@ class SystemCrontabController extends AdminController
      * 手动触发指定定时任务的执行
      *
      * @return Response 返回执行结果响应
+     * @throws GuzzleException
      */
     public function run(): Response
     {
