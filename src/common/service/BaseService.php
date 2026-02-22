@@ -17,21 +17,21 @@ class BaseService
      * 
      * @var string
      */
-    protected static string $error;
+    protected string $error;
 
     /**
      * 返回状态码
      * 
      * @var int
      */
-    protected static int $returnCode = 0;
+    protected int $returnCode = 0;
 
     /**
      * 返回数据
      * 
      * @var mixed
      */
-    protected static mixed $returnData;
+    protected mixed $returnData;
 
     /**
      * 获取错误信息
@@ -41,12 +41,12 @@ class BaseService
      * @author heimiao
      * @date 2025-01-10 14:52
      */
-    public static function getError() : string
+    public function getError() : string
     {
-        if (false === self::hasError()) {
+        if (false === $this->hasError()) {
             return '系统错误';
         }
-        return self::$error;
+        return $this->error;
     }
 
     /**
@@ -58,9 +58,9 @@ class BaseService
      * @author heimiao
      * @date 2025-01-10 14:52
      */
-    public static function setError($error) : void
+    public function setError($error) : void
     {
-        !empty($error) && self::$error = $error;
+        !empty($error) && $this->error = $error;
     }
 
     /**
@@ -71,9 +71,9 @@ class BaseService
      * @author heimiao
      * @date 2025-01-10 14:52
      */
-    public static function hasError() : bool
+    public function hasError() : bool
     {
-        return !empty(self::$error);
+        return !empty($this->error);
     }
 
     /**
@@ -85,9 +85,9 @@ class BaseService
      * @author heimiao
      * @date 2025-01-10 14:52
      */
-    public static function setReturnCode($code) : void
+    public function setReturnCode($code) : void
     {
-        self::$returnCode = $code;
+        $this->returnCode = $code;
     }
 
     /**
@@ -98,9 +98,9 @@ class BaseService
      * @author heimiao
      * @date 2025-01-10 14:52
      */
-    public static function getReturnCode() : int
+    public function getReturnCode() : int
     {
-        return self::$returnCode;
+        return $this->returnCode;
     }
 
     /**
@@ -111,9 +111,23 @@ class BaseService
      * @author heimiao
      * @date 2025-01-10 14:52
      */
-    public static function getReturnData(): mixed
+    public function getReturnData(): mixed
     {
-        return self::$returnData;
+        return $this->returnData;
+    }
+
+    /**
+     * 设置返回数据
+     *
+     * @param mixed $data 返回数据
+     * @return void
+     *
+     * @author heimiao
+     * @date 2025-01-10 14:52
+     */
+    public function setReturnData(mixed $data): void
+    {
+        $this->returnData = $data;
     }
 
     /**
@@ -123,6 +137,6 @@ class BaseService
      */
     public static function make(): static
     {
-        return new static;
+        return new static();
     }
 }

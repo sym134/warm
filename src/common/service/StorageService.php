@@ -34,11 +34,11 @@ class StorageService extends BaseService
     private const CONTEXT_KEY_FINFO = 'storage_service.finfo';
 
     /**
-     * MIME类型到扩展名的反向映射缓存（进程级别，所有协程共享）
+     * MIME类型到扩展名的反向映射缓存键名（协程级别）
      * 
-     * @var array|null
+     * @var string
      */
-    private static ?array $mimeToExtensionMap = null;
+    private const CONTEXT_KEY_MIME_TO_EXTENSION_MAP = 'storage_service.mime_to_extension_map';
 
     /**
      * 扩展名到MIME类型的映射表（包含图片、视频、音频）
@@ -447,9 +447,11 @@ class StorageService extends BaseService
     {
         self::initMimeToExtensionMap();
 
+        $mimeToExtensionMap = Context::get(self::CONTEXT_KEY_MIME_TO_EXTENSION_MAP);
+        
         // 在映射表中查找匹配的扩展名
-        if (isset(self::$mimeToExtensionMap[$mime])) {
-            return self::$mimeToExtensionMap[$mime];
+        if (isset($mimeToExtensionMap[$mime])) {
+            return $mimeToExtensionMap[$mime];
         }
 
         // 如果是图片，尝试提取类型作为扩展名
@@ -503,17 +505,20 @@ class StorageService extends BaseService
      */
     private static function initMimeToExtensionMap(): void
     {
-        if (self::$mimeToExtensionMap !== null) {
+        if (Context::get(self::CONTEXT_KEY_MIME_TO_EXTENSION_MAP) !== null) {
             return;
         }
 
-        self::$mimeToExtensionMap = [];
+        $mimeToExtensionMap = [];
         foreach (self::EXTENSION_MIME_MAP as $ext => $mimeType) {
             // 如果同一个MIME类型对应多个扩展名，保留第一个
-            if (!isset(self::$mimeToExtensionMap[$mimeType])) {
-                self::$mimeToExtensionMap[$mimeType] = $ext;
+            if (!isset($mimeToExtensionMap[$mimeType])) {
+                $mimeToExtensionMap[$mimeType] = $ext;
             }
         }
+        
+        // 存储到协程上下文
+        Context::set(self::CONTEXT_KEY_MIME_TO_EXTENSION_MAP, $mimeToExtensionMap);
     }
 
     /**
@@ -526,8 +531,9 @@ class StorageService extends BaseService
     {
         self::initMimeToExtensionMap();
 
-        if (isset(self::$mimeToExtensionMap[$mime])) {
-            return self::$mimeToExtensionMap[$mime];
+        $mimeToExtensionMap = Context::get(self::CONTEXT_KEY_MIME_TO_EXTENSION_MAP);
+        if (isset($mimeToExtensionMap[$mime])) {
+            return $mimeToExtensionMap[$mime];
         }
 
         // 默认处理：从MIME类型提取扩展名
