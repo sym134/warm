@@ -133,7 +133,6 @@ class TaskManager
 
             // 创建 Crontab 实例
             $crontab = new Crontab($config['rule'], function () use ($taskId) {
-                var_dump('执行任务: ' . $taskId);
                 $this->executeTask($taskId);
             });
 
@@ -218,7 +217,6 @@ class TaskManager
     private function unregisterTaskInstance(int $taskId): void
     {
         if (isset($this->taskInstances[$taskId])) {
-            // 使用 Workerman Crontab 的 destroy 方法正确注销
             $this->taskInstances[$taskId]->destroy();
             unset($this->taskInstances[$taskId]);
             Log::info("任务实例已正确注销 [ID: {$taskId}]");

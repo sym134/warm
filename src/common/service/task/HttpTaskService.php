@@ -28,8 +28,6 @@ class HttpTaskService extends BaseService
      */
     public function executeHttpGetTask(array $task, array &$logData): bool
     {
-        var_dump('是否开启现成线程');
-        var_dump(isCoroutineEnabled());
         // 优先使用 Workerman\Http\Client (支持协程非阻塞)
         if (isCoroutineEnabled()) {
             try {

@@ -10,7 +10,7 @@ use warm\admin\service\AdminService;
 use warm\common\service\task\CrontabExpressionService;
 use warm\common\service\task\TaskExecutorService;
 use warm\common\service\task\TaskValidationService;
-use warm\process\CrontabTask;
+use Webman\Channel\Client;
 
 /**
  * 定时任务服务类
@@ -164,11 +164,13 @@ class SystemCrontabService extends AdminService
 
     public function saved(mixed $model, bool $isEdit = false): void
     {
-        CrontabTask::refreshTasks();
+        Client::connect();
+        Client::publish('crontab',null);
     }
 
     public function deleted(string $ids): void
     {
-        CrontabTask::refreshTasks();
+        Client::connect();
+        Client::publish('crontab',null);
     }
 }

@@ -60,10 +60,10 @@ class TaskExecutorService extends BaseService
      * @return bool 是否运行成功（异步执行时立即返回 true）
      * @throws GuzzleException
      */
-    public function run(int $id, array $task = null, bool $forceQueue = false): bool
+    public function run(int $id, ?array $task = null, bool $forceQueue = false): bool
     {
         // 检查是否启用异步执行
-        if (!$forceQueue && config('crontab.enable_queue', false)) {
+        if ($forceQueue || config('crontab.enable_queue', false)) {
             return $this->runQueue($id, $task);
         }
 
@@ -110,9 +110,8 @@ class TaskExecutorService extends BaseService
      * @return bool 是否运行成功
      * @throws GuzzleException
      */
-    public function runSync(int $id, array $task = null): bool
+    public function runSync(int $id, ?array $task = null): bool
     {
-        var_dump('同步执行任务');
         $startTime = microtime(true);
 
         // 获取任务信息

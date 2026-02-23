@@ -3,6 +3,7 @@
 namespace warm\process;
 
 use support\Log;
+use Webman\Channel\Client;
 
 /**
  * 定时任务处理类（简化版）
@@ -31,10 +32,15 @@ class CrontabTask
      */
     public function onWorkerStart(): void
     {
+        // 连接webman channel服务
+        Client::connect();
+        // 订阅事件并注册回调，收到事件后会自动触发此回调
+        Client::on('crontab', function ($taskId = null) {
+            $this->refreshTasks($taskId);
+        });
+
         // 初始化任务管理器
         $this->taskManager = TaskManager::getInstance();
-
-        Log::info('CrontabTask 初始化完成');
     }
 
     /**
@@ -43,7 +49,7 @@ class CrontabTask
      * @param int|null $taskId 特定任务ID，null表示刷新所有任务
      * @return void
      */
-    public static function refreshTasks(?int $taskId = null): void
+    public function refreshTasks(?int $taskId = null): void
     {
         $taskManager = TaskManager::getInstance();
         $taskManager->refreshTask($taskId);
